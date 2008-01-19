@@ -1,0 +1,21 @@
+AC_INIT([apertium-dbus], [0.1], [wynand.winterbach@gmail.com])
+AM_INIT_AUTOMAKE([apertium-dbus], [0.1], no-define)
+
+AM_MAINTAINER_MODE
+AM_PATH_PYTHON
+
+PKG_CHECK_MODULES(APERTIUM, apertium-3.0 >= 3.0.0, APERTIUM="yes", AC_MSG_ERROR([*** unable to locate apertium! Run: apt-get install apertium ***]))
+
+PKG_CHECK_MODULES(DBUS,  dbus-1 >= 0.34, DBUS="yes", AC_MSG_ERROR([*** unable to locate dbus library! Run: apt-get install dbus libdbus-1-dev  ***]))
+
+PKG_CHECK_MODULES(PYDBUS, dbus-python >= 0.82, PYDBUS="yes", AC_MSG_ERROR([*** unable to locate python-dbus library! Run: apt-get install python-dbus ***]))
+
+AC_SUBST(PYDBUS_CFLAGS)
+AC_SUBST(PYDBUS_LIBS)
+
+AC_OUTPUT([
+Makefile
+src/Makefile
+org.apertium.mode.service
+org.apertium.info.service
+])

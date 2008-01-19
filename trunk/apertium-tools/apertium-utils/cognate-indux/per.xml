@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transliterator>
+	<table>
+		<replace char="ا" with="a"/>
+		<replace char="آ" with="a"/> <!-- should be ā or o -->
+		<replace char="ب" with="b"/>
+		<replace char="و" with="w"/>
+		<replace char="گ" with="g"/>
+		<replace char="د" with="d"/>
+		<replace char="ى" with="e"/>
+		<replace char="ي" with="e"/>
+		<replace char="ی" with="e"/>
+		<replace char="" with=" "/>
+		<replace char="" with=" "/>
+		<replace char="ز" with="z"/>
+		<replace char="ظ" with="z"/>
+		<replace char="ذ" with="z"/>
+		<replace char="" with="i"/>
+		<replace char="" with="y"/>
+		<replace char="ک" with="k"/>
+		<replace char="ل" with="l"/>
+		<replace char="م" with="m"/>
+		<replace char="ن" with="n"/>
+		<replace char="" with="o"/>
+		<replace char="پ" with="p"/>
+		<replace char="ر" with="r"/>
+		<replace char="س" with="s"/>
+		<replace char="ص" with="s"/>
+		<replace char="ث" with="s"/>
+		<replace char="ش" with=" "/>
+		<replace char="ت" with="t"/>
+		<replace char="ط" with="t"/>
+		<replace char="" with="u"/>
+		<replace char="ف" with="f"/>
+		<replace char="" with=" "/>
+		<replace char="" with=" "/>
+		<replace char="" with=" "/>
+		<replace char="" with="'"/>
+		<replace char="" with="e"/>
+		<replace char="" with=" "/>
+		<replace char="ح" with="h"/>
+		<replace char="ع" with="'"/>
+		<replace char="" with="i"/>
+		<replace char="ق" with="q"/>
+		<replace char="" with=" "/>
+		<replace char="ه" with="h"/>
+		<replace char="ج" with="j"/>
+	</table>
+</transliterator>

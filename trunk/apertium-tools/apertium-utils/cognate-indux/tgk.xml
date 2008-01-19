@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transliterator>
+	<table>
+		<replace char="а" with="a"/>
+		<replace char="б" with="b"/>
+		<replace char="в" with="v"/>
+		<replace char="г" with="g"/>
+		<replace char="д" with="d"/>
+		<replace char="е" with="e"/>
+		<replace char="ё" with=" "/>
+		<replace char="ж" with="zh"/>
+		<replace char="з" with="z"/>
+		<replace char="и" with="i"/>
+		<replace char="й" with="y"/>
+		<replace char="к" with="k"/>
+		<replace char="л" with="l"/>
+		<replace char="м" with="m"/>
+		<replace char="н" with="n"/>
+		<replace char="о" with="o"/>
+		<replace char="п" with="p"/>
+		<replace char="р" with="r"/>
+		<replace char="с" with="s"/>
+		<replace char="т" with="t"/>
+		<replace char="у" with="u"/>
+		<replace char="ф" with="f"/>
+		<replace char="х" with="x"/> <!-- maybe kh -->
+		<replace char="ч" with=" "/>
+		<replace char="ш" with=" "/>
+		<replace char="ъ" with="'"/>
+		<replace char="э" with="e"/>
+		<replace char="ю" with=" "/>
+		<replace char="я" with="ja"/>
+		<replace char="ғ" with=" "/>
+		<replace char="ӣ" with="i"/>
+		<replace char="қ" with="q"/>
+		<replace char="ӯ" with=" "/>
+		<replace char="ҳ" with="h"/>
+		<replace char="ҷ" with="j"/>
+	</table>
+</transliterator>

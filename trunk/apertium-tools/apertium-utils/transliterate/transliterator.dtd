@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  DTD for the transliterator.xml file     
+-->    
+
+<!ELEMENT transliterator (table+)>
+
+<!ELEMENT table (transform*)>
+<!ATTLIST table name ID #REQUIRED>
+<!ATTLIST table desc CDATA #REQUIRED>
+
+<!ELEMENT transform EMPTY>
+<!ATTLIST transform left CDATA #REQUIRED>
+<!ATTLIST transform right CDATA #REQUIRED>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transliterator>
+	<table name="default">
+		<transform left="а" right="a"/>
+		<transform left="б" right="b"/>
+		<transform left="в" right="v"/>
+		<transform left="г" right="g"/>
+		<transform left="д" right="d"/>
+		<transform left="е" right="e"/>
+		<transform left="ё" right=" "/>
+		<transform left="ж" right="zh"/>
+		<transform left="з" right="z"/>
+		<transform left="и" right="i"/>
+		<transform left="й" right="y"/>
+		<transform left="к" right="k"/>
+		<transform left="л" right="l"/>
+		<transform left="м" right="m"/>
+		<transform left="н" right="n"/>
+		<transform left="о" right="o"/>
+		<transform left="п" right="p"/>
+		<transform left="р" right="r"/>
+		<transform left="с" right="s"/>
+		<transform left="т" right="t"/>
+		<transform left="у" right="u"/>
+		<transform left="ф" right="f"/>
+		<transform left="х" right="x"/> <!-- maybe kh -->
+		<transform left="ч" right=" "/>
+		<transform left="ш" right=" "/>
+		<transform left="ъ" right="'"/>
+		<transform left="э" right="e"/>
+		<transform left="ю" right=" "/>
+		<transform left="я" right="ja"/>
+		<transform left="ғ" right=" "/>
+		<transform left="ӣ" right="i"/>
+		<transform left="қ" right="q"/>
+		<transform left="ӯ" right=" "/>
+		<transform left="ҳ" right="h"/>
+		<transform left="ҷ" right="j"/>
+	</table>
+</transliterator>

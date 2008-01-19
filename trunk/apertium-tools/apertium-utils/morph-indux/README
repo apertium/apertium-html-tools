@@ -1,0 +1,68 @@
+                      morph-indux
+   A tool for matching lemmas from attested word forms 
+   in corpora to Apertium paradigms.
+-----------------------------------------------------------------
+Description:
+
+This is a ghetto version of Markus Forsbergs 'Extract' tool.
+
+It is used for matching lemmas to Apertium paradigms. 
+
+The program first loads the paradigms (and their stems) out of 
+a .dix file, then loads a wordlist file into a Trie. It iterates 
+through each of the stems in each of the paradigms and retrieves 
+candidate lemmas from the Trie. 
+
+After building a list of candidate lemmas, it adds up the number 
+of instances found and outputs the list.
+
+For example:
+
+A wordlist file has the following words:
+
+ knjiga, knjigama, knjigo, knjigu, knjizi
+
+And the paradigm for 'knji/ga__n' in the Apertium dictionary has 
+the following stems (compressed format for readability):
+
+ [knji/ga__n] (7) [ ga gama ge go gom gu zi ]
+
+The score for the root 'knji' will be 5/7 = 0.71
+
+Usage:
+
+$ ./morph-indux -t <threshold> [dictionary] [wordlist]
+
+----------------------------------------------------------------
+Dependencies:
+
+* libxml2
+
+----------------------------------------------------------------
+TODO:
+
+* Perhaps a feature to increase the score of matches when stems
+  are long... e.g. '-hoero' match scores higher than '-ro' match
+  for Tajik.
+* Perhaps weight stems with 'more info' (e.g. pl, dom, indef) 
+  higher than less, e.g. 'pl'. 
+  ~ these two could be related (longer stem = more info?)
+  ~ 
+* Trie needs fixing -- too much mangling when presented with 
+  long lists.
+* Add feature to deal with non-lists (e.g. web pages etc.)
+* File handling needs to be fixed to allow input from stdin
+  ~ e.g. cat /tmp/foo.html | apertium-dehtml | 
+         morph-indux -t 0.9 apertium-en-ca.en.dix
+* Perhaps have a feature that works on lemmas -- e.g. a list
+  of words, and then it generates all the possible forms, then 
+  looks for these -- either in a corpus or on the intanet.
+
+DONE:
+
+* Stop it from crapping out when presented with DOS files
+
+--
+Issues:
+
+* Contaminated input .. e.g. 'knjigih', 'knjigoj' etc.

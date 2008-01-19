@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transliterator>
+	<table>
+		<replace char="क" with="k"/>
+		<replace char="ख" with="kh"/> <!-- kh -->
+		<replace char="ग" with="g"/> 
+		<replace char="घ" with="gh"/> <!-- gh -->
+		<replace char="ङ" with="ng"/> <!-- ng -->
+		<replace char="च" with="ch"/> <!-- ch -->
+		<replace char="छ" with="chh"/> <!-- chh -->
+		<replace char="ज" with="j"/>
+		<replace char="झ" with="jh"/> <!-- jh -->
+		<replace char="ञ" with="n"/>
+		<replace char="ट" with="t"/>
+		<replace char="ठ" with="th"/> <!-- th -->
+		<replace char="ड" with="d"/>
+		<replace char="ढ" with="dh"/> <!-- dh -->
+		<replace char="ण" with="n"/> <!-- note: ण /ɳə/	n; like "n" but with the tongue tip curled back -->
+		<replace char="त" with="t"/> <!-- note: त /t̪ə// t; Spanish: tomate -->
+		<replace char="थ" with="th"/> <!-- th -->
+		<replace char="द" with="d"/> <!-- note: द /d̪ə/	d; Spanish: donde -->
+		<replace char="ध" with="dh"/> <!-- dh -->
+		<replace char="न" with="n"/> <!-- note: न /nə/	n; English: name -->
+		<replace char="प" with="p"/> 
+		<replace char="फ" with="ph"/> <!-- ph -->
+		<replace char="ब" with="b"/>
+		<replace char="भ" with="bh"/> <!-- bh -->
+		<replace char="म" with="m"/>
+		<replace char="य" with="y"/>
+		<replace char="र" with="r"/>
+		<replace char="ल" with="l"/>
+		<replace char="व" with="v"/>
+		<replace char="श" with="sh"/> <!-- sh -->
+		<replace char="ष" with="sh"/> <!-- note: ष /ʂə/  sh; Retroflex /ʃ/ -->
+		<replace char="स" with="s"/>
+		<replace char="ह" with="h"/>
+		<replace char="क़" with="q"/>
+		<replace char="ख़" with="ch"/> <!-- German: do[ch] -->
+		<replace char="ग़" with="gh"/> <!-- Persian: mu[gh]al -->
+		<replace char="ज़" with="z"/>
+		<replace char="य़" with="zh"/> <!-- zh -->
+		<replace char="ड़" with="tt"/> <!-- tt -->
+		<replace char="ढ़" with=" "/> <!-- unknown -->
+		<replace char="फ़" with="f"/> 
+		<replace char="्" with=""/> 
+		<replace char="अ" with="a"/>
+		<replace char="ा" with="aa"/>  <!-- should be aa -->
+		<replace char="ै" with="ai"/>
+		<replace char="। " with=""/> <!-- phrase separator -->
+		<replace char="ए" with="e"/>
+		<replace char="े" with="e"/> <!-- vowel sign -->
+		<replace char="ि" with="i"/>
+		<replace char="ई" with="ii"/> <!-- should be ii -->
+		<replace char="ी" with="ii"/>
+		<replace char="उ" with="u"/>
+		<replace char="ु" with="u"/> <!-- vowel sign -->
+		<replace char="ऊ" with="uu"/>
+		<replace char="औ" with="au"/>
+		<replace char=" ौ" with="au"/>
+		<replace char="ो" with="o"/>
+	</table>
+</transliterator>

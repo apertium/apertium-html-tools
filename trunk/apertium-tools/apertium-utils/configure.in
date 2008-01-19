@@ -1,0 +1,46 @@
+AC_PREREQ(2.52)
+
+dnl m4_define([required_lttoolbox_version], [1.0.0])
+dnl m4_define([required_pkg_config_version], [0.15])
+
+m4_define([required_libxml_version], [2.6.17])
+
+AC_INIT([apertium-utils], [0.0.1], [f.tyers@uea.ac.uk])
+
+AM_CONFIG_HEADER(config.h)
+
+dnl Release versioning
+GENERIC_MAJOR_VERSION=0
+GENERIC_MINOR_VERSION=0
+GENERIC_MICRO_VERSION=1
+
+GENERIC_VERSION=$GENERIC_MAJOR_VERSION.$GENERIC_MINOR_VERSION.$GENERIC_MICRO_VERSION
+GENERIC_RELEASE=$GENERIC_MAJOR_VERSION.$GENERIC_MINOR_VERSION
+AC_SUBST(GENERIC_RELEASE)
+AC_SUBST(GENERIC_VERSION)
+
+VERSION=$GENERIC_VERSION
+
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
+
+AC_PROG_CXX
+AC_PROG_CXXCPP
+AM_SANITY_CHECK
+AC_LANG_CPLUSPLUS
+
+
+AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+if test x$ac_cv_path_PKG_CONFIG = x
+then
+  AC_MSG_ERROR([You don't have pkg-config installed.])
+fi
+if test x$ac_cv_path_PKG_CONFIG = xno
+then
+  AC_MSG_ERROR([You don't have pkg-config installed.])
+fi
+
+PKG_CHECK_MODULES(LIBXML2, [libxml-2.0 >= required_libxml_version])
+
+dnl AC_CONFIG_FILES(config.h)
+
+AC_OUTPUT([Makefile morph-indux/Makefile cognate-indux/Makefile transliterate/Makefile])

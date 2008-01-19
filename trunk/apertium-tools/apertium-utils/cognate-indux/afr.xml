@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transliterator>
+    <table>
+        <replace char="a" with="a"/>
+        <replace char="b" with="b"/>
+        <replace char="c" with="c"/>
+        <replace char="d" with="d"/>
+        <replace char="e" with="e"/>
+        <replace char="f" with="f"/>
+        <replace char="g" with="g"/>
+        <replace char="h" with="h"/>
+        <replace char="i" with="i"/>
+        <replace char="j" with="j"/>
+        <replace char="k" with="k"/>
+        <replace char="l" with="l"/>
+        <replace char="m" with="m"/>
+        <replace char="n" with="n"/>
+        <replace char="o" with="o"/>
+        <replace char="p" with="p"/>
+        <replace char="q" with="q"/>
+        <replace char="r" with="r"/>
+        <replace char="s" with="s"/>
+        <replace char="t" with="t"/>
+        <replace char="u" with="u"/>
+        <replace char="v" with="v"/>
+        <replace char="w" with="w"/>
+        <replace char="x" with="x"/>
+        <replace char="y" with="y"/>
+        <replace char="z" with="z"/>
+    </table>
+</transliterator>

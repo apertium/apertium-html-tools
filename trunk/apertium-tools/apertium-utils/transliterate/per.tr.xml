@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transliterator>
+	<table name="default">
+		<transform left="ا" right="a"/>
+		<transform left="آ" right="a"/> <!-- should be ā or o -->
+		<transform left="ب" right="b"/>
+		<transform left="و" right="w"/>
+		<transform left="گ" right="g"/>
+		<transform left="د" right="d"/>
+		<transform left="ى" right="e"/>
+		<transform left="ي" right="e"/>
+		<transform left="ی" right="e"/>
+		<transform left="" right=" "/>
+		<transform left="" right=" "/>
+		<transform left="ز" right="z"/>
+		<transform left="ظ" right="z"/>
+		<transform left="ذ" right="z"/>
+		<transform left="" right="i"/>
+		<transform left="" right="y"/>
+		<transform left="ک" right="k"/>
+		<transform left="ل" right="l"/>
+		<transform left="م" right="m"/>
+		<transform left="ن" right="n"/>
+		<transform left="" right="o"/>
+		<transform left="پ" right="p"/>
+		<transform left="ر" right="r"/>
+		<transform left="س" right="s"/>
+		<transform left="ص" right="s"/>
+		<transform left="ث" right="s"/>
+		<transform left="ش" right=" "/>
+		<transform left="ت" right="t"/>
+		<transform left="ط" right="t"/>
+		<transform left="" right="u"/>
+		<transform left="ف" right="f"/>
+		<transform left="" right=" "/>
+		<transform left="" right=" "/>
+		<transform left="" right=" "/>
+		<transform left="" right="'"/>
+		<transform left="" right="e"/>
+		<transform left="" right=" "/>
+		<transform left="ح" right="h"/>
+		<transform left="ع" right="'"/>
+		<transform left="" right="i"/>
+		<transform left="ق" right="q"/>
+		<transform left="" right=" "/>
+		<transform left="ه" right="h"/>
+		<transform left="ج" right="j"/>
+	</table>
+</transliterator>

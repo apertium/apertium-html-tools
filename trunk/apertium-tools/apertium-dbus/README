@@ -1,0 +1,12 @@
+
+You need:
+
+* D-Bus for Python (http://www.freedesktop.org/wiki/Software/dbus) 
+ - almost every modern UNIX will have a package for this. You can install this in Debian/Ubuntu Linux by issuing:
+ 
+   $ sudo apt-get install python-dbus
+
+Restart the daemons:
+
+$ dbus-send / org.apertium.General.QuitSignal
+

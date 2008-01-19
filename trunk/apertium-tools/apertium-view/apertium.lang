@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Author: Paolo Borelli <pborelli@gnome.org>
+ Copyright (C) 2006-2007 Paolo Borelli
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Library General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Library General Public License for more details.
+
+ You should have received a copy of the GNU Library General Public
+ License along with this library; if not, write to the
+ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ Boston, MA 02111-1307, USA.
+
+
+SEE http://library.gnome.org/devel/gtksourceview-2.0/stable/lang-tutorial.html
+for tips on how to improve this file.
+
+-->
+<language id="apertium" _name="Apertium" version="2.0" _section="Sources">
+  <metadata>
+    <property name="mimetypes">text/x-apertium</property>
+    <property name="globs">*.apertium</property>
+    <property name="line-comment-start">;</property>
+  </metadata>
+
+
+  <styles>
+    <style id="string"        _name="String"        map-to="def:string"/>
+    <style id="nom-unitat"    _name="Nom unitat"    map-to="def:type"/>
+    <style id="ident"         _name="Element name"  map-to="def:identifier"/>
+    <style id="tag"           _name="Tag"/>
+  </styles>
+  
+  <definitions>
+    <define-regex id="nom">[a-zA-Z_][a-zA-Z0-9.:_-]*</define-regex>
+
+    <context id="pos" style-ref="ident">
+      <match>\%{nom}</match>
+    </context>
+
+    <context id="etiquetat" style-ref="nom-unitat">
+      <match>&lt;\%{nom}&gt;</match>
+    </context>
+
+    <!-- <context id="unitat-lexica" style-ref="string"> -->
+    <context id="unitat-lexica">
+      <start>[\^]</start>
+      <end>[$]</end>
+      <include>
+        <context ref="pos"/>
+        <context ref="etiquetat"/>
+        <context ref="unitat-lexica"/>
+      </include>
+    </context>
+
+    <context id="apertium">
+      <include>
+	<context ref="unitat-lexica"/>
+      </include>
+    </context>
+  </definitions>
+</language>

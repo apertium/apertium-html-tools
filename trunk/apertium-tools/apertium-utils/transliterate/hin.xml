@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transliterator>
+	<table name="default">
+		<transform left="क" right="k"/>
+		<transform left="ख" right="kh"/> <!-- kh -->
+		<transform left="ग" right="g"/> 
+		<transform left="घ" right="gh"/> <!-- gh -->
+		<transform left="ङ" right="ng"/> <!-- ng -->
+		<transform left="च" right="ch"/> <!-- ch -->
+		<transform left="छ" right="chh"/> <!-- chh -->
+		<transform left="ज" right="j"/>
+		<transform left="झ" right="jh"/> <!-- jh -->
+		<transform left="ञ" right="n"/>
+		<transform left="ट" right="t"/>
+		<transform left="ठ" right="th"/> <!-- th -->
+		<transform left="ड" right="d"/>
+		<transform left="ढ" right="dh"/> <!-- dh -->
+		<transform left="ण" right="n"/> <!-- note: ण /ɳə/	n; like "n" but with the tongue tip curled back -->
+		<transform left="त" right="t"/> <!-- note: त /t̪ə// t; Spanish: tomate -->
+		<transform left="थ" right="th"/> <!-- th -->
+		<transform left="द" right="d"/> <!-- note: द /d̪ə/	d; Spanish: donde -->
+		<transform left="ध" right="dh"/> <!-- dh -->
+		<transform left="न" right="n"/> <!-- note: न /nə/	n; English: name -->
+		<transform left="प" right="p"/> 
+		<transform left="फ" right="ph"/> <!-- ph -->
+		<transform left="ब" right="b"/>
+		<transform left="भ" right="bh"/> <!-- bh -->
+		<transform left="म" right="m"/>
+		<transform left="य" right="y"/>
+		<transform left="र" right="r"/>
+		<transform left="ल" right="l"/>
+		<transform left="व" right="v"/>
+		<transform left="श" right="sh"/> <!-- sh -->
+		<transform left="ष" right="sh"/> <!-- note: ष /ʂə/  sh; Retroflex /ʃ/ -->
+		<transform left="स" right="s"/>
+		<transform left="ह" right="h"/>
+		<transform left="क़" right="q"/>
+		<transform left="ख़" right="ch"/> <!-- German: do[ch] -->
+		<transform left="ग़" right="gh"/> <!-- Persian: mu[gh]al -->
+		<transform left="ज़" right="z"/>
+		<transform left="य़" right="zh"/> <!-- zh -->
+		<transform left="ड़" right="tt"/> <!-- tt -->
+		<transform left="ढ़" right=" "/> <!-- unknown -->
+		<transform left="फ़" right="f"/> 
+		<transform left="्" right=""/> 
+		<transform left="अ" right="a"/>
+		<transform left="ा" right="aa"/>  <!-- should be aa -->
+		<transform left="ै" right="ai"/>
+		<transform left="। " right=""/> <!-- phrase separator -->
+		<transform left="ए" right="e"/>
+		<transform left="े" right="e"/> <!-- vowel sign -->
+		<transform left="ि" right="i"/>
+		<transform left="ई" right="ii"/> <!-- should be ii -->
+		<transform left="ी" right="ii"/>
+		<transform left="उ" right="u"/>
+		<transform left="ु" right="u"/> <!-- vowel sign -->
+		<transform left="ऊ" right="uu"/>
+		<transform left="औ" right="au"/>
+		<transform left=" ौ" right="au"/>
+		<transform left="ो" right="o"/>
+	</table>
+</transliterator>

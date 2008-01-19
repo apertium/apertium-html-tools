@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transliterator>
+	<table name="default">
+		<transform left="A" right="A"/>
+		<transform left="Ă" right="A"/>
+		<transform left="Â" right="A"/>
+		<transform left="B" right="B"/>
+		<transform left="C" right="C"/>
+		<transform left="D" right="D"/>
+		<transform left="F" right="F"/>
+		<transform left="G" right="G"/>
+		<transform left="H" right="H"/>
+		<transform left="I" right="I"/>
+		<transform left="Î" right="I"/>
+		<transform left="J" right="J"/>
+		<transform left="M" right="M"/>
+		<transform left="N" right="N"/>
+		<transform left="O" right="O"/>
+		<transform left="P" right="P"/>
+		<transform left="R" right="R"/>
+		<transform left="S" right="S"/>
+		<transform left="Ș" right="Sh"/>
+		<transform left="T" right="T"/>
+		<transform left="Ț" right="Ts"/>
+		<transform left="U" right="U"/>
+		<transform left="V" right="V"/>
+		<transform left="X" right="X"/>
+		<transform left="Z" right="Z"/>
+		<transform left="a" right="a"/>
+		<transform left="ă" right="a"/>
+		<transform left="â" right="a"/>
+		<transform left="b" right="b"/>
+		<transform left="c" right="c"/>
+		<transform left="d" right="d"/>
+		<transform left="e" right="e"/>
+		<transform left="f" right="f"/>
+		<transform left="g" right="g"/>
+		<transform left="h" right="h"/>
+		<transform left="i" right="i"/>
+		<transform left="î" right="i"/>
+		<transform left="j" right="j"/>
+		<transform left="m" right="m"/>
+		<transform left="n" right="n"/>
+		<transform left="o" right="o"/>
+		<transform left="p" right="p"/>
+		<transform left="r" right="r"/>
+		<transform left="s" right="s"/>
+		<transform left="ș" right="sh"/>
+		<transform left="t" right="t"/>
+<!--		<transform left="ț" right="ts"/> -->
+		<transform left="ţ" right="ts"/> <!-- this is the more frequent but orthographically incorrect variant -->
+		<transform left="u" right="u"/>
+		<transform left="v" right="v"/>
+		<transform left="x" right="x"/>
+		<transform left="z" right="z"/>
+
+	</table>
+	<table name="apertium-latin1">
+		<transform left="A" right="A"/>
+		<transform left="Ă" right="Ä"/>
+		<transform left="Â" right="Â"/>
+		<transform left="B" right="B"/>
+		<transform left="C" right="C"/>
+		<transform left="D" right="D"/>
+		<transform left="E" right="E"/>
+		<transform left="F" right="F"/>
+		<transform left="G" right="G"/>
+		<transform left="H" right="H"/>
+		<transform left="I" right="I"/>
+		<transform left="Î" right="Î"/>
+		<transform left="J" right="J"/>
+		<transform left="M" right="M"/>
+		<transform left="N" right="N"/>
+		<transform left="O" right="O"/>
+		<transform left="P" right="P"/>
+		<transform left="R" right="R"/>
+		<transform left="S" right="S"/>
+		<transform left="Ș" right="Ç"/>
+		<transform left="T" right="T"/>
+		<transform left="Ț" right="Ñ"/>
+		<transform left="U" right="U"/>
+		<transform left="V" right="V"/>
+		<transform left="X" right="X"/>
+		<transform left="Z" right="Z"/>
+		<transform left="a" right="a"/>
+		<transform left="ă" right="ä"/>
+		<transform left="â" right="â"/>
+		<transform left="b" right="b"/>
+		<transform left="c" right="c"/>
+		<transform left="d" right="d"/>
+		<transform left="e" right="e"/>
+		<transform left="f" right="f"/>
+		<transform left="g" right="g"/>
+		<transform left="h" right="h"/>
+		<transform left="i" right="i"/>
+		<transform left="î" right="î"/>
+		<transform left="j" right="j"/>
+		<transform left="m" right="m"/>
+		<transform left="n" right="n"/>
+		<transform left="o" right="o"/>
+		<transform left="p" right="p"/>
+		<transform left="r" right="r"/>
+		<transform left="s" right="s"/>
+		<transform left="ș" right="ç"/>
+		<transform left="t" right="t"/>
+<!--		<transform left="ț" right="ñ"/> -->
+		<transform left="ţ" right="ñ"/> <!-- this is the more frequent but orthographically incorrect variant -->
+		<transform left="u" right="u"/>
+		<transform left="v" right="v"/>
+		<transform left="x" right="x"/>
+		<transform left="z" right="z"/>
+	</table>
+</transliterator>

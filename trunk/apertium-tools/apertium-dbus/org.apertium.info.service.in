@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.apertium.info
+Exec=@prefix@/share/apertium/dbus-1/info.py -p @prefix@
+

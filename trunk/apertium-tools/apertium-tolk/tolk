@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#dbus-launch --exit-with-session ruby simple-viewer.rb
+cd $(dirname $0)
+python apertium-tolk.py
+
