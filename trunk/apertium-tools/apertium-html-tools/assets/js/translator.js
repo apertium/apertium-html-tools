@@ -153,7 +153,7 @@ function translate(langPair, text) {
     langpairer = $.trim(langPair.srcLang) + "|" + $.trim(langPair.dstLang);
 
     $.ajax({
-        url: 'http://localhost:2737/translate',
+        url: '//localhost:2737/translate',
         type: "GET",
         data: {
             'langpair': langpairer,
@@ -175,7 +175,7 @@ function translate(langPair, text) {
 
 function getPairs() {
     $.ajax({
-        url: 'http://localhost:2737/listPairs',
+        url: '//localhost:2737/listPairs',
         type: "GET",
         success: trad_ok,
         dataType: 'jsonp',

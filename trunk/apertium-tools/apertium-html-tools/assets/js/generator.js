@@ -15,7 +15,7 @@ $(document).ready(function() {
     });
     
     $.ajax({
-        url: 'http://localhost:2737/listGenerators',
+        url: '//localhost:2737/listGenerators',
         type: 'GET',
         success: function (data) {
             data = formatModes(data);
@@ -31,7 +31,7 @@ $(document).ready(function() {
 function generate () {
     $("#morphGenOutput").animate({ opacity: 0.5 });
     $.ajax({
-        url: 'http://localhost:2737/generate',
+        url: '//localhost:2737/generate',
         type: 'POST',
         data: {
             'mode': $('#generatorMode').val(),
