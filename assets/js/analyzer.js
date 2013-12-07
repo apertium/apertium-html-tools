@@ -15,7 +15,7 @@ $(document).ready(function() {
     });
     
     $.ajax({
-        url: 'http://localhost:2737/listAnalyzers',
+        url: '//localhost:2737/listAnalyzers',
         type: 'GET',
         success: function (data) {
             data = formatModes(data);
@@ -31,7 +31,7 @@ $(document).ready(function() {
 function analyze () {
     $("#morphAnalyzerOutput").animate({ opacity: 0.5 });
     $.ajax({
-        url: 'http://localhost:2737/analyze',
+        url: '//localhost:2737/analyze',
         type: 'POST',
         data: {
             'mode': $('#analyzerMode').val(),
