@@ -1,0 +1,132 @@
+<!DOCTYPE html> 
+ 
+<html> 
+    <head> 
+        <title>Apertium | A free/open-source machine translation platform</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.0.2/journal/bootstrap.min.css" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="/assets/css/style.css"> 
+        <link type="text/css" rel="stylesheet" href="/assets/css/dropDown.css"> 
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+        
+        <!-- <script type="text/javascript" src="http://api.apertium.org/JSLibrary.jsp"></script> -->
+        <!--[if lt IE 9]> <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script> <![endif]-->
+        <script type="text/javascript" src="/assets/js/util.js"></script>
+        <script type="text/javascript" src="/assets/js/translator.js"></script>
+        <script type="text/javascript" src="/assets/js/analyzer.js"></script>
+        <script type="text/javascript" src="/assets/js/generator.js"></script>
+        <script type="text/javascript" src="/assets/js/cld-min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <img src="/assets/img/Apertium_logo_225x48.png" alt="Apertium" class="img-responsive">
+                    <p>A free/open-source machine translation platform</p>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                  <li><a href="#translation" data-mode="translation">Translation</a></li>
+                  <li><a href="#analyzation" data-mode="analyzation">Morphological Analysis</a></li>
+                  <li><a href="#generation" data-mode="generation">Morphological Generation</a></li>
+                  <li><a href="#spellchecker" data-mode="spellchecker">Spell Checker</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <img src="/assets/img/loading.gif" id="loading-indicator" style="display:none">
+            <div class="modeContainer" id="translationContainer">
+                <div id="dropDown">
+                    <div class="itemSelect" id="selectFrom">
+                        <span>From: <em></em></span>
+                    </div>
+                    <div id="swapLanguages">
+                        <span>Swap</span>
+                    </div>
+                    <div class="itemSelect" id="selectTo"> 
+                        <span>To: <em></em></span>
+                    </div>     
+                    <div id="dropDownSub">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="column-group" id="column-group-1"></div>
+                                </td>
+                                
+                                <td>
+                                    <div class="column-group" id="column-group-2"></div>
+                                </td>
+                                
+                                <td>
+                                    <div class="column-group" id="column-group-3"></div>
+                                </td>
+                                <td>
+                                    <div class="column-group" id="column-group-4"></div>
+                                </td>
+                                <td>
+                                    <div class="column-group" id="column-group-5"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div id="wrap">
+                    <form id="inputBox" method="POST">
+                        <textarea id="textAreaId"></textarea>
+                        <input type="submit" class="btn btn-large btn-warning translate_btn" value="Translate">
+                    </form>
+                    
+                    <div id="translationTest">
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modeContainer" id="analyzationContainer">
+                <h1>Morphological Analysis</h1>
+                <form class="form-horizontal" role="form" method="none" id="analysisForm">
+                    <legend>Choose a mode and analyze your text using Apertium's morphological analyzers.</legend>
+                    <div class="form-group">
+                        <label for="analyzerMode" class="col-sm-2 control-label">Mode</label>
+                        <div class="col-sm-2">
+                            <select class="form-control" id="analyzerMode" name="analyzerMode" required></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="morphAnalyzerInput" class="col-sm-2 control-label">Input Text</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3" id="morphAnalyzerInput" name="morphAnalyzerInput" required></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary" id="analyze">Analyze</button>
+                    </div>
+                </form>
+                
+                <table class="table table-hover" id="morphAnalyzerOutput" style="padding-top: 20px; border-spacing: 0px;"></table>
+            </div>
+            <div class="modeContainer" id="generationContainer">
+                <h1>Morphological Generation</h1>
+                <form class="form-horizontal" role="form" method="none" id="generateForm">
+                    <legend>Choose a mode and generate surface forms from your text using Apertium's morphological generators.</legend>
+                    <div class="form-group">
+                        <label for="generatorMode" class="col-sm-2 control-label">Mode</label>
+                        <div class="col-sm-2">
+                            <select class="form-control" id="generatorMode" name="generatorMode" required></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="morphGeneratorInput" class="col-sm-2 control-label">Input Text</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3" id="morphGeneratorInput" name="morphGeneratorInput" required></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary" id="generate">Generate</button>
+                    </div>
+                </form>
+                <div id="morphGenOutput" style="padding-top: 60px;"></div>
+            </div>
+        </div>
+    </body>
+</html>
