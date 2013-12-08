@@ -1,3 +1,4 @@
+var APY_URL = '//localhost:2737';
 var abbreviations = {
     'Spanish': 'es',
     'Catalan': 'ca',

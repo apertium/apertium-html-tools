@@ -4,28 +4,35 @@
     <head> 
         <title>Apertium | A free/open-source machine translation platform</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="shortcut icon" href="./assets/img/favicon.ico">
         <link href="//netdna.bootstrapcdn.com/bootswatch/3.0.2/journal/bootstrap.min.css" rel="stylesheet">
-        <link type="text/css" rel="stylesheet" href="/assets/css/style.css"> 
-        <link type="text/css" rel="stylesheet" href="/assets/css/dropDown.css"> 
+        <link type="text/css" rel="stylesheet" href="./assets/css/style.css"> 
+        <link type="text/css" rel="stylesheet" href="./assets/css/dropDown.css"> 
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
         
         <!-- <script type="text/javascript" src="http://api.apertium.org/JSLibrary.jsp"></script> -->
         <!--[if lt IE 9]> <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script> <![endif]-->
-        <script type="text/javascript" src="/assets/js/util.js"></script>
-        <script type="text/javascript" src="/assets/js/translator.js"></script>
-        <script type="text/javascript" src="/assets/js/analyzer.js"></script>
-        <script type="text/javascript" src="/assets/js/generator.js"></script>
-        <script type="text/javascript" src="/assets/js/cld-min.js"></script>
+        <script type="text/javascript" src="./assets/js/util.js"></script>
+        <script type="text/javascript" src="./assets/js/translator.js"></script>
+        <script type="text/javascript" src="./assets/js/analyzer.js"></script>
+        <script type="text/javascript" src="./assets/js/generator.js"></script>
+        <script type="text/javascript" src="./assets/js/cld-min.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <img src="/assets/img/Apertium_logo_225x48.png" alt="Apertium" class="img-responsive">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <img src="./assets/img/Apertium_logo_225x48.png" alt="Apertium" class="img-responsive">
                     <p>A free/open-source machine translation platform</p>
                 </div>
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" id="navbar-collapse">
                   <li><a href="#translation" data-mode="translation">Translation</a></li>
                   <li><a href="#analyzation" data-mode="analyzation">Morphological Analysis</a></li>
                   <li><a href="#generation" data-mode="generation">Morphological Generation</a></li>
@@ -35,8 +42,14 @@
             </div>
         </nav>
         <div class="container">
-            <img src="/assets/img/loading.gif" id="loading-indicator" style="display:none">
+            <img src="./assets/img/loading.gif" id="loading-indicator" style="display:none">
             <div class="modeContainer" id="translationContainer">
+                <h1>Translation</h1>
+                <form class="form-horizontal" role="form" method="none" id="translationForm">
+                    <legend>Choose two languages and translate your text using Apertium's translation platform!</legend>
+                    
+                </form>
+
                 <div id="dropDown">
                     <div class="itemSelect" id="selectFrom">
                         <span>From: <em></em></span>
