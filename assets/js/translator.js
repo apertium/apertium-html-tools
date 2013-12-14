@@ -77,25 +77,37 @@ $(document).ready(function () {
     
     $('#localeSelect').change(localizeLanguageNames);
     getPairs();
-    localizeLanguageNames();
 });
 
 $(document).click(function () {
     $('#dropDownSub').hide();
 });
 
-function localizeLanguageNames() {
+function localizeLanguageNames(callback) {
     var locale = $('#localeSelect').val();
     $.ajax({
         url: APY_URL + '/listLanguageNames?locale=' + locale + '&languages=' + srcLangs.concat(dstLangs).join('+'),
         type: "GET",
-        success: function(data) {
+        success: function (data) {
+            var srcLangCode = localizedLanguageNames[curr_pair.srcLang], dstLangCode = localizedLanguageNames[curr_pair.dstLang];
+            
             localizedLanguageNames = data;
+            $.each(data, function(key, value) { localizedLanguageNames[value] = key });
+            
+            if(srcLangCode) {
+                $('#selectFrom em').html(localizedLanguageNames[srcLangCode]);
+                curr_pair.srcLang = localizedLanguageNames[srcLangCode];
+            }
+            if(dstLangCode) {
+                $('#selectTo em').html(localizedLanguageNames[dstLangCode]);
+                curr_pair.dstLang = localizedLanguageNames[dstLangCode];
+            }
+            
             populateTranslationList("#column-group-", srcLangs);
             populateTranslationList("#column-group-", dstLangs);
         },
         dataType: 'jsonp',
-        failure: function() {
+        failure: function () {
             localizedLanguageNames = {};
         },
         beforeSend: ajaxSend,
@@ -104,7 +116,7 @@ function localizeLanguageNames() {
 }
 
 function translate(langPair, text) {
-    langpairer = $.trim(langPair.srcLang) + "|" + $.trim(langPair.dstLang);
+    langpairer = localizedLanguageNames[$.trim(langPair.srcLang)] + "|" + localizedLanguageNames[$.trim(langPair.dstLang)];
 
     $.ajax({
         url: APY_URL + '/translate',
@@ -157,8 +169,8 @@ function trad_ok(dt) {
             dstLangs[i] = all[i].targetLanguage;
             dstLangs = $.unique(dstLangs);
         }
+        localizeLanguageNames();
         populateTranslationList("#column-group-", srcLangs);
-
     }
     else
         trad_fail();
