@@ -44,7 +44,16 @@
         <div class="container">
             <img src="./assets/img/loading.gif" id="loading-indicator" style="display:none">
             <div class="modeContainer" id="translationContainer">
-                <h1>Translation</h1>
+                <h1 style="display: inline-block;">Translation</h1>
+                <select name="locale" id="localeSelect" class="pull-right">
+                    <option value="en" selected>English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="uk">Українська</option>
+                    <option value="ru">Pyccĸий</option>
+                    <option value="kk">Қазақ</option>
+                    <option value="fi">suomi</option>
+                </select>
                 <form class="form-horizontal" role="form" method="none" id="translationForm">
                     <legend>Choose two languages and translate your text using Apertium's translation platform!</legend>
                     

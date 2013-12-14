@@ -69,14 +69,12 @@ function formatModes(modes) {
                 toReturn.push([val, mode + ' (' + val + ')']);
         }   
     }
-    return toReturn;    
+    return toReturn;
 }
 
-function getLangByCode(code) {
-    language = code
-    //FIXME: currently not able to parse abbreviations
-    for (abbv in abbreviations)
-        if (abbv == code)
-            language = abbreviations[abbv];
-    return language;
+function getLangByCode(code, localizedLanguageNames) {
+    if(code in localizedLanguageNames)
+        return localizedLanguageNames[code];
+    else
+        return code;
 }
