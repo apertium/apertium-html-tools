@@ -73,7 +73,7 @@ function formatModes(modes) {
 }
 
 function getLangByCode(code, localizedLanguageNames) {
-    if(code in localizedLanguageNames)
+    if(localizedLanguageNames[code])
         return localizedLanguageNames[code];
     else
         return code;

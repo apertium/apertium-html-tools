@@ -65,7 +65,7 @@ $(document).ready(function () {
     });
 
     $('#selectTo').click(function () {
-        loler = curr_pair.srcLang + "|";
+        loler = localizedLanguageNames[curr_pair.srcLang] + "|";
         aaa = 0;
         for (it in window.pairs) {
             if (window.pairs[it].indexOf(loler) != -1) {
@@ -102,9 +102,8 @@ function localizeLanguageNames(callback) {
                 $('#selectTo em').html(localizedLanguageNames[dstLangCode]);
                 curr_pair.dstLang = localizedLanguageNames[dstLangCode];
             }
-            
+           
             populateTranslationList("#column-group-", srcLangs);
-            populateTranslationList("#column-group-", dstLangs);
         },
         dataType: 'jsonp',
         failure: function () {
@@ -170,7 +169,6 @@ function trad_ok(dt) {
             dstLangs = $.unique(dstLangs);
         }
         localizeLanguageNames();
-        populateTranslationList("#column-group-", srcLangs);
     }
     else
         trad_fail();
@@ -188,7 +186,7 @@ function populateTranslationList(elementClass, langArr) {
     }
 
     for (it in grayedOuts)
-        $("a:contains( " + grayedOuts[it] + " )").removeClass('language-selected');
+        $("a:contains( " + localizedLanguageNames[grayedOuts[it]] + " )").removeClass('language-selected');
 
     $('.itemSelect').toggle(function () {
         $('.column-group').removeClass('language-selected');
