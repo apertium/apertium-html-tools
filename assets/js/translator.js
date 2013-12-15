@@ -2,7 +2,7 @@ var pairs = new Array(), curr_pair = new Object();
 var srcLangs = new Array(), dstLangs = new Array();
 var grayedOuts = new Array();
 var isDetecting = false;
-var localizedLanguageCodes = new Object(), localizedLanguageNames = new Object();;
+var localizedLanguageCodes = new Object(), localizedLanguageNames = new Object();
 
 $(document).ready(function () {
     curr_pair.srcLang = "";
@@ -73,8 +73,29 @@ $(document).ready(function () {
     $('#localeSelect').change(localizeLanguageNames);
     getPairs();
     
-    $.each(languages, function(code, langName) {
-        $('#localeSelect').append($('<option></option>').prop('value', code).text(langName).prop('selected', code == 'en'));
+    var locale = 'en';
+    $.ajax({
+        url: APY_URL + '/getLocale',
+        type: "GET",
+        success: function(data) {
+            for(var i = 0; i < data.length; i++) {
+                localeGuess = data[i];
+                console.log(localeGuess);
+                if(localeGuess.indexOf('-') != -1)
+                    localeGuess = localeGuess.split('-')[0];
+                if(iso639Codes[localeGuess] || iso639CodesInverse[localeGuess]) {
+                    locale = localeGuess;
+                    break;
+                }
+            }
+            $.each(languages, function(code, langName) {
+                $('#localeSelect').append($('<option></option>').prop('value', code).text(langName).prop('selected', code == locale));
+            });
+            localizeLanguageNames();
+        },
+        dataType: 'jsonp',
+        beforeSend: ajaxSend,
+        complete: ajaxComplete
     });
 });
 
@@ -82,7 +103,7 @@ $(document).click(function () {
     $('#dropDownSub').hide();
 });
 
-function localizeLanguageNames(callback) {
+function localizeLanguageNames() {
     var locale = $('#localeSelect').val();
     $.ajax({
         url: APY_URL + '/listLanguageNames?locale=' + locale + '&languages=' + srcLangs.concat(dstLangs).join('+'),
