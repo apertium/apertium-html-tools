@@ -23,6 +23,7 @@ def getApertiumLanguages():
             apertiumLanguages.update([convertISOCode(langCode)[1] for langCode in langCodes if not langCode == 'apertium'])
             
     print('Scraped %s apertium languages' % len(apertiumLanguages))
+    return apertiumLanguages
 
 def convertISOCode(code):
     if code in iso639Codes:
@@ -42,9 +43,11 @@ def populateDatabase(args):
             changes = conn.total_changes
             for language in languages:
                 if language.text:
-                    if not args.apertiumOnly or (args.apertiumOnly and language.get('type') in apertiumLanguages):
+                    if not args.apertiumNames or (args.apertiumNames and language.get('type') in apertiumLanguages):
                         c.execute('''insert into languageNames values (?, ?, ?, ?)''', (None, locale[1], language.get('type'), language.text))
             print('Scraped %s localized language names for %s' % (conn.total_changes - changes, locale[1] if locale[0] == locale[1] else '%s -> %s' % locale))
+        except (KeyboardInterrupt, SystemExit):
+            raise
         except:
             print('Failed to retreive language %s' % locale[1])
         
@@ -53,11 +56,14 @@ def populateDatabase(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Scrape Unicode.org for language names in different locales.')
-    parser.add_argument('languages', nargs='+', help='list of languages to add to DB')
+    parser.add_argument('languages', nargs='*', help='list of languages to add to DB')
     parser.add_argument('-db', '--database', help='name of database file', default='unicode.db')
-    parser.add_argument('-apOnly', '--apertiumOnly', help='only save apertium languages to database', action='store_true', default=False)
+    parser.add_argument('-apNames', '--apertiumNames', help='only save names of Apertium languages to database', action='store_true', default=False)
+    parser.add_argument('-apLangs', '--apertiumLangs', help='scrape all Apertium languages', action='store_true', default=False)
     args = parser.parse_args()
     
-    if args.apertiumOnly:
+    if args.apertiumNames:
         getApertiumLanguages()
+    if args.apertiumLangs:
+        args.languages = getApertiumLanguages()
     populateDatabase(args)
