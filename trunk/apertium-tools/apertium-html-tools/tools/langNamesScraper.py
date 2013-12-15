@@ -19,12 +19,10 @@ def getApertiumLanguages():
            ]
     for (dirPath, dirRegex) in dirs:
         svnData = str(subprocess.check_output('svn list --xml https://svn.code.sf.net/p/apertium/svn/%s/' % dirPath, stderr=subprocess.STDOUT, shell=True), 'utf-8')
-        #print(re.findall(dirRegex, svnData, re.DOTALL))
         for langCodes in re.findall(dirRegex, svnData, re.DOTALL):
             apertiumLanguages.update([convertISOCode(langCode)[1] for langCode in langCodes if not langCode == 'apertium'])
             
     print('Scraped %s apertium languages' % len(apertiumLanguages))
-    print(apertiumLanguages)
 
 def convertISOCode(code):
     if code in iso639Codes:
@@ -47,7 +45,7 @@ def populateDatabase(args):
                     if not args.apertiumOnly or (args.apertiumOnly and language.get('type') in apertiumLanguages):
                         c.execute('''insert into languageNames values (?, ?, ?, ?)''', (None, locale[1], language.get('type'), language.text))
             print('Scraped %s localized language names for %s' % (conn.total_changes - changes, locale[1] if locale[0] == locale[1] else '%s -> %s' % locale))
-        except OSError:
+        except:
             print('Failed to retreive language %s' % locale[1])
         
     conn.commit()
