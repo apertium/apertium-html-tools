@@ -72,6 +72,10 @@ $(document).ready(function () {
     
     $('#localeSelect').change(localizeLanguageNames);
     getPairs();
+    
+    $.each(languages, function(code, langName) {
+        $('#localeSelect').append($('<option></option>').prop('value', code).text(langName).prop('selected', code == 'en'));
+    });
 });
 
 $(document).click(function () {
