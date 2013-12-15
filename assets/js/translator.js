@@ -1,10 +1,8 @@
-var pairs = new Array();
-var curr_pair = new Object();
-var srcLangs = new Array();
-var dstLangs = new Array();
+var pairs = new Array(), curr_pair = new Object();
+var srcLangs = new Array(), dstLangs = new Array();
 var grayedOuts = new Array();
 var isDetecting = false;
-var localizedLanguageNames = new Object();
+var localizedLanguageCodes = new Object(), localizedLanguageNames = new Object();;
 
 $(document).ready(function () {
     curr_pair.srcLang = "";
@@ -18,8 +16,7 @@ $(document).ready(function () {
 
                 if (isDetecting) {
                     curr_pair.srcLang = detectLanguage($(this).val());
-                    curr_pair.srcLang = abbreviations[curr_pair.srcLang];
-                    $('#selectFrom em').html(curr_pair.srcLang);
+                    $('#selectFrom em').html(getLangByCode(curr_pair.srcLangName, localizedLanguageNames));
                 }
 
             } catch (e) {
@@ -36,8 +33,7 @@ $(document).ready(function () {
             try {
                 if (curr_pair.srcLang.indexOf("Detect") != -1) {
                     curr_pair.srcLang = detectLanguage($(this).val());
-                    curr_pair.srcLang = abbreviations[curr_pair.srcLang];
-                    $('#selectFrom em').html(curr_pair.srcLang);
+                    $('#selectFrom em').html(getLangByCode(curr_pair.srcLang, localizedLanguageNames));
                 }
             } catch (e) {
                 console.log(e.message);
@@ -55,17 +51,16 @@ $(document).ready(function () {
     var FromOrTo;
 
     $('#swapLanguages').click(function () {
-        fromText = $('#selectFrom em').text();
-        toText = $('#selectTo em').text();
-        $('#selectTo em').html(fromText);
-        $('#selectFrom em').html(toText);
+        $('#selectTo em').html(getLangByCode(curr_pair.dstLang, localizedLanguageNames));
+        $('#selectFrom em').html(getLangByCode(curr_pair.srcLang, localizedLanguageNames));
 
-        curr_pair.dstLang = fromText;
-        curr_pair.srcLang = toText;
+        var temp = curr_pair.dstLang;
+        curr_pair.dstLang = curr_pair.srcLang;
+        curr_pair.srcLang = temp;
     });
 
     $('#selectTo').click(function () {
-        loler = localizedLanguageNames[curr_pair.srcLang] + "|";
+        loler = curr_pair.srcLang + "|";
         aaa = 0;
         for (it in window.pairs) {
             if (window.pairs[it].indexOf(loler) != -1) {
@@ -89,20 +84,11 @@ function localizeLanguageNames(callback) {
         url: APY_URL + '/listLanguageNames?locale=' + locale + '&languages=' + srcLangs.concat(dstLangs).join('+'),
         type: "GET",
         success: function (data) {
-            var srcLangCode = localizedLanguageNames[curr_pair.srcLang], dstLangCode = localizedLanguageNames[curr_pair.dstLang];
-            
             localizedLanguageNames = data;
-            $.each(data, function(key, value) { localizedLanguageNames[value] = key });
+            $.each(data, function(key, value) { localizedLanguageCodes[value] = key });
+            $('#selectTo em').html(getLangByCode(curr_pair.dstLang, localizedLanguageNames));
+            $('#selectFrom em').html(getLangByCode(curr_pair.srcLang, localizedLanguageNames));
             
-            if(srcLangCode) {
-                $('#selectFrom em').html(localizedLanguageNames[srcLangCode]);
-                curr_pair.srcLang = localizedLanguageNames[srcLangCode];
-            }
-            if(dstLangCode) {
-                $('#selectTo em').html(localizedLanguageNames[dstLangCode]);
-                curr_pair.dstLang = localizedLanguageNames[dstLangCode];
-            }
-           
             populateTranslationList("#column-group-", srcLangs);
         },
         dataType: 'jsonp',
@@ -115,7 +101,7 @@ function localizeLanguageNames(callback) {
 }
 
 function translate(langPair, text) {
-    langpairer = localizedLanguageNames[$.trim(langPair.srcLang)] + "|" + localizedLanguageNames[$.trim(langPair.dstLang)];
+    langpairer = $.trim(langPair.srcLang) + '|' + $.trim(langPair.dstLang);
 
     $.ajax({
         url: APY_URL + '/translate',
@@ -206,7 +192,6 @@ function populateTranslationList(elementClass, langArr) {
             $('#dropDownSub').hide();
             $('#dropDownSub').css('margin-left', 287);
             $('#dropDownSub').removeClass('selectFromSub');
-            //$('#dropDownSub a').addClass('language-selected');
         }
 
         $('#dropDownSub').show();
@@ -224,11 +209,10 @@ function populateTranslationList(elementClass, langArr) {
                 isDetecting = false;
 
             $('#selectFrom em').html($(this).text());
-            curr_pair.srcLang = $(this).text();
-
+            curr_pair.srcLang = getCodeByLang($(this).text(), localizedLanguageCodes);
         } else {
             $('#selectTo em').html($(this).text());
-            curr_pair.dstLang = $(this).text();
+            curr_pair.dstLang = getCodeByLang($(this).text(), localizedLanguageCodes);
         }
         matchFound = false;
 
@@ -240,7 +224,6 @@ function populateTranslationList(elementClass, langArr) {
             try {
                 if (curr_pair.srcLang.indexOf("Detect") != -1) {
                     curr_pair.srcLang = detectLanguage($(this).val());
-                    curr_pair.srcLang = abbreviations[curr_pair.srcLang];
                     $('#selectFrom em').html(curr_pair.srcLang);
                 }
 

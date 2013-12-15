@@ -1,32 +1,4 @@
 var APY_URL = '//localhost:2737';
-var abbreviations = {
-    'Spanish': 'es',
-    'Catalan': 'ca',
-    'Catalan (Valencian)': 'ca_valencia',
-    'Galician': 'gl',
-    'Portuguese': 'pt',
-    'Brazilian Portuguese': 'pt_BR',
-    'Occitan': 'oc',
-    'Aranese': 'oc_aran',
-    'English': 'en',
-    'French': 'fr',
-    'Esperanto': 'eo',
-    'Romanian': 'ro',
-    'Welsh': 'cy',
-    'Basque': 'eu',
-    'Breton': 'br',
-    'Norwegian Bokmål': 'nb',
-    'Norwegian Nynorsk': 'nn',
-    'Swedish': 'sv',
-    'Danish': 'da',
-    'Asturian': 'ast',
-    'Icelandic': 'is',
-    'Macedonian': 'mk',
-    'Bulgarian': 'bg',
-    'Italian': 'it',
-    'Tatar': 'tat',
-    'Kazakh': 'kaz'
-}
 
 function ajaxSend() {
     $("#loading-indicator").show(); 
@@ -73,8 +45,17 @@ function formatModes(modes) {
 }
 
 function getLangByCode(code, localizedLanguageNames) {
+    code = code.trim();
     if(localizedLanguageNames[code])
         return localizedLanguageNames[code];
     else
         return code;
+}
+
+function getCodeByLang(lang, localizedLanguageCodes) {
+    lang = lang.trim();
+    if(localizedLanguageCodes[lang])
+        return localizedLanguageCodes[lang];
+    else
+        return lang;
 }
