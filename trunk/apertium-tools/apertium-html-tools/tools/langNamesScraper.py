@@ -62,8 +62,8 @@ if __name__ == '__main__':
     parser.add_argument('-apLangs', '--apertiumLangs', help='scrape all Apertium languages', action='store_true', default=False)
     args = parser.parse_args()
     
-    if args.apertiumNames:
+    if args.apertiumNames or args.apertiumLangs:
         getApertiumLanguages()
     if args.apertiumLangs:
-        args.languages = getApertiumLanguages()
+        args.languages = apertiumLanguages
     populateDatabase(args)
