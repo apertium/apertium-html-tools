@@ -51,12 +51,12 @@ $(document).ready(function () {
     var FromOrTo;
 
     $('#swapLanguages').click(function () {
-        $('#selectTo em').html(getLangByCode(curr_pair.dstLang, localizedLanguageNames));
-        $('#selectFrom em').html(getLangByCode(curr_pair.srcLang, localizedLanguageNames));
-
         var temp = curr_pair.dstLang;
         curr_pair.dstLang = curr_pair.srcLang;
         curr_pair.srcLang = temp;
+        
+        $('#selectTo em').html(getLangByCode(curr_pair.dstLang, localizedLanguageNames));
+        $('#selectFrom em').html(getLangByCode(curr_pair.srcLang, localizedLanguageNames));
     });
 
     $('#selectTo').click(function () {
