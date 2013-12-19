@@ -57,10 +57,13 @@ def populateDatabase(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Scrape Unicode.org for language names in different locales.')
     parser.add_argument('languages', nargs='*', help='list of languages to add to DB')
-    parser.add_argument('-db', '--database', help='name of database file', default='unicode.db')
-    parser.add_argument('-apNames', '--apertiumNames', help='only save names of Apertium languages to database', action='store_true', default=False)
-    parser.add_argument('-apLangs', '--apertiumLangs', help='scrape all Apertium languages', action='store_true', default=False)
+    parser.add_argument('-d', '--database', help='name of database file', default='unicode.db')
+    parser.add_argument('-n', '--apertiumNames', help='only save names of Apertium languages to database', action='store_true', default=False)
+    parser.add_argument('-l', '--apertiumLangs', help='scrape all Apertium languages', action='store_true', default=False)
     args = parser.parse_args()
+    
+    if not len(args.languages) or args.apertiumNames or args.apertiumLangs:
+        parser.print_help()
     
     if args.apertiumNames or args.apertiumLangs:
         getApertiumLanguages()
