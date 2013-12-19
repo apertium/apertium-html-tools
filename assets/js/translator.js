@@ -80,7 +80,6 @@ $(document).ready(function () {
         success: function(data) {
             for(var i = 0; i < data.length; i++) {
                 localeGuess = data[i];
-                console.log(localeGuess);
                 if(localeGuess.indexOf('-') != -1)
                     localeGuess = localeGuess.split('-')[0];
                 if(iso639Codes[localeGuess] || iso639CodesInverse[localeGuess]) {
@@ -151,7 +150,7 @@ function translate(langPair, text) {
 
 function getPairs() {
     $.ajax({
-        url: APY_URL + '/listPairs',
+        url: APY_URL + '/list?q=pairs',
         type: "GET",
         success: trad_ok,
         dataType: 'jsonp',

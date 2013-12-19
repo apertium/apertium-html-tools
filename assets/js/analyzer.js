@@ -15,7 +15,7 @@ $(document).ready(function() {
     });
     
     $.ajax({
-        url: APY_URL + '/listAnalyzers',
+        url: APY_URL + '/list?q=analyzers',
         type: 'GET',
         success: function (data) {
             data = formatModes(data);
