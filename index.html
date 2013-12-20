@@ -17,6 +17,7 @@
         <script type="text/javascript" src="./assets/js/translator.js"></script>
         <script type="text/javascript" src="./assets/js/analyzer.js"></script>
         <script type="text/javascript" src="./assets/js/generator.js"></script>
+        <script type="text/javascript" src="./assets/js/sandbox.js"></script>
         <script type="text/javascript" src="./assets/js/cld-min.js"></script>
     </head>
     <body>
@@ -37,6 +38,7 @@
                   <li><a href="#analyzation" data-mode="analyzation">Morphological Analysis</a></li>
                   <li><a href="#generation" data-mode="generation">Morphological Generation</a></li>
                   <li><a href="#spellchecker" data-mode="spellchecker">Spell Checker</a></li>
+                  <li><a href="#sandbox" data-mode="sandbox">APY Sandbox</a></li>
                 </ul>
                 </div>
             </div>
@@ -141,6 +143,25 @@
                     </div>
                 </form>
                 <div id="morphGenOutput" style="padding-top: 60px;"></div>
+            </div>
+            <div class="modeContainer" id="sandboxContainer">
+                <h1>APY Sandbox</h1>
+                <form class="form-horizontal" role="form" method="none" id="sandboxForm">
+                    <legend>Send arbitrary requests to <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank">
+                        <abbr title="Apertium API in Python">APY</abbr></a>.
+                    </legend>
+                    <div class="form-group">
+                        <label for="sandboxInput" class="col-sm-2 control-label">APY Request</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3" id="sandboxInput" name="sandboxInput" required></textarea>
+                            <div class="help-block">e.g. /perWord?lang=en-es&modes=morph+translate+biltrans&q=let+there+be+light</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary" id="request">Request</button>
+                    </div>
+                </form>
+                <small><pre id="sandboxOutput" style="margin-top: 60px;"></pre></small>
             </div>
         </div>
     </body>
