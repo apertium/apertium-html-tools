@@ -32,7 +32,7 @@ function analyze () {
     $("#morphAnalyzerOutput").animate({ opacity: 0.5 });
     $.ajax({
         url: APY_URL + '/analyze',
-        type: 'POST',
+        type: 'GET',
         data: {
             'mode': $('#analyzerMode').val(),
             'q': $('#morphAnalyzerInput').val()

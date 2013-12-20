@@ -54,9 +54,9 @@ function getLangByCode(code, localizedLanguageNames) {
     if(localizedLanguageNames[code])
         return localizedLanguageNames[code];
     else if(languages[code])
-        return languages[code]
+        return languages[code];
     else if(iso639Codes[code] && languages[iso639Codes[code]])
-        return languages[iso639Codes[code]]
+        return languages[iso639Codes[code]];
     else
         return code;
 }

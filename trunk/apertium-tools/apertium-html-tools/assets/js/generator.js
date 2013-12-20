@@ -32,7 +32,7 @@ function generate () {
     $("#morphGenOutput").animate({ opacity: 0.5 });
     $.ajax({
         url: APY_URL + '/generate',
-        type: 'POST',
+        type: 'GET',
         data: {
             'mode': $('#generatorMode').val(),
             'q': $('#morphGeneratorInput').val()
