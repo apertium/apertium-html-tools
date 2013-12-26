@@ -11,12 +11,9 @@ $(document).ready(function () {
     $("#textAreaId").keyup(function (event) {
         if (event.keyCode == 32 || event.keyCode == 190 || event.keyCode == 191 || event.keyCode == 49 || event.keyCode == 59 || event.keyCode == 13) {
             try {
-                if (curr_pair.srcLang.indexOf("Detect") != -1)
-                    isDetecting = true;
-
-                if (isDetecting) {
+                if (curr_pair.srcLang.indexOf("Detect") != -1) {
                     curr_pair.srcLang = detectLanguage($(this).val());
-                    $('#selectFrom em').html(getLangByCode(curr_pair.srcLangName, localizedLanguageNames));
+                    $('#selectFrom em').html(getLangByCode(curr_pair.srcLang, localizedLanguageNames));
                 }
 
             } catch (e) {
