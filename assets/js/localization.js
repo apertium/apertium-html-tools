@@ -8,7 +8,19 @@ $(document).ready(function() {
     $.each(iso639Codes, function(key, value) { iso639CodesInverse[value] = key });
     $('#localeSelect').change(localizeLanguageNames);
 
-    var locale = 'en';
+    deferredItems = [];
+    deferredItems.push(getLocale());
+    deferredItems.push(getPairs());
+    deferredItems.push(getGenerators());
+    deferredItems.push(getAnalyzers());
+
+    $.when.apply($, deferredItems).then(function() {
+        localizeLanguageNames();
+    }); 
+});
+
+function getLocale () {
+    var deferred = $.Deferred();
     $.ajax({
         url: APY_URL + '/getLocale',
         type: "GET",
@@ -25,19 +37,16 @@ $(document).ready(function() {
             $.each(languages, function(code, langName) {
                 $('#localeSelect').append($('<option></option>').prop('value', code).text(langName).prop('selected', code == locale));
             });
-
-            var intervalId = window.setInterval(function() {
-                if(generatorsLoaded && translatorsLoaded) {
-                    clearInterval(intervalId)
-                    localizeLanguageNames();
-                }
-            }, 500);
         },
         dataType: 'jsonp',
         beforeSend: ajaxSend,
-        complete: ajaxComplete
+        complete: function() {
+            ajaxComplete();
+            deferred.resolve();
+        }
     });
-});
+    return deferred.promise();
+}
 
 function generateLanguageList () {
     var languages = {};

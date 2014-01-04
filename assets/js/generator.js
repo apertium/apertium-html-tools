@@ -1,4 +1,4 @@
-var generators = {}, generatorsLoaded = false;
+var generators = {};
 
 $(document).ready(function() {
     $('#generate').click(function () {
@@ -15,20 +15,26 @@ $(document).ready(function() {
             generate();
         }
     });
-    
+});
+
+function getGenerators () {
+    var deferred = $.Deferred();
     $.ajax({
         url: APY_URL + '/list?q=generators',
         type: 'GET',
         success: function (data) {
             generators = data;
-            generatorsLoaded = true;
             populateGeneratorList(generators);
         },
         dataType: 'jsonp',
         beforeSend: ajaxSend,
-        complete: ajaxComplete
+        complete: function() {
+            ajaxComplete();
+            deferred.resolve();
+        }
     });
-});
+    return deferred.promise();
+}
 
 function populateGeneratorList (data) {
     formattedGenerators = formatModes(data);

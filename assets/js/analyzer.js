@@ -1,4 +1,4 @@
-var analyzers = {}, analyzersLoaded = false;
+var analyzers = {};
 
 $(document).ready(function() {
     $('#analyze').click(function () {
@@ -15,20 +15,26 @@ $(document).ready(function() {
             analyze();
         }
     });
-    
+});
+
+function getAnalyzers () {
+    var deferred = $.Deferred();
     $.ajax({
         url: APY_URL + '/list?q=analyzers',
         type: 'GET',
         success: function (data) {
             analyzers = data;
-            analyzersLoaded = true;
             populateAnalyzerList(analyzers);
         },
         dataType: 'jsonp',
         beforeSend: ajaxSend,
-        complete: ajaxComplete
+        complete: function() {
+            ajaxComplete();
+            deferred.resolve();
+        }
     });
-});
+    return deferred.promise();
+}
 
 function populateAnalyzerList (data) {
     formattedAnalyzers = formatModes(data);
