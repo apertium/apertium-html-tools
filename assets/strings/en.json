@@ -11,14 +11,15 @@
 	"Swap": "Swap",
 	"To": "To",
 	"Analyze": "Analyze",
+    "Translate": "Translate",
 	"Morphological_Analysis_Help": "Choose a language and analyze your text using Apertium's morphological analyzers.",
 	"Language": "Language",
 	"Input_Text": "Input Text",
 	"Generate": "Generate",
 	"Morphological_Generation_Help": "Choose a language and generate surface forms from your text using Apertium's morphological generators.",
-	"APY_Sandbox_Help": "Send arbitrary requests to",
+	"APY_Sandbox_Help": "Send arbitrary requests",
 	"APY_Request": "APY Request",
 	"Request": "Request",
 	"Notice_Mistake": "Notice a mistake?",
-	"Help_Improve": "Help us improve Apertium!"
+	"Help_Improve": "Help us improve Apertium"
 }
