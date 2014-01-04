@@ -2,7 +2,6 @@ var pairs = new Array(), curr_pair = new Object();
 var srcLangs = new Array(), dstLangs = new Array();
 var grayedOuts = new Array();
 var isDetecting = false;
-var translatorsLoaded = false;
 
 $(document).ready(function () {
     curr_pair.srcLang = "";
@@ -66,8 +65,6 @@ $(document).ready(function () {
             }
         }
     });
-    
-    getPairs();
 });
 
 $(document).click(function () {
@@ -99,6 +96,7 @@ function translate(langPair, text) {
 }
 
 function getPairs() {
+    var deferred = $.Deferred();
     $.ajax({
         url: APY_URL + '/list?q=pairs',
         type: "GET",
@@ -106,8 +104,12 @@ function getPairs() {
         dataType: 'jsonp',
         failure: trad_fail,
         beforeSend: ajaxSend,
-        complete: ajaxComplete
+        complete: function() {
+            ajaxComplete();
+            deferred.resolve();
+        }
     });
+    return deferred.promise();
 }
 
 function trad_fail(dt) {
