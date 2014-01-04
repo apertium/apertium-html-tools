@@ -18,6 +18,7 @@
         <script type="text/javascript" src="./assets/js/analyzer.js"></script>
         <script type="text/javascript" src="./assets/js/generator.js"></script>
         <script type="text/javascript" src="./assets/js/sandbox.js"></script>
+        <script type="text/javascript" src="./assets/js/localization.js"></script>
         <script type="text/javascript" src="./assets/js/cld-min.js"></script>
     </head>
     <body>
@@ -45,10 +46,9 @@
         </nav>
         <div class="container">
             <img src="./assets/img/loading.gif" id="loading-indicator" style="display:none">
+            <select name="locale" id="localeSelect" class="pull-right"></select>
             <div class="modeContainer" id="translationContainer">
                 <h1 style="display: inline-block;">Translation</h1>
-                <select name="locale" id="localeSelect" class="pull-right">
-                </select>
                 <form class="form-horizontal" role="form" method="none" id="translationForm">
                     <legend>Choose two languages and translate your text using Apertium's translation platform!</legend>
                     
@@ -104,8 +104,8 @@
                 <form class="form-horizontal" role="form" method="none" id="analysisForm">
                     <legend>Choose a mode and analyze your text using Apertium's morphological analyzers.</legend>
                     <div class="form-group">
-                        <label for="analyzerMode" class="col-sm-2 control-label">Mode</label>
-                        <div class="col-sm-2">
+                        <label for="analyzerMode" class="col-sm-2 control-label">Language</label>
+                        <div class="col-sm-3">
                             <select class="form-control" id="analyzerMode" name="analyzerMode" required></select>
                         </div>
                     </div>
@@ -127,8 +127,8 @@
                 <form class="form-horizontal" role="form" method="none" id="generateForm">
                     <legend>Choose a mode and generate surface forms from your text using Apertium's morphological generators.</legend>
                     <div class="form-group">
-                        <label for="generatorMode" class="col-sm-2 control-label">Mode</label>
-                        <div class="col-sm-2">
+                        <label for="generatorMode" class="col-sm-2 control-label">Language</label>
+                        <div class="col-sm-3">
                             <select class="form-control" id="generatorMode" name="generatorMode" required></select>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                         <label for="sandboxInput" class="col-sm-2 control-label">APY Request</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" rows="3" id="sandboxInput" name="sandboxInput" required></textarea>
-                            <div class="help-block">e.g. /perWord?lang=en-es&modes=morph+translate+biltrans&q=let+there+be+light</div>
+                            <div class="help-block">e.g. /perWord?lang=en-es&amp;modes=morph+translate+biltrans&amp;q=let+there+be+light</div>
                         </div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-10">

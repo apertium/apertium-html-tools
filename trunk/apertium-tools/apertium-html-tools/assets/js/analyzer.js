@@ -1,3 +1,5 @@
+var analyzers = {}, analyzersLoaded = false;
+
 $(document).ready(function() {
     $('#analyze').click(function () {
         analyze();
@@ -18,15 +20,22 @@ $(document).ready(function() {
         url: APY_URL + '/list?q=analyzers',
         type: 'GET',
         success: function (data) {
-            data = formatModes(data);
-            for(var i = 0; i < data.length; i++)
-                $('#analyzerMode').append($('<option></option').val(data[i][0]).text(data[i][1]));
+            analyzers = data;
+            analyzersLoaded = true;
+            populateAnalyzerList(analyzers);
         },
         dataType: 'jsonp',
         beforeSend: ajaxSend,
         complete: ajaxComplete
     });
 });
+
+function populateAnalyzerList (data) {
+    formattedAnalyzers = formatModes(data);
+    $('#analyzerMode').empty();
+    for(var i = 0; i < formattedAnalyzers.length; i++)
+        $('#analyzerMode').append($('<option></option').val(formattedAnalyzers[i][0]).text(formattedAnalyzers[i][1]));
+}
 
 function analyze () {
     $("#morphAnalyzerOutput").animate({ opacity: 0.5 });

@@ -1,3 +1,5 @@
+var generators = {}, generatorsLoaded = false;
+
 $(document).ready(function() {
     $('#generate').click(function () {
         generate();
@@ -18,15 +20,22 @@ $(document).ready(function() {
         url: APY_URL + '/list?q=generators',
         type: 'GET',
         success: function (data) {
-            data = formatModes(data);
-            for(var i = 0; i < data.length; i++)
-                $('#generatorMode').append($('<option></option').val(data[i][0]).text(data[i][1]));
+            generators = data;
+            generatorsLoaded = true;
+            populateGeneratorList(generators);
         },
         dataType: 'jsonp',
         beforeSend: ajaxSend,
         complete: ajaxComplete
     });
 });
+
+function populateGeneratorList (data) {
+    formattedGenerators = formatModes(data);
+    $('#generatorMode').empty();
+    for(var i = 0; i < formattedGenerators.length; i++)
+        $('#generatorMode').append($('<option></option').val(formattedGenerators[i][0]).text(formattedGenerators[i][1]));
+}
 
 function generate () {
     $("#morphGenOutput").animate({ opacity: 0.5 });
