@@ -16,7 +16,6 @@ $(document).ready(function () {
                     curr_pair.srcLang = detectLanguage($(this).val());
                     $('#selectFrom em').html(getLangByCode(curr_pair.srcLang, localizedLanguageNames));
                 }
-
             } catch (e) {
                 console.log(e.message);
             }
@@ -68,7 +67,6 @@ $(document).ready(function () {
         }
     });
     
-    $('#localeSelect').change(localizeLanguageNames);
     getPairs();
 });
 
