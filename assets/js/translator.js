@@ -2,14 +2,15 @@ var pairs = new Array(), curr_pair = new Object();
 var srcLangs = new Array(), dstLangs = new Array();
 var grayedOuts = new Array();
 var isDetecting = false;
-var localizedLanguageCodes = new Object(), localizedLanguageNames = new Object();
+var translatorsLoaded = false;
 
 $(document).ready(function () {
     curr_pair.srcLang = "";
     curr_pair.dstLang = "";
 
+    keyCodes = [32, 190, 191, 49, 59, 13]
     $("#textAreaId").keyup(function (event) {
-        if (event.keyCode == 32 || event.keyCode == 190 || event.keyCode == 191 || event.keyCode == 49 || event.keyCode == 59 || event.keyCode == 13) {
+        if (keyCodes.indexOf(event.keyCode) > -1) {
             try {
                 if (curr_pair.srcLang.indexOf("Detect") != -1) {
                     curr_pair.srcLang = detectLanguage($(this).val());
@@ -69,57 +70,11 @@ $(document).ready(function () {
     
     $('#localeSelect').change(localizeLanguageNames);
     getPairs();
-    
-    var locale = 'en';
-    $.ajax({
-        url: APY_URL + '/getLocale',
-        type: "GET",
-        success: function(data) {
-            for(var i = 0; i < data.length; i++) {
-                localeGuess = data[i];
-                if(localeGuess.indexOf('-') != -1)
-                    localeGuess = localeGuess.split('-')[0];
-                if(iso639Codes[localeGuess] || iso639CodesInverse[localeGuess]) {
-                    locale = localeGuess;
-                    break;
-                }
-            }
-            $.each(languages, function(code, langName) {
-                $('#localeSelect').append($('<option></option>').prop('value', code).text(langName).prop('selected', code == locale));
-            });
-            localizeLanguageNames();
-        },
-        dataType: 'jsonp',
-        beforeSend: ajaxSend,
-        complete: ajaxComplete
-    });
 });
 
 $(document).click(function () {
     $('#dropDownSub').hide();
 });
-
-function localizeLanguageNames() {
-    var locale = $('#localeSelect').val();
-    $.ajax({
-        url: APY_URL + '/listLanguageNames?locale=' + locale + '&languages=' + srcLangs.concat(dstLangs).join('+'),
-        type: "GET",
-        success: function (data) {
-            localizedLanguageNames = data;
-            $.each(data, function(key, value) { localizedLanguageCodes[value] = key });
-            $('#selectTo em').html(getLangByCode(curr_pair.dstLang, localizedLanguageNames));
-            $('#selectFrom em').html(getLangByCode(curr_pair.srcLang, localizedLanguageNames));
-            
-            populateTranslationList("#column-group-", srcLangs);
-        },
-        dataType: 'jsonp',
-        failure: function () {
-            localizedLanguageNames = {};
-        },
-        beforeSend: ajaxSend,
-        complete: ajaxComplete
-    });
-}
 
 function translate(langPair, text) {
     langpairer = $.trim(langPair.srcLang) + '|' + $.trim(langPair.dstLang);
@@ -163,6 +118,7 @@ function trad_fail(dt) {
 
 function trad_ok(dt) {
     if (dt.responseStatus == 200) {
+        translatorsLoaded = true;
         $('#translationTest').html(" ");
         all = dt.responseData;
 
