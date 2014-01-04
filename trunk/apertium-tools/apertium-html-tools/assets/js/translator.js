@@ -203,19 +203,19 @@ function populateTranslationList(elementClass, langArr) {
                     curr_pair.srcLang = detectLanguage($(this).val());
                     $('#selectFrom em').html(curr_pair.srcLang);
                 }
-
             } catch (e) {
                 console.log(e.message);
             }
 
             translate(curr_pair, $('#textAreaId').val());
         }
-        else $('#translationTest').html("Translation not yet available!");
+        else
+            $('#translationTest').html("Translation not yet available!");
     });
 }
 
 function parsePair_lol(pr) {
-    parsedPair = null;
+    var parsedPair = null;
     pr.srcLang = $.trim(pr.srcLang);
     pr.dstLang = $.trim(pr.dstLang);
 
