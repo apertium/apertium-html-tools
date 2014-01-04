@@ -2,7 +2,7 @@
  
 <html> 
     <head> 
-        <title>Apertium | A free/open-source machine translation platform</title>
+        <title data-text="title">Apertium | A free/open-source machine translation platform</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="shortcut icon" href="./assets/img/favicon.ico">
         <link href="//netdna.bootstrapcdn.com/bootswatch/3.0.2/journal/bootstrap.min.css" rel="stylesheet">
@@ -32,14 +32,14 @@
                         <span class="icon-bar"></span>
                     </button>
                     <img src="./assets/img/Apertium_logo_225x48.png" alt="Apertium" class="img-responsive">
-                    <p>A free/open-source machine translation platform</p>
+                    <p data-text="tagline">A free/open-source machine translation platform</p>
                 </div>
                 <ul class="nav navbar-nav navbar-right" id="navbar-collapse">
-                  <li><a href="#translation" data-mode="translation">Translation</a></li>
-                  <li><a href="#analyzation" data-mode="analyzation">Morphological Analysis</a></li>
-                  <li><a href="#generation" data-mode="generation">Morphological Generation</a></li>
-                  <li><a href="#spellchecker" data-mode="spellchecker">Spell Checker</a></li>
-                  <li><a href="#sandbox" data-mode="sandbox">APY Sandbox</a></li>
+                  <li><a href="#translation" data-mode="translation" data-text="Translation">Translation</a></li>
+                  <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis">Morphological Analysis</a></li>
+                  <li><a href="#generation" data-mode="generation" data-text="Morphological_Generation">Morphological Generation</a></li>
+                  <li><a href="#spellchecker" data-mode="spellchecker" data-text="Spell_Checker">Spell Checker</a></li>
+                  <li><a href="#sandbox" data-mode="sandbox" data-text="APY_Sandbox">APY Sandbox</a></li>
                 </ul>
                 </div>
             </div>
@@ -48,21 +48,20 @@
             <img src="./assets/img/loading.gif" id="loading-indicator" style="display:none">
             <select name="locale" id="localeSelect" class="pull-right"></select>
             <div class="modeContainer" id="translationContainer">
-                <h1 style="display: inline-block;">Translation</h1>
+                <h1 style="display: inline-block;" data-text="Translation">Translation</h1>
                 <form class="form-horizontal" role="form" method="none" id="translationForm">
-                    <legend>Choose two languages and translate your text using Apertium's translation platform!</legend>
-                    
+                    <legend data-text="Translation_Help">Choose two languages and translate your text using Apertium's translation platform!</legend>
                 </form>
 
                 <div id="dropDown">
                     <div class="itemSelect" id="selectFrom">
-                        <span>From: <em></em></span>
+                        <span><span data-text="From">From</span>: <em></em></span>
                     </div>
                     <div id="swapLanguages">
-                        <span>Swap</span>
+                        <span data-text="Swap">Swap</span>
                     </div>
                     <div class="itemSelect" id="selectTo"> 
-                        <span>To: <em></em></span>
+                        <span><span data-text="To">To</span>: <em></em></span>
                     </div>     
                     <div id="dropDownSub">
                         <table>
@@ -70,11 +69,9 @@
                                 <td>
                                     <div class="column-group" id="column-group-1"></div>
                                 </td>
-                                
                                 <td>
                                     <div class="column-group" id="column-group-2"></div>
                                 </td>
-                                
                                 <td>
                                     <div class="column-group" id="column-group-3"></div>
                                 </td>
@@ -91,7 +88,7 @@
                 <div id="wrap">
                     <form id="inputBox" method="POST">
                         <textarea id="textAreaId"></textarea>
-                        <input type="submit" class="btn btn-large btn-warning translate_btn" value="Translate">
+                        <button type="submit" class="btn btn-primary translate_btn" data-text="Translate">Translate</button>
                     </form>
                     
                     <div id="translationTest">
@@ -100,70 +97,71 @@
                 </div>
             </div>
             <div class="modeContainer" id="analyzationContainer">
-                <h1>Morphological Analysis</h1>
+                <h1 data-text="Morphological_Analysis">Morphological Analysis</h1>
                 <form class="form-horizontal" role="form" method="none" id="analysisForm">
-                    <legend>Choose a mode and analyze your text using Apertium's morphological analyzers.</legend>
+                    <legend data-text="Morphological_Analysis_Help">Choose a language and analyze your text using Apertium's morphological analyzers.</legend>
                     <div class="form-group">
-                        <label for="analyzerMode" class="col-sm-2 control-label">Language</label>
+                        <label for="analyzerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
                         <div class="col-sm-3">
                             <select class="form-control" id="analyzerMode" name="analyzerMode" required></select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="morphAnalyzerInput" class="col-sm-2 control-label">Input Text</label>
+                        <label for="morphAnalyzerInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" rows="3" id="morphAnalyzerInput" name="morphAnalyzerInput" required></textarea>
                         </div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary" id="analyze">Analyze</button>
+                        <button type="submit" class="btn btn-primary" id="analyze" data-text="Analyze">Analyze</button>
                     </div>
                 </form>
                 
                 <table class="table table-hover" id="morphAnalyzerOutput" style="padding-top: 20px; border-spacing: 0px;"></table>
             </div>
             <div class="modeContainer" id="generationContainer">
-                <h1>Morphological Generation</h1>
+                <h1 data-text="Morphological_Generation">Morphological Generation</h1>
                 <form class="form-horizontal" role="form" method="none" id="generateForm">
-                    <legend>Choose a mode and generate surface forms from your text using Apertium's morphological generators.</legend>
+                    <legend data-text="Morphological_Generation_Help">Choose a language and generate surface forms from your text using Apertium's morphological generators.</legend>
                     <div class="form-group">
-                        <label for="generatorMode" class="col-sm-2 control-label">Language</label>
+                        <label for="generatorMode" class="col-sm-2 control-label" data-text="Language">Language</label>
                         <div class="col-sm-3">
                             <select class="form-control" id="generatorMode" name="generatorMode" required></select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="morphGeneratorInput" class="col-sm-2 control-label">Input Text</label>
+                        <label for="morphGeneratorInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" rows="3" id="morphGeneratorInput" name="morphGeneratorInput" required></textarea>
                         </div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary" id="generate">Generate</button>
+                        <button type="submit" class="btn btn-primary" id="generate" data-text="Generate">Generate</button>
                     </div>
                 </form>
                 <div id="morphGenOutput" style="padding-top: 60px;"></div>
             </div>
             <div class="modeContainer" id="sandboxContainer">
-                <h1>APY Sandbox</h1>
+                <h1 data-text="APY_Sandbox">APY Sandbox</h1>
                 <form class="form-horizontal" role="form" method="none" id="sandboxForm">
-                    <legend>Send arbitrary requests to <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank">
+                    <legend><span data-text="APY_Sandbox_Help">Send arbitrary requests to</span> <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank">
                         <abbr title="Apertium API in Python">APY</abbr></a>.
                     </legend>
                     <div class="form-group">
-                        <label for="sandboxInput" class="col-sm-2 control-label">APY Request</label>
+                        <label for="sandboxInput" class="col-sm-2 control-label" data-text="APY_Request">APY Request</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" rows="3" id="sandboxInput" name="sandboxInput" required></textarea>
                             <div class="help-block">e.g. /perWord?lang=en-es&amp;modes=morph+translate+biltrans&amp;q=let+there+be+light</div>
                         </div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary" id="request">Request</button>
+                        <button type="submit" class="btn btn-primary" id="request" data-text="Request">Request</button>
                         <code id="time" class="pull-right"></code>
                     </div>
                 </form>
                 <small><pre id="sandboxOutput" style="margin-top: 60px;"></pre></small>
             </div>
+            <small class="pull-right"><span data-text="Notice_Mistake">Notice a mistake?</span>  <a href="http://wiki.apertium.org/wiki/Apertium_Turkic" data-text="Help_Improve">Help us improve apertium</a>!</small>
         </div>
     </body>
 </html>
