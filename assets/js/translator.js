@@ -11,7 +11,7 @@ $(document).ready(function () {
     $("#textAreaId").keyup(function (event) {
         if (keyCodes.indexOf(event.keyCode) > -1) {
             try {
-                if (curr_pair.srcLang.indexOf("Detect") != -1) {
+                if (curr_pair.srcLang.indexOf(detectLanguageText) != -1) {
                     curr_pair.srcLang = detectLanguage($(this).val());
                     $('#selectFrom em').html(getLangByCode(curr_pair.srcLang, localizedLanguageNames));
                 }
@@ -27,7 +27,7 @@ $(document).ready(function () {
     $("#inputBox").submit(function () {
         try {
             try {
-                if (curr_pair.srcLang.indexOf("Detect") != -1) {
+                if (curr_pair.srcLang.indexOf(detectLanguageText) != -1) {
                     curr_pair.srcLang = detectLanguage($(this).val());
                     $('#selectFrom em').html(getLangByCode(curr_pair.srcLang, localizedLanguageNames));
                 }
@@ -139,7 +139,7 @@ function trad_ok(dt) {
 
 function populateTranslationList(elementClass, langArr) {
     $(".column-group").html("");
-    $("#column-group-1").append("<span> <a href='#' class='language-selected' > Detect Language </a></span>");
+    $("#column-group-1").append("<span> <a href='#' class='language-selected'>" + detectLanguageText + "</a></span>");
 
     column_num = 1;
     for (it in langArr) {
@@ -182,7 +182,7 @@ function populateTranslationList(elementClass, langArr) {
         $(this).addClass('language-selected');
 
         if (FromOrTo == "from") {
-            if ($(this).text() != " Detect Language ")
+            if ($(this).text() != detectLanguage)
                 isDetecting = false;
 
             $('#selectFrom em').html($(this).text());
@@ -199,7 +199,7 @@ function populateTranslationList(elementClass, langArr) {
 
         if (matchFound) {
             try {
-                if (curr_pair.srcLang.indexOf("Detect") != -1) {
+                if (curr_pair.srcLang.indexOf(detectLanguageText) != -1) {
                     curr_pair.srcLang = detectLanguage($(this).val());
                     $('#selectFrom em').html(curr_pair.srcLang);
                 }
@@ -210,7 +210,7 @@ function populateTranslationList(elementClass, langArr) {
             translate(curr_pair, $('#textAreaId').val());
         }
         else
-            $('#translationTest').html("Translation not yet available!");
+            $('#translationTest').html(notAvailableText);
     });
 }
 
