@@ -13,6 +13,8 @@
 	"Analyze": "Analyze",
     "Translate": "Translate",
 	"Morphological_Analysis_Help": "Choose a language and analyze your text using Apertium's morphological analyzers.",
+	"Detect_Language": "Detect Language",
+	"Not_Available": "Translation not yet available!",
 	"Language": "Language",
 	"Input_Text": "Input Text",
 	"Generate": "Generate",
