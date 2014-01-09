@@ -6,10 +6,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="shortcut icon" href="./assets/img/favicon.ico">
         <link href="//netdna.bootstrapcdn.com/bootswatch/3.0.2/journal/bootstrap.min.css" rel="stylesheet">
-        <link type="text/css" rel="stylesheet" href="./assets/css/style.css"> 
-        <link type="text/css" rel="stylesheet" href="./assets/css/dropDown.css"> 
+        <link type="text/css" rel="stylesheet" href="./assets/css/style.css">
+        <link type="text/css" rel="stylesheet" href="./assets/css/dropDown.css">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="./assets/css/bootstrap.css">
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-        <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+        <!-- <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>  -->
         
         <!-- <script type="text/javascript" src="http://api.apertium.org/JSLibrary.jsp"></script> -->
         <!--[if lt IE 9]> <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script> <![endif]-->
@@ -32,8 +34,9 @@
                         <span class="icon-bar"></span>
                     </button>
                     <img src="./assets/img/Apertium_logo_225x48.png" alt="Apertium" class="img-responsive">
-                    <p data-text="tagline">A free/open-source machine translation platform</p>
+                    <p data-text="tagline" class="tagline">A free/open-source machine translation platform</p>
                 </div>
+                <select name="locale" id="localeSelect" class="pull-right"></select>
                 <ul class="nav navbar-nav navbar-right" id="navbar-collapse">
                   <li><a href="#translation" data-mode="translation" data-text="Translation">Translation</a></li>
                   <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis">Morphological Analysis</a></li>
@@ -45,14 +48,67 @@
             </div>
         </nav>
         <div class="container">
-            <img src="./assets/img/loading.gif" id="loading-indicator" style="display:none">
-            <select name="locale" id="localeSelect" class="pull-right"></select>
+            <img src="./assets/img/loading.gif" id="loading-indicator">
             <div class="modeContainer" id="translationContainer">
                 <h1 style="display: inline-block;" data-text="Translation">Translation</h1>
                 <form class="form-horizontal" role="form" method="none" id="translationForm">
                     <legend data-text="Translation_Help">Choose two languages and translate your text using Apertium's translation platform!</legend>
-                </form>
-
+                    <!-- <div class="form-group">
+                        <div class="col-sm-6">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm">Lang 1</button>
+                                <button type="button" class="btn btn-default btn-sm">Lang 2</button>
+                                <button type="button" class="btn btn-default btn-sm">Lang 3</button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-sm">
+                                        <span data-text="Detect">Detect language</span>
+                                    </button>
+                                    <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">English</a></li>
+                                        <li><a href="#">Spanish</a></li>
+                                        <li><a href="#">Macedonian</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Other family</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-default btn-sm pull-right"><i class="fa fa-exchange"></i></button>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm">Lang 1</button>
+                                <button type="button" class="btn btn-default btn-sm">Lang 2</button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-sm">Lang 3</button>
+                                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">English</a></li>
+                                        <li class="disabled"><a href="#">Spanish</a></li>
+                                        <li><a href="#">Macedonian</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Other family</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm">Translate</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <textarea class="form-control" rows="10"></textarea>
+                        </div>
+                        <div class="col-sm-6">
+                            <textarea class="form-control" rows="10" disabled></textarea>
+                        </div>
+                    </div> -->
+                </form> 
                 <div id="dropDown">
                     <div class="itemSelect" id="selectFrom">
                         <span><span data-text="From" style="font-weight: bold">From</span>:<br><em></em></span>
@@ -117,7 +173,7 @@
                     </div>
                 </form>
                 
-                <table class="table table-hover" id="morphAnalyzerOutput" style="padding-top: 20px; border-spacing: 0px;"></table>
+                <table class="table table-hover" id="morphAnalyzerOutput" style="margin-top: 5em; border-spacing: 0px;"></table>
             </div>
             <div class="modeContainer" id="generationContainer">
                 <h1 data-text="Morphological_Generation">Morphological Generation</h1>
@@ -139,7 +195,7 @@
                         <button type="submit" class="btn btn-primary" id="generate" data-text="Generate">Generate</button>
                     </div>
                 </form>
-                <div id="morphGenOutput" style="padding-top: 60px;"></div>
+                <div id="morphGenOutput" style="margin-top: 5em;"></div>
             </div>
             <div class="modeContainer" id="sandboxContainer">
                 <h1 data-text="APY_Sandbox">APY Sandbox</h1>
@@ -162,7 +218,7 @@
                         <code id="time" class="pull-right"></code>
                     </div>
                 </form>
-                <small><pre id="sandboxOutput" style="margin-top: 60px;"></pre></small>
+                <small><pre id="sandboxOutput" style="margin-top: 5em;"></pre></small>
             </div>
             <div class="navbar-fixed-bottom hidden-xs">
                 <div class="container">
