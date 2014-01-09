@@ -38,9 +38,11 @@ function getGenerators () {
 
 function populateGeneratorList (data) {
     formattedGenerators = formatModes(data);
+    var selected = $('#generatorMode').val();
     $('#generatorMode').empty();
     for(var i = 0; i < formattedGenerators.length; i++)
         $('#generatorMode').append($('<option></option').val(formattedGenerators[i][0]).text(formattedGenerators[i][1]));
+    $('#generatorMode option[value="' + selected + '"]').prop('selected', true);
 }
 
 function generate () {

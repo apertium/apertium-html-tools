@@ -38,9 +38,11 @@ function getAnalyzers () {
 
 function populateAnalyzerList (data) {
     formattedAnalyzers = formatModes(data);
+    var selected = $('#analyzerMode').val();
     $('#analyzerMode').empty();
     for(var i = 0; i < formattedAnalyzers.length; i++)
         $('#analyzerMode').append($('<option></option').val(formattedAnalyzers[i][0]).text(formattedAnalyzers[i][1]));
+    $('#analyzerMode option[value="' + selected + '"]').prop('selected', true);
 }
 
 function analyze () {
