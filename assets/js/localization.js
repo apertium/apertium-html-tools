@@ -87,8 +87,7 @@ function localizeLanguageNames () {
                 $.each(data, function(key, value) { localizedLanguageCodes[value] = key });
                 
                 populateTranslationList();
-                refreshLangList('srcLang');
-                refreshLangList('dstLang');
+                refreshLangList();
                 
                 populateGeneratorList(generators);
                 populateAnalyzerList(analyzers);

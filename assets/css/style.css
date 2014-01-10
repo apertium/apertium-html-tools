@@ -39,15 +39,14 @@
 }
 
 #srcLanguages {
-	font-size: 14px;
 	min-width: 500px;
 	left: 81%;
 	text-align: center;
 }
 
 #dstLanguages {
-	font-size: 14px;
 	min-width: 500px;
-	left: -520%;
+	right: 0;
+	left: auto;
 	text-align: center;
 }

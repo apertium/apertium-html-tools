@@ -1,34 +1,50 @@
 /*
 TODO: (in some order)
-1) Prevent multiple entries in recent languages
-2) Make detect language work,
-3) Mobile version (!!!)
-4) Why is Tatar showing up twice?? 
-5) Deal with languages having multiple iso codes (ugh...)
-6) Save choices in cookie?
-7) Adapting width of dropdown
+1) Make detect language work,
+2) Mobile version (!!!)
+3) Why is Tatar showing up twice?? 
+4) Deal with languages having multiple iso codes (ugh...)
+5) Save choices in cookie?
+6) Adapting width of dropdown?
 */
 
 var pairs = {};
 var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
+var recentSrcLangs = [], recentDstLangs = [];
 
 $(document).ready(function () {
     $('#srcLanguages').on('click', '.languageName', function () {
         var code = $(this).attr('data-code');
-        refreshLangList('srcLang', code);
-        $('.srcLang').removeClass('active');
-        $('#srcLang1').addClass('active');
         curSrcLang = code;
+
+        $('.srcLang').removeClass('active');
+        if(recentSrcLangs.indexOf(code) === -1) {
+            recentSrcLangs = [code, recentSrcLangs[0], recentSrcLangs[1]]
+            refreshLangList();
+            $('#srcLang1').addClass('active');
+        }
+        else {
+            $('#srcLang' + (recentSrcLangs.indexOf(code) + 1)).addClass('active');
+        }
+        
         muteLanguages();
     });
 
     $('#dstLanguages').on('click', '.languageName', function () {
         var code = $(this).attr('data-code');
-        refreshLangList('dstLang', code);
-        $('.dstLang').removeClass('active');
-        $('#dstLang1').addClass('active');
         curDstLang = code;
+        
+        $('.dstLang').removeClass('active');
+        if(recentDstLangs.indexOf(code) === -1) {
+            recentDstLangs = [code, recentDstLangs[0], recentDstLangs[1]]
+            refreshLangList();
+            $('#dstLang1').addClass('active');
+        }
+        else {
+            $('#dstLang' + (recentDstLangs.indexOf(code) + 1)).addClass('active');
+        }
+
         muteLanguages();
     });
 
@@ -81,11 +97,10 @@ function getPairs () {
 
             curSrcLang = srcLangs[0];
             curDstLang = dstLangs[0];
+            refreshLangList();
             for(var i = 0; i < 3; i++) {
-                if(i < srcLangs.length)
-                    $('#srcLang' + (i + 1)).attr('data-code', srcLangs[i]).text(getLangByCode(srcLangs[i], localizedLanguageNames));
-                if(i < dstLangs.length)
-                    $('#dstLang' + (i + 1)).attr('data-code', dstLangs[i]).text(getLangByCode(dstLangs[i], localizedLanguageNames));
+                recentSrcLangs.push(i < srcLangs.length ? srcLangs[i] : undefined);
+                recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
             }
                 
             populateTranslationList();
@@ -103,16 +118,13 @@ function getPairs () {
     return deferred.promise();
 }
 
-function refreshLangList (element, code) {
-    if(!code)
-        var code = $('#' + element + '1').attr('data-code'), lang1 = $('#' + element + '2').attr('data-code'), lang2 = $('#' + element + '3').attr('data-code');
-    else {
-        var lang1 = $('#' + element + '1').attr('data-code'), lang2 = $('#' + element + '2').attr('data-code');
+function refreshLangList () {
+    for(var i = 0; i < 3; i++) {
+        if(i < recentSrcLangs.length && recentSrcLangs[i])
+            $('#srcLang' + (i + 1)).attr('data-code', recentSrcLangs[i]).text(getLangByCode(recentSrcLangs[i], localizedLanguageNames));
+        if(i < recentDstLangs.length && recentDstLangs[i])
+            $('#dstLang' + (i + 1)).attr('data-code', recentDstLangs[i]).text(getLangByCode(recentDstLangs[i], localizedLanguageNames));
     }
-
-    $('#' + element + '1').attr('data-code', code).text(getLangByCode(code, localizedLanguageNames));
-    $('#' + element + '2').attr('data-code', lang1).text(getLangByCode(lang1, localizedLanguageNames));
-    $('#' + element + '3').attr('data-code', lang2).text(getLangByCode(lang2, localizedLanguageNames));
 }
 
 function populateTranslationList () {
