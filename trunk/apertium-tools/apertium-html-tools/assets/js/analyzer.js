@@ -58,12 +58,12 @@ function analyze () {
             var regex = /([^<]*)((<[^>]+>)*)/g;
             $('#morphAnalyzerOutput').empty();
             for(var i = 0; i < data.length; i++) {
-                var leftTD = $('<td class="left-part"></td>');
+                var leftTD = $('<td class="text-right"></td>');
                 var strong = $('<strong></strong>').text(data[i][1].trim());
                 var arrow = $('<span></span>').html('&nbsp;&nbsp;&#8620;');
                 leftTD.append(strong).append(arrow)
                 
-                var rightTD = $('<td class="right-part"></td>');
+                var rightTD = $('<td class="text-left"></td>');
                 var splitUnit = data[i][0].split('/');
 
                 if(splitUnit[1][0] === '*')

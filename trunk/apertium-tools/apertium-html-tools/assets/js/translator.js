@@ -2,10 +2,9 @@
 TODO: (in some order)
 1) Make detect language work,
 2) Mobile version (!!!)
-3) Why is Tatar showing up twice?? 
-4) Deal with languages having multiple iso codes (ugh...)
-5) Save choices in cookie?
-6) Adapting width of dropdown?
+3) Deal with languages having multiple iso codes (ugh...)
+4) Save choices in cookie?
+5) Adapting width of dropdown?
 */
 
 var pairs = {};
@@ -14,7 +13,7 @@ var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 
 $(document).ready(function () {
-    $('#srcLanguages').on('click', '.languageName', function () {
+    $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
         var code = $(this).attr('data-code');
         curSrcLang = code;
 
@@ -24,14 +23,13 @@ $(document).ready(function () {
             refreshLangList();
             $('#srcLang1').addClass('active');
         }
-        else {
+        else
             $('#srcLang' + (recentSrcLangs.indexOf(code) + 1)).addClass('active');
-        }
         
         muteLanguages();
     });
 
-    $('#dstLanguages').on('click', '.languageName', function () {
+    $('#dstLanguages').on('click', '.languageName:not(.text-muted)', function () {
         var code = $(this).attr('data-code');
         curDstLang = code;
         
@@ -41,9 +39,8 @@ $(document).ready(function () {
             refreshLangList();
             $('#dstLang1').addClass('active');
         }
-        else {
+        else
             $('#dstLang' + (recentDstLangs.indexOf(code) + 1)).addClass('active');
-        }
 
         muteLanguages();
     });
@@ -83,17 +80,18 @@ function getPairs () {
         url: APY_URL + '/list?q=pairs',
         type: "GET",
         success: function (data) {
+            var srcLangsObj = {}, dstLangsObj = {};
             $.each(data['responseData'], function (i, pair) {
-                srcLangs[i] = pair.sourceLanguage;
-                dstLangs[i] = pair.targetLanguage;
+                srcLangsObj[pair.sourceLanguage] = undefined;
+                dstLangsObj[pair.targetLanguage] = undefined;
 
                 if(pairs[pair.sourceLanguage])
                     pairs[pair.sourceLanguage].push(pair.targetLanguage);
                 else
                     pairs[pair.sourceLanguage] = [pair.targetLanguage];
             });
-            srcLangs = $.unique(srcLangs).sort();
-            dstLangs = $.unique(dstLangs).sort();
+            srcLangs = Object.keys(srcLangsObj).sort();
+            dstLangs = Object.keys(dstLangsObj).sort();
 
             curSrcLang = srcLangs[0];
             curDstLang = dstLangs[0];
@@ -130,25 +128,22 @@ function refreshLangList () {
 function populateTranslationList () {
     $('.languageName').remove();
 
-    var srcLangsPerCol = Math.floor(srcLangs.length / 3), dstLangsPerCol = Math.floor(dstLangs.length / 3);
+    var srcLangsPerCol = Math.ceil(srcLangs.length / 3), dstLangsPerCol = Math.ceil(dstLangs.length / 3);
 
-    for(var i = 0; i < 3; i++)
-        for(var j = 0; j < srcLangsPerCol; j++) {
-            var index = i * srcLangsPerCol + j;
-            if(index < srcLangs.length) {
-                var langCode = srcLangs[index];
-                $($('#srcLanguages .col-sm-4')[i]).append($('<div class="languageName"></div>').attr('data-code', langCode).text(getLangByCode(langCode, localizedLanguageNames)));
-            }
-        }
+    for(var i = 0; i < srcLangs.length; i++) {
+        var langCode = srcLangs[i], 
+            colNum = Math.floor(i / srcLangsPerCol), 
+            langName = getLangByCode(langCode, localizedLanguageNames);
+        $($('#srcLanguages .col-sm-4')[colNum]).append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
+    }
 
-    for(var i = 0; i < 3; i++)
-        for(var j = 0; j < dstLangsPerCol; j++) {
-            var index = i * dstLangsPerCol + j;
-            if(index < dstLangs.length) {
-                var langCode = dstLangs[index];
-                $($('#dstLanguages .col-sm-4')[i]).append($('<div class="languageName"></div>').attr('data-code', langCode).text(getLangByCode(langCode, localizedLanguageNames)));
-            }
-        }
+    for(var i = 0; i < dstLangs.length; i++) {
+        var langCode = dstLangs[i], 
+            colNum = Math.floor(i / dstLangsPerCol), 
+            langName = getLangByCode(langCode, localizedLanguageNames);
+        $($('#dstLanguages .col-sm-4')[colNum]).append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
+    }
+
     muteLanguages();
 }
 
