@@ -1,9 +1,10 @@
 /*
 TODO: (in some order)
 1) Mobile version (!!!)
-2) Deal with languages having multiple iso codes (ugh...)
-3) Save choices in cookie?
-4) Adapting width of dropdown?
+2) Localize "detected"
+3) Deal with languages having multiple iso codes (ugh...)
+4) Save choices in cookie?
+5) Adapting width of dropdown?
 */
 
 var pairs = {};
@@ -84,8 +85,20 @@ $(document).ready(function () {
         var srcCode = $('.srcLang.active').attr('data-code'), dstCode = $('.dstLang.active').attr('data-code');
         curSrcLang = dstCode;
         curDstLang = srcCode;
-        recentSrcLangs[recentSrcLangs.indexOf(srcCode)] = curSrcLang;
-        recentDstLangs[recentDstLangs.indexOf(dstCode)] = curDstLang;
+
+        if(recentSrcLangs.indexOf(curSrcLang) !== -1) {
+            $('.srcLang').removeClass('active');
+            $('#srcLang' + (recentSrcLangs.indexOf(curSrcLang) + 1)).addClass('active');
+        }
+        else
+            recentSrcLangs[recentSrcLangs.indexOf(srcCode)] = curSrcLang;
+
+        if(recentDstLangs.indexOf(curDstLang) !== -1) {
+            $('.dstLang').removeClass('active');
+            $('#dstLang' + (recentDstLangs.indexOf(curDstLang) + 1)).addClass('active');
+        }
+        else
+            recentDstLangs[recentDstLangs.indexOf(dstCode)] = curDstLang;
 
         refreshLangList(true);
         muteLanguages();
@@ -225,7 +238,7 @@ function detectLanguage () {
             curSrcLang = recentSrcLangs[0];
             muteLanguages();
 
-            $('#detectedText').text(getLangByCode(curSrcLang) + ' - detected') //TODO: localize
+            $('#detectedText').text(getLangByCode(curSrcLang) + ' - detected');
             $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
             $('#detectedText').show();
             $('#detectText').hide();
