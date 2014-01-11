@@ -19,15 +19,13 @@ $(document).ready(function() {
 
 function getGenerators () {
     var deferred = $.Deferred();
-    $.ajax({
+    $.jsonp({
         url: APY_URL + '/list?q=generators',
-        type: 'GET',
+        beforeSend: ajaxSend,
         success: function (data) {
             generators = data;
             populateGeneratorList(generators);
         },
-        dataType: 'jsonp',
-        beforeSend: ajaxSend,
         complete: function() {
             ajaxComplete();
             deferred.resolve();
@@ -49,9 +47,10 @@ function populateGeneratorList (data) {
 
 function generate () {
     $("#morphGenOutput").animate({ opacity: 0.5 });
-    $.ajax({
+    $.jsonp({
         url: APY_URL + '/generate',
-        type: 'GET',
+        beforeSend: ajaxSend,
+        complete: ajaxComplete,
         data: {
             'mode': $('#generatorMode').val(),
             'q': $('#morphGeneratorInput').val()
@@ -67,12 +66,9 @@ function generate () {
             }
             $("#morphGenOutput").animate({ opacity: 1 });
         },
-        dataType: 'jsonp',
-        failure: function (xhr, textStatus, error) {
+        error: function (xOptions, error) {
             $('#morphGenOutput').text(error);
             $("#morphGenOutput").animate({ opacity: 1 });
         },
-        beforeSend: ajaxSend,
-        complete: ajaxComplete
     });
 }

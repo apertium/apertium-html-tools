@@ -1,8 +1,8 @@
 /*
 TODO: (in some order)
 1) Mobile version (!!!)
-2) Localize "detected"
-3) Deal with languages having multiple iso codes (ugh...)
+2) Deal with languages having multiple iso codes (ugh...)
+3) Second level dropdown in analyzer/generators
 4) Save choices in cookie?
 5) Adapting width of dropdown?
 */
@@ -112,9 +112,9 @@ $(document).ready(function () {
 
 function getPairs () {
     var deferred = $.Deferred();
-    $.ajax({
+    $.jsonp({
         url: APY_URL + '/list?q=pairs',
-        type: "GET",
+        beforeSend: ajaxSend,
         success: function (data) {
             var srcLangsObj = {}, dstLangsObj = {};
             $.each(data['responseData'], function (i, pair) {
@@ -139,11 +139,9 @@ function getPairs () {
                 
             populateTranslationList();
         },
-        dataType: 'jsonp',
-        failure: function () {
+        error: function () {
             $('#translatedText').text(notAvailableText);
         },
-        beforeSend: ajaxSend,
         complete: function () {
             ajaxComplete();
             deferred.resolve();
@@ -205,9 +203,10 @@ function populateTranslationList () {
 
 function translate () {
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
-        $.ajax({
+        $.jsonp({
             url: APY_URL + '/translate',
-            type: "GET",
+            beforeSend: ajaxSend,
+            complete: ajaxComplete,
             data: {
                 'langpair': curSrcLang + '|' + curDstLang,
                 'q': $('#originalText').val(),
@@ -218,10 +217,7 @@ function translate () {
                 else
                     translationNotAvailable();
             },
-            dataType: 'jsonp',
-            failure: translationNotAvailable,
-            beforeSend: ajaxSend,
-            complete: ajaxComplete
+            error: translationNotAvailable
         });
     }
     else
@@ -229,9 +225,10 @@ function translate () {
 }
 
 function detectLanguage () {
-    $.ajax({
+    $.jsonp({
         url: APY_URL + '/identifyLang',
-        type: "GET",
+        beforeSend: ajaxSend,
+        complete: ajaxComplete,
         data: {
             'q': $('#originalText').val(),
         },
@@ -260,12 +257,9 @@ function detectLanguage () {
             $('#detectedText').show();
             $('#detectText').hide();
         },
-        dataType: 'jsonp',
-        failure: function () {
+        error: function () {
             $('#srcLang1').click();
         },
-        beforeSend: ajaxSend,
-        complete: ajaxComplete
     });
 }
 
