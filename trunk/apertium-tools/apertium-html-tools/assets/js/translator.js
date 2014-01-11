@@ -19,7 +19,7 @@ $(document).ready(function () {
         $('.srcLang').removeClass('active');
         if(recentSrcLangs.indexOf(code) === -1) {
             recentSrcLangs = [code, recentSrcLangs[0], recentSrcLangs[1]]
-            refreshLangList();
+            refreshLangList(true);
             $('#srcLang1').addClass('active');
         }
         else
@@ -48,7 +48,7 @@ $(document).ready(function () {
         curSrcLang = $(this).attr('data-code');
         $('.srcLang').removeClass('active');
         $(this).addClass('active');
-        refreshLangList();
+        refreshLangList(true);
         muteLanguages();
     });
 
@@ -78,6 +78,22 @@ $(document).ready(function () {
         $('.srcLang').removeClass('active');
         $(this).addClass('active');
         detectLanguage();
+    });
+
+    $('#swap').click(function () {
+        var srcCode = $('.srcLang.active').attr('data-code'), dstCode = $('.dstLang.active').attr('data-code');
+        curSrcLang = dstCode;
+        curDstLang = srcCode;
+        recentSrcLangs[recentSrcLangs.indexOf(srcCode)] = curSrcLang;
+        recentDstLangs[recentDstLangs.indexOf(dstCode)] = curDstLang;
+
+        refreshLangList(true);
+        muteLanguages();
+
+        if($('.active > #detectedText')) {
+            $('.srcLang').removeClass('active');
+            $('#srcLang' + (recentSrcLangs.indexOf(curSrcLang) + 1)).addClass('active');
+        }
     });
 });
 
@@ -123,7 +139,7 @@ function getPairs () {
     return deferred.promise();
 }
 
-function refreshLangList () {
+function refreshLangList (resetDetect) {
     for(var i = 0; i < 3; i++) {
         if(i < recentSrcLangs.length && recentSrcLangs[i])
             $('#srcLang' + (i + 1)).attr('data-code', recentSrcLangs[i]).text(getLangByCode(recentSrcLangs[i]));
@@ -131,8 +147,10 @@ function refreshLangList () {
             $('#dstLang' + (i + 1)).attr('data-code', recentDstLangs[i]).text(getLangByCode(recentDstLangs[i]));
     }
 
-    $('#detectText').show();
-    $('#detectedText').hide();
+    if(resetDetect) {
+        $('#detectText').show();
+        $('#detectedText').hide();
+    }
 }
 
 function populateTranslationList () {
@@ -158,7 +176,7 @@ function populateTranslationList () {
 }
 
 function translate () {
-    if(pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+    if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
         $.ajax({
             url: APY_URL + '/translate',
             type: "GET",
@@ -207,7 +225,8 @@ function detectLanguage () {
             curSrcLang = recentSrcLangs[0];
             muteLanguages();
 
-            $('#detectedText').text(getLangByCode(recentSrcLangs[0]) + ' - detected') //TODO: localize
+            $('#detectedText').text(getLangByCode(curSrcLang) + ' - detected') //TODO: localize
+            $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
             $('#detectedText').show();
             $('#detectText').hide();
         },
