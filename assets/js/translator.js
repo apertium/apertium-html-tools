@@ -163,6 +163,9 @@ function refreshLangList (resetDetect) {
             $('#dstLang' + (i + 1)).attr('data-code', recentDstLangs[i]).text(getLangByCode(recentDstLangs[i]));
     }
 
+    if($('#detectedText').parent('.srcLang').attr('data-code'))
+        $('#detectedText').text(getLangByCode($('#detectedText').parent('.srcLang').attr('data-code')) + ' - ' + detectedText);
+
     if(resetDetect) {
         $('#detectText').show();
         $('#detectedText').hide();
@@ -249,12 +252,11 @@ function detectLanguage () {
             if(recentSrcLangs.length > 3)
                 recentSrcLangs = recentSrcLangs.slice(0, 3);
 
-            refreshLangList();
             curSrcLang = recentSrcLangs[0];
             muteLanguages();
-
-            $('#detectedText').text(getLangByCode(curSrcLang) + ' - detected');
+            
             $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
+            refreshLangList();
             $('#detectedText').show();
             $('#detectText').hide();
         },
