@@ -22,9 +22,9 @@ $(document).ready(function() {
 
 function getLocale () {
     var deferred = $.Deferred();
-    $.ajax({
+    $.jsonp({
         url: APY_URL + '/getLocale',
-        type: "GET",
+        beforeSend: ajaxSend,
         success: function(data) {
             for(var i = 0; i < data.length; i++) {
                 localeGuess = data[i];
@@ -39,8 +39,6 @@ function getLocale () {
                 $('#localeSelect').append($('<option></option>').prop('value', code).text(langName).prop('selected', code == locale));
             });
         },
-        dataType: 'jsonp',
-        beforeSend: ajaxSend,
         complete: function() {
             ajaxComplete();
             deferred.resolve();
@@ -78,9 +76,10 @@ function localizeLanguageNames () {
     if(locale != null) {
         var languages = generateLanguageList();
 
-        $.ajax({
+        $.jsonp({
             url: APY_URL + '/listLanguageNames?locale=' + locale + '&languages=' + languages.join('+'),
-            type: "GET",
+            beforeSend: ajaxSend,
+            complete: ajaxComplete,
             success: function (data) {
                 localizedLanguageNames = data;
                 localizedLanguageCodes = {};
@@ -92,12 +91,9 @@ function localizeLanguageNames () {
                 populateGeneratorList(generators);
                 populateAnalyzerList(analyzers);
             },
-            dataType: 'jsonp',
-            failure: function () {
+            error: function () {
                 localizedLanguageNames = {};
             },
-            beforeSend: ajaxSend,
-            complete: ajaxComplete
         });
 
         $.ajax({
@@ -112,11 +108,9 @@ function localizeLanguageNames () {
                 if(data['detected'])
                     detectedText = data['detected'];
             },
-            failure: function () {
+            error: function () {
                 console.log('Failed to fetch localized strings for ' + locale);
-            },
-            beforeSend: ajaxSend,
-            complete: ajaxComplete
+            }
         });
     }
 }

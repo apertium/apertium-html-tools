@@ -19,15 +19,14 @@ $(document).ready(function() {
 
 function getAnalyzers () {
     var deferred = $.Deferred();
-    $.ajax({
+    $.jsonp({
         url: APY_URL + '/list?q=analyzers',
-        type: 'GET',
+        pageCache: true,
+        beforeSend: ajaxSend,
         success: function (data) {
             analyzers = data;
             populateAnalyzerList(analyzers);
         },
-        dataType: 'jsonp',
-        beforeSend: ajaxSend,
         complete: function () {
             ajaxComplete();
             deferred.resolve();
@@ -49,9 +48,11 @@ function populateAnalyzerList (data) {
 
 function analyze () {
     $("#morphAnalyzerOutput").animate({ opacity: 0.5 });
-    $.ajax({
+    $.jsonp({
         url: APY_URL + '/analyze',
-        type: 'GET',
+        pageCache: true,
+        beforeSend: ajaxSend,
+        complete: ajaxComplete,
         data: {
             'mode': $('#analyzerMode').val(),
             'q': $('#morphAnalyzerInput').val()
@@ -103,13 +104,10 @@ function analyze () {
                 $("#morphAnalyzerOutput").animate({ opacity: 1 });
             }
         },
-        dataType: 'jsonp',
-        failure: function (xhr, textStatus, error) {
+        error: function (xOptions, error) {
             $('#morphGenOutput').text(error);
             $("#morphAnalyzerOutput").animate({ opacity: 1 });
-        },
-        beforeSend: ajaxSend,
-        complete: ajaxComplete
+        }
     });
 }
 

@@ -10,8 +10,13 @@ function ajaxComplete() {
 
 $(document).ajaxSend(ajaxSend);
 $(document).ajaxComplete(ajaxComplete);
+$(document).ajaxError(ajaxComplete);
 
-$(document).ready(function() {
+$.jsonp.setup({
+    callbackParameter: "callback"
+});
+
+$(document).ready(function () {
     if(!parent.location.hash || !$(parent.location.hash + 'Container'))
         parent.location.hash = '#translation';
     $('.modeContainer' + parent.location.hash + 'Container').show();
