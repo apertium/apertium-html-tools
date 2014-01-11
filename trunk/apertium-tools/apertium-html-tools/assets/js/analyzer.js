@@ -28,7 +28,7 @@ function getAnalyzers () {
         },
         dataType: 'jsonp',
         beforeSend: ajaxSend,
-        complete: function() {
+        complete: function () {
             ajaxComplete();
             deferred.resolve();
         }
@@ -37,7 +37,9 @@ function getAnalyzers () {
 }
 
 function populateAnalyzerList (data) {
-    formattedAnalyzers = formatModes(data);
+    formattedAnalyzers = formatModes(data).sort(function (a, b) {
+        return a[1].localeCompare(b[1]);
+    });
     var selected = $('#analyzerMode').val();
     $('#analyzerMode').empty();
     for(var i = 0; i < formattedAnalyzers.length; i++)
