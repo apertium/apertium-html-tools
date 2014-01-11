@@ -37,7 +37,9 @@ function getGenerators () {
 }
 
 function populateGeneratorList (data) {
-    formattedGenerators = formatModes(data);
+    formattedGenerators = formatModes(data).sort(function (a, b) {
+        return a[1].localeCompare(b[1]);
+    });
     var selected = $('#generatorMode').val();
     $('#generatorMode').empty();
     for(var i = 0; i < formattedGenerators.length; i++)
