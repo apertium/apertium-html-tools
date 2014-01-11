@@ -20,5 +20,6 @@
 	"APY_Request": "Consulta d'APY",
 	"Request": "Consulta",
 	"Notice_Mistake": "Has trobat un error?",
-	"Help_Improve": "Ajuda'ns a millorar Apertium!"
+	"Help_Improve": "Ajuda'ns a millorar Apertium!",
+	"detected":"detectat"
 }
