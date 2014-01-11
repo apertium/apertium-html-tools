@@ -119,7 +119,7 @@ function localizeLanguageNames () {
     }
 }
 
-function getLangByCode (code, localizedLanguageNames) {
+function getLangByCode (code) {
     code = code.trim();
     if(localizedLanguageNames[code])
         return localizedLanguageNames[code];
@@ -131,7 +131,7 @@ function getLangByCode (code, localizedLanguageNames) {
         return code;
 }
 
-function getCodeByLang (lang, localizedLanguageCodes) {
+function getCodeByLang (lang) {
     lang = lang.trim();
     if(localizedLanguageCodes[lang])
         return localizedLanguageCodes[lang];

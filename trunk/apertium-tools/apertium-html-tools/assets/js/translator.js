@@ -1,10 +1,9 @@
 /*
 TODO: (in some order)
-1) Make detect language work,
-2) Mobile version (!!!)
-3) Deal with languages having multiple iso codes (ugh...)
-4) Save choices in cookie?
-5) Adapting width of dropdown?
+1) Mobile version (!!!)
+2) Deal with languages having multiple iso codes (ugh...)
+3) Save choices in cookie?
+4) Adapting width of dropdown?
 */
 
 var pairs = {};
@@ -49,6 +48,7 @@ $(document).ready(function () {
         curSrcLang = $(this).attr('data-code');
         $('.srcLang').removeClass('active');
         $(this).addClass('active');
+        refreshLangList();
         muteLanguages();
     });
 
@@ -56,6 +56,7 @@ $(document).ready(function () {
         curDstLang = $(this).attr('data-code');
         $('.dstLang').removeClass('active');
         $(this).addClass('active');
+        refreshLangList();
         muteLanguages();
     });
 
@@ -71,6 +72,12 @@ $(document).ready(function () {
 
     $("#originalText").submit(function () {
         translate();
+    });
+
+    $('#detect').click(function () {
+        $('.srcLang').removeClass('active');
+        $(this).addClass('active');
+        detectLanguage();
     });
 });
 
@@ -119,10 +126,13 @@ function getPairs () {
 function refreshLangList () {
     for(var i = 0; i < 3; i++) {
         if(i < recentSrcLangs.length && recentSrcLangs[i])
-            $('#srcLang' + (i + 1)).attr('data-code', recentSrcLangs[i]).text(getLangByCode(recentSrcLangs[i], localizedLanguageNames));
+            $('#srcLang' + (i + 1)).attr('data-code', recentSrcLangs[i]).text(getLangByCode(recentSrcLangs[i]));
         if(i < recentDstLangs.length && recentDstLangs[i])
-            $('#dstLang' + (i + 1)).attr('data-code', recentDstLangs[i]).text(getLangByCode(recentDstLangs[i], localizedLanguageNames));
+            $('#dstLang' + (i + 1)).attr('data-code', recentDstLangs[i]).text(getLangByCode(recentDstLangs[i]));
     }
+
+    $('#detectText').show();
+    $('#detectedText').hide();
 }
 
 function populateTranslationList () {
@@ -133,14 +143,14 @@ function populateTranslationList () {
     for(var i = 0; i < srcLangs.length; i++) {
         var langCode = srcLangs[i], 
             colNum = Math.floor(i / srcLangsPerCol), 
-            langName = getLangByCode(langCode, localizedLanguageNames);
+            langName = getLangByCode(langCode);
         $($('#srcLanguages .col-sm-4')[colNum]).append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
     }
 
     for(var i = 0; i < dstLangs.length; i++) {
         var langCode = dstLangs[i], 
             colNum = Math.floor(i / dstLangsPerCol), 
-            langName = getLangByCode(langCode, localizedLanguageNames);
+            langName = getLangByCode(langCode);
         $($('#dstLanguages .col-sm-4')[colNum]).append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
     }
 
@@ -172,6 +182,44 @@ function translate () {
         translationNotAvailable();
 }
 
+function detectLanguage () {
+    $.ajax({
+        url: APY_URL + '/identifyLang',
+        type: "GET",
+        data: {
+            'q': $('#originalText').val(),
+        },
+        success: function (data) {
+            possibleLanguages = []
+            for(var lang in data)
+                possibleLanguages.push([lang.indexOf('-') != -1 ? lang.split('-')[0] : lang, data[lang]])
+            possibleLanguages.sort(function(a, b) {
+                return b[1] - a[1];
+            });
+
+            for(var i = 2; i >= 0; i--)
+                if(i < possibleLanguages.length)
+                    recentSrcLangs.unshift(possibleLanguages[i][0]);
+            if(recentSrcLangs.length > 3)
+                recentSrcLangs = recentSrcLangs.slice(0, 3);
+
+            refreshLangList();
+            curSrcLang = recentSrcLangs[0];
+            muteLanguages();
+
+            $('#detectedText').text(getLangByCode(recentSrcLangs[0]) + ' - detected') //TODO: localize
+            $('#detectedText').show();
+            $('#detectText').hide();
+        },
+        dataType: 'jsonp',
+        failure: function () {
+            $('#srcLang1').click();
+        },
+        beforeSend: ajaxSend,
+        complete: ajaxComplete
+    });
+}
+
 function translationNotAvailable () {
     $('#translatedText').text(notAvailableText);
 }
@@ -179,7 +227,7 @@ function translationNotAvailable () {
 function muteLanguages () {
     $('.languageName.text-muted').removeClass('text-muted');
     $.each($('#dstLanguages .languageName'), function(i, element) {
-        if(pairs[curSrcLang].indexOf($(element).attr('data-code')) == -1)
+        if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).attr('data-code')) == -1)
             $(element).addClass('text-muted');
     });
 }
