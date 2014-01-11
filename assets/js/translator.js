@@ -131,11 +131,11 @@ function getPairs () {
 
             curSrcLang = srcLangs[0];
             curDstLang = dstLangs[0];
-            refreshLangList();
             for(var i = 0; i < 3; i++) {
                 recentSrcLangs.push(i < srcLangs.length ? srcLangs[i] : undefined);
                 recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
             }
+            refreshLangList();
                 
             populateTranslationList();
         },
@@ -153,6 +153,9 @@ function getPairs () {
 }
 
 function refreshLangList (resetDetect) {
+    recentSrcLangs = filterLangList(recentSrcLangs, srcLangs);
+    recentDstLangs = filterLangList(recentDstLangs, dstLangs);
+
     for(var i = 0; i < 3; i++) {
         if(i < recentSrcLangs.length && recentSrcLangs[i])
             $('#srcLang' + (i + 1)).attr('data-code', recentSrcLangs[i]).text(getLangByCode(recentSrcLangs[i]));
@@ -164,6 +167,15 @@ function refreshLangList (resetDetect) {
         $('#detectText').show();
         $('#detectedText').hide();
     }
+}
+
+function filterLangList (recentLangs, allLangs) {
+    recentLangs = recentLangs.filter(onlyUnique);
+    if(recentLangs.length < 3)
+        for(var i = 0; i < allLangs.length; i++)
+            if(recentLangs.length < 3 && recentLangs.indexOf(allLangs[i]) === -1)
+                recentLangs.push(allLangs[i]);
+    return recentLangs;
 }
 
 function populateTranslationList () {
@@ -228,9 +240,12 @@ function detectLanguage () {
                 return b[1] - a[1];
             });
 
-            for(var i = 2; i >= 0; i--)
-                if(i < possibleLanguages.length)
-                    recentSrcLangs.unshift(possibleLanguages[i][0]);
+            oldSrcLangs = recentSrcLangs;
+            recentSrcLangs = [];
+            for(var i = 0; i < possibleLanguages.length; i++)
+                if(recentSrcLangs.length < 3 && recentSrcLangs.indexOf(possibleLanguages[i][0]) === -1)
+                    recentSrcLangs.push(possibleLanguages[i][0]);
+            recentSrcLangs = recentSrcLangs.concat(oldSrcLangs);
             if(recentSrcLangs.length > 3)
                 recentSrcLangs = recentSrcLangs.slice(0, 3);
 
