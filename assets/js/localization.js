@@ -5,8 +5,8 @@ var localizedLanguageCodes = new Object(), localizedLanguageNames = new Object()
 var notAvailableText = "Translation not yet available!", detectedText = "detected";
 
 $(document).ready(function () {
-    $.each(languages, function(key, value) { languagesInverse[value] = key });
-    $.each(iso639Codes, function(key, value) { iso639CodesInverse[value] = key });
+    $.each(languages, function (key, value) { languagesInverse[value] = key });
+    $.each(iso639Codes, function (key, value) { iso639CodesInverse[value] = key });
 
     $.each(languages, function (code, langName) {
         $('.localeSelect').append($('<option></option>').prop('value', code).text(langName));
