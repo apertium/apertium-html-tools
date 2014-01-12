@@ -5,17 +5,17 @@
         <title data-text="title">Apertium | A free/open-source machine translation platform</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="shortcut icon" href="./assets/img/favicon.ico">
-
         
         <link type="text/css" rel="stylesheet" href="./assets/css/bootstrap.css">
         <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" >
         <link type="text/css" rel="stylesheet" href="./assets/css/style.css">
 
+        <!--[if lt IE 9]> <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script> <![endif]-->
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script type="text/javascript" src="./assets/js/jquery.jsonp-2.4.0.min.js"></script>
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-        <!--[if lt IE 9]> <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script> <![endif]-->
-
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/garlic.js/1.2.2/garlic.min.js"></script>
+        
         <!-- <script type="text/javascript" src="http://api.apertium.org/JSLibrary.jsp"></script> -->
         <script type="text/javascript" src="./assets/js/util.js"></script>
         <script type="text/javascript" src="./assets/js/localization.js"></script>
@@ -107,7 +107,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-6">
-                            <textarea class="form-control" id="originalText" rows="15"></textarea>
+                            <textarea class="form-control" id="originalText" rows="15" data-persist="garlic"></textarea>
                         </div>
                         <div class="col-sm-6">
                             <textarea class="form-control" id="translatedText" rows="15" disabled></textarea>
@@ -122,13 +122,13 @@
                     <div class="form-group">
                         <label for="analyzerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
                         <div class="col-sm-3">
-                            <select class="form-control" id="analyzerMode" name="analyzerMode" required></select>
+                            <select class="form-control" id="analyzerMode" name="analyzerMode" data-persist="garlic" required></select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="morphAnalyzerInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="5" id="morphAnalyzerInput" name="morphAnalyzerInput" required></textarea>
+                            <textarea class="form-control" rows="5" id="morphAnalyzerInput" name="morphAnalyzerInput" data-persist="garlic" required></textarea>
                         </div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-10">
@@ -145,13 +145,13 @@
                     <div class="form-group">
                         <label for="generatorMode" class="col-sm-2 control-label" data-text="Language">Language</label>
                         <div class="col-sm-3">
-                            <select class="form-control" id="generatorMode" name="generatorMode" required></select>
+                            <select class="form-control" id="generatorMode" name="generatorMode" data-persist="garlic" required></select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="morphGeneratorInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="5" id="morphGeneratorInput" name="morphGeneratorInput" required></textarea>
+                            <textarea class="form-control" rows="5" id="morphGeneratorInput" name="morphGeneratorInput" data-persist="garlic" required></textarea>
                         </div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-10">
@@ -172,7 +172,7 @@
                     <div class="form-group">
                         <label for="sandboxInput" class="col-sm-2 control-label" data-text="APY_Request">APY Request</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="3" id="sandboxInput" name="sandboxInput" required></textarea>
+                            <textarea class="form-control" rows="3" id="sandboxInput" name="sandboxInput" data-persist="garlic" required></textarea>
                             <div class="help-block">e.g. /perWord?lang=en-es&amp;modes=morph+translate+biltrans&amp;q=let+there+be+light</div>
                         </div>
                     </div>
