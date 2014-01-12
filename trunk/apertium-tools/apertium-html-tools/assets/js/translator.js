@@ -261,7 +261,7 @@ function translate () {
             },
             success: function (data) {
                 if (data.responseStatus == 200)
-                    $('#translatedText').text(data.responseData.translatedText);
+                    $('#translatedText').html(data.responseData.translatedText);
                 else
                     translationNotAvailable();
             },
