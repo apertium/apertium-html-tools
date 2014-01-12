@@ -1,6 +1,6 @@
 /*
 TODO: (in some order)
-1) Mobile version (!!!)
+1) Mobile version for translation (!!!)
 2) Deal with languages having multiple iso codes (ugh...)
 3) Second level dropdown in analyzer/generators
 4) Save choices in cookie?

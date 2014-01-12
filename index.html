@@ -6,9 +6,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="shortcut icon" href="./assets/img/favicon.ico">
 
-        <link type="text/css" rel="stylesheet" href="./assets/css/style.css">
+        
         <link type="text/css" rel="stylesheet" href="./assets/css/bootstrap.css">
-        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" >
+        <link type="text/css" rel="stylesheet" href="./assets/css/style.css">
 
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script type="text/javascript" src="./assets/js/jquery.jsonp-2.4.0.min.js"></script>
@@ -27,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -36,20 +37,20 @@
                     <img src="./assets/img/Apertium_logo_225x48.png" alt="Apertium" class="img-responsive">
                     <p data-text="tagline" class="tagline">A free/open-source machine translation platform</p>
                 </div>
-                <select name="locale" id="localeSelect" class="pull-right"></select>
-                <ul class="nav navbar-nav navbar-right" id="navbar-collapse">
+                <select class="localeSelect pull-right hidden-xs"></select>
+                <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
                   <li><a href="#translation" data-mode="translation" data-text="Translation">Translation</a></li>
-                  <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis">Morphological Analysis</a></li>
-                  <li><a href="#generation" data-mode="generation" data-text="Morphological_Generation">Morphological Generation</a></li>
-                  <!-- <li><a href="#spellchecker" data-mode="spellchecker" data-text="Spell_Checker">Spell Checker</a></li> -->
-                  <li><a href="#sandbox" data-mode="sandbox" data-text="APY_Sandbox">APY Sandbox</a></li>
+                  <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis">Morphological analysis</a></li>
+                  <li><a href="#generation" data-mode="generation" data-text="Morphological_Generation">Morphological generation</a></li>
+                  <!-- <li><a href="#spellchecker" data-mode="spellchecker" data-text="Spell_Checker">Spell checker</a></li> -->
+                  <li><a href="#sandbox" data-mode="sandbox" data-text="APY_Sandbox">APY sandbox</a></li>
                 </ul>
             </div>
         </nav>
         <div class="container">
             <img src="./assets/img/loading.gif" id="loading-indicator">
             <div class="modeContainer" id="translationContainer">
-                <h1 style="display: inline-block;" data-text="Translation">Translation</h1>
+                <h2 data-text="Translation">Translation</h2>
                 <form class="form-horizontal" role="form" method="none" id="translationForm">
                     <legend data-text="Translation_Help">Choose two languages and translate your text using Apertium's translation platform!</legend>
                     <div class="form-group">
@@ -115,7 +116,7 @@
                 </form> 
             </div>
             <div class="modeContainer" id="analyzationContainer">
-                <h1 data-text="Morphological_Analysis">Morphological Analysis</h1>
+                <h2 data-text="Morphological_Analysis">Morphological analysis</h2>
                 <form class="form-horizontal" role="form" method="none" id="analysisForm">
                     <legend data-text="Morphological_Analysis_Help">Choose a language and analyze your text using Apertium's morphological analyzers.</legend>
                     <div class="form-group">
@@ -138,7 +139,7 @@
                 <table class="table table-hover" id="morphAnalyzerOutput" style="margin-top: 5em; border-spacing: 0px;"></table>
             </div>
             <div class="modeContainer" id="generationContainer">
-                <h1 data-text="Morphological_Generation">Morphological Generation</h1>
+                <h2 data-text="Morphological_Generation">Morphological generation</h2>
                 <form class="form-horizontal" role="form" method="none" id="generateForm">
                     <legend data-text="Morphological_Generation_Help">Choose a language and generate surface forms from your text using Apertium's morphological generators.</legend>
                     <div class="form-group">
@@ -160,7 +161,7 @@
                 <div id="morphGenOutput" style="margin-top: 5em;"></div>
             </div>
             <div class="modeContainer" id="sandboxContainer">
-                <h1 data-text="APY_Sandbox">APY Sandbox</h1>
+                <h2 data-text="APY_Sandbox">APY sandbox</h2>
                 <form class="form-horizontal" role="form" method="none" id="sandboxForm">
                     <legend><span data-text="APY_Sandbox_Help">Send arbitrary requests</span> 
                         <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right">
@@ -182,6 +183,7 @@
                 </form>
                 <small><pre id="sandboxOutput" style="margin-top: 5em;"></pre></small>
             </div>
+
             <div class="navbar-fixed-bottom hidden-xs">
                 <div class="container">
                     <div class="pull-right well well-sm" style="background-color: rgba(245, 245, 245, .6)">
@@ -189,6 +191,8 @@
                     </div>
                 </div>
             </div>
+
+            <select class="localeSelect pull-left visible-xs"></select>
             <div class="pull-right well well-sm visible-xs" style="background-color: rgba(245, 245, 245, .6); margin-top: 10px;">
                 <span data-text="Notice_Mistake">Notice a mistake?</span>  <a href="http://wiki.apertium.org/wiki/Apertium_Turkic" data-text="Help_Improve">Help us improve Apertium!</a>
             </div>

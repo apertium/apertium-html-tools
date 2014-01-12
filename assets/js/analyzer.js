@@ -1,6 +1,6 @@
 var analyzers = {};
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('#analyze').click(function () {
         analyze();
     });
@@ -9,7 +9,7 @@ $(document).ready(function() {
         return false;
     });
     
-    $("#morphAnalyzerInput").keydown(function (e){
+    $("#morphAnalyzerInput").keydown(function (e) {
         if(e.keyCode == 13 && !e.shiftKey) {
             e.preventDefault();
             analyze();
