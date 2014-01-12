@@ -7,8 +7,15 @@ var notAvailableText = "Translation not yet available!", detectedText = "detecte
 $(document).ready(function () {
     $.each(languages, function(key, value) { languagesInverse[value] = key });
     $.each(iso639Codes, function(key, value) { iso639CodesInverse[value] = key });
+
+    $.each(languages, function (code, langName) {
+        $('.localeSelect').append($('<option></option>').prop('value', code).text(langName));
+    });
+
     $('.localeSelect').change(function () {
         localizeLanguageNames($(this).val());
+        if(localStorage)
+            localStorage.locale = $(this).val();
     });
 
     deferredItems = [];
@@ -19,35 +26,39 @@ $(document).ready(function () {
 
     $.when.apply($, deferredItems).then(function () {
         localizeLanguageNames($('.localeSelect').val());
-    }); 
+    });
 });
 
 function getLocale () {
     var deferred = $.Deferred();
-    $.jsonp({
-        url: APY_URL + '/getLocale',
-        beforeSend: ajaxSend,
-        success: function(data) {
-            for(var i = 0; i < data.length; i++) {
-                localeGuess = data[i];
-                if(localeGuess.indexOf('-') != -1)
-                    localeGuess = localeGuess.split('-')[0];
-                if(iso639Codes[localeGuess] || iso639CodesInverse[localeGuess]) {
-                    locale = localeGuess;
-                    break;
-                }
-            }
 
-            $.each(languages, function (code, langName) {
-                $('.localeSelect').append($('<option></option>').prop('value', code).text(langName));
-            });
-            $('.localeSelect').val(locale);
-        },
-        complete: function () {
-            ajaxComplete();
-            deferred.resolve();
-        }
-    });
+    if(localStorage && 'locale' in localStorage) {
+        $('.localeSelect').val(localStorage['locale']);
+        deferred.resolve();
+    }
+    else {
+        $.jsonp({
+            url: APY_URL + '/getLocale',
+            beforeSend: ajaxSend,
+            success: function(data) {
+                for(var i = 0; i < data.length; i++) {
+                    localeGuess = data[i];
+                    if(localeGuess.indexOf('-') != -1)
+                        localeGuess = localeGuess.split('-')[0];
+                    if(iso639Codes[localeGuess] || iso639CodesInverse[localeGuess]) {
+                        locale = localeGuess;
+                        break;
+                    }
+                }
+                $('.localeSelect').val(locale);
+            },
+            complete: function () {
+                ajaxComplete();
+                deferred.resolve();
+            }
+        });
+    }
+
     return deferred.promise();
 }
 
