@@ -1,10 +1,10 @@
 ﻿var APY_URL = '//localhost:2737';
 
-function ajaxSend() {
+function ajaxSend () {
     $("#loading-indicator").show(); 
 }
 
-function ajaxComplete() { 
+function ajaxComplete () { 
     $("#loading-indicator").hide(); 
 }
 

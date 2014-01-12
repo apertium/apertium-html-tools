@@ -1,6 +1,6 @@
 var generators = {};
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('#generate').click(function () {
         generate();
     });
@@ -9,7 +9,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $("#morphGeneratorInput").keydown(function (e){
+    $("#morphGeneratorInput").keydown(function (e) {
         if(e.keyCode == 13 && !e.shiftKey) {
             e.preventDefault();
             generate();

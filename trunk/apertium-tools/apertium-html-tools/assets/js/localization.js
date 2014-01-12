@@ -4,10 +4,12 @@ var languagesInverse = {}, iso639CodesInverse = {};
 var localizedLanguageCodes = new Object(), localizedLanguageNames = new Object();
 var notAvailableText = "Translation not yet available!", detectedText = "detected";
 
-$(document).ready(function() {
+$(document).ready(function () {
     $.each(languages, function(key, value) { languagesInverse[value] = key });
     $.each(iso639Codes, function(key, value) { iso639CodesInverse[value] = key });
-    $('#localeSelect').change(localizeLanguageNames);
+    $('.localeSelect').change(function () {
+        localizeLanguageNames($(this).val());
+    });
 
     deferredItems = [];
     deferredItems.push(getLocale());
@@ -15,8 +17,8 @@ $(document).ready(function() {
     deferredItems.push(getGenerators());
     deferredItems.push(getAnalyzers());
 
-    $.when.apply($, deferredItems).then(function() {
-        localizeLanguageNames();
+    $.when.apply($, deferredItems).then(function () {
+        localizeLanguageNames($('.localeSelect').val());
     }); 
 });
 
@@ -35,11 +37,13 @@ function getLocale () {
                     break;
                 }
             }
-            $.each(languages, function(code, langName) {
-                $('#localeSelect').append($('<option></option>').prop('value', code).text(langName).prop('selected', code == locale));
+
+            $.each(languages, function (code, langName) {
+                $('.localeSelect').append($('<option></option>').prop('value', code).text(langName));
             });
+            $('.localeSelect').val(locale);
         },
-        complete: function() {
+        complete: function () {
             ajaxComplete();
             deferred.resolve();
         }
@@ -49,14 +53,14 @@ function getLocale () {
 
 function generateLanguageList () {
     var languages = {};
-    $.each(srcLangs.concat(dstLangs), function(i, elem) {
+    $.each(srcLangs.concat(dstLangs), function (i, elem) {
         languages[elem] = undefined;
     });
 
     var langObjects = [generators, analyzers];
     for(var i = 0; i < langObjects.length; i++) {
         var keys = Object.keys(langObjects[i]);
-        $.each(keys, function(i, key) {
+        $.each(keys, function (i, key) {
             if(key.indexOf('-') !== -1) {
                 var langs = key.split('-');
                 languages[langs[0]] = undefined;
@@ -71,8 +75,7 @@ function generateLanguageList () {
     return languages;
 }
 
-function localizeLanguageNames () {
-    var locale = $('#localeSelect').val();
+function localizeLanguageNames (locale) {
     if(locale != null) {
         var languages = generateLanguageList();
 
@@ -83,7 +86,7 @@ function localizeLanguageNames () {
             success: function (data) {
                 localizedLanguageNames = data;
                 localizedLanguageCodes = {};
-                $.each(data, function(key, value) { localizedLanguageCodes[value] = key });
+                $.each(data, function (key, value) { localizedLanguageCodes[value] = key });
                 
                 populateTranslationList();
                 refreshLangList();

@@ -1,3 +1,7 @@
+h2 {
+    margin-top: 0px;
+}
+
 #loading-indicator {
     display: none;
     z-index: 10000;
@@ -10,7 +14,7 @@
     display: none;
 }
 
-#localeSelect {
+.localeSelect {
     font-size: 14px;
     margin-top: 7px;
     margin-bottom: 6px;
@@ -27,8 +31,7 @@
     font-size: 16px;
 }
 
-.languageName {
-    display: block;
+.languageName:not(.text-muted) {
     color: #333333;
     text-decoration: none;
 }
