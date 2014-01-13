@@ -24,6 +24,10 @@ $(document).ready(function () {
             analyze();
         }
     });
+
+    $('#morphAnalyzerInput').on('input propertychange', function () {
+        persistChoices('analyzer');
+    });
 });
 
 function getAnalyzers () {
