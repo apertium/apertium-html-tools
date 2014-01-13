@@ -39,8 +39,9 @@
                     <img src="./assets/img/Apertium_logo_225x48.png" alt="Apertium" class="img-responsive">
                     <p data-text="tagline" class="tagline">A free/open-source machine translation platform</p>
                 </div>
-                <div style="width: 25%" class="pull-right">
-                    <select class="localeSelect pull-right hidden-xs"></select>
+                <div style="width: 25%" class="pull-right hidden-xs">
+                    <select class="localeSelect pull-right"></select>
+                    <i class="fa fa-globe fa-2x fa-inverse pull-right" style="padding: 5px 5px 0px 0px"></i>
                 </div>
                 <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
                   <li><a href="#translation" data-mode="translation" data-text="Translation">Translation</a></li>
@@ -52,7 +53,7 @@
             </div>
         </nav>
         <div class="container">
-            <img src="./assets/img/loading.gif" id="loading-indicator">
+            <div id="loading-indicator"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
             <div class="modeContainer" id="translationContainer">
                 <h2 data-text="Translation">Translation</h2>
                 <form class="form-horizontal" role="form" method="none" id="translationForm">
@@ -202,7 +203,11 @@
                 </div>
             </div>
 
-            <select class="localeSelect pull-left visible-xs"></select>
+            <div class="visible-xs">
+                <i class="fa fa-globe fa-2x pull-left" style="padding: 5px 5px 0px 0px"></i>
+                <select class="localeSelect pull-left"></select>
+            </div>
+            
             <div class="pull-right well well-sm visible-xs" style="background-color: rgba(245, 245, 245, .6); margin-top: 10px;">
                 <span data-text="Notice_Mistake">Notice a mistake?</span>  <a href="http://wiki.apertium.org/wiki/Apertium_Turkic" data-text="Help_Improve">Help us improve Apertium!</a>
             </div>
