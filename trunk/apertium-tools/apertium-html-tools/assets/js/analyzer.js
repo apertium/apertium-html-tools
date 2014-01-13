@@ -156,16 +156,16 @@ function analyze () {
             $('#morphAnalyzerOutput').text(error).animate({ opacity: 1 });
         }
     });
-}
 
-function formatUnit (unit) {
-    var tagRegex = /<([^>]+)>/g;
-    var tags = [];
-    var tagMatch = tagRegex.exec(unit);
-    while(tagMatch != null) {
-        tags.push(tagMatch[1]);
-        tagMatch = tagRegex.exec(unit);
+    function formatUnit (unit) {
+        var tagRegex = /<([^>]+)>/g;
+        var tags = [];
+        var tagMatch = tagRegex.exec(unit);
+        while(tagMatch != null) {
+            tags.push(tagMatch[1]);
+            tagMatch = tagRegex.exec(unit);
+        }
+        var tagStartLoc = unit.indexOf('<');
+        return unit.substring(0, tagStartLoc != -1 ? tagStartLoc : unit.length) + (tags.length > 0 ? '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;' + tags.join(' &#8901; ') : '');
     }
-    var tagStartLoc = unit.indexOf('<');
-    return unit.substring(0, tagStartLoc != -1 ? tagStartLoc : unit.length) + (tags.length > 0 ? '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;' + tags.join(' &#8901; ') : '');
 }
