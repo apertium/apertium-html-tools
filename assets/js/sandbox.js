@@ -13,10 +13,16 @@ $(document).ready(function () {
             request();
         }
     });
+
+    $('#sandboxInput').on('input propertychange', function () {
+        persistChoices('sandbox');
+    });
+
+    restoreChoices('sandbox');
 });
 
 function request () {
-    $("#morphGenOutput").animate({ opacity: 0.5 });
+    $("#sandboxOutput").animate({ opacity: 0.5 });
     var start_time = new Date().getTime();
     $.jsonp({
         url: APY_URL + $('#sandboxInput').val(),

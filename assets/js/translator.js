@@ -2,7 +2,6 @@
 TODO: (in some order)
 1) Mobile version for translation (!!!)
 2) Deal with languages having multiple iso codes (ugh...)
-3) Second level dropdown in analyzer/generators
 */
 
 var pairs = {};
@@ -71,6 +70,10 @@ $(document).ready(function () {
     $("#originalText").keyup(function (event) {
         if (keyCodes.indexOf(event.keyCode) !== -1)
             translate();
+    });
+
+    $('#originalText').on('input propertychange', function () {
+        persistChoices('translator');
     });
 
     $("#originalText").submit(function () {

@@ -24,6 +24,10 @@ $(document).ready(function () {
             generate();
         }
     });
+
+    $('#morphGeneratorInput').on('input propertychange', function () {
+        persistChoices('generator');
+    });
 });
 
 function getGenerators () {
