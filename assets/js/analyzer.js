@@ -1,8 +1,17 @@
-var analyzers = {};
+var analyzers = {}, analyzerData = {};
 
 $(document).ready(function () {
     $('#analyze').click(function () {
         analyze();
+    });
+
+    $('#primaryAnalyzerMode').change(function () {
+        populateSecondaryAnalyzerList();
+        persistChoices('analyzer');
+    });
+
+    $('#secondaryAnalyzerMode').change(function () {
+        persistChoices('analyzer');
     });
     
     $('#analysisForm').submit(function () {
@@ -24,8 +33,8 @@ function getAnalyzers () {
         pageCache: true,
         beforeSend: ajaxSend,
         success: function (data) {
-            analyzers = data;
-            populateAnalyzerList(analyzers);
+            analyzerData = data;
+            populateAnalyzerList(analyzerData);
         },
         complete: function () {
             ajaxComplete();
@@ -36,17 +45,52 @@ function getAnalyzers () {
 }
 
 function populateAnalyzerList (data) {
-    formattedAnalyzers = formatModes(data).sort(function (a, b) {
-        return a[1].localeCompare(b[1]);
+    $('.analyzerMode').empty();
+
+    analyzers = {}
+    for(var lang in data) {
+        var analyzerLang = lang.indexOf('-') != -1 ? lang.split('-')[0] : lang;
+        var group = analyzers[analyzerLang];
+        if(group)
+            group.push(lang);
+        else
+            analyzers[analyzerLang] = [lang];
+    }
+
+    var analyzersArray = [];
+    $.each(analyzers, function (key, value) { analyzersArray.push([key, value]) });
+    analyzersArray.sort(function (a, b) {
+        return getLangByCode(a[0]).localeCompare(getLangByCode(b[0]));
+    })
+
+    for(var i = 0; i < analyzersArray.length; i++) {
+        var lang = analyzersArray[i][0];
+        $('#primaryAnalyzerMode').append($('<option></option').val(lang).text(getLangByCode(lang)));
+    }
+
+    restoreChoices('analyzer');
+}
+
+function populateSecondaryAnalyzerList () {
+    var group = analyzers[$('#primaryAnalyzerMode').val()];
+    $('#secondaryAnalyzerMode').empty();
+
+    group.sort(function (a, b) {
+        return a.length - b.length;
     });
-    var selected = $('#analyzerMode').val();
-    $('#analyzerMode').empty();
-    for(var i = 0; i < formattedAnalyzers.length; i++)
-        $('#analyzerMode').append($('<option></option').val(formattedAnalyzers[i][0]).text(formattedAnalyzers[i][1]));
-    $('#analyzerMode option[value="' + selected + '"]').prop('selected', true);
+
+    for(var i = 0; i < group.length; i++) {
+        var lang = group[i];
+        var langDisplay = lang.indexOf('-') != -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
+        $('#secondaryAnalyzerMode').append($('<option></option').val(lang).text(langDisplay));
+    }
+
+    $('#secondaryAnalyzerMode').prop('disabled', !(group.length > 1));
 }
 
 function analyze () {
+    var analyzerMode = analyzers[$('#primaryAnalyzerMode').val()].length > 1 ? $('#secondaryAnalyzerMode').val() : analyzers[$('#primaryAnalyzerMode').val()][0];
+
     $("#morphAnalyzerOutput").animate({ opacity: 0.5 });
     $.jsonp({
         url: APY_URL + '/analyze',
@@ -54,7 +98,7 @@ function analyze () {
         beforeSend: ajaxSend,
         complete: ajaxComplete,
         data: {
-            'mode': $('#analyzerMode').val(),
+            'mode': analyzerMode,
             'q': $('#morphAnalyzerInput').val()
         },
         success: function (data) {
@@ -105,8 +149,7 @@ function analyze () {
             }
         },
         error: function (xOptions, error) {
-            $('#morphGenOutput').text(error);
-            $("#morphAnalyzerOutput").animate({ opacity: 1 });
+            $('#morphAnalyzerOutput').text(error).animate({ opacity: 1 });
         }
     });
 }

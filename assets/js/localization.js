@@ -102,8 +102,8 @@ function localizeLanguageNames (locale) {
                 populateTranslationList();
                 refreshLangList();
                 
-                populateGeneratorList(generators);
-                populateAnalyzerList(analyzers);
+                populateGeneratorList(generatorData);
+                populateAnalyzerList(analyzerData);
             },
             error: function () {
                 localizedLanguageNames = {};
