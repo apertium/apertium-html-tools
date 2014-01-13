@@ -145,9 +145,7 @@ function getPairs () {
             refreshLangList();
             populateTranslationList();
         },
-        error: function () {
-            $('#translatedText').text(notAvailableText);
-        },
+        error: translationNotAvailable,
         complete: function () {
             ajaxComplete();
             deferred.resolve();
@@ -257,8 +255,10 @@ function translate () {
                 'q': $('#originalText').val(),
             },
             success: function (data) {
-                if (data.responseStatus == 200)
+                if (data.responseStatus == 200) {
                     $('#translatedText').html(data.responseData.translatedText);
+                    $('#translatedText').removeClass('notAvailable');
+                }
                 else
                     translationNotAvailable();
             },
@@ -310,6 +310,7 @@ function detectLanguage () {
 
 function translationNotAvailable () {
     $('#translatedText').text(notAvailableText);
+    $('#translatedText').addClass('notAvailable');
 }
 
 function muteLanguages () {

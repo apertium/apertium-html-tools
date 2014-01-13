@@ -2,6 +2,10 @@ h2 {
     margin-top: 0px;
 }
 
+.notAvailable {
+    color: #b94a48;
+}
+
 #loading-indicator {
     display: none;
     z-index: 10000;
