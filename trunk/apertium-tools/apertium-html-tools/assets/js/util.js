@@ -31,7 +31,7 @@ $(document).ready(function () {
     });
 
     var parameters = getParameters();
-    if(!('sandbox' in parameters) || parameters['sandbox'].replace('/', '') === '0')
+    if((!('sandbox' in parameters) || parameters['sandbox'].replace('/', '') === '0') && !(parent.location.hash && parent.location.hash.substring(1) == 'sandbox'))
         $('.nav a[data-mode=sandbox]').hide();
 });
 
