@@ -123,9 +123,12 @@
                 <form class="form-horizontal" role="form" method="none" id="analysisForm">
                     <legend data-text="Morphological_Analysis_Help">Choose a language and analyze your text using Apertium's morphological analyzers.</legend>
                     <div class="form-group">
-                        <label for="analyzerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
+                        <label for="primaryAnalyzerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
                         <div class="col-sm-3">
-                            <select class="form-control" id="analyzerMode" name="analyzerMode" data-persist="garlic" required></select>
+                            <select class="form-control analyzerMode" id="primaryAnalyzerMode" name="primaryAnalyzerMode" required></select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control analyzerMode" id="secondaryAnalyzerMode" name="secondaryAnalyzerMode" required></select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -146,9 +149,12 @@
                 <form class="form-horizontal" role="form" method="none" id="generateForm">
                     <legend data-text="Morphological_Generation_Help">Choose a language and generate surface forms from your text using Apertium's morphological generators.</legend>
                     <div class="form-group">
-                        <label for="generatorMode" class="col-sm-2 control-label" data-text="Language">Language</label>
+                        <label for="primaryGeneratorMode" class="col-sm-2 control-label" data-text="Language">Language</label>
                         <div class="col-sm-3">
-                            <select class="form-control" id="generatorMode" name="generatorMode" data-persist="garlic" required></select>
+                            <select class="form-control generatorMode" id="primaryGeneratorMode" name="primaryGeneratorMode" required></select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control generatorMode" id="secondaryGeneratorMode" name="secondaryGeneratorMode" required></select>
                         </div>
                     </div>
                     <div class="form-group">

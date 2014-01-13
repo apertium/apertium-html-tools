@@ -3,7 +3,6 @@ TODO: (in some order)
 1) Mobile version for translation (!!!)
 2) Deal with languages having multiple iso codes (ugh...)
 3) Second level dropdown in analyzer/generators
-4) Adapting width of dropdown?
 */
 
 var pairs = {};
@@ -24,7 +23,7 @@ $(document).ready(function () {
         }
         else {
             $('#srcLang' + (recentSrcLangs.indexOf(code) + 1)).addClass('active');
-            persistChoices();
+            persistChoices('translator');
         }
         
         muteLanguages();
@@ -42,7 +41,7 @@ $(document).ready(function () {
         }
         else {
             $('#dstLang' + (recentDstLangs.indexOf(code) + 1)).addClass('active');
-            persistChoices();
+            persistChoices('translator');
         }
 
         muteLanguages();
@@ -139,7 +138,7 @@ function getPairs () {
                 recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
             }
 
-            restoreChoices();
+            restoreChoices('translator');
             refreshLangList();
             populateTranslationList();
         },
@@ -155,7 +154,7 @@ function getPairs () {
 }
 
 function refreshLangList (resetDetect) {
-    persistChoices();
+    persistChoices('translator');
 
     recentSrcLangs = filterLangList(recentSrcLangs, srcLangs);
     recentDstLangs = filterLangList(recentDstLangs, dstLangs);
@@ -173,48 +172,6 @@ function refreshLangList (resetDetect) {
     if(resetDetect) {
         $('#detectText').show();
         $('#detectedText').hide();
-    }
-}
-
-function persistChoices () {
-    if(localStorage) {
-        objects = {
-            'recentSrcLangs': recentSrcLangs,
-            'recentDstLangs': recentDstLangs,
-            'curSrcLang': curSrcLang,
-            'curDstLang': curDstLang,
-            'curSrcChoice': $('.srcLang.active').prop('id'),
-            'curDstChoice': $('.dstLang.active').prop('id'),
-        };
-
-        for(var name in objects)
-            store(name, objects[name]);
-    }
-
-    function store (name, obj) {
-        localStorage[name] = JSON.stringify(obj);
-    }
-}
-
-function restoreChoices () {
-    if(localStorage) {
-        if('recentSrcLangs' in localStorage && isSubset(retrieve('recentSrcLangs'), srcLangs)) {
-            recentSrcLangs = retrieve('recentSrcLangs');
-            curSrcLang = retrieve('curSrcLang');
-            $('.srcLang').removeClass('active');
-            $('#' + retrieve('curSrcChoice')).addClass('active');
-        }
-        if('recentDstLangs' in localStorage && isSubset(retrieve('recentDstLangs'), dstLangs)) {
-            recentDstLangs = retrieve('recentDstLangs');
-            curDstLang = retrieve('curDstLang');
-            $('.dstLang').removeClass('active');
-            $('#' + retrieve('curDstChoice')).addClass('active');
-        }
-        refreshLangList();
-    }
-
-    function retrieve (name) {
-        return JSON.parse(localStorage[name]);
     }
 }
 

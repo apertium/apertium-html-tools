@@ -53,6 +53,78 @@ function formatModes (modes) {
     return toReturn;
 }
 
+function persistChoices (mode) {
+    if(localStorage) {
+        if(mode == 'translator') {
+             objects = {
+                'recentSrcLangs': recentSrcLangs,
+                'recentDstLangs': recentDstLangs,
+                'curSrcLang': curSrcLang,
+                'curDstLang': curDstLang,
+                'curSrcChoice': $('.srcLang.active').prop('id'),
+                'curDstChoice': $('.dstLang.active').prop('id'),
+            };
+        }
+        else if(mode == 'analyzer') {
+             objects = {
+                'primaryAnalyzerChoice': $('#primaryAnalyzerMode').val(),
+                'secondaryAnalyzerChoice': $('#secondaryAnalyzerMode').val()
+            };
+        }
+        else if(mode == 'generator') {
+             objects = {
+                'primaryGeneratorChoice': $('#primaryGeneratorMode').val(),
+                'secondaryGeneratorChoice': $('#secondaryGeneratorMode').val()
+            };
+        }
+
+        for(var name in objects)
+            store(name, objects[name]);
+    }
+
+    function store (name, obj) {
+        localStorage[name] = JSON.stringify(obj);
+    }
+}
+
+function restoreChoices (mode) {
+    if(localStorage) {
+        if(mode == 'translator') {
+            if('recentSrcLangs' in localStorage && isSubset(retrieve('recentSrcLangs'), srcLangs)) {
+                recentSrcLangs = retrieve('recentSrcLangs');
+                curSrcLang = retrieve('curSrcLang');
+                $('.srcLang').removeClass('active');
+                $('#' + retrieve('curSrcChoice')).addClass('active');
+            }
+            if('recentDstLangs' in localStorage && isSubset(retrieve('recentDstLangs'), dstLangs)) {
+                recentDstLangs = retrieve('recentDstLangs');
+                curDstLang = retrieve('curDstLang');
+                $('.dstLang').removeClass('active');
+                $('#' + retrieve('curDstChoice')).addClass('active');
+            }
+            refreshLangList();
+        }
+        else if(mode == 'analyzer') {
+            if('primaryAnalyzerChoice' in localStorage && 'secondaryAnalyzerChoice' in localStorage) {
+                $('#primaryAnalyzerMode option[value="' + retrieve('primaryAnalyzerChoice') + '"]').prop('selected', true);
+                populateSecondaryAnalyzerList();
+                $('#secondaryAnalyzerMode option[value="' + retrieve('secondaryAnalyzerChoice') + '"]').prop('selected', true);
+            }
+        }
+        else if(mode == 'generator') {
+            if('primaryGeneratorChoice' in localStorage && 'secondaryGeneratorChoice' in localStorage) {
+                $('#primaryGeneratorMode option[value="' + retrieve('primaryGeneratorChoice') + '"]').prop('selected', true);
+                populateSecondaryGeneratorList();
+                $('#secondaryGeneratorMode option[value="' + retrieve('secondaryGeneratorChoice') + '"]').prop('selected', true);
+            }
+        }
+    }
+
+    function retrieve (name) {
+        return JSON.parse(localStorage[name]);
+    }
+}
+
 function onlyUnique (value, index, self) { 
     return self.indexOf(value) === index;
 }
