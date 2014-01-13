@@ -32,8 +32,6 @@ $(document).ready(function () {
 });
 
 function persistChoices (mode) {
-    console.log('persisting', mode);
-    console.log(localStorage);
     if(localStorage) {
         if(mode == 'translator') {
              objects = {
@@ -77,8 +75,6 @@ function persistChoices (mode) {
 }
 
 function restoreChoices (mode) {
-    console.log('restoring', mode);
-    console.log(localStorage);
     if(localStorage) {
         if(mode == 'translator') {
             if('recentSrcLangs' in localStorage && isSubset(retrieve('recentSrcLangs'), srcLangs)) {
@@ -105,6 +101,9 @@ function restoreChoices (mode) {
                 populateSecondaryAnalyzerList();
                 $('#secondaryAnalyzerMode option[value="' + retrieve('secondaryAnalyzerChoice') + '"]').prop('selected', true);
             }
+            else
+                populateSecondaryAnalyzerList();
+
             if('analyzerInput' in localStorage)
                 $('#morphAnalyzerInput').val(retrieve('analyzerInput'));
         }
@@ -114,6 +113,9 @@ function restoreChoices (mode) {
                 populateSecondaryGeneratorList();
                 $('#secondaryGeneratorMode option[value="' + retrieve('secondaryGeneratorChoice') + '"]').prop('selected', true);
             }
+            else
+                populateSecondaryGeneratorList();
+
             if('generatorInput' in localStorage)
                 $('#morphGeneratorInput').val(retrieve('generatorInput'));
         }
