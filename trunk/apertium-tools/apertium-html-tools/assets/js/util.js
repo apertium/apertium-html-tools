@@ -29,6 +29,10 @@ $(document).ready(function () {
         $('.modeContainer:not(#' + mode + 'Container)').hide({ queue: false });
         $('#' + mode + 'Container').show({ queue: false }); 
     });
+
+    var parameters = getParameters();
+    if(!('sandbox' in parameters) || parameters['sandbox'].replace('/', '') === '0')
+        $('.nav a[data-mode=sandbox]').hide();
 });
 
 function persistChoices (mode) {
@@ -143,4 +147,19 @@ function onlyUnique (value, index, self) {
 
 function isSubset (subset, superset) {
   return subset.every(function(val) { return superset.indexOf(val) >= 0; });
+}
+
+function getParameters () {
+    var searchString = window.location.search.substring(1),
+        params = searchString.split('&'),
+        hash = {};
+
+    if (searchString === '') 
+        return {};
+
+    for (var i = 0; i < params.length; i++) {
+        var val = params[i].split('=');
+        hash[unescape(val[0])] = unescape(val[1]);
+    }
+    return hash;
 }
