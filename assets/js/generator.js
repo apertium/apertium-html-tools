@@ -14,11 +14,7 @@ $(document).ready(function () {
         persistChoices('generator');
     });
 
-    $('#generateForm').submit(function () {
-        return false;
-    });
-
-    $("#morphGeneratorInput").keydown(function (e) {
+    $('#morphGeneratorInput').keydown(function (e) {
         if(e.keyCode == 13 && !e.shiftKey) {
             e.preventDefault();
             generate();
@@ -30,7 +26,7 @@ $(document).ready(function () {
     });
 });
 
-function getGenerators () {
+function getGenerators() {
     var deferred = $.Deferred();
     $.jsonp({
         url: APY_URL + '/list?q=generators',
@@ -39,7 +35,10 @@ function getGenerators () {
             generatorData = data;
             populateGeneratorList(generatorData);
         },
-        complete: function() {
+        error: function (xOptions, error) {
+            console.log('Failed to fetch generators: ' + locale);
+        },
+        complete: function () {
             ajaxComplete();
             deferred.resolve();
         }
@@ -47,7 +46,7 @@ function getGenerators () {
     return deferred.promise();
 }
 
-function populateGeneratorList (data) {
+function populateGeneratorList(data) {
     $('.generatorMode').empty();
 
     generators = {}
@@ -61,20 +60,22 @@ function populateGeneratorList (data) {
     }
 
     var generatorArray = [];
-    $.each(generators, function (key, value) { generatorArray.push([key, value]) });
+    $.each(generators, function (key, value) {
+        generatorArray.push([key, value])
+    });
     generatorArray.sort(function (a, b) {
         return getLangByCode(a[0]).localeCompare(getLangByCode(b[0]));
     })
 
     for(var i = 0; i < generatorArray.length; i++) {
         var lang = generatorArray[i][0];
-        $('#primaryGeneratorMode').append($('<option></option').val(lang).text(getLangByCode(lang)));
+        $('#primaryGeneratorMode').append($('<option></option>').val(lang).text(getLangByCode(lang)));
     }
 
     restoreChoices('generator');
 }
 
-function populateSecondaryGeneratorList () {
+function populateSecondaryGeneratorList() {
     var group = generators[$('#primaryGeneratorMode').val()];
     $('#secondaryGeneratorMode').empty();
 
@@ -91,10 +92,10 @@ function populateSecondaryGeneratorList () {
     $('#secondaryGeneratorMode').prop('disabled', !(group.length > 1));
 }
 
-function generate () {
+function generate() {
     var generatorMode = generators[$('#primaryGeneratorMode').val()].length > 1 ? $('#secondaryGeneratorMode').val() : generators[$('#primaryGeneratorMode').val()][0];
 
-    $("#morphGenOutput").animate({ opacity: 0.5 });
+    $('#morphGenOutput').addClass('blurred');
     $.jsonp({
         url: APY_URL + '/generate',
         beforeSend: ajaxSend,
@@ -106,17 +107,17 @@ function generate () {
         success: function (data) {
             $('#morphGenOutput').empty();
             for(var i = 0; i < data.length; i++) {
-                var div = $('<div class="generation" data-toggle="tooltip" data-placement="auto" data-html="true"></div>');
+                var div = $('<div data-toggle="tooltip" data-placement="auto" data-html="true"></div>');
                 var strong = $('<strong></strong>').text(data[i][1].trim());
                 var span = $('<span></span>').html('&nbsp;&nbsp;&#8620;&nbsp;&nbsp;' + data[i][0]);
                 div.append(strong).append(span);
                 $('#morphGenOutput').append(div);
             }
-            $("#morphGenOutput").animate({ opacity: 1 });
+            $('#morphGenOutput').removeClass('blurred');
         },
         error: function (xOptions, error) {
             $('#morphGenOutput').text(error);
-            $("#morphGenOutput").animate({ opacity: 1 });
+            $('#morphGenOutput').removeClass('blurred');
         },
     });
 }

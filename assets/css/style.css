@@ -1,9 +1,23 @@
+/* General */
+
 h2 {
     margin-top: 0px;
 }
 
-.notAvailable {
-    color: #b94a48;
+.modeContainer {
+    display: none;
+}
+
+.outputContainer {
+    margin-top: 5em;
+}
+
+.blurred {
+    opacity: .5;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
 }
 
 #loading-indicator {
@@ -14,8 +28,10 @@ h2 {
     top: 45%;
 }
 
-.modeContainer {
-    display: none;
+.localeGlobe {
+    font-size: 1.8em;
+    padding: 0px 5px 0px 0px;
+    color: rgb(255, 255, 255);
 }
 
 .localeSelect {
@@ -25,14 +41,24 @@ h2 {
     height: 25px;
 }
 
+.nav li a {
+    font-size: 16px;
+}
+
 .tagline {
     color: rgb(255, 255, 255);
     font-size: 18px;
     font-weight: 700;
 }
 
-.nav li a {
-    font-size: 16px;
+.helpMessage {
+    background-color: rgba(245, 245, 245, .6);
+}
+
+/* Translation */
+
+.notAvailable {
+    color: #b94a48;
 }
 
 .languageName:not(.text-muted) {
@@ -58,4 +84,14 @@ h2 {
     right: 0;
     left: auto;
     text-align: center;
+}
+
+/* Analysis */
+
+.noAnalysis {
+    color: #8b0000;
+}
+
+div.unit {
+    margin-left: 30px;
 }
