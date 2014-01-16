@@ -3,11 +3,7 @@ $(document).ready(function () {
         request();
     });
 
-    $('#sandboxForm').submit(function () {
-        return false;
-    });
-
-    $("#sandboxInput").keydown(function (e) {
+    $('#sandboxInput').keydown(function (e) {
         if(e.keyCode == 13 && !e.shiftKey) {
             e.preventDefault();
             request();
@@ -21,23 +17,22 @@ $(document).ready(function () {
     restoreChoices('sandbox');
 });
 
-function request () {
-    $("#sandboxOutput").animate({ opacity: 0.5 });
+function request() {
+    $('#sandboxOutput').addClass('blurred');
     var start_time = new Date().getTime();
     $.jsonp({
         url: APY_URL + $('#sandboxInput').val(),
         beforeSend: ajaxSend,
         complete: ajaxComplete,
         success: function (data) {
-            $('#sandboxOutput').empty();
-            $('#sandboxOutput').text(JSON.stringify(data, undefined, 3));
-            $("#sandboxOutput").animate({ opacity: 1 });
-            $('#time').text((new Date().getTime() - start_time) + ' ms');
+            $('#sandboxOutput').text(JSON.stringify(data, undefined, 3)).removeClass('blurred');
         },
         error: function (xOptions, error) {
-            $('#sandboxOutput').text(error);
-            $("#sandboxOutput").animate({ opacity: 1 });
-            $('#time').text(new Date().getTime() - start_time);
+            $('#sandboxOutput').text(error).removeClass('blurred');
         },
+        complete: function () {
+            ajaxComplete();
+            $('#time').text((new Date().getTime() - start_time) + ' ms');
+        }
     });
 }

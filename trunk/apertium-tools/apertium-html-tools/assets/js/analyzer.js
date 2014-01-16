@@ -13,12 +13,8 @@ $(document).ready(function () {
     $('#secondaryAnalyzerMode').change(function () {
         persistChoices('analyzer');
     });
-    
-    $('#analysisForm').submit(function () {
-        return false;
-    });
-    
-    $("#morphAnalyzerInput").keydown(function (e) {
+
+    $('#morphAnalyzerInput').keydown(function (e) {
         if(e.keyCode == 13 && !e.shiftKey) {
             e.preventDefault();
             analyze();
@@ -30,15 +26,17 @@ $(document).ready(function () {
     });
 });
 
-function getAnalyzers () {
+function getAnalyzers() {
     var deferred = $.Deferred();
     $.jsonp({
         url: APY_URL + '/list?q=analyzers',
-        pageCache: true,
         beforeSend: ajaxSend,
         success: function (data) {
             analyzerData = data;
             populateAnalyzerList(analyzerData);
+        },
+        error: function (xOptions, error) {
+            console.log('Failed to fetch analyzers: ' + locale);
         },
         complete: function () {
             ajaxComplete();
@@ -48,7 +46,7 @@ function getAnalyzers () {
     return deferred.promise();
 }
 
-function populateAnalyzerList (data) {
+function populateAnalyzerList(data) {
     $('.analyzerMode').empty();
 
     analyzers = {}
@@ -62,7 +60,9 @@ function populateAnalyzerList (data) {
     }
 
     var analyzersArray = [];
-    $.each(analyzers, function (key, value) { analyzersArray.push([key, value]) });
+    $.each(analyzers, function (key, value) {
+        analyzersArray.push([key, value])
+    });
     analyzersArray.sort(function (a, b) {
         return getLangByCode(a[0]).localeCompare(getLangByCode(b[0]));
     })
@@ -75,7 +75,7 @@ function populateAnalyzerList (data) {
     restoreChoices('analyzer');
 }
 
-function populateSecondaryAnalyzerList () {
+function populateSecondaryAnalyzerList() {
     var group = analyzers[$('#primaryAnalyzerMode').val()];
     $('#secondaryAnalyzerMode').empty();
 
@@ -92,10 +92,10 @@ function populateSecondaryAnalyzerList () {
     $('#secondaryAnalyzerMode').prop('disabled', !(group.length > 1));
 }
 
-function analyze () {
+function analyze() {
     var analyzerMode = analyzers[$('#primaryAnalyzerMode').val()].length > 1 ? $('#secondaryAnalyzerMode').val() : analyzers[$('#primaryAnalyzerMode').val()][0];
 
-    $("#morphAnalyzerOutput").animate({ opacity: 0.5 });
+    $('#morphAnalyzerOutput').addClass('blurred');
     $.jsonp({
         url: APY_URL + '/analyze',
         pageCache: true,
@@ -113,18 +113,17 @@ function analyze () {
                 var strong = $('<strong></strong>').text(data[i][1].trim());
                 var arrow = $('<span></span>').html('&nbsp;&nbsp;&#8620;');
                 leftTD.append(strong).append(arrow)
-                
+
                 var rightTD = $('<td class="text-left"></td>');
                 var splitUnit = data[i][0].split('/');
 
                 if(splitUnit[1][0] === '*')
-                    rightTD.css({color: 'darkred'})
-                
+                    rightTD.addClass('noAnalysis');
+
                 var tr = $('<tr></tr>').append(leftTD).append(rightTD);
                 $('#morphAnalyzerOutput').append(tr);
-                
-                joinedMorphemes = {}
-                unitsWithMorphemes = []
+
+                var joinedMorphemes = {}, unitsWithMorphemes = [];
                 for(var j = 1; j < splitUnit.length; j++) {
                     var unit = splitUnit[j];
                     if(unit.match(regex).length > 2) {
@@ -145,27 +144,26 @@ function analyze () {
                     var morphemeDiv = $('<div></div>').html(formatUnit(joinedMorpheme));
                     rightTD.append(morphemeDiv);
                     for(var j = 0; j < units.length; j++) {
-                        var unitDiv = $('<div style="margin-left: 30px;"></div>').html(formatUnit(units[j].match(regex)[0]));
+                        var unitDiv = $('<div class="unit"></div>').html(formatUnit(units[j].match(regex)[0]));
                         rightTD.append(unitDiv);
                     }
                 });
-                $("#morphAnalyzerOutput").animate({ opacity: 1 });
+                $('#morphAnalyzerOutput').removeClass('blurred');
             }
         },
         error: function (xOptions, error) {
-            $('#morphAnalyzerOutput').text(error).animate({ opacity: 1 });
+            $('#morphAnalyzerOutput').text(error).removeClass('blurred');
         }
     });
 
-    function formatUnit (unit) {
-        var tagRegex = /<([^>]+)>/g;
-        var tags = [];
+    function formatUnit(unit) {
+        var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags = [];
         var tagMatch = tagRegex.exec(unit);
         while(tagMatch != null) {
             tags.push(tagMatch[1]);
             tagMatch = tagRegex.exec(unit);
         }
         var tagStartLoc = unit.indexOf('<');
-        return unit.substring(0, tagStartLoc != -1 ? tagStartLoc : unit.length) + (tags.length > 0 ? '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;' + tags.join(' &#8901; ') : '');
+        return unit.substring(0, tagStartLoc != -1 ? tagStartLoc : unit.length) + (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
     }
 }

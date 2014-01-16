@@ -1,11 +1,11 @@
 ﻿var APY_URL = '//localhost:2737';
 
-function ajaxSend () {
-    $("#loading-indicator").show(); 
+function ajaxSend() {
+    $('#loading-indicator').show();
 }
 
-function ajaxComplete () { 
-    $("#loading-indicator").hide(); 
+function ajaxComplete() {
+    $('#loading-indicator').hide();
 }
 
 $(document).ajaxSend(ajaxSend);
@@ -13,32 +13,57 @@ $(document).ajaxComplete(ajaxComplete);
 $(document).ajaxError(ajaxComplete);
 
 $.jsonp.setup({
-    callbackParameter: "callback"
+    callbackParameter: 'callback'
 });
 
 $(document).ready(function () {
-    if(!parent.location.hash || !$(parent.location.hash + 'Container'))
+    var hash = parent.location.hash;
+
+    if(!hash || !$(hash + 'Container'))
         parent.location.hash = '#translation';
-    $('.modeContainer' + parent.location.hash + 'Container').show();
-    $('.nav li > a[data-mode=' +  parent.location.hash.substring(1) + ']').parent().addClass('active');
+    $('.modeContainer' + hash + 'Container').show();
+    $('.nav li > a[data-mode=' + hash.substring(1) + ']').parent().addClass('active');
 
     $('.nav a').click(function () {
         var mode = $(this).data('mode');
         $('.nav li').removeClass('active');
         $(this).parent('li').addClass('active');
-        $('.modeContainer:not(#' + mode + 'Container)').hide({ queue: false });
-        $('#' + mode + 'Container').show({ queue: false }); 
+        $('.modeContainer:not(#' + mode + 'Container)').hide({
+            queue: false
+        });
+        $('#' + mode + 'Container').show({
+            queue: false
+        });
+    });
+
+    $('form').submit(function () {
+        return false;
     });
 
     var parameters = getParameters();
-    if((!('sandbox' in parameters) || parameters['sandbox'].replace('/', '') === '0') && !(parent.location.hash && parent.location.hash.substring(1) == 'sandbox'))
+    if((!('sandbox' in parameters) || parameters['sandbox'].replace('/', '') === '0') && !(hash && hash.substring(1) == 'sandbox'))
         $('.nav a[data-mode=sandbox]').hide();
+
+    function getParameters() {
+        var searchString = window.location.search.substring(1),
+            params = searchString.split('&'),
+            hash = {};
+
+        if(searchString === '')
+            return {};
+
+        for(var i = 0; i < params.length; i++) {
+            var val = params[i].split('=');
+            hash[unescape(val[0])] = unescape(val[1]);
+        }
+        return hash;
+    }
 });
 
-function persistChoices (mode) {
+function persistChoices(mode) {
     if(localStorage) {
         if(mode == 'translator') {
-             objects = {
+            var objects = {
                 'recentSrcLangs': recentSrcLangs,
                 'recentDstLangs': recentDstLangs,
                 'curSrcLang': curSrcLang,
@@ -49,36 +74,40 @@ function persistChoices (mode) {
             };
         }
         else if(mode == 'analyzer') {
-             objects = {
+            var objects = {
                 'primaryAnalyzerChoice': $('#primaryAnalyzerMode').val(),
                 'secondaryAnalyzerChoice': $('#secondaryAnalyzerMode').val(),
                 'analyzerInput': $('#morphAnalyzerInput').val()
             };
         }
         else if(mode == 'generator') {
-             objects = {
+            var objects = {
                 'primaryGeneratorChoice': $('#primaryGeneratorMode').val(),
                 'secondaryGeneratorChoice': $('#secondaryGeneratorMode').val(),
                 'generatorInput': $('#morphGeneratorInput').val()
             };
         }
         else if(mode == 'localization') {
-            objects = { 'locale': $('.localeSelect').val() };
+            var objects = {
+                'locale': $('.localeSelect').val()
+            };
         }
         else if(mode == 'sandbox') {
-            objects = { 'sandboxInput': $('#sandboxInput').val() };
+            var objects = {
+                'sandboxInput': $('#sandboxInput').val()
+            };
         }
 
         for(var name in objects)
             store(name, objects[name]);
     }
 
-    function store (name, obj) {
+    function store(name, obj) {
         localStorage[name] = JSON.stringify(obj);
     }
 }
 
-function restoreChoices (mode) {
+function restoreChoices(mode) {
     if(localStorage) {
         if(mode == 'translator') {
             if('recentSrcLangs' in localStorage && isSubset(retrieve('recentSrcLangs'), srcLangs)) {
@@ -136,30 +165,17 @@ function restoreChoices (mode) {
         }
     }
 
-    function retrieve (name) {
+    function retrieve(name) {
         return JSON.parse(localStorage[name]);
     }
 }
 
-function onlyUnique (value, index, self) { 
+function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 
-function isSubset (subset, superset) {
-  return subset.every(function(val) { return superset.indexOf(val) >= 0; });
-}
-
-function getParameters () {
-    var searchString = window.location.search.substring(1),
-        params = searchString.split('&'),
-        hash = {};
-
-    if (searchString === '') 
-        return {};
-
-    for (var i = 0; i < params.length; i++) {
-        var val = params[i].split('=');
-        hash[unescape(val[0])] = unescape(val[1]);
-    }
-    return hash;
+function isSubset(subset, superset) {
+    return subset.every(function (val) {
+        return superset.indexOf(val) >= 0;
+    });
 }

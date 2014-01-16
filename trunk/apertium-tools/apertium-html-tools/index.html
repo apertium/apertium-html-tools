@@ -8,6 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="shortcut icon" href="./assets/img/favicon.ico">
         
+        <!-- <link type="text/css" rel="stylesheet" href="./assets/css/icon-globe.css"> -->
         <link type="text/css" rel="stylesheet" href="./assets/css/bootstrap.css">
         <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" >
         <link type="text/css" rel="stylesheet" href="./assets/css/style.css">
@@ -40,8 +41,9 @@
                     <p data-text="tagline" class="tagline">A free/open-source machine translation platform</p>
                 </div>
                 <div style="width: 25%" class="pull-right hidden-xs">
-                    <select class="localeSelect pull-right"></select>
+                    <!-- <i class="icon-globe localeGlobe pull-right"></i> -->
                     <i class="fa fa-globe fa-2x fa-inverse pull-right" style="padding: 5px 5px 0px 0px"></i>
+                    <select class="localeSelect pull-right"></select>
                 </div>
                 <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
                   <li><a href="#translation" data-mode="translation" data-text="Translation">Translation</a></li>
@@ -76,9 +78,9 @@
                                     <ul class="dropdown-menu" id="srcLanguages" role="menu">
                                         <li>
                                             <div class="row">
-                                                <div class="languageCol col-sm-4"></div>
-                                                <div class="languageCol col-sm-4"></div>
-                                                <div class="languageCol col-sm-4"></div>
+                                                <div class="languageCol"></div>
+                                                <div class="languageCol"></div>
+                                                <div class="languageCol"></div>
                                             </div>
                                         </li>
                                     </ul>
@@ -99,9 +101,9 @@
                                     <ul class="dropdown-menu" id="dstLanguages" role="menu">
                                         <li>
                                             <div class="row">
-                                                <div class="languageCol col-sm-4"></div>
-                                                <div class="languageCol col-sm-4"></div>
-                                                <div class="languageCol col-sm-4"></div>
+                                                <div class="languageCol"></div>
+                                                <div class="languageCol"></div>
+                                                <div class="languageCol"></div>
                                             </div>
                                         </li>
                                     </ul>
@@ -144,7 +146,7 @@
                     </div>
                 </form>
                 
-                <table class="table table-hover" id="morphAnalyzerOutput" style="margin-top: 5em; border-spacing: 0px;"></table>
+                <table class="table table-hover" id="morphAnalyzerOutput" class="outputContainer" style="border-spacing: 0px;"></table>
             </div>
             <div class="modeContainer" id="generationContainer">
                 <h2 data-text="Morphological_Generation">Morphological generation</h2>
@@ -169,15 +171,16 @@
                         <button type="submit" class="btn btn-primary" id="generate" data-text="Generate">Generate</button>
                     </div>
                 </form>
-                <div id="morphGenOutput" style="margin-top: 5em;"></div>
+                <div id="morphGenOutput" class="outputContainer"></div>
             </div>
             <div class="modeContainer" id="sandboxContainer">
                 <h2 data-text="APY_Sandbox">APY sandbox</h2>
                 <form class="form-horizontal" role="form" method="none" id="sandboxForm">
-                    <legend><span data-text="APY_Sandbox_Help">Send arbitrary requests</span> 
+                    <legend>
+                        <span data-text="APY_Sandbox_Help">Send arbitrary requests</span> 
                         <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right">
-                        <abbr title="Apertium API in Python">APY</abbr>
-                        <i class="glyphicon glyphicon-question-sign"></i>
+                            <abbr title="Apertium API in Python">APY</abbr>
+                            <i class="glyphicon glyphicon-question-sign"></i>
                         </a>
                     </legend>
                     <div class="form-group">
@@ -192,23 +195,24 @@
                         <code id="time" class="pull-right"></code>
                     </div>
                 </form>
-                <small><pre id="sandboxOutput" style="margin-top: 5em;"></pre></small>
+                <small><pre id="sandboxOutput" class="outputContainer"></pre></small>
             </div>
 
             <div class="navbar-fixed-bottom hidden-xs">
                 <div class="container">
-                    <div class="pull-right well well-sm" style="background-color: rgba(245, 245, 245, .6)">
+                    <div class="pull-right well well-sm helpMessage">
                         <span data-text="Notice_Mistake">Notice a mistake?</span>  <a href="http://wiki.apertium.org/wiki/Apertium_Turkic" data-text="Help_Improve">Help us improve Apertium!</a>
                     </div>
                 </div>
             </div>
 
             <div class="visible-xs">
-                <i class="fa fa-globe fa-2x pull-left" style="padding: 5px 5px 0px 0px"></i>
                 <select class="localeSelect pull-left"></select>
+                <i class="fa fa-globe fa-2x pull-left" style="padding: 5px 0px 0px 5px"></i>
+                <!-- <i class="fa fa-globe localeGlobe pull-left"></i> -->
             </div>
             
-            <div class="pull-right well well-sm visible-xs" style="background-color: rgba(245, 245, 245, .6); margin-top: 10px;">
+            <div class="pull-right well well-sm visible-xs helpMessage" style="margin-top: 10px;">
                 <span data-text="Notice_Mistake">Notice a mistake?</span>  <a href="http://wiki.apertium.org/wiki/Apertium_Turkic" data-text="Help_Improve">Help us improve Apertium!</a>
             </div>
         </div>
