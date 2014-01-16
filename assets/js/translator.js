@@ -313,8 +313,14 @@ function translationNotAvailable() {
 
 function muteLanguages() {
     $('.languageName.text-muted').removeClass('text-muted');
+    $('.dstLang').removeClass('disabled');
+
     $.each($('#dstLanguages .languageName'), function (i, element) {
         if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).attr('data-code')) == -1)
             $(element).addClass('text-muted');
+    });
+    $.each($('.dstLang'), function (i, element) {
+        if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).attr('data-code')) == -1)
+            $(element).addClass('disabled');
     });
 }
