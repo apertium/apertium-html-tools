@@ -19,8 +19,11 @@ $.jsonp.setup({
 $(document).ready(function () {
     var hash = parent.location.hash;
 
-    if(!hash || !$(hash + 'Container'))
-        parent.location.hash = '#translation';
+    if(!hash || !$(hash + 'Container')) {
+        hash = '#translation';
+		parent.location.hash = hash;
+	}
+	
     $('.modeContainer' + hash + 'Container').show();
     $('.nav li > a[data-mode=' + hash.substring(1) + ']').parent().addClass('active');
 
