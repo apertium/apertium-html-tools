@@ -105,7 +105,7 @@ function localizeLanguageNames() {
         },
         error: function () {
             localizedLanguageNames = {};
-        },
+        }
     });
 
     $.ajax({

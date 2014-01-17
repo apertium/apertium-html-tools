@@ -250,7 +250,7 @@ function translate() {
             complete: ajaxComplete,
             data: {
                 'langpair': curSrcLang + '|' + curDstLang,
-                'q': $('#originalText').val(),
+                'q': $('#originalText').val()
             },
             success: function (data) {
                 if(data.responseStatus === 200) {
@@ -273,7 +273,7 @@ function detectLanguage() {
         beforeSend: ajaxSend,
         complete: ajaxComplete,
         data: {
-            'q': $('#originalText').val(),
+            'q': $('#originalText').val()
         },
         success: function (data) {
             var possibleLanguages = [];
@@ -302,7 +302,7 @@ function detectLanguage() {
         },
         error: function () {
             $('#srcLang1').click();
-        },
+        }
     });
 }
 

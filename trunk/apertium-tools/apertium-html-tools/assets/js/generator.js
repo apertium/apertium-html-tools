@@ -118,6 +118,6 @@ function generate() {
         error: function (xOptions, error) {
             $('#morphGenOutput').text(error);
             $('#morphGenOutput').removeClass('blurred');
-        },
+        }
     });
 }
