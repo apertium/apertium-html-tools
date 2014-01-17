@@ -15,7 +15,7 @@ $(document).ready(function () {
     });
 
     $('#morphAnalyzerInput').keydown(function (e) {
-        if(e.keyCode == 13 && !e.shiftKey) {
+        if(e.keyCode === 13 && !e.shiftKey) {
             e.preventDefault();
             analyze();
         }
@@ -51,7 +51,7 @@ function populateAnalyzerList(data) {
 
     analyzers = {}
     for(var lang in data) {
-        var analyzerLang = lang.indexOf('-') != -1 ? lang.split('-')[0] : lang;
+        var analyzerLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
         var group = analyzers[analyzerLang];
         if(group)
             group.push(lang);
@@ -85,7 +85,7 @@ function populateSecondaryAnalyzerList() {
 
     for(var i = 0; i < group.length; i++) {
         var lang = group[i];
-        var langDisplay = lang.indexOf('-') != -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
+        var langDisplay = lang.indexOf('-') !== -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
         $('#secondaryAnalyzerMode').append($('<option></option').val(lang).text(langDisplay));
     }
 
@@ -159,11 +159,11 @@ function analyze() {
     function formatUnit(unit) {
         var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags = [];
         var tagMatch = tagRegex.exec(unit);
-        while(tagMatch != null) {
+        while(tagMatch !== null) {
             tags.push(tagMatch[1]);
             tagMatch = tagRegex.exec(unit);
         }
         var tagStartLoc = unit.indexOf('<');
-        return unit.substring(0, tagStartLoc != -1 ? tagStartLoc : unit.length) + (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
+        return unit.substring(0, tagStartLoc !== -1 ? tagStartLoc : unit.length) + (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
     }
 }

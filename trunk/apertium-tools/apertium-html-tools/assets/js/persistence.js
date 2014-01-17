@@ -1,6 +1,6 @@
 function persistChoices(mode) {
     if(localStorage) {
-        if(mode == 'translator') {
+        if(mode === 'translator') {
             var objects = {
                 'recentSrcLangs': recentSrcLangs,
                 'recentDstLangs': recentDstLangs,
@@ -11,26 +11,26 @@ function persistChoices(mode) {
                 'translationInput': $('#originalText').val()
             };
         }
-        else if(mode == 'analyzer') {
+        else if(mode === 'analyzer') {
             var objects = {
                 'primaryAnalyzerChoice': $('#primaryAnalyzerMode').val(),
                 'secondaryAnalyzerChoice': $('#secondaryAnalyzerMode').val(),
                 'analyzerInput': $('#morphAnalyzerInput').val()
             };
         }
-        else if(mode == 'generator') {
+        else if(mode === 'generator') {
             var objects = {
                 'primaryGeneratorChoice': $('#primaryGeneratorMode').val(),
                 'secondaryGeneratorChoice': $('#secondaryGeneratorMode').val(),
                 'generatorInput': $('#morphGeneratorInput').val()
             };
         }
-        else if(mode == 'localization') {
+        else if(mode === 'localization') {
             var objects = {
                 'locale': $('.localeSelect').val()
             };
         }
-        else if(mode == 'sandbox') {
+        else if(mode === 'sandbox') {
             var objects = {
                 'sandboxInput': $('#sandboxInput').val()
             };
@@ -47,12 +47,16 @@ function persistChoices(mode) {
 
 function restoreChoices(mode) {
     if(localStorage) {
-        if(mode == 'translator') {
+        if(mode === 'translator') {
             if('recentSrcLangs' in localStorage && isSubset(retrieve('recentSrcLangs'), srcLangs)) {
                 recentSrcLangs = retrieve('recentSrcLangs');
                 curSrcLang = retrieve('curSrcLang');
                 $('.srcLang').removeClass('active');
                 $('#' + retrieve('curSrcChoice')).addClass('active');
+                if(retrieve('curSrcChoice') === 'detect') {
+                    $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
+                    $('#detectText').hide();
+                }
             }
             if('recentDstLangs' in localStorage && isSubset(retrieve('recentDstLangs'), dstLangs)) {
                 recentDstLangs = retrieve('recentDstLangs');
@@ -66,7 +70,7 @@ function restoreChoices(mode) {
 
             refreshLangList();
         }
-        else if(mode == 'analyzer') {
+        else if(mode === 'analyzer') {
             if('primaryAnalyzerChoice' in localStorage && 'secondaryAnalyzerChoice' in localStorage) {
                 $('#primaryAnalyzerMode option[value="' + retrieve('primaryAnalyzerChoice') + '"]').prop('selected', true);
                 populateSecondaryAnalyzerList();
@@ -78,7 +82,7 @@ function restoreChoices(mode) {
             if('analyzerInput' in localStorage)
                 $('#morphAnalyzerInput').val(retrieve('analyzerInput'));
         }
-        else if(mode == 'generator') {
+        else if(mode === 'generator') {
             if('primaryGeneratorChoice' in localStorage && 'secondaryGeneratorChoice' in localStorage) {
                 $('#primaryGeneratorMode option[value="' + retrieve('primaryGeneratorChoice') + '"]').prop('selected', true);
                 populateSecondaryGeneratorList();
@@ -90,13 +94,13 @@ function restoreChoices(mode) {
             if('generatorInput' in localStorage)
                 $('#morphGeneratorInput').val(retrieve('generatorInput'));
         }
-        else if(mode == 'localization') {
+        else if(mode === 'localization') {
             if('locale' in localStorage) {
                 locale = retrieve('locale');
                 $('.localeSelect').val(locale);
             }
         }
-        else if(mode == 'sandbox') {
+        else if(mode === 'sandbox') {
             if('sandboxInput' in localStorage) {
                 $('#sandboxInput').val(retrieve('sandboxInput'));
             }

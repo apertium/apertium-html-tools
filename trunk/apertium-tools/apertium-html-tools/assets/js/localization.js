@@ -41,7 +41,7 @@ function getLocale() {
             success: function (data) {
                 for(var i = 0; i < data.length; i++) {
                     localeGuess = data[i];
-                    if(localeGuess.indexOf('-') != -1)
+                    if(localeGuess.indexOf('-') !== -1)
                         localeGuess = localeGuess.split('-')[0];
                     if(iso639Codes[localeGuess] || iso639CodesInverse[localeGuess]) {
                         locale = localeGuess;
