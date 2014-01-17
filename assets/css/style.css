@@ -86,6 +86,11 @@ h2 {
     text-align: center;
 }
 
+button.disabledLang {
+    color: gray !important;
+    opacity: 1 !important;
+}
+
 /* Analysis */
 
 .noAnalysis {

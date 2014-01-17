@@ -253,7 +253,7 @@ function translate() {
                 'q': $('#originalText').val(),
             },
             success: function (data) {
-                if(data.responseStatus == 200) {
+                if(data.responseStatus === 200) {
                     $('#translatedText').html(data.responseData.translatedText);
                     $('#translatedText').removeClass('notAvailable');
                 }
@@ -278,7 +278,7 @@ function detectLanguage() {
         success: function (data) {
             var possibleLanguages = [];
             for(var lang in data)
-                possibleLanguages.push([lang.indexOf('-') != -1 ? lang.split('-')[0] : lang, data[lang]]);
+                possibleLanguages.push([lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang, data[lang]]);
             possibleLanguages.sort(function (a, b) {
                 return b[1] - a[1];
             });
@@ -286,7 +286,7 @@ function detectLanguage() {
             oldSrcLangs = recentSrcLangs;
             recentSrcLangs = [];
             for(var i = 0; i < possibleLanguages.length; i++)
-                if(recentSrcLangs.length < 3 && recentSrcLangs.indexOf(possibleLanguages[i][0]) === -1)
+                if(recentSrcLangs.length < 3 && possibleLanguages[i][0] in pairs)
                     recentSrcLangs.push(possibleLanguages[i][0]);
             recentSrcLangs = recentSrcLangs.concat(oldSrcLangs);
             if(recentSrcLangs.length > 3)
@@ -313,14 +313,14 @@ function translationNotAvailable() {
 
 function muteLanguages() {
     $('.languageName.text-muted').removeClass('text-muted');
-    $('.dstLang').removeClass('disabled');
+    $('.dstLang').removeClass('disabledLang').prop('disabled', false);
 
     $.each($('#dstLanguages .languageName'), function (i, element) {
-        if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).attr('data-code')) == -1)
+        if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).attr('data-code')) === -1)
             $(element).addClass('text-muted');
     });
     $.each($('.dstLang'), function (i, element) {
-        if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).attr('data-code')) == -1)
-            $(element).addClass('disabled');
+        if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).attr('data-code')) === -1)
+            $(element).addClass('disabledLang').prop('disabled', true);
     });
 }

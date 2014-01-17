@@ -15,7 +15,7 @@ $(document).ready(function () {
     });
 
     $('#morphGeneratorInput').keydown(function (e) {
-        if(e.keyCode == 13 && !e.shiftKey) {
+        if(e.keyCode === 13 && !e.shiftKey) {
             e.preventDefault();
             generate();
         }
@@ -51,7 +51,7 @@ function populateGeneratorList(data) {
 
     generators = {}
     for(var lang in data) {
-        var generatorLang = lang.indexOf('-') != -1 ? lang.split('-')[0] : lang;
+        var generatorLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
         var group = generators[generatorLang];
         if(group)
             group.push(lang);
@@ -85,7 +85,7 @@ function populateSecondaryGeneratorList() {
 
     for(var i = 0; i < group.length; i++) {
         var lang = group[i];
-        var langDisplay = lang.indexOf('-') != -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
+        var langDisplay = lang.indexOf('-') !== -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
         $('#secondaryGeneratorMode').append($('<option></option').val(lang).text(langDisplay));
     }
 

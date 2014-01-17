@@ -44,7 +44,7 @@ $(document).ready(function () {
     });
 
     var parameters = getParameters();
-    if((!('sandbox' in parameters) || parameters['sandbox'].replace('/', '') === '0') && !(hash && hash.substring(1) == 'sandbox'))
+    if((!('sandbox' in parameters) || parameters['sandbox'].replace('/', '') === '0') && !(hash && hash.substring(1) === 'sandbox'))
         $('.nav a[data-mode=sandbox]').hide();
 
     function getParameters() {
