@@ -127,7 +127,7 @@ function localizeLanguageNames() {
 }
 
 function getLangByCode(code) {
-    code = code.trim();
+    code = code ? code.trim() : code;
     if(localizedLanguageNames[code])
         return localizedLanguageNames[code];
     else if(languages[code])

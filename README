@@ -1,3 +1,17 @@
-Run:
+* To run on locally on http://localhost:8080
+	python3 -m http.server 8080
 
-python3 -m http.server 8080
+* To minify JS use Google Closure compiler (https://developers.google.com/closure/compiler/)
+
+	curl https://closure-compiler.googlecode.com/git/contrib/externs/jquery-1.8.js > jquery-1.8.js
+	java -jar compiler.jar --js `echo $(ls assets/js/*.js)` --js_output_file assets/js/all.min.js --externs jquery-1.8.js
+
+* To minify HTML using HTML Compressor (https://code.google.com/p/htmlcompressor)
+	
+	curl https://htmlcompressor.googlecode.com/files/htmlcompressor-1.5.3.jar > htmlcompressor.jar
+	java -jar htmlcompressor.jar -t html index.html > index.min.html
+
+* To minify CSS using YUI Compressor (http://yui.github.io/yuicompressor/)
+
+	sudo apt-get install yui-compressor
+	java -jar /usr/share/yui-compressor/yui-compressor.jar -o '.css$:.min.css' ./assets/css/*.css
