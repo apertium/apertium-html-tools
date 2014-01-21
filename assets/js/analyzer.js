@@ -36,7 +36,7 @@ function getAnalyzers() {
             populateAnalyzerList(analyzerData);
         },
         error: function (xOptions, error) {
-            console.log('Failed to fetch analyzers: ' + locale);
+            console.error('Failed to get available analyzers');
         },
         complete: function () {
             ajaxComplete();

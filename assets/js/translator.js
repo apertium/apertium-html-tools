@@ -146,7 +146,10 @@ function getPairs() {
             refreshLangList();
             populateTranslationList();
         },
-        error: translationNotAvailable,
+        error: function () {
+            console.error('Failed to get available translation language pairs');
+            translationNotAvailable();
+        },
         complete: function () {
             ajaxComplete();
             deferred.resolve();

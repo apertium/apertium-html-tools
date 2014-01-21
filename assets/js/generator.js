@@ -36,7 +36,7 @@ function getGenerators() {
             populateGeneratorList(generatorData);
         },
         error: function (xOptions, error) {
-            console.log('Failed to fetch generators: ' + locale);
+            console.error('Failed to get available generators');
         },
         complete: function () {
             ajaxComplete();
