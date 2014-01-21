@@ -26,8 +26,7 @@ $(document).ready(function () {
     });
 });
 
-function getLocale() {
-    var deferred = $.Deferred();
+function getLocale(deferred) {
     restoreChoices('localization');
 
     if(!locale) {
@@ -39,18 +38,22 @@ function getLocale() {
                     localeGuess = data[i];
                     if(localeGuess.indexOf('-') !== -1)
                         localeGuess = localeGuess.split('-')[0];
-                    if(iso639Codes[localeGuess] || iso639CodesInverse[localeGuess]) {
+                    if(localeGuess in iso639Codes) {
                         locale = localeGuess;
+                        break;
+                    }
+                    else if(localeGuess in iso639CodesInverse) {
+                        locale = iso639CodesInverse[localeGuess];
                         break;
                     }
                 }
                 $('.localeSelect').val(locale);
                 persistChoices('localization');
             },
-			error: function () {
-				console.error('Failed to determine locale, defaulting to en');
-				locale = 'en';
-			},
+            error: function () {
+                console.error('Failed to determine locale, defaulting to en');
+                locale = 'en';
+            },
             complete: function () {
                 ajaxComplete();
                 deferred.resolve();
@@ -59,24 +62,27 @@ function getLocale() {
     }
     else
         deferred.resolve();
-
-    return deferred.promise();
 }
 
 function getLocales() {
-	$.ajax({
+    var deferred = $.Deferred();
+
+    $.ajax({
         url: './assets/strings/locales.json',
         type: 'GET',
         success: function (data) {
             $.each(data, function (code, langName) {
-				$('.localeSelect').append($('<option></option>').prop('value', code).text(langName));
-			});
-			getLocale();
+                $('.localeSelect').append($('<option></option>').prop('value', code).text(langName));
+            });
+            getLocale(deferred);
         },
         error: function (jqXHR, textStatus, errorThrow) {
             console.error('Failed to fetch available locales: ' + errorThrow);
+            deferred.resolve();
         }
     });
+
+    return deferred.promise();
 }
 
 function generateLanguageList() {
@@ -101,7 +107,7 @@ function generateLanguageList() {
 
 function localizeLanguageNames() {
     var languages = generateLanguageList();
-	localizeStrings(locale);
+    localizeStrings(locale);
 
     $.jsonp({
         url: APY_URL + '/listLanguageNames?locale=' + locale + '&languages=' + languages.join('+'),
@@ -127,7 +133,7 @@ function localizeLanguageNames() {
 }
 
 function localizeStrings(locale) {
-	$.ajax({
+    $.ajax({
         url: './assets/strings/' + locale + '.json',
         type: 'GET',
         success: function (data) {
