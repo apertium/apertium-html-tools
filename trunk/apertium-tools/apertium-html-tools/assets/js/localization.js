@@ -13,17 +13,13 @@ $(document).ready(function () {
         iso639CodesInverse[value] = key
     });
 
-    $.each(languages, function (code, langName) {
-        $('.localeSelect').append($('<option></option>').prop('value', code).text(langName));
-    });
-
     $('.localeSelect').change(function () {
         locale = $(this).val();
         localizeLanguageNames();
         persistChoices('localization');
     });
 
-    var deferredItems = [getLocale(), getPairs(), getGenerators(), getAnalyzers()];
+    var deferredItems = [getLocales(), getPairs(), getGenerators(), getAnalyzers()];
     $.when.apply($, deferredItems).then(function () {
         locale = $('.localeSelect').val();
         localizeLanguageNames();
@@ -51,6 +47,10 @@ function getLocale() {
                 $('.localeSelect').val(locale);
                 persistChoices('localization');
             },
+			error: function () {
+				console.error('Failed to determine locale, defaulting to en');
+				locale = 'en';
+			},
             complete: function () {
                 ajaxComplete();
                 deferred.resolve();
@@ -61,6 +61,22 @@ function getLocale() {
         deferred.resolve();
 
     return deferred.promise();
+}
+
+function getLocales() {
+	$.ajax({
+        url: './assets/strings/locales.json',
+        type: 'GET',
+        success: function (data) {
+            $.each(data, function (code, langName) {
+				$('.localeSelect').append($('<option></option>').prop('value', code).text(langName));
+			});
+			getLocale();
+        },
+        error: function (jqXHR, textStatus, errorThrow) {
+            console.error('Failed to fetch available locales: ' + errorThrow);
+        }
+    });
 }
 
 function generateLanguageList() {
@@ -85,6 +101,7 @@ function generateLanguageList() {
 
 function localizeLanguageNames() {
     var languages = generateLanguageList();
+	localizeStrings(locale);
 
     $.jsonp({
         url: APY_URL + '/listLanguageNames?locale=' + locale + '&languages=' + languages.join('+'),
@@ -107,9 +124,11 @@ function localizeLanguageNames() {
             localizedLanguageNames = {};
         }
     });
+}
 
-    $.ajax({
-        url: './assets/strings/' + iso639CodesInverse[locale] + '.json',
+function localizeStrings(locale) {
+	$.ajax({
+        url: './assets/strings/' + locale + '.json',
         type: 'GET',
         success: function (data) {
             for(var textId in data) {
@@ -120,8 +139,8 @@ function localizeLanguageNames() {
             if(data['detected'])
                 detectedText = data['detected'];
         },
-        error: function () {
-            console.log('Failed to fetch localized strings for ' + locale);
+        error: function (jqXHR, textStatus, errorThrow) {
+            console.error('Failed to fetch localized strings for ' + locale + ': ' + errorThrow);
         }
     });
 }
