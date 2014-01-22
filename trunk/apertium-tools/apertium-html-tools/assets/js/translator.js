@@ -68,10 +68,14 @@ $(document).ready(function () {
         translate();
     });
 
-    var keyCodes = [32, 190, 191, 49, 59, 13]
-    $('#originalText').keyup(function (event) {
-        if(keyCodes.indexOf(event.keyCode) !== -1)
+    var timer, timeout = 1000;
+    $('#originalText').on('keyup paste', function (event) {
+        if(timer)
+            clearTimeout(timer);
+        timer = setTimeout(function () {
+            console.log('translating now!');
             translate();
+        }, timeout);
     });
 
     $('#originalText').on('input propertychange', function () {
