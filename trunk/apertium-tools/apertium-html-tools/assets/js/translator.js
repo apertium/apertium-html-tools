@@ -1,11 +1,3 @@
-/*
-TODO: (in some order)
-1) Mobile version for translation (!!!)
-2) Deal with languages having multiple iso codes (ugh...)
-3) Modify URL hash to contain the current language choices
-4) Only autotranslate after typing stops for x seconds
-*/
-
 var pairs = {};
 var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
