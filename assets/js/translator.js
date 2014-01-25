@@ -128,8 +128,8 @@ function getPairs() {
                 else
                     pairs[pair.sourceLanguage] = [pair.targetLanguage];
             });
-            srcLangs = srcLangs.filter(onlyUnique).sort();
-            dstLangs = dstLangs.filter(onlyUnique).sort();
+            srcLangs = srcLangs.filter(onlyUnique);
+            dstLangs = dstLangs.filter(onlyUnique);
 
             curSrcLang = srcLangs[0];
             curDstLang = dstLangs[0];
@@ -185,7 +185,20 @@ function filterLangList(recentLangs, allLangs) {
     return recentLangs;
 }
 
+function sortTranslationList() {
+    var sortLocale = locale in iso639Codes ? iso639Codes[locale] : locale;
+
+    srcLangs = srcLangs.sort(function (a, b) {
+        return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+    });
+
+    dstLangs = dstLangs.sort(function (a, b) {
+        return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+    });
+}
+
 function populateTranslationList() {
+    sortTranslationList();
     $('.languageName').remove();
     $('.languageCol').show().removeClass('col-sm-3 col-sm-4 col-sm-6 col-sm-12');
 
