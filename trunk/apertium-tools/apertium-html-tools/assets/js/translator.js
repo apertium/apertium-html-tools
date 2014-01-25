@@ -187,57 +187,35 @@ function filterLangList(recentLangs, allLangs) {
 
 function populateTranslationList() {
     $('.languageName').remove();
-    $('.languageCol').show().removeClass('col-sm-4 col-sm-6 col-sm-12');
+    $('.languageCol').show().removeClass('col-sm-3 col-sm-4 col-sm-6 col-sm-12');
 
-    var numSrcCols, numDstCols;
-    if(srcLangs.length < 8) {
-        numSrcCols = 1;
-        $('#srcLanguages').css('min-width', '167px');
-        $('#srcLanguages .languageCol').addClass('col-sm-12');
-        $('#srcLanguages .languageCol:gt(0)').hide();
-    }
-    else if(srcLangs.length < 15) {
-        numSrcCols = 2;
-        $('#srcLanguages').css('min-width', '333px');
-        $('#srcLanguages .languageCol').addClass('col-sm-6');
-        $('#srcLanguages .languageCol:gt(1)').hide();
-    }
-    else {
-        numSrcCols = 3;
-        $('#srcLanguages').css('min-width', '500px');
-        $('#srcLanguages .languageCol').addClass('col-sm-4');
-    }
+    var numSrcCols = Math.ceil(srcLangs.length / 8) < 5 ? Math.ceil(srcLangs.length / 8) : 4,
+        numDstCols = Math.ceil(dstLangs.length / 8) < 5 ? Math.ceil(dstLangs.length / 8) : 4;
 
-    if(dstLangs.length < 8) {
-        numDstCols = 1;
-        $('#dstLanguages').css('min-width', '167px');
-        $('#dstLanguages .languageCol').addClass('col-sm-12');
-        $('#dstLanguages .languageCol:gt(0)').hide();
-    }
-    else if(dstLangs.length < 15) {
-        numDstCols = 2;
-        $('#dstLanguages').css('min-width', '333px');
-        $('#dstLanguages .languageCol').addClass('col-sm-6');
-        $('#dstLanguages .languageCol:gt(1)').hide();
-    }
-    else {
-        numDstCols = 3;
-        $('#dstLanguages').css('min-width', '500px');
-        $('#dstLanguages .languageCol').addClass('col-sm-4');
+    $('#srcLanguages').css('min-width', Math.floor(650 * (numSrcCols / 4)) + 'px');
+    $('#srcLanguages .languageCol').addClass('col-sm-' + (12 / numSrcCols));
+    $('#srcLanguages .languageCol:gt(' + (numSrcCols - 1) + ')').hide();
+
+    $('#dstLanguages').css('min-width', Math.floor(650 * (numDstCols / 4)) + 'px');
+    $('#dstLanguages .languageCol').addClass('col-sm-' + (12 / numDstCols));
+    $('#dstLanguages .languageCol:gt(' + (numDstCols - 1) + ')').hide();
+
+    for(var i = 0; i < numSrcCols; i++) {
+        var numSrcLang = Math.ceil(srcLangs.length / numSrcCols) * i;
+        for(var j = numSrcLang; j < numSrcLang + 8; j++)
+            if(numSrcLang < srcLangs.length) {
+                var langCode = srcLangs[j], langName = getLangByCode(langCode);
+                $('#srcLanguages .languageCol:eq(' + i + ')').append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
+            }
     }
 
-    for(var i = 0; i < srcLangs.length; i++) {
-        var langCode = srcLangs[i],
-            colNum = i % numSrcCols,
-            langName = getLangByCode(langCode);
-        $($('#srcLanguages .languageCol')[colNum]).append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
-    }
-
-    for(var i = 0; i < dstLangs.length; i++) {
-        var langCode = dstLangs[i],
-            colNum = i % numDstCols,
-            langName = getLangByCode(langCode);
-        $($('#dstLanguages .languageCol')[colNum]).append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
+     for(var i = 0; i < numDstCols; i++) {
+        var numDstLang = Math.ceil(dstLangs.length / numDstCols) * i;
+        for(var j = numDstLang; j < numDstLang + 8; j++)
+            if(numDstLang < dstLangs.length) {
+                var langCode = dstLangs[j], langName = getLangByCode(langCode);
+                $('#dstLanguages .languageCol:eq(' + i + ')').append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
+            }
     }
 
     muteLanguages();
