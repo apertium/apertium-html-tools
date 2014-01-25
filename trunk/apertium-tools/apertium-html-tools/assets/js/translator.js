@@ -204,6 +204,8 @@ function populateTranslationList() {
 
     var numSrcCols = Math.ceil(srcLangs.length / 8) < 5 ? Math.ceil(srcLangs.length / 8) : 4,
         numDstCols = Math.ceil(dstLangs.length / 8) < 5 ? Math.ceil(dstLangs.length / 8) : 4;
+    var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
+        dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
 
     $('#srcLanguages').css('min-width', Math.floor(650 * (numSrcCols / 4)) + 'px');
     $('#srcLanguages .languageCol').addClass('col-sm-' + (12 / numSrcCols));
@@ -215,7 +217,7 @@ function populateTranslationList() {
 
     for(var i = 0; i < numSrcCols; i++) {
         var numSrcLang = Math.ceil(srcLangs.length / numSrcCols) * i;
-        for(var j = numSrcLang; j < numSrcLang + 8; j++)
+        for(var j = numSrcLang; j < numSrcLang + srcLangsPerCol; j++)
             if(numSrcLang < srcLangs.length) {
                 var langCode = srcLangs[j], langName = getLangByCode(langCode);
                 $('#srcLanguages .languageCol:eq(' + i + ')').append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
@@ -224,7 +226,7 @@ function populateTranslationList() {
 
      for(var i = 0; i < numDstCols; i++) {
         var numDstLang = Math.ceil(dstLangs.length / numDstCols) * i;
-        for(var j = numDstLang; j < numDstLang + 8; j++)
+        for(var j = numDstLang; j < numDstLang + dstLangsPerCol; j++)
             if(numDstLang < dstLangs.length) {
                 var langCode = dstLangs[j], langName = getLangByCode(langCode);
                 $('#dstLanguages .languageCol:eq(' + i + ')').append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
