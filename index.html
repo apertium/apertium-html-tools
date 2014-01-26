@@ -58,7 +58,7 @@
         <div class="container">
             <div id="loading-indicator"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
             <div class="modeContainer" id="translationContainer">
-                <h2 data-text="Translation">Translation</h2>
+                <h2 class="visible-xs" data-text="Translation">Translation</h2>
                 <form class="form-horizontal" role="form" method="none" id="translationForm">
                     <legend data-text="Translation_Help">Choose two languages and translate your text using Apertium's translation platform!</legend>
                     <div class="form-group">
@@ -126,7 +126,7 @@
                 </form> 
             </div>
             <div class="modeContainer" id="analyzationContainer">
-                <h2 data-text="Morphological_Analysis">Morphological analysis</h2>
+                <h2 class="visible-xs" data-text="Morphological_Analysis">Morphological analysis</h2>
                 <form class="form-horizontal" role="form" method="none" id="analysisForm">
                     <legend data-text="Morphological_Analysis_Help">Choose a language and analyze your text using Apertium's morphological analyzers.</legend>
                     <div class="form-group">
@@ -149,10 +149,10 @@
                     </div>
                 </form>
                 
-                <table class="table table-hover" id="morphAnalyzerOutput" class="outputContainer" style="border-spacing: 0px;"></table>
+                <table class="table table-hover outputContainer" id="morphAnalyzerOutput" style="border-spacing: 0px;"></table>
             </div>
             <div class="modeContainer" id="generationContainer">
-                <h2 data-text="Morphological_Generation">Morphological generation</h2>
+                <h2 class="visible-xs" data-text="Morphological_Generation">Morphological generation</h2>
                 <form class="form-horizontal" role="form" method="none" id="generateForm">
                     <legend data-text="Morphological_Generation_Help">Choose a language and generate surface forms from your text using Apertium's morphological generators.</legend>
                     <div class="form-group">
@@ -177,7 +177,7 @@
                 <div id="morphGenOutput" class="outputContainer"></div>
             </div>
             <div class="modeContainer" id="sandboxContainer">
-                <h2 data-text="APY_Sandbox">APY sandbox</h2>
+                <h2 class="visible-xs" data-text="APY_Sandbox">APY sandbox</h2>
                 <form class="form-horizontal" role="form" method="none" id="sandboxForm">
                     <legend>
                         <span data-text="APY_Sandbox_Help">Send arbitrary requests</span> 
@@ -204,7 +204,8 @@
             <div class="navbar-fixed-bottom hidden-xs">
                 <div class="container">
                     <div class="pull-right well well-sm helpMessage">
-                        <span data-text="Notice_Mistake">Notice a mistake?</span>  <a href="http://wiki.apertium.org/wiki/Apertium_Turkic" data-text="Help_Improve">Help us improve Apertium!</a>
+                        <span data-text="Notice_Mistake">Notice a mistake?</span> 
+                        <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve">Help us improve Apertium!</a>
                     </div>
                 </div>
             </div>
@@ -216,7 +217,47 @@
             </div>
             
             <div class="pull-right well well-sm visible-xs helpMessage" style="margin-top: 10px;">
-                <span data-text="Notice_Mistake">Notice a mistake?</span>  <a href="http://wiki.apertium.org/wiki/Apertium_Turkic" data-text="Help_Improve">Help us improve Apertium!</a>
+                <span data-text="Notice_Mistake">Notice a mistake?</span> 
+                <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve">Help us improve Apertium!</a>
+            </div>
+        </div>
+
+        <div class="modal fade" id="infoModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">About the Website</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            This website is maintained by <a href="http://wiki.apertium.org/wiki/Apertium_Turkic" target="_blank">Apertium Turkic</a>.
+                            <span class="pull-right">
+                                <a href="mailto:contact@turkic.apertium.org">
+                                    <i class="glyphicon glyphicon-envelope"></i>
+                                    contact@turkic.apertium.org
+                                </a>
+                            </span>
+                        </p>
+                        <p>
+                            Feel free to contact us if you find a mistake, there's a project you would like to see us work on, or you would like to help out.
+                        </p>
+
+                        
+                        <div class="pull-right">
+                            <small>Additional hosting kindly provided by:</small>
+                            <div>
+                                <a href="http://www.bytemark.co.uk/">
+                                    <img alt="Bytemark" src="http://www.apertium.org/images/logo_bytemark.gif">
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </body>
