@@ -56,7 +56,7 @@ $(document).ready(function () {
         muteLanguages();
     });
 
-    $('#translate').click(function () {
+    $('.translateBtn').click(function () {
         translate();
     });
 
@@ -84,7 +84,7 @@ $(document).ready(function () {
         detectLanguage();
     });
 
-    $('#swap').click(function () {
+    $('.swapLangBtn').click(function () {
         var srcCode = $('.srcLang.active').attr('data-code'), dstCode = $('.dstLang.active').attr('data-code');
         curSrcLang = dstCode;
         curDstLang = srcCode;
@@ -232,6 +232,14 @@ function populateTranslationList() {
                 $('#dstLanguages .languageCol:eq(' + i + ')').append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
             }
     }
+
+    $('.langSelect option[value!=detect]').remove();
+    $.each(srcLangs, function (i, langCode) {
+        $('#srcLangSelect').append($('<option></option>').prop('value', langCode).text(getLangByCode(langCode)));
+    });
+    $.each(dstLangs, function (i, langCode) {
+        $('#dstLangSelect').append($('<option></option>').prop('value', langCode).text(getLangByCode(langCode)));
+    });
 
     muteLanguages();
 }
