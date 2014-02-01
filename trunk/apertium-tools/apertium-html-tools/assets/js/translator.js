@@ -69,7 +69,6 @@ $(document).ready(function () {
         if(timer)
             clearTimeout(timer);
         timer = setTimeout(function () {
-            console.log('translating now!');
             translate();
         }, timeout);
     });
