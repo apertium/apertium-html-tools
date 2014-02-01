@@ -133,12 +133,22 @@ function localizeLanguageNames() {
 }
 
 function localizeStrings(locale) {
+    var replacements = {
+        '{{apertiumTurkicUrl}}': '<a href="http://wiki.apertium.org/wiki/Apertium_Turkic" target="_blank">Apertium Turkic</a>'
+    }
+
     $.ajax({
         url: './assets/strings/' + locale + '.json',
         type: 'GET',
         success: function (data) {
             for(var textId in data) {
-                $('[data-text=' + textId + ']').text(data[textId]);
+                var text = data[textId];
+                $.each(replacements, function (name, value) {
+                    if(text.indexOf(name) !== -1)
+                        text = text.replace(name, value);
+                });
+
+                $('[data-text=' + textId + ']').html(text);
             }
             if(data['Not_Available'])
                 notAvailableText = data['Not_Available'];
