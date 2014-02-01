@@ -43,6 +43,12 @@ $(document).ready(function () {
         return false;
     });
 
+    $('.modal').on('show.bs.modal', function () {
+        $.each($(this).find('img[data-src]'), function () {
+            $(this).attr('src', $(this).attr('data-src'));
+        });
+    });
+
     var parameters = getParameters();
     if((!('sandbox' in parameters) || parameters['sandbox'].replace('/', '') === '0') && !(hash && hash.substring(1) === 'sandbox'))
         $('.nav a[data-mode=sandbox]').hide();
