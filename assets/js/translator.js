@@ -20,6 +20,7 @@ $(document).ready(function () {
         }
 
         muteLanguages();
+        translate();
     });
 
     $('#dstLanguages').on('click', '.languageName:not(.text-muted)', function () {
@@ -38,6 +39,7 @@ $(document).ready(function () {
         }
 
         muteLanguages();
+        translate();
     });
 
     $('.srcLang').click(function () {
@@ -46,6 +48,7 @@ $(document).ready(function () {
         $(this).addClass('active');
         refreshLangList(true);
         muteLanguages();
+        translate();
     });
 
     $('.dstLang').click(function () {
@@ -54,6 +57,7 @@ $(document).ready(function () {
         $(this).addClass('active');
         refreshLangList();
         muteLanguages();
+        translate();
     });
 
     $('.translateBtn').click(function () {
@@ -114,9 +118,8 @@ $(document).ready(function () {
 
     $('#srcLangSelect').change(function () {
         var selectValue = $(this).val();
-        if(selectValue === 'detect') {
-
-        }
+        if(selectValue === 'detect')
+            detectLanguage();
         else {
             curSrcLang = $(this).val();
             recentSrcLangs.unshift(curSrcLang);
@@ -125,6 +128,7 @@ $(document).ready(function () {
 
             refreshLangList(true);
             muteLanguages();
+            translate();
         }
     });
 
@@ -135,6 +139,7 @@ $(document).ready(function () {
         $('#dstLang1').addClass('active');
 
         refreshLangList(true);
+        translate();
     });
 });
 
@@ -325,6 +330,7 @@ function detectLanguage() {
                 recentSrcLangs = recentSrcLangs.slice(0, 3);
 
             curSrcLang = recentSrcLangs[0];
+            $('#srcLangSelect').val(curSrcLang);
             muteLanguages();
 
             $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
