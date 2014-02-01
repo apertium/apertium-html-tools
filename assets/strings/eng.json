@@ -21,5 +21,7 @@
 	"APY_Request": "APY Request",
 	"Request": "Request",
 	"Notice_Mistake": "Notice a mistake?",
-	"Help_Improve": "Help us improve Apertium!"
+	"Help_Improve": "Help us improve Apertium!",
+	"Contact_Us": "Feel free to contact us if you find a mistake, there's a project you would like to see us work on, or you would like to help out.",
+	"Maintainer": "This website is maintained by {{apertiumTurkicUrl}}."
 }
