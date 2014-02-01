@@ -52,6 +52,7 @@ function restoreChoices(mode) {
                 recentSrcLangs = retrieve('recentSrcLangs');
                 curSrcLang = retrieve('curSrcLang');
                 $('.srcLang').removeClass('active');
+                $('#srcLangSelect option[value=' + curSrcLang + ']').prop('selected', true);
                 $('#' + retrieve('curSrcChoice')).addClass('active');
                 if(retrieve('curSrcChoice') === 'detect') {
                     $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
@@ -62,6 +63,7 @@ function restoreChoices(mode) {
                 recentDstLangs = retrieve('recentDstLangs');
                 curDstLang = retrieve('curDstLang');
                 $('.dstLang').removeClass('active');
+                $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
                 $('#' + retrieve('curDstChoice')).addClass('active');
             }
 
