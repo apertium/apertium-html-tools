@@ -159,8 +159,8 @@ function getPairs() {
                 else
                     pairs[pair.sourceLanguage] = [pair.targetLanguage];
             });
-            srcLangs = srcLangs.filter(onlyUnique);
-            dstLangs = dstLangs.filter(onlyUnique);
+            srcLangs = filterLangList(srcLangs.filter(onlyUnique));
+            dstLangs = filterLangList(dstLangs.filter(onlyUnique));
 
             curSrcLang = srcLangs[0];
             curDstLang = dstLangs[0];
@@ -205,29 +205,17 @@ function refreshLangList(resetDetect) {
         $('#detectText').show();
         $('#detectedText').hide();
     }
-}
 
-function filterLangList(recentLangs, allLangs) {
-    recentLangs = recentLangs.filter(onlyUnique);
-    if(recentLangs.length < 3)
-        for(var i = 0; i < allLangs.length; i++)
-            if(recentLangs.length < 3 && recentLangs.indexOf(allLangs[i]) === -1)
-                recentLangs.push(allLangs[i]);
-    if(recentLangs.length > 3)
-        recentLangs = recentLangs.slice(0, 3);
-    return recentLangs;
-}
-
-function sortTranslationList() {
-    var sortLocale = locale in iso639Codes ? iso639Codes[locale] : locale;
-
-    srcLangs = srcLangs.sort(function (a, b) {
-        return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
-    });
-
-    dstLangs = dstLangs.sort(function (a, b) {
-        return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
-    });
+    function filterLangList(recentLangs, allLangs) {
+        recentLangs = recentLangs.filter(onlyUnique);
+        if(recentLangs.length < 3)
+            for(var i = 0; i < allLangs.length; i++)
+                if(recentLangs.length < 3 && recentLangs.indexOf(allLangs[i]) === -1)
+                    recentLangs.push(allLangs[i]);
+        if(recentLangs.length > 3)
+            recentLangs = recentLangs.slice(0, 3);
+        return recentLangs;
+    }
 }
 
 function populateTranslationList() {
@@ -267,17 +255,29 @@ function populateTranslationList() {
     }
 
     $('.langSelect option[value!=detect]').remove();
-    $.each(srcLangs, function (i, langCode) {
-        $('#srcLangSelect').append($('<option></option>').prop('value', langCode).text(getLangByCode(langCode)));
+    $.each(srcLangs, function () {
+        $('#srcLangSelect').append($('<option></option>').prop('value', this).text(getLangByCode(this)));
     });
-    $.each(dstLangs, function (i, langCode) {
-        $('#dstLangSelect').append($('<option></option>').prop('value', langCode).text(getLangByCode(langCode)));
+    $.each(dstLangs, function () {
+        $('#dstLangSelect').append($('<option></option>').prop('value', this).text(getLangByCode(this)));
     });
 
     $('#srcLangSelect').val(curSrcLang);
     $('#dstLangSelect').val(curDstLang);
 
     muteLanguages();
+
+    function sortTranslationList() {
+        var sortLocale = locale in iso639Codes ? iso639Codes[locale] : locale;
+
+        srcLangs = srcLangs.sort(function (a, b) {
+            return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+        });
+
+        dstLangs = dstLangs.sort(function (a, b) {
+            return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+        });
+    }
 }
 
 function translate() {
@@ -354,13 +354,13 @@ function muteLanguages() {
     $('.languageName.text-muted').removeClass('text-muted');
     $('.dstLang').removeClass('disabledLang').prop('disabled', false);
 
-    $.each($('#dstLanguages .languageName'), function (i, element) {
-        if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).attr('data-code')) === -1)
-            $(element).addClass('text-muted');
+    $.each($('#dstLanguages .languageName'), function () {
+        if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(this).attr('data-code')) === -1)
+            $(this).addClass('text-muted');
     });
-    $.each($('.dstLang'), function (i, element) {
-        if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).attr('data-code')) === -1)
-            $(element).addClass('disabledLang').prop('disabled', true);
+    $.each($('.dstLang'), function () {
+        if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(this).attr('data-code')) === -1)
+            $(this).addClass('disabledLang').prop('disabled', true);
     });
 
     $.each($('#dstLangSelect option'), function(i, element) {

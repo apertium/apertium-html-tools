@@ -1,4 +1,5 @@
 ﻿var APY_URL = '//localhost:2737';
+var ALLOWED_LANGS = undefined; //Set to undefined for all languages
 
 function ajaxSend() {
     $('#loading-indicator').show();
@@ -39,6 +40,14 @@ $(document).ready(function () {
         });
     });
 
+    if(ALLOWED_LANGS)
+        $.each(ALLOWED_LANGS.slice(0), function () {
+            if(iso639Codes[this])
+                ALLOWED_LANGS.push(iso639Codes[this]);
+            if(iso639CodesInverse[this])
+                ALLOWED_LANGS.push(iso639CodesInverse[this]);
+        });
+
     $('form').submit(function () {
         return false;
     });
@@ -68,6 +77,19 @@ $(document).ready(function () {
         return hash;
     }
 });
+
+function filterLangList(langs, filterFn) {
+    if(!ALLOWED_LANGS)
+        return langs;
+    else {
+        if(!filterFn)
+            filterFn = function (code) {
+              return ALLOWED_LANGS.indexOf(code) !== -1 || ((code.indexOf('-') !== -1 && (ALLOWED_LANGS.indexOf(code.split('-')[0]) + ALLOWED_LANGS.indexOf(code.split('-')[1])) !== -2));  
+            };
+
+        return langs.filter(filterFn);
+    }
+}
 
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
