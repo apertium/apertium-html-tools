@@ -87,17 +87,17 @@ function getLocales() {
 
 function generateLanguageList() {
     var languages = [];
-    $.each(srcLangs.concat(dstLangs), function (i, elem) {
-        languages.push(elem);
+    $.each(srcLangs.concat(dstLangs), function () {
+        languages.push(this);
     });
 
     var langObjects = [generators, analyzers];
     for(var i = 0; i < langObjects.length; i++) {
-        $.each(Object.keys(langObjects[i]), function (i, lang) {
-            if(lang.indexOf('-') !== -1)
-                languages = languages.concat(lang.split('-'));
+        $.each(Object.keys(langObjects[i]), function () {
+            if(this.indexOf('-') !== -1)
+                languages = languages.concat(this.split('-'));
             else
-                languages.push(lang);
+                languages.push(this);
         });
     }
 

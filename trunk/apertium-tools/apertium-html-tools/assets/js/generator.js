@@ -63,6 +63,9 @@ function populateGeneratorList(data) {
     $.each(generators, function (key, value) {
         generatorArray.push([key, value])
     });
+    generatorArray = filterLangList(generatorArray, function (generator) {
+        return ALLOWED_LANGS.indexOf(generator[0]) !== -1;
+    });
     generatorArray.sort(function (a, b) {
         return getLangByCode(a[0]).localeCompare(getLangByCode(b[0]));
     })

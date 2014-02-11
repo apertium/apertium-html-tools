@@ -63,6 +63,9 @@ function populateAnalyzerList(data) {
     $.each(analyzers, function (key, value) {
         analyzersArray.push([key, value])
     });
+    analyzersArray = filterLangList(analyzersArray, function (analyzer) {
+        return ALLOWED_LANGS.indexOf(analyzer[0]) !== -1;
+    });
     analyzersArray.sort(function (a, b) {
         return getLangByCode(a[0]).localeCompare(getLangByCode(b[0]));
     })
