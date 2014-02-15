@@ -1,16 +1,23 @@
-* To run on locally on http://localhost:8080
-	python3 -m http.server 8080
 
+== Running locally ==
+
+The files can be served by any server.  You can use whatever you like, including apache or even just python's http server.  For example, to run on locally on http://localhost:8080 you can do the following:
+	$ python3 -m http.server 8080
+
+== Minification ==
+=== JS ===
 * To minify JS use Google Closure compiler (https://developers.google.com/closure/compiler/)
 
 	curl https://closure-compiler.googlecode.com/git/contrib/externs/jquery-1.8.js > jquery-1.8.js
 	java -jar compiler.jar --js `echo $(ls assets/js/*.js)` --js_output_file assets/js/all.min.js --externs jquery-1.8.js
 
+=== HTML ===
 * To minify HTML using HTML Compressor (https://code.google.com/p/htmlcompressor)
 	
 	curl https://htmlcompressor.googlecode.com/files/htmlcompressor-1.5.3.jar > htmlcompressor.jar
 	java -jar htmlcompressor.jar -t html index.html > index.min.html
 
+=== CSS ===
 * To minify CSS using YUI Compressor (http://yui.github.io/yuicompressor/)
 
 	sudo apt-get install yui-compressor
