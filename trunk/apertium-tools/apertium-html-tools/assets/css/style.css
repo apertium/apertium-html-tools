@@ -61,6 +61,10 @@ h2 {
     color: #b94a48;
 }
 
+.languageName {
+    padding-left: .75em;
+}
+
 .languageName:not(.text-muted) {
     color: #333333;
     text-decoration: none;
@@ -76,14 +80,12 @@ h2 {
 #srcLanguages {
     min-width: 500px;
     left: 81%;
-    text-align: center;
 }
 
 #dstLanguages {
     min-width: 500px;
     right: 0;
     left: auto;
-    text-align: center;
 }
 
 button.disabledLang {
