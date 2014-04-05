@@ -14,15 +14,15 @@
 	"detected": "detected",
 	"Not_Available": "Translation not yet available!",
 	"Language": "Language",
-	"Input_Text": "Input Text",
+	"Input_Text": "Input text",
 	"Generate": "Generate",
 	"Morphological_Generation_Help": "Choose a language and generate surface forms from your text using Apertium's morphological generators.",
 	"APY_Sandbox_Help": "Send arbitrary requests",
 	"APY_Request": "APY Request",
 	"Request": "Request",
-	"Notice_Mistake": "Notice a mistake?",
+	"Notice_Mistake": "Spotted a mistake?",
 	"Help_Improve": "Help us improve Apertium!",
 	"Contact_Us": "Feel free to contact us if you find a mistake, there's a project you would like to see us work on, or you would like to help out.",
 	"Maintainer": "This website is maintained by {{apertiumTurkicUrl}}.",
-	"About_Title": "About the Website"
+	"About_Title": "About this website"
 }
