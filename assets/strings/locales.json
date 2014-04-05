@@ -1,13 +1,14 @@
 {
-	"kaz": "қазақша",
-	"kir": "кыргызча",
-	"tat": "татарча",
-	"rus": "русский",
+	"arg": "aragonés",
 	"cat": "català",
 	"eng": "English",
 	"spa": "español",
-	"por": "português",
+	"kaz": "қазақша",
+	"kir": "кыргызча",
 	"nno": "nynorsk",
 	"nob": "norsk bokmål",
+	"por": "português",
 	"ron": "românǎ"
+	"rus": "русский",
+	"tat": "татарча",
 }
