@@ -18,6 +18,10 @@ $.jsonp.setup({
 });
 
 $(document).ready(function () {
+    $('#noscript').hide();
+    $('.navbar').css('margin-top', '0px');
+    $('body > .container').css('margin-top', '0px');
+
     var hash = parent.location.hash;
 
     if(!hash || !$(hash + 'Container')) {
