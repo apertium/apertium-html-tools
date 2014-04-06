@@ -66,11 +66,16 @@ $(document).ready(function () {
 
     var timer, timeout = 1000;
     $('#originalText').on('keyup paste', function (event) {
-        if(timer)
+        if(timer && $('#instantTranslation').prop('checked'))
             clearTimeout(timer);
         timer = setTimeout(function () {
-            translate();
+            if($('#instantTranslation').prop('checked'))
+                translate();
         }, timeout);
+    });
+
+    $('#instantTranslation').on('change', function () {
+        persistChoices('translator');
     });
 
     $('#originalText').on('input propertychange', function () {
