@@ -8,7 +8,8 @@ function persistChoices(mode) {
                 'curDstLang': curDstLang,
                 'curSrcChoice': $('.srcLang.active').prop('id'),
                 'curDstChoice': $('.dstLang.active').prop('id'),
-                'translationInput': $('#originalText').val()
+                'translationInput': $('#originalText').val(),
+                'instantTranslation': $('#instantTranslation').prop('checked')
             };
         }
         else if(mode === 'analyzer') {
@@ -69,6 +70,9 @@ function restoreChoices(mode) {
 
             if('translationInput' in localStorage)
                 $('#originalText').val(retrieve('translationInput'));
+
+            if('instantTranslation' in localStorage)
+                $('#instantTranslation').attr('checked', retrieve('instantTranslation'));
 
             refreshLangList();
         }
