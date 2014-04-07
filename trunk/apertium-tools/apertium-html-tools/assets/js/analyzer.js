@@ -64,7 +64,7 @@ function populateAnalyzerList(data) {
         analyzersArray.push([key, value])
     });
     analyzersArray = filterLangList(analyzersArray, function (analyzer) {
-        return ALLOWED_LANGS.indexOf(analyzer[0]) !== -1;
+        return allowedLang(analyzer[0]);
     });
     analyzersArray.sort(function (a, b) {
         return getLangByCode(a[0]).localeCompare(getLangByCode(b[0]));

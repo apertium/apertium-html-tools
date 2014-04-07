@@ -64,7 +64,7 @@ function populateGeneratorList(data) {
         generatorArray.push([key, value])
     });
     generatorArray = filterLangList(generatorArray, function (generator) {
-        return ALLOWED_LANGS.indexOf(generator[0]) !== -1;
+        return allowedLang(generator[0]);
     });
     generatorArray.sort(function (a, b) {
         return getLangByCode(a[0]).localeCompare(getLangByCode(b[0]));
