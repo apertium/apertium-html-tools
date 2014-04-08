@@ -1,16 +1,31 @@
 
 == Running locally ==
 
-The files can be served by any server.  You can use whatever you like, including apache or even just python's http server.  For example, to run on locally on http://localhost:8080 you can do the following:
+The files can be served by any server. You can use whatever you like,
+including apache or even just python's http server. For example, to
+run on locally on http://localhost:8080 you can do the following:
+
 	$ python3 -m http.server 8080
 
 == Minification ==
-Type "make" to minify js, html and CSS.
+
+To minify js, html and CSS, type
+
+    make min
 
 JS and HTML minification requires Java.
 
 CSS minification requires YUI Compressor
 (http://yui.github.io/yuicompressor/), available for Debian with:
 
-	sudo apt-get install yui-compressor
+    sudo apt-get install yui-compressor
 
+(If you already did `make nojava`, do make clean first.)
+
+== Concatenation ==
+
+If you don't have / want java, you just type
+
+    make
+
+to get non-minified, simply concatenated files.

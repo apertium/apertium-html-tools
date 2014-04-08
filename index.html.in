@@ -10,25 +10,16 @@
         <link rel="shortcut icon" href="./assets/img/favicon.ico">
         
         <!-- <link type="text/css" rel="stylesheet" href="./assets/css/icon-globe.css"> -->
-        <link type="text/css" rel="stylesheet" href="./assets/css/bootstrap.css">
+        <link type="text/css" rel="stylesheet" href="./assets/css/min.css">
         <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" >
-        <link type="text/css" rel="stylesheet" href="./assets/css/style.css">
 
         <!--[if lt IE 9]> <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script> <![endif]-->
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-        <script type="text/javascript" src="./assets/js/jquery.jsonp-2.4.0.min.js"></script>
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
         
         <!-- <script type="text/javascript" src="http://api.apertium.org/JSLibrary.jsp"></script> -->
         <!--[if lt IE 9]> <script type="text/javascript" src="./assets/js/compat.js"></script> <![endif]-->
-        <script type="text/javascript" src="./assets/js/config.js"></script>
-        <script type="text/javascript" src="./assets/js/util.js"></script>
-        <script type="text/javascript" src="./assets/js/persistence.js"></script>
-        <script type="text/javascript" src="./assets/js/localization.js"></script>
-        <script type="text/javascript" src="./assets/js/translator.js"></script>
-        <script type="text/javascript" src="./assets/js/analyzer.js"></script>
-        <script type="text/javascript" src="./assets/js/generator.js"></script>
-        <script type="text/javascript" src="./assets/js/sandbox.js"></script>
+@include_head@
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">
