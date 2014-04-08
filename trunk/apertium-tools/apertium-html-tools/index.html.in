@@ -10,7 +10,6 @@
         <link rel="shortcut icon" href="./assets/img/favicon.ico">
         
         <!-- <link type="text/css" rel="stylesheet" href="./assets/css/icon-globe.css"> -->
-        <link type="text/css" rel="stylesheet" href="./assets/css/min.css">
         <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" >
 
         <!--[if lt IE 9]> <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script> <![endif]-->
