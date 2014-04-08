@@ -28,7 +28,6 @@ compiler.jar: compiler-latest.zip
 	touch $@
 
 assets/js/min.js: compiler.jar jquery-1.8.js
-	mkdir -p assets/minified
 	java -jar compiler.jar --js $(JSFILES) --js_output_file $@ --externs jquery-1.8.js
 
 
