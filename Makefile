@@ -11,8 +11,9 @@ min: \
 
 
 ### JS ###
-JSFILES=assets/js/config.js \
+JSFILES= \
 	assets/js/jquery.jsonp-2.4.0.min.js \
+	assets/js/config.js \
 	assets/js/util.js \
 	assets/js/persistence.js \
 	assets/js/localization.js \
@@ -20,6 +21,7 @@ JSFILES=assets/js/config.js \
 	assets/js/analyzer.js \
 	assets/js/generator.js \
 	assets/js/sandbox.js
+
 
 jquery-1.8.js:
 	curl https://closure-compiler.googlecode.com/git/contrib/externs/$@ > $@
