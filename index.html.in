@@ -317,7 +317,7 @@
 
                         <div class="center-block">
                             <a alt="This page is subject to a Creative Commons licence" href="http://creativecommons.org/licenses/by-sa/3.0/">
-                                <img alt="Creative Commons licence" src="assets/img/cc-by-sa-3.0-88x31.png"/>
+                                <img alt="Creative Commons licence" data-src="assets/img/cc-by-sa-3.0-88x31.png"/>
                             </a>
                         </div>
                     </div>
