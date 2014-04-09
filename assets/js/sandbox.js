@@ -1,27 +1,29 @@
-$(document).ready(function () {
-    $('#request').click(function () {
-        request();
-    });
-
-    $('#sandboxInput').keydown(function (e) {
-        if(e.keyCode === 13 && !e.shiftKey) {
-            e.preventDefault();
+if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
+    $(document).ready(function () {
+        $('#request').click(function () {
             request();
-        }
-    });
+        });
 
-    $('#sandboxInput').on('input propertychange', function () {
-        persistChoices('sandbox');
-    });
+        $('#sandboxInput').keydown(function (e) {
+            if(e.keyCode === 13 && !e.shiftKey) {
+                e.preventDefault();
+                request();
+            }
+        });
 
-    restoreChoices('sandbox');
-});
+        $('#sandboxInput').on('input propertychange', function () {
+            persistChoices('sandbox');
+        });
+
+        restoreChoices('sandbox');
+    });
+}
 
 function request() {
     $('#sandboxOutput').addClass('blurred');
     var start_time = new Date().getTime();
     $.jsonp({
-        url: APY_URL + $('#sandboxInput').val(),
+        url: config.APY_URL + $('#sandboxInput').val(),
         beforeSend: ajaxSend,
         complete: ajaxComplete,
         success: function (data) {

@@ -18,8 +18,19 @@ $(document).ready(function () {
         localizeLanguageNames();
         persistChoices('localization');
     });
+    
+    var possibleItems = {'translation': getPairs, 'generation': getGenerators, 'analyzation': getAnalyzers};
+    var deferredItems = [getLocales()];
+    if(config.ENABLED_MODES === undefined)
+        $.each(possibleItems, function (mode, deferrer) {
+            deferredItems.push(deferrer.call());
+        });
+    else 
+        $.each(config.ENABLED_MODES, function () {
+            if(possibleItems[this])
+                deferredItems.push(possibleItems[this].call());
+        });
 
-    var deferredItems = [getLocales(), getPairs(), getGenerators(), getAnalyzers()];
     $.when.apply($, deferredItems).then(function () {
         locale = $('.localeSelect').val();
         localizeLanguageNames();
@@ -31,7 +42,7 @@ function getLocale(deferred) {
 
     if(!locale) {
         $.jsonp({
-            url: APY_URL + '/getLocale',
+            url: config.APY_URL + '/getLocale',
             beforeSend: ajaxSend,
             success: function (data) {
                 for(var i = 0; i < data.length; i++) {
@@ -110,7 +121,7 @@ function localizeLanguageNames() {
     localizeStrings(locale);
 
     $.jsonp({
-        url: APY_URL + '/listLanguageNames?locale=' + locale + '&languages=' + languages.join('+'),
+        url: config.APY_URL + '/listLanguageNames?locale=' + locale + '&languages=' + languages.join('+'),
         beforeSend: ajaxSend,
         complete: ajaxComplete,
         success: function (data) {
@@ -120,11 +131,16 @@ function localizeLanguageNames() {
                 localizedLanguageCodes[value] = key
             });
 
-            populateTranslationList();
-            refreshLangList();
+            if(modeEnabled('translation')) {
+                populateTranslationList();
+                refreshLangList();
+            }
 
-            populateGeneratorList(generatorData);
-            populateAnalyzerList(analyzerData);
+            if(modeEnabled('generation'))
+                populateGeneratorList(generatorData);
+
+            if(modeEnabled('analyzation'))
+                populateAnalyzerList(analyzerData);
         },
         error: function () {
             localizedLanguageNames = {};
