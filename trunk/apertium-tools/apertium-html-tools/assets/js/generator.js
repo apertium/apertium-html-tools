@@ -1,35 +1,37 @@
 var generators = {}, generatorData = {};
 
-$(document).ready(function () {
-    $('#generate').click(function () {
-        generate();
-    });
-
-    $('#primaryGeneratorMode').change(function () {
-        populateSecondaryGeneratorList();
-        persistChoices('generator');
-    });
-
-    $('#secondaryGeneratorMode').change(function () {
-        persistChoices('generator');
-    });
-
-    $('#morphGeneratorInput').keydown(function (e) {
-        if(e.keyCode === 13 && !e.shiftKey) {
-            e.preventDefault();
+if(modeEnabled('generation')) {
+    $(document).ready(function () {
+        $('#generate').click(function () {
             generate();
-        }
-    });
+        });
 
-    $('#morphGeneratorInput').on('input propertychange', function () {
-        persistChoices('generator');
+        $('#primaryGeneratorMode').change(function () {
+            populateSecondaryGeneratorList();
+            persistChoices('generator');
+        });
+
+        $('#secondaryGeneratorMode').change(function () {
+            persistChoices('generator');
+        });
+
+        $('#morphGeneratorInput').keydown(function (e) {
+            if(e.keyCode === 13 && !e.shiftKey) {
+                e.preventDefault();
+                generate();
+            }
+        });
+
+        $('#morphGeneratorInput').on('input propertychange', function () {
+            persistChoices('generator');
+        });
     });
-});
+}
 
 function getGenerators() {
     var deferred = $.Deferred();
     $.jsonp({
-        url: APY_URL + '/list?q=generators',
+        url: config.APY_URL + '/list?q=generators',
         beforeSend: ajaxSend,
         success: function (data) {
             generatorData = data;
@@ -100,7 +102,7 @@ function generate() {
 
     $('#morphGenOutput').addClass('blurred');
     $.jsonp({
-        url: APY_URL + '/generate',
+        url: config.APY_URL + '/generate',
         beforeSend: ajaxSend,
         complete: ajaxComplete,
         data: {

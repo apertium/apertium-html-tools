@@ -19,11 +19,11 @@ $(document).ready(function () {
     $('.navbar').css('margin-top', '0px');
     $('body > .container').css('margin-top', '0px');
 
-    if(SHOW_NAVBAR) {
-        if(ENABLED_MODES === undefined)
+    if(config.SHOW_NAVBAR) {
+        if(config.ENABLED_MODES === undefined)
             $('.nav a').removeClass('hide');
         else
-            $.each(ENABLED_MODES, function () {
+            $.each(config.ENABLED_MODES, function () {
                 $('.nav a[data-mode=' + this + ']').removeClass('hide');
             });
     }
@@ -35,7 +35,7 @@ $(document).ready(function () {
     var hash = parent.location.hash;
 
     if(!hash || !$(hash + 'Container')) {
-        hash = '#' + DEFAULT_MODE;
+        hash = '#' + config.DEFAULT_MODE;
         parent.location.hash = hash;
     }
 
@@ -54,12 +54,12 @@ $(document).ready(function () {
         });
     });
 
-    if(ALLOWED_LANGS)
-        $.each(ALLOWED_LANGS.slice(0), function () {
+    if(config.ALLOWED_LANGS)
+        $.each(config.ALLOWED_LANGS.slice(0), function () {
             if(iso639Codes[this])
-                ALLOWED_LANGS.push(iso639Codes[this]);
+                config.ALLOWED_LANGS.push(iso639Codes[this]);
             if(iso639CodesInverse[this])
-                ALLOWED_LANGS.push(iso639CodesInverse[this]);
+                config.ALLOWED_LANGS.push(iso639CodesInverse[this]);
         });
 
     $('form').submit(function () {
@@ -73,8 +73,12 @@ $(document).ready(function () {
     });
 });
 
+function modeEnabled(mode) {
+    return config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf(mode) !== -1;
+}
+
 function filterLangList(langs, filterFn) {
-    if(ALLOWED_LANGS === undefined && ALLOWED_VARIANTS === undefined)
+    if(config.ALLOWED_LANGS === undefined && config.ALLOWED_VARIANTS === undefined)
         return langs;
     else {
         if(!filterFn)
@@ -88,9 +92,9 @@ function filterLangList(langs, filterFn) {
 
 function allowedLang (code) {
     if(code.indexOf('_') === -1)
-        return ALLOWED_LANGS === undefined || ALLOWED_LANGS.indexOf(code) !== -1;
+        return config.ALLOWED_LANGS === undefined || config.ALLOWED_LANGS.indexOf(code) !== -1;
     else
-        return allowedLang(code.split('_')[0]) && (ALLOWED_VARIANTS === undefined || ALLOWED_VARIANTS.indexOf(code.split('_')[1]) !== -1);
+        return allowedLang(code.split('_')[0]) && (config.ALLOWED_VARIANTS === undefined || config.ALLOWED_VARIANTS.indexOf(code.split('_')[1]) !== -1);
 }
 
 function onlyUnique(value, index, self) {

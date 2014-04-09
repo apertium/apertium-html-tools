@@ -1,35 +1,37 @@
 var analyzers = {}, analyzerData = {};
 
-$(document).ready(function () {
-    $('#analyze').click(function () {
-        analyze();
-    });
-
-    $('#primaryAnalyzerMode').change(function () {
-        populateSecondaryAnalyzerList();
-        persistChoices('analyzer');
-    });
-
-    $('#secondaryAnalyzerMode').change(function () {
-        persistChoices('analyzer');
-    });
-
-    $('#morphAnalyzerInput').keydown(function (e) {
-        if(e.keyCode === 13 && !e.shiftKey) {
-            e.preventDefault();
+if(modeEnabled('analyzation')) {
+    $(document).ready(function () {
+        $('#analyze').click(function () {
             analyze();
-        }
-    });
+        });
 
-    $('#morphAnalyzerInput').on('input propertychange', function () {
-        persistChoices('analyzer');
+        $('#primaryAnalyzerMode').change(function () {
+            populateSecondaryAnalyzerList();
+            persistChoices('analyzer');
+        });
+
+        $('#secondaryAnalyzerMode').change(function () {
+            persistChoices('analyzer');
+        });
+
+        $('#morphAnalyzerInput').keydown(function (e) {
+            if(e.keyCode === 13 && !e.shiftKey) {
+                e.preventDefault();
+                analyze();
+            }
+        });
+
+        $('#morphAnalyzerInput').on('input propertychange', function () {
+            persistChoices('analyzer');
+        });
     });
-});
+}
 
 function getAnalyzers() {
     var deferred = $.Deferred();
     $.jsonp({
-        url: APY_URL + '/list?q=analyzers',
+        url: config.APY_URL + '/list?q=analyzers',
         beforeSend: ajaxSend,
         success: function (data) {
             analyzerData = data;
@@ -100,7 +102,7 @@ function analyze() {
 
     $('#morphAnalyzerOutput').addClass('blurred');
     $.jsonp({
-        url: APY_URL + '/analyze',
+        url: config.APY_URL + '/analyze',
         pageCache: true,
         beforeSend: ajaxSend,
         complete: ajaxComplete,
