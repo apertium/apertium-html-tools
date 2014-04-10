@@ -1,13 +1,13 @@
 # This (default) goal just cats stuff:
-nojava: assets/js/all.js assets/css/min.css index.html index.debug.html
-	cat assets/js/all.js > assets/js/min.js
+nojava: build/js/all.js build/css/min.css index.html index.debug.html
+	cat build/js/all.js > build/js/min.js
 
 # This goal actually minifies stuff:
 min: \
-	assets/js/min.js \
+	build/js/min.js \
 	index.min.html \
 	index.debug.html \
-	assets/css/min.css
+	build/css/min.css
 
 
 ### JS ###
@@ -28,7 +28,8 @@ jquery-1.8.js:
 	curl https://closure-compiler.googlecode.com/git/contrib/externs/$@ > $@
 	touch $@
 
-assets/js/all.js:
+build/js/all.js:
+	mkdir -p build/js
 	cat $(JSFILES) > $@
 
 # minification:
@@ -40,7 +41,7 @@ compiler.jar: compiler-latest.zip
 	unzip -n $<
 	touch $@
 
-assets/js/min.js: compiler.jar jquery-1.8.js
+build/js/min.js: compiler.jar jquery-1.8.js
 	java -jar compiler.jar --js $(JSFILES) --js_output_file $@ --externs jquery-1.8.js
 
 
@@ -61,11 +62,12 @@ index.min.html: index.html htmlcompressor.jar
 
 
 ### CSS ###
-assets/css/all.css:  assets/css/bootstrap.css assets/css/style.css
+build/css/all.css:  assets/css/bootstrap.css assets/css/style.css
+	mkdir -p build/css
 	cat $^ > $@
 
 # minification:
-assets/css/min.css: assets/css/all.css
+build/css/min.css: build/css/all.css
 	@echo $^
 	@if test -e /usr/share/yui-compressor/yui-compressor.jar; then \
 		java -jar /usr/share/yui-compressor/yui-compressor.jar -o $@ $^; \
@@ -77,7 +79,7 @@ assets/css/min.css: assets/css/all.css
 
 ### Clean ###
 clean:
-	rm -f assets/js/min.js assets/js/all.js index.min.html index.html index.debug.html assets/css/min.css assets/css/all.css
+	rm -rf index.min.html index.html index.debug.html build/
 
 reallyclean: clean
 	rm -f htmlcompressor.jar compiler.jar compiler-latest.zip jquery-1.8.js
