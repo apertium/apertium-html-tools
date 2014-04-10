@@ -135,6 +135,13 @@ if (!Array.prototype.filter)
   };
 }
 
+//From: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+if (!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^\s+|\s+$/g, '');
+  };
+}
+
 //From: http://stackoverflow.com/a/221297/1266600
 if (!Date.now) {
     Date.now = function() { return new Date().getTime(); };
