@@ -153,42 +153,57 @@ if(modeEnabled('translation')) {
 
 function getPairs() {
     var deferred = $.Deferred();
-    $.jsonp({
-        url: config.APY_URL + '/list?q=pairs',
-        beforeSend: ajaxSend,
-        success: function (data) {
-            $.each(data['responseData'], function (i, pair) {
-                srcLangs.push(pair.sourceLanguage);
-                dstLangs.push(pair.targetLanguage);
 
-                if(pairs[pair.sourceLanguage])
-                    pairs[pair.sourceLanguage].push(pair.targetLanguage);
-                else
-                    pairs[pair.sourceLanguage] = [pair.targetLanguage];
-            });
-            srcLangs = filterLangList(srcLangs.filter(onlyUnique));
-            dstLangs = filterLangList(dstLangs.filter(onlyUnique));
-
-            curSrcLang = srcLangs[0];
-            curDstLang = dstLangs[0];
-            for(var i = 0; i < 3; i++) {
-                recentSrcLangs.push(i < srcLangs.length ? srcLangs[i] : undefined);
-                recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
+    var pairs = readCache('pairs', 'LIST_REQUEST');
+    if(pairs) {
+        handlePairs(pairs);
+        deferred.resolve();
+    }
+    else {
+        console.error('Translation pairs cache ' + (pairs === null ? 'stale' : 'miss') + ', retrieving from server');
+        $.jsonp({
+            url: config.APY_URL + '/list?q=pairs',
+            beforeSend: ajaxSend,
+            success: function (data) {
+                handlePairs(data['responseData']);
+                cache('pairs', data['responseData']);
+            },
+            error: function () {
+                console.error('Failed to get available translation language pairs');
+                translationNotAvailable();
+            },
+            complete: function () {
+                ajaxComplete();
+                deferred.resolve();
             }
+        });
+    }
 
-            populateTranslationList();
-            restoreChoices('translator');
-            refreshLangList();
-        },
-        error: function () {
-            console.error('Failed to get available translation language pairs');
-            translationNotAvailable();
-        },
-        complete: function () {
-            ajaxComplete();
-            deferred.resolve();
+    function handlePairs(pairs) {
+        $.each(pairs, function (i, pair) {
+            srcLangs.push(pair.sourceLanguage);
+            dstLangs.push(pair.targetLanguage);
+
+            if(pairs[pair.sourceLanguage])
+                pairs[pair.sourceLanguage].push(pair.targetLanguage);
+            else
+                pairs[pair.sourceLanguage] = [pair.targetLanguage];
+        });
+        srcLangs = filterLangList(srcLangs.filter(onlyUnique));
+        dstLangs = filterLangList(dstLangs.filter(onlyUnique));
+
+        curSrcLang = srcLangs[0];
+        curDstLang = dstLangs[0];
+        for(var i = 0; i < 3; i++) {
+            recentSrcLangs.push(i < srcLangs.length ? srcLangs[i] : undefined);
+            recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
         }
-    });
+
+        populateTranslationList();
+        restoreChoices('translator');
+        refreshLangList();
+    }
+
     return deferred.promise();
 }
 

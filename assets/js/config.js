@@ -11,7 +11,7 @@ var config = {
     ENABLED_MODES: ['translation', 'analyzation', 'generation', 'sandbox'],
     DEFAULT_MODE: 'translation',
     SHOW_NAVBAR: true,
-    LIST_REQUEST_CACHE_EXPIRY: 24, //TODO: Make it work
+    LIST_REQUEST_CACHE_EXPIRY: 24,
     LANGUAGE_NAME_CACHE_EXPIRY: 24, //TODO: Make it work
     LOCALIZATION_CACHE_EXPIRY: 24,
     AVAILABLE_LOCALES_CACHE_EXPIRY: 24
