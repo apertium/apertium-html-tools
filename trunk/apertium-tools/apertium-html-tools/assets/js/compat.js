@@ -134,3 +134,8 @@ if (!Array.prototype.filter)
     return res;
   };
 }
+
+//From: http://stackoverflow.com/a/221297/1266600
+if (!Date.now) {
+    Date.now = function() { return new Date().getTime(); };
+}
