@@ -77,21 +77,33 @@ function getLocale(deferred) {
 
 function getLocales() {
     var deferred = $.Deferred();
+    var locales = readCache('locales', 'AVAILABLE_LOCALES');
+    if(locales) {
+        handleLocales(locales);
+        getLocale(deferred);
+    }
+    else {
+        console.error('Available locales cache ' + (locales === null ? 'stale' : 'miss') + ', retrieving from server');
+        $.ajax({
+            url: './assets/strings/locales.json',
+            type: 'GET',
+            success: function (data) {
+                handleLocales(data);
+                cache('locales', data);
+                getLocale(deferred);
+            },
+            error: function (jqXHR, textStatus, errorThrow) {
+                console.error('Failed to fetch available locales: ' + errorThrow);
+                deferred.resolve();
+            }
+        });
+    }
 
-    $.ajax({
-        url: './assets/strings/locales.json',
-        type: 'GET',
-        success: function (data) {
-            $.each(data, function (code, langName) {
-                $('.localeSelect').append($('<option></option>').prop('value', code).text(langName));
-            });
-            getLocale(deferred);
-        },
-        error: function (jqXHR, textStatus, errorThrow) {
-            console.error('Failed to fetch available locales: ' + errorThrow);
-            deferred.resolve();
-        }
-    });
+    function handleLocales(locales) {
+        $.each(locales, function (code, langName) {
+            $('.localeSelect').append($('<option></option>').prop('value', code).text(langName));
+        });
+    }
 
     return deferred.promise();
 }
@@ -153,28 +165,40 @@ function localizeStrings(locale) {
         '{{apertiumTurkicUrl}}': '<a href="http://wiki.apertium.org/wiki/Apertium_Turkic" target="_blank">Apertium Turkic</a>'
     }
 
-    $.ajax({
-        url: './assets/strings/' + locale + '.json',
-        type: 'GET',
-        success: function (data) {
-            for(var textId in data) {
-                var text = data[textId];
-                $.each(replacements, function (name, value) {
-                    if(text.indexOf(name) !== -1)
-                        text = text.replace(name, value);
-                });
-
-                $('[data-text=' + textId + ']').html(text);
+    var localizations = readCache(locale + '_localizations', 'LOCALIZATION');
+    if(localizations) {
+        handleLocalizations(localizations);
+    }
+    else {
+        console.error(locale + ' localizations cache ' + (localizations === null ? 'stale' : 'miss') + ', retrieving from server');
+        $.ajax({
+            url: './assets/strings/' + locale + '.json',
+            type: 'GET',
+            success: function (data) {
+                handleLocalizations(data);
+                cache(locale + '_localizations', data);
+            },
+            error: function (jqXHR, textStatus, errorThrow) {
+                console.error('Failed to fetch localized strings for ' + locale + ': ' + errorThrow);
             }
-            if(data['Not_Available'])
-                notAvailableText = data['Not_Available'];
-            if(data['detected'])
-                detectedText = data['detected'];
-        },
-        error: function (jqXHR, textStatus, errorThrow) {
-            console.error('Failed to fetch localized strings for ' + locale + ': ' + errorThrow);
+        });
+    }
+
+    function handleLocalizations(localizations) {
+        for(var textId in localizations) {
+            var text = localizations[textId];
+            $.each(replacements, function (name, value) {
+                if(text.indexOf(name) !== -1)
+                    text = text.replace(name, value);
+            });
+
+            $('[data-text=' + textId + ']').html(text);
         }
-    });
+        if(localizations['Not_Available'])
+            notAvailableText = localizations['Not_Available'];
+        if(localizations['detected'])
+            detectedText = localizations['detected'];
+    }
 }
 
 function getLangByCode(code) {

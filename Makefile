@@ -16,6 +16,7 @@ JSFILES= \
 	assets/js/config.js \
 	assets/js/util.js \
 	assets/js/persistence.js \
+	assets/js/caching.js \
 	assets/js/localization.js \
 	assets/js/translator.js \
 	assets/js/analyzer.js \
