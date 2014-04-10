@@ -154,9 +154,9 @@ if(modeEnabled('translation')) {
 function getPairs() {
     var deferred = $.Deferred();
 
-    var pairs = readCache('pairs', 'LIST_REQUEST');
-    if(pairs) {
-        handlePairs(pairs);
+    var pairData = readCache('pairs', 'LIST_REQUEST');
+    if(pairData) {
+        handlePairs(pairData);
         deferred.resolve();
     }
     else {
@@ -179,8 +179,8 @@ function getPairs() {
         });
     }
 
-    function handlePairs(pairs) {
-        $.each(pairs, function (i, pair) {
+    function handlePairs(pairData) {
+        $.each(pairData, function (i, pair) {
             srcLangs.push(pair.sourceLanguage);
             dstLangs.push(pair.targetLanguage);
 
