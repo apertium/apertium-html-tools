@@ -132,32 +132,44 @@ function localizeLanguageNames() {
     var languages = generateLanguageList();
     localizeStrings(locale);
 
-    $.jsonp({
-        url: config.APY_URL + '/listLanguageNames?locale=' + locale + '&languages=' + languages.join('+'),
-        beforeSend: ajaxSend,
-        complete: ajaxComplete,
-        success: function (data) {
-            localizedLanguageNames = data;
-            localizedLanguageCodes = {};
-            $.each(data, function (key, value) {
-                localizedLanguageCodes[value] = key
-            });
-
-            if(modeEnabled('translation')) {
-                populateTranslationList();
-                refreshLangList();
+    var localizedNames = readCache(locale + '_names', 'LANGUAGE_NAME');
+    if(localizedNames) {
+        handleLocalizedNames(localizedNames)
+    }
+    else {
+        console.error(locale + ' localized names cache ' + (localizedNames === null ? 'stale' : 'miss') + ', retrieving from server');
+        $.jsonp({
+            url: config.APY_URL + '/listLanguageNames?locale=' + locale + '&languages=' + languages.join('+'),
+            beforeSend: ajaxSend,
+            complete: ajaxComplete,
+            success: function (data) {
+                handleLocalizedNames(data);
+                cache(locale + '_names', data);
+            },
+            error: function () {
+                localizedLanguageNames = {};
             }
+        });
+    }
 
-            if(modeEnabled('generation'))
-                populateGeneratorList(generatorData);
+    function handleLocalizedNames(localizedNames) {
+        localizedLanguageNames = localizedNames;
+        localizedLanguageCodes = {};
+        $.each(localizedNames, function (key, value) {
+            localizedLanguageCodes[value] = key
+        });
 
-            if(modeEnabled('analyzation'))
-                populateAnalyzerList(analyzerData);
-        },
-        error: function () {
-            localizedLanguageNames = {};
+        if(modeEnabled('translation')) {
+            populateTranslationList();
+            refreshLangList();
         }
-    });
+
+        if(modeEnabled('generation'))
+            populateGeneratorList(generatorData);
+
+        if(modeEnabled('analyzation'))
+            populateAnalyzerList(analyzerData);
+    }
 }
 
 function localizeStrings(locale) {
