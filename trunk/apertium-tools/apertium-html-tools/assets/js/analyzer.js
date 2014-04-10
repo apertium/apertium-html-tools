@@ -30,21 +30,32 @@ if(modeEnabled('analyzation')) {
 
 function getAnalyzers() {
     var deferred = $.Deferred();
-    $.jsonp({
-        url: config.APY_URL + '/list?q=analyzers',
-        beforeSend: ajaxSend,
-        success: function (data) {
-            analyzerData = data;
-            populateAnalyzerList(analyzerData);
-        },
-        error: function (xOptions, error) {
-            console.error('Failed to get available analyzers');
-        },
-        complete: function () {
-            ajaxComplete();
-            deferred.resolve();
-        }
-    });
+
+    var analyzers = readCache('analyzers', 'LIST_REQUEST');
+    if(analyzers) {
+        analyzerData = analyzers;
+        populateAnalyzerList(analyzers);
+        deferred.resolve();
+    }
+    else {
+        console.error('Analyzers cache ' + (analyzers === null ? 'stale' : 'miss') + ', retrieving from server');
+        $.jsonp({
+            url: config.APY_URL + '/list?q=analyzers',
+            beforeSend: ajaxSend,
+            success: function (data) {
+                analyzerData = data;
+                populateAnalyzerList(analyzerData);
+                cache('analyzers', data);
+            },
+            error: function (xOptions, error) {
+                console.error('Failed to get available analyzers');
+            },
+            complete: function () {
+                ajaxComplete();
+                deferred.resolve();
+            }
+        });
+    }
     return deferred.promise();
 }
 
