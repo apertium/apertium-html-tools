@@ -5,12 +5,12 @@
 */
 
 var config = {
-    APY_URL: '//localhost:2737',
+    APY_URL: 'http://www.apertium.org:8080',
     ALLOWED_LANGS: undefined,
-    ALLOWED_VARIANTS: undefined,
-    ENABLED_MODES: ['translation', 'analyzation', 'generation', 'sandbox'],
+    ALLOWED_VARIANTS: ['BR','aran','valencia'],
+    ENABLED_MODES: ['translation'],
     DEFAULT_MODE: 'translation',
-    SHOW_NAVBAR: true,
+    SHOW_NAVBAR: false,
     GOOGLE_ANALYTICS_PROPERTY: undefined,
     GOOGLE_ANALYTICS_TRACKING_ID: undefined,
     LIST_REQUEST_CACHE_EXPIRY: 24,
