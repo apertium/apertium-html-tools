@@ -1,6 +1,6 @@
 {
-	"title": "Apertium | A free/open-source machine translation platform",
-	"tagline": "A free/open-source machine translation platform",
+	"title": "Апертиум | Машинияб таржамалъул эркенаб/рагьараб тӏагӏел",
+	"tagline": "Машинияб таржамалъул эркенаб/рагьараб тӏагӏел",
 	"Translation": "Таржама",
 	"Morphological_Analysis": "Морфологияб анализ",
 	"Morphological_Generation": "Морфологияб синтез",
@@ -13,15 +13,15 @@
 	"Language": "Мацӏ",
 	"Input_Text": "Жаниб бачулеб текст",
 	"Generate": "Синтез гьабе",
-	"Morphological_Generation_Help": "Мацӏги бищун анализ гьабе Апертиумалъул кумекалъулъ",
+	"Morphological_Generation_Help": "Мацӏги бищун синтез гьабе Апертиумалъул кумекалъулъ",
 	"APY_Sandbox_Help": "Бокьараб гьикъи битӏе",
 	"APY_Request": "APY тӏалаб гьабе",
 	"Request": "ТӀалаб гьабе",
 	"Notice_Mistake": "Гъалатӏ батанищ?",
 	"Help_Improve": "Апертиум лъиклъизе кумек гьабе!",
 	"Detect_Language": "Мацӏ батӏа бахъизабе",
-	"detected": "Батӏа бахъизабун буго",
-        "Contact_Us": "Гьара-рахьи ратани, гъалатӏ батун батани яги кумек гьабизе бокьун батани, хъвае нижехе.",
+	"detected": "батӏа бахъизабун буго",
+        "Contact_Us": "Гьара-рахьи ратани, гъалатӏ батун батани яги кумек гьабизе бокьун батани, хъвай нижехе.",
         "Maintainer": "Гьаб сайталъул кверчӏвай ва тадбир гьабулеб буго {{apertiumTurkicUrl}}.",
         "About_Title": "Гьаб сайталъул хӏакъалъулъ"
 }
