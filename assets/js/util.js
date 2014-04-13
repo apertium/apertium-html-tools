@@ -84,6 +84,18 @@ if(config.GOOGLE_ANALYTICS_PROPERTY && config.GOOGLE_ANALYTICS_TRACKING_ID) {
     ga('send', 'pageview');
 }
 
+function sendGAEvent(category, action, label, value) {
+    if(config.GOOGLE_ANALYTICS_PROPERTY && config.GOOGLE_ANALYTICS_TRACKING_ID && ga) {
+        var args = ['send', 'event', category, action];
+        if(label !== undefined && value !== undefined)
+            args = args.concat([label, value]);
+        else if(label !== undefined)
+            args.push(label);
+
+        ga.apply(undefined, args);
+    }
+}
+
 function modeEnabled(mode) {
     return config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf(mode) !== -1;
 }
