@@ -304,6 +304,7 @@ function populateTranslationList() {
 
 function translate() {
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+        sendGAEvent('translator', 'translate', curSrcLang + '-' + curDstLang);
         $.jsonp({
             url: config.APY_URL + '/translate',
             beforeSend: ajaxSend,
