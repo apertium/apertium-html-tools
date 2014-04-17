@@ -110,7 +110,7 @@ function populateSecondaryGeneratorList() {
 
 function generate() {
     var generatorMode = generators[$('#primaryGeneratorMode').val()].length > 1 ? $('#secondaryGeneratorMode').val() : generators[$('#primaryGeneratorMode').val()][0];
-    sendGAEvent('generator', 'generate', generatorMode);
+    sendGAEvent('generator', 'generate', generatorMode, $('#morphGeneratorInput').val().length);
 
     $('#morphGenOutput').addClass('blurred');
     $.jsonp({

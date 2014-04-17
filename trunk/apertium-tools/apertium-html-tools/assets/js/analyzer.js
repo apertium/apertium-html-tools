@@ -110,7 +110,7 @@ function populateSecondaryAnalyzerList() {
 
 function analyze() {
     var analyzerMode = analyzers[$('#primaryAnalyzerMode').val()].length > 1 ? $('#secondaryAnalyzerMode').val() : analyzers[$('#primaryAnalyzerMode').val()][0];
-    sendGAEvent('analyzer', 'analyze', analyzerMode);
+    sendGAEvent('analyzer', 'analyze', analyzerMode, $('#morphAnalyzerInput').val().length);
 
     $('#morphAnalyzerOutput').addClass('blurred');
     $.jsonp({
