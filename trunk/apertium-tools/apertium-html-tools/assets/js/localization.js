@@ -16,6 +16,7 @@ $(document).ready(function () {
 
     $('.localeSelect').change(function () {
         locale = $(this).val();
+        sendGAEvent('localization', 'localize', locale);
         localizeLanguageNames();
         persistChoices('localization');
     });
