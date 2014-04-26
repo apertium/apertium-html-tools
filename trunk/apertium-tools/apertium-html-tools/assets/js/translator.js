@@ -6,41 +6,13 @@ var recentSrcLangs = [], recentDstLangs = [];
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
-            var code = $(this).attr('data-code');
-            curSrcLang = code;
-
-            $('.srcLang').removeClass('active');
-            if(recentSrcLangs.indexOf(code) === -1) {
-                recentSrcLangs = [code, recentSrcLangs[0], recentSrcLangs[1]];
-                $('#srcLang1').addClass('active');
-                refreshLangList(true);
-            }
-            else {
-                $('#srcLang' + (recentSrcLangs.indexOf(code) + 1)).addClass('active');
-                persistChoices('translator');
-            }
-
-            muteLanguages();
-            translate();
+            curSrcLang = $(this).attr('data-code');
+            handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
         });
 
         $('#dstLanguages').on('click', '.languageName:not(.text-muted)', function () {
-            var code = $(this).attr('data-code');
-            curDstLang = code;
-
-            $('.dstLang').removeClass('active');
-            if(recentDstLangs.indexOf(code) === -1) {
-                recentDstLangs = [code, recentDstLangs[0], recentDstLangs[1]];
-                $('#dstLang1').addClass('active');
-                refreshLangList();
-            }
-            else {
-                $('#dstLang' + (recentDstLangs.indexOf(code) + 1)).addClass('active');
-                persistChoices('translator');
-            }
-
-            muteLanguages();
-            translate();
+            curDstLang = $(this).attr('data-code');
+            handleNewCurrentLang(curDstLang, recentDstLangs, 'dstLang');
         });
 
         $('.srcLang').click(function () {
@@ -127,26 +99,12 @@ if(modeEnabled('translation')) {
             var selectValue = $(this).val();
             if(selectValue === 'detect')
                 detectLanguage();
-            else {
-                curSrcLang = $(this).val();
-                recentSrcLangs.unshift(curSrcLang);
-                $('.srcLang').removeClass('active');
-                $('#srcLang1').addClass('active');
-
-                refreshLangList(true);
-                muteLanguages();
-                translate();
-            }
+            else
+                handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
         });
 
         $('#dstLangSelect').change(function () {
-            curDstLang = $(this).val();
-            recentDstLangs.unshift(curDstLang);
-            $('.dstLang').removeClass('active');
-            $('#dstLang1').addClass('active');
-
-            refreshLangList(true);
-            translate();
+            handleNewCurrentLang(curDstLang = $(this).val(), recentDstLangs, 'dstLang', true);
         });
     });
 }
@@ -201,10 +159,42 @@ function getPairs() {
 
         populateTranslationList();
         restoreChoices('translator');
+        
+        var pair = getURLParam('dir');
+        if(pair) {
+            pair = pair.split('-');
+            pair[0] = iso639CodesInverse[pair[0]] ? iso639CodesInverse[pair[0]] : pair[0];                
+            pair[1] = iso639CodesInverse[pair[1]] ? iso639CodesInverse[pair[1]] : pair[1];            
+            if(pairs[pair[0]].indexOf(pair[1]) !== -1) {
+                handleNewCurrentLang(curSrcLang = pair[0], recentSrcLangs, 'srcLang');
+                handleNewCurrentLang(curDstLang = pair[1], recentDstLangs, 'dstLang');
+            }            
+        }
+
         refreshLangList();
     }
 
     return deferred.promise();
+}
+
+function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
+    $('.' + langType).removeClass('active');
+    if(recentLangs.indexOf(lang) === -1) {
+        recentLangs.unshift(lang);
+        $('#' + langType + '1').addClass('active');
+        refreshLangList(resetDetect);
+    }
+    else {
+        $('#' + langType + (recentLangs.indexOf(lang) + 1)).addClass('active');
+        persistChoices('translator');
+    }
+
+    $('select#' + langType + 'Select').val(lang);
+    if(resetDetect && recentLangs.indexOf(lang) !== -1)
+        refreshLangList(resetDetect);            
+
+    muteLanguages();
+    translate();
 }
 
 function refreshLangList(resetDetect) {

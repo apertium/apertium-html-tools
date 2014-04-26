@@ -117,3 +117,4 @@ function restoreChoices(mode) {
         return JSON.parse(localStorage[name]);
     }
 }
+

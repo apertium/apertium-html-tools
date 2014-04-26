@@ -113,12 +113,20 @@ function filterLangList(langs, filterFn) {
     }
 }
 
-function allowedLang (code) {
+function allowedLang(code) {
     if(code.indexOf('_') === -1)
         return config.ALLOWED_LANGS === undefined || config.ALLOWED_LANGS.indexOf(code) !== -1;
     else
         return allowedLang(code.split('_')[0]) && (config.ALLOWED_VARIANTS === undefined || config.ALLOWED_VARIANTS.indexOf(code.split('_')[1]) !== -1);
 }
+
+function getURLParam(name) {
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");  
+    var regexS = "[\\?&]" + name + "=([^&#]*)";  
+    var regex = new RegExp(regexS);  
+    var results = regex.exec(window.location.href); 
+     return results == null ? "" : results[1];
+ }
 
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
@@ -129,3 +137,4 @@ function isSubset(subset, superset) {
         return superset.indexOf(val) >= 0;
     });
 }
+
