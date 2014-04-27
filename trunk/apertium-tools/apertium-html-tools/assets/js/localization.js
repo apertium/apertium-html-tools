@@ -42,6 +42,14 @@ $(document).ready(function () {
 function getLocale(deferred) {
     restoreChoices('localization');
 
+    var localeParam = getURLParam('lang');
+    localeParam = iso639CodesInverse[localeParam] ? iso639CodesInverse[localeParam] : localeParam;
+    if(localeParam) {
+        locale = localeParam;
+        $('.localeSelect').val(locale);
+        persistChoices('localization');
+    }
+
     if(!locale) {
         $.jsonp({
             url: config.APY_URL + '/getLocale',
