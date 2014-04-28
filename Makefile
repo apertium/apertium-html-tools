@@ -28,7 +28,7 @@ jquery-1.8.js:
 	curl https://closure-compiler.googlecode.com/git/contrib/externs/$@ > $@
 	touch $@
 
-build/js/all.js:
+build/js/all.js: $(JSFILES)
 	mkdir -p build/js
 	cat $(JSFILES) > $@
 
