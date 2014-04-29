@@ -23,6 +23,6 @@
 	"Help_Improve": "Ajude-nos a melhorar Apertium!",
 	"detected":"detectada",
 	"Contact_Us": "Contate-nos se encontrar um erro, pensar um projeto para nós fazermos, ou quiser ajudar.",
-	"Maintainer": "Este website é mantido por {{apertiumTurkicUrl}}.",
+	"Maintainer": "Este website é mantido por {{maintainer}}.",
 	"About_Title": "Sobre este Website"
 }
