@@ -34,4 +34,120 @@
 	"Contact_Us": "Feel free to contact us if you find a mistake, there's a project you would like to see us work on, or you would like to help out.",
 	"Maintainer": "This website is maintained by {{maintainer}}.",
 	"About_Title": "About this website",
+
+	"About": "About",
+	"Download": "Download",
+	"Contact": "Contact",
+	"Documentation": "Documentation",
+
+	"About_Apertium": "About Apertium",
+	"What_Is_Apertium": "
+		<h4>What is Apertium?</h4>
+		<p>
+			Apertium is a <b>free/open-source machine translation platform</b>, initially aimed at related-language pairs but recently expanded to deal with more divergent language pairs (such as English-Catalan). The platform provides
+		</p>
+
+		<ol>
+			<li>a language-independent machine translation engine</li>
+			<li>tools to manage the linguistic data necessary to build a machine translation system for a given language pair and</li>
+			<li>linguistic data for a growing number of language pairs.</li>
+		</ol>
+
+		<p>
+			Apertium uses a shallow-transfer machine translation engine which processes the input text in stages, as in an assembly line: de-formatting, morphological analysis, part-of-speech disambiguation, shallow structural transfer, lexical transfer, morphological generation, and re-formatting.
+		</p>
+		<p>
+			Apertium uses finite-state transducers for all lexical processing operations (morphological analysis and generation, lexical transfer), hidden Markov models for part-of-speech tagging, and multi-stage finite-state based chunking for structural transfer.
+		</p>
+		<p>
+			The initial design was largely based upon that of systems already developed by the Transducens group at the Universitat d'Alacant, such as <b><a href='http://www.internostrum.com/welcome.php' target='_blank'>interNOSTRUM</a></b> (Spanish-Catalan, and <b><a href='http://traductor.universia.net/' target='_blank'>Traductor Universia</a></b> (Spanish-Portuguese).
+		</p>
+		<p>
+			It is possible to use Apertium to build machine translation systems for a variety of language pairs; to that end, Apertium uses simple XML-based standard formats to encode the linguistic data needed (either by hand or by converting existing data), which are compiled using the provided tools into the high-speed formats used by the engine.
+		</p>
+	",
+	"Who_is_developing": "
+		<h4>Who is developing it?</h4>
+
+		<p>
+			The Apertium architecture is being developed by the <a href='http://transducens.dlsi.ua.es/' target='_blank'>Transducens</a> research group at the <a href='http://www.dlsi.ua.es/' target='_blank'>Departament de Llenguatges i Sistemes Informàtics</a> of the <a href='http://www.ua.es/' target='_blank'>Universitat d'Alacant</a> in collaboration with <a href='http://www.prompsit.com/' target='_blank'>Prompsit Language Engineering</a>.
+		</p>
+			
+		<p>Linguistic data for Apertium are being developed by Transducens and Prompsit</p>
+		<ul>
+			<li>Spanish–Catalan</li>
+			<li>Spanish–Portuguese</li>
+			<li>Catalan–French</li>
+			<li>Occitan–Catalan</li>
+			<li>English–Catalan</li>
+		</ul>
+		the <a href='http://webs.uvigo.es/sli/' target='_blank'>Seminario de Lingüística Informática</a> of the <a href='http://www.uvigo.es/indice/index.gl.htm' target='_blank'>Universidade de Vigo</a>
+		<ul>
+			<li>Spanish–Galician</li>
+		</ul>
+		and the <a href='http://www.iula.upf.edu/' target='_blank'>Institut Universitari de Lingüística Aplicada</a> of the <a href='http://www.upf.edu/' target='_blank'>Universitat Pompeu Fabra</a> in Barcelona
+		<ul>
+			<li>Occitan–Catalan</li>
+			<li>English–Catalan</li>
+			<li>French–Catalan</li>
+		</ul>
+		
+		<p>
+			<a href='http://sourceforge.net/project/memberlist.php?group_id=143781' target='_blank'>Many other developers</a> are also generating <a href='http://apertium.vm.bytemark.co.uk/~firespeaker/apertium-tools/pairviewer/apertium.html' target='_blank'>new pairs</a>. You can <a href='https://sourceforge.net/p/apertium/svn/' target='_blank'>browse the <abbr title='Subversion'>SVN</abbr> repository</a> to see a snapshot of current development. 
+		</p>
+		<p>
+			Apertium welcomes new developers: if you think you can improve the engine or the tools, or develop linguistic data for us, do not hesitate to <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'>contact us</a>.
+		</p>
+	",
+	"Funding": "
+		<h4>Funding</h4>
+		
+		<p>
+			Apertium is one of the two open-source machine translation engines whose development started inside project <a href='http://www.opentrad.org/' target='_blank'>OpenTrad</a> (2004–2005); Apertium is designed to translate between related languages. The OpenTrad consortium was led by <a href='http://www.eleka.net/' target='_blank'>Eleka Ingeniaritza Linguistikoa</a>.
+		</p>
+		
+		<p>
+			The Opentrad project (\"Open Source Machine Translation for the languages of Spain\") was funded by the <a href='http://www.min.es/' target='_blank'>Ministry of Industry, Tourism and Commerce</a> of Spain through PROFIT grant numbers FIT340101-2004-0003 and FIT340001-2005-0002.
+		</p>
+		
+		<p>
+			More recently, Apertium has also received funding from the <a href='http://www10.gencat.net/dursi/AppJava/home.jsp?area=3&amp;=2' target='_blank'>Secretariat for Telecommunications and Information Society</a> of the Generalitat de Catalunya (the government of the autonomous community of Catalonia in Spain) to develop new language pairs and an improved architecture (Apertium 2.0) to include more difficult pairs such as English–Catalan, and again from the <a href='http://www.min.es/' target='_blank'>Ministry of Industry, Tourism and Commerce</a> of Spain through <a href='http://www.mityc.es/profit/' target='_blank'>PROFIT</a> grant number FIT350401-2006-05 (EurOpenTrad).
+		</p>
+		
+		<p>
+			Project Trautorom (\"Romanian-Spanish machine translation\", package <code>apertium-es-ro</code>) has been funded by: the Universitat d'Alacant through its Department of Computer Languages and Systems and the Office of the Vice-President for Extracurricular Activities (Vicerrectorado de Extensión Universitaria) and by the Romanian <a href='http://www.mae.ro/' target='_blank'>Ministry of Foreign Affairs</a>.
+		</p>
+		
+		<p>
+			Parts of Apertium have also been funded by the <a href='http://www.ua.es/' target='_blank'>Universitat d'Alacant</a>. Additional development has taken place under the support of the <a href='https://developers.google.com/open-source/soc/' target='_blank'>Google Summer of Code</a> program (in 2009, 2010, 2011, 2012, 2013, 2014) and <a href='https://developers.google.com/open-source/gci/' target='_blank'>Google Code-In program</a> (2010, 2011, 2012, 2013).
+		</p>
+	",
+
+	"Apertium_Documentation": "Apertium Documentation",
+	"Documentation_Para": "
+		Documentation can be found on our <a href='http://wiki.apertium.org/'>Wiki</a> under the <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank'>Documentation</a> sub-page. We have published various conference papers and journal articles, a list of which may be found on the Wiki under <a href='http://wiki.apertium.org/wiki/Publications' target='_blank'>Publications.
+	",
+
+	"Apertium_Downloads": "Apertium Downloads",
+	"Downloads_Para": "
+		Current versions of the <b>Apertium toolbox</b> as well as of <b>language-pair data</b> are available from <a href='https://sourceforge.net/projects/apertium/' target='_blank'>the SourceForge page</a>. Installation instructions for Apertium on all major platforms are provided on the <a href='http://wiki.apertium.org/wiki/Installation' target='_blank'>Wiki's Installation page</a>.
+	",
+
+	"Contact": "Contact",
+	"Contact_Para": "
+		<h4>IRC channel</h4>
+		<p>
+			The quickest way to contact us is by joining our <a href='http://wiki.apertium.org/wiki/IRC' target='_blank'><abbr title='Internet Relay Chat'>IRC</abbr> channel, #apertium</a> at irc.freenode.net, where users and developers of Apertium meet. You don't need an IRC client; use can <a href='http://webchat.freenode.net/?channels=apertium'>freenode webchat</a>.
+		</p>
+
+		<h4>Mailing list</h4>
+		<p>
+			Also, subscribe to the <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank'> apertium-stuff mailing list</a>, where you can post longer proposals or issues, as well as follow general Apertium discussions.
+		</p>
+
+		<h4>Contact</h4>
+		<p>
+			Feel free to contact us via the <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'>apertium-contact mailing list</a> if you find a mistake, there's a project you would like to see us work on, or you would like to help out.
+		</p>
+	"
 }
