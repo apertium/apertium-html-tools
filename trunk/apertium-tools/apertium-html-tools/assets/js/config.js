@@ -5,16 +5,19 @@
 */
 
 var config = {
-    APY_URL: '//turkic.apertium.org:8080',
+    APY_URL: 'http://www.apertium.org:8080',
     ALLOWED_LANGS: undefined,
     ALLOWED_VARIANTS: ['BR','aran','valencia'],
-    ENABLED_MODES: ['translation', 'analyzation', 'generation'],
+    ENABLED_MODES: ['translation'],
     DEFAULT_MODE: 'translation',
-    SHOW_NAVBAR: true,
-    GOOGLE_ANALYTICS_PROPERTY: "apertium.org",
-    GOOGLE_ANALYTICS_TRACKING_ID: "UA-47187514-1",
+    SHOW_NAVBAR: false,
+    GOOGLE_ANALYTICS_PROPERTY: undefined,
+    GOOGLE_ANALYTICS_TRACKING_ID: undefined,
     LIST_REQUEST_CACHE_EXPIRY: 24,
     LANGUAGE_NAME_CACHE_EXPIRY: 24,
     LOCALIZATION_CACHE_EXPIRY: 24,
-    AVAILABLE_LOCALES_CACHE_EXPIRY: 24
+    AVAILABLE_LOCALES_CACHE_EXPIRY: 24,
+    REPLACEMENTS: {
+        '{{maintainer}}': '<a href="http://wiki.apertium.org/wiki/Apertium" target="_blank">Apertium</a>'
+    }
 };

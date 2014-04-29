@@ -23,6 +23,6 @@
 	"Notice_Mistake": "Fann du ein feil?",
 	"Help_Improve": "Hjelp oss å forbetra Apertium!",
 	"Contact_Us": "Ta gjerne kontakt om du finn ein feil, har lyst til å jobba på eit prosjekt eller vil hjelpa oss på ein eller annan måte.",
-	"Maintainer": "Denne nettstaden er halden vedlike av {{apertiumTurkicUrl}}.",
+	"Maintainer": "Denne nettstaden er halden vedlike av {{maintainer}}.",
 	"About_Title": "Om nettstaden"
 }

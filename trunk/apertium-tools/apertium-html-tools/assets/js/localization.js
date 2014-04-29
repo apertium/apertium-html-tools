@@ -184,10 +184,6 @@ function localizeLanguageNames() {
 }
 
 function localizeStrings(locale) {
-    var replacements = {
-        '{{apertiumTurkicUrl}}': '<a href="http://wiki.apertium.org/wiki/Apertium_Turkic" target="_blank">Apertium Turkic</a>'
-    }
-
     var localizations = readCache(locale + '_localizations', 'LOCALIZATION');
     if(localizations) {
         handleLocalizations(localizations);
@@ -210,7 +206,7 @@ function localizeStrings(locale) {
     function handleLocalizations(localizations) {
         for(var textId in localizations) {
             var text = localizations[textId];
-            $.each(replacements, function (name, value) {
+            $.each(config.REPLACEMENTS, function (name, value) {
                 if(text.indexOf(name) !== -1)
                     text = text.replace(name, value);
             });

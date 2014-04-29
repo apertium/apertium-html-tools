@@ -1,29 +1,37 @@
 {
 	"title": "Apertium | A free/open-source machine translation platform",
 	"tagline": "A free/open-source machine translation platform",
+
 	"Translation": "Translation",
-	"Morphological_Analysis": "Morphological analysis",
-	"Morphological_Generation": "Morphological generation",
-	"Spell_Checker": "Spell checker",
-	"APY_Sandbox": "APY sandbox",
 	"Translation_Help": "Choose two languages and translate your text using Apertium's translation platform!",
-	"Analyze": "Analyse",
 	"Translate": "Translate",
-	"Morphological_Analysis_Help": "Choose a language and analyse your text using Apertium's morphological analysers.",
 	"Detect_Language": "Detect Language",
 	"detected": "detected",
+	"Instant_Translation": "Instant translation",
 	"Not_Available": "Translation not yet available!",
-	"Language": "Language",
-	"Input_Text": "Input text",
-	"Generate": "Generate",
+
+	"Morphological_Analysis": "Morphological analysis",
+	"Morphological_Analysis_Help": "Choose a language and analyse your text using Apertium's morphological analysers.",
+	"Analyze": "Analyse",
+
+	"Morphological_Generation": "Morphological generation",
 	"Morphological_Generation_Help": "Choose a language and generate surface forms from your text using Apertium's morphological generators.",
+	"Generate": "Generate",
+
+	"Spell_Checker": "Spell checker",
+
+	"APY_Sandbox": "APY sandbox",
 	"APY_Sandbox_Help": "Send arbitrary requests",
 	"APY_Request": "APY Request",
 	"Request": "Request",
+
+	"Language": "Language",
+	"Input_Text": "Input text",
+
 	"Notice_Mistake": "Spotted a mistake?",
 	"Help_Improve": "Help us improve Apertium!",
+
 	"Contact_Us": "Feel free to contact us if you find a mistake, there's a project you would like to see us work on, or you would like to help out.",
-	"Maintainer": "This website is maintained by {{apertiumTurkicUrl}}.",
+	"Maintainer": "This website is maintained by {{maintainer}}.",
 	"About_Title": "About this website",
-	"Instant_Translation": "Instant translation"
 }

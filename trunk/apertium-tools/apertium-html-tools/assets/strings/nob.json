@@ -23,6 +23,6 @@
 	"Notice_mistake": "Fant du en feil?",
 	"Help_improve": "Hjelp oss å forbedre Apertium!",
 	"Contact_us": "Ta gjerne kontakt om du finner en feil, har lyst til å jobbe på et prosjekt eller vil hjelpe oss på en eller annen måte.",
-	"Maintainer": "Dette nettstedet er vedlikeholdt av {{apertiumTurkicUrl}}.",
+	"Maintainer": "Dette nettstedet er vedlikeholdt av {{maintainer}}.",
 	"About_title": "Om nettstedet"
 }

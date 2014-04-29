@@ -23,6 +23,6 @@
 	"Notice_Mistake": "Avez-vous trouvé une erreur?",
 	"Help_Improve": "Aidez-nous à améliorer Apertium!",
 	"Contact_Us": "Contactez-nous si vous trouvez une erreur, si vous voyez un projet sur lequel vous aimeriez que nous y travaillions dessus, ou si vous voulez nous donner un coup de main.",
-	"Maintainer": "Site maintenu par {{apertiumTurkicUrl}}.",
+	"Maintainer": "Site maintenu par {{maintainer}}.",
 	"About_Title": "Au sujet du site internet"
 }
