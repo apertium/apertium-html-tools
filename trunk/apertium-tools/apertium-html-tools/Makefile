@@ -23,6 +23,18 @@ JSFILES= \
 	assets/js/generator.js \
 	assets/js/sandbox.js
 
+# Only create the file based on the example if it doesn't exist
+# already; otherwise just give a message that the user might want to
+# merge it in:
+assets/js/config.js: assets/js/config.js.example
+	@if test -f assets/js/config.js; then \
+		touch $@; \
+		echo; echo You may have to merge new changes from $^ into $@; echo; \
+	else \
+		cp $^ $@; \
+		echo; echo You should edit $@; echo; \
+	fi
+
 
 jquery-1.8.js:
 	curl https://closure-compiler.googlecode.com/git/contrib/externs/$@ > $@
