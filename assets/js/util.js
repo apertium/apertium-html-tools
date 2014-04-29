@@ -28,8 +28,8 @@ $(document).ready(function () {
             });
     }
     else {
-        $('.navbar-toggle').hide();
-        $('.nav').hide();
+        $('.navbar-default .navbar-toggle').hide();
+        $('.navbar-default .nav').hide();
     }
 
     var hash = parent.location.hash;
@@ -40,9 +40,9 @@ $(document).ready(function () {
     }
 
     $('.modeContainer' + hash + 'Container').show();
-    $('.nav li > a[data-mode=' + hash.substring(1) + ']').parent().addClass('active');
+    $('.navbar-default .nav li > a[data-mode=' + hash.substring(1) + ']').parent().addClass('active');
 
-    $('.nav a').click(function () {
+    $('.navbar-default .nav a').click(function () {
         var mode = $(this).data('mode');
         $('.nav li').removeClass('active');
         $(this).parent('li').addClass('active');
@@ -67,9 +67,14 @@ $(document).ready(function () {
     });
 
     $('.modal').on('show.bs.modal', function () {
+        $('a[data-target=#' + $(this).attr('id') + ']').parents('li').addClass('active');
         $.each($(this).find('img[data-src]'), function () {
             $(this).attr('src', $(this).attr('data-src'));
         });
+    });
+
+    $('.modal').on('hide.bs.modal', function () {
+        $('a[data-target=#' + $(this).attr('id') + ']').parents('li').removeClass('active');
     });
 });
 
