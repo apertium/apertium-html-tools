@@ -193,7 +193,9 @@ function localizeStrings(locale) {
         $.ajax({
             url: './assets/strings/' + locale + '.json',
             type: 'GET',
+            dataType: 'text',
             success: function (data) {
+                data = JSON.parse(data.replace(/[\n\t\r]/g, ''));
                 handleLocalizations(data);
                 cache(locale + '_localizations', data);
             },

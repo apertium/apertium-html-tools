@@ -55,6 +55,10 @@ h2 {
     background-color: rgba(245, 245, 245, .6);
 }
 
+.modal-body h4:first {
+    margin-top: 0 !important;
+}
+
 /* Translation */
 
 .notAvailable {
