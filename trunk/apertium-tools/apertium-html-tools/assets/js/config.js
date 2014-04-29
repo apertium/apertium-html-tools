@@ -5,14 +5,14 @@
 */
 
 var config = {
-    APY_URL: 'http://www.apertium.org:8080',
+    APY_URL: '//turkic.apertium.org:8080',
     ALLOWED_LANGS: undefined,
     ALLOWED_VARIANTS: ['BR','aran','valencia'],
-    ENABLED_MODES: ['translation'],
+    ENABLED_MODES: ['translation', 'analyzation', 'generation'],
     DEFAULT_MODE: 'translation',
-    SHOW_NAVBAR: false,
-    GOOGLE_ANALYTICS_PROPERTY: undefined,
-    GOOGLE_ANALYTICS_TRACKING_ID: undefined,
+    SHOW_NAVBAR: true,
+    GOOGLE_ANALYTICS_PROPERTY: "apertium.org",
+    GOOGLE_ANALYTICS_TRACKING_ID: "UA-47187514-1",
     LIST_REQUEST_CACHE_EXPIRY: 24,
     LANGUAGE_NAME_CACHE_EXPIRY: 24,
     LOCALIZATION_CACHE_EXPIRY: 24,
