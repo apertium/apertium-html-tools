@@ -61,8 +61,12 @@ build/js/min.js: compiler.jar jquery-1.8.js
 index.debug.html: index.html.in debug-head.html
 	sed -e '/@include_head@/r debug-head.html' -e '/@include_head@/d' $< > $@
 
-index.html: index.html.in prod-head.html
-	sed -e '/@include_head@/r  prod-head.html' -e '/@include_head@/d' $< > $@
+# timestamp links, only double quotes supported :>
+build/prod-head.html: prod-head.html build/js/all.js build/css/all.css
+	ts=`date +%s`; sed "s/\(href\|src\)=\"\([^\"]*\)\"/\1=\"\2?$${ts}\"/" $< > $@
+
+index.html: index.html.in build/prod-head.html
+	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/d' $< > $@
 
 # minification:
 htmlcompressor.jar:
