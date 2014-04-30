@@ -1,5 +1,5 @@
 # This (default) goal just cats stuff:
-nojava: build/js/all.js build/css/min.css index.html index.debug.html
+nojava: build/js/all.js build/css/min.css index.html index.debug.html localhtml
 	cat build/js/all.js > build/js/min.js
 
 # This goal actually minifies stuff:
@@ -53,7 +53,8 @@ compiler.jar: compiler-latest.zip
 	unzip -n $<
 	touch $@
 
-build/js/min.js: compiler.jar jquery-1.8.js
+build/js/min.js: compiler.jar jquery-1.8.js $(JSFILES)
+	mkdir -p build/js
 	java -jar compiler.jar --js $(JSFILES) --js_output_file $@ --externs jquery-1.8.js
 
 
@@ -75,6 +76,31 @@ htmlcompressor.jar:
 
 index.min.html: index.html htmlcompressor.jar
 	java -jar htmlcompressor.jar -t html $< > $@
+
+
+# HTML localisation
+localhtml: \
+	build/index.arg.html \
+	build/index.ava.html \
+	build/index.cat.html \
+	build/index.eng.html \
+	build/index.eus.html \
+	build/index.fra.html \
+	build/index.kaz.html \
+	build/index.kir.html \
+	build/index.kaa.html \
+	build/index.nno.html \
+	build/index.nob.html \
+	build/index.por.html \
+	build/index.ron.html \
+	build/index.rus.html \
+	build/index.sme.html \
+	build/index.spa.html \
+	build/index.tat.html
+
+
+build/index.%.html: assets/strings/%.json index.html
+	if ! ./localise-html.py index.html < $< > $@; then rm -f $@; false; fi
 
 
 ### CSS ###
