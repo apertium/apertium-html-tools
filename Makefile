@@ -1,13 +1,8 @@
-# This (default) goal just cats stuff:
-nojava: build/js/all.js build/css/min.css index.html index.debug.html localhtml
-	cat build/js/all.js > build/js/min.js
+all: build/js/min.js build/css/min.css index.html index.debug.html localhtml
 
-# This goal actually minifies stuff:
-min: \
-	build/js/min.js \
-	index.min.html \
-	index.debug.html \
-	build/css/min.css
+# Note: the min.{js,css} are equal to all.{js,css}; minification gives
+# negligible improvements over just enabling gzip in the server, and
+# brings with it lots of dependencies and a more complicated build.
 
 
 ### JS ###
@@ -42,21 +37,10 @@ jquery-1.8.js:
 
 build/js/all.js: $(JSFILES)
 	mkdir -p build/js
-	cat $(JSFILES) > $@
+	cat $^ > $@
 
-# minification:
-compiler-latest.zip:
-	curl http://dl.google.com/closure-compiler/$@ > $@
-	touch $@
-
-compiler.jar: compiler-latest.zip
-	unzip -n $<
-	touch $@
-
-build/js/min.js: compiler.jar jquery-1.8.js $(JSFILES)
-	mkdir -p build/js
-	java -jar compiler.jar --js $(JSFILES) --js_output_file $@ --externs jquery-1.8.js
-
+build/js/min.js: build/js/all.js
+	cp $^ $@
 
 ### HTML ###
 index.debug.html: index.html.in debug-head.html
@@ -68,14 +52,6 @@ build/prod-head.html: prod-head.html build/js/all.js build/css/all.css
 
 index.html: index.html.in build/prod-head.html
 	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/d' $< > $@
-
-# minification:
-htmlcompressor.jar:
-	curl https://htmlcompressor.googlecode.com/files/htmlcompressor-1.5.3.jar > $@
-	touch $@
-
-index.min.html: index.html htmlcompressor.jar
-	java -jar htmlcompressor.jar -t html $< > $@
 
 
 # HTML localisation
@@ -98,7 +74,6 @@ localhtml: \
 	build/index.spa.html \
 	build/index.tat.html
 
-
 build/index.%.html: assets/strings/%.json index.html
 	if ! ./localise-html.py index.html < $< > $@; then rm -f $@; false; fi
 
@@ -108,20 +83,12 @@ build/css/all.css:  assets/css/bootstrap.css assets/css/style.css
 	mkdir -p build/css
 	cat $^ > $@
 
-# minification:
 build/css/min.css: build/css/all.css
-	@echo $^
-	@if test -e /usr/share/yui-compressor/yui-compressor.jar; then \
-		java -jar /usr/share/yui-compressor/yui-compressor.jar -o $@ $^; \
-	else \
-		echo "yui-compressor not installed! Just concatenating $^"; \
-		cat $^ > $@; \
-	fi
-
+	cp $^ $@
 
 ### Clean ###
 clean:
-	rm -rf index.min.html index.html index.debug.html build/
+	rm -rf index.html index.debug.html build/
 
 reallyclean: clean
-	rm -f htmlcompressor.jar compiler.jar compiler-latest.zip jquery-1.8.js
+	rm -f jquery-1.8.js
