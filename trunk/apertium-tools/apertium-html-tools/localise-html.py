@@ -47,7 +47,12 @@ class DataTextHTMLParser(HTMLParser):
         p("<?%s>" % (data,))
 
 def run():
-    parser = DataTextHTMLParser(convert_charrefs=False)
+    try:
+        # convert_charrefs will default to True in py3.5:
+        parser = DataTextHTMLParser(convert_charrefs=False)
+    except TypeError:
+        # convert_charrefs was added in py3.4:
+        parser = DataTextHTMLParser()
     locale_str = ""
     for line in stdin:
         locale_str += line
