@@ -1,4 +1,4 @@
-all: build/js/min.js build/css/min.css build/index.html build/index.debug.html localhtml simple
+all: build/js/min.js build/js/compat.js build/css/min.css build/index.html build/index.debug.html localhtml simple
 
 # Note: the min.{js,css} are equal to all.{js,css}; minification gives
 # negligible improvements over just enabling gzip in the server, and
@@ -40,6 +40,9 @@ build/js/all.js: $(JSFILES)
 	cat $^ > $@
 
 build/js/min.js: build/js/all.js
+	cp $^ $@
+
+build/js/compat.js: assets/js/compat.js
 	cp $^ $@
 
 ### HTML ###
