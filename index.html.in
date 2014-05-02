@@ -260,11 +260,7 @@
                         <h4 class="modal-title" data-text="About_Apertium">About Apertium</h4>
                     </div>
                     <div class="modal-body">
-                        <div data-text="What_Is_Apertium"></div>
-                        <div data-text="Who_is_developing"></div>
-                        <div data-text="Funding"></div>
-
-                        <br>
+                        <div data-text="What_Is_Apertium" style="padding-bottom: 2em;"></div>
 
                         <div class="row lead">
                             <span class="col-md-6">
