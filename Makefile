@@ -50,13 +50,17 @@ index.debug.html: index.html.in debug-head.html
 build/prod-head.html: prod-head.html build/js/all.js build/css/all.css
 	ts=`date +%s`; sed "s/\(href\|src\)=\"\([^\"]*\)\"/\1=\"\2?$${ts}\"/" $< > $@
 
-index.html: index.html.in build/prod-head.html
-	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/d' $< > $@
+index.html: index.html.in build/prod-head.html build/l10n-rel.html
+	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' $< > $@
 
 
 ## HTML localisation
 # JSON-parsing-regex ahoy:
 localhtml: $(shell sed -n 's%^[^"]*"\([^"]*\)":.*%build/index.\1.html% p' assets/strings/locales.json)
+
+#<link rel="alternate" hreflang="[lang]" href="http://apertium.org/build/index.[lang].html" />
+build/l10n-rel.html: assets/strings/locales.json
+	sed -n 's%^[^"]*"\([^"]*\)":.*%<link rel="alternate" hreflang="\1" href="/build/index.\1.html"/>% p' $^ > $@
 
 build/index.%.html: assets/strings/%.json index.html
 	if ! ./localise-html.py index.html < $< > $@; then rm -f $@; false; fi
