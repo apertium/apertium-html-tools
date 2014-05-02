@@ -45,6 +45,18 @@ h2 {
     font-size: 16px;
 }
 
+@media(min-width: 768px) {
+    html[dir=ltr] .navbar-default .nav {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+}
+
+html[dir=ltr] .navbar-header {
+    padding-left: 5px;
+}
+
 .tagline {
     color: rgb(255, 255, 255);
     font-size: 18px;
@@ -59,14 +71,22 @@ h2 {
     margin-top: 0 !important;
 }
 
+.nav-pills {
+    cursor: pointer;
+}
+
 /* Translation */
 
 .notAvailable {
     color: #b94a48;
 }
 
-.languageName {
-    padding-left: .75em;
+html[dir=ltr] .languageName {
+    padding-left: .5em;
+}
+
+html[dir=rtl] .languageName {
+    padding-right: .5em;
 }
 
 .languageName:not(.text-muted) {
@@ -124,3 +144,28 @@ div.unit {
 body > .container {
     margin-top: 4em; 
 }
+
+/* RTL Stuff */
+
+html[dir=rtl] .pull-right {
+    float: left !important;
+}
+
+html[dir=rtl] .pull-right {
+    float: left !important;
+}
+
+@media(min-width: 768px) {
+    html[dir=rtl] .navbar-default .nav {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+}
+
+@media(max-width: 768px) {
+    html[dir=rtl] .navbar-header {
+        padding-right: 5px;
+    }
+}
+
