@@ -54,25 +54,9 @@ index.html: index.html.in build/prod-head.html
 	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/d' $< > $@
 
 
-# HTML localisation
-localhtml: \
-	build/index.arg.html \
-	build/index.ava.html \
-	build/index.cat.html \
-	build/index.eng.html \
-	build/index.eus.html \
-	build/index.fra.html \
-	build/index.kaz.html \
-	build/index.kir.html \
-	build/index.kaa.html \
-	build/index.nno.html \
-	build/index.nob.html \
-	build/index.por.html \
-	build/index.ron.html \
-	build/index.rus.html \
-	build/index.sme.html \
-	build/index.spa.html \
-	build/index.tat.html
+## HTML localisation
+# JSON-parsing-regex ahoy:
+localhtml: $(shell sed -n 's%^[^"]*"\([^"]*\)":.*%build/index.\1.html% p' assets/strings/locales.json)
 
 build/index.%.html: assets/strings/%.json index.html
 	if ! ./localise-html.py index.html < $< > $@; then rm -f $@; false; fi
