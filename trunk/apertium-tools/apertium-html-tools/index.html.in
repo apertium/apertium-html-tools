@@ -2,7 +2,7 @@
  
 <html>
     <head>
-        <title data-text="title">Apertium | A free/open-source machine translation platform</title>
+        <title data-text="title"></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -45,7 +45,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <img src="./img/Apertium.png" alt="Apertium" class="img-responsive" style="height: 3.5em">
-                    <p data-text="tagline" class="tagline">A free/open-source machine translation platform</p>
+                    <p data-text="tagline" class="tagline"></p>
                 </div>
                 <div style="width: 35%" class="pull-right hidden-xs">
                     <!-- <i class="icon-globe localeGlobe pull-right"></i> -->
@@ -66,7 +66,7 @@
             <div class="modeContainer" id="translationContainer">
                 <h2 class="visible-xs" data-text="Translation">Translation</h2>
                 <form class="form-horizontal" role="form" method="none" id="translationForm">
-                    <legend data-text="Translation_Help">Choose two languages and translate your text using Apertium's translation platform!</legend>
+                    <legend data-text="Translation_Help"></legend>
                     <div class="form-group visible-xs">
                         <div class="col-sm-12">
                             <select class="langSelect" id="srcLangSelect" style="display: inline-block !important">
@@ -151,7 +151,7 @@
             <div class="modeContainer" id="analyzationContainer">
                 <h2 class="visible-xs" data-text="Morphological_Analysis">Morphological analysis</h2>
                 <form class="form-horizontal" role="form" method="none" id="analysisForm">
-                    <legend data-text="Morphological_Analysis_Help">Choose a language and analyze your text using Apertium's morphological analyzers.</legend>
+                    <legend data-text="Morphological_Analysis_Help"></legend>
                     <div class="form-group">
                         <label for="primaryAnalyzerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
                         <div class="col-sm-3">
@@ -177,7 +177,7 @@
             <div class="modeContainer" id="generationContainer">
                 <h2 class="visible-xs" data-text="Morphological_Generation">Morphological generation</h2>
                 <form class="form-horizontal" role="form" method="none" id="generateForm">
-                    <legend data-text="Morphological_Generation_Help">Choose a language and generate surface forms from your text using Apertium's morphological generators.</legend>
+                    <legend data-text="Morphological_Generation_Help"></legend>
                     <div class="form-group">
                         <label for="primaryGeneratorMode" class="col-sm-2 control-label" data-text="Language">Language</label>
                         <div class="col-sm-3">
@@ -203,7 +203,7 @@
                 <h2 class="visible-xs" data-text="APY_Sandbox">APY sandbox</h2>
                 <form class="form-horizontal" role="form" method="none" id="sandboxForm">
                     <legend>
-                        <span data-text="APY_Sandbox_Help">Send arbitrary requests</span> 
+                        <span data-text="APY_Sandbox_Help"></span> 
                         <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right">
                             <abbr title="Apertium API in Python">APY</abbr>
                             <i class="glyphicon glyphicon-question-sign"></i>
@@ -259,74 +259,9 @@
                         <h4 class="modal-title" data-text="About_Apertium">About Apertium</h4>
                     </div>
                     <div class="modal-body">
-                        <div data-text="What_Is_Apertium">
-                            <h4>What is Apertium?</h4>
-
-                            <p>
-                                Apertium is a <b>free/open-source machine translation platform</b>, initially aimed at related-language pairs but expanded to deal with more divergent language pairs. The platform provides
-                            </p>
-        
-                            <ol>
-                                <li>a language-independent machine translation engine</li>
-                                <li>tools to manage the linguistic data necessary to build a machine translation system for a given language pair and</li>
-                                <li>linguistic data for a growing number of language pairs.</li>
-                            </ol>
-
-                            <p>
-                                Apertium uses a shallow-transfer machine translation engine which processes the input text in stages, as in an assembly line: de-formatting, morphological analysis, part-of-speech disambiguation, shallow structural transfer, lexical transfer, morphological generation, and re-formatting.
-                            </p>
-                            <p>
-                                Apertium uses finite-state transducers for all lexical processing operations (morphological analysis and generation, lexical transfer), hidden Markov models for part-of-speech tagging, and multi-stage finite-state based chunking for structural transfer.
-                            </p>
-                            <p>
-                                The initial design was largely based upon that of systems already developed by the Transducens group at the Universitat d'Alacant, such as <b><a href="http://www.internostrum.com/welcome.php" target="_blank">interNOSTRUM</a></b> (Spanish-Catalan), and <b><a href="http://traductor.universia.net/" target="_blank">Traductor Universia</a></b> (Spanish-Portuguese).
-                            </p>
-                            <p>
-                                It is possible to use Apertium to build machine translation systems for a variety of language pairs; to that end, Apertium uses simple XML-based standard formats to encode the linguistic data needed, which are compiled using the provided tools into the high-speed formats used by the engine.
-                            </p>
-                        </div>
-                        <div data-text="Who_is_developing">
-                            <h4>Who is developing it?</h4>
-
-                            <p>
-                                The Apertium architecture is being developed by the <a href="http://transducens.dlsi.ua.es/" target="_blank">Transducens</a> research group at the <a href="http://www.dlsi.ua.es/" target="_blank">Departament de Llenguatges i Sistemes Informàtics</a> of the <a href="http://www.ua.es/" target="_blank">Universitat d'Alacant</a> in collaboration with <a href="http://www.prompsit.com/" target="_blank">Prompsit Language Engineering</a>.
-                            </p>
-                                
-                            <p>
-                                Linguistic data for Apertium are being developed by Transducens and Prompsit, the <a href="http://webs.uvigo.es/sli/" target="_blank">Seminario de Lingüística Informática</a> of the <a href="http://www.uvigo.es/indice/index.gl.htm" target="_blank">Universidade de Vigo</a> and the <a href="http://www.iula.upf.edu/" target="_blank">Institut Universitari de Lingüística Aplicada</a> of the <a href="http://www.upf.edu/" target="_blank">Universitat Pompeu Fabra</a> in Barcelona.
-                            </p>
-                            
-                            <p>
-                                Additional development has taken place under the support of the <a href="https://developers.google.com/open-source/soc/" target="_blank">Google Summer of Code</a> program (2009-2014) and <a href="https://developers.google.com/open-source/gci/" target="_blank">Google Code-In program</a> (2010-2013).
-                            </p>
-                            
-                            <p>
-                                <a href="http://sourceforge.net/project/memberlist.php?group_id=143781" target="_blank">Many other developers</a> are also generating <a href="http://apertium.vm.bytemark.co.uk/~firespeaker/apertium-tools/pairviewer/apertium.html" target="_blank">new pairs</a>. You can <a href="https://sourceforge.net/p/apertium/svn/" target="_blank">browse the <abbr title="Subversion">SVN</abbr> repository</a> to see a snapshot of current development. 
-                            </p>
-                            <p>
-                                Apertium welcomes new developers: if you think you can improve the engine or the tools, or develop linguistic data for us, do not hesitate to <a href="mailto:apertium-contact@lists.sourceforge.net" target="_blank">contact us</a>.
-                            </p>
-                        </div>
-
-                        <div data-text="Funding">
-                            <h4>Funding</h4>
-                            
-                            <p>
-                                Apertium is one of the two open-source machine translation engines whose development started inside project <a href="http://www.opentrad.org/" target="_blank">OpenTrad</a> ("Open Source Machine Translation for the languages of Spain") funded by the <a href="http://www.min.es/" target="_blank">Ministry of Industry, Tourism and Commerce</a> of Spain.
-                            </p>
-                            
-                            <p>
-                                More recently, Apertium has also received funding from the <a href="http://www10.gencat.net/dursi/AppJava/home.jsp?area=3&amp;=2" target="_blank">Secretariat for Telecommunications and Information Society</a> of the Generalitat de Catalunya to develop new language pairs and an improved architecture (Apertium 2.0) to include more difficult pairs such as English–Catalan, and again from the <a href="http://www.min.es/" target="_blank">Ministry of Industry, Tourism and Commerce</a> of Spain.
-                            </p>
-                            
-                            <p>
-                                Project Trautorom (<code>apertium-es-ro</code>) has been funded by: the Universitat d'Alacant through its Department of Computer Languages and Systems and the Office of the Vice-President for Extracurricular Activities (Vicerrectorado de Extensión Universitaria) and by the Romanian <a href="http://www.mae.ro/" target="_blank">Ministry of Foreign Affairs</a>.
-                            </p>
-                            
-                            <p>
-                                Parts of Apertium have also been funded by the <a href="http://www.ua.es/" target="_blank">Universitat d'Alacant</a>.
-                            </p>
-                        </div>
+                        <div data-text="What_Is_Apertium"></div>
+                        <div data-text="Who_is_developing"></div>
+                        <div data-text="Funding"></div>
 
                         <br>
 
@@ -403,9 +338,7 @@
                         <h4 class="modal-title" data-text="Apertium_Documentation">Apertium Documentation</h4>
                     </div>
                     <div class="modal-body">
-                        <p data-text="Documentation_Para">
-                            Documentation can be found on our <a href="http://wiki.apertium.org/">Wiki</a> under the <a href="http://wiki.apertium.org/wiki/Documentation" target="_blank">Documentation</a> sub-page. We have published various conference papers and journal articles, a list of which may be found on the Wiki under <a href="http://wiki.apertium.org/wiki/Publications" target="_blank">Publications.
-                        </a>
+                        <p data-text="Documentation_Para"></a>
                     </div>
                 </div>
             </div>
@@ -419,9 +352,7 @@
                         <h4 class="modal-title" data-text="Apertium_Downloads">Apertium Downloads</h4>
                     </div>
                     <div class="modal-body">
-                        <p data-text="Downloads_Para">
-                            Current versions of the <b>Apertium toolbox</b> as well as of <b>language-pair data</b> are available from <a href="https://sourceforge.net/projects/apertium/" target="_blank">the SourceForge page</a>. Installation instructions for Apertium on all major platforms are provided on the <a href="http://wiki.apertium.org/wiki/Installation" target="_blank">Wiki's Installation page</a>.
-                        </a>
+                        <p data-text="Downloads_Para"></a>
                     </div>
                 </div>
             </div>
@@ -435,22 +366,7 @@
                         <h4 class="modal-title" data-text="Contact">Contact Us</h4>
                     </div>
                     <div class="modal-body">
-                        <div data-text="Contact_Para">
-                            <h4>IRC channel</h4>
-                            <p>
-                                The quickest way to contact us is by joining our <a href="http://wiki.apertium.org/wiki/IRC" target="_blank"><abbr title="Internet Relay Chat">IRC</abbr> channel, #apertium</a> at irc.freenode.net, where users and developers of Apertium meet. You don't need an IRC client; use can <a href="http://webchat.freenode.net/?channels=apertium">freenode webchat</a>.
-                            </p>
-
-                            <h4>Mailing list</h4>
-                            <p>
-                                Also, subscribe to the <a href="https://lists.sourceforge.net/lists/listinfo/apertium-stuff" target="_blank"> apertium-stuff mailing list</a>, where you can post longer proposals or issues, as well as follow general Apertium discussions.
-                            </p>
-
-                            <h4>Contact</h4>
-                            <p>
-                                Feel free to contact us via the <a href="mailto:apertium-contact@lists.sourceforge.net" target="_blank">apertium-contact mailing list</a> if you find a mistake, there's a project you would like to see us work on, or you would like to help out.
-                            </p>
-                        </div>
+                        <div data-text="Contact_Para"></div>
                     </div>
                 </div>
             </div>
@@ -465,9 +381,7 @@
                     </div>
                     <div class="modal-body">
                         <p>
-                            <span data-text="Maintainer">
-                                This website is maintained by <a href="http://wiki.apertium.org/wiki/Apertium" target="_blank">Apertium</a>.
-                            </span>
+                            <span data-text="Maintainer"></span>
                             <span class="pull-right">
                                 <a href="mailto:apertium-contact@lists.sourceforge.net">
                                     <i class="glyphicon glyphicon-envelope"></i>
@@ -475,9 +389,7 @@
                                 </a>
                             </span>
                         </p>
-                        <p data-text="Contact_Us">
-                            Feel free to contact us if you find a mistake, there's a project you would like to see us work on, or you would like to help out.
-                        </p>
+                        <p data-text="Contact_Us"></p>
                         
                         <div class="center-block" style="margin-bottom: 1.5em;">
                             <a href="http://www.apertium.org/" target="_blank">
