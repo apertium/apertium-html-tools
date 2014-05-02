@@ -95,7 +95,7 @@ function getLocales() {
     else {
         console.error('Available locales cache ' + (locales === null ? 'stale' : 'miss') + ', retrieving from server');
         $.ajax({
-            url: './assets/strings/locales.json',
+            url: './strings/locales.json',
             type: 'GET',
             success: function (data) {
                 handleLocales(data);
@@ -191,7 +191,7 @@ function localizeStrings(locale) {
     else {
         console.error(locale + ' localizations cache ' + (localizations === null ? 'stale' : 'miss') + ', retrieving from server');
         $.ajax({
-            url: './assets/strings/' + locale + '.json',
+            url: './strings/' + locale + '.json',
             type: 'GET',
             dataType: 'text',
             success: function (data) {

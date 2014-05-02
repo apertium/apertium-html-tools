@@ -1,4 +1,4 @@
-all: build/js/min.js build/css/min.css build/index.html build/index.debug.html localhtml
+all: build/js/min.js build/css/min.css build/index.html build/index.debug.html localhtml simple
 
 # Note: the min.{js,css} are equal to all.{js,css}; minification gives
 # negligible improvements over just enabling gzip in the server, and
@@ -73,6 +73,19 @@ build/css/all.css:  assets/css/bootstrap.css assets/css/style.css
 
 build/css/min.css: build/css/all.css
 	cp $^ $@
+
+
+### Simple assets ###
+# Images and strings just copied over
+SIMPLE_ASSETS=$(shell find assets/img assets/strings -type f)
+SIMPLE_BUILD=$(patsubst assets/%, build/%, $(SIMPLE_ASSETS))
+
+build/%: assets/%
+	@mkdir -p $(@D)
+	cp $< $@
+
+simple: $(SIMPLE_BUILD)
+
 
 ### Clean ###
 clean:
