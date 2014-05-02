@@ -212,8 +212,12 @@ function localizeStrings(locale) {
                 if(text.indexOf(name) !== -1)
                     text = text.replace(name, value);
             });
-
-            $('[data-text=' + textId + ']').html(text);
+            try {
+                $('[data-text=' + textId + ']').html(text);
+            }
+            catch(e) {
+                console.error('Ignored "' + e + "\" when calling $('[data-text=' + " + textId + " + ']').html(" + text + ")"); // Only in IE8.
+            }
         }
         if(localizations['Not_Available'])
             notAvailableText = localizations['Not_Available'];

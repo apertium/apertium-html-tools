@@ -89,6 +89,10 @@ html[dir=rtl] .languageName {
     padding-right: .5em;
 }
 
+.languageName {
+    background: rgba(0, 0, 0, 0); /* Seriously, IE? */
+}
+
 .languageName:not(.text-muted) {
     color: #333333;
     text-decoration: none;
