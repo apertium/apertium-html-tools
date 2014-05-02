@@ -10,7 +10,8 @@
         <link rel="shortcut icon" href="./img/favicon.ico">
         
         <!-- <link type="text/css" rel="stylesheet" href="./css/icon-globe.css"> -->
-        <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" >
+        <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
+        <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.1.1/css/bootstrap-rtl.min.css" id="rtlStylesheet" disabled />
 
         <!--[if lt IE 9]>
             <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -402,10 +403,7 @@
         </div>
 
         <div id="noscript">
-            <div class="lead text-warning well well-sm">
-                This site only works with JavaScript enabled, if you cannot <a href="http://www.enable-javascript.com/" target="_blank">enable Javascript</a>, then try the 
-                <a href="http://traductor.prompsit.com" target="_blank">translators at Prompsit</a>.
-            </div>
+            <div class="lead text-warning well well-sm" data-text="Enable_JS_Warning"></div>
         </div>
     </body>
 </html>
