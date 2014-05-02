@@ -7,9 +7,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="description" content="Apertium is a rule-based machine translation platform. It is free software and released under the terms of the GNU General Public License.">
-        <link rel="shortcut icon" href="./assets/img/favicon.ico">
+        <link rel="shortcut icon" href="./img/favicon.ico">
         
-        <!-- <link type="text/css" rel="stylesheet" href="./assets/css/icon-globe.css"> -->
+        <!-- <link type="text/css" rel="stylesheet" href="./css/icon-globe.css"> -->
         <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" >
 
         <!--[if lt IE 9]>
@@ -20,7 +20,7 @@
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
         
         <!-- <script type="text/javascript" src="http://api.apertium.org/JSLibrary.jsp"></script> -->
-        <!--[if lt IE 9]> <script type="text/javascript" src="./assets/js/compat.js"></script> <![endif]-->
+        <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
 @include_head@
         <script type="text/javascript">
             var $buoop = {};
@@ -44,7 +44,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <img src="./assets/img/Apertium.png" alt="Apertium" class="img-responsive" style="height: 3.5em">
+                    <img src="./img/Apertium.png" alt="Apertium" class="img-responsive" style="height: 3.5em">
                     <p data-text="tagline" class="tagline">A free/open-source machine translation platform</p>
                 </div>
                 <div style="width: 35%" class="pull-right hidden-xs">
@@ -387,7 +387,7 @@
 
                         <div class="center-block">
                             <a alt="This page is subject to a Creative Commons licence" href="http://creativecommons.org/licenses/by-sa/3.0/">
-                                <img alt="Creative Commons licence" data-src="assets/img/cc-by-sa-3.0-88x31.png"/>
+                                <img alt="Creative Commons licence" data-src="./img/cc-by-sa-3.0-88x31.png"/>
                             </a>
                         </div>
                     </div>
@@ -481,7 +481,7 @@
                         
                         <div class="center-block" style="margin-bottom: 1.5em;">
                             <a href="http://www.apertium.org/" target="_blank">
-                                <img alt="Apertium" data-src="./assets/img/Apertium.png" class="center-block" style="height: 5em;">
+                                <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" style="height: 5em;">
                             </a>
                         </div>
                     </div>
