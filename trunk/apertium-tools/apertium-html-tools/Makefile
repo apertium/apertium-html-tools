@@ -50,7 +50,7 @@ build/index.debug.html: index.html.in debug-head.html
 build/prod-head.html: prod-head.html build/js/all.js build/css/all.css
 	ts=`date +%s`; sed "s/\(href\|src\)=\"\([^\"]*\)\"/\1=\"\2?$${ts}\"/" $< > $@
 
-build/index.html: index.html.in build/prod-head.html build/l10n-rel.html
+build/index.localiseme.html: index.html.in build/prod-head.html build/l10n-rel.html
 	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' $< > $@
 
 
@@ -62,9 +62,11 @@ build/l10n-rel.html: assets/strings/locales.json
 	mkdir -p build/
 	sed -n 's%^[^"]*"\([^"]*\)":.*%<link rel="alternate" hreflang="\1" href="./index.\1.html"/>% p' $^ > $@
 
-build/index.%.html: assets/strings/%.json build/index.html
-	if ! ./localise-html.py build/index.html < $< > $@; then rm -f $@; false; fi
+build/index.%.html: assets/strings/%.json build/index.localiseme.html
+	if ! ./localise-html.py build/index.localiseme.html < $< > $@; then rm -f $@; false; fi
 
+build/index.html: build/index.eng.html
+	cp $^ $@
 
 ### CSS ###
 build/css/all.css:  assets/css/bootstrap.css assets/css/style.css
