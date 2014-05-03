@@ -59,6 +59,10 @@ if(modeEnabled('translation')) {
             translate();
         });
 
+        $('.clearButton').click(function () {
+            $(this).blur().siblings('textarea').val('');
+        });
+
         $('#detect').click(function () {
             $('.srcLang').removeClass('active');
             $(this).addClass('active');

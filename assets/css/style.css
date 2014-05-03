@@ -75,6 +75,28 @@ html[dir=ltr] .navbar-header {
     cursor: pointer;
 }
 
+html[dir=ltr] .clearButton {
+    position: absolute;
+    top: 3px;
+    right: 18px;
+}
+
+html[dir=rtl] .clearButton {
+    position: absolute;
+    top: 3px;
+    left: 18px;
+}
+
+.clearButton {
+    background-color: #FFF;
+    padding: 0px 3px;
+}
+
+.clearButton:hover, .clearButton:focus {
+    color: #000;
+    background-color: #EEE;
+}
+
 /* Translation */
 
 .notAvailable {

@@ -44,11 +44,12 @@ function getLocale(deferred) {
 
     var localeParam = getURLParam('lang');
     localeParam = iso639CodesInverse[localeParam] ? iso639CodesInverse[localeParam] : localeParam;
-    if(localeParam) {
+    if(localeParam)
         locale = localeParam;
-        $('.localeSelect').val(locale);
-        persistChoices('localization');
-    }
+
+    var pathParts = window.location.pathname.split('.');
+    if(pathParts.length === 3)
+        locale = pathParts[1];
 
     if(!locale) {
         $.jsonp({
@@ -72,8 +73,8 @@ function getLocale(deferred) {
                 persistChoices('localization');
             },
             error: function () {
-                console.error('Failed to determine locale, defaulting to en');
-                locale = 'en';
+                console.error('Failed to determine locale, defaulting to eng');
+                locale = 'eng';
             },
             complete: function () {
                 ajaxComplete();
@@ -81,8 +82,11 @@ function getLocale(deferred) {
             }
         });
     }
-    else
+    else {
+        $('.localeSelect').val(locale);
+        persistChoices('localization');
         deferred.resolve();
+    }
 }
 
 function getLocales() {
