@@ -135,8 +135,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" style="position: relative">
                             <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
+                            <button class="btn clearButton"><i class="fa fa-times"></i></button>
                         </div>
                         <div class="col-sm-6">
                             <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
