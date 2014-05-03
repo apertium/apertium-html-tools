@@ -61,9 +61,12 @@ build/index.localiseme.html: index.html.in build/prod-head.html build/l10n-rel.h
 # JSON-parsing-regex ahoy:
 localhtml: $(shell sed -n 's%^[^"]*"\([^"]*\)":.*%build/index.\1.html% p' assets/strings/locales.json)
 
-build/l10n-rel.html: assets/strings/locales.json
+
+# hreflang requires iso639-1 :/ Fight ugly with ugly:
+build/l10n-rel.html: assets/strings/locales.json isobork
 	mkdir -p build/
-	sed -n 's%^[^"]*"\([^"]*\)":.*%<link rel="alternate" hreflang="\1" href="./index.\1.html"/>% p' $^ > $@
+	awk 'BEGIN{while(getline<"isobork")i[$$1]=$$2} /:/{sub(/^[^"]*"/,""); sub(/".*/,""); print "<link rel=\"alternate\" hreflang=\""i[$$0]"\" href=\"./index."$$0".html\"/>"}' $^ > $@
+
 
 build/index.%.html: assets/strings/%.json build/index.localiseme.html
 	if ! ./localise-html.py build/index.localiseme.html < $< > $@; then rm -f $@; false; fi
