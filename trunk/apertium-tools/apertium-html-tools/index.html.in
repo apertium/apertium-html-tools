@@ -279,12 +279,12 @@
 
                             <div class="col-md-3 text-center">
                                 <a href="http://www.bytemark.co.uk/" target="_blank">
-                                    <img alt="Bytemark" data-src="http://www.apertium.org/images/logo_bytemark.gif" style="width: 100%; margin-top: .5em">
+                                    <img alt="Bytemark" data-src="./img/logo_bytemark.gif" style="width: 100%; margin-top: .5em">
                                 </a>
                             </div>
                             <div class="col-md-3 text-center">
                                 <a href="http://www.sourceforge.net" target="_blank">
-                                    <img alt="Sourceforge" data-src="http://www.apertium.org/images/sourceforge.png" style="width: 100%; margin-top: .25em">
+                                    <img alt="Sourceforge" data-src="./img/sourceforge.png" style="width: 100%; margin-top: .25em">
                                 </a>
                             </div>
                         </div>
@@ -292,12 +292,12 @@
                         <div class="row lead">
                             <div class="col-md-6 text-center">
                                 <a href="http://www.minetur.gob.es/" target="_blank">
-                                    <img alt="Ministry of Industry, Energy and Tourism" data-src="http://www.apertium.org/images/logomitc120.jpg">
+                                    <img alt="Ministry of Industry, Energy and Tourism" data-src="./img/logomitc120.jpg">
                                 </a>
                             </div>
                             <div class="col-md-6 text-center">
                                 <a href="http://www.ua.es/" target="_blank">
-                                    <img alt="Universidad de Alicante" data-src="http://www.apertium.org/images/logouapp.gif">
+                                    <img alt="Universidad de Alicante" data-src="./img/logouapp.gif">
                                 </a>
                             </div>
                         </div>
@@ -305,17 +305,17 @@
                         <div class="row">
                             <div class="col-md-4 text-center">
                                 <a href="http://www.prompsit.com/" target="_blank">
-                                    <img alt="Prompsit Language Engineering S.L." data-src="http://www.apertium.org/images/prompsit150x52.png">
+                                    <img alt="Prompsit Language Engineering S.L." data-src="./img/prompsit150x52.png">
                                 </a>
                             </div>
                             <div class="col-md-4 text-center">
                                 <a href="http://www10.gencat.net" target="_blank">
-                                    <img alt="Generalitat de Catalunya" data-src="http://www.apertium.org/images/stsi.gif">
+                                    <img alt="Generalitat de Catalunya" data-src="./img/stsi.gif">
                                 </a>
                             </div>
                             <div class="col-md-4 text-center">
                                 <a href="http://www.mae.ro/" target="_blank">
-                                    <img alt="ROMÂNIA  Ministerul Afacerilor Externe" data-src="http://www.apertium.org/images/logo_mae_ro_75pc.jpg">
+                                    <img alt="ROMÂNIA  Ministerul Afacerilor Externe" data-src="./img/logo_mae_ro_75pc.jpg">
                                 </a>
                             </div>
                         </div>
