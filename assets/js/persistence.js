@@ -114,7 +114,12 @@ function restoreChoices(mode) {
     }
 
     function retrieve(name) {
-        return JSON.parse(localStorage[name]);
+        try {
+            return JSON.parse(localStorage[name]);
+        }
+        catch(e) {
+            return null;
+        }
     }
 }
 
