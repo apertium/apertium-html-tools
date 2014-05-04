@@ -88,7 +88,7 @@ html[dir=rtl] .clearButton {
 }
 
 .clearButton {
-    background-color: #FFF;
+    background-color: rgba(0, 0, 0, 0);
     padding: 0px 3px;
 }
 
