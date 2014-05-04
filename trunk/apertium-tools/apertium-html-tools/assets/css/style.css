@@ -75,21 +75,19 @@ html[dir=ltr] .navbar-header {
     cursor: pointer;
 }
 
-html[dir=ltr] .clearButton {
+.clearButton {
     position: absolute;
     top: 3px;
+    background-color: rgba(0, 0, 0, 0);
+    padding: 0px 3px;
+}
+
+html[dir=ltr] .clearButton {
     right: 18px;
 }
 
 html[dir=rtl] .clearButton {
-    position: absolute;
-    top: 3px;
     left: 18px;
-}
-
-.clearButton {
-    background-color: rgba(0, 0, 0, 0);
-    padding: 0px 3px;
 }
 
 .clearButton:hover, .clearButton:focus {
@@ -112,7 +110,7 @@ html[dir=rtl] .languageName {
 }
 
 .languageName {
-    background: rgba(0, 0, 0, 0); /* Seriously, IE? */
+    position: relative;
 }
 
 .languageName:not(.text-muted) {
