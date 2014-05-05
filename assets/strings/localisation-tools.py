@@ -28,7 +28,7 @@ if __name__ == '__main__':
         fname = '{}.json'.format(fname)
         if 'create' in args.actions or 'new' in args.actions:
             with open(fname, 'w+') as f:
-                strings = OrderedDict(map(lambda x: (x[0], args.unavailableString + (' ' + placeholderStrings[x[0]] if x[0] in placeholderStrings else '') if args.showPlaceholderString else ''), canonicalStrings.items()))
+                strings = OrderedDict(map(lambda x: (x[0], args.unavailableString + ((' ' + placeholderStrings[x[0]] if x[0] in placeholderStrings else '') if args.showPlaceholderString else '')), canonicalStrings.items()))
                 f.write(json.dumps(strings, indent=4, sort_keys=False, ensure_ascii=False))
         if 'clean' in args.actions:
             with open(fname, 'r+') as f:
