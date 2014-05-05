@@ -22,7 +22,9 @@ class DataTextHTMLParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         for attr in attrs:
             if attr[0]=="data-text" and attr[1] in self.locale:
-                self.data_text = self.locale[attr[1]]
+                text = self.locale[attr[1]]
+                if not text.startswith("%%UNAVAILABLE"):
+                    self.data_text = text
         p(self.get_starttag_text())
     def handle_endtag(self, tag):
         if self.data_text:
