@@ -27,7 +27,7 @@ if __name__ == '__main__':
             with open(fname, 'r+') as f:
                 strings = OrderedDict(filter(lambda x: x[0] in canonicalStrings.keys(), json.loads(f.read()).items()))
                 for stringName in set(canonicalStrings.keys()) - set(strings.keys()):
-                    strings[stringName] = args.unavailableString
+                    strings[stringName] = canonicalStrings[stringName] if args.defaultStrings else args.unavailableString
                 f.seek(0)
                 f.write(json.dumps(strings, indent=4, sort_keys=False, ensure_ascii=False))
                 f.truncate()
