@@ -217,7 +217,8 @@ function localizeStrings(locale) {
                     text = text.replace(name, value);
             });
             try {
-                $('[data-text=' + textId + ']').html(text);
+                if(text.lastIndexOf('%%UNAVAILABLE%%') !== 0)
+                    $('[data-text=' + textId + ']').html(text);
             }
             catch(e) {
                 console.error('Ignored "' + e + "\" when calling $('[data-text=' + " + textId + " + ']').html(" + text + ")"); // Only in IE8.
