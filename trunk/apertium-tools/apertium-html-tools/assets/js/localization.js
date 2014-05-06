@@ -91,28 +91,34 @@ function getLocale(deferred) {
 
 function getLocales() {
     var deferred = $.Deferred();
-    var locales = readCache('locales', 'AVAILABLE_LOCALES');
-    if(locales) {
-        handleLocales(locales);
+    if(config.LOCALES) {
+        handleLocales(config.LOCALES)
         getLocale(deferred);
     }
     else {
-        console.error('Available locales cache ' + (locales === null ? 'stale' : 'miss') + ', retrieving from server');
-        $.ajax({
-            url: './strings/locales.json',
-            type: 'GET',
-            success: function (data) {
-                handleLocales(data);
-                cache('locales', data);
-                getLocale(deferred);
-            },
-            error: function (jqXHR, textStatus, errorThrow) {
-                console.error('Failed to fetch available locales: ' + errorThrow);
-                deferred.resolve();
-            }
-        });
+        var locales = readCache('locales', 'AVAILABLE_LOCALES');
+        if(locales) {
+            handleLocales(locales);
+            getLocale(deferred);
+        }
+        else {
+            console.error('Available locales cache ' + (locales === null ? 'stale' : 'miss') + ', retrieving from server');
+            $.ajax({
+                url: './strings/locales.json',
+                type: 'GET',
+                success: function (data) {
+                    handleLocales(data);
+                    cache('locales', data);
+                    getLocale(deferred);
+                },
+                error: function (jqXHR, textStatus, errorThrow) {
+                    console.error('Failed to fetch available locales: ' + errorThrow);
+                    deferred.resolve();
+                }
+            });
+        }
     }
-
+    
     function handleLocales(locales) {
         $.each(locales, function (code, langName) {
             $('.localeSelect').append($('<option></option>').prop('value', code).text(langName));
