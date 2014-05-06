@@ -30,11 +30,6 @@ assets/js/config.js: assets/js/config.js.example
 		echo; echo You should edit $@; echo; \
 	fi
 
-
-jquery-1.8.js:
-	curl https://closure-compiler.googlecode.com/git/contrib/externs/$@ > $@
-	touch $@
-
 build/js/all.js: $(JSFILES)
 	mkdir -p build/js
 	cat $^ > $@
@@ -104,5 +99,3 @@ simple: $(SIMPLE_BUILD)
 clean:
 	rm -rf build/
 
-reallyclean: clean
-	rm -f jquery-1.8.js
