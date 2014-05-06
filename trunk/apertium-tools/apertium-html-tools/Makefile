@@ -60,7 +60,7 @@ localhtml: $(shell sed -n 's%^[^"]*"\([^"]*\)":.*%build/index.\1.html% p' assets
 # hreflang requires iso639-1 :/ Fight ugly with ugly:
 build/l10n-rel.html: assets/strings/locales.json isobork
 	mkdir -p build/
-	awk 'BEGIN{while(getline<"isobork")i[$$1]=$$2} /:/{sub(/^[^"]*"/,""); sub(/".*/,""); borkd=i[$$0]; if(!borkd)borkd=$$0; print "<link rel=\"alternate\" hreflang=\""borkd"\" href=\"./index."$$0".html\"/>"}' $^ > $@
+	awk 'BEGIN{while(getline<"isobork")i[$$1]=$$2} /:/{sub(/^[^"]*"/,""); sub(/".*/,""); borkd=i[$$0]; if(!borkd)borkd=$$0; print "<link rel=\"alternate\" hreflang=\""borkd"\" href=\"index."$$0".html\"/>"}' $^ > $@
 
 build/index.%.html: assets/strings/%.json build/index.localiseme.html
 	if ! ./localise-html.py build/index.localiseme.html < $< > $@; then rm -f $@; false; fi
@@ -72,7 +72,9 @@ build/index.html: build/index.eng.html
 LOC ?= "http://www.apertium.org"
 # TODO: in config.js rather? currently to override LOC you have to 'export LOC="http://example.com"; make'
 build/sitemap.xml: sitemap.xml.in build/l10n-rel.html
-	sed -e "s%@include_url@%$(LOC)%" -e '/@include_linkrel@/r build/l10n-rel.html' -e '/@include_linkrel@/d' $< > $@
+	sed -e 's%^<link%<xhtml:link%' -e "s%href=\"%&$(LOC)/%" build/l10n-rel.html > build/l10n-rel.html.tmp
+	sed -e "s%@include_url@%$(LOC)%" -e '/@include_linkrel@/r build/l10n-rel.html.tmp' -e '/@include_linkrel@/d' $< > $@
+	rm -f build/l10n-rel.html.tmp
 
 ### CSS ###
 build/css/all.css:  assets/css/bootstrap.css assets/css/style.css
