@@ -5,6 +5,14 @@ all: build/js/min.js build/js/compat.js build/css/min.css build/index.html build
 # brings with it lots of dependencies and a more complicated build.
 
 
+### Directories ###
+%/.d:
+	test -d $(@D) || mkdir -p $(@D)
+	touch $@
+
+# Don't autoremove
+.PRECIOUS: build/.d build/js/.d build/css/.d
+
 ### JS ###
 JSFILES= \
 	assets/js/jquery.jsonp-2.4.0.min.js \
@@ -31,18 +39,17 @@ assets/js/config.js: assets/js/config.js.example
 		echo; echo You should edit $@; echo; \
 	fi
 
-build/js/locales.js: assets/strings/locales.json
-	mkdir -p build/js
+build/js/locales.js: assets/strings/locales.json build/js/.d
 	echo "config.LOCALES = `cat $^`;" > $@
 
-build/js/all.js: $(JSFILES)
-	cat $^ > $@
+build/js/all.js: $(JSFILES) build/js/.d
+	cat $(JSFILES) > $@
 
 build/js/min.js: build/js/all.js
-	cp $^ $@
+	cp $< $@
 
-build/js/compat.js: assets/js/compat.js
-	cp $^ $@
+build/js/compat.js: assets/js/compat.js build/js/.d
+	cp $< $@
 
 ### HTML ###
 build/index.debug.html: index.html.in debug-head.html
@@ -62,8 +69,7 @@ localhtml: $(shell sed -n 's%^[^"]*"\([^"]*\)":.*%build/index.\1.html% p' assets
 
 
 # hreflang requires iso639-1 :/ Fight ugly with ugly:
-build/l10n-rel.html: assets/strings/locales.json isobork
-	mkdir -p build/
+build/l10n-rel.html: assets/strings/locales.json isobork build/.d
 	awk 'BEGIN{while(getline<"isobork")i[$$1]=$$2} /:/{sub(/^[^"]*"/,""); sub(/".*/,""); borkd=i[$$0]; if(!borkd)borkd=$$0; print "<link rel=\"alternate\" hreflang=\""borkd"\" href=\"index."$$0".html\"/>"}' $^ > $@
 
 build/index.%.html: assets/strings/%.json build/index.localiseme.html
@@ -81,8 +87,7 @@ build/sitemap.xml: sitemap.xml.in build/l10n-rel.html
 	rm -f build/l10n-rel.html.tmp
 
 ### CSS ###
-build/css/all.css:  assets/css/bootstrap.css assets/css/style.css
-	mkdir -p build/css
+build/css/all.css:  assets/css/bootstrap.css assets/css/style.css build/css/.d
 	cat $^ > $@
 
 build/css/min.css: build/css/all.css
