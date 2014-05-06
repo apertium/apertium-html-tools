@@ -9,6 +9,7 @@ all: build/js/min.js build/js/compat.js build/css/min.css build/index.html build
 JSFILES= \
 	assets/js/jquery.jsonp-2.4.0.min.js \
 	assets/js/config.js \
+	build/js/locales.js \
 	assets/js/util.js \
 	assets/js/persistence.js \
 	assets/js/caching.js \
@@ -30,8 +31,11 @@ assets/js/config.js: assets/js/config.js.example
 		echo; echo You should edit $@; echo; \
 	fi
 
-build/js/all.js: $(JSFILES)
+build/js/locales.js: assets/strings/locales.json
 	mkdir -p build/js
+	echo "config.LOCALES = `cat $^`;" > $@
+
+build/js/all.js: $(JSFILES)
 	cat $^ > $@
 
 build/js/min.js: build/js/all.js
