@@ -94,18 +94,20 @@ function populateGeneratorList(data) {
 function populateSecondaryGeneratorList() {
     var group = generators[$('#primaryGeneratorMode').val()];
     $('#secondaryGeneratorMode').empty();
+    
+    if(group) {
+        group.sort(function (a, b) {
+            return a.length - b.length;
+        });
 
-    group.sort(function (a, b) {
-        return a.length - b.length;
-    });
+        for(var i = 0; i < group.length; i++) {
+            var lang = group[i];
+            var langDisplay = lang.indexOf('-') !== -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
+            $('#secondaryGeneratorMode').append($('<option></option').val(lang).text(langDisplay));
+        }
 
-    for(var i = 0; i < group.length; i++) {
-        var lang = group[i];
-        var langDisplay = lang.indexOf('-') !== -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
-        $('#secondaryGeneratorMode').append($('<option></option').val(lang).text(langDisplay));
+        $('#secondaryGeneratorMode').prop('disabled', !(group.length > 1));
     }
-
-    $('#secondaryGeneratorMode').prop('disabled', !(group.length > 1));
 }
 
 function generate() {
