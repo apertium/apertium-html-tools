@@ -53,8 +53,10 @@ h2 {
     }
 }
 
-html[dir=ltr] .navbar-header {
-    padding-left: 5px;
+@media(max-width: 768px) {
+    html[dir=ltr] .navbar-header {
+        padding-left: 15px;
+    }
 }
 
 .tagline {
