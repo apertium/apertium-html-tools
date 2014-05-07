@@ -95,17 +95,19 @@ function populateSecondaryAnalyzerList() {
     var group = analyzers[$('#primaryAnalyzerMode').val()];
     $('#secondaryAnalyzerMode').empty();
 
-    group.sort(function (a, b) {
-        return a.length - b.length;
-    });
+    if(group) {
+        group.sort(function (a, b) {
+            return a.length - b.length;
+        });
 
-    for(var i = 0; i < group.length; i++) {
-        var lang = group[i];
-        var langDisplay = lang.indexOf('-') !== -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
-        $('#secondaryAnalyzerMode').append($('<option></option').val(lang).text(langDisplay));
+        for(var i = 0; i < group.length; i++) {
+            var lang = group[i];
+            var langDisplay = lang.indexOf('-') !== -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
+            $('#secondaryAnalyzerMode').append($('<option></option').val(lang).text(langDisplay));
+        }
+
+        $('#secondaryAnalyzerMode').prop('disabled', !(group.length > 1));
     }
-
-    $('#secondaryAnalyzerMode').prop('disabled', !(group.length > 1));
 }
 
 function analyze() {
