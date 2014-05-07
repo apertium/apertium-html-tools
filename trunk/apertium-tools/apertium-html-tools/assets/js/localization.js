@@ -17,12 +17,12 @@ $(document).ready(function () {
     $('.localeSelect').change(function () {
         locale = $(this).val();
         sendGAEvent('localization', 'localize', locale);
-        localizeLanguageNames();
+        localizeEverything(false);
         persistChoices('localization');
     });
     
     var possibleItems = {'translation': getPairs, 'generation': getGenerators, 'analyzation': getAnalyzers};
-    var deferredItems = [getLocales()];
+    var deferredItems = [getLocale(), getLocales()];
     if(config.ENABLED_MODES === undefined)
         $.each(possibleItems, function (mode, deferrer) {
             deferredItems.push(deferrer.call());
@@ -34,72 +34,81 @@ $(document).ready(function () {
         });
 
     $.when.apply($, deferredItems).then(function () {
-        locale = $('.localeSelect').val();
-        localizeLanguageNames();
+        $('.localeSelect').val(locale);
+        localizeEverything(window.location.pathname.split('.').length === 3);
+        persistChoices('localization');
     });
+    
+    function localizeEverything(stringsFresh) {
+        localizeLanguageNames();
+        localizeInterface();
+        if(!stringsFresh)
+            localizeStrings();
+    }
 });
 
 function getLocale(deferred) {
+    var deferred = $.Deferred();
+
     restoreChoices('localization');
 
     var localeParam = getURLParam('lang');
     localeParam = iso639CodesInverse[localeParam] ? iso639CodesInverse[localeParam] : localeParam;
-    if(localeParam)
+    if(localeParam) {
         locale = localeParam;
-
-    var pathParts = window.location.pathname.split('.');
-    if(pathParts.length === 3)
-        locale = pathParts[1];
-
-    if(!locale) {
-        $.jsonp({
-            url: config.APY_URL + '/getLocale',
-            beforeSend: ajaxSend,
-            success: function (data) {
-                for(var i = 0; i < data.length; i++) {
-                    localeGuess = data[i];
-                    if(localeGuess.indexOf('-') !== -1)
-                        localeGuess = localeGuess.split('-')[0];
-                    if(localeGuess in iso639Codes) {
-                        locale = localeGuess;
-                        break;
-                    }
-                    else if(localeGuess in iso639CodesInverse) {
-                        locale = iso639CodesInverse[localeGuess];
-                        break;
-                    }
-                }
-                $('.localeSelect').val(locale);
-                persistChoices('localization');
-            },
-            error: function () {
-                console.error('Failed to determine locale, defaulting to eng');
-                locale = 'eng';
-            },
-            complete: function () {
-                ajaxComplete();
-                deferred.resolve();
-            }
-        });
-    }
-    else {
-        $('.localeSelect').val(locale);
-        persistChoices('localization');
         deferred.resolve();
     }
+    else {
+        var pathParts = window.location.pathname.split('.');
+        if(pathParts.length === 3) {
+            locale = pathParts[1];
+            deferred.resolve();
+        }
+        else {
+            $.jsonp({
+                url: config.APY_URL + '/getLocale',
+                beforeSend: ajaxSend,
+                success: function (data) {
+                    for(var i = 0; i < data.length; i++) {
+                        localeGuess = data[i];
+                        if(localeGuess.indexOf('-') !== -1)
+                            localeGuess = localeGuess.split('-')[0];
+                        if(localeGuess in iso639Codes) {
+                            locale = localeGuess;
+                            break;
+                        }
+                        else if(localeGuess in iso639CodesInverse) {
+                            locale = iso639CodesInverse[localeGuess];
+                            break;
+                        }
+                    }
+                },
+                error: function () {
+                    console.error('Failed to determine locale, defaulting to eng');
+                    locale = 'eng';
+                },
+                complete: function () {
+                    ajaxComplete();
+                    deferred.resolve();
+                }
+            });
+        }
+    }
+
+    return deferred.promise();
 }
 
 function getLocales() {
     var deferred = $.Deferred();
     if(config.LOCALES) {
         handleLocales(config.LOCALES)
-        getLocale(deferred);
+        deferred.resolve();
     }
     else {
         var locales = readCache('locales', 'AVAILABLE_LOCALES');
         if(locales) {
             handleLocales(locales);
-            getLocale(deferred);
+            deferred.resolve();
         }
         else {
             console.error('Available locales cache ' + (locales === null ? 'stale' : 'miss') + ', retrieving from server');
@@ -109,7 +118,7 @@ function getLocales() {
                 success: function (data) {
                     handleLocales(data);
                     cache('locales', data);
-                    getLocale(deferred);
+                    deferred.resolve();
                 },
                 error: function (jqXHR, textStatus, errorThrow) {
                     console.error('Failed to fetch available locales: ' + errorThrow);
@@ -150,8 +159,6 @@ function generateLanguageList() {
 
 function localizeLanguageNames() {
     var languages = generateLanguageList();
-    localizeStrings(locale);
-    localizeInterface(locale);
 
     var localizedNames = readCache(locale + '_names', 'LANGUAGE_NAME');
     if(localizedNames) {
@@ -193,7 +200,7 @@ function localizeLanguageNames() {
     }
 }
 
-function localizeStrings(locale) {
+function localizeStrings() {
     var localizations = readCache(locale + '_localizations', 'LOCALIZATION');
     if(localizations) {
         handleLocalizations(localizations);
@@ -237,7 +244,7 @@ function localizeStrings(locale) {
     }
 }
 
-function localizeInterface(locale) {
+function localizeInterface() {
     var elements = {
         'html': locale,
         '#originalText': curSrcLang,
