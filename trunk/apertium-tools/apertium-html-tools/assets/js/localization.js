@@ -16,18 +16,18 @@ $(document).ready(function () {
 
     $('.localeSelect').change(function () {
         locale = $(this).val();
-        sendGAEvent('localization', 'localize', locale);
+        sendEvent('localization', 'localize', locale);
         localizeEverything(false);
         persistChoices('localization');
     });
-    
+
     var possibleItems = {'translation': getPairs, 'generation': getGenerators, 'analyzation': getAnalyzers};
     var deferredItems = [getLocale(), getLocales()];
     if(config.ENABLED_MODES === undefined)
         $.each(possibleItems, function (mode, deferrer) {
             deferredItems.push(deferrer.call());
         });
-    else 
+    else
         $.each(config.ENABLED_MODES, function () {
             if(possibleItems[this])
                 deferredItems.push(possibleItems[this].call());
@@ -38,7 +38,7 @@ $(document).ready(function () {
         localizeEverything(window.location.pathname.split('.').length === 3);
         persistChoices('localization');
     });
-    
+
     function localizeEverything(stringsFresh) {
         localizeLanguageNames();
         localizeInterface();
@@ -127,7 +127,7 @@ function getLocales() {
             });
         }
     }
-    
+
     function handleLocales(locales) {
         $.each(locales, function (code, langName) {
             $('.localeSelect').append($('<option></option>').prop('value', code).text(langName));

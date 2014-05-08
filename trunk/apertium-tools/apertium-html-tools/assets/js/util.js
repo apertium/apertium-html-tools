@@ -78,26 +78,28 @@ $(document).ready(function () {
     });
 });
 
-if(config.GOOGLE_ANALYTICS_PROPERTY && config.GOOGLE_ANALYTICS_TRACKING_ID) {
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', config.GOOGLE_ANALYTICS_TRACKING_ID, config.GOOGLE_ANALYTICS_PROPERTY);
-    ga('require', 'displayfeatures');
-    ga('send', 'pageview');
+if(config.PIWIK_SITEID && config.PIWIK_URL) {
+    var _paq = _paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + config.PIWIK_URL;
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', config.PIWIK_SITEID]);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+        g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
 }
 
-function sendGAEvent(category, action, label, value) {
-    if(config.GOOGLE_ANALYTICS_PROPERTY && config.GOOGLE_ANALYTICS_TRACKING_ID && ga) {
-        var args = ['send', 'event', category, action];
+function sendEvent(category, action, label, value) {
+    if(config.PIWIK_SITEID && config.PIWIK_URL && _paq) {
+        var args = [category, action];
         if(label !== undefined && value !== undefined)
             args = args.concat([label, value]);
         else if(label !== undefined)
             args.push(label);
 
-        ga.apply(undefined, args);
+        _paq.push(['trackEvent'].concat(args));
     }
 }
 
@@ -126,11 +128,11 @@ function allowedLang(code) {
 }
 
 function getURLParam(name) {
-    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");  
-    var regexS = "[\\?&]" + name + "=([^&#]*)";  
-    var regex = new RegExp(regexS);  
-    var results = regex.exec(window.location.href); 
-     return results == null ? "" : results[1];
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(window.location.href);
+    return results == null ? "" : results[1];
  }
 
 function onlyUnique(value, index, self) {
