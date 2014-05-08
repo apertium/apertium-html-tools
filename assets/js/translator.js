@@ -163,16 +163,16 @@ function getPairs() {
 
         populateTranslationList();
         restoreChoices('translator');
-        
+
         var pair = getURLParam('dir');
         if(pair) {
             pair = pair.split('-');
-            pair[0] = iso639CodesInverse[pair[0]] ? iso639CodesInverse[pair[0]] : pair[0];                
-            pair[1] = iso639CodesInverse[pair[1]] ? iso639CodesInverse[pair[1]] : pair[1];            
+            pair[0] = iso639CodesInverse[pair[0]] ? iso639CodesInverse[pair[0]] : pair[0];
+            pair[1] = iso639CodesInverse[pair[1]] ? iso639CodesInverse[pair[1]] : pair[1];
             if(pairs[pair[0]] && pairs[pair[0]].indexOf(pair[1]) !== -1) {
                 handleNewCurrentLang(curSrcLang = pair[0], recentSrcLangs, 'srcLang');
                 handleNewCurrentLang(curDstLang = pair[1], recentDstLangs, 'dstLang');
-            }            
+            }
         }
 
         refreshLangList();
@@ -195,7 +195,7 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
 
     $('select#' + langType + 'Select').val(lang);
     if(resetDetect && recentLangs.indexOf(lang) !== -1)
-        refreshLangList(resetDetect);            
+        refreshLangList(resetDetect);
 
     muteLanguages();
     translate();
@@ -298,7 +298,7 @@ function populateTranslationList() {
 
 function translate() {
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
-        sendGAEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
+        sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
         $.jsonp({
             url: config.APY_URL + '/translate',
             beforeSend: ajaxSend,

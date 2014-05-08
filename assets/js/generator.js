@@ -94,7 +94,7 @@ function populateGeneratorList(data) {
 function populateSecondaryGeneratorList() {
     var group = generators[$('#primaryGeneratorMode').val()];
     $('#secondaryGeneratorMode').empty();
-    
+
     if(group) {
         group.sort(function (a, b) {
             return a.length - b.length;
@@ -112,7 +112,7 @@ function populateSecondaryGeneratorList() {
 
 function generate() {
     var generatorMode = generators[$('#primaryGeneratorMode').val()].length > 1 ? $('#secondaryGeneratorMode').val() : generators[$('#primaryGeneratorMode').val()][0];
-    sendGAEvent('generator', 'generate', generatorMode, $('#morphGeneratorInput').val().length);
+    sendEvent('generator', 'generate', generatorMode, $('#morphGeneratorInput').val().length);
 
     $('#morphGenOutput').addClass('blurred');
     $.jsonp({
