@@ -3,6 +3,8 @@
 from collections import OrderedDict
 import argparse, json
 
+# TODO: run Apertium to fill in placeholders if a fitting language pair is installed!
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Manipulate localisation files')
     parser.add_argument('action', choices=['new', 'create', 'clean', 'sort', 'sort+clean', 'clean+sort'])
