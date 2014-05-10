@@ -1,4 +1,32 @@
 {
+    "@metadata": {
+        "authors": [
+            "selimcan",
+            "solinus",
+            "jonorthwash"
+        ],
+        "last-updated": "2014-04-11",
+        "locale": [
+            "ru",
+            "rus"
+        ],
+        "completion": 67,
+        "missing": [
+            "About",
+            "Documentation_Para",
+            "Downloads_Para",
+            "Enable_JS_Warning",
+            "About_Apertium",
+            "Contact_Para",
+            "Instant_Translation",
+            "Apertium_Downloads",
+            "Not_Available",
+            "What_Is_Apertium",
+            "Download",
+            "Contact",
+            "Documentation"
+        ]
+    },
     "title": "Апертиум | Свободная/открытая платформа машинного перевода",
     "tagline": "Свободная/открытая платформа машинного перевода",
     "Translation": "Перевести",

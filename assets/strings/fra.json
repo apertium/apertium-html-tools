@@ -1,4 +1,29 @@
 {
+    "@metadata": {
+        "authors": [
+            "2014-04-05"
+        ],
+        "last-updated": "youssef",
+        "locale": [
+            "fr",
+            "fra"
+        ],
+        "completion": 70,
+        "missing": [
+            "About",
+            "Documentation_Para",
+            "Downloads_Para",
+            "Enable_JS_Warning",
+            "About_Apertium",
+            "Contact_Para",
+            "Instant_Translation",
+            "Apertium_Downloads",
+            "What_Is_Apertium",
+            "Download",
+            "Contact",
+            "Documentation"
+        ]
+    },
     "title": "Apertium | Une plateforme libre/open source de traduction automatique",
     "tagline": "Une plateforme libre/open source de traduction automatique",
     "Translation": "Traduction",

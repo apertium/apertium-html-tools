@@ -1,8 +1,29 @@
 {
-    "Morphological_analysis_help": "Vállje giela ja analysere teavstta Apertiuma morfologalaš analysáhtoriin.",
-    "APY_sandbox": "APY-sáttokássa",
-    "Morphological_generation": "Morfologalaš genereren",
-    "Morphological_analysis": "Morfologalaš analysa",
+    "@metadata": {
+        "authors": [
+            "Lene Antonsen"
+        ],
+        "last-updated": "2014-04-06",
+        "locale": [
+            "se",
+            "sme"
+        ],
+        "completion": 70,
+        "missing": [
+            "About",
+            "Documentation_Para",
+            "Downloads_Para",
+            "Enable_JS_Warning",
+            "About_Apertium",
+            "Contact_Para",
+            "Instant_Translation",
+            "Apertium_Downloads",
+            "What_Is_Apertium",
+            "Download",
+            "Contact",
+            "Documentation"
+        ]
+    },
     "title": "Apertium | Friddja ja rabasgáldokodavuđot dihtorjorgalanvuogádat",
     "tagline": "Friddja ja rabasgáldokodavuđot dihtorjorgalanvuogádat",
     "Translation": "Jorgaleapmi",
@@ -11,10 +32,14 @@
     "Detect_Language": "Dovdá giela",
     "detected": "Árvaluvvon giella",
     "Not_Available": "Jorgalus ii gávdno!",
+    "Morphological_Analysis": "Morfologalaš analysa",
+    "Morphological_Analysis_Help": "Vállje giela ja analysere teavstta Apertiuma morfologalaš analysáhtoriin.",
     "Analyze": "Analysere",
+    "Morphological_Generation": "Morfologalaš genereren",
     "Morphological_Generation_Help": "Vállje giela ja generere teavstta sátnehámiid Apertiuma morfologalaš analysáhtoriin.",
     "Generate": "Generere",
     "Spell_Checker": "Sátnedárkkisteapmi",
+    "APY_Sandbox": "APY-sáttokássa",
     "APY_Sandbox_Help": "Gohččomiid geavaheapmi",
     "APY_Request": "APY-gohččun",
     "Request": "Gohččun",
