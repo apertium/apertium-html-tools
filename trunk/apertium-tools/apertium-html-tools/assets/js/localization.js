@@ -23,7 +23,7 @@ $(document).ready(function () {
 
     var possibleItems = {'translation': getPairs, 'generation': getGenerators, 'analyzation': getAnalyzers};
     var deferredItems = [getLocale(), getLocales()];
-    if(config.ENABLED_MODES === undefined)
+    if(config.ENABLED_MODES === null)
         $.each(possibleItems, function (mode, deferrer) {
             deferredItems.push(deferrer.call());
         });
