@@ -22,6 +22,7 @@ if __name__ == '__main__':
         "scrub: removes localisations marked unavailable\n"
         "update: updates metadata stats\n"
         "rebase: adds entries for missing localisations as specified by the canonicalFile\n"
+        "cleanup: clean, scrub, update, sort"
         "all: clean, scrub, rebase, update, and sort")
         #choices=['new', 'create'] + list(map(lambda x: '+'.join(x), itertools.chain.from_iterable([itertools.permutations(['clean', 'sort', 'update', 'rebase', 'scrub'], i) for i in range(1, 6)]))))
     parser.add_argument('codes', nargs='+', help='language codes for filenames')
@@ -64,11 +65,11 @@ if __name__ == '__main__':
                 strings = OrderedDict(strings)
                 strings[args.metadataKey] = defaultMetadata
                 f.write(json.dumps(strings, indent=4, sort_keys=False, ensure_ascii=False))
-        if len(set(['clean', 'all']) & set(args.actions)) > 0:
+        if len(set(['clean', 'all', 'cleanup']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
                 strings = OrderedDict(filter(lambda x: x[0] in canonicalStrings.keys(), loadJSON(f).items()))
                 dumpJSON(f, strings)
-        if len(set(['scrub', 'all']) & set(args.actions)) > 0:
+        if len(set(['scrub', 'all', 'cleanup']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
                 strings = OrderedDict(filter(lambda x: x[0] == args.metadataKey or not x[1].startswith(args.unavailableString), loadJSON(f).items()))
                 dumpJSON(f, strings)
@@ -89,7 +90,7 @@ if __name__ == '__main__':
                     strings[args.metadataKey][key] = defaultMetadata[key]
 
                 dumpJSON(f, strings)
-        if len(set(['update', 'all']) & set(args.actions)) > 0:
+        if len(set(['update', 'all', 'cleanup']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
                 strings = loadJSON(f)
                 if args.metadataKey not in strings:
@@ -100,7 +101,7 @@ if __name__ == '__main__':
                 strings[args.metadataKey]['completion'] = 100 - int(len(allKeys - presentKeys) / len(allKeys) * 100)
                 strings[args.metadataKey]['missing'] = list(allKeys - presentKeys)
                 dumpJSON(f, strings)
-        if len(set(['sort', 'all']) & set(args.actions)) > 0:
+        if len(set(['sort', 'all', 'cleanup']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
                 strings = loadJSON(f)
                 strings = OrderedDict(sorted(strings.items(), key=lambda x: -1 if x[0] not in canonicalStrings.keys() else list(canonicalStrings.keys()).index(x[0])))
