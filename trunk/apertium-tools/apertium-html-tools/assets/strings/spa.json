@@ -2,30 +2,26 @@
     "@metadata": {
         "authors": [
             "spectre360",
-            "hbwashington"
+            "hbwashington",
+            "sushain97"
         ],
-        "last-updated": "2014-03-04",
+        "last-updated": "2014-05-11",
         "locale": [
             "es",
             "spa"
         ],
-        "completion": 62,
+        "completion": 75,
         "missing": [
-            "Enable_JS_Warning",
-            "Instant_Translation",
-            "Download",
-            "Apertium_Downloads",
-            "Contact",
-            "About",
-            "Contact_Para",
-            "Documentation",
             "About_Title",
-            "What_Is_Apertium",
-            "Contact_Us",
-            "About_Apertium",
-            "Downloads_Para",
+            "Contact_Para",
             "Maintainer",
-            "Documentation_Para"
+            "Downloads_Para",
+            "Contact",
+            "Documentation_Para",
+            "Contact_Us",
+            "Apertium_Downloads",
+            "Enable_JS_Warning",
+            "What_Is_Apertium"
         ]
     },
     "title": "Apertium | Una plataforma libre para la traducción automática",
@@ -35,6 +31,7 @@
     "Translate": "Traducir",
     "Detect_Language": "Detectar idioma",
     "detected": "detectado",
+    "Instant_Translation": "Traducción instantánea",
     "Not_Available": "Traducción todavía no disponible!",
     "Morphological_Analysis": "Análisis morfológico",
     "Morphological_Analysis_Help": "Elige un idioma y analiza textos con los analizadores morfológicos de Apertium.",
@@ -50,5 +47,9 @@
     "Language": "Idioma",
     "Input_Text": "Texto de entrada",
     "Notice_Mistake": "Has encontrado un error?",
-    "Help_Improve": "Ayúdanos a mejorar Apertium!"
+    "Help_Improve": "Ayúdanos a mejorar Apertium!",
+    "About": "Acerca de",
+    "Download": "Descarga",
+    "Documentation": "Documentación",
+    "About_Apertium": "Acerca de Apertium"
 }
