@@ -1,4 +1,16 @@
 {
+    "@metadata": {
+        "authors": [
+            "unhammer"
+        ],
+        "last-updated": "2014-05-09",
+        "locale": [
+            "nn",
+            "nno"
+        ],
+        "completion": 100,
+        "missing": []
+    },
     "title": "Apertium | Ei fri/open kjeldekode maskinomsetjingsplattform",
     "tagline": "Ei fri/open kjeldekode maskinomsetjingsplattform",
     "Translation": "Omsetjing",

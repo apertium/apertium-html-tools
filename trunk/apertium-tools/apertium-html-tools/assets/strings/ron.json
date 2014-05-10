@@ -1,4 +1,32 @@
 {
+    "@metadata": {
+        "authors": [
+            "shopskasalata"
+        ],
+        "last-updated": "2014-01-27",
+        "locale": [
+            "ro",
+            "ron"
+        ],
+        "completion": 62,
+        "missing": [
+            "About",
+            "Contact_Us",
+            "Downloads_Para",
+            "Documentation_Para",
+            "Enable_JS_Warning",
+            "About_Apertium",
+            "Contact_Para",
+            "Instant_Translation",
+            "Apertium_Downloads",
+            "Maintainer",
+            "About_Title",
+            "What_Is_Apertium",
+            "Download",
+            "Contact",
+            "Documentation"
+        ]
+    },
     "title": "Apertium | O platformă liberă de traducere automată",
     "tagline": "O platformă liberă de traducere automată",
     "Translation": "Traducere",

@@ -1,4 +1,22 @@
 {
+    "@metadata": {
+        "authors": [
+            "spectre360"
+        ],
+        "last-updated": "2014-05-05",
+        "locale": [
+            "ca",
+            "cat"
+        ],
+        "completion": 88,
+        "missing": [
+            "What_Is_Apertium",
+            "Contact_Us",
+            "Downloads_Para",
+            "Documentation_Para",
+            "Maintainer"
+        ]
+    },
     "title": "Apertium | Una plataforma lliure per a la traducció automàtica",
     "tagline": "Plataforma lliure/de codi font obert per a la traducció automàtica",
     "Translation": "Traducció",
@@ -23,8 +41,8 @@
     "Input_Text": "Text d'entrada",
     "Notice_Mistake": "Has trobat un error?",
     "Help_Improve": "Ajuda'ns a millorar Apertium!",
-    "Contact_Us": "Feel free to contact us if you find a mistake, there's a project you would like to see us work on, or you would like to help out.",
-    "Maintainer": "This website is maintained by {{maintainer}}.",
+    "Contact_Us": "%%UNAVAILABLE%% Feel free to contact us if you find a mistake, there's a project you would like to see us work on, or you would like to help out.",
+    "Maintainer": "%%UNAVAILABLE%% This website is maintained by {{maintainer}}.",
     "About_Title": "En quant la web",
     "Enable_JS_Warning": "La web només funciona amb navegadors que té soport per JavaScript, si no pots <a href='http://www.enable-javascript.com/' target='_blank'>habilitar JavaScript</a>, pots provar els <a href='http://traductor.prompsit.com' target='_blank'>traductors a Prompsit</a>.",
     "About": "En quant",

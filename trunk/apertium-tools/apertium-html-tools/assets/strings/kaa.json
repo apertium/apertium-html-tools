@@ -1,4 +1,31 @@
 {
+    "@metadata": {
+        "authors": [
+            "abdik"
+        ],
+        "last-updated": "2014-04-28",
+        "locale": [
+            "kaa"
+        ],
+        "completion": 62,
+        "missing": [
+            "About",
+            "Contact_Us",
+            "Downloads_Para",
+            "Documentation_Para",
+            "Enable_JS_Warning",
+            "About_Apertium",
+            "Contact_Para",
+            "Instant_Translation",
+            "Apertium_Downloads",
+            "Maintainer",
+            "About_Title",
+            "What_Is_Apertium",
+            "Download",
+            "Contact",
+            "Documentation"
+        ]
+    },
     "title": "Apertium | Biypul/ashıq mashinalı awdarmalaw platforması",
     "tagline": "Biypul/ashıq mashinalı awdarmalaw platforması",
     "Translation": "Awdarma",

@@ -1,4 +1,26 @@
 {
+    "@metadata": {
+        "authors": [],
+        "last-updated": "",
+        "locale": [
+            "eus"
+        ],
+        "completion": 70,
+        "missing": [
+            "About",
+            "Documentation_Para",
+            "Downloads_Para",
+            "Enable_JS_Warning",
+            "About_Apertium",
+            "Contact_Para",
+            "Instant_Translation",
+            "Apertium_Downloads",
+            "What_Is_Apertium",
+            "Download",
+            "Contact",
+            "Documentation"
+        ]
+    },
     "title": "Apertium | Kode irekiko itzulpen automatiko plataforma librea",
     "tagline": "Kode irekiko itzulpen automatiko plataforma librea",
     "Translation": "Itzulpena",

@@ -1,4 +1,16 @@
 {
+    "@metadata": {
+        "authors": [
+            "unhammer"
+        ],
+        "last-updated": "2014-05-09",
+        "locale": [
+            "nb",
+            "nob"
+        ],
+        "completion": 100,
+        "missing": []
+    },
     "title": "Apertium | En fri/åpen kildekode maskinoversettelsesplattform",
     "tagline": "En fri/åpen kildekode maskinoversettelsesplattform",
     "Translation": "Oversettelse",

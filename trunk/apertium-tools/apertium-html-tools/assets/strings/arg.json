@@ -1,4 +1,32 @@
 {
+    "@metadata": {
+        "authors": [
+            "spectre360"
+        ],
+        "last-updated": "2014-04-05",
+        "locale": [
+            "an",
+            "arg"
+        ],
+        "completion": 62,
+        "missing": [
+            "About",
+            "Contact_Us",
+            "Downloads_Para",
+            "Documentation_Para",
+            "Enable_JS_Warning",
+            "About_Apertium",
+            "Contact_Para",
+            "Instant_Translation",
+            "Apertium_Downloads",
+            "Maintainer",
+            "About_Title",
+            "What_Is_Apertium",
+            "Download",
+            "Contact",
+            "Documentation"
+        ]
+    },
     "title": "Apertium | Una plataforma libre de traducción automatica",
     "tagline": "Plataforma libre/de codigo fuent ubierto ta la traducción automatica",
     "Translation": "Traducción",
