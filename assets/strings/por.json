@@ -1,27 +1,26 @@
 {
     "@metadata": {
         "authors": [
-            "hbwashington"
+            "hbwashington",
+            "sushain97"
         ],
-        "last-updated": "2014-03-05",
+        "last-updated": "2014-05-11",
         "locale": [
             "pt",
             "por"
         ],
-        "completion": 70,
+        "completion": 75,
         "missing": [
-            "About",
-            "Documentation_Para",
-            "Downloads_Para",
-            "Enable_JS_Warning",
-            "About_Apertium",
+            "Documentation",
             "Contact_Para",
-            "Instant_Translation",
-            "Apertium_Downloads",
-            "What_Is_Apertium",
-            "Download",
+            "Downloads_Para",
             "Contact",
-            "Documentation"
+            "Documentation_Para",
+            "Apertium_Downloads",
+            "Enable_JS_Warning",
+            "What_Is_Apertium",
+            "About_Apertium",
+            "Download"
         ]
     },
     "title": "Apertium | Uma plataforma livre para a tradução automática",
@@ -31,6 +30,7 @@
     "Translate": "Traduzir",
     "Detect_Language": "Detectar língua",
     "detected": "detectada",
+    "Instant_Translation": "tradução instantânea",
     "Not_Available": "Tradução aina não disponível!",
     "Morphological_Analysis": "Análise morfológica",
     "Morphological_Analysis_Help": "Escolha uma língua e analise textos com os analisadores morfológicos de Apertium.",
@@ -49,5 +49,6 @@
     "Help_Improve": "Ajude-nos a melhorar Apertium!",
     "Contact_Us": "Contate-nos se encontrar um erro, pensar um projeto para nós fazermos, ou quiser ajudar.",
     "Maintainer": "Este website é mantido por {{maintainer}}.",
-    "About_Title": "Sobre este Website"
+    "About_Title": "Sobre este Website",
+    "About": "Sobre"
 }
