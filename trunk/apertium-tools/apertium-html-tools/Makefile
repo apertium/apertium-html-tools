@@ -62,8 +62,12 @@ build/index.debug.html: index.html.in debug-head.html
 build/prod-head.html: prod-head.html build/js/all.js build/css/all.css
 	ts=`date +%s`; sed "s/\(href\|src\)=\"\([^\"]*\)\"/\1=\"\2?$${ts}\"/" $< > $@
 
-build/index.localiseme.html: index.html.in build/prod-head.html build/l10n-rel.html
-	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' $< > $@
+build/.PIWIK_URL: config.conf read-conf.py
+	./read-conf.py -c $< get PIWIK_URL > $@
+build/.PIWIK_SITEID: config.conf read-conf.py
+	./read-conf.py -c $< get PIWIK_SITEID > $@
+build/index.localiseme.html: index.html.in build/prod-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID
+	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
 
 
 ## HTML localisation
@@ -82,13 +86,16 @@ build/index.html: build/index.eng.html
 	cp $^ $@
 
 ## Sitemap
-.INTERMEDIATE: build/.html-url # TODO: is there a way to have prerequisites of _variables_? (could do away with the intermediate file)
-build/.html-url: config.conf read-conf.py
+build/.HTML_URL: config.conf read-conf.py
 	./read-conf.py -c $< get HTML_URL > $@
-build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.html-url
-	sed -e 's%^<link%<xhtml:link%' -e "s%href=\"%&$(shell cat build/.html-url)/%" build/l10n-rel.html > build/l10n-rel.html.tmp
-	sed -e "s%@include_url@%$(shell cat build/.html-url)%" -e '/@include_linkrel@/r build/l10n-rel.html.tmp' -e '/@include_linkrel@/d' $< > $@
+build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.HTML_URL
+	sed -e 's%^<link%<xhtml:link%' -e "s%href=\"%&$(shell cat build/.HTML_URL)/%" build/l10n-rel.html > build/l10n-rel.html.tmp
+	sed -e "s%@include_url@%$(shell cat build/.HTML_URL)%" -e '/@include_linkrel@/r build/l10n-rel.html.tmp' -e '/@include_linkrel@/d' $< > $@
 	rm -f build/l10n-rel.html.tmp
+
+
+# TODO: is there a way to have prerequisites of _variables_? (could do away with the intermediate file)
+.INTERMEDIATE: build/.HTML_URL build/.PIWIK_SITEID build/.PIWIK_URL
 
 ### CSS ###
 build/css/all.css:  assets/css/bootstrap.css assets/css/style.css build/css/.d

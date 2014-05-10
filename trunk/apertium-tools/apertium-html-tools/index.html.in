@@ -403,6 +403,7 @@
 
         <div id="noscript">
             <div class="lead text-warning well well-sm" data-text="Enable_JS_Warning"></div>
+	    <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" style="border:0;" alt="" /></p></noscript>
         </div>
     </body>
 </html>
