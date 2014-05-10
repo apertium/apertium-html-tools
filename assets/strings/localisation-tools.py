@@ -51,20 +51,28 @@ if __name__ == '__main__':
     for fname in args.files:
         defaultMetadata = OrderedDict([('authors', []), ('last-updated', ''), ('locale', [fname.replace('.json', '')]), ('completion', None), ('missing', [])])
 
-        if 'create' in args.actions or 'new' in args.actions:
+        if len(set(['create', 'new']) & set(args.actions)) > 0:
             with open(fname, 'w+') as f:
-                strings = OrderedDict(map(lambda x: (x[0], args.unavailableString + ((' ' + placeholderStrings[x[0]] if x[0] in placeholderStrings else '') if args.showPlaceholderString else '')), canonicalStrings.items()))
+                strings = []
+                for stringName, _ in canonicalStrings.items():
+                    if stringName != args.metadataKey:
+                        if args.showPlaceholderString:
+                            strings.append((stringName, args.unavailableString + (' ' + placeholderStrings[stringName] if stringName in placeholderStrings else '')))
+                        else:
+                            strings.append((stringName, args.unavailableString))
+
+                strings = OrderedDict(strings)
                 strings[args.metadataKey] = defaultMetadata
                 f.write(json.dumps(strings, indent=4, sort_keys=False, ensure_ascii=False))
-        if 'clean' in args.actions or 'all' in args.actions:
+        if len(set(['clean', 'all']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
                 strings = OrderedDict(filter(lambda x: x[0] in canonicalStrings.keys(), loadJSON(f).items()))
                 dumpJSON(f, strings)
-        if 'scrub' in args.actions or 'all' in args.actions:
+        if len(set(['scrub', 'all']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
                 strings = OrderedDict(filter(lambda x: x[0] == args.metadataKey or not x[1].startswith(args.unavailableString), loadJSON(f).items()))
                 dumpJSON(f, strings)
-        if 'rebase' in args.actions or 'all' in args.actions:
+        if len(set(['rebase', 'all']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
                 strings = OrderedDict(filter(lambda x: x[0] == args.metadataKey or not x[1].startswith(args.unavailableString), loadJSON(f).items()))
                 for stringName in set(canonicalStrings.keys()) - set(strings.keys()):
@@ -81,7 +89,7 @@ if __name__ == '__main__':
                     strings[args.metadataKey][key] = defaultMetadata[key]
 
                 dumpJSON(f, strings)
-        if 'update' in args.actions or 'all' in args.actions:
+        if len(set(['update', 'all']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
                 strings = loadJSON(f)
                 if args.metadataKey not in strings:
@@ -92,7 +100,7 @@ if __name__ == '__main__':
                 strings[args.metadataKey]['completion'] = 100 - int(len(allKeys - presentKeys) / len(allKeys) * 100)
                 strings[args.metadataKey]['missing'] = list(allKeys - presentKeys)
                 dumpJSON(f, strings)
-        if 'sort' in args.actions or 'all' in args.actions:
+        if len(set(['sort', 'all']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
                 strings = loadJSON(f)
                 strings = OrderedDict(sorted(strings.items(), key=lambda x: -1 if x[0] not in canonicalStrings.keys() else list(canonicalStrings.keys()).index(x[0])))
