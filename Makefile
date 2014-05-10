@@ -27,11 +27,14 @@ JSFILES= \
 	assets/js/generator.js \
 	assets/js/sandbox.js
 
+assets/js/config.js: config.conf read-conf.py
+	./read-conf.py -c $< js > $@
+
 # Only create the file based on the example if it doesn't exist
 # already; otherwise just give a message that the user might want to
 # merge it in:
-assets/js/config.js: assets/js/config.js.example
-	@if test -f assets/js/config.js; then \
+config.conf: config.conf.example
+	@if test -f $@; then \
 		touch $@; \
 		echo; echo You may have to merge new changes from $^ into $@; echo; \
 	else \
@@ -40,7 +43,7 @@ assets/js/config.js: assets/js/config.js.example
 	fi
 
 build/js/locales.js: assets/strings/locales.json build/js/.d
-	echo "config.LOCALES = `cat $^`;" > $@
+	echo "config.LOCALES = `cat $<`;" > $@
 
 build/js/all.js: $(JSFILES) build/js/.d
 	cat $(JSFILES) > $@
@@ -79,11 +82,12 @@ build/index.html: build/index.eng.html
 	cp $^ $@
 
 ## Sitemap
-LOC ?= "http://www.apertium.org"
-# TODO: in config.js rather? currently to override LOC you have to 'export LOC="http://example.com"; make'
-build/sitemap.xml: sitemap.xml.in build/l10n-rel.html
-	sed -e 's%^<link%<xhtml:link%' -e "s%href=\"%&$(LOC)/%" build/l10n-rel.html > build/l10n-rel.html.tmp
-	sed -e "s%@include_url@%$(LOC)%" -e '/@include_linkrel@/r build/l10n-rel.html.tmp' -e '/@include_linkrel@/d' $< > $@
+.INTERMEDIATE: build/.html-url # TODO: is there a way to have prerequisites of _variables_? (could do away with the intermediate file)
+build/.html-url: config.conf read-conf.py
+	./read-conf.py -c $< get HTML_URL > $@
+build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.html-url
+	sed -e 's%^<link%<xhtml:link%' -e "s%href=\"%&$(shell cat build/.html-url)/%" build/l10n-rel.html > build/l10n-rel.html.tmp
+	sed -e "s%@include_url@%$(shell cat build/.html-url)%" -e '/@include_linkrel@/r build/l10n-rel.html.tmp' -e '/@include_linkrel@/d' $< > $@
 	rm -f build/l10n-rel.html.tmp
 
 ### CSS ###
