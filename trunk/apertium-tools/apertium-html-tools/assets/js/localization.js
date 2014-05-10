@@ -224,17 +224,19 @@ function localizeStrings() {
 
     function handleLocalizations(localizations) {
         for(var textId in localizations) {
-            var text = localizations[textId];
-            $.each(config.REPLACEMENTS, function (name, value) {
-                if(text.indexOf(name) !== -1)
-                    text = text.replace(name, value);
-            });
-            try {
-                if(text.lastIndexOf('%%UNAVAILABLE%%') !== 0)
-                    $('[data-text=' + textId + ']').html(text);
-            }
-            catch(e) {
-                console.error('Ignored "' + e + "\" when calling $('[data-text=' + " + textId + " + ']').html(" + text + ")"); // Only in IE8.
+            if(textId.charAt(0) !== '@') {
+                var text = localizations[textId];
+                $.each(config.REPLACEMENTS, function (name, value) {
+                    if(text.indexOf(name) !== -1)
+                        text = text.replace(name, value);
+                });
+                try {
+                    if(text.lastIndexOf('%%UNAVAILABLE%%') !== 0)
+                        $('[data-text=' + textId + ']').html(text);
+                }
+                catch(e) {
+                    console.error('Ignored "' + e + "\" when calling $('[data-text=' + " + textId + " + ']').html(" + text + ")"); // Only in IE8.
+                }
             }
         }
         if(localizations['Not_Available'])
