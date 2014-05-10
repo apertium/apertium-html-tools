@@ -52,7 +52,7 @@
     "Input_Text": "%%UNAVAILABLE%% Input text", 
     "Notice_Mistake": "发现了任何错误？", 
     "Help_Improve": "帮助我们改进Apertium!", 
-    "Contact_Us": "如果您发现了任何错误,希望我们,或者想要为Apertium做出贡献,请通知我们。", 
+    "Contact_Us": "如果您发现了任何错误,希望我们work on a specific project,或者想要为Apertium做出贡献,请通知我们。", 
     "Maintainer": "%%UNAVAILABLE%% 这个网站 is maintained by {{maintainer}}.", 
     "About_Title": "关于这个网站", 
     "Enable_JS_Warning": "%%UNAVAILABLE%% 这个网站 only works with JavaScript enabled, if you cannot <a href='http://www.enable-javascript.com/' target='_blank'>enable Javascript</a>, then try the <a href='http://traductor.prompsit.com' target='_blank'>translators at Prompsit</a>.", 
