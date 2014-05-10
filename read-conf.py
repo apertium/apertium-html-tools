@@ -8,7 +8,7 @@ def getlist(conf_section, key, fallback=None):
     if string:
         return re.split(r"[, ]+", string)
     else:
-        return []
+        return fallback
 
 def check_config(conf, result):
     # Some error checking:
@@ -31,10 +31,10 @@ def load_conf(filename):
         'HTML_URL'                       : conf_APY.get('HTML_URL', fallback="http://www.apertium.org"),
         'APY_URL'                        : conf_APY.get('APY_URL', fallback="http://apy.projectjj.com"),
 
-        'ALLOWED_LANGS'                  : getlist(conf_APY, 'ALLOWED_LANGS'),
-        'ALLOWED_VARIANTS'               : getlist(conf_APY, 'ALLOWED_VARIANTS'),
+        'ALLOWED_LANGS'                  : getlist(conf_APY, 'ALLOWED_LANGS', fallback=None),
+        'ALLOWED_VARIANTS'               : getlist(conf_APY, 'ALLOWED_VARIANTS', fallback=None),
 
-        'ENABLED_MODES'                  : conf_APY.get('ENABLED_MODES', fallback="translation"),
+        'ENABLED_MODES'                  : getlist(conf_APY, 'ENABLED_MODES', fallback=["translation"]),
         'DEFAULT_MODE'                   : conf_APY.get('DEFAULT_MODE', fallback="translation"),
 
         'SHOW_NAVBAR'                    : conf_APY.getboolean('SHOW_NAVBAR', fallback=False),
@@ -57,7 +57,7 @@ def print_json(result, args):
     print(json.dumps(result))
 
 def print_js(result, args):
-    print("var config = %s;" % (json.dumps(result),))
+    print("var config = %s;" % (json.dumps(result, indent=4, sort_keys=False, ensure_ascii=False),))
 
 def print_keyval(result, args):
     print(result[args.key])
@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
         # result = load_conf(args.config)
         # args.func(result, args)
-    if hasattr(args, 'func'):
+    if 'func' in args:
         result = load_conf(args.config)
         args.func(result, args)
     else:
