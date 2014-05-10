@@ -20,7 +20,7 @@ $(document).ready(function () {
     $('body > .container').css('margin-top', '0px');
 
     if(config.SHOW_NAVBAR) {
-        if(config.ENABLED_MODES === undefined)
+        if(config.ENABLED_MODES === null)
             $('.nav a').removeClass('hide');
         else
             $.each(config.ENABLED_MODES, function () {
@@ -79,6 +79,10 @@ $(document).ready(function () {
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
+    config.PIWIK_URL = config.PIWIK_URL.replace(/http(s)?/, '');
+    if(config.PIWIK_URL.charAt(config.PIWIK_URL.length - 1) !== '/')
+        config.PIWIK_URL += '/';
+
     var _paq = _paq || [];
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
@@ -104,11 +108,11 @@ function sendEvent(category, action, label, value) {
 }
 
 function modeEnabled(mode) {
-    return config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf(mode) !== -1;
+    return config.ENABLED_MODES === null || config.ENABLED_MODES.indexOf(mode) !== -1;
 }
 
 function filterLangList(langs, filterFn) {
-    if(config.ALLOWED_LANGS === undefined && config.ALLOWED_VARIANTS === undefined)
+    if(config.ALLOWED_LANGS === null && config.ALLOWED_VARIANTS === null)
         return langs;
     else {
         if(!filterFn)
@@ -122,9 +126,9 @@ function filterLangList(langs, filterFn) {
 
 function allowedLang(code) {
     if(code.indexOf('_') === -1)
-        return config.ALLOWED_LANGS === undefined || config.ALLOWED_LANGS.indexOf(code) !== -1;
+        return config.ALLOWED_LANGS === null || config.ALLOWED_LANGS.indexOf(code) !== -1;
     else
-        return allowedLang(code.split('_')[0]) && (config.ALLOWED_VARIANTS === undefined || config.ALLOWED_VARIANTS.indexOf(code.split('_')[1]) !== -1);
+        return allowedLang(code.split('_')[0]) && (config.ALLOWED_VARIANTS === null || config.ALLOWED_VARIANTS.indexOf(code.split('_')[1]) !== -1);
 }
 
 function getURLParam(name) {
