@@ -54,6 +54,20 @@ build/js/min.js: build/js/all.js
 build/js/compat.js: assets/js/compat.js build/js/.d
 	cp $< $@
 
+
+
+# TODO: store this in js in some way:
+build/js/pairs.json: config.conf read-conf.py
+	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=pairs" >$@
+build/js/generators.json: config.conf read-conf.py
+	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=generators" >$@
+build/js/analysers.json: config.conf read-conf.py
+	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=analysers" >$@
+build/js/taggers.json: config.conf read-conf.py
+	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=taggers" >$@
+
+
+
 ### HTML ###
 build/index.debug.html: index.html.in debug-head.html
 	sed -e '/@include_head@/r debug-head.html' -e '/@include_head@/d' $< > $@
