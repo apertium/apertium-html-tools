@@ -6,7 +6,9 @@
 
 == Setup ==
 
-Type
+Copy `config.conf.example` to `config.conf` and edit it.
+
+Then type
 
     make
 
