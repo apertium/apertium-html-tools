@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    actions = ['new', 'create', 'sort', 'clean', 'scrub', 'update', 'rebase', 'all']
+    actions = ['new', 'create', 'sort', 'clean', 'scrub', 'update', 'rebase', 'all', 'cleanup']
     args.codes = args.codes + list(filter(lambda x: x not in actions, args.actions))
     args.actions = list(filter(lambda x: x in actions, args.actions))
 
