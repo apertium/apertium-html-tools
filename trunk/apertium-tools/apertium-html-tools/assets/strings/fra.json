@@ -1,28 +1,15 @@
 {
     "@metadata": {
         "authors": [
-            "2014-04-05"
+            "2014-05-11"
         ],
         "last-updated": "youssef",
         "locale": [
             "fr",
             "fra"
         ],
-        "completion": 70,
-        "missing": [
-            "About",
-            "Documentation_Para",
-            "Downloads_Para",
-            "Enable_JS_Warning",
-            "About_Apertium",
-            "Contact_Para",
-            "Instant_Translation",
-            "Apertium_Downloads",
-            "What_Is_Apertium",
-            "Download",
-            "Contact",
-            "Documentation"
-        ]
+        "completion": 100,
+        "missing": []
     },
     "title": "Apertium | Une plateforme libre/open source de traduction automatique",
     "tagline": "Une plateforme libre/open source de traduction automatique",
@@ -31,6 +18,7 @@
     "Translate": "Traduire",
     "Detect_Language": "Détecter la langue",
     "detected": "détecté",
+    "Instant_Translation": "Traduction instantanée",
     "Not_Available": "Traduction non encore disponible!",
     "Morphological_Analysis": "Analyse morphologique",
     "Morphological_Analysis_Help": "Choisissez une langue et analysez votre texte gràce aux analyseurs morphologiques d'Apertium.",
@@ -49,5 +37,16 @@
     "Help_Improve": "Aidez-nous à améliorer Apertium!",
     "Contact_Us": "Contactez-nous si vous trouvez une erreur, si vous voyez un projet sur lequel vous aimeriez que nous y travaillions dessus, ou si vous voulez nous donner un coup de main.",
     "Maintainer": "Site maintenu par {{maintainer}}.",
-    "About_Title": "Au sujet du site internet"
+    "About_Title": "Au sujet du site internet",
+    "Enable_JS_Warning": "Le site ne fonctionne qu'avec Javascript activé, si vous ne pouvez pas <a href='http://www.enable-javascript.com/' target='_blank'>activer Javascript</a>, essayez les <a href='http://traductor.prompsit.com' target='_blank'>outils de traductions de Prompsit</a>",
+    "About": "À propos",
+    "Download": "Télécharger",
+    "Contact": "Contact",
+    "Documentation": "Documentation",
+    "About_Apertium": "À propos d'Apertium",
+    "What_Is_Apertium": "<p>Apertium est <b> une plateforme de traduction automatique libre/open source</b>, conçu à l'origine pour des pairs de langues proches, puis s'est étendu à des pairs de langues plus éloignées comme la paire anglais-catalan. La plateforme fournit: </p> <ol> <li>un moteur de traduction automatique qui ne dépend pas d'une quelconque langue</li> <li>des outils linguistiques pour gérer les données nécessaire à la réalisation d'un système de traduction automatique pour une paire de langue donnée</li><li>des données linguistiques pour un nombre croissant de paires de langues.</li> </ol> <p>Apertium apprécie l'arrivée de nouveaux développeurs : si vous estimz que vous pouvez améliorez le moteur, les outils ou les données linguistiques, n'hésitez pas à <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'>prendre contact avec nousS</a>.</p>",
+    "Documentation_Para": "La documentation se trouve sur<a href='http://wiki.apertium.org/'>le Wiki</a> dans la section <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank'>Documentation</a>. Nous avons publié divers articles de conférences et de revues, vous trouverez une liste sur la Wiki dans la section <a href='http://wiki.apertium.org/wiki/Publications' target='_blank'>Publications</a>.",
+    "Apertium_Downloads": "Télechargements Apertium",
+    "Downloads_Para": "Les dernières versions de  <b>la boîte à outils Apertium </b> ainsi que <b> les données pour les paires de langue</b> sont disponibles sur <a href='https://sourceforge.net/projects/apertium/' target='_blank'>le site de SourceForge</a>. Les instructions pour installer Apertium sur les principales plateformes se trouvent sur <a href='http://wiki.apertium.org/wiki/Installation' target='_blank'>la page installation du Wiki</a>",
+    "Contact_Para": "<h4>Le canal IRC</h4> <p> La manière la plus rapide de nous contacter. Pour ce faire, aller sur <a href='http://wiki.apertium.org/wiki/IRC' target='_blank'><abbr title='Internet Relay Chat'>IRC</abbr> notre canal #apertium</a> sur le serveur irc.freenode.net, où vous trouverez les utilisateurs et développeurs d'Apertium.</p> </p> <h4>La liste de diffusion</h4> <p> Veuillez vous inscrire à <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank'> la liste de diffusion d'Apertium</a>, où vous pouvez poster de plus longs messages contenant des suggestions ou traitant de problèmes ainsi que discuter d'Aepertium de manière générale.</p> <h4>Contact</h4> <p> Vous pouvez nous contacter via  <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'> la liste de diffusion d'Apertium </a> si vous trouvez une erreur, si vous voyez un projet sur lequel vous aimeriez que nous travaillions ou si vous voulez nous donner un coup de main.</p>"
 }
