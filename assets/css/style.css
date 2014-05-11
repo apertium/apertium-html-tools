@@ -143,6 +143,10 @@ button.disabledLang {
     opacity: 1 !important;
 }
 
+#originalText, #translatedText {
+    resize: vertical;
+}
+
 /* Analysis */
 
 .noAnalysis {
@@ -164,11 +168,11 @@ div.unit {
 }
 
 .navbar {
-    margin-top: 4em; 
+    margin-top: 4em;
 }
 
 body > .container {
-    margin-top: 4em; 
+    margin-top: 4em;
 }
 
 /* RTL Stuff */
