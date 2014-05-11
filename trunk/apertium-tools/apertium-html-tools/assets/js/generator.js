@@ -31,31 +31,39 @@ if(modeEnabled('generation')) {
 function getGenerators() {
     var deferred = $.Deferred();
 
-    var generators = readCache('generators', 'LIST_REQUEST');
-    if(generators) {
-        generatorData = generators;
+    if(config.GENERATORS) {
+        generatorData = config.GENERATORS;
         populateGeneratorList(generators);
         deferred.resolve();
     }
     else {
-        console.error('Generators cache ' + (analyzers === null ? 'stale' : 'miss') + ', retrieving from server');
-        $.jsonp({
-            url: config.APY_URL + '/list?q=generators',
-            beforeSend: ajaxSend,
-            success: function (data) {
-                generatorData = data;
-                populateGeneratorList(generatorData);
-                cache('generators', data);
-            },
-            error: function (xOptions, error) {
-                console.error('Failed to get available generators');
-            },
-            complete: function () {
-                ajaxComplete();
-                deferred.resolve();
-            }
-        });
+        var generators = readCache('generators', 'LIST_REQUEST');
+        if(generators) {
+            generatorData = generators;
+            populateGeneratorList(generators);
+            deferred.resolve();
+        }
+        else {
+            console.error('Generators cache ' + (analyzers === null ? 'stale' : 'miss') + ', retrieving from server');
+            $.jsonp({
+                url: config.APY_URL + '/list?q=generators',
+                beforeSend: ajaxSend,
+                success: function (data) {
+                    generatorData = data;
+                    populateGeneratorList(generatorData);
+                    cache('generators', data);
+                },
+                error: function (xOptions, error) {
+                    console.error('Failed to get available generators');
+                },
+                complete: function () {
+                    ajaxComplete();
+                    deferred.resolve();
+                }
+            });
+        }
     }
+
     return deferred.promise();
 }
 
