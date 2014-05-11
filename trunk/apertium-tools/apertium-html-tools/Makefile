@@ -18,6 +18,7 @@ JSFILES= \
 	assets/js/jquery.jsonp-2.4.0.min.js \
 	assets/js/config.js \
 	build/js/locales.js \
+	build/js/listrequests.js \
 	assets/js/util.js \
 	assets/js/persistence.js \
 	assets/js/caching.js \
@@ -45,6 +46,12 @@ config.conf: config.conf.example
 build/js/locales.js: assets/strings/locales.json build/js/.d
 	echo "config.LOCALES = `cat $<`;" > $@
 
+build/js/listrequests.js: config.conf read-conf.py build/js/.d
+	echo "config.PAIRS = `curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=pairs"`;" > $@
+	echo "config.GENERATORS = `curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=generators"`;" >> $@
+	echo "config.ANALYSERS = `curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=analysers"`;" >> $@
+	echo "config.TAGGERS = `curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=taggers"`;" >> $@
+
 build/js/all.js: $(JSFILES) build/js/.d
 	cat $(JSFILES) > $@
 
@@ -53,19 +60,6 @@ build/js/min.js: build/js/all.js
 
 build/js/compat.js: assets/js/compat.js build/js/.d
 	cp $< $@
-
-
-
-# TODO: store this in js in some way:
-build/js/pairs.json: config.conf read-conf.py
-	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=pairs" >$@
-build/js/generators.json: config.conf read-conf.py
-	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=generators" >$@
-build/js/analysers.json: config.conf read-conf.py
-	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=analysers" >$@
-build/js/taggers.json: config.conf read-conf.py
-	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=taggers" >$@
-
 
 
 ### HTML ###
