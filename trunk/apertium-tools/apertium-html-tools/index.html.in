@@ -1,5 +1,5 @@
-<!DOCTYPE html> 
- 
+<!DOCTYPE html>
+
 <html>
     <head>
         <title data-text="title"></title>
@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="description" content="Apertium is a rule-based machine translation platform. It is free software and released under the terms of the GNU General Public License.">
         <link rel="shortcut icon" href="./img/favicon.ico">
-        
+
         <!-- <link type="text/css" rel="stylesheet" href="./css/icon-globe.css"> -->
         <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu"> <!-- Selectivzr bug requires this being in <link> rather than @import -->
         <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
@@ -142,15 +142,15 @@
                         <div class="col-sm-6">
                             <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
                         </div>
-                        <div class="col-sm-2 col-sm-offset-10">
+                        <div class="col-sm-2 pull-right">
                             <div class="checkbox">
-                                <label>
+                                <label class="pull-right">
                                     <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span>
                                 </label>
                               </div>
                         </div>
                     </div>
-                </form> 
+                </form>
             </div>
             <div class="modeContainer" id="analyzationContainer">
                 <h2 class="visible-xs" data-text="Morphological_Analysis">Morphological analysis</h2>
@@ -175,7 +175,7 @@
                         <button type="submit" class="btn btn-primary" id="analyze" data-text="Analyze">Analyze</button>
                     </div>
                 </form>
-                
+
                 <table class="table table-hover outputContainer" id="morphAnalyzerOutput" style="border-spacing: 0px;"></table>
             </div>
             <div class="modeContainer" id="generationContainer">
@@ -207,7 +207,7 @@
                 <h2 class="visible-xs" data-text="APY_Sandbox">APY sandbox</h2>
                 <form class="form-horizontal" role="form" method="none" id="sandboxForm">
                     <legend>
-                        <span data-text="APY_Sandbox_Help"></span> 
+                        <span data-text="APY_Sandbox_Help"></span>
                         <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right">
                             <abbr title="Apertium API in Python">APY</abbr>
                             <i class="glyphicon glyphicon-question-sign"></i>
@@ -237,7 +237,7 @@
                         <li><a data-toggle="modal" data-target="#contactModal" data-keyboard="true"><i class="fa fa-envelope"></i> <span data-text="Contact">Contact</span></a></li>
                     </ul>
                     <div class="pull-right well well-sm helpMessage">
-                        <span data-text="Notice_Mistake">Notice a mistake?</span> 
+                        <span data-text="Notice_Mistake">Notice a mistake?</span>
                         <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve" data-keyboard="true">Help us improve Apertium!</a>
                     </div>
                 </div>
@@ -248,9 +248,9 @@
                 <i class="fa fa-globe fa-2x pull-left" style="padding: 5px 0px 0px 5px"></i>
                 <!-- <i class="fa fa-globe localeGlobe pull-left"></i> -->
             </div>
-            
+
             <div class="pull-right well well-sm visible-xs helpMessage" style="margin-top: 10px;">
-                <span data-text="Notice_Mistake">Notice a mistake?</span> 
+                <span data-text="Notice_Mistake">Notice a mistake?</span>
                 <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve" data-keyboard="true">Help us improve Apertium!</a>
             </div>
         </div>
@@ -390,7 +390,7 @@
                             </span>
                         </p>
                         <p data-text="Contact_Us"></p>
-                        
+
                         <div class="center-block" style="margin-bottom: 1.5em;">
                             <a href="http://www.apertium.org/" target="_blank">
                                 <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" style="height: 5em;">
