@@ -116,29 +116,35 @@ if(modeEnabled('translation')) {
 function getPairs() {
     var deferred = $.Deferred();
 
-    var pairData = readCache('pairs', 'LIST_REQUEST');
-    if(pairData) {
-        handlePairs(pairData);
+    if(config.PAIRS) {
+        handlePairs(config.PAIRS['responseData'])
         deferred.resolve();
     }
     else {
-        console.error('Translation pairs cache ' + (pairs === null ? 'stale' : 'miss') + ', retrieving from server');
-        $.jsonp({
-            url: config.APY_URL + '/list?q=pairs',
-            beforeSend: ajaxSend,
-            success: function (data) {
-                handlePairs(data['responseData']);
-                cache('pairs', data['responseData']);
-            },
-            error: function () {
-                console.error('Failed to get available translation language pairs');
-                translationNotAvailable();
-            },
-            complete: function () {
-                ajaxComplete();
-                deferred.resolve();
-            }
-        });
+        var pairData = readCache('pairs', 'LIST_REQUEST');
+        if(pairData) {
+            handlePairs(pairData);
+            deferred.resolve();
+        }
+        else {
+            console.error('Translation pairs cache ' + (pairs === null ? 'stale' : 'miss') + ', retrieving from server');
+            $.jsonp({
+                url: config.APY_URL + '/list?q=pairs',
+                beforeSend: ajaxSend,
+                success: function (data) {
+                    handlePairs(data['responseData']);
+                    cache('pairs', data['responseData']);
+                },
+                error: function () {
+                    console.error('Failed to get available translation language pairs');
+                    translationNotAvailable();
+                },
+                complete: function () {
+                    ajaxComplete();
+                    deferred.resolve();
+                }
+            });
+        }
     }
 
     function handlePairs(pairData) {
