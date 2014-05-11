@@ -49,7 +49,7 @@
     "Notice_Mistake": "Has encontrado un error?", 
     "Help_Improve": "Ayúdanos a mejorar Apertium!", 
     "About": "Acerca de", 
-    "Download": "Descarga", 
+    "Download": "Descargas", 
     "Documentation": "Documentación", 
     "About_Apertium": "Acerca de Apertium", 
     "Downloads_Para": "%%UNAVAILABLE%% Current versions of the <b>Apertium toolbox</b> as well as of <b>language-pair data</b> are available from <a href='https://sourceforge.net/projects/apertium/' target='_blank'>the SourceForge page</a>. Installation instructions for Apertium on all major platforms are provided on the <a href='http://wiki.apertium.org/wiki/Installation' target='_blank'>Wiki's Installation page</a>.", 
