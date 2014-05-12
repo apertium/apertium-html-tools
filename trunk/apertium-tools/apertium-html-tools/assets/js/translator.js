@@ -67,6 +67,7 @@ if(modeEnabled('translation')) {
             $('.srcLang').removeClass('active');
             $(this).addClass('active');
             detectLanguage();
+            translate();
         });
 
         $('.swapLangBtn').click(function () {
@@ -101,8 +102,10 @@ if(modeEnabled('translation')) {
 
         $('#srcLangSelect').change(function () {
             var selectValue = $(this).val();
-            if(selectValue === 'detect')
+            if(selectValue === 'detect') {
                 detectLanguage();
+                translate();
+            }
             else
                 handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
         });
