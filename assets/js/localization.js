@@ -51,47 +51,51 @@ function getLocale(deferred) {
     var deferred = $.Deferred();
 
     restoreChoices('localization');
-
-    var localeParam = getURLParam('lang');
-    localeParam = iso639CodesInverse[localeParam] ? iso639CodesInverse[localeParam] : localeParam;
-    if(localeParam) {
-        locale = localeParam;
+    
+    if(locale)
         deferred.resolve();
-    }
     else {
-        var pathParts = window.location.pathname.split('.');
-        if(pathParts.length === 3) {
-            locale = pathParts[1];
+        var localeParam = getURLParam('lang');
+        localeParam = iso639CodesInverse[localeParam] ? iso639CodesInverse[localeParam] : localeParam;
+        if(localeParam) {
+            locale = localeParam;
             deferred.resolve();
         }
         else {
-            $.jsonp({
-                url: config.APY_URL + '/getLocale',
-                beforeSend: ajaxSend,
-                success: function (data) {
-                    for(var i = 0; i < data.length; i++) {
-                        localeGuess = data[i];
-                        if(localeGuess.indexOf('-') !== -1)
-                            localeGuess = localeGuess.split('-')[0];
-                        if(localeGuess in iso639Codes) {
-                            locale = localeGuess;
-                            break;
+            var pathParts = window.location.pathname.split('.');
+            if(pathParts.length === 3) {
+                locale = pathParts[1];
+                deferred.resolve();
+            }
+            else {
+                $.jsonp({
+                    url: config.APY_URL + '/getLocale',
+                    beforeSend: ajaxSend,
+                    success: function (data) {
+                        for(var i = 0; i < data.length; i++) {
+                            localeGuess = data[i];
+                            if(localeGuess.indexOf('-') !== -1)
+                                localeGuess = localeGuess.split('-')[0];
+                            if(localeGuess in iso639Codes) {
+                                locale = localeGuess;
+                                break;
+                            }
+                            else if(localeGuess in iso639CodesInverse) {
+                                locale = iso639CodesInverse[localeGuess];
+                                break;
+                            }
                         }
-                        else if(localeGuess in iso639CodesInverse) {
-                            locale = iso639CodesInverse[localeGuess];
-                            break;
-                        }
+                    },
+                    error: function () {
+                        console.error('Failed to determine locale, defaulting to eng');
+                        locale = 'eng';
+                    },
+                    complete: function () {
+                        ajaxComplete();
+                        deferred.resolve();
                     }
-                },
-                error: function () {
-                    console.error('Failed to determine locale, defaulting to eng');
-                    locale = 'eng';
-                },
-                complete: function () {
-                    ajaxComplete();
-                    deferred.resolve();
-                }
-            });
+                });
+            }
         }
     }
 
