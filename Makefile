@@ -47,10 +47,18 @@ build/js/locales.js: assets/strings/locales.json build/js/.d
 	echo "config.LOCALES = `cat $<`;" > $@
 
 build/js/listrequests.js: config.conf read-conf.py build/js/.d
-	echo "config.PAIRS = `curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=pairs"`;" > $@
-	echo "config.GENERATORS = `curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=generators"`;" >> $@
-	echo "config.ANALYSERS = `curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=analysers"`;" >> $@
-	echo "config.TAGGERS = `curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=taggers"`;" >> $@
+	echo -n "config.PAIRS = " > $@
+	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=pairs" >> $@ || ( rm $@; false; )
+	echo ";" >> $@
+	echo -n "config.GENERATORS = " >> $@
+	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=generators" >> $@ || ( rm $@; false; )
+	echo ";" >> $@
+	echo -n "config.ANALYSERS = " >> $@
+	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=analysers" >> $@ || ( rm $@; false; )
+	echo ";" >> $@
+	echo -n "config.TAGGERS = " >> $@
+	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=taggers" >> $@ || ( rm $@; false; )
+	echo ";" >> $@
 
 build/js/all.js: $(JSFILES) build/js/.d
 	cat $(JSFILES) > $@
