@@ -46,7 +46,7 @@ $(document).ready(function () {
         if(!stringsFresh)
             localizeStrings();
 
-        if(window.history) {
+        if(window.history.replaceState) {
             var urlParams = [], urlParamNames = ['dir'];
             $.each(urlParamNames, function () {
                 var urlParam = getURLParam(this);
