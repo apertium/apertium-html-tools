@@ -78,9 +78,9 @@ build/index.debug.html: index.html.in debug-head.html
 build/prod-head.html: prod-head.html build/js/all.js build/css/all.css
 	ts=`date +%s`; sed "s/\(href\|src\)=\"\([^\"]*\)\"/\1=\"\2?$${ts}\"/" $< > $@
 
-build/.PIWIK_URL: config.conf read-conf.py
+build/.PIWIK_URL: config.conf read-conf.py build/.d
 	./read-conf.py -c $< get PIWIK_URL > $@
-build/.PIWIK_SITEID: config.conf read-conf.py
+build/.PIWIK_SITEID: config.conf read-conf.py build/.d
 	./read-conf.py -c $< get PIWIK_SITEID > $@
 build/index.localiseme.html: index.html.in build/prod-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID
 	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
@@ -102,7 +102,7 @@ build/index.html: build/index.eng.html
 	cp $^ $@
 
 ## Sitemap
-build/.HTML_URL: config.conf read-conf.py
+build/.HTML_URL: config.conf read-conf.py build/.d
 	./read-conf.py -c $< get HTML_URL > $@
 build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.HTML_URL
 	sed -e 's%^<link%<xhtml:link%' -e "s%href=\"%&$(shell cat build/.HTML_URL)/%" build/l10n-rel.html > build/l10n-rel.html.tmp
