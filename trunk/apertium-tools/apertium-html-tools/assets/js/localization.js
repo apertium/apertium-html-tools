@@ -65,9 +65,7 @@ function getLocale(deferred) {
 
     restoreChoices('localization');
     
-    var localeParam = getURLParam('lang');
-    if(localeParam.charAt(localeParam.length - 1) === '/');
-        localeParam = localeParam.substring(0, localeParam.length - 1);
+    var localeParam = getURLParam('lang').replace('/', '');
     localeParam = iso639CodesInverse[localeParam] ? iso639CodesInverse[localeParam] : localeParam;
     if(localeParam) {
         locale = localeParam;
