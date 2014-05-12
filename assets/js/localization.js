@@ -5,6 +5,7 @@ var rtlLanguages = ['heb', 'ara', 'pes', 'urd'];
 var languagesInverse = {}, iso639CodesInverse = {};
 var localizedLanguageCodes = {}, localizedLanguageNames = {};
 var notAvailableText = 'Translation not yet available!', detectedText = 'detected';
+var localizedHTML = false;
 
 $(document).ready(function () {
     $.each(languages, function (key, value) {
@@ -35,7 +36,7 @@ $(document).ready(function () {
 
     $.when.apply($, deferredItems).then(function () {
         $('.localeSelect').val(locale);
-        localizeEverything(window.location.pathname.split('.').length === 3);
+        localizeEverything(localizedHTML);
         persistChoices('localization');
     });
 
@@ -44,6 +45,18 @@ $(document).ready(function () {
         localizeInterface();
         if(!stringsFresh)
             localizeStrings();
+
+        if(window.history) {
+            var urlParams = [], urlParamNames = ['dir'];
+            $.each(urlParamNames, function () {
+                var urlParam = getURLParam(this);
+                if(urlParam)
+                    urlParams.push(this + '=' + encodeURIComponent(urlParam));
+            });
+
+            var newURL = '/index.' + locale + '.html' + (urlParams.length > 0 ? '?' + urlParams.join('+') : '') + window.location.hash;
+            window.history.replaceState({}, document.title, newURL);
+        }
     }
 });
 
@@ -52,50 +65,52 @@ function getLocale(deferred) {
 
     restoreChoices('localization');
     
-    if(locale)
+    var localeParam = getURLParam('lang');
+    if(localeParam.charAt(localeParam.length - 1) === '/');
+        localeParam = localeParam.substring(0, localeParam.length - 1);
+    localeParam = iso639CodesInverse[localeParam] ? iso639CodesInverse[localeParam] : localeParam;
+    if(localeParam) {
+        locale = localeParam;
         deferred.resolve();
+    }
     else {
-        var localeParam = getURLParam('lang');
-        localeParam = iso639CodesInverse[localeParam] ? iso639CodesInverse[localeParam] : localeParam;
-        if(localeParam) {
-            locale = localeParam;
+        var pathParts = window.location.pathname.split('.');
+        if(pathParts.length === 3) {
+            locale = pathParts[1];
+            localizedHTML = true;
             deferred.resolve();
         }
-        else {
-            var pathParts = window.location.pathname.split('.');
-            if(pathParts.length === 3) {
-                locale = pathParts[1];
-                deferred.resolve();
-            }
-            else {
-                $.jsonp({
-                    url: config.APY_URL + '/getLocale',
-                    beforeSend: ajaxSend,
-                    success: function (data) {
-                        for(var i = 0; i < data.length; i++) {
-                            localeGuess = data[i];
-                            if(localeGuess.indexOf('-') !== -1)
-                                localeGuess = localeGuess.split('-')[0];
-                            if(localeGuess in iso639Codes) {
-                                locale = localeGuess;
-                                break;
-                            }
-                            else if(localeGuess in iso639CodesInverse) {
-                                locale = iso639CodesInverse[localeGuess];
-                                break;
-                            }
+        else if(!locale) {
+            $.jsonp({
+                url: config.APY_URL + '/getLocale',
+                beforeSend: ajaxSend,
+                success: function (data) {
+                    for(var i = 0; i < data.length; i++) {
+                        localeGuess = data[i];
+                        if(localeGuess.indexOf('-') !== -1)
+                            localeGuess = localeGuess.split('-')[0];
+                        if(localeGuess in iso639Codes) {
+                            locale = localeGuess;
+                            break;
                         }
-                    },
-                    error: function () {
-                        console.error('Failed to determine locale, defaulting to eng');
-                        locale = 'eng';
-                    },
-                    complete: function () {
-                        ajaxComplete();
-                        deferred.resolve();
+                        else if(localeGuess in iso639CodesInverse) {
+                            locale = iso639CodesInverse[localeGuess];
+                            break;
+                        }
                     }
-                });
-            }
+                },
+                error: function () {
+                    console.error('Failed to determine locale, defaulting to eng');
+                    locale = 'eng';
+                },
+                complete: function () {
+                    ajaxComplete();
+                    deferred.resolve();
+                }
+            });
+        }
+        else {
+            deferred.resolve();
         }
     }
 
