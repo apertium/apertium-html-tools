@@ -53,8 +53,8 @@ build/js/listrequests.js: config.conf read-conf.py build/js/.d
 	echo -n "config.GENERATORS = " >> $@
 	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=generators" >> $@ || ( rm $@; false; )
 	echo ";" >> $@
-	echo -n "config.ANALYSERS = " >> $@
-	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=analysers" >> $@ || ( rm $@; false; )
+	echo -n "config.ANALYZERS = " >> $@
+	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=analyzers" >> $@ || ( rm $@; false; )
 	echo ";" >> $@
 	echo -n "config.TAGGERS = " >> $@
 	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=taggers" >> $@ || ( rm $@; false; )
@@ -102,7 +102,7 @@ build/index.html: build/index.eng.html
 	cp $^ $@
 
 build/strings/%.json: assets/strings/%.json config.conf read-conf.py build/strings/.d
-	@echo -n '    "langnames": ' > $@.tmp
+	@echo -n '    "@langNames": ' > $@.tmp
 	curl -s "$(shell ./read-conf.py -c config.conf get APY_URL)/listLanguageNames?locale=$*" >> $@.tmp
 	@echo ',' >> $@.tmp
 	@sed "0,/{/ s/{/{\n/" $< | sed "1r $@.tmp" > $@
