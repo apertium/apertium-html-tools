@@ -1,4 +1,4 @@
-all: build/js/min.js build/js/compat.js build/css/min.css build/index.html build/index.debug.html build/sitemap.xml localhtml simple
+all: build/js/min.js build/js/compat.js build/css/min.css build/index.html build/index.debug.html build/sitemap.xml build/strings/locales.json localhtml images
 
 # Note: the min.{js,css} are equal to all.{js,css}; minification gives
 # negligible improvements over just enabling gzip in the server, and
@@ -11,7 +11,7 @@ all: build/js/min.js build/js/compat.js build/css/min.css build/index.html build
 	touch $@
 
 # Don't autoremove
-.PRECIOUS: build/.d build/js/.d build/css/.d
+.PRECIOUS: build/.d build/js/.d build/css/.d build/strings/.d
 
 ### JS ###
 JSFILES= \
@@ -71,7 +71,7 @@ build/js/compat.js: assets/js/compat.js build/js/.d
 
 
 ### HTML ###
-build/index.debug.html: index.html.in debug-head.html
+build/index.debug.html: index.html.in debug-head.html build/.d
 	sed -e '/@include_head@/r debug-head.html' -e '/@include_head@/d' $< > $@
 
 # timestamp links, only double quotes supported :>
@@ -88,18 +88,30 @@ build/index.localiseme.html: index.html.in build/prod-head.html build/l10n-rel.h
 
 ## HTML localisation
 # JSON-parsing-regex ahoy:
-localhtml: $(shell sed -n 's%^[^"]*"\([^"]*\)":.*%build/index.\1.html% p' assets/strings/locales.json)
+localhtml: $(shell sed -n 's%^[^"]*"\([^"]*\)":.*%build/index.\1.html build/strings/\1.json% p' assets/strings/locales.json)
 
 
 # hreflang requires iso639-1 :/ Fight ugly with ugly:
 build/l10n-rel.html: assets/strings/locales.json isobork build/.d
 	awk 'BEGIN{while(getline<"isobork")i[$$1]=$$2} /:/{sub(/^[^"]*"/,""); sub(/".*/,""); borkd=i[$$0]; if(!borkd)borkd=$$0; print "<link rel=\"alternate\" hreflang=\""borkd"\" href=\"index."$$0".html\"/>"}' $^ > $@
 
-build/index.%.html: assets/strings/%.json build/index.localiseme.html config.conf read-conf.py
+build/index.%.html: build/strings/%.json build/index.localiseme.html config.conf read-conf.py
 	./localise-html.py -c config.conf build/index.localiseme.html $< $@
 
 build/index.html: build/index.eng.html
 	cp $^ $@
+
+build/strings/%.json: assets/strings/%.json config.conf read-conf.py build/strings/.d
+	@echo -n '    "langnames": ' > $@.tmp
+	curl -s "$(shell ./read-conf.py -c config.conf get APY_URL)/listLanguageNames?locale=$*" >> $@.tmp
+	@echo ',' >> $@.tmp
+	@sed "0,/{/ s/{/{\n/" $< | sed "1r $@.tmp" > $@
+	@rm $@.tmp
+# the first sed to ensure inserting after line 1 is unproblematic
+
+build/strings/locales.json: assets/strings/locales.json build/strings/.d
+	cp $< $@
+
 
 ## Sitemap
 build/.HTML_URL: config.conf read-conf.py build/.d
@@ -121,16 +133,16 @@ build/css/min.css: build/css/all.css
 	cp $^ $@
 
 
-### Simple assets ###
-# Images and strings just copied over
-SIMPLE_ASSETS=$(shell find assets/img assets/strings -type f)
-SIMPLE_BUILD=$(patsubst assets/%, build/%, $(SIMPLE_ASSETS))
+### Images ###
+# Images just copied over
+IMAGES_ASSETS=$(shell find assets/img -type f)
+IMAGES_BUILD=$(patsubst assets/%, build/%, $(IMAGES_ASSETS))
 
 build/%: assets/%
 	@mkdir -p $(@D)
 	cp $< $@
 
-simple: $(SIMPLE_BUILD)
+images: $(IMAGES_BUILD)
 
 
 ### Clean ###
