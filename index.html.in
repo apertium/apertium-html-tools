@@ -210,7 +210,7 @@
                         <span data-text="APY_Sandbox_Help"></span>
                         <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right">
                             <abbr title="Apertium API in Python">APY</abbr>
-                            <i class="glyphicon glyphicon-question-sign"></i>
+                            <i class="fa fa-question-circle"></i>
                         </a>
                     </legend>
                     <div class="form-group">
@@ -384,7 +384,7 @@
                             <span data-text="Maintainer"></span>
                             <span class="pull-right">
                                 <a href="mailto:apertium-contact@lists.sourceforge.net">
-                                    <i class="glyphicon glyphicon-envelope"></i>
+                                    <i class="fa fa-envelope"></i>
                                     apertium-contact@lists.sourceforge.net
                                 </a>
                             </span>
