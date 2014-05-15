@@ -1,4 +1,4 @@
-﻿function ajaxSend() {
+function ajaxSend() {
     $('#loading-indicator').show();
 }
 
@@ -148,4 +148,3 @@ function isSubset(subset, superset) {
         return superset.indexOf(val) >= 0;
     });
 }
-
