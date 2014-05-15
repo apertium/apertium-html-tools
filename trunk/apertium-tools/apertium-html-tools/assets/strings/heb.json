@@ -1,0 +1,52 @@
+{
+    "@metadata": {
+        "authors": [
+            "n0nick"
+        ],
+        "last-updated": "2014-05-13",
+        "locale": [
+            "he",
+            "heb"
+        ],
+        "completion": 100,
+        "missing": []
+    },
+    "title": "Apertium | פלטפורמה חופשית לתרגום מכונה",
+    "tagline": "פלטפורמה חופשית לתרגום מכונה",
+    "Translation": "תרגום",
+    "Translation_Help": "בחרו שתי שפות ותרגמו טקסט באמצעות פלטפורמת התרגום של Apertium!",
+    "Translate": "תרגם",
+    "Detect_Language": "זהה שפה",
+    "detected": "זוהתה",
+    "Instant_Translation": "תרגום מיידי",
+    "Not_Available": "התרגום עוד לא זמין!",
+    "Morphological_Analysis": "ניתוח מורפולוגי",
+    "Morphological_Analysis_Help": "בחרו שפה ונתחו טקסט באמצעות כלי הניתוח המורפולוגי של Apertium.",
+    "Analyze": "נתח",
+    "Morphological_Generation": "חילול מורפולוגי",
+    "Morphological_Generation_Help": "בחרו שפה וחוללו צורות מורפולוגיות עבור טקסט באמצעות המחוללים המורפולוגיים של Apertium.",
+    "Generate": "חולל",
+    "Spell_Checker": "בודק איות",
+    "APY_Sandbox": "ארגז כלים ל-APY",
+    "APY_Sandbox_Help": "שליחת בקשות שרירותיות",
+    "APY_Request": "בקשת APY",
+    "Request": "בקשה",
+    "Language": "שפה",
+    "Input_Text": "טקסט קלט",
+    "Notice_Mistake": "מצאת טעות?",
+    "Help_Improve": "עזרו לנו לשפר את Apertium!",
+    "Contact_Us": "הרגישו חופשי ליצור קשר אם מצאתם טעות, יש פרויקט שתרצו לראות אותנו עובדים עליו, או שאתם מעוניינים להציע עזרה.",
+    "Maintainer": "אתר זה מתוחזק ע\"י {{maintainer}}.",
+    "About_Title": "אודות אתר זה",
+    "Enable_JS_Warning": "אתר זה פועל רק כש-Javascript מופעלת, אם אין באפשרותכם <a href='http://www.enable-javascript.com/' target='_blank'>להפעיל את Javacript</a>, תוכלו לנסות את <a href='http://traductor.prompsit.com' target='_blank'>כלי התרגום ב-Prompsit</a>.",
+    "About": "אודות",
+    "Download": "הורד",
+    "Contact": "צור קשר",
+    "Documentation": "תיעוד",
+    "About_Apertium": "אודות Apertium",
+    "What_Is_Apertium": "<p>Apertium היא <b>פלטפורמה חופשית לתרגום מכונה</b>, שנועדה במקור לתרגום בין זוגות של שפות קשורות אך הורחבה לטפל גם בזוגות של שפות רחוקות יותר (כמו אנגלית-קטלאנית). הפלטפורמה מספקת</p> <ol> <li>מנוע תרגום מכונה ללא תלות בשפה מסוימת</li> <li>כלים לניהול המידע הבלשני הדרוש לבניית מערכת תרגום מכונה עבור זוג מסוים של שפות, ו</li> <li>מידע בלשני עבור מספר הולך וגדל של זוגות של שפות.</li> </ol> <p>Apertium מקבלת בברכה מפתחים חדשים: אם לדעתכם תוכלו לשפר את המנוע או את הכלים בפרויקט, או לפתח מידע בלשני עבורנו, אל תהססו <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'>לפנות אלינו</a>.</p>",
+    "Documentation_Para": "תיעוד ניתן למצוא ב-<a href='http://wiki.apertium.org/'>Wiki</a> שלנו תחת הדף <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank'>Documentation</a>.  כמו כן, פרסמנו מאמרים שונים במסגרת כנסים אקדמיים וכתבי עת, תוכלו למצוא רשימה של אלו ב-Wiki תחת <a href='http://wiki.apertium.org/wiki/Publications' target='_blank'>Publications</a>.",
+    "Apertium_Downloads": "הורדות Apertium",
+    "Downloads_Para": " הגרסאות האחרונות של <b>ארגז הכלים של Apertium</b>, כמו גם <b>מידע עבור זוגות שפות</b> זמינים לעיון והורדה ב<a href='https://sourceforge.net/projects/apertium/' target='_blank'>דף הפרויקט ב-SourceForge</a>.  הוראות ההתקנה של Apertium עבור עיקר הפלטפורמות מפורטות ב<a href='http://wiki.apertium.org/wiki/Installation' target='_blank'>דף ההתקנה ב-Wiki</a>.",
+    "Contact_Para": "<h4>ערוץ IRC</h4> <p>הדרך הזריזה ביותר לפנות אלינו היא בהצטרפות ל<a href='http://wiki.apertium.org/wiki/IRC' target='_blank'>ערוץ ה-<abbr title='Internet Relay Chat'>IRC</abbr> שלנו, #apertium</a> ב-irc.freenode.net, בו נפגשים המשתמשים והמפתחים של Apertium. אין צורך בתוכנה מיוחדת; ניתן להשתמש ב-<a href='http://webchat.freenode.net/?channels=apertium'>freenode webchat</a>. </p> <h4>רשימת דיוור</h4> <p>כמו כן, תוכלו להירשם ל<a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank'>רשימת הדיוור apertium-stuff</a>, שם תוכלו לכתוב בפירוט לגבי הצעות או בעיות, כמו גם לעקוב אחר דיונים כלליים בנושא Apertium.</p> <h4>יצירת קשר</h4> <p>הרגישו חופשי ליצור קשר באמצעות <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'>רשימת הדיוור apertium-contact</a> אם מצאתם טעות, יש פרויקט שתרצו לראות אותנו עובדים עליו, או שאתם מעוניינים להציע עזרה.</p>"
+}
