@@ -181,7 +181,7 @@ function localizeLanguageNames(localizedNamesFromJSON) {
         var localizedNames = readCache(locale + '_names', 'LANGUAGE_NAME');
         if(localizedNames) {
             handleLocalizedNames(localizedNames)
-            cache(locale + '_names', data);
+            cache(locale + '_names', localizedNames);
         }
         else {
             console.error(locale + ' localized names cache ' + (localizedNames === null ? 'stale' : 'miss') + ', retrieving from server');
@@ -253,8 +253,8 @@ function localizeStrings(stringsFresh) {
             if(textId.charAt(0) !== '@') {
                 var text = localizations[textId];
                 $.each(config.REPLACEMENTS, function (name, value) {
-                    if(text.indexOf(name) !== -1)
-                        text = text.replace(name, value);
+                    if(text.indexOf('{{' + name + '}}') !== -1)
+                        text = text.replace('{{' + name + '}}', value);
                 });
                 try {
                     if(text.lastIndexOf('%%UNAVAILABLE%%') !== 0)
