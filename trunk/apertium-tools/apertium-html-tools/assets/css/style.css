@@ -111,8 +111,15 @@ html[dir=rtl] .clearButton {
     font-weight: bold;
     display: inline-block;
     position: absolute;
-    left: 2.25em;
     top: .35em;
+}
+
+html[dir=ltr] .apertiumLogo {
+    left: 2.25em;
+}
+
+html[dir=rtl] .apertiumLogo {
+    right: 2.25em;
 }
 
 /* Translation */
