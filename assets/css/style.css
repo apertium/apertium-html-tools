@@ -97,6 +97,24 @@ html[dir=rtl] .clearButton {
     background-color: #EEE;
 }
 
+.apertiumBox {
+    width: 4.25em; 
+    vertical-align: text-bottom; 
+    margin-right: -.5em;
+}
+
+.apertiumLogo {
+    font-size: 2.25em;
+    color: gray;
+    font-family: "DejaVu Sans",Arial Black, Arial;
+    font-style: italic;
+    font-weight: bold;
+    display: inline-block;
+    position: absolute;
+    left: 2.25em;
+    top: .35em;
+}
+
 /* Translation */
 
 .notAvailable {

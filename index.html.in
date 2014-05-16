@@ -47,7 +47,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <img src="./img/Apertium.png" alt="Apertium" class="img-responsive" style="height: 3.5em">
+                    <div>
+                        <img src="./img/Apertium_box.png" alt="Apertium Box" class="apertiumBox">
+                        <span class="apertiumLogo" style="margin-bottom: -.25em">Apertium</span>
+                    </div>
                     <p data-text="tagline" class="tagline"></p>
                 </div>
                 <div style="width: 35%" class="pull-right hidden-xs">
