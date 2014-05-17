@@ -6,7 +6,7 @@ read_conf = __import__('read-conf')
 import argparse
 from html.parser import HTMLParser
 from sys import stdin, stderr, argv
-from os import listdir
+from os import listdir, path
 import json
 
 class DataTextHTMLParser(HTMLParser):
@@ -33,6 +33,10 @@ class DataTextHTMLParser(HTMLParser):
                 text = self.locale[attr[1]]
                 if not text.startswith("%%UNAVAILABLE"):
                     self.data_text = self.run_replacements(text)
+        if tag == "title":
+            self.p("<script type=\"text/javascript\">config.langnames['%s']=%s</script>\n        " % (
+                self.localename,
+                self.locale["@langNames"]))
         self.p(self.get_starttag_text())
 
     def handle_endtag(self, tag):
@@ -65,6 +69,7 @@ def run(html_path, json_path, out_path, conf_path):
         # convert_charrefs was added in py3.4:
         parser = DataTextHTMLParser()
     parser.locale = json.loads("".join(open(json_path).readlines()))
+    parser.localename = path.basename(json_path).replace('.json', '')
     parser.replacements = read_conf.load_conf(conf_path)['REPLACEMENTS']
     parser.feed("".join(open(html_path).readlines()))
     with open(out_path, 'w') as out:
