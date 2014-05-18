@@ -8,20 +8,16 @@
             "se",
             "sme"
         ],
-        "completion": 70,
+        "completion": 80,
         "missing": [
-            "About",
-            "Documentation_Para",
-            "Downloads_Para",
-            "Enable_JS_Warning",
             "About_Apertium",
-            "Contact_Para",
+            "What_Is_Apertium",
+            "Enable_JS_Warning",
+            "Downloads_Para",
             "Instant_Translation",
             "Apertium_Downloads",
-            "What_Is_Apertium",
-            "Download",
-            "Contact",
-            "Documentation"
+            "Contact_Para",
+            "Documentation_Para"
         ]
     },
     "title": "Apertium | Friddja ja rabasgáldokodavuđot dihtorjorgalanvuogádat",
@@ -31,6 +27,7 @@
     "Translate": "Jorgal",
     "Detect_Language": "Dovdá giela",
     "detected": "Árvaluvvon giella",
+    "Instant_Translation": "%%UNAVAILABLE%%",
     "Not_Available": "Jorgalus ii gávdno!",
     "Morphological_Analysis": "Morfologalaš analysa",
     "Morphological_Analysis_Help": "Vállje giela ja analysere teavstta Apertiuma morfologalaš analysáhtoriin.",
@@ -49,5 +46,16 @@
     "Help_Improve": "Veahket min buoridit Apertiuma!",
     "Contact_Us": "Váldde áinnas oktavuođa minguin jus gávnnat meattáhusa, jus dus lea miella bargat prošeavttain dahje don eará ládje háliidat min veahkehit.",
     "Maintainer": "Dán neahttabáikki fuolaha {{maintainer}}.",
-    "About_Title": "Neahttabáikki birra"
+    "About_Title": "Neahttabáikki birra",
+    "Enable_JS_Warning": "%%UNAVAILABLE%%",
+    "About": "Birra",
+    "Download": "Viežžat",
+    "Contact": "Váldde oktavuođa",
+    "Documentation": "Dokumentašuvdna",
+    "About_Apertium": "%%UNAVAILABLE%%",
+    "What_Is_Apertium": "%%UNAVAILABLE%%",
+    "Documentation_Para": "%%UNAVAILABLE%%",
+    "Apertium_Downloads": "%%UNAVAILABLE%%",
+    "Downloads_Para": "%%UNAVAILABLE%%",
+    "Contact_Para": "%%UNAVAILABLE%%"
 }
