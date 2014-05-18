@@ -31,8 +31,9 @@ class DataTextHTMLParser(HTMLParser):
         for attr in attrs:
             if attr[0]=="data-text" and attr[1] in self.locale:
                 text = self.locale[attr[1]]
-                if not text.startswith("%%UNAVAILABLE"):
-                    self.data_text = self.run_replacements(text)
+                if text.startswith("%%UNAVAILABLE"):
+                    text = self.fallback_locale[attr[1]]
+                self.data_text = self.run_replacements(text)
         if tag == "title":
             self.p("<script type=\"text/javascript\">config.langnames['%s']=%s</script>\n        " % (
                 self.localename,
@@ -61,7 +62,7 @@ class DataTextHTMLParser(HTMLParser):
     def handle_pi(self, data):
         self.p("<?%s>" % (data,))
 
-def run(html_path, json_path, out_path, conf_path):
+def run(html_path, json_path, out_path, conf_path, fallback_path):
     try:
         # convert_charrefs will default to True in py3.5:
         parser = DataTextHTMLParser(convert_charrefs=False)
@@ -70,6 +71,7 @@ def run(html_path, json_path, out_path, conf_path):
         parser = DataTextHTMLParser()
     parser.locale = json.loads("".join(open(json_path).readlines()))
     parser.localename = path.basename(json_path).replace('.json', '')
+    parser.fallback_locale = json.loads("".join(open(fallback_path).readlines()))
     parser.replacements = read_conf.load_conf(conf_path)['REPLACEMENTS']
     parser.feed("".join(open(html_path).readlines()))
     with open(out_path, 'w') as out:
@@ -81,7 +83,8 @@ if __name__ == "__main__":
     argparser.add_argument('localisations', help='JSON file to use to localise')
     argparser.add_argument('output', help='Output file')
     argparser.add_argument('-c', '--config', default='config.conf', help='Config file name (default: config.conf)')
+    argparser.add_argument('-f', '--fallback', default='build/strings/eng.json', help='Fallback JSON file to use when main one gives no answer')
 
     args = argparser.parse_args()
 
-    run(args.template, args.localisations, args.output, args.config)
+    run(args.template, args.localisations, args.output, args.config, args.fallback)
