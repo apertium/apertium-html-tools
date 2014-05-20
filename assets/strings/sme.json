@@ -1,23 +1,24 @@
 {
     "@metadata": {
         "authors": [
-            "Lene Antonsen"
+            "Lene Antonsen",
+            "unhammer"
         ],
-        "last-updated": "2014-04-06",
+        "last-updated": "2014-05-18",
         "locale": [
             "se",
             "sme"
         ],
         "completion": 80,
         "missing": [
-            "About_Apertium",
-            "What_Is_Apertium",
             "Enable_JS_Warning",
+            "Apertium_Downloads",
+            "About_Apertium",
+            "Documentation_Para",
+            "What_Is_Apertium",
             "Downloads_Para",
             "Instant_Translation",
-            "Apertium_Downloads",
-            "Contact_Para",
-            "Documentation_Para"
+            "Contact_Para"
         ]
     },
     "title": "Apertium | Friddja ja rabasgáldokodavuđot dihtorjorgalanvuogádat",
@@ -27,7 +28,6 @@
     "Translate": "Jorgal",
     "Detect_Language": "Dovdá giela",
     "detected": "Árvaluvvon giella",
-    "Instant_Translation": "%%UNAVAILABLE%%",
     "Not_Available": "Jorgalus ii gávdno!",
     "Morphological_Analysis": "Morfologalaš analysa",
     "Morphological_Analysis_Help": "Vállje giela ja analysere teavstta Apertiuma morfologalaš analysáhtoriin.",
@@ -47,15 +47,8 @@
     "Contact_Us": "Váldde áinnas oktavuođa minguin jus gávnnat meattáhusa, jus dus lea miella bargat prošeavttain dahje don eará ládje háliidat min veahkehit.",
     "Maintainer": "Dán neahttabáikki fuolaha {{maintainer}}.",
     "About_Title": "Neahttabáikki birra",
-    "Enable_JS_Warning": "%%UNAVAILABLE%%",
     "About": "Birra",
     "Download": "Viežžat",
     "Contact": "Váldde oktavuođa",
-    "Documentation": "Dokumentašuvdna",
-    "About_Apertium": "%%UNAVAILABLE%%",
-    "What_Is_Apertium": "%%UNAVAILABLE%%",
-    "Documentation_Para": "%%UNAVAILABLE%%",
-    "Apertium_Downloads": "%%UNAVAILABLE%%",
-    "Downloads_Para": "%%UNAVAILABLE%%",
-    "Contact_Para": "%%UNAVAILABLE%%"
+    "Documentation": "Dokumentašuvdna"
 }
