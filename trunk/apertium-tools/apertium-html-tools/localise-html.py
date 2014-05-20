@@ -34,16 +34,16 @@ class DataTextHTMLParser(HTMLParser):
                 if text.startswith("%%UNAVAILABLE"):
                     text = self.fallback_locale[attr[1]]
                 self.data_text = self.run_replacements(text)
-        if tag == "title":
-            self.p("<script type=\"text/javascript\">config.langnames['%s']=%s</script>\n        " % (
-                self.localename,
-                self.locale["@langNames"]))
         self.p(self.get_starttag_text())
 
     def handle_endtag(self, tag):
         if self.data_text:
             self.p(self.data_text)
             self.data_text = None
+        if tag == "head":
+            self.p("    <script type=\"text/javascript\">config.langnames['%s']=%s</script>\n    " % (
+                self.localename,
+                self.locale["@langNames"]))
         self.p("</%s>" % (tag,))
     def handle_data(self, data):
         if self.data_text:
