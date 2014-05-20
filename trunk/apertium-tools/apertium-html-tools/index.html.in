@@ -11,14 +11,36 @@
 
         <!-- <link type="text/css" rel="stylesheet" href="./css/icon-globe.css"> -->
         <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu"> <!-- Selectivzr bug requires this being in <link> rather than @import -->
-        <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
+
+        <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
 
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            if(!window.jQuery) {
+                document.write('<script src="./js/jquery.min.js"><\/script>');
+                console.error('jQuery from CDN not available - reverting to local copy');
+            }
+        </script>
+
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            if(!(typeof $().modal == 'function')) {
+                document.write('<script src="./js/bootstrap.min.js"><\/script>');
+                console.error('Bootstrap JS from CDN not available - reverting to local copy');
+            }
+        </script>
 
         <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
 @include_head@
         <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.1.1/css/bootstrap-rtl.min.css" id="rtlStylesheet" disabled /> <!-- Positioned to override styles in bootstrap.css -->
+
+        <span class="fa hide" id="faChecker"></span>
+        <script type="text/javascript">
+            if($('#faChecker').css('fontFamily') !== 'FontAwesome') {
+                $('<link type="text/css" rel="stylesheet" href="./css/font-awesome.min.css" \/>').appendTo('head');
+                console.error('FontAwesome CSS from CDN not available - reverting to local copy');
+            }
+        </script>
 
         <!--[if lt IE 9]>
             <script src="//cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js"></script>
@@ -145,7 +167,7 @@
                         <div class="col-sm-6">
                             <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
                         </div>
-                        <div class="col-sm-2 pull-right">
+                        <div class="col-sm-3 pull-right">
                             <div class="checkbox">
                                 <label class="pull-right">
                                     <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span>

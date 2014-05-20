@@ -1,4 +1,9 @@
-all: build/js/min.js build/js/compat.js build/css/min.css build/index.html build/index.debug.html build/sitemap.xml build/strings/locales.json localhtml images
+all: js css html fonts build/sitemap.xml build/strings/locales.json localhtml images
+
+js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js
+css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css
+html: build/index.html build/index.debug.html
+fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf build/fonts/fontawesome-webfont.svg build/fonts/fontawesome-webfont.eot
 
 # Note: the min.{js,css} are equal to all.{js,css}; minification gives
 # negligible improvements over just enabling gzip in the server, and
@@ -70,6 +75,11 @@ build/js/min.js: build/js/all.js
 build/js/compat.js: assets/js/compat.js build/js/.d
 	cp $< $@
 
+build/js/jquery.min.js: build/js/.d
+	curl -s 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js' > $@
+
+build/js/bootstrap.min.js: build/js/.d
+	curl -s 'http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js' > $@
 
 ### HTML ###
 build/index.debug.html: index.html.in debug-head.html build/.d
@@ -127,11 +137,31 @@ build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.HTML_URL
 .INTERMEDIATE: build/.HTML_URL build/.PIWIK_SITEID build/.PIWIK_URL
 
 ### CSS ###
-build/css/all.css:  assets/css/bootstrap.css assets/css/style.css build/css/.d
+build/css/all.css: assets/css/bootstrap.css assets/css/style.css build/css/.d
 	cat $^ > $@
 
 build/css/min.css: build/css/all.css
 	cp $^ $@
+
+build/css/font-awesome.min.css: build/css/.d
+	curl -s 'http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' > $@
+
+build/css/bootstrap-rtl.min.css: build/css/.d
+	curl -s 'http://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.1.1/css/bootstrap-rtl.min.css' > $@
+
+
+### Fonts ###
+build/fonts/fontawesome-webfont.woff: build/fonts/.d
+	curl -s "http://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.woff" > $@
+
+build/fonts/fontawesome-webfont.ttf: build/fonts/.d
+	curl -s "http://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.ttf" > $@
+
+build/fonts/fontawesome-webfont.svg: build/fonts/.d
+	curl -s 'http://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.svg' > $@
+
+build/fonts/fontawesome-webfont.eot: build/fonts/.d
+	curl -s 'http://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.eot' > $@
 
 
 ### Images ###
