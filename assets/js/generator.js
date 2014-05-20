@@ -70,7 +70,7 @@ function getGenerators() {
 function populateGeneratorList(data) {
     $('.generatorMode').empty();
 
-    generators = {}
+    generators = {};
     for(var lang in data) {
         var generatorLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
         var group = generators[generatorLang];
@@ -89,7 +89,7 @@ function populateGeneratorList(data) {
     });
     generatorArray.sort(function (a, b) {
         return getLangByCode(a[0]).localeCompare(getLangByCode(b[0]));
-    })
+    });
 
     for(var i = 0; i < generatorArray.length; i++) {
         var lang = generatorArray[i][0];

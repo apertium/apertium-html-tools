@@ -70,7 +70,7 @@ function getAnalyzers() {
 function populateAnalyzerList(data) {
     $('.analyzerMode').empty();
 
-    analyzers = {}
+    analyzers = {};
     for(var lang in data) {
         var analyzerLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
         var group = analyzers[analyzerLang];
@@ -89,7 +89,7 @@ function populateAnalyzerList(data) {
     });
     analyzersArray.sort(function (a, b) {
         return getLangByCode(a[0]).localeCompare(getLangByCode(b[0]));
-    })
+    });
 
     for(var i = 0; i < analyzersArray.length; i++) {
         var lang = analyzersArray[i][0];
