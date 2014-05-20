@@ -13,3 +13,4 @@ function readCache(name, type) {
         	return null;
     }
 }
+

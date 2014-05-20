@@ -144,8 +144,12 @@ function getLocales() {
     }
 
     function handleLocales(locales) {
-        $.each(locales, function (code, langName) {
-            $('.localeSelect').append($('<option></option>').prop('value', code).text(langName));
+        var localePairs = [];
+        for(var code in locales)
+            localePairs.push([code, locales[code]]);
+        localePairs.sort();
+        $.each(localePairs, function () {
+            $('.localeSelect').append($('<option></option>').prop('value', this[0]).text(this[1]));
         });
     }
 
