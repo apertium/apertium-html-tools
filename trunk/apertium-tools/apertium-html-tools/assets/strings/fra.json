@@ -1,9 +1,10 @@
 {
     "@metadata": {
         "authors": [
-            "2014-05-11"
+            "youssef",
+            "Cédric VALMARY"
         ],
-        "last-updated": "youssef",
+        "last-updated": "2014-05-17",
         "locale": [
             "fr",
             "fra"
@@ -50,4 +51,3 @@
     "Downloads_Para": "Les dernières versions de  <b>la boîte à outils Apertium </b> ainsi que <b> les données pour les paires de langue</b> sont disponibles sur <a href='https://sourceforge.net/projects/apertium/' target='_blank'>le site de SourceForge</a>. Les instructions pour installer Apertium sur les principales plateformes se trouvent sur <a href='http://wiki.apertium.org/wiki/Installation' target='_blank'>la page installation du Wiki</a>",
     "Contact_Para": "<h4>Le canal IRC</h4> <p> La manière la plus rapide de nous contacter. Pour ce faire, aller sur <a href='http://wiki.apertium.org/wiki/IRC' target='_blank'><abbr title='Internet Relay Chat'>IRC</abbr> notre canal #apertium</a> sur le serveur irc.freenode.net, où vous trouverez les utilisateurs et développeurs d'Apertium.</p> </p> <h4>La liste de diffusion</h4> <p> Veuillez vous inscrire à <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank'> la liste de diffusion d'Apertium</a>, où vous pouvez poster de plus longs messages contenant des suggestions ou traitant de problèmes ainsi que discuter d'Aepertium de manière générale.</p> <h4>Contact</h4> <p> Vous pouvez nous contacter via  <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'> la liste de diffusion d'Apertium </a> si vous trouvez une erreur, si vous voyez un projet sur lequel vous aimeriez que nous travaillions ou si vous voulez nous donner un coup de main.</p>"
 }
-
