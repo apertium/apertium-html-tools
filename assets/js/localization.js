@@ -7,6 +7,9 @@ var localizedLanguageCodes = {}, localizedLanguageNames = {};
 var notAvailableText = 'Translation not yet available!', detectedText = 'detected';
 var localizedHTML = false;
 
+if(!config.LANGNAMES)
+    config.LANGNAMES = {};
+
 $(document).ready(function () {
     $.each(languages, function (key, value) {
         languagesInverse[value] = key
@@ -177,8 +180,14 @@ function generateLanguageList() {
 }
 
 function localizeLanguageNames(localizedNamesFromJSON) {
-    if(localizedNamesFromJSON)
+    if(config.LANGNAMES[locale]) {
+        handleLocalizedNames(config.LANGNAMES[locale]);
+        cache(locale + '_names', config.LANGNAMES[locale]);
+    }
+    else if(localizedNamesFromJSON) {
         handleLocalizedNames(localizedNamesFromJSON);
+        cache(locale + '_names', localizedNamesFromJSON);
+    }
     else {
         var languages = generateLanguageList();
 

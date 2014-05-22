@@ -41,7 +41,7 @@ class DataTextHTMLParser(HTMLParser):
             self.p(self.data_text)
             self.data_text = None
         if tag == "head":
-            self.p("    <script type=\"text/javascript\">config.langnames['%s']=%s</script>\n    " % (
+            self.p("    <script type=\"text/javascript\">config.LANGNAMES['%s']=%s</script>\n    " % (
                 self.localename,
                 self.locale["@langNames"]))
         self.p("</%s>" % (tag,))
