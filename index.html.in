@@ -276,7 +276,7 @@
                         </div>
                     </fieldset>
                 </form>
-                <small><pre id="sandboxOutput" class="outputContainer"></pre></small>
+                <pre id="sandboxOutput" class="outputContainer small"></pre>
             </div>
 
             <div class="navbar-fixed-bottom hidden-xs">
