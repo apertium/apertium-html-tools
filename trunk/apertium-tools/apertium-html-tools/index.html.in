@@ -32,15 +32,7 @@
 
         <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
 @include_head@
-        <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.1.1/css/bootstrap-rtl.min.css" id="rtlStylesheet" disabled /> <!-- Positioned to override styles in bootstrap.css -->
-
-        <span class="fa hide" id="faChecker"></span>
-        <script type="text/javascript">
-            if($('#faChecker').css('fontFamily') !== 'FontAwesome') {
-                $('<link type="text/css" rel="stylesheet" href="./css/font-awesome.min.css" \/>').appendTo('head');
-                console.error('FontAwesome CSS from CDN not available - reverting to local copy');
-            }
-        </script>
+        <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.1.1/css/bootstrap-rtl.min.css" class="rtlStylesheet" /> <!-- Positioned to override styles in bootstrap.css -->
 
         <!--[if lt IE 9]>
             <script src="//cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js"></script>
@@ -60,6 +52,22 @@
         </script>
     </head>
     <body>
+        <span class="fa hide" id="faChecker"></span>
+        <script type="text/javascript">
+            if($('#faChecker').css('fontFamily') !== 'FontAwesome') {
+                $('<link type="text/css" rel="stylesheet" href="./css/font-awesome.min.css" \/>').appendTo('head');
+                console.error('FontAwesome CSS from CDN not available - reverting to local copy');
+            }
+        </script>
+        
+        <span class="pull-right flip hide" id="rtlChecker"></span>
+        <script type="text/javascript">
+            if($('#rtlChecker').css('float') !== 'left' && !$('.rtlStylesheet').attr('disabled')) {
+                $('<link type="text/css" rel="stylesheet" href="./css/bootstrap-rtl.min.css" class="rtlStylesheet"\/>').appendTo('head');
+                console.error('BootstrapRTL CSS from CDN not available - reverting to local copy');
+            }
+        </script>
+    
         <nav class="navbar navbar-default" role="navigation">
             <div class="container" style="position: relative">
                 <div class="navbar-header">

@@ -9,6 +9,8 @@ from sys import stdin, stderr, argv
 from os import listdir, path
 import json
 
+rtl_languages = ['heb', 'ara', 'pes', 'urd']
+
 class DataTextHTMLParser(HTMLParser):
     data_text = None
     output = []
@@ -24,7 +26,12 @@ class DataTextHTMLParser(HTMLParser):
     def handle_startendtag(self, tag, attrs):
         # We don't handle data-text on tags like <img/> and <b/>, but
         # that doesn't quite make sense either
-        self.p(self.get_starttag_text())
+        if tag == "link" and ('id', 'rtlStylesheet') in attrs:
+            text = self.get_starttag_text()
+            self.p(text[:text.index('/>')] + ('enabled' if self.localename in rtl_languages else 'disabled' ) + ' />')
+            print(text, text[:text.index('/>')])
+        else:
+            self.p(self.get_starttag_text())
 
     def handle_starttag(self, tag, attrs):
         """This is where localisation happens"""
@@ -34,7 +41,13 @@ class DataTextHTMLParser(HTMLParser):
                 if text.startswith("%%UNAVAILABLE"):
                     text = self.fallback_locale[attr[1]]
                 self.data_text = self.run_replacements(text)
-        self.p(self.get_starttag_text())
+
+        """This is where html's dir attribute is set to ltr or rtl"""
+        if tag == "html":
+            text = self.get_starttag_text()
+            self.p('<html dir="%s"' % ('rtl' if self.localename in rtl_languages else 'ltr') + text[text.index('html') + 4:])
+        else:
+            self.p(self.get_starttag_text())
 
     def handle_endtag(self, tag):
         if self.data_text:
