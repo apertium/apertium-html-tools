@@ -202,12 +202,12 @@ body > .container {
 
 /* RTL Stuff */
 
-html[dir=rtl] .pull-right {
+html[dir=rtl] .pull-right:not(#rtlChecker) {
     float: left !important;
 }
 
-html[dir=rtl] .pull-right {
-    float: left !important;
+html[dir=rtl] .pull-left:not(#rtlChecker) {
+    float: right !important;
 }
 
 @media(min-width: 768px) {
