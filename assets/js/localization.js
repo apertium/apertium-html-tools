@@ -151,6 +151,7 @@ function getLocales() {
         for(var code in locales)
             localePairs.push([code, locales[code]]);
         localePairs.sort();
+        $('.localeSelect').empty();
         $.each(localePairs, function () {
             $('.localeSelect').append($('<option></option>').prop('value', this[0]).text(this[1]));
         });
