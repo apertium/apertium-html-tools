@@ -169,7 +169,7 @@ build/fonts/fontawesome-webfont.eot: build/fonts/.d
 IMAGES_ASSETS=$(shell find assets/img -type f)
 IMAGES_BUILD=$(patsubst assets/%, build/%, $(IMAGES_ASSETS))
 
-build/%: assets/%
+build/img/%: assets/img/%
 	@mkdir -p $(@D)
 	cp $< $@
 
