@@ -66,7 +66,7 @@ build/js/listrequests.js: config.conf read-conf.py build/js/.d
 	echo ";" >> $@
 
 build/js/all.js: $(JSFILES) build/js/.d
-	awk '/\xEF\xBB\xBF/{print "\nERROR: Byte Order Mark found in "FILENAME"\n"; exit(1)}' $(JSFILES)
+	@awk '/\xEF\xBB\xBF/{print "\nERROR: Byte Order Mark found in "FILENAME"\n"; exit(1)}' $(JSFILES)
 	cat $(JSFILES) > $@
 
 build/js/min.js: build/js/all.js
