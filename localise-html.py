@@ -9,7 +9,7 @@ from sys import stdin, stderr, argv
 from os import listdir, path
 import json
 
-rtl_languages = ['heb', 'ara', 'pes', 'urd']
+rtl_languages = ['heb', 'ara', 'pes', 'urd', 'uig']
 
 class DataTextHTMLParser(HTMLParser):
     data_text = None
