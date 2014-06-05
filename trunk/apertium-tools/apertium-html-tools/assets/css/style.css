@@ -152,14 +152,27 @@ html[dir=rtl] .languageName {
     text-decoration: underline;
 }
 
-#srcLanguages {
+html[dir=ltr] #srcLanguages {
     min-width: 500px;
-    left: 81%;
+    left: 80%;
+    right: auto;
 }
 
-#dstLanguages {
+html[dir=ltr] #dstLanguages {
     min-width: 500px;
     right: 0;
+    left: auto;
+}
+
+html[dir=rtl] #dstLanguages {
+    min-width: 500px;
+    left: 0;
+    right: auto;
+}
+
+html[dir=rtl] #srcLanguages {
+    min-width: 500px;
+    right: 80%;
     left: auto;
 }
 
