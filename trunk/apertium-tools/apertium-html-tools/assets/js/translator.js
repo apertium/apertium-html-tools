@@ -21,6 +21,7 @@ if(modeEnabled('translation')) {
             $(this).addClass('active');
             refreshLangList(true);
             muteLanguages();
+            localizeInterface();
             translate();
         });
 
@@ -30,6 +31,7 @@ if(modeEnabled('translation')) {
             $(this).addClass('active');
             refreshLangList();
             muteLanguages();
+            localizeInterface();
             translate();
         });
 
@@ -207,6 +209,7 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
         refreshLangList(resetDetect);
 
     muteLanguages();
+    localizeInterface();
     translate();
 }
 
@@ -393,3 +396,4 @@ function muteLanguages() {
         $(element).prop('disabled', !pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).val()) === -1);
     });
 }
+
