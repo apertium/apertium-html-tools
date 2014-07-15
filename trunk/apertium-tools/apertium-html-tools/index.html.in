@@ -59,7 +59,7 @@
                 console.error('FontAwesome CSS from CDN not available - reverting to local copy');
             }
         </script>
-        
+
         <span class="pull-right flip hide" id="rtlChecker"></span>
         <script type="text/javascript">
             if($('#rtlChecker').css('float') !== 'left' && !$('.rtlStylesheet').attr('disabled')) {
@@ -67,7 +67,7 @@
                 console.error('BootstrapRTL CSS from CDN not available - reverting to local copy');
             }
         </script>
-    
+
         <nav class="navbar navbar-default" role="navigation">
             <div class="container" style="position: relative">
                 <div class="navbar-header">
@@ -98,6 +98,7 @@
             </div>
         </nav>
         <div class="container">
+            <!-- Not found warning -->
             <div id="loading-indicator"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
             <div class="modeContainer" id="translationContainer">
                 <h2 class="visible-xs" data-text="Translation">Translation</h2>

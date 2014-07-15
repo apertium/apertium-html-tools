@@ -2,7 +2,7 @@ all: js css html fonts build/sitemap.xml build/strings/locales.json localhtml im
 
 js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js
 css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css
-html: build/index.html build/index.debug.html
+html: build/index.html build/index.debug.html build/not-found.html
 fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf build/fonts/fontawesome-webfont.svg build/fonts/fontawesome-webfont.eot
 
 # Note: the min.{js,css} are equal to all.{js,css}; minification gives
@@ -111,6 +111,9 @@ build/index.%.html: build/strings/%.json build/index.localiseme.html config.conf
 
 build/index.html: build/index.eng.html
 	cp $^ $@
+
+build/not-found.html: build/index.html not-found.html
+	sed -e '/<!-- Not found warning -->/r not-found.html' $< > $@
 
 build/strings/%.json: assets/strings/%.json config.conf read-conf.py build/strings/.d
 	@echo -n '    "@langNames": ' > $@.tmp

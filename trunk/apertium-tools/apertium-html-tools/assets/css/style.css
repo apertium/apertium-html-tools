@@ -98,15 +98,15 @@ html[dir=rtl] .clearButton {
 }
 
 .apertiumBox {
-    width: 4.25em; 
-    vertical-align: text-bottom; 
+    width: 4.25em;
+    vertical-align: text-bottom;
     margin-right: -.5em;
 }
 
 .apertiumLogo {
     font-size: 2.25em;
     color: gray;
-    font-family: "DejaVu Sans",Arial Black, Arial;
+    font-family: "DejaVu Sans", "Arial Black", Arial;
     font-style: italic;
     font-weight: bold;
     display: inline-block;
@@ -120,6 +120,31 @@ html[dir=ltr] .apertiumLogo {
 
 html[dir=rtl] .apertiumLogo {
     right: 2.25em;
+}
+
+#notFoundWarning {
+    text-align: center;
+    display: block;
+    position: absolute;
+    left: 50%;
+    z-index: 1000;
+    height: 1.5em;
+    width: 3em;
+    margin: -0.75em 0px 0px -1.5em;
+}
+
+@media(min-width: 768px) {
+    #notFoundWarning {
+        font-size: 9em;
+        top: 40%;
+    }
+}
+
+@media(max-width: 768px) {
+    #notFoundWarning {
+        font-size: 6em;
+        top: 85%;
+    }
 }
 
 /* Translation */
@@ -236,4 +261,3 @@ html[dir=rtl] .pull-left:not(#rtlChecker) {
         padding-right: 5px;
     }
 }
-
