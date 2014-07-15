@@ -280,7 +280,7 @@
                 <pre id="sandboxOutput" class="outputContainer small"></pre>
             </div>
 
-            <div class="navbar-fixed-bottom hidden-xs">
+            <div class="navbar-bottom hidden-xs">
                 <div class="container">
                     <ul class="nav nav-pills pull-left" style="display: inline-block;">
                         <li><a data-toggle="modal" data-target="#aboutModal" data-keyboard="true"><i class="fa fa-question-circle"></i> <span data-text="About">About</span></a></li>
