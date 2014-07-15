@@ -39,6 +39,7 @@
     "Maintainer": "This website is maintained by {{maintainer}}.", 
     "About_Title": "About this website", 
     "Enable_JS_Warning": "This site only works with JavaScript enabled, if you cannot <a href='http://www.enable-javascript.com/' target='_blank'>enable Javascript</a>, then try the <a href='http://traductor.prompsit.com' target='_blank'>translators at Prompsit</a>.", 
+    "Not_Found_Error": "<b>404 Error:</b> Sorry, that page doesn't exist anymore!", 
     "About": "About", 
     "Download": "Download", 
     "Contact": "Contact", 

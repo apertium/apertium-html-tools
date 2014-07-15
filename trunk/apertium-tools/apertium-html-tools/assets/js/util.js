@@ -18,7 +18,6 @@ $(document).ready(function () {
     $('#noscript').hide();
     $('.navbar').css('margin-top', '0px');
     $('body > .container').css('margin-top', '0px');
-    $('#notFoundWarning').fadeOut(4000);
 
     if(config.SHOW_NAVBAR) {
         if(config.ENABLED_MODES === null)
