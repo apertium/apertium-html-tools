@@ -8,6 +8,7 @@ if(modeEnabled('analyzation')) {
 
         $('#primaryAnalyzerMode').change(function () {
             populateSecondaryAnalyzerList();
+            localizeInterface();
             persistChoices('analyzer');
         });
 
@@ -194,3 +195,4 @@ function analyze() {
         return unit.substring(0, tagStartLoc !== -1 ? tagStartLoc : unit.length) + (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
     }
 }
+
