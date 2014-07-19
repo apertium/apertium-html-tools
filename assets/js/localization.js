@@ -290,7 +290,9 @@ function localizeInterface() {
     var elements = {
         'html': locale,
         '#originalText': curSrcLang,
-        '#translatedText': curDstLang
+        '#translatedText': curDstLang,
+        '#morphAnalyzerInput': $('#primaryAnalyzerMode').val(),
+        '#morphGeneratorInput': $('#primaryGeneratorMode').val()
     };
 
     $.each(elements, function (selector, lang) {
@@ -319,3 +321,4 @@ function getLangByCode(code) {
     else
         return code;
 }
+

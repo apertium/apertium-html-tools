@@ -8,6 +8,7 @@ if(modeEnabled('generation')) {
 
         $('#primaryGeneratorMode').change(function () {
             populateSecondaryGeneratorList();
+            localizeInterface();
             persistChoices('generator');
         });
 
@@ -148,3 +149,4 @@ function generate() {
         }
     });
 }
+
