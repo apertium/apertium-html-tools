@@ -125,6 +125,12 @@ nav.navbar div.container {
     line-height: 1.5em;
 }
 
+@media(max-width: 768px) {
+    html[dir=rtl] .navbar-header {
+        padding-right: 5px;
+    }
+}
+
 /* Translation */
 
 .notAvailable {
@@ -188,6 +194,21 @@ button.disabledLang {
     resize: vertical;
 }
 
+@media(min-width: 768px) {
+    button.swapLangBtn {
+        position: absolute;
+        top: 0;
+    }
+
+    html[dir=ltr] button.swapLangBtn {
+        right: 15px;
+    }
+
+    html[dir=rtl] button.swapLangBtn {
+        left: 15px;
+    }
+}
+
 /* Analysis */
 
 .noAnalysis {
@@ -226,16 +247,3 @@ html[dir=rtl] .pull-left:not(#rtlChecker) {
     float: right !important;
 }
 
-@media(min-width: 768px) {
-    html[dir=rtl] .navbar-default .nav {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-    }
-}
-
-@media(max-width: 768px) {
-    html[dir=rtl] .navbar-header {
-        padding-right: 5px;
-    }
-}
