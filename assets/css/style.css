@@ -41,30 +41,6 @@ h2 {
     height: 25px;
 }
 
-.nav li a {
-    font-size: 16px;
-}
-
-@media(min-width: 768px) {
-    html[dir=ltr] .navbar-default .nav {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-    }
-}
-
-@media(max-width: 768px) {
-    html[dir=ltr] .navbar-header {
-        padding-left: 15px;
-    }
-}
-
-.tagline {
-    color: rgb(255, 255, 255);
-    font-size: 18px;
-    font-weight: 700;
-}
-
 .helpMessage {
     background-color: rgba(245, 245, 245, .6);
 }
@@ -97,6 +73,8 @@ html[dir=rtl] .clearButton {
     background-color: #EEE;
 }
 
+/* Navbar */
+
 .apertiumBox {
     width: 4.25em;
     vertical-align: text-bottom;
@@ -111,7 +89,7 @@ html[dir=rtl] .clearButton {
     font-weight: bold;
     display: inline-block;
     position: absolute;
-    top: .35em;
+    top: .65em;
 }
 
 html[dir=ltr] .apertiumLogo {
@@ -122,8 +100,29 @@ html[dir=rtl] .apertiumLogo {
     right: 2.25em;
 }
 
-.nav.navbar-nav {
-    background: #333;
+.nav li a {
+    font-size: 16px;
+}
+
+nav.navbar-default .nav {
+    margin-top: 5px;
+}
+
+@media(max-width: 768px) {
+    html[dir=ltr] .navbar-header {
+        padding-left: 15px;
+    }
+}
+
+p.tagline {
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    font-weight: 700;
+    margin: 5px 0px 5px;
+}
+
+nav.navbar div.container {
+    line-height: 1.5em;
 }
 
 /* Translation */
