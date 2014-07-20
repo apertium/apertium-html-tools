@@ -122,6 +122,10 @@ html[dir=rtl] .apertiumLogo {
     right: 2.25em;
 }
 
+.nav.navbar-nav {
+    background: #333;
+}
+
 /* Translation */
 
 .notAvailable {
