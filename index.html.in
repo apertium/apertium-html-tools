@@ -68,218 +68,228 @@
             }
         </script>
 
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container" style="position: relative">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <div>
-                        <img src="./img/Apertium_box.png" alt="Apertium Box" class="apertiumBox">
-                        <span class="apertiumLogo" style="margin-bottom: -.25em">Apertium</span>
-                    </div>
-                    <p data-text="tagline" class="tagline"></p>
-                </div>
-                <div style="width: 35%" class="pull-right hidden-xs">
-                    <!-- <i class="icon-globe localeGlobe pull-right"></i> -->
-                    <i class="fa fa-globe fa-2x fa-inverse pull-right" style="padding: 5px 5px 0px 0px"></i>
-                    <select class="localeSelect pull-right"><option> </option></select>
-                </div>
-                <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
-                  <li><a href="#translation" data-mode="translation" data-text="Translation" class="hide">Translation</a></li>
-                  <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis" class="hide">Morphological analysis</a></li>
-                  <li><a href="#generation" data-mode="generation" data-text="Morphological_Generation" class="hide">Morphological generation</a></li>
-                  <!-- <li><a href="#spellchecker" data-mode="spellchecker" data-text="Spell_Checker">Spell checker</a></li> -->
-                  <li><a href="#sandbox" data-mode="sandbox" data-text="APY_Sandbox" class="hide">APY sandbox</a></li>
-                </ul>
-            </div>
-        </nav>
-        <div class="container">
-            <!-- Not found warning -->
-            <div id="loading-indicator"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
-            <div class="modeContainer" id="translationContainer">
-                <h2 class="visible-xs" data-text="Translation">Translation</h2>
-                <form class="form-horizontal" role="form" id="translationForm">
-                    <fieldset>
-                        <legend data-text="Translation_Help"></legend>
-                        <div class="form-group visible-xs">
-                            <div class="col-sm-12">
-                                <select class="langSelect" id="srcLangSelect" style="display: inline-block !important">
-                                    <option data-text="Detect_Language" value="detect">Detect language</option>
-                                </select>
-                                <button type="button" class="btn btn-default btn-xs swapLangBtn"><i class="fa fa-exchange"></i></button>
-                                <select class="langSelect" id="dstLangSelect" style="display: inline-block !important">
-                                    <option> </option>
-                                </select>
-                                <button type="button" class="btn btn-primary btn-xs pull-right translateBtn" data-text="Translate">Translate</button>
-                            </div>
-                        </div>
-                        <div class="form-group hidden-xs">
-                            <div class="col-sm-6">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-sm srcLang active" id="srcLang1"></button>
-                                    <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang2"></button>
-                                    <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang3"></button>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default btn-sm srcLang" id="detect">
-                                            <span data-text="Detect_Language" id="detectText">Detect language</span>
-                                            <span id="detectedText"></span>
-                                        </button>
-                                        <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown">
-                                            <span class="caret"></span>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu" id="srcLanguages" role="menu">
-                                            <li>
-                                                <div class="row">
-                                                    <div class="languageCol"></div>
-                                                    <div class="languageCol"></div>
-                                                    <div class="languageCol"></div>
-                                                    <div class="languageCol"></div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-default btn-sm pull-right swapLangBtn"><i class="fa fa-exchange"></i></button>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-sm dstLang active" id="dstLang1"></button>
-                                    <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang2"></button>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang3"></button>
-                                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                                            <span class="caret"></span>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu" id="dstLanguages" role="menu">
-                                            <li>
-                                                <div class="row">
-                                                    <div class="languageCol"></div>
-                                                    <div class="languageCol"></div>
-                                                    <div class="languageCol"></div>
-                                                    <div class="languageCol"></div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-primary btn-sm pull-right translateBtn" data-text="Translate">Translate</button>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-6" style="position: relative">
-                                <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
-                                <button class="btn clearButton"><i class="fa fa-times"></i></button>
-                            </div>
-                            <div class="col-sm-6">
-                                <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
-                            </div>
-                            <div class="col-sm-3 pull-right">
-                                <div class="checkbox">
-                                    <label class="pull-right">
-                                        <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span>
-                                    </label>
+        <div id="wrap">
+          <nav class="navbar navbar-default" role="navigation">
+              <div class="container" style="position: relative">
+                  <div class="navbar-header">
+                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                          <span class="sr-only">Toggle navigation</span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                      </button>
+                      <div>
+                          <img src="./img/Apertium_box.png" alt="Apertium Box" class="apertiumBox">
+                          <span class="apertiumLogo" style="margin-bottom: -.25em">Apertium</span>
+                      </div>
+                      <p data-text="tagline" class="tagline"></p>
+                  </div>
+                  <div style="width: 35%" class="pull-right hidden-xs">
+                      <!-- <i class="icon-globe localeGlobe pull-right"></i> -->
+                      <i class="fa fa-globe fa-2x fa-inverse pull-right" style="padding: 5px 5px 0px 0px"></i>
+                      <select class="localeSelect pull-right"><option> </option></select>
+                  </div>
+                  <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
+                    <li><a href="#translation" data-mode="translation" data-text="Translation" class="hide">Translation</a></li>
+                    <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis" class="hide">Morphological analysis</a></li>
+                    <li><a href="#generation" data-mode="generation" data-text="Morphological_Generation" class="hide">Morphological generation</a></li>
+                    <!-- <li><a href="#spellchecker" data-mode="spellchecker" data-text="Spell_Checker">Spell checker</a></li> -->
+                    <li><a href="#sandbox" data-mode="sandbox" data-text="APY_Sandbox" class="hide">APY sandbox</a></li>
+                  </ul>
+              </div>
+          </nav>
+          <div class="container">
+              <!-- Not found warning -->
+              <div id="loading-indicator"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
+              <div class="modeContainer" id="translationContainer">
+                  <h2 class="visible-xs" data-text="Translation">Translation</h2>
+                  <form class="form-horizontal" role="form" id="translationForm">
+                      <fieldset>
+                          <legend data-text="Translation_Help"></legend>
+                          <div class="form-group visible-xs">
+                              <div class="col-sm-12">
+                                  <select class="langSelect" id="srcLangSelect" style="display: inline-block !important">
+                                      <option data-text="Detect_Language" value="detect">Detect language</option>
+                                  </select>
+                                  <button type="button" class="btn btn-default btn-xs swapLangBtn"><i class="fa fa-exchange"></i></button>
+                                  <select class="langSelect" id="dstLangSelect" style="display: inline-block !important">
+                                      <option> </option>
+                                  </select>
+                                  <button type="button" class="btn btn-primary btn-xs pull-right translateBtn" data-text="Translate">Translate</button>
+                              </div>
+                          </div>
+                          <div class="form-group hidden-xs">
+                              <div class="col-sm-6">
+                                  <div class="btn-group">
+                                      <button type="button" class="btn btn-default btn-sm srcLang active" id="srcLang1"></button>
+                                      <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang2"></button>
+                                      <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang3"></button>
+                                      <div class="btn-group">
+                                          <button type="button" class="btn btn-default btn-sm srcLang" id="detect">
+                                              <span data-text="Detect_Language" id="detectText">Detect language</span>
+                                              <span id="detectedText"></span>
+                                          </button>
+                                          <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown">
+                                              <span class="caret"></span>
+                                              <span class="sr-only">Toggle Dropdown</span>
+                                          </button>
+                                          <ul class="dropdown-menu" id="srcLanguages" role="menu">
+                                              <li>
+                                                  <div class="row">
+                                                      <div class="languageCol"></div>
+                                                      <div class="languageCol"></div>
+                                                      <div class="languageCol"></div>
+                                                      <div class="languageCol"></div>
+                                                  </div>
+                                              </li>
+                                          </ul>
+                                      </div>
                                   </div>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="modeContainer" id="analyzationContainer">
-                <h2 class="visible-xs" data-text="Morphological_Analysis">Morphological analysis</h2>
-                <form class="form-horizontal" role="form" id="analysisForm">
-                    <fieldset>
-                        <legend data-text="Morphological_Analysis_Help"></legend>
-                        <div class="form-group">
-                            <label for="primaryAnalyzerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
-                            <div class="col-sm-3">
-                                <select class="form-control analyzerMode" id="primaryAnalyzerMode" name="primaryAnalyzerMode" required>
-                                    <option> </option>
-                                </select>
-                            </div>
-                            <div class="col-sm-4">
-                                <select class="form-control analyzerMode" id="secondaryAnalyzerMode" name="secondaryAnalyzerMode" required>
-                                    <option> </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="morphAnalyzerInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" rows="5" id="morphAnalyzerInput" name="morphAnalyzerInput" spellcheck="false" required></textarea>
-                            </div>
-                        </div>
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary" id="analyze" data-text="Analyze">Analyze</button>
-                        </div>
-                    </fieldset>
-                </form>
+                                  <button type="button" class="btn btn-default btn-sm pull-right swapLangBtn"><i class="fa fa-exchange"></i></button>
+                              </div>
+                              <div class="col-sm-6">
+                                  <div class="btn-group">
+                                      <button type="button" class="btn btn-default btn-sm dstLang active" id="dstLang1"></button>
+                                      <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang2"></button>
+                                      <div class="btn-group">
+                                          <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang3"></button>
+                                          <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                              <span class="caret"></span>
+                                              <span class="sr-only">Toggle Dropdown</span>
+                                          </button>
+                                          <ul class="dropdown-menu" id="dstLanguages" role="menu">
+                                              <li>
+                                                  <div class="row">
+                                                      <div class="languageCol"></div>
+                                                      <div class="languageCol"></div>
+                                                      <div class="languageCol"></div>
+                                                      <div class="languageCol"></div>
+                                                  </div>
+                                              </li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                                  <button type="button" class="btn btn-primary btn-sm pull-right translateBtn" data-text="Translate">Translate</button>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-sm-6" style="position: relative">
+                                  <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
+                                  <button class="btn clearButton"><i class="fa fa-times"></i></button>
+                              </div>
+                              <div class="col-sm-6">
+                                  <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
+                              </div>
+                              <div class="col-sm-3 pull-right">
+                                  <div class="checkbox">
+                                      <label class="pull-right">
+                                          <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span>
+                                      </label>
+                                    </div>
+                              </div>
+                          </div>
+                      </fieldset>
+                  </form>
+              </div>
+              <div class="modeContainer" id="analyzationContainer">
+                  <h2 class="visible-xs" data-text="Morphological_Analysis">Morphological analysis</h2>
+                  <form class="form-horizontal" role="form" id="analysisForm">
+                      <fieldset>
+                          <legend data-text="Morphological_Analysis_Help"></legend>
+                          <div class="form-group">
+                              <label for="primaryAnalyzerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
+                              <div class="col-sm-3">
+                                  <select class="form-control analyzerMode" id="primaryAnalyzerMode" name="primaryAnalyzerMode" required>
+                                      <option> </option>
+                                  </select>
+                              </div>
+                              <div class="col-sm-4">
+                                  <select class="form-control analyzerMode" id="secondaryAnalyzerMode" name="secondaryAnalyzerMode" required>
+                                      <option> </option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="morphAnalyzerInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
+                              <div class="col-sm-10">
+                                  <textarea class="form-control" rows="5" id="morphAnalyzerInput" name="morphAnalyzerInput" spellcheck="false" required></textarea>
+                              </div>
+                          </div>
+                          <div class="col-sm-offset-2 col-sm-10">
+                              <button type="submit" class="btn btn-primary" id="analyze" data-text="Analyze">Analyze</button>
+                          </div>
+                      </fieldset>
+                  </form>
 
-                <table class="table table-hover outputContainer" id="morphAnalyzerOutput" style="border-spacing: 0px;"></table>
-            </div>
-            <div class="modeContainer" id="generationContainer">
-                <h2 class="visible-xs" data-text="Morphological_Generation">Morphological generation</h2>
-                <form class="form-horizontal" role="form" id="generateForm">
-                    <fieldset>
-                        <legend data-text="Morphological_Generation_Help"></legend>
-                        <div class="form-group">
-                            <label for="primaryGeneratorMode" class="col-sm-2 control-label" data-text="Language">Language</label>
-                            <div class="col-sm-3">
-                                <select class="form-control generatorMode" id="primaryGeneratorMode" name="primaryGeneratorMode" required>
-                                    <option> </option>
-                                </select>
-                            </div>
-                            <div class="col-sm-4">
-                                <select class="form-control generatorMode" id="secondaryGeneratorMode" name="secondaryGeneratorMode" required>
-                                    <option> </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="morphGeneratorInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" rows="5" id="morphGeneratorInput" name="morphGeneratorInput" spellcheck="false" required></textarea>
-                            </div>
-                        </div>
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary" id="generate" data-text="Generate">Generate</button>
-                        </div>
-                    </fieldset>
-                </form>
-                <div id="morphGenOutput" class="outputContainer"></div>
-            </div>
-            <div class="modeContainer" id="sandboxContainer">
-                <h2 class="visible-xs" data-text="APY_Sandbox">APY sandbox</h2>
-                <form class="form-horizontal" role="form" id="sandboxForm">
-                    <fieldset>
-                        <legend>
-                            <span data-text="APY_Sandbox_Help"></span>
-                            <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right">
-                                <abbr title="Apertium API in Python">APY</abbr>
-                                <i class="fa fa-question-circle"></i>
-                            </a>
-                        </legend>
-                        <div class="form-group">
-                            <label for="sandboxInput" class="col-sm-2 control-label" data-text="APY_Request">APY Request</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" rows="3" id="sandboxInput" name="sandboxInput" spellcheck="false" required></textarea>
-                                <div class="help-block">e.g. /perWord?lang=en-es&amp;modes=morph+translate+biltrans&amp;q=let+there+be+light</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary" id="request" data-text="Request">Request</button>
-                            <code id="time" class="pull-right"></code>
-                        </div>
-                    </fieldset>
-                </form>
-                <pre id="sandboxOutput" class="outputContainer small"></pre>
-            </div>
+                  <table class="table table-hover outputContainer" id="morphAnalyzerOutput" style="border-spacing: 0px;"></table>
+              </div>
+              <div class="modeContainer" id="generationContainer">
+                  <h2 class="visible-xs" data-text="Morphological_Generation">Morphological generation</h2>
+                  <form class="form-horizontal" role="form" id="generateForm">
+                      <fieldset>
+                          <legend data-text="Morphological_Generation_Help"></legend>
+                          <div class="form-group">
+                              <label for="primaryGeneratorMode" class="col-sm-2 control-label" data-text="Language">Language</label>
+                              <div class="col-sm-3">
+                                  <select class="form-control generatorMode" id="primaryGeneratorMode" name="primaryGeneratorMode" required>
+                                      <option> </option>
+                                  </select>
+                              </div>
+                              <div class="col-sm-4">
+                                  <select class="form-control generatorMode" id="secondaryGeneratorMode" name="secondaryGeneratorMode" required>
+                                      <option> </option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="morphGeneratorInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
+                              <div class="col-sm-10">
+                                  <textarea class="form-control" rows="5" id="morphGeneratorInput" name="morphGeneratorInput" spellcheck="false" required></textarea>
+                              </div>
+                          </div>
+                          <div class="col-sm-offset-2 col-sm-10">
+                              <button type="submit" class="btn btn-primary" id="generate" data-text="Generate">Generate</button>
+                          </div>
+                      </fieldset>
+                  </form>
+                  <div id="morphGenOutput" class="outputContainer"></div>
+              </div>
+              <div class="modeContainer" id="sandboxContainer">
+                  <h2 class="visible-xs" data-text="APY_Sandbox">APY sandbox</h2>
+                  <form class="form-horizontal" role="form" id="sandboxForm">
+                      <fieldset>
+                          <legend>
+                              <span data-text="APY_Sandbox_Help"></span>
+                              <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right">
+                                  <abbr title="Apertium API in Python">APY</abbr>
+                                  <i class="fa fa-question-circle"></i>
+                              </a>
+                          </legend>
+                          <div class="form-group">
+                              <label for="sandboxInput" class="col-sm-2 control-label" data-text="APY_Request">APY Request</label>
+                              <div class="col-sm-10">
+                                  <textarea class="form-control" rows="3" id="sandboxInput" name="sandboxInput" spellcheck="false" required></textarea>
+                                  <div class="help-block">e.g. /perWord?lang=en-es&amp;modes=morph+translate+biltrans&amp;q=let+there+be+light</div>
+                              </div>
+                          </div>
+                          <div class="col-sm-offset-2 col-sm-10">
+                              <button type="submit" class="btn btn-primary" id="request" data-text="Request">Request</button>
+                              <code id="time" class="pull-right"></code>
+                          </div>
+                      </fieldset>
+                  </form>
+                  <pre id="sandboxOutput" class="outputContainer small"></pre>
+              </div>
+              <div class="visible-xs">
+                  <select class="localeSelect pull-left"><option> </option></select>
+                  <i class="fa fa-globe fa-2x pull-left" style="padding: 5px 0px 0px 5px"></i>
+                  <!-- <i class="fa fa-globe localeGlobe pull-left"></i> -->
+              </div>
+          </div>
+          <div id="push"></div>
+        </div>
 
+        <div id="footer">
             <div class="navbar-bottom hidden-xs">
                 <div class="container">
                     <ul class="nav nav-pills pull-left" style="display: inline-block;">
@@ -295,15 +305,9 @@
                 </div>
             </div>
 
-            <div class="visible-xs">
-                <select class="localeSelect pull-left"><option> </option></select>
-                <i class="fa fa-globe fa-2x pull-left" style="padding: 5px 0px 0px 5px"></i>
-                <!-- <i class="fa fa-globe localeGlobe pull-left"></i> -->
-            </div>
-
             <div class="pull-right well well-sm visible-xs helpMessage" style="margin-top: 10px;">
                 <span data-text="Notice_Mistake">Notice a mistake?</span>
-                <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve" data-keyboard="true">Help us improve Apertium!</a>
+                <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve" data-keyboard="true" style="cursor: default">Help us improve Apertium!</a>
             </div>
         </div>
 
@@ -445,7 +449,7 @@
 
                         <div class="center-block" style="margin-bottom: 1.5em;">
                             <a href="http://www.apertium.org/" target="_blank">
-                                <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" style="height: 5em;">
+                                <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" style="height: 5em; max-width: 100%;">
                             </a>
                         </div>
                     </div>
