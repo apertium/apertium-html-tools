@@ -96,7 +96,7 @@ html[dir=rtl] .clearButton {
     font-weight: bold;
     display: inline-block;
     position: absolute;
-    top: .65em;
+    top: .7em;
 }
 
 html[dir=ltr] .apertiumLogo {
@@ -125,7 +125,7 @@ p.tagline {
     color: rgb(255, 255, 255);
     font-size: 18px;
     font-weight: 700;
-    margin: 5px 0px 5px;
+    margin: 0px 0px 10px;
 }
 
 nav.navbar div.container {
