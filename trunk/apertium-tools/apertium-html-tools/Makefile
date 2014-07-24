@@ -104,7 +104,7 @@ localhtml: $(shell sed -n 's%^[^"]*"\([^"]*\)":.*%build/index.\1.html build/stri
 
 # hreflang requires iso639-1 :/ Fight ugly with ugly:
 build/l10n-rel.html: assets/strings/locales.json isobork build/.d
-	awk 'BEGIN{while(getline<"isobork")i[$$1]=$$2} /:/{sub(/^[^"]*"/,""); sub(/".*/,""); borkd=i[$$0]; if(!borkd)borkd=$$0; print "<link rel=\"alternate\" hreflang=\""borkd"\" href=\"index."$$0".html\"/>"}' $^ > $@
+	awk 'BEGIN{while(getline<"isobork")i[$$1]=$$2} /:/{sub(/^[^"]*"/,""); sub(/".*/,""); borkd=i[$$0]; if(!borkd)borkd=$$0; print "<link rel=\"alternate\" hreflang=\""borkd"\" href=\"index."$$0".html\">"}' $^ > $@
 
 build/index.%.html: build/strings/%.json build/index.localiseme.html config.conf read-conf.py localise-html.py
 	./localise-html.py -c config.conf build/index.localiseme.html $< $@
@@ -182,4 +182,3 @@ images: $(IMAGES_BUILD)
 ### Clean ###
 clean:
 	rm -rf build/
-
