@@ -80,6 +80,7 @@
                       </button>
                       <div>
                           <img src="./img/Apertium_box.png" alt="Apertium Box" class="apertiumBox">
+                          <!-- <span class="apertiumSubLogo">Turkic</span> -->
                           <span class="apertiumLogo" style="margin-bottom: -.25em">Apertium</span>
                       </div>
                       <p data-text="tagline" class="tagline"></p>
