@@ -130,7 +130,7 @@ function analyze() {
         beforeSend: ajaxSend,
         complete: ajaxComplete,
         data: {
-            'mode': analyzerMode,
+            'lang': analyzerMode,
             'q': $('#morphAnalyzerInput').val()
         },
         success: function (data) {
@@ -195,4 +195,3 @@ function analyze() {
         return unit.substring(0, tagStartLoc !== -1 ? tagStartLoc : unit.length) + (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
     }
 }
-
