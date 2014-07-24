@@ -129,7 +129,7 @@ function generate() {
         beforeSend: ajaxSend,
         complete: ajaxComplete,
         data: {
-            'mode': generatorMode,
+            'lang': generatorMode,
             'q': $('#morphGeneratorInput').val()
         },
         success: function (data) {
@@ -149,4 +149,3 @@ function generate() {
         }
     });
 }
-
