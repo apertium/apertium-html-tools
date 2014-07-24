@@ -88,15 +88,31 @@ html[dir=rtl] .clearButton {
     font-weight: bold;
 }
 
-.apertiumLogo {
-    font-size: 2.25em;
-    color: gray;
+.apertiumLogo, .apertiumSubLogo {
     font-family: "DejaVu Sans", "DejaVu Sans Fallback", "Arial Black", Arial;
     font-style: italic;
     font-weight: bold;
     display: inline-block;
     position: absolute;
+}
+
+.apertiumLogo {
+    font-size: 2.25em;
+    color: gray;
     top: .7em;
+}
+
+.apertiumSubLogo + .apertiumLogo {
+    top: .5em;
+    z-index: 1;
+}
+
+.apertiumSubLogo {
+    font-size: 1.75em;
+    top: 1.25em;
+    left: 6.5em;
+    z-index: 2;
+    color: orange;
 }
 
 html[dir=ltr] .apertiumLogo {
