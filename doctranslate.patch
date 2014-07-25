@@ -1,0 +1,101 @@
+Index: assets/js/translator.js
+===================================================================
+--- assets/js/translator.js	(revision 56013)
++++ assets/js/translator.js	(working copy)
+@@ -35,8 +35,11 @@
+             translate();
+         });
+ 
+-        $('.translateBtn').click(function () {
+-            translate();
++        $('button#translate').click(function () {
++            if($('div#translateText').is(":visible"))
++                translate();
++            else
++                console.error('I\'m not ready to translate documents yet! :(')
+         });
+ 
+         var timer, timeout = 1000;
+@@ -115,6 +118,18 @@
+         $('#dstLangSelect').change(function () {
+             handleNewCurrentLang(curDstLang = $(this).val(), recentDstLangs, 'dstLang', true);
+         });
++
++        $('button#translateDoc').click(function () {
++            $('div#translateText').fadeOut('fast', function () {
++                $('div#translateDoc').fadeIn('fast');
++            });
++        });
++
++        $('button#cancelDocTranslate').click(function () {
++            $('div#translateDoc').fadeOut('fast', function () {
++                $('div#translateText').fadeIn('fast');
++            });
++        });
+     });
+ }
+ 
+@@ -396,4 +411,3 @@
+         $(element).prop('disabled', !pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).val()) === -1);
+     });
+ }
+-
+Index: index.html.in
+===================================================================
+--- index.html.in	(revision 56013)
++++ index.html.in	(working copy)
+@@ -170,24 +170,41 @@
+                                           </ul>
+                                       </div>
+                                   </div>
+-                                  <button type="button" class="btn btn-primary btn-sm pull-right translateBtn" data-text="Translate">Translate</button>
++                                  <button type="button" id="translate" class="btn btn-primary btn-sm pull-right translateBtn" data-text="Translate">Translate</button>
+                               </div>
+                           </div>
+                           <div class="form-group">
+-                              <div class="col-sm-6" style="position: relative">
+-                                  <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
+-                                  <button class="btn clearButton"><i class="fa fa-times"></i></button>
++                              <div id="translateText">
++                                  <div class="col-sm-6">
++                                      <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
++                                      <button class="btn clearButton"><i class="fa fa-times"></i></button>
++                                  </div>
++                                  <div class="col-sm-6">
++                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
++                                  </div>
++                                  <div class="col-sm-6">
++                                      <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
++                                          <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</a>
++                                      </button>
++                                  </div>
++                                  <div class="col-sm-3 pull-right">
++                                      <div class="checkbox">
++                                          <label class="pull-right">
++                                              <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span>
++                                          </label>
++                                        </div>
++                                  </div>
+                               </div>
+-                              <div class="col-sm-6">
+-                                  <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
++                              <div id="translateDoc" style="display: none;">
++                                  <div class="col-sm-6">
++                                      <div class="well well-lg">
++                                          <input type="file" id="fileInput"></input>
++                                          <button class="btn btn-sm btn-default pull-right" data-text="Cancel" id="cancelDocTranslate">
++                                              <i class="fa fa-arrow-left"></i> Cancel
++                                          </button>
++                                      </div>
++                                  </div>
+                               </div>
+-                              <div class="col-sm-3 pull-right">
+-                                  <div class="checkbox">
+-                                      <label class="pull-right">
+-                                          <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span>
+-                                      </label>
+-                                    </div>
+-                              </div>
+                           </div>
+                       </fieldset>
+                   </form>
