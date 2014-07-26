@@ -2,8 +2,23 @@ Index: assets/js/translator.js
 ===================================================================
 --- assets/js/translator.js	(revision 56013)
 +++ assets/js/translator.js	(working copy)
-@@ -35,8 +35,11 @@
-             translate();
+@@ -22,7 +22,8 @@
+             refreshLangList(true);
+             muteLanguages();
+             localizeInterface();
+-            translate();
++            if($('div#translateText').is(":visible"))
++                translate();
+         });
+ 
+         $('.dstLang').click(function () {
+@@ -32,11 +33,15 @@
+             refreshLangList();
+             muteLanguages();
+             localizeInterface();
+-            translate();
++            if($('div#translateText').is(":visible"))
++                translate();
          });
  
 -        $('.translateBtn').click(function () {
@@ -12,11 +27,20 @@ Index: assets/js/translator.js
 +            if($('div#translateText').is(":visible"))
 +                translate();
 +            else
-+                console.error('I\'m not ready to translate documents yet! :(')
++                translateDoc();
          });
  
          var timer, timeout = 1000;
-@@ -115,6 +118,18 @@
+@@ -49,7 +54,7 @@
+             }, timeout);
+         });
+ 
+-        $('#instantTranslation').on('change', function () {
++        $('#instantTranslation').change(function () {
+             persistChoices('translator');
+         });
+ 
+@@ -115,6 +120,18 @@
          $('#dstLangSelect').change(function () {
              handleNewCurrentLang(curDstLang = $(this).val(), recentDstLangs, 'dstLang', true);
          });
@@ -35,16 +59,299 @@ Index: assets/js/translator.js
      });
  }
  
-@@ -396,4 +411,3 @@
+@@ -334,6 +351,72 @@
+         translationNotAvailable();
+ }
+ 
++function translateDoc() {
++    if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
++        if($('input#fileInput')[0].files.length != 0 && $('input#fileInput')[0].files[0].length != 0)
++        var file = $('input#fileInput')[0].files[0];
++        if(file.size > 2000E6)
++            docTranslateError('File is too large!');
++        else {
++            var allowedMimeTypes = [
++                'text/plain', 'text/html',
++                'text/rtf', 'application/rtf',
++                'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
++                // 'application/msword', 'application/vnd.ms-powerpoint', 'application/vnd.ms-excel'
++                'application/vnd.oasis.opendocument.text',
++                'application/x-latex', 'application/x-tex'
++            ];
++
++            if(allowedMimeTypes.indexOf(file.type) != -1) {
++                var xhr = new XMLHttpRequest({mozSystem: true});
++                xhr.addEventListener('progress', updateProgressBar, false);
++                if(xhr.upload)
++                    xhr.upload.onprogress = updateProgressBar;
++                xhr.onreadystatechange = function (ev) {
++                    if(this.readyState == 3) {
++                        $('div#fileLoading').css('margin-top', ($('div#fileLoading').parent().height() + $('div#fileLoading').height()) / 2).fadeIn();
++                        $('div#fileUploadProgress').parent().animate({opacity: 0}, 1000, function () {
++                            updateProgressBar({'position': 0, 'total': 1});
++                        });
++                    }
++                    else if(this.readyState == 4) {
++                        $('div#fileLoading').fadeOut(function() {
++                                $('a#fileDownload').attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(xhr.responseText)).attr('download', file.name).fadeIn().click();
++                        });
++                    }
++                }
++                xhr.onerror = function () {
++                    docTranslateError('Something went wrong!');
++                }
++                xhr.on
++
++                $('div#fileUploadProgress').parent().animate({opacity: 1}, 1000);
++                xhr.open('post', config.APY_URL + '/translateDoc', true);
++                var fileData = new FormData();
++                fileData.append('langpair', curSrcLang + '|' + curDstLang);
++                fileData.append('file', file);
++                fileData.append('name', file.name);
++                fileData.append('mtype', file.type);
++                xhr.send(fileData);
++            }
++            else
++                docTranslateError('Format not supported!');
++        }
++
++        function updateProgressBar(ev) {
++            var done = ev.position || ev.loaded, total = ev.totalSize || ev.total;
++            var percentDone = Math.floor(done / total * 1000) / 10;
++            $('div#fileUploadProgress').attr('aria-valuenow', percentDone).css('width', percentDone + '%')
++        }
++    }
++    else
++        docTranslateError('Translation not yet available!');
++
++    function docTranslateError(errorMessage) {
++        console.error(errorMessage); // TODO: Indicate to user and localize :(((
++    }
++}
++
+ function detectLanguage() {
+     $.jsonp({
+         url: config.APY_URL + '/identifyLang',
+@@ -396,4 +479,3 @@
          $(element).prop('disabled', !pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).val()) === -1);
      });
  }
 -
+Index: doctranslate.patch
+===================================================================
+--- doctranslate.patch	(revision 56014)
++++ doctranslate.patch	(working copy)
+@@ -2,10 +2,25 @@
+ ===================================================================
+ --- assets/js/translator.js	(revision 56013)
+ +++ assets/js/translator.js	(working copy)
+-@@ -35,8 +35,11 @@
+-             translate();
++@@ -22,7 +22,8 @@
++             refreshLangList(true);
++             muteLanguages();
++             localizeInterface();
++-            translate();
+++            if($('div#translateText').is(":visible"))
+++                translate();
+          });
+  
++         $('.dstLang').click(function () {
++@@ -32,11 +33,15 @@
++             refreshLangList();
++             muteLanguages();
++             localizeInterface();
++-            translate();
+++            if($('div#translateText').is(":visible"))
+++                translate();
++         });
++ 
+ -        $('.translateBtn').click(function () {
+ -            translate();
+ +        $('button#translate').click(function () {
+@@ -12,11 +27,20 @@
+ +            if($('div#translateText').is(":visible"))
+ +                translate();
+ +            else
+-+                console.error('I\'m not ready to translate documents yet! :(')
+++                translateDoc();
+          });
+  
+          var timer, timeout = 1000;
+-@@ -115,6 +118,18 @@
++@@ -49,7 +54,7 @@
++             }, timeout);
++         });
++ 
++-        $('#instantTranslation').on('change', function () {
+++        $('#instantTranslation').change(function () {
++             persistChoices('translator');
++         });
++ 
++@@ -115,6 +120,18 @@
+          $('#dstLangSelect').change(function () {
+              handleNewCurrentLang(curDstLang = $(this).val(), recentDstLangs, 'dstLang', true);
+          });
+@@ -35,67 +59,81 @@
+      });
+  }
+  
+-@@ -396,4 +411,3 @@
++@@ -334,6 +351,72 @@
++         translationNotAvailable();
++ }
++ 
+++function translateDoc() {
+++    if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+++        if($('input#fileInput')[0].files.length != 0 && $('input#fileInput')[0].files[0].length != 0)
+++        var file = $('input#fileInput')[0].files[0];
+++        if(file.size > 2000E6)
+++            docTranslateError('File is too large!');
+++        else {
+++            var allowedMimeTypes = [
+++                'text/plain', 'text/html',
+++                'text/rtf', 'application/rtf',
+++                'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+++                // 'application/msword', 'application/vnd.ms-powerpoint', 'application/vnd.ms-excel'
+++                'application/vnd.oasis.opendocument.text',
+++                'application/x-latex', 'application/x-tex'
+++            ];
+++
+++            if(allowedMimeTypes.indexOf(file.type) != -1) {
+++                var xhr = new XMLHttpRequest({mozSystem: true});
+++                xhr.addEventListener('progress', updateProgressBar, false);
+++                if(xhr.upload)
+++                    xhr.upload.onprogress = updateProgressBar;
+++                xhr.onreadystatechange = function (ev) {
+++                    if(this.readyState == 3) {
+++                        $('div#fileLoading').css('margin-top', ($('div#fileLoading').parent().height() + $('div#fileLoading').height()) / 2).fadeIn();
+++                        $('div#fileUploadProgress').parent().animate({opacity: 0}, 1000, function () {
+++                            updateProgressBar({'position': 0, 'total': 1});
+++                        });
+++                    }
+++                    else if(this.readyState == 4) {
+++                        $('div#fileLoading').fadeOut(function() {
+++                                $('a#fileDownload').attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(xhr.responseText)).attr('download', file.name).fadeIn().click();
+++                        });
+++                    }
+++                }
+++                xhr.onerror = function () {
+++                    docTranslateError('Something went wrong!');
+++                }
+++                xhr.on
+++
+++                $('div#fileUploadProgress').parent().animate({opacity: 1}, 1000);
+++                xhr.open('post', config.APY_URL + '/translateDoc', true);
+++                var fileData = new FormData();
+++                fileData.append('langpair', curSrcLang + '|' + curDstLang);
+++                fileData.append('file', file);
+++                fileData.append('name', file.name);
+++                fileData.append('mtype', file.type);
+++                xhr.send(fileData);
+++            }
+++            else
+++                docTranslateError('Format not supported!');
+++        }
+++
+++        function updateProgressBar(ev) {
+++            var done = ev.position || ev.loaded, total = ev.totalSize || ev.total;
+++            var percentDone = Math.floor(done / total * 1000) / 10;
+++            $('div#fileUploadProgress').attr('aria-valuenow', percentDone).css('width', percentDone + '%')
+++        }
+++    }
+++    else
+++        docTranslateError('Translation not yet available!');
+++
+++    function docTranslateError(errorMessage) {
+++        console.error(errorMessage); // TODO: Indicate to user and localize :(((
+++    }
+++}
+++
++ function detectLanguage() {
++     $.jsonp({
++         url: config.APY_URL + '/identifyLang',
++@@ -396,4 +479,3 @@
+          $(element).prop('disabled', !pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).val()) === -1);
+      });
+  }
+ -
+-Index: index.html.in
+-===================================================================
+---- index.html.in	(revision 56013)
+-+++ index.html.in	(working copy)
+-@@ -170,24 +170,41 @@
+-                                           </ul>
+-                                       </div>
+-                                   </div>
+--                                  <button type="button" class="btn btn-primary btn-sm pull-right translateBtn" data-text="Translate">Translate</button>
+-+                                  <button type="button" id="translate" class="btn btn-primary btn-sm pull-right translateBtn" data-text="Translate">Translate</button>
+-                               </div>
+-                           </div>
+-                           <div class="form-group">
+--                              <div class="col-sm-6" style="position: relative">
+--                                  <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
+--                                  <button class="btn clearButton"><i class="fa fa-times"></i></button>
+-+                              <div id="translateText">
+-+                                  <div class="col-sm-6">
+-+                                      <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
+-+                                      <button class="btn clearButton"><i class="fa fa-times"></i></button>
+-+                                  </div>
+-+                                  <div class="col-sm-6">
+-+                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
+-+                                  </div>
+-+                                  <div class="col-sm-6">
+-+                                      <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
+-+                                          <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</a>
+-+                                      </button>
+-+                                  </div>
+-+                                  <div class="col-sm-3 pull-right">
+-+                                      <div class="checkbox">
+-+                                          <label class="pull-right">
+-+                                              <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span>
+-+                                          </label>
+-+                                        </div>
+-+                                  </div>
+-                               </div>
+--                              <div class="col-sm-6">
+--                                  <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
+-+                              <div id="translateDoc" style="display: none;">
+-+                                  <div class="col-sm-6">
+-+                                      <div class="well well-lg">
+-+                                          <input type="file" id="fileInput"></input>
+-+                                          <button class="btn btn-sm btn-default pull-right" data-text="Cancel" id="cancelDocTranslate">
+-+                                              <i class="fa fa-arrow-left"></i> Cancel
+-+                                          </button>
+-+                                      </div>
+-+                                  </div>
+-                               </div>
+--                              <div class="col-sm-3 pull-right">
+--                                  <div class="checkbox">
+--                                      <label class="pull-right">
+--                                          <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span>
+--                                      </label>
+--                                    </div>
+--                              </div>
+-                           </div>
+-                       </fieldset>
+-                   </form>
 Index: index.html.in
 ===================================================================
 --- index.html.in	(revision 56013)
 +++ index.html.in	(working copy)
-@@ -170,24 +170,41 @@
+@@ -50,6 +50,12 @@
+                 document.body.appendChild(e);
+             }
+         </script>
++
++        <!-- [if lt IE 10]>
++            <style type="text/css">
++                button#translateDoc { display: none; }
++            </style>
++        <![endif]-->
+     </head>
+     <body>
+         <span class="fa hide" id="faChecker"></span>
+@@ -170,24 +176,50 @@
                                            </ul>
                                        </div>
                                    </div>
@@ -83,10 +390,19 @@ Index: index.html.in
 +                                  <div class="col-sm-6">
 +                                      <div class="well well-lg">
 +                                          <input type="file" id="fileInput"></input>
-+                                          <button class="btn btn-sm btn-default pull-right" data-text="Cancel" id="cancelDocTranslate">
-+                                              <i class="fa fa-arrow-left"></i> Cancel
++                                          <div class="progress" style="opacity: 0; margin-top: 1em;">
++                                              <div id="fileUploadProgress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
++                                          </div>
++                                          <button class="btn btn-sm btn-default pull-right" id="cancelDocTranslate">
++                                              <i class="fa fa-arrow-left"></i> <span data-text="Cancel">Cancel</span>
 +                                          </button>
 +                                      </div>
++                                  </div>
++                                  <div class="col-sm-6">
++                                      <div id="fileLoading" class="text-center" style="display: none;"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
++                                      <h1>
++                                          <a id="fileDownload" href="#" class="text-center lead" style="display: none;"><i class="fa fa-download"></i> <span data-text="Download">Download</span></a>
++                                      </h1>
 +                                  </div>
                                </div>
 -                              <div class="col-sm-3 pull-right">
