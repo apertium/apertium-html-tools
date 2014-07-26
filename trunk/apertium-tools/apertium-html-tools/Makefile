@@ -1,7 +1,9 @@
 all: js css html fonts build/sitemap.xml build/strings/locales.json localhtml images
 
-js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js
-css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css
+js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js debugjs
+debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/persistence.js build/js/caching.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
+css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css debugcss
+debugcss: build/css/bootstrap.css build/css/style.css
 html: build/index.html build/index.debug.html build/not-found.html
 fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf build/fonts/fontawesome-webfont.svg build/fonts/fontawesome-webfont.eot
 
@@ -81,9 +83,13 @@ build/js/jquery.min.js: build/js/.d
 build/js/bootstrap.min.js: build/js/.d
 	curl -s 'http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js' -o $@
 
+build/js/%.js: assets/js/%.js
+	cp $< $@
+
 ### HTML ###
-build/index.debug.html: index.html.in debug-head.html build/.d
-	sed -e '/@include_head@/r debug-head.html' -e '/@include_head@/d' $< > $@
+build/index.debug.html: index.html.in debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json config.conf read-conf.py localise-html.py build/.d
+	sed -e '/@include_head@/r debug-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
+	./localise-html.py -c config.conf $@ build/strings/eng.json $@
 
 # timestamp links, only double quotes supported :>
 build/prod-head.html: prod-head.html build/js/all.js build/css/all.css
@@ -93,6 +99,7 @@ build/.PIWIK_URL: config.conf read-conf.py build/.d
 	./read-conf.py -c $< get PIWIK_URL > $@
 build/.PIWIK_SITEID: config.conf read-conf.py build/.d
 	./read-conf.py -c $< get PIWIK_SITEID > $@
+
 build/index.localiseme.html: index.html.in build/prod-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID
 	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
 
@@ -152,6 +159,8 @@ build/css/font-awesome.min.css: build/css/.d
 build/css/bootstrap-rtl.min.css: build/css/.d
 	curl -s 'http://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.1.1/css/bootstrap-rtl.min.css' -o $@
 
+build/css/%.css: assets/css/%.css
+	cp $^ $@
 
 ### Fonts ###
 build/fonts/fontawesome-webfont.woff: build/fonts/.d
