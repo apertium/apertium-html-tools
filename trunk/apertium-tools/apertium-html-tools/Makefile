@@ -1,4 +1,5 @@
 all: js css html fonts build/sitemap.xml build/strings/locales.json localhtml images
+debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js build/sitemap.xml build/strings/locales.json build/index.eng.html build/strings/eng.json images
 
 js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js debugjs
 debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/persistence.js build/js/caching.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
@@ -83,7 +84,7 @@ build/js/jquery.min.js: build/js/.d
 build/js/bootstrap.min.js: build/js/.d
 	curl -s 'http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js' -o $@
 
-build/js/%.js: assets/js/%.js
+build/js/%.js: assets/js/%.js build/js/.d
 	cp $< $@
 
 ### HTML ###
@@ -151,7 +152,7 @@ build/css/all.css: assets/css/bootstrap.css assets/css/style.css build/css/.d
 	cat $^ > $@
 
 build/css/min.css: build/css/all.css
-	cp $^ $@
+	cp $< $@
 
 build/css/font-awesome.min.css: build/css/.d
 	curl -s 'http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' -o $@
@@ -159,8 +160,8 @@ build/css/font-awesome.min.css: build/css/.d
 build/css/bootstrap-rtl.min.css: build/css/.d
 	curl -s 'http://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.1.1/css/bootstrap-rtl.min.css' -o $@
 
-build/css/%.css: assets/css/%.css
-	cp $^ $@
+build/css/%.css: assets/css/%.css build/css/.d
+	cp $< $@
 
 ### Fonts ###
 build/fonts/fontawesome-webfont.woff: build/fonts/.d
