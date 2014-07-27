@@ -22,7 +22,8 @@ if(modeEnabled('translation')) {
             refreshLangList(true);
             muteLanguages();
             localizeInterface();
-            translate();
+            if($('div#translateText').is(":visible"))
+                translate();
         });
 
         $('.dstLang').click(function () {
@@ -32,11 +33,15 @@ if(modeEnabled('translation')) {
             refreshLangList();
             muteLanguages();
             localizeInterface();
-            translate();
+            if($('div#translateText').is(":visible"))
+                translate();
         });
 
-        $('.translateBtn').click(function () {
-            translate();
+        $('button#translate').click(function () {
+            if($('div#translateText').is(":visible"))
+                translate();
+            else
+                translateDoc();
         });
 
         var timer, timeout = 1000;
@@ -49,7 +54,7 @@ if(modeEnabled('translation')) {
             }, timeout);
         });
 
-        $('#instantTranslation').on('change', function () {
+        $('#instantTranslation').change(function () {
             persistChoices('translator');
         });
 
@@ -114,6 +119,18 @@ if(modeEnabled('translation')) {
 
         $('#dstLangSelect').change(function () {
             handleNewCurrentLang(curDstLang = $(this).val(), recentDstLangs, 'dstLang', true);
+        });
+
+        $('button#translateDoc').click(function () {
+            $('div#translateText').fadeOut('fast', function () {
+                $('div#translateDoc').fadeIn('fast');
+            });
+        });
+
+        $('button#cancelDocTranslate').click(function () {
+            $('div#translateDoc').fadeOut('fast', function () {
+                $('div#translateText').fadeIn('fast');
+            });
         });
     });
 }
@@ -334,6 +351,85 @@ function translate() {
         translationNotAvailable();
 }
 
+function translateDoc() {
+    if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+        if($('input#fileInput')[0].files.length != 0 && $('input#fileInput')[0].files[0].length != 0)
+        var file = $('input#fileInput')[0].files[0];
+        if(file.size > 2E6)
+            docTranslateError('File is too large!');
+        else {
+            var allowedMimeTypes = [
+                'text/plain', 'text/html',
+                'text/rtf', 'application/rtf',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                // 'application/msword', 'application/vnd.ms-powerpoint', 'application/vnd.ms-excel'
+                'application/vnd.oasis.opendocument.text',
+                'application/x-latex', 'application/x-tex'
+            ];
+
+            if(allowedMimeTypes.indexOf(file.type) != -1) {
+                $('span#uploadError').fadeOut('fast');
+                $('a#fileDownload').hide();
+                $('span#uploadError').hide();
+                $('button#translate').prop('disabled', true);
+
+                var xhr = new XMLHttpRequest({mozSystem: true});
+                xhr.addEventListener('progress', updateProgressBar, false);
+                xhr.responseType = 'blob';
+                if(xhr.upload)
+                    xhr.upload.onprogress = updateProgressBar;
+                xhr.onreadystatechange = function (ev) {
+                    if(this.readyState == 3) {
+                        $('div#fileLoading').css('margin-top', ($('div#fileLoading').parent().height() + $('div#fileLoading').height()) / 2).fadeIn('fast');
+                        $('div#fileUploadProgress').parent().show().animate({opacity: 0}, 200, function () {
+                            updateProgressBar({'position': 0, 'total': 1});
+                        });
+                    }
+                    else if(this.readyState == 4 && xhr.status == 200) {
+                        $('div#fileLoading').fadeOut('fast', function() {
+                            $('a#fileDownload').attr('href', (window.webkitURL ? webkitURL : URL).createObjectURL(xhr.response)).attr('download', file.name).fadeIn('fast').click();
+                            $('a#fileDownload span#fileName').text(file.name);
+                            $('button#translate').prop('disabled', false);
+                        });
+                    }
+                    else if(this.status >= 400)
+                        docTranslateError('Something went wrong!');
+                }
+                xhr.onerror = function () {
+                    docTranslateError('Something went wrong!');
+                }
+
+                $('div#fileUploadProgress').parent().animate({opacity: 1}, 200);
+                xhr.open('post', config.APY_URL + '/translateDoc', true);
+                var fileData = new FormData();
+                fileData.append('langpair', curSrcLang + '|' + curDstLang);
+                fileData.append('file', file);
+                fileData.append('mtype', file.type);
+                xhr.send(fileData);
+            }
+            else
+                docTranslateError('Format not supported!');
+        }
+
+        function updateProgressBar(ev) {
+            var done = ev.position || ev.loaded, total = ev.totalSize || ev.total;
+            var percentDone = Math.floor(done / total * 1000) / 10;
+            $('div#fileUploadProgress').attr('aria-valuenow', percentDone).css('width', percentDone + '%')
+        }
+    }
+    else
+        docTranslateError('Translation not yet available!');
+
+    function docTranslateError(errorMessage) {
+        $('div#fileUploadProgress').parent().hide();
+        $('a#fileDownload').fadeOut('fast');
+        $('div#fileLoading').fadeOut('fast');
+        console.error(errorMessage); // TODO: Indicate to user and localize :(((
+        $('span#uploadError').text(errorMessage).fadeIn();
+        $('button#translate').prop('disabled', false);
+    }
+}
+
 function detectLanguage() {
     $.jsonp({
         url: config.APY_URL + '/identifyLang',
@@ -396,4 +492,3 @@ function muteLanguages() {
         $(element).prop('disabled', !pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).val()) === -1);
     });
 }
-

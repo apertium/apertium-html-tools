@@ -50,6 +50,12 @@
                 document.body.appendChild(e);
             }
         </script>
+
+        <!-- [if lt IE 10]>
+            <style type="text/css">
+                button#translateDoc { display: none; }
+            </style>
+        <![endif]-->
     </head>
     <body>
         <span class="fa hide" id="faChecker"></span>
@@ -170,23 +176,54 @@
                                           </ul>
                                       </div>
                                   </div>
-                                  <button type="button" class="btn btn-primary btn-sm pull-right translateBtn" data-text="Translate">Translate</button>
+                                  <button type="button" id="translate" class="btn btn-primary btn-sm pull-right translateBtn" data-text="Translate">Translate</button>
                               </div>
                           </div>
                           <div class="form-group">
-                              <div class="col-sm-6" style="position: relative">
-                                  <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
-                                  <button class="btn clearButton"><i class="fa fa-times"></i></button>
+                              <div id="translateText">
+                                  <div class="col-sm-6">
+                                      <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
+                                      <button class="btn clearButton"><i class="fa fa-times"></i></button>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
+                                          <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</a>
+                                      </button>
+                                  </div>
+                                  <div class="col-sm-3 pull-right">
+                                      <div class="checkbox">
+                                          <label class="pull-right">
+                                              <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span>
+                                          </label>
+                                        </div>
+                                  </div>
                               </div>
-                              <div class="col-sm-6">
-                                  <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
-                              </div>
-                              <div class="col-sm-3 pull-right">
-                                  <div class="checkbox">
-                                      <label class="pull-right">
-                                          <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span>
-                                      </label>
-                                    </div>
+                              <div id="translateDoc" style="display: none;">
+                                  <div class="col-sm-6">
+                                      <div class="well well-lg">
+                                          <input type="file" id="fileInput"></input>
+                                          <span id="uploadError" class="text-danger lead" style="display: none"></span>
+                                          <div class="progress" style="opacity: 0; margin-top: 1em;">
+                                              <div id="fileUploadProgress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                                          </div>
+                                          <button class="btn btn-sm btn-default pull-right" id="cancelDocTranslate">
+                                              <i class="fa fa-arrow-left"></i> <span data-text="Cancel">Cancel</span>
+                                          </button>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <div id="fileLoading" class="text-center" style="display: none;"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
+                                      <h1>
+                                          <a id="fileDownload" href="#" class="text-center lead" style="display: none;">
+                                              <i class="fa fa-download"></i>
+                                              <span data-text="Download">Download</span>
+                                              <span id="fileName"></span>
+                                          </a>
+                                      </h1>
+                                  </div>
                               </div>
                           </div>
                       </fieldset>
