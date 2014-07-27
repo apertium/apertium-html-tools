@@ -4,7 +4,7 @@ var iso639Codes = {"abk":"ab","aar":"aa","afr":"af","aka":"ak","sqi":"sq","amh":
 var rtlLanguages = ['heb', 'ara', 'pes', 'urd', 'uig'];
 var languagesInverse = {}, iso639CodesInverse = {};
 var localizedLanguageCodes = {}, localizedLanguageNames = {};
-var notAvailableText = 'Translation not yet available!', detectedText = 'detected';
+var notAvailableText = 'Translation not yet available!', detectedText = 'detected', fileTooLargeText = 'File is too large!', formatNotSupportedText = 'Format not supported!';
 var localizedHTML = false;
 
 if(!config.LANGNAMES)
@@ -74,7 +74,7 @@ function getLocale(deferred) {
     }
     else {
         var pathParts = window.location.pathname.split('.');
-        if(pathParts.length === 3) {
+        if(pathParts.length === 3 && pathParts[1] !== 'debug') {
             locale = pathParts[1];
             localizedHTML = true;
             deferred.resolve();
@@ -279,10 +279,18 @@ function localizeStrings(stringsFresh) {
                 }
             }
         }
-        if(localizations['Not_Available'])
-            notAvailableText = localizations['Not_Available'];
-        if(localizations['detected'])
-            detectedText = localizations['detected'];
+
+        var dynamicLocalizations = {
+            'Not_Available': 'notAvailableText',
+            'detected': 'detectedText',
+            'File_Too_Large': 'fileTooLargeText',
+            'Format_Not_Supported': 'formatNotSupportedText'
+        };
+
+        $.each(dynamicLocalizations, function (key, value) {
+            if(localizations[key])
+                window[value] = localizations[key];
+        });
     }
 }
 
@@ -321,4 +329,3 @@ function getLangByCode(code) {
     else
         return code;
 }
-

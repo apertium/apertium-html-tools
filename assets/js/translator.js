@@ -132,6 +132,13 @@ if(modeEnabled('translation')) {
                 $('div#translateText').fadeIn('fast');
             });
         });
+
+        $('input#fileInput').change(function () {
+            $('div#fileUploadProgress').parent().fadeOut('fast', function () {
+                $('span#uploadError').fadeOut('fast');
+            });
+            $('a#fileDownload').fadeOut('fast');
+        });
     });
 }
 
@@ -352,11 +359,11 @@ function translate() {
 }
 
 function translateDoc() {
-    if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+    if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1 && $('input#fileInput')[0].files.length === 1) {
         if($('input#fileInput')[0].files.length != 0 && $('input#fileInput')[0].files[0].length != 0)
         var file = $('input#fileInput')[0].files[0];
-        if(file.size > 2E6)
-            docTranslateError('File is too large!');
+        if(file.size > 32E6)
+            docTranslateError(fileTooLargeText, 'File_Too_Large');
         else {
             var allowedMimeTypes = [
                 'text/plain', 'text/html',
@@ -371,6 +378,7 @@ function translateDoc() {
                 $('span#uploadError').fadeOut('fast');
                 $('a#fileDownload').hide();
                 $('span#uploadError').hide();
+                $('input#fileInput').prop('disabled', true);
                 $('button#translate').prop('disabled', true);
 
                 var xhr = new XMLHttpRequest({mozSystem: true});
@@ -380,26 +388,28 @@ function translateDoc() {
                     xhr.upload.onprogress = updateProgressBar;
                 xhr.onreadystatechange = function (ev) {
                     if(this.readyState == 3) {
-                        $('div#fileLoading').css('margin-top', ($('div#fileLoading').parent().height() + $('div#fileLoading').height()) / 2).fadeIn('fast');
-                        $('div#fileUploadProgress').parent().show().animate({opacity: 0}, 200, function () {
-                            updateProgressBar({'position': 0, 'total': 1});
+                        $('div#fileLoading').fadeIn('fast');
+                        $('div#fileUploadProgress').parent().fadeIn('fast', function () {
+                            updateProgressBar({'loaded': 1, 'total': 1});
                         });
                     }
                     else if(this.readyState == 4 && xhr.status == 200) {
+                        $('div#fileUploadProgress').parent().fadeOut('fast');
                         $('div#fileLoading').fadeOut('fast', function() {
-                            $('a#fileDownload').attr('href', (window.webkitURL ? webkitURL : URL).createObjectURL(xhr.response)).attr('download', file.name).fadeIn('fast').click();
+                            $('a#fileDownload').attr('href', (window.webkitURL ? webkitURL : URL).createObjectURL(xhr.response)).attr('download', file.name).fadeIn('fast');
                             $('a#fileDownload span#fileName').text(file.name);
                             $('button#translate').prop('disabled', false);
+                            $('input#fileInput').prop('disabled', false);
                         });
                     }
                     else if(this.status >= 400)
-                        docTranslateError('Something went wrong!');
+                        docTranslateError(notAvailableText);
                 }
                 xhr.onerror = function () {
-                    docTranslateError('Something went wrong!');
+                    docTranslateError(notAvailableText);
                 }
 
-                $('div#fileUploadProgress').parent().animate({opacity: 1}, 200);
+                $('div#fileUploadProgress').parent().fadeOut('fast');
                 xhr.open('post', config.APY_URL + '/translateDoc', true);
                 var fileData = new FormData();
                 fileData.append('langpair', curSrcLang + '|' + curDstLang);
@@ -408,7 +418,7 @@ function translateDoc() {
                 xhr.send(fileData);
             }
             else
-                docTranslateError('Format not supported!');
+                docTranslateError(formatNotSupportedText, 'Format_Not_Supported');
         }
 
         function updateProgressBar(ev) {
@@ -418,15 +428,17 @@ function translateDoc() {
         }
     }
     else
-        docTranslateError('Translation not yet available!');
+        docTranslateError(notAvailableText);
 
-    function docTranslateError(errorMessage) {
-        $('div#fileUploadProgress').parent().hide();
+    function docTranslateError(errorMessage, errorTextName) {
+        $('div#fileUploadProgress').parent().fadeOut('fast', function () {
+            $('span#uploadError').text(errorMessage).attr('data-text', errorTextName).fadeIn('fast');
+        });
         $('a#fileDownload').fadeOut('fast');
         $('div#fileLoading').fadeOut('fast');
-        console.error(errorMessage); // TODO: Indicate to user and localize :(((
-        $('span#uploadError').text(errorMessage).fadeIn();
         $('button#translate').prop('disabled', false);
+        $('input#fileInput').prop('disabled', false);
+        console.error(errorMessage);
     }
 }
 
