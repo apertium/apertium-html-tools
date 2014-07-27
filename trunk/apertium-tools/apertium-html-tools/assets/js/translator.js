@@ -414,7 +414,6 @@ function translateDoc() {
                 var fileData = new FormData();
                 fileData.append('langpair', curSrcLang + '|' + curDstLang);
                 fileData.append('file', file);
-                fileData.append('mtype', file.type);
                 xhr.send(fileData);
             }
             else
