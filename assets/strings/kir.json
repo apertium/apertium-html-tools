@@ -8,16 +8,14 @@
             "ky",
             "kir"
         ],
-        "completion": 81,
+        "completion": 86,
         "missing": [
-            "Format_Not_Supported",
-            "Not_Found_Error",
-            "Documentation_Para",
-            "Contact_Us",
-            "Downloads_Para",
-            "Contact_Para",
             "What_Is_Apertium",
-            "File_Too_Large"
+            "Contact_Para",
+            "Documentation_Para",
+            "Downloads_Para",
+            "File_Too_Large",
+            "Format_Not_Supported"
         ]
     },
     "title": "Apertium | A free/open-source machine translation platform",
@@ -44,9 +42,11 @@
     "Input_Text": "Киргизилген текст",
     "Notice_Mistake": "Кандайдыр бир ката таптыңызбы?",
     "Help_Improve": "Апертиумду жакшыртууга жардам бериңиз!",
+    "Contact_Us": "Эгер катаны табсаңыз, проектти демитүү тууралуу калооңуз болсо же жардамдашкыңыз келсе, бизге кабарлаңыз.",
     "Maintainer": "Бул вебсайт {{maintainer}} аркылуу башкарылат.",
     "About_Title": "Бул вебсайт жөнүндө",
     "Enable_JS_Warning": "Бул сайт JavaScript аркылуу гана иштейт.  Эгер <a href='http://www.enable-javascript.com/' target='_blank'>Javascriptти иштете</a> албасаңыз, <a href='http://traductor.prompsit.com' target='_blank'>Prompsitтеги котормочуларды</a> колдонсоңуз болот.",
+    "Not_Found_Error": "<b>Ката 404:</b> Кечириңиз, изделген баракча табылган жок!",
     "About": "Проект жөнүндө",
     "Download": "Жүктөп алуу",
     "Contact": "Байланышуу",
