@@ -123,11 +123,12 @@ build/index.html: build/index.eng.html
 build/not-found.html: build/index.html not-found.html
 	sed -e '/<!-- Not found warning -->/r not-found.html' $< > $@
 
-build/strings/%.json: assets/strings/%.json config.conf read-conf.py build/strings/.d
+build/strings/%.json: assets/strings/%.json config.conf read-conf.py minify-json.py build/strings/.d
 	@echo -n '    "@langNames": ' > $@.tmp
 	curl -s "$(shell ./read-conf.py -c config.conf get APY_URL)/listLanguageNames?locale=$*" >> $@.tmp
 	@echo ',' >> $@.tmp
 	@sed "0,/{/ s/{/{\n/" $< | sed "1r $@.tmp" > $@
+	./minify-json.py $@
 	@rm $@.tmp
 # the first sed to ensure inserting after line 1 is unproblematic
 
