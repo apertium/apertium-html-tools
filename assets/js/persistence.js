@@ -1,7 +1,8 @@
 function persistChoices(mode) {
     if(localStorage) {
+        var objects;
         if(mode === 'translator') {
-            var objects = {
+            objects = {
                 'recentSrcLangs': recentSrcLangs,
                 'recentDstLangs': recentDstLangs,
                 'curSrcLang': curSrcLang,
@@ -13,26 +14,26 @@ function persistChoices(mode) {
             };
         }
         else if(mode === 'analyzer') {
-            var objects = {
+            objects = {
                 'primaryAnalyzerChoice': $('#primaryAnalyzerMode').val(),
                 'secondaryAnalyzerChoice': $('#secondaryAnalyzerMode').val(),
                 'analyzerInput': $('#morphAnalyzerInput').val()
             };
         }
         else if(mode === 'generator') {
-            var objects = {
+            objects = {
                 'primaryGeneratorChoice': $('#primaryGeneratorMode').val(),
                 'secondaryGeneratorChoice': $('#secondaryGeneratorMode').val(),
                 'generatorInput': $('#morphGeneratorInput').val()
             };
         }
         else if(mode === 'localization') {
-            var objects = {
+            objects = {
                 'locale': $('.localeSelect').val()
             };
         }
         else if(mode === 'sandbox') {
-            var objects = {
+            objects = {
                 'sandboxInput': $('#sandboxInput').val()
             };
         }
