@@ -7,7 +7,7 @@ import argparse, json, itertools
 
 def dumpJSON(f, data):
     f.seek(0)
-    f.write(json.dumps(data, indent=4, sort_keys=False, ensure_ascii=False))
+    f.write(json.dumps(data, indent=4, sort_keys=False, ensure_ascii=False, separators=(',', ': ')))
     f.write('\n')
     f.truncate()
 
@@ -22,7 +22,7 @@ if __name__ == '__main__':
         "scrub: removes localisations marked unavailable\n"
         "update: updates metadata stats\n"
         "rebase: adds entries for missing localisations as specified by the canonicalFile\n"
-        "cleanup: clean, scrub, update, sort"
+        "cleanup: clean, scrub, update, sort\n"
         "all: clean, scrub, rebase, update, and sort")
         #choices=['new', 'create'] + list(map(lambda x: '+'.join(x), itertools.chain.from_iterable([itertools.permutations(['clean', 'sort', 'update', 'rebase', 'scrub'], i) for i in range(1, 6)]))))
     parser.add_argument('codes', nargs='+', help='language codes for filenames')
@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
                 strings = OrderedDict(strings)
                 strings[args.metadataKey] = defaultMetadata
-                f.write(json.dumps(strings, indent=4, sort_keys=False, ensure_ascii=False))
+                f.write(json.dumps(strings, indent=4, sort_keys=False, ensure_ascii=False, separators=(',', ': ')))
         if len(set(['clean', 'all', 'cleanup']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
                 strings = OrderedDict(filter(lambda x: x[0] in canonicalStrings.keys(), loadJSON(f).items()))

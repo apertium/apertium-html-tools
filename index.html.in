@@ -340,14 +340,14 @@
                     </ul>
                     <div class="pull-right well well-sm helpMessage">
                         <span data-text="Notice_Mistake">Notice a mistake?</span>
-                        <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve" data-keyboard="true">Help us improve Apertium!</a>
+                        <a data-toggle="modal" data-target="#aboutModal" data-text="Help_Improve" data-keyboard="true" style="cursor: pointer">Help us improve Apertium!</a>
                     </div>
                 </div>
             </div>
 
             <div class="pull-right well well-sm visible-xs helpMessage" style="margin-top: 10px;">
                 <span data-text="Notice_Mistake">Notice a mistake?</span>
-                <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve" data-keyboard="true" style="cursor: default">Help us improve Apertium!</a>
+                <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve" data-keyboard="true">Help us improve Apertium!</a>
             </div>
         </div>
 
