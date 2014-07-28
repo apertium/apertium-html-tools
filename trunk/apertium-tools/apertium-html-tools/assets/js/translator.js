@@ -415,6 +415,7 @@ function translateDoc() {
                 fileData.append('langpair', curSrcLang + '|' + curDstLang);
                 fileData.append('file', file);
                 xhr.send(fileData);
+                sendEvent('translator', 'translateDoc', curSrcLang + '-' + curDstLang, file.size);
             }
             else
                 docTranslateError(formatNotSupportedText, 'Format_Not_Supported');
