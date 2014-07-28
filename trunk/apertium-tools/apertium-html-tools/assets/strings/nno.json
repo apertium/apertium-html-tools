@@ -8,8 +8,12 @@
             "nn",
             "nno"
         ],
-        "completion": 100,
-        "missing": []
+        "completion": 93,
+        "missing": [
+            "Format_Not_Supported",
+            "Not_Found_Error",
+            "File_Too_Large"
+        ]
     },
     "title": "Apertium | Ei fri/open kjeldekode maskinomsetjingsplattform",
     "tagline": "Ei fri/open kjeldekode maskinomsetjingsplattform",

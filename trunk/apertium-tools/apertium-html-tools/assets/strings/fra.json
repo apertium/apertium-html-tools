@@ -9,8 +9,12 @@
             "fr",
             "fra"
         ],
-        "completion": 100,
-        "missing": []
+        "completion": 93,
+        "missing": [
+            "Format_Not_Supported",
+            "Not_Found_Error",
+            "File_Too_Large"
+        ]
     },
     "title": "Apertium | Une plateforme libre/open source de traduction automatique",
     "tagline": "Une plateforme libre/open source de traduction automatique",

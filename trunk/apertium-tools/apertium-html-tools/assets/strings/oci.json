@@ -8,8 +8,12 @@
             "oc",
             "oci"
         ],
-        "completion": 100,
-        "missing": []
+        "completion": 93,
+        "missing": [
+            "Format_Not_Supported",
+            "Not_Found_Error",
+            "File_Too_Large"
+        ]
     },
     "title": "Apertium | Una plataforma liura/open source de traduccion automatica",
     "tagline": "Una plataforma liura/open source de traduccion automatica",

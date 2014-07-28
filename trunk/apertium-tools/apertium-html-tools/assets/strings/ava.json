@@ -8,21 +8,24 @@
             "av",
             "ava"
         ],
-        "completion": 67,
+        "completion": 62,
         "missing": [
+            "Format_Not_Supported",
+            "Not_Found_Error",
+            "Apertium_Downloads",
             "About",
             "Documentation_Para",
-            "Downloads_Para",
-            "Enable_JS_Warning",
             "About_Apertium",
+            "Not_Available",
+            "Download",
+            "Documentation",
+            "Contact",
+            "Downloads_Para",
             "Contact_Para",
             "Instant_Translation",
-            "Apertium_Downloads",
-            "Not_Available",
             "What_Is_Apertium",
-            "Download",
-            "Contact",
-            "Documentation"
+            "File_Too_Large",
+            "Enable_JS_Warning"
         ]
     },
     "title": "Апертиум | Машинияб таржамалъул эркенаб/рагьараб тӏагӏел",
