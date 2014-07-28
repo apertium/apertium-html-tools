@@ -359,7 +359,8 @@
                         <h4 class="modal-title" data-text="About_Apertium">About Apertium</h4>
                     </div>
                     <div class="modal-body">
-                        <div data-text="What_Is_Apertium" style="padding-bottom: 2em;"></div>
+                        <div data-text="What_Is_Apertium"></div>
+                        <div data-text="Maintainer" style="padding-bottom: 2em;"></div>
 
                         <div class="row lead">
                             <div class="col-md-6">
@@ -462,6 +463,7 @@
                         <h4 class="modal-title" data-text="Contact">Contact Us</h4>
                     </div>
                     <div class="modal-body">
+                        <p data-text="Contact_Us"></p>
                         <div data-text="Contact_Para"></div>
                     </div>
                 </div>
