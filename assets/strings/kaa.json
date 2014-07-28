@@ -7,23 +7,26 @@
         "locale": [
             "kaa"
         ],
-        "completion": 62,
+        "completion": 58,
         "missing": [
+            "Format_Not_Supported",
+            "Apertium_Downloads",
+            "Not_Found_Error",
             "About",
-            "Contact_Us",
-            "Downloads_Para",
             "Documentation_Para",
-            "Enable_JS_Warning",
+            "About_Title",
             "About_Apertium",
+            "Contact_Us",
+            "Download",
+            "Documentation",
+            "Contact",
+            "Downloads_Para",
             "Contact_Para",
             "Instant_Translation",
-            "Apertium_Downloads",
-            "Maintainer",
-            "About_Title",
             "What_Is_Apertium",
-            "Download",
-            "Contact",
-            "Documentation"
+            "File_Too_Large",
+            "Maintainer",
+            "Enable_JS_Warning"
         ]
     },
     "title": "Apertium | Biypul/ashıq mashinalı awdarmalaw platforması",

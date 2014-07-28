@@ -9,8 +9,12 @@
             "kk",
             "kaz"
         ],
-        "completion": 100,
-        "missing": []
+        "completion": 93,
+        "missing": [
+            "Format_Not_Supported",
+            "Not_Found_Error",
+            "File_Too_Large"
+        ]
     },
     "title": "Apertium | A free/open-source machine translation platform",
     "tagline": "A free/open-source machine translation platform",

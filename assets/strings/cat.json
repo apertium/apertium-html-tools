@@ -8,12 +8,15 @@
             "ca",
             "cat"
         ],
-        "completion": 88,
+        "completion": 81,
         "missing": [
-            "What_Is_Apertium",
+            "Format_Not_Supported",
+            "Not_Found_Error",
+            "Documentation_Para",
             "Contact_Us",
             "Downloads_Para",
-            "Documentation_Para",
+            "What_Is_Apertium",
+            "File_Too_Large",
             "Maintainer"
         ]
     },
@@ -41,8 +44,6 @@
     "Input_Text": "Text d'entrada",
     "Notice_Mistake": "Has trobat un error?",
     "Help_Improve": "Ajuda'ns a millorar Apertium!",
-    "Contact_Us": "%%UNAVAILABLE%% Feel free to contact us if you find a mistake, there's a project you would like to see us work on, or you would like to help out.",
-    "Maintainer": "%%UNAVAILABLE%% This website is maintained by {{maintainer}}.",
     "About_Title": "En quant la web",
     "Enable_JS_Warning": "La web només funciona amb navegadors que té soport per JavaScript, si no pots <a href='http://www.enable-javascript.com/' target='_blank'>habilitar JavaScript</a>, pots provar els <a href='http://traductor.prompsit.com' target='_blank'>traductors a Prompsit</a>.",
     "About": "En quant",
@@ -50,9 +51,6 @@
     "Contact": "Contactar",
     "Documentation": "Documentació",
     "About_Apertium": "En quant Apertium",
-    "What_Is_Apertium": "%%UNAVAILABLE%% <p>Apertium is a <b>free/open-source machine translation platform</b>, initially aimed at related-language pairs but expanded to deal with more divergent language pairs (such as English-Catalan). The platform provides</p> <ol> <li>a language-independent machine translation engine</li> <li>tools to manage the linguistic data necessary to build a machine translation system for a given language pair and</li> <li>linguistic data for a growing number of language pairs.</li> </ol> <p>Apertium welcomes new developers: if you think you can improve the engine or the tools, or develop linguistic data for us, do not hesitate to <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>contact us</a>.</p>",
-    "Documentation_Para": "%%UNAVAILABLE%% Documentation can be found on our <a href='http://wiki.apertium.org/'>Wiki</a> under the <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank'>Documentation</a> sub-page. We have published various conference papers and journal articles, a list of which may be found on the Wiki under <a href='http://wiki.apertium.org/wiki/Publications' target='_blank'>Publications.",
     "Apertium_Downloads": "Baixades",
-    "Downloads_Para": "%%UNAVAILABLE%% Current versions of the <b>Apertium toolbox</b> as well as of <b>language-pair data</b> are available from <a href='https://sourceforge.net/projects/apertium/' target='_blank'>the SourceForge page</a>. Installation instructions for Apertium on all major platforms are provided on the <a href='http://wiki.apertium.org/wiki/Installation' target='_blank'>Wiki's Installation page</a>.",
     "Contact_Para": "<h4>Canal IRC</h4> <p>La manera més fàcil de posar-te en contacte amb nosaltres és unir-te al nostre <a href='http://wiki.apertium.org/wiki/IRC' target='_blank'>canal <abbr title='Internet Relay Chat'>IRC</abbr>, #apertium</a> en irc.freenode.net. Allà es reuneixen els utilitzadors i desenvolupadors d'Apertium. Si no tens un client IRC; pots utilitzar el <a href='http://webchat.freenode.net/?channels=apertium'>webchat de freenode</a>. </p> <h4>Llista de correus</h4> <p>Also, subscribe to the <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank'> apertium-stuff mailing list</a>, where you can post longer proposals or issues, as well as follow general Apertium discussions. </p> <h4>Contacte</h4> <p>Feel free to contact us via the <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'>apertium-contact mailing list</a> if you find a mistake, there's a project you would like to see us work on, or you would like to help out.</p>"
 }

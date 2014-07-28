@@ -5,20 +5,23 @@
         "locale": [
             "eus"
         ],
-        "completion": 70,
+        "completion": 65,
         "missing": [
+            "Format_Not_Supported",
+            "Not_Found_Error",
+            "Apertium_Downloads",
             "About",
             "Documentation_Para",
-            "Downloads_Para",
-            "Enable_JS_Warning",
             "About_Apertium",
+            "Download",
+            "Documentation",
+            "Contact",
+            "Downloads_Para",
             "Contact_Para",
             "Instant_Translation",
-            "Apertium_Downloads",
             "What_Is_Apertium",
-            "Download",
-            "Contact",
-            "Documentation"
+            "File_Too_Large",
+            "Enable_JS_Warning"
         ]
     },
     "title": "Apertium | Kode irekiko itzulpen automatiko plataforma librea",

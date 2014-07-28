@@ -9,16 +9,19 @@
             "se",
             "sme"
         ],
-        "completion": 80,
+        "completion": 74,
         "missing": [
-            "Enable_JS_Warning",
+            "Format_Not_Supported",
+            "Not_Found_Error",
             "Apertium_Downloads",
-            "About_Apertium",
             "Documentation_Para",
-            "What_Is_Apertium",
+            "About_Apertium",
             "Downloads_Para",
+            "Contact_Para",
             "Instant_Translation",
-            "Contact_Para"
+            "What_Is_Apertium",
+            "File_Too_Large",
+            "Enable_JS_Warning"
         ]
     },
     "title": "Apertium | Friddja ja rabasgáldokodavuđot dihtorjorgalanvuogádat",

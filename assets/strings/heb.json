@@ -8,8 +8,12 @@
             "he",
             "heb"
         ],
-        "completion": 100,
-        "missing": []
+        "completion": 93,
+        "missing": [
+            "Format_Not_Supported",
+            "Not_Found_Error",
+            "File_Too_Large"
+        ]
     },
     "title": "Apertium | פלטפורמה חופשית לתרגום מכונה",
     "tagline": "פלטפורמה חופשית לתרגום מכונה",

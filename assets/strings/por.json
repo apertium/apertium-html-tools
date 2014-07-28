@@ -9,18 +9,21 @@
             "pt",
             "por"
         ],
-        "completion": 75,
+        "completion": 70,
         "missing": [
-            "Documentation",
-            "Contact_Para",
-            "Downloads_Para",
-            "Contact",
-            "Documentation_Para",
+            "Format_Not_Supported",
             "Apertium_Downloads",
-            "Enable_JS_Warning",
-            "What_Is_Apertium",
+            "Not_Found_Error",
+            "Documentation_Para",
             "About_Apertium",
-            "Download"
+            "Download",
+            "Documentation",
+            "Contact",
+            "Downloads_Para",
+            "Contact_Para",
+            "What_Is_Apertium",
+            "File_Too_Large",
+            "Enable_JS_Warning"
         ]
     },
     "title": "Apertium | Uma plataforma livre para a tradução automática",

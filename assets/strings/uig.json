@@ -8,8 +8,12 @@
             "ug",
             "uig"
         ],
-        "completion": 100,
-        "missing": []
+        "completion": 93,
+        "missing": [
+            "Format_Not_Supported",
+            "Not_Found_Error",
+            "File_Too_Large"
+        ]
     },
     "title": "Apertium | ھەقسىز ۋە ئوچۇق كودلۇق ماشىنا تەرجىمە سۇپىسى",
     "tagline": "ھەقسىز ۋە ئوچۇق كودلۇق ماشىنا تەرجىمە سۇپىسى",
@@ -44,7 +48,7 @@
     "Contact": "ئالاقىلىشىش",
     "Documentation": "قوللانما",
     "About_Apertium": "Apertium ھەققىدە",
-    "What_Is_Apertium": "<p>Apertium بولسا ھەقسىز ۋە ئوچۇق كودلۇق ماشىنا تەرجىمە سۇپىسى بولۇپ، ئەڭ دەسلەپتە يېقىن تىللار ئارىسىدىكى تەرجىمە ئۈچۈن تۈزۈلگەن ۋە كېينچە تېخىمۇ كېڭەيتىلىپ خىلمۇخىل تىللارنى قوللايدىغان بولغان (مەسىلەن ئىنگلىزچە-كاتالانچە). </p><ol><li>تىلغا بېقنمايدىغان ماشىنا تەرجىمە ماتورى</li> <li>ماشىنا تەرجىمە سىستېمىسىنى قۇرۇشقا كېرەكلىك بولىدىغان تىل ئۇچۇرلىرىنى باشقۇرۇش قۇراللىرى</li><li>ئۈزلۈكسىز توپلىنىۋاتقان تىل ئۇچۇرلىرى</li> </ol><p>Apertium ئىجادىيەت سېپىگە قوشۇلۇشىڭىزنى قارشى ئالىمىز. ئەگەر تەرجىمە ماتورى ياكى قۇراللارنىڭ مۇكەممەلىشىشىگە ياردەم قىلالىسىڭىز ۋە ياكى تىل ئۇچۇر ئامبارلىرىنى قۇرالىسىڭىز <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>بىز بىلەن ئالاقە قىلغايسىز</a> .</p>", 
+    "What_Is_Apertium": "<p>Apertium بولسا ھەقسىز ۋە ئوچۇق كودلۇق ماشىنا تەرجىمە سۇپىسى بولۇپ، ئەڭ دەسلەپتە يېقىن تىللار ئارىسىدىكى تەرجىمە ئۈچۈن تۈزۈلگەن ۋە كېينچە تېخىمۇ كېڭەيتىلىپ خىلمۇخىل تىللارنى قوللايدىغان بولغان (مەسىلەن ئىنگلىزچە-كاتالانچە). </p><ol><li>تىلغا بېقنمايدىغان ماشىنا تەرجىمە ماتورى</li> <li>ماشىنا تەرجىمە سىستېمىسىنى قۇرۇشقا كېرەكلىك بولىدىغان تىل ئۇچۇرلىرىنى باشقۇرۇش قۇراللىرى</li><li>ئۈزلۈكسىز توپلىنىۋاتقان تىل ئۇچۇرلىرى</li> </ol><p>Apertium ئىجادىيەت سېپىگە قوشۇلۇشىڭىزنى قارشى ئالىمىز. ئەگەر تەرجىمە ماتورى ياكى قۇراللارنىڭ مۇكەممەلىشىشىگە ياردەم قىلالىسىڭىز ۋە ياكى تىل ئۇچۇر ئامبارلىرىنى قۇرالىسىڭىز <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>بىز بىلەن ئالاقە قىلغايسىز</a> .</p>",
     "Documentation_Para": "قوللانمىنى تور بەت <a href='http://wiki.apertium.org/'>ۋىكىسىنىڭ</a> <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank'>Documentation</a> ناملىق تارماق بېتىدىن تاپالايسىز. بىز يەنە بىر قىسىم يىغىن ۋە ژورناللاردا ماقالە ئېلان قىلدۇق. ئۇلارنىڭ تىزىملىكىنى <a href='http://wiki.apertium.org/wiki/Publications' target='_blank'>Publications</a> بېتىدىن تاپالايسىز.",
     "Apertium_Downloads": "Apertium نى چۈشۈرۈش",
     "Downloads_Para": "Apertium toolbox ۋە language-pair data نىڭ نۆۋەتتىكى نەشرىنى <a href='https://sourceforge.net/projects/apertium/' target='_blank'>SourceForge</a> دىن چۈشۈرەلەيسىز. Apertium نى ھەرخىل مەشغۇلات سۇپىلىرىغا قاچىلاش قوللانمىسىنى ۋىكىنىڭ <a href='http://wiki.apertium.org/wiki/Installation' target='_blank'>قاچىلاش بېتى</a> تەمىنلەندى.",
