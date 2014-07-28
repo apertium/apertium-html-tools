@@ -17,11 +17,11 @@ def loadJSON(f):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Manipulate localisation files', formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('actions', nargs='+', help="new/create: creates a new localisation file\n"
-        "sort: sorts according to the sort order specified by the canonicalFile (-c)\n"
-        "clean: removes localisations that are not present in the canonical file\n"
+        "sort: sorts according to the sort order specified by the canonical file (-c)\n"
+        "clean: removes localisations that are not present in the canonical file (-c)\n"
         "scrub: removes localisations marked unavailable\n"
         "update: updates metadata stats\n"
-        "rebase: adds entries for missing localisations as specified by the canonicalFile\n"
+        "rebase: adds entries for missing localisations as specified by the placeholder file (-p)\n"
         "cleanup: clean, scrub, update, sort\n"
         "all: clean, scrub, rebase, update, and sort")
         #choices=['new', 'create'] + list(map(lambda x: '+'.join(x), itertools.chain.from_iterable([itertools.permutations(['clean', 'sort', 'update', 'rebase', 'scrub'], i) for i in range(1, 6)]))))
