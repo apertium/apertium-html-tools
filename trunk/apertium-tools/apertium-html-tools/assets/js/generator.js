@@ -83,7 +83,7 @@ function populateGeneratorList(data) {
 
     var generatorArray = [];
     $.each(generators, function (key, value) {
-        generatorArray.push([key, value])
+        generatorArray.push([key, value]);
     });
     generatorArray = filterLangList(generatorArray, function (generator) {
         return allowedLang(generator[0]);

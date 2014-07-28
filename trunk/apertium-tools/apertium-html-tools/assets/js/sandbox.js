@@ -25,7 +25,6 @@ function request() {
     $.jsonp({
         url: config.APY_URL + $('#sandboxInput').val(),
         beforeSend: ajaxSend,
-        complete: ajaxComplete,
         success: function (data) {
             $('#sandboxOutput').text(JSON.stringify(data, undefined, 3)).removeClass('blurred');
         },

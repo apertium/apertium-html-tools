@@ -204,7 +204,7 @@
                               <div id="translateDoc" style="display: none;">
                                   <div class="col-sm-6">
                                       <div class="well well-lg">
-                                          <input type="file" id="fileInput"></input>
+                                          <input type="file" id="fileInput">
                                           <div style="min-height: 50px; margin-top: 1em;">
                                               <span id="uploadError" class="text-danger lead" style="display: none"></span>
                                               <div class="progress progress-striped active" style="display: none; margin-bottom: 0px;">

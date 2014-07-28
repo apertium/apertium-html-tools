@@ -83,7 +83,7 @@ function populateAnalyzerList(data) {
 
     var analyzersArray = [];
     $.each(analyzers, function (key, value) {
-        analyzersArray.push([key, value])
+        analyzersArray.push([key, value]);
     });
     analyzersArray = filterLangList(analyzersArray, function (analyzer) {
         return allowedLang(analyzer[0]);
@@ -140,7 +140,7 @@ function analyze() {
                 var leftTD = $('<td class="text-right"></td>');
                 var strong = $('<strong></strong>').text(data[i][1].trim());
                 var arrow = $('<span></span>').html('&nbsp;&nbsp;&#8620;');
-                leftTD.append(strong).append(arrow)
+                leftTD.append(strong).append(arrow);
 
                 var rightTD = $('<td class="text-left"></td>');
                 var splitUnit = data[i][0].split('/');
