@@ -409,6 +409,7 @@ function translateDoc() {
                     docTranslateError(notAvailableText);
                 };
 
+                updateProgressBar({'loaded': 0, 'total': 1});
                 $('div#fileUploadProgress').parent().fadeIn('fast');
                 xhr.open('post', config.APY_URL + '/translateDoc', true);
                 var fileData = new FormData();
