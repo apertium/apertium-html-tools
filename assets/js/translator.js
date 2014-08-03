@@ -409,7 +409,7 @@ function translateDoc() {
                     docTranslateError(notAvailableText);
                 };
 
-                $('div#fileUploadProgress').parent().fadeOut('fast');
+                $('div#fileUploadProgress').parent().fadeIn('fast');
                 xhr.open('post', config.APY_URL + '/translateDoc', true);
                 var fileData = new FormData();
                 fileData.append('langpair', curSrcLang + '|' + curDstLang);
