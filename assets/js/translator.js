@@ -234,7 +234,8 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
 
     muteLanguages();
     localizeInterface();
-    translate();
+    if($('div#translateText').is(":visible"))
+        translate();
 }
 
 function refreshLangList(resetDetect) {
