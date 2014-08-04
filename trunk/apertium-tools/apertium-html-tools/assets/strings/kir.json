@@ -1,7 +1,8 @@
 {
     "@metadata": {
         "authors": [
-            "jonorthwash"
+            "jonorthwash",
+            "tolgonay"
         ],
         "last-updated": "2014-05-10",
         "locale": [
@@ -51,7 +52,7 @@
     "Enable_JS_Warning": "Бул сайт JavaScript аркылуу гана иштейт.  Эгер <a href='http://www.enable-javascript.com/' target='_blank'>Javascriptти иштете</a> албасаңыз, <a href='http://traductor.prompsit.com' target='_blank'>Prompsitтеги котормочуларды</a> колдонсоңуз болот.",
     "Not_Found_Error": "<b>Ката 404:</b> Кечириңиз, изделген баракча табылган жок!",
     "About": "Проект жөнүндө",
-    "Download": "Жүктөп алуу",
+    "Download": "{{fileName}} файлын жүктөп алуу",
     "Contact": "Байланышуу",
     "Documentation": "Документация",
     "About_Apertium": "Апертиум жөнүндө",
