@@ -10,17 +10,17 @@
         ],
         "completion": 76,
         "missing": [
-            "File_Too_Large",
-            "Cancel",
-            "Downloads_Para",
-            "Contact_Us",
-            "Documentation_Para",
-            "Format_Not_Supported",
             "Translate_Document",
+            "Cancel",
+            "Format_Not_Supported",
             "Maintainer",
+            "Documentation_Para",
+            "Downloads_Para",
+            "Download_File",
+            "Contact_Us",
             "Not_Found_Error",
             "What_Is_Apertium",
-            "Download_File"
+            "File_Too_Large"
         ]
     },
     "title": "Apertium | Una plataforma lliure per a la traducció automàtica",

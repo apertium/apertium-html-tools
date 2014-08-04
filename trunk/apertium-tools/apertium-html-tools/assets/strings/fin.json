@@ -2,16 +2,15 @@
     "@metadata": {
         "authors": [
             "mie",
-	    "inariksit"
+            "inariksit"
         ],
         "last-updated": "2014-08-04",
         "locale": [
             "fi",
             "fin"
         ],
-        "completion": 93,
-        "missing": [
-        ]
+        "completion": 100,
+        "missing": []
     },
     "title": "Apertium – Vapaa konekäännösalusta",
     "tagline": "Vapaa avoimen lähdekoodin konekäännösalusta",
@@ -21,13 +20,12 @@
     "Detect_Language": "Tunnista kieli",
     "detected": "tunnistettu",
     "Instant_Translation": "Välitön käännös",
+    "Translate_Document": "Käännä dokumentti",
     "Not_Available": "Käännöstä ei ole saatavilla.",
     "File_Too_Large": "Tiedosto on liian suuri.",
-    "Not_Found_Error": "Hakemaasi sivua ei löytynyt.",
-    "Format_Not_Supported": "Tiedostomuotoa ei tueta.",
     "Cancel": "Peruuta",
+    "Format_Not_Supported": "Tiedostomuotoa ei tueta.",
     "Download_File": "Lataa tiedosto",
-    "Translate_Document": "Käännä dokumentti",
     "Morphological_Analysis": "Morfologinen jäsennys",
     "Morphological_Analysis_Help": "Valitse kieli ja analysoi tekstiä Apertiumin morfologisella jäsentimellä",
     "Analyze": "Analysoi",
@@ -47,6 +45,7 @@
     "Maintainer": "Tämän sivuston ylläpitäjä on {{maintainer}}.",
     "About_Title": "Tietoja sivustosta.",
     "Enable_JS_Warning": "Sivuston toiminta vaatii JavaScriptiä. Jollei <a href='http://www.enable-javascript.com/' hreflang='en' target='_blank'>JavaScriptiä</a> voi käyttää, vaihtoehtoisia kääntimiä löytyy<a href='http://traductor.prompsit.com' hreflang='en'target='_blank'>Prompsitin sivustolta</a>.",
+    "Not_Found_Error": "Hakemaasi sivua ei löytynyt.",
     "About": "Tietoja",
     "Download": "Lataa",
     "Contact": "Yhteystiedot",

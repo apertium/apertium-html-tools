@@ -10,15 +10,15 @@
         ],
         "completion": 80,
         "missing": [
-            "File_Too_Large",
-            "Cancel",
-            "Downloads_Para",
-            "Contact_Para",
-            "Documentation_Para",
-            "Format_Not_Supported",
             "Translate_Document",
+            "Cancel",
+            "Contact_Para",
+            "Format_Not_Supported",
+            "Documentation_Para",
+            "Downloads_Para",
+            "Download_File",
             "What_Is_Apertium",
-            "Download_File"
+            "File_Too_Large"
         ]
     },
     "title": "Apertium | A free/open-source machine translation platform",

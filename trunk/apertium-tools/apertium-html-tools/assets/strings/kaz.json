@@ -11,12 +11,12 @@
         ],
         "completion": 87,
         "missing": [
-            "File_Too_Large",
+            "Translate_Document",
             "Cancel",
             "Format_Not_Supported",
-            "Translate_Document",
+            "Download_File",
             "Not_Found_Error",
-            "Download_File"
+            "File_Too_Large"
         ]
     },
     "title": "Apertium | A free/open-source machine translation platform",
