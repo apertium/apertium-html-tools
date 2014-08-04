@@ -10,15 +10,18 @@
             "es",
             "spa"
         ],
-        "completion": 84,
+        "completion": 78,
         "missing": [
-            "Format_Not_Supported",
-            "Documentation_Para",
-            "Contact_Us",
+            "Cancel",
             "Downloads_Para",
             "Contact_Para",
+            "Contact_Us",
+            "Format_Not_Supported",
+            "Documentation_Para",
+            "Translate_Document",
+            "Maintainer",
             "What_Is_Apertium",
-            "Maintainer"
+            "Download_File"
         ]
     },
     "title": "Apertium | Una plataforma libre para la traducción automática",

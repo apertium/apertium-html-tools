@@ -9,17 +9,20 @@
             "tt",
             "tat"
         ],
-        "completion": 79,
+        "completion": 74,
         "missing": [
-            "Format_Not_Supported",
-            "Apertium_Downloads",
-            "Not_Found_Error",
-            "Documentation_Para",
+            "File_Too_Large",
+            "Cancel",
             "Downloads_Para",
             "Contact_Para",
+            "Documentation_Para",
+            "Format_Not_Supported",
+            "Apertium_Downloads",
+            "Translate_Document",
+            "Enable_JS_Warning",
+            "Not_Found_Error",
             "What_Is_Apertium",
-            "File_Too_Large",
-            "Enable_JS_Warning"
+            "Download_File"
         ]
     },
     "title": "Apertium | A free/open-source machine translation platform",

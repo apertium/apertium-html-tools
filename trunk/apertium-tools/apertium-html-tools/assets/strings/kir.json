@@ -8,14 +8,17 @@
             "ky",
             "kir"
         ],
-        "completion": 86,
+        "completion": 80,
         "missing": [
-            "What_Is_Apertium",
+            "File_Too_Large",
+            "Cancel",
+            "Downloads_Para",
             "Contact_Para",
             "Documentation_Para",
-            "Downloads_Para",
-            "File_Too_Large",
-            "Format_Not_Supported"
+            "Format_Not_Supported",
+            "Translate_Document",
+            "What_Is_Apertium",
+            "Download_File"
         ]
     },
     "title": "Apertium | A free/open-source machine translation platform",
