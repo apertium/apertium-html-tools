@@ -1,18 +1,16 @@
 {
     "@metadata": {
         "authors": [
-            "mie"
+            "mie",
+	    "inariksit"
         ],
-        "last-updated": "2014-05-06",
+        "last-updated": "2014-08-04",
         "locale": [
             "fi",
             "fin"
         ],
         "completion": 93,
         "missing": [
-            "Format_Not_Supported",
-            "Not_Found_Error",
-            "File_Too_Large"
         ]
     },
     "title": "Apertium – Vapaa konekäännösalusta",
@@ -24,11 +22,17 @@
     "detected": "tunnistettu",
     "Instant_Translation": "Välitön käännös",
     "Not_Available": "Käännöstä ei ole saatavilla.",
-    "Morphological_Analysis": "Morfologinen analyysi",
-    "Morphological_Analysis_Help": "Valitse kieli ja analysoi tekstiä Apertiumin morfologisella analysaattorilla",
+    "File_Too_Large": "Tiedosto on liian suuri.",
+    "Not_Found_Error": "Hakemaasi sivua ei löytynyt.",
+    "Format_Not_Supported": "Tiedostomuotoa ei tueta.",
+    "Cancel": "Peruuta",
+    "Download_File": "Lataa tiedosto",
+    "Translate_Document": "Käännä dokumentti",
+    "Morphological_Analysis": "Morfologinen jäsennys",
+    "Morphological_Analysis_Help": "Valitse kieli ja analysoi tekstiä Apertiumin morfologisella jäsentimellä",
     "Analyze": "Analysoi",
     "Morphological_Generation": "Morfologinen generointi",
-    "Morphological_Generation_Help": "Valitse kieli ja generoi pintamuotoja Apertiumin morfologisella analysaattorilla",
+    "Morphological_Generation_Help": "Valitse kieli ja generoi pintamuotoja Apertiumin morfologisella jäsentimellä",
     "Generate": "Generoi",
     "Spell_Checker": "Oikaisuluku",
     "APY_Sandbox": "APY-hiekkalaatikko",
