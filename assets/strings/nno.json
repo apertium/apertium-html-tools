@@ -3,20 +3,13 @@
         "authors": [
             "unhammer"
         ],
-        "last-updated": "2014-05-09",
+        "last-updated": "2014-08-04",
         "locale": [
             "nn",
             "nno"
         ],
-        "completion": 87,
-        "missing": [
-            "Translate_Document",
-            "Cancel",
-            "Format_Not_Supported",
-            "Download_File",
-            "Not_Found_Error",
-            "File_Too_Large"
-        ]
+        "completion": 100,
+        "missing": []
     },
     "title": "Apertium | Ei fri/open kjeldekode maskinomsetjingsplattform",
     "tagline": "Ei fri/open kjeldekode maskinomsetjingsplattform",
@@ -26,6 +19,12 @@
     "Detect_Language": "Gjenkjenn språk",
     "detected": "gjenkjent",
     "Instant_Translation": "Omset medan du skriv",
+    "Translate_Document": "Omset eit dokument",
+    "File_Too_Large": "Fila er for stor!",
+    "Cancel": "Avbryt",
+    "Format_Not_Supported": "Det formatet er ikkje støtta!",
+    "Download_File": "Last ned {{fileName}}",
+    "Not_Found_Error": "<b>404-feil:</b> Beklagar, den sida finst ikkje lenger!",
     "Not_Available": "Omsetjing ikkje tilgjengeleg!",
     "Morphological_Analysis": "Morfologisk analyse",
     "Morphological_Analysis_Help": "Vel eit språk og analyser teksten din med dei morfologiske analysatorane til Apertium.",

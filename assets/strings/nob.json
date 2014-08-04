@@ -3,20 +3,13 @@
         "authors": [
             "unhammer"
         ],
-        "last-updated": "2014-05-09",
+        "last-updated": "2014-08-04",
         "locale": [
             "nb",
             "nob"
         ],
-        "completion": 87,
-        "missing": [
-            "Translate_Document",
-            "Cancel",
-            "Format_Not_Supported",
-            "Download_File",
-            "Not_Found_Error",
-            "File_Too_Large"
-        ]
+        "completion": 100,
+        "missing": []
     },
     "title": "Apertium | En fri/åpen kildekode maskinoversettelsesplattform",
     "tagline": "En fri/åpen kildekode maskinoversettelsesplattform",
@@ -26,6 +19,12 @@
     "Detect_Language": "Gjenkjenn språk",
     "detected": "gjenkjent",
     "Instant_Translation": "Oversett mens du skriver",
+    "Translate_Document": "Oversett et dokument",
+    "File_Too_Large": "Filen er for stor!",
+    "Cancel": "Avbryt",
+    "Format_Not_Supported": "Det formatet er ikke støttet!",
+    "Download_File": "Last ned {{fileName}}",
+    "Not_Found_Error": "<b>404-feil:</b> Beklager, den siden finnes ikke lenger!",
     "Not_Available": "Oversettelse ikke tilgjengelig!",
     "Morphological_Analysis": "Morfologisk analyse",
     "Morphological_Analysis_Help": "Velg et språk og analyser teksten din med de morfologiske analysatorene til Apertium.",
