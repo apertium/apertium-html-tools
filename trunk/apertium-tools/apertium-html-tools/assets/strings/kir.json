@@ -9,17 +9,15 @@
             "ky",
             "kir"
         ],
-        "completion": 80,
+        "completion": 85,
         "missing": [
-            "Translate_Document",
-            "Cancel",
-            "Contact_Para",
-            "Format_Not_Supported",
             "Documentation_Para",
-            "Downloads_Para",
             "Download_File",
+            "Cancel",
+            "Format_Not_Supported",
             "What_Is_Apertium",
-            "File_Too_Large"
+            "Downloads_Para",
+            "Contact_Para"
         ]
     },
     "title": "Apertium | A free/open-source machine translation platform",
@@ -30,7 +28,12 @@
     "Detect_Language": "Тилди автоматтык түрдө аныктоо",
     "detected": "автоматтык түрдө аныкталды",
     "Instant_Translation": "Ыкчам которуу",
+    "Translate_Document": "Документ которуу",
     "Not_Available": "Котормо даяр эмес",
+    "File_Too_Large": "Файлдын көлөмү лимиттен ашып кетти!",
+    "Cancel": "%%UNAVAILABLE%%",
+    "Format_Not_Supported": "%%UNAVAILABLE%%",
+    "Download_File": "%%UNAVAILABLE%%",
     "Morphological_Analysis": "Морфологиялык талдоо",
     "Morphological_Analysis_Help": "Тилди тандап, Апертиум морфологиялык талдагычтары менен текстиңизди талдоо",
     "Analyze": "Талдоо",
@@ -56,5 +59,9 @@
     "Contact": "Байланышуу",
     "Documentation": "Документация",
     "About_Apertium": "Апертиум жөнүндө",
-    "Apertium_Downloads": "Апертиумду жүктөп алуу"
+    "What_Is_Apertium": "%%UNAVAILABLE%%",
+    "Documentation_Para": "%%UNAVAILABLE%%",
+    "Apertium_Downloads": "Апертиумду жүктөп алуу",
+    "Downloads_Para": "%%UNAVAILABLE%%",
+    "Contact_Para": "%%UNAVAILABLE%%"
 }
