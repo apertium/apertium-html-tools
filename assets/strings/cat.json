@@ -8,16 +8,19 @@
             "ca",
             "cat"
         ],
-        "completion": 81,
+        "completion": 76,
         "missing": [
-            "Format_Not_Supported",
-            "Not_Found_Error",
-            "Documentation_Para",
-            "Contact_Us",
-            "Downloads_Para",
-            "What_Is_Apertium",
             "File_Too_Large",
-            "Maintainer"
+            "Cancel",
+            "Downloads_Para",
+            "Contact_Us",
+            "Documentation_Para",
+            "Format_Not_Supported",
+            "Translate_Document",
+            "Maintainer",
+            "Not_Found_Error",
+            "What_Is_Apertium",
+            "Download_File"
         ]
     },
     "title": "Apertium | Una plataforma lliure per a la traducció automàtica",
