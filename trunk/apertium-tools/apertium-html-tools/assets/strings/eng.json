@@ -24,6 +24,7 @@
     "File_Too_Large": "File is too large!",
     "Cancel": "Cancel",
     "Format_Not_Supported": "Format not supported!",
+    "Download_File": "Download {{fileName}}",
     "Morphological_Analysis": "Morphological analysis",
     "Morphological_Analysis_Help": "Choose a language and analyse your text using Apertium's morphological analysers.",
     "Analyze": "Analyse",
