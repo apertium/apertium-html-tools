@@ -10,6 +10,7 @@ var dynamicLocalizations = {
     'File_Too_Large': 'File is too large!',
     'Format_Not_Supported': 'Format not supported!'
 };
+
 var localizedHTML = false;
 
 if(!config.LANGNAMES)
@@ -286,7 +287,7 @@ function localizeStrings(stringsFresh) {
         }
 
         $.each(dynamicLocalizations, function (key, value) {
-            if(localizations[key])
+            if(localizations[key] && localizations[key].lastIndexOf('%%UNAVAILABLE%%') !== 0)
                 dynamicLocalizations[key] = localizations[key];
         });
     }
@@ -327,3 +328,4 @@ function getLangByCode(code) {
     else
         return code;
 }
+
