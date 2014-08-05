@@ -22,8 +22,7 @@ if(modeEnabled('translation')) {
             refreshLangList(true);
             muteLanguages();
             localizeInterface();
-            if($('div#translateText').is(":visible"))
-                translate();
+            translateText();
         });
 
         $('.dstLang').click(function () {
@@ -33,15 +32,11 @@ if(modeEnabled('translation')) {
             refreshLangList();
             muteLanguages();
             localizeInterface();
-            if($('div#translateText').is(":visible"))
-                translate();
+            translateText();
         });
 
         $('button#translate').click(function () {
-            if($('div#translateText').is(":visible"))
-                translate();
-            else
-                translateDoc();
+            translate();
         });
 
         var timer, timeout = 1000;
@@ -50,7 +45,7 @@ if(modeEnabled('translation')) {
                 clearTimeout(timer);
             timer = setTimeout(function () {
                 if($('#instantTranslation').prop('checked'))
-                    translate();
+                    translateText();
             }, timeout);
         });
 
@@ -63,7 +58,7 @@ if(modeEnabled('translation')) {
         });
 
         $('#originalText').submit(function () {
-            translate();
+            translateText();
         });
 
         $('.clearButton').click(function () {
@@ -74,7 +69,7 @@ if(modeEnabled('translation')) {
             $('.srcLang').removeClass('active');
             $(this).addClass('active');
             detectLanguage();
-            translate();
+            translateText();
         });
 
         $('.swapLangBtn').click(function () {
@@ -111,7 +106,7 @@ if(modeEnabled('translation')) {
             var selectValue = $(this).val();
             if(selectValue === 'detect') {
                 detectLanguage();
-                translate();
+                translateText();
             }
             else
                 handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
@@ -234,8 +229,7 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
 
     muteLanguages();
     localizeInterface();
-    if($('div#translateText').is(":visible"))
-        translate();
+    translateText();
 }
 
 function refreshLangList(resetDetect) {
@@ -334,29 +328,38 @@ function populateTranslationList() {
 }
 
 function translate() {
-    if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
-        sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
-        $.jsonp({
-            url: config.APY_URL + '/translate',
-            beforeSend: ajaxSend,
-            complete: ajaxComplete,
-            data: {
-                'langpair': curSrcLang + '|' + curDstLang,
-                'q': $('#originalText').val()
-            },
-            success: function (data) {
-                if(data.responseStatus === 200) {
-                    $('#translatedText').html(data.responseData.translatedText);
-                    $('#translatedText').removeClass('notAvailable');
-                }
-                else
-                    translationNotAvailable();
-            },
-            error: translationNotAvailable
-        });
-    }
+    if($('div#translateText').is(":visible"))
+        translateText();
     else
-        translationNotAvailable();
+        translateDoc();
+}
+
+function translateText() {
+    if($('div#translateText').is(":visible")) {
+        if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+            sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
+            $.jsonp({
+                url: config.APY_URL + '/translate',
+                beforeSend: ajaxSend,
+                complete: ajaxComplete,
+                data: {
+                    'langpair': curSrcLang + '|' + curDstLang,
+                    'q': $('#originalText').val()
+                },
+                success: function (data) {
+                    if(data.responseStatus === 200) {
+                        $('#translatedText').html(data.responseData.translatedText);
+                        $('#translatedText').removeClass('notAvailable');
+                    }
+                    else
+                        translationNotAvailable();
+                },
+                error: translationNotAvailable
+            });
+        }
+        else
+            translationNotAvailable();
+    }
 }
 
 function translateDoc() {
@@ -506,3 +509,4 @@ function muteLanguages() {
         $(element).prop('disabled', !pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).val()) === -1);
     });
 }
+
