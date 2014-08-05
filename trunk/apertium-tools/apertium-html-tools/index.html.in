@@ -223,8 +223,7 @@
                                       <h1>
                                           <a id="fileDownload" href="#" class="text-center lead" style="display: none;">
                                               <i class="fa fa-download"></i>
-                                              <span data-text="Download">Download</span>
-                                              <span id="fileName"></span>
+                                              <span id="fileDownloadText"></span>
                                           </a>
                                       </h1>
                                   </div>

@@ -401,7 +401,7 @@ function translateDoc() {
                         $('div#fileUploadProgress').parent().fadeOut('fast');
                         $('div#fileLoading').fadeOut('fast', function() {
                             $('a#fileDownload').attr('href', (window.webkitURL ? webkitURL : URL).createObjectURL(xhr.response)).attr('download', file.name).fadeIn('fast');
-                            $('a#fileDownload span#fileName').text(file.name);
+                            $('a#fileDownload span#fileDownloadText').text(dynamicLocalizations['Download_File'].replace('{{fileName}}', file.name));
                             $('button#translate').prop('disabled', false);
                             $('input#fileInput').prop('disabled', false);
                         });

@@ -8,7 +8,8 @@ var dynamicLocalizations = {
     'Not_Available': 'Translation not yet available!',
     'detected': 'detected',
     'File_Too_Large': 'File is too large!',
-    'Format_Not_Supported': 'Format not supported!'
+    'Format_Not_Supported': 'Format not supported!',
+    'Download_File': 'Download {{fileName}}'
 };
 
 var localizedHTML = false;
