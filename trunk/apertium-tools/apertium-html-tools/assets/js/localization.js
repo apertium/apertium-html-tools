@@ -54,7 +54,7 @@ $(document).ready(function () {
         localizeInterface();
         localizeStrings(stringsFresh);
 
-        if(window.history.replaceState) {
+        if(window.history.replaceState && window.location.pathname !== '/index.debug.html') {
             var urlParams = [], urlParamNames = ['dir'];
             $.each(urlParamNames, function () {
                 var urlParam = getURLParam(this);
