@@ -4,7 +4,12 @@ var iso639Codes = {"abk":"ab","aar":"aa","afr":"af","aka":"ak","sqi":"sq","amh":
 var rtlLanguages = ['heb', 'ara', 'pes', 'urd', 'uig'];
 var languagesInverse = {}, iso639CodesInverse = {};
 var localizedLanguageCodes = {}, localizedLanguageNames = {};
-var notAvailableText = 'Translation not yet available!', detectedText = 'detected', fileTooLargeText = 'File is too large!', formatNotSupportedText = 'Format not supported!';
+var dynamicLocalizations = {
+    'Not_Available': 'Translation not yet available!',
+    'detected': 'detected',
+    'File_Too_Large': 'File is too large!',
+    'Format_Not_Supported': 'Format not supported!'
+};
 var localizedHTML = false;
 
 if(!config.LANGNAMES)
@@ -280,16 +285,9 @@ function localizeStrings(stringsFresh) {
             }
         }
 
-        var dynamicLocalizations = {
-            'Not_Available': 'notAvailableText',
-            'detected': 'detectedText',
-            'File_Too_Large': 'fileTooLargeText',
-            'Format_Not_Supported': 'formatNotSupportedText'
-        };
-
         $.each(dynamicLocalizations, function (key, value) {
             if(localizations[key])
-                window[value] = localizations[key];
+                dynamicLocalizations[key] = localizations[key];
         });
     }
 }

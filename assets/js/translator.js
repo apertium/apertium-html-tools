@@ -246,7 +246,7 @@ function refreshLangList(resetDetect) {
     }
 
     if($('#detectedText').parent('.srcLang').attr('data-code'))
-        $('#detectedText').text(getLangByCode($('#detectedText').parent('.srcLang').attr('data-code')) + ' - ' + detectedText);
+        $('#detectedText').text(getLangByCode($('#detectedText').parent('.srcLang').attr('data-code')) + ' - ' + dynamicLocalizations['detected']);
 
     if(resetDetect) {
         $('#detectText').show();
@@ -367,7 +367,7 @@ function translateDoc() {
         if($('input#fileInput')[0].files.length !== 0 && $('input#fileInput')[0].files[0].length !== 0)
         var file = $('input#fileInput')[0].files[0];
         if(file.size > 32E6)
-            docTranslateError(fileTooLargeText, 'File_Too_Large');
+            docTranslateError(dynamicLocalizations['File_Too_Large'], 'File_Too_Large');
         else {
             var allowedMimeTypes = [
                 'text/plain', 'text/html',
@@ -407,10 +407,10 @@ function translateDoc() {
                         });
                     }
                     else if(this.status >= 400)
-                        docTranslateError(notAvailableText);
+                        docTranslateError(dynamicLocalizations['Not_Available']);
                 };
                 xhr.onerror = function () {
-                    docTranslateError(notAvailableText);
+                    docTranslateError(dynamicLocalizations['Not_Available']);
                 };
 
                 updateProgressBar({'loaded': 0, 'total': 1});
@@ -423,7 +423,7 @@ function translateDoc() {
                 sendEvent('translator', 'translateDoc', curSrcLang + '-' + curDstLang, file.size);
             }
             else
-                docTranslateError(formatNotSupportedText, 'Format_Not_Supported');
+                docTranslateError(dynamicLocalizations['Format_Not_Supported'], 'Format_Not_Supported');
         }
 
         function updateProgressBar(ev) {
@@ -433,7 +433,7 @@ function translateDoc() {
         }
     }
     else
-        docTranslateError(notAvailableText);
+        docTranslateError(dynamicLocalizations['Not_Available']);
 
     function docTranslateError(errorMessage, errorTextName) {
         $('div#fileUploadProgress').parent().fadeOut('fast', function () {
@@ -488,7 +488,7 @@ function detectLanguage() {
 }
 
 function translationNotAvailable() {
-    $('#translatedText').text(notAvailableText);
+    $('#translatedText').text(dynamicLocalizations['Not_Available']);
     $('#translatedText').addClass('notAvailable');
 }
 
