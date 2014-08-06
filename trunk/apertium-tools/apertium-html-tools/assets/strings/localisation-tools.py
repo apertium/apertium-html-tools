@@ -29,7 +29,7 @@ if __name__ == '__main__':
     parser.add_argument('-m', '--metadataKey', default='@metadata')
     parser.add_argument('-c', '--canonicalFile', default='eng.json', help='canonical file for keys and sort order')
     parser.add_argument('-u', '--unavailableString', default='%%UNAVAILABLE%%', help='placeholder value for unavailable string (used by rebase action)')
-    parser.add_argument('-b', '--showPlaceholderString', default=False, action='store_true', help='use strings from placeholder file for unavailable strings (used by rebase action)')
+    parser.add_argument('-b', '--hidePlaceholderString', default=True, action='store_false', help='don\'t use strings from placeholder file for unavailable strings (used by rebase action)')
     parser.add_argument('-p', '--placeholderFile', default='eng.json', help='placeholder file for missing values (used by rebase action)')
 
     args = parser.parse_args()
@@ -37,6 +37,9 @@ if __name__ == '__main__':
     actions = ['new', 'create', 'sort', 'clean', 'scrub', 'update', 'rebase', 'all', 'cleanup']
     args.codes = args.codes + list(filter(lambda x: x not in actions, args.actions))
     args.actions = list(filter(lambda x: x in actions, args.actions))
+    
+    if not args.actions:
+        parser.error('the following arguments are required: actions')
 
     args.files = map(lambda x: x + '.json' if not x.endswith('.json') else x, args.codes)
     if not args.canonicalFile.endswith('.json'):
@@ -96,9 +99,9 @@ if __name__ == '__main__':
                 if args.metadataKey not in strings:
                     strings[args.metadataKey] = defaultMetadata
 
-                presentKeys = set(dict(filter(lambda x: x[0] == args.metadataKey or not x[1].startswith(args.unavailableString), strings.items())).keys())
-                allKeys = set(canonicalStrings.keys())
-                strings[args.metadataKey]['completion'] = 100 - int(len(allKeys - presentKeys) / len(allKeys) * 100)
+                presentKeys, allKeys = set(dict(filter(lambda x: x[0] == args.metadataKey or not x[1].startswith(args.unavailableString), strings.items())).keys()), set(canonicalStrings.keys())
+                presentValuesLength, allValuesLength = sum(map(len, map(lambda x: x[1], filter(lambda x: x[0] in presentKeys, strings.items())))), sum(map(len, canonicalStrings.values()))
+                strings[args.metadataKey]['completion'] = '%3d%% %6.2f%%' % (100 - int(len(allKeys - presentKeys) / len(allKeys) * 100), presentValuesLength / allValuesLength * 100)
                 strings[args.metadataKey]['missing'] = list(allKeys - presentKeys)
                 dumpJSON(f, strings)
         if len(set(['sort', 'all', 'cleanup']) & set(args.actions)) > 0:
@@ -107,3 +110,4 @@ if __name__ == '__main__':
                 strings = OrderedDict(sorted(strings.items(), key=lambda x: -1 if x[0] not in canonicalStrings.keys() else list(canonicalStrings.keys()).index(x[0])))
                 strings[args.metadataKey] = OrderedDict(sorted(strings[args.metadataKey].items(), key=lambda x: -1 if x[0] not in defaultMetadata.keys() else list(defaultMetadata.keys()).index(x[0])))
                 dumpJSON(f, strings)
+
