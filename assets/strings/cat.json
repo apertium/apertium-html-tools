@@ -8,18 +8,18 @@
             "ca",
             "cat"
         ],
-        "completion": 76,
+        "completion": " 76%  52.13%",
         "missing": [
-            "Translate_Document",
-            "Cancel",
+            "What_Is_Apertium",
             "Format_Not_Supported",
+            "Download_File",
+            "Translate_Document",
             "Maintainer",
             "Documentation_Para",
-            "Downloads_Para",
-            "Download_File",
-            "Contact_Us",
+            "Cancel",
             "Not_Found_Error",
-            "What_Is_Apertium",
+            "Contact_Us",
+            "Downloads_Para",
             "File_Too_Large"
         ]
     },
