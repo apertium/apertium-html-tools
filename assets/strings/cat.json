@@ -8,19 +8,13 @@
             "ca",
             "cat"
         ],
-        "completion": " 76%  52.13%",
+        "completion": " 89%  56.66%",
         "missing": [
-            "What_Is_Apertium",
-            "Format_Not_Supported",
-            "Download_File",
-            "Translate_Document",
-            "Maintainer",
             "Documentation_Para",
-            "Cancel",
-            "Not_Found_Error",
+            "What_Is_Apertium",
             "Contact_Us",
             "Downloads_Para",
-            "File_Too_Large"
+            "Maintainer"
         ]
     },
     "title": "Apertium | Una plataforma lliure per a la traducció automàtica",
@@ -31,7 +25,12 @@
     "Detect_Language": "Detectar llengua",
     "detected": "detectat",
     "Instant_Translation": "Traducció instantània",
+    "Translate_Document": "Tradueix un document",
     "Not_Available": "Traducció encara no disponible!",
+    "File_Too_Large": "El fitxer és massa gran!",
+    "Cancel": "Cancel·la",
+    "Format_Not_Supported": "No es reconeix el format del document!",
+    "Download_File": "Descarga {{fileName}}",
     "Morphological_Analysis": "Anàlisi morfològic",
     "Morphological_Analysis_Help": "Tria una llengua i analitza text amb els analitzadors morfològics d'Apertium.",
     "Analyze": "Analitzar",
@@ -49,6 +48,7 @@
     "Help_Improve": "Ajuda'ns a millorar Apertium!",
     "About_Title": "En quant la web",
     "Enable_JS_Warning": "La web només funciona amb navegadors que té soport per JavaScript, si no pots <a href='http://www.enable-javascript.com/' target='_blank'>habilitar JavaScript</a>, pots provar els <a href='http://traductor.prompsit.com' target='_blank'>traductors a Prompsit</a>.",
+    "Not_Found_Error": "<b>Error 404:</b> Disculpeu, aquesta pàgina ja no existeix!",
     "About": "En quant",
     "Download": "Baixar",
     "Contact": "Contactar",
