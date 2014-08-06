@@ -29,7 +29,7 @@ if __name__ == '__main__':
     parser.add_argument('-m', '--metadataKey', default='@metadata')
     parser.add_argument('-c', '--canonicalFile', default='eng.json', help='canonical file for keys and sort order')
     parser.add_argument('-u', '--unavailableString', default='%%UNAVAILABLE%%', help='placeholder value for unavailable string (used by rebase action)')
-    parser.add_argument('-b', '--hidePlaceholderString', default=True, action='store_false', help='don\'t use strings from placeholder file for unavailable strings (used by rebase action)')
+    parser.add_argument('-b', '--hidePlaceholderString', default=False, action='store_false', help='don\'t use strings from placeholder file for unavailable strings (used by rebase action)')
     parser.add_argument('-p', '--placeholderFile', default='eng.json', help='placeholder file for missing values (used by rebase action)')
 
     args = parser.parse_args()
@@ -60,10 +60,10 @@ if __name__ == '__main__':
                 strings = []
                 for stringName, _ in canonicalStrings.items():
                     if stringName != args.metadataKey:
-                        if args.showPlaceholderString:
-                            strings.append((stringName, args.unavailableString + (' ' + placeholderStrings[stringName] if stringName in placeholderStrings else '')))
-                        else:
+                        if args.hidePlaceholderString:
                             strings.append((stringName, args.unavailableString))
+                        else:
+                            strings.append((stringName, args.unavailableString + (' ' + placeholderStrings[stringName] if stringName in placeholderStrings else '')))
 
                 strings = OrderedDict(strings)
                 strings[args.metadataKey] = defaultMetadata
@@ -82,7 +82,7 @@ if __name__ == '__main__':
                 for stringName in set(canonicalStrings.keys()) - set(strings.keys()):
                     if stringName != args.metadataKey:
                         try:
-                            strings[stringName] = args.unavailableString + (' ' + placeholderStrings[stringName] if args.showPlaceholderString else '')
+                            strings[stringName] = args.unavailableString + (' ' + placeholderStrings[stringName] if not args.hidePlaceholderString else '')
                         except Exception:
                             strings[stringName] = args.unavailableString
                             print('String %s not available in %s for placeholder in %s' % (stringName, args.placeholderFile, fname))
