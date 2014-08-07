@@ -180,7 +180,7 @@ build/fonts/fontawesome-webfont.eot: build/fonts/.d
 
 ### Images ###
 # Images just copied over
-IMAGES_ASSETS=$(shell find assets/img -type f)
+IMAGES_ASSETS=$(shell find assets/img -path '*/.svn' -prune -o -type f -print)
 IMAGES_BUILD=$(patsubst assets/%, build/%, $(IMAGES_ASSETS))
 
 build/img/%: assets/img/%
