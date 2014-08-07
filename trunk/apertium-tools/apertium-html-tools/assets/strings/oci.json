@@ -1,21 +1,21 @@
 {
     "@metadata": {
         "authors": [
-            "2014-05-17"
+            "Cédric VALMARY"
         ],
-        "last-updated": "totenoc.org",
+        "last-updated": "2014-05-17",
         "locale": [
             "oc",
             "oci"
         ],
         "completion": " 87% 103.84%",
         "missing": [
+            "Not_Found_Error",
             "Format_Not_Supported",
             "Download_File",
-            "Translate_Document",
+            "File_Too_Large",
             "Cancel",
-            "Not_Found_Error",
-            "File_Too_Large"
+            "Translate_Document"
         ]
     },
     "title": "Apertium | Una plataforma liura/open source de traduccion automatica",
