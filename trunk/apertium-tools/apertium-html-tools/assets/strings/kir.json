@@ -9,17 +9,17 @@
             "ky",
             "kir"
         ],
-        "completion": " 89%  34.97%",
+        "completion": " 89%  34.60%",
         "missing": [
             "Contact_Para",
             "Downloads_Para",
-            "Format_Not_Supported",
             "What_Is_Apertium",
+            "Format_Not_Supported",
             "Documentation_Para"
         ]
     },
-    "title": "Apertium | A free/open-source machine translation platform",
-    "tagline": "A free/open-source machine translation platform",
+    "title": "Apertium | Эркин/ачык машинелик котормо платформасы",
+    "tagline": "Эркин/ачык машинелик котормо платформасы",
     "Translation": "Которуу",
     "Translation_Help": "Тилдерди тандап, текстиңизди Апертиумдун жардамы менен которуу!",
     "Translate": "Котор",
