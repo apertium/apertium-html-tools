@@ -387,7 +387,6 @@ function translateDoc() {
 
                 var xhr = new XMLHttpRequest({mozSystem: true});
                 xhr.addEventListener('progress', updateProgressBar, false);
-                xhr.responseType = 'blob';
                 if(xhr.upload)
                     xhr.upload.onprogress = updateProgressBar;
                 xhr.onreadystatechange = function (ev) {
@@ -416,6 +415,7 @@ function translateDoc() {
                 updateProgressBar({'loaded': 0, 'total': 1});
                 $('div#fileUploadProgress').parent().fadeIn('fast');
                 xhr.open('post', config.APY_URL + '/translateDoc', true);
+                xhr.responseType = 'blob';
                 var fileData = new FormData();
                 fileData.append('langpair', curSrcLang + '|' + curDstLang);
                 fileData.append('file', file);
