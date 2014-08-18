@@ -425,15 +425,15 @@ function translateDoc() {
             else
                 docTranslateError(dynamicLocalizations['Format_Not_Supported'], 'Format_Not_Supported');
         }
-
-        function updateProgressBar(ev) {
-            var done = ev.position || ev.loaded, total = ev.totalSize || ev.total;
-            var percentDone = Math.floor(done / total * 1000) / 10;
-            $('div#fileUploadProgress').attr('aria-valuenow', percentDone).css('width', percentDone + '%');
-        }
     }
     else
         docTranslateError(dynamicLocalizations['Not_Available']);
+
+    function updateProgressBar(ev) {
+        var done = ev.position || ev.loaded, total = ev.totalSize || ev.total;
+        var percentDone = Math.floor(done / total * 1000) / 10;
+        $('div#fileUploadProgress').attr('aria-valuenow', percentDone).css('width', percentDone + '%');
+    }
 
     function docTranslateError(errorMessage, errorTextName) {
         $('div#fileUploadProgress').parent().fadeOut('fast', function () {
@@ -509,4 +509,3 @@ function muteLanguages() {
         $(element).prop('disabled', !pairs[curSrcLang] || pairs[curSrcLang].indexOf($(element).val()) === -1);
     });
 }
-
