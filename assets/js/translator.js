@@ -40,7 +40,7 @@ if(modeEnabled('translation')) {
         });
 
         var timer,
-	    lastPunct=false, punct = [ 46, 33, 58, 63, 47, 45, 190, 171, 49, ],
+	    lastPunct=false, punct = [ 46, 33, 58, 63, 47, 45, 190, 171, 49 ],
 	    timeoutPunct=1000, timeoutOther=3000;
         $('#originalText').on('keyup paste', function (event) {
             if(lastPunct && event.keyCode == 32 || event.keyCode == 13) {
