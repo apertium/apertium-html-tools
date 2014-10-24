@@ -40,25 +40,27 @@ if(modeEnabled('translation')) {
         });
 
         var timer,
-	    lastPunct=false, punct = [ 46, 33, 58, 63, 47, 45, 190, 171, 49 ],
-	    timeoutPunct=1000, timeoutOther=3000;
+            lastPunct = false, punct = [46, 33, 58, 63, 47, 45, 190, 171, 49],
+            timeoutPunct = 1000, timeoutOther = 3000;
         $('#originalText').on('keyup paste', function (event) {
-            if(lastPunct && event.keyCode == 32 || event.keyCode == 13) {
+            if(lastPunct && event.keyCode === 32 || event.keyCode === 13) {
                 // Don't override the short timeout for simple space-after-punctuation
                 return;
             }
-            if(timer && $('#instantTranslation').prop('checked')) {
+
+            if(timer && $('#instantTranslation').prop('checked'))
                 clearTimeout(timer);
-	    }
-	    var timeout;
-	    if(Array.indexOf(punct, event.keyCode) != -1) {
-	        timeout = timeoutPunct;
-	        lastPunct = true;
-	    }
-	    else {
-	        timeout = timeoutOther;
-	        lastPunct = false;
-	    }
+
+            var timeout;
+            if(punct.indexOf(event.keyCode) !== -1) {
+                timeout = timeoutPunct;
+                lastPunct = true;
+            }
+            else {
+                timeout = timeoutOther;
+                lastPunct = false;
+            }
+
             timer = setTimeout(function () {
                 if($('#instantTranslation').prop('checked')) {
                     translateText();
