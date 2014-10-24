@@ -417,11 +417,18 @@
                                 </a>
                             </div>
                         </div>
-
-                        <div class="center-block">
-                            <a href="http://creativecommons.org/licenses/by-sa/3.0/">
-                                <img alt="Creative Commons licence" data-src="./img/cc-by-sa-3.0-88x31.png">
-                            </a>
+                        <div class="row">
+                            <div style="display: inline-block; margin: 0 .5em 0 .5em">
+                                <a href="http://creativecommons.org/licenses/by-sa/3.0/">
+                                    <img alt="Creative Commons licence" data-src="./img/cc-by-sa-3.0-88x31.png">
+                                </a>
+                            </div>
+                            
+                            <div style="display: inline-block; margin: 0 .5em 0 .5em">
+                                <a href="https://www.gnu.org/licenses/gpl.html">
+                                    <img alt="GNU GPL License" data-src="./img/gplv3-88x31.png">
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
