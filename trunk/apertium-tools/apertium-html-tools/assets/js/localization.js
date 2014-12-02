@@ -287,6 +287,9 @@ function localizeStrings(stringsFresh) {
             }
         }
 
+        if(localizations['Download_File'] && $('#fileDownloadText').text().length)
+            $('span#fileDownloadText').text(localizations['Download_File'].replace('{{fileName}}', $('a#fileDownload').attr('download')));
+
         $.each(dynamicLocalizations, function (key, value) {
             if(localizations[key] && localizations[key].lastIndexOf('%%UNAVAILABLE%%') !== 0)
                 dynamicLocalizations[key] = localizations[key];
