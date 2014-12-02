@@ -3,7 +3,7 @@
         "authors": [
             "unhammer"
         ],
-        "last-updated": "2014-08-04",
+        "last-updated": "2014-12-02",
         "locale": [
             "nn",
             "nno"
@@ -20,6 +20,7 @@
     "detected": "gjenkjent",
     "Instant_Translation": "Omset medan du skriv",
     "Translate_Document": "Omset eit dokument",
+    "Drop_Document": "Slepp eit dokument her",
     "Not_Available": "Omsetjing ikkje tilgjengeleg!",
     "File_Too_Large": "Fila er for stor!",
     "Cancel": "Avbryt",

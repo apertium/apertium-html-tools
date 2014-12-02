@@ -3,7 +3,7 @@
         "authors": [
             "sushain97"
         ],
-        "last-updated": "2014-05-02",
+        "last-updated": "2014-12-02",
         "locale": [
             "en",
             "eng"
@@ -20,6 +20,7 @@
     "detected": "detected",
     "Instant_Translation": "Instant translation",
     "Translate_Document": "Translate a document",
+    "Drop_Document": "Drop a document",
     "Not_Available": "Translation not yet available!",
     "File_Too_Large": "File is too large!",
     "Cancel": "Cancel",
