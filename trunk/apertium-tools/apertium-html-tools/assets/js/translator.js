@@ -2,6 +2,7 @@ var pairs = {};
 var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
+var droppedFile;
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
@@ -137,13 +138,20 @@ if(modeEnabled('translation')) {
 
         $('button#translateDoc').click(function () {
             $('div#translateText').fadeOut('fast', function () {
+                $('#fileInput').show();
+                $('div#fileName').hide();
                 $('div#translateDoc').fadeIn('fast');
             });
         });
 
         $('button#cancelDocTranslate').click(function () {
+            droppedFile = undefined;
             $('div#translateDoc').fadeOut('fast', function () {
+                $('a#fileDownload').hide();
+                $('span#uploadError').hide();
                 $('div#translateText').fadeIn('fast');
+                $('input#fileInput').wrap('<form>').closest('form').get(0).reset();
+                $('input#fileInput').unwrap();
             });
         });
 
@@ -152,6 +160,47 @@ if(modeEnabled('translation')) {
                 $('span#uploadError').fadeOut('fast');
             });
             $('a#fileDownload').fadeOut('fast');
+        });
+
+        $('body').on('dragover', function (ev) { 
+            ev.preventDefault(); 
+            return false; 
+        });
+        $('body').on('dragenter', function (ev) {
+            ev.preventDefault();
+            if(!$('div#fileDropBackdrop:visible').length) {
+                $('div#fileDropBackdrop').fadeTo(400, 0.5);
+                $('div#fileDropMask').on('drop', function (ev) { 
+                    ev.preventDefault();
+                    droppedFile = ev.originalEvent.dataTransfer.files[0];
+
+                    $('#fileDropBackdrop').fadeOut();
+                    if(!$('div#translateDoc').is(":visible")) {
+                        $('div#translateText').fadeOut('fast', function () {
+                            $('input#fileInput').hide();
+                            $('div#translateDoc').fadeIn('fast');
+                        
+                            if(droppedFile) {
+                                $('div#fileName').show().text(droppedFile.name);
+                                translateDoc();
+                            }
+                        });
+                    }
+                    else
+                        $('input#fileInput').fadeOut('fast', function () {
+                            if(droppedFile) {
+                                $('div#fileName').show().text(droppedFile.name);
+                                translateDoc();
+                            }
+                        });
+
+                    return false;
+                });
+                $('div#fileDropMask').on('dragleave', function () {
+                    $('div#fileDropBackdrop').fadeOut();
+                });
+            }
+            return false;
         });
     });
 }
@@ -382,9 +431,16 @@ function translateText() {
 }
 
 function translateDoc() {
-    if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1 && $('input#fileInput')[0].files.length === 1) {
-        if($('input#fileInput')[0].files.length !== 0 && $('input#fileInput')[0].files[0].length !== 0)
-        var file = $('input#fileInput')[0].files[0];
+    var validPair = pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1,
+        validFile = droppedFile !== undefined || $('input#fileInput')[0].files.length === 1;
+    if(validPair && validFile) {
+        if(droppedFile === undefined) {
+            if($('input#fileInput')[0].files.length !== 0 && $('input#fileInput')[0].files[0].length !== 0)
+                var file = $('input#fileInput')[0].files[0];
+        }
+        else
+            var file = droppedFile;
+        
         if(file.size > 32E6)
             docTranslateError(dynamicLocalizations['File_Too_Large'], 'File_Too_Large');
         else {
