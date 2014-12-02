@@ -201,10 +201,19 @@
                                         </div>
                                   </div>
                               </div>
+
+                              <div class="modal-backdrop" id="fileDropBackdrop" style="display: none; z-index: 1000;">
+                                <div class="well well-lg" style="text-align: center; position: absolute; top: 35%; left: 35%;">
+                                    <h1 style="font-weight: bold;">Drop your document</h1>
+                                </div>
+                                <div class="modal-backdrop" id="fileDropMask" style="opacity: 0; z-index: 10000;"></div>
+                              </div>
+
                               <div id="translateDoc" style="display: none;">
                                   <div class="col-sm-6">
                                       <div class="well well-lg">
                                           <input type="file" id="fileInput">
+                                          <div class="lead" id="fileName" style="display: none;"></div>
                                           <div style="min-height: 50px; margin-top: 1em;">
                                               <span id="uploadError" class="text-danger lead" style="display: none"></span>
                                               <div class="progress progress-striped active" style="display: none; margin-bottom: 0px;">
@@ -423,7 +432,7 @@
                                     <img alt="Creative Commons licence" data-src="./img/cc-by-sa-3.0-88x31.png">
                                 </a>
                             </div>
-                            
+
                             <div style="display: inline-block; margin: 0 .5em 0 .5em">
                                 <a href="https://www.gnu.org/licenses/gpl.html">
                                     <img alt="GNU GPL License" data-src="./img/gplv3-88x31.png">
