@@ -8,8 +8,10 @@
             "de",
             "deu"
         ],
-        "completion": "100% 100.00%",
-        "missing": []
+        "completion": " 98% 112.76%",
+        "missing": [
+            "Drop_Document"
+        ]
     },
     "title": "Apertium | Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "tagline": "Eine freie/quelloffene Plattform für maschinelle Übersetzungen",

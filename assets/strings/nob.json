@@ -8,8 +8,10 @@
             "nb",
             "nob"
         ],
-        "completion": "100% 100.79%",
-        "missing": []
+        "completion": " 98% 100.40%",
+        "missing": [
+            "Drop_Document"
+        ]
     },
     "title": "Apertium | En fri/åpen kildekode maskinoversettelsesplattform",
     "tagline": "En fri/åpen kildekode maskinoversettelsesplattform",

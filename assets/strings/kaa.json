@@ -7,29 +7,9 @@
         "locale": [
             "kaa"
         ],
-        "completion": " 54%  16.52%",
+        "completion": " 98% 107.44%",
         "missing": [
-            "Documentation",
-            "What_Is_Apertium",
-            "Download",
-            "Contact_Para",
-            "Documentation_Para",
-            "Instant_Translation",
-            "Cancel",
-            "Enable_JS_Warning",
-            "Contact",
-            "Maintainer",
-            "About_Title",
-            "About_Apertium",
-            "Format_Not_Supported",
-            "Translate_Document",
-            "File_Too_Large",
-            "Not_Found_Error",
-            "Downloads_Para",
-            "Download_File",
-            "Apertium_Downloads",
-            "Contact_Us",
-            "About"
+            "Drop_Document"
         ]
     },
     "title": "Apertium | Biypul/ashıq mashinalı awdarmalaw platforması",
