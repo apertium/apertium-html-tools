@@ -9,14 +9,15 @@
             "kk",
             "kaz"
         ],
-        "completion": " 87%  95.31%",
+        "completion": " 85%  94.94%",
         "missing": [
-            "Format_Not_Supported",
-            "Download_File",
             "Translate_Document",
             "Cancel",
-            "Not_Found_Error",
-            "File_Too_Large"
+            "Download_File",
+            "File_Too_Large",
+            "Format_Not_Supported",
+            "Drop_Document",
+            "Not_Found_Error"
         ]
     },
     "title": "Apertium | A free/open-source machine translation platform",

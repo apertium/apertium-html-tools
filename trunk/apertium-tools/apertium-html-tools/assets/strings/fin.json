@@ -9,8 +9,10 @@
             "fi",
             "fin"
         ],
-        "completion": "100%  93.01%",
-        "missing": []
+        "completion": " 98%  92.64%",
+        "missing": [
+            "Drop_Document"
+        ]
     },
     "title": "Apertium – Vapaa konekäännösalusta",
     "tagline": "Vapaa avoimen lähdekoodin konekäännösalusta",

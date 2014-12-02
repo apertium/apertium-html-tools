@@ -8,14 +8,15 @@
             "oc",
             "oci"
         ],
-        "completion": " 87% 103.84%",
+        "completion": " 85% 103.43%",
         "missing": [
-            "Not_Found_Error",
-            "Format_Not_Supported",
+            "Translate_Document",
+            "Cancel",
             "Download_File",
             "File_Too_Large",
-            "Cancel",
-            "Translate_Document"
+            "Format_Not_Supported",
+            "Drop_Document",
+            "Not_Found_Error"
         ]
     },
     "title": "Apertium | Una plataforma liura/open source de traduccion automatica",

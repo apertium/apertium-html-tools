@@ -8,14 +8,15 @@
             "ug",
             "uig"
         ],
-        "completion": " 87%  96.03%",
+        "completion": " 85%  95.65%",
         "missing": [
-            "Format_Not_Supported",
-            "Download_File",
             "Translate_Document",
             "Cancel",
-            "Not_Found_Error",
-            "File_Too_Large"
+            "Download_File",
+            "File_Too_Large",
+            "Format_Not_Supported",
+            "Drop_Document",
+            "Not_Found_Error"
         ]
     },
     "title": "Apertium | ھەقسىز ۋە ئوچۇق كودلۇق ماشىنا تەرجىمە سۇپىسى",
