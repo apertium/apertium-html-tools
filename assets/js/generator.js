@@ -105,6 +105,11 @@ function populateSecondaryGeneratorList() {
     $('#secondaryGeneratorMode').empty();
 
     if(group) {
+        if(group.length <= 1)
+            $('#secondaryGeneratorMode').fadeOut('fast');
+        else
+            $('#secondaryGeneratorMode').fadeIn('fast');
+
         group.sort(function (a, b) {
             return a.length - b.length;
         });
@@ -114,9 +119,9 @@ function populateSecondaryGeneratorList() {
             var langDisplay = lang.indexOf('-') !== -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
             $('#secondaryGeneratorMode').append($('<option></option').val(lang).text(langDisplay));
         }
-
-        $('#secondaryGeneratorMode').prop('disabled', group.length <= 1);
     }
+    else
+        $('#secondaryGeneratorMode').fadeOut('fast');
 }
 
 function generate() {

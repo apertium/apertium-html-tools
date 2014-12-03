@@ -105,6 +105,11 @@ function populateSecondaryAnalyzerList() {
     $('#secondaryAnalyzerMode').empty();
 
     if(group) {
+        if(group.length <= 1)
+            $('#secondaryAnalyzerMode').fadeOut('fast');
+        else
+            $('#secondaryAnalyzerMode').fadeIn('fast');
+
         group.sort(function (a, b) {
             return a.length - b.length;
         });
@@ -114,9 +119,9 @@ function populateSecondaryAnalyzerList() {
             var langDisplay = lang.indexOf('-') !== -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
             $('#secondaryAnalyzerMode').append($('<option></option').val(lang).text(langDisplay));
         }
-
-        $('#secondaryAnalyzerMode').prop('disabled', group.length <= 1);
     }
+    else
+        $('#secondaryAnalyzerMode').fadeOut('fast');
 }
 
 function analyze() {
