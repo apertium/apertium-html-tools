@@ -54,6 +54,8 @@ $(document).ready(function () {
         });
     });
 
+    $(window).on('hashchange', persistChoices);
+
     if(config.ALLOWED_LANGS)
         $.each(config.ALLOWED_LANGS.slice(0), function () {
             if(iso639Codes[this])

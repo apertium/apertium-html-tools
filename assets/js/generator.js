@@ -115,7 +115,7 @@ function populateSecondaryGeneratorList() {
             $('#secondaryGeneratorMode').append($('<option></option').val(lang).text(langDisplay));
         }
 
-        $('#secondaryGeneratorMode').prop('disabled', !(group.length > 1));
+        $('#secondaryGeneratorMode').prop('disabled', group.length <= 1);
     }
 }
 

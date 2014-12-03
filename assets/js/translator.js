@@ -162,15 +162,15 @@ if(modeEnabled('translation')) {
             $('a#fileDownload').fadeOut('fast');
         });
 
-        $('body').on('dragover', function (ev) { 
-            ev.preventDefault(); 
-            return false; 
+        $('body').on('dragover', function (ev) {
+            ev.preventDefault();
+            return false;
         });
         $('body').on('dragenter', function (ev) {
             ev.preventDefault();
             if(!$('div#fileDropBackdrop:visible').length) {
                 $('div#fileDropBackdrop').fadeTo(400, 0.5);
-                $('div#fileDropMask').on('drop', function (ev) { 
+                $('div#fileDropMask').on('drop', function (ev) {
                     ev.preventDefault();
                     droppedFile = ev.originalEvent.dataTransfer.files[0];
 
@@ -179,7 +179,7 @@ if(modeEnabled('translation')) {
                         $('div#translateText').fadeOut('fast', function () {
                             $('input#fileInput').hide();
                             $('div#translateDoc').fadeIn('fast');
-                        
+
                             if(droppedFile) {
                                 $('div#fileName').show().text(droppedFile.name);
                                 translateDoc();
@@ -261,19 +261,6 @@ function getPairs() {
 
         populateTranslationList();
         restoreChoices('translator');
-
-        var pair = getURLParam('dir');
-        if(pair) {
-            pair = pair.split('-');
-            pair[0] = iso639CodesInverse[pair[0]] ? iso639CodesInverse[pair[0]] : pair[0];
-            pair[1] = iso639CodesInverse[pair[1]] ? iso639CodesInverse[pair[1]] : pair[1];
-            if(pairs[pair[0]] && pairs[pair[0]].indexOf(pair[1]) !== -1) {
-                handleNewCurrentLang(curSrcLang = pair[0], recentSrcLangs, 'srcLang');
-                handleNewCurrentLang(curDstLang = pair[1], recentDstLangs, 'dstLang');
-            }
-        }
-
-        refreshLangList();
     }
 
     return deferred.promise();
@@ -440,7 +427,7 @@ function translateDoc() {
         }
         else
             var file = droppedFile;
-        
+
         if(file.size > 32E6)
             docTranslateError(dynamicLocalizations['File_Too_Large'], 'File_Too_Large');
         else {
