@@ -55,7 +55,7 @@ $(document).ready(function () {
         localizeStrings(stringsFresh);
 
         if(window.history.replaceState && window.location.pathname !== '/index.debug.html') {
-            var urlParams = [], urlParamNames = ['dir'];
+            var urlParams = [], urlParamNames = ['dir', 'choice'];
             $.each(urlParamNames, function () {
                 var urlParam = getURLParam(this);
                 if(urlParam)
@@ -332,4 +332,3 @@ function getLangByCode(code) {
     else
         return code;
 }
-

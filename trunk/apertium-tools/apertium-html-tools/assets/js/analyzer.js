@@ -115,7 +115,7 @@ function populateSecondaryAnalyzerList() {
             $('#secondaryAnalyzerMode').append($('<option></option').val(lang).text(langDisplay));
         }
 
-        $('#secondaryAnalyzerMode').prop('disabled', !(group.length > 1));
+        $('#secondaryAnalyzerMode').prop('disabled', group.length <= 1);
     }
 }
 
