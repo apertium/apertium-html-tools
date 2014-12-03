@@ -3,15 +3,13 @@
         "authors": [
             "roybaer"
         ],
-        "last-updated": "2014-08-21",
+        "last-updated": "2014-12-03",
         "locale": [
             "de",
             "deu"
         ],
-        "completion": " 98% 112.76%",
-        "missing": [
-            "Drop_Document"
-        ]
+        "completion": " 100% 100.00%",
+        "missing": []
     },
     "title": "Apertium | Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "tagline": "Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
@@ -22,6 +20,7 @@
     "detected": "erkannt",
     "Instant_Translation": "Sofort übersetzen",
     "Translate_Document": "Ein Dokument übersetzen",
+    "Drop_Document": "Legen Sie hier Ihr Dokument ab",
     "Not_Available": "Übersetzung noch nicht verfügbar!",
     "File_Too_Large": "Die Datei ist zu groß!",
     "Cancel": "Abbrechen",
