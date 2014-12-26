@@ -12,15 +12,14 @@ DEFAULT_MODE = translation
 
 SHOW_NAVBAR = False
 
-PIWIK_SITEID = 1
-PIWIK_URL = http://apertium.org/piwik
+PIWIK_SITEID = #1
+PIWIK_URL = #http://apertium.org/piwik
 
 # Expiry times are in hours (set them to 0 for no caching)
 LIST_REQUEST_CACHE_EXPIRY = 24
 LANGUAGE_NAME_CACHE_EXPIRY = 24
 LOCALIZATION_CACHE_EXPIRY = 24
 AVAILABLE_LOCALES_CACHE_EXPIRY = 24
-
 
 # Localisation replacement strings, see assets/strings/*.json for usage:
 [REPLACEMENTS]
