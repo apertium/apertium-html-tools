@@ -1,0 +1,102 @@
+Index: assets/js/localization.js
+===================================================================
+--- assets/js/localization.js	(revision 58154)
++++ assets/js/localization.js	(working copy)
+@@ -279,7 +279,11 @@
+                 });
+                 try {
+                     if(text.lastIndexOf('%%UNAVAILABLE%%') !== 0)
+-                        $('[data-text=' + textId + ']').html(text);
++                        var elem = $('[data-text=' + textId + ']');
++                        if(elem.attr('data-textattr'))
++                            elem.attr(elem.attr('data-textattr'), text);
++                        else
++                            elem.html(text);
+                 }
+                 catch(e) {
+                     console.error('Ignored "' + e + "\" when calling $('[data-text=' + " + textId + " + ']').html(" + text + ")"); // Only in IE8.
+Index: assets/strings/eng.json
+===================================================================
+--- assets/strings/eng.json	(revision 58154)
++++ assets/strings/eng.json	(working copy)
+@@ -13,6 +13,7 @@
+     },
+     "title": "Apertium | A free/open-source machine translation platform",
+     "tagline": "A free/open-source machine translation platform",
++    "description": "Apertium is a rule-based machine translation platform. It is free software and released under the terms of the GNU General Public License.",
+     "Translation": "Translation",
+     "Translation_Help": "Choose two languages and translate your text using Apertium's translation platform!",
+     "Translate": "Translate",
+Index: index.html.in
+===================================================================
+--- index.html.in	(revision 58154)
++++ index.html.in	(working copy)
+@@ -6,7 +6,7 @@
+         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+-        <meta name="description" content="Apertium is a rule-based machine translation platform. It is free software and released under the terms of the GNU General Public License.">
++        <meta name="description"  data-textattr="content" data-text="description" content="Apertium is a rule-based machine translation platform. It is free software and released under the terms of the GNU General Public License.">
+         <link rel="shortcut icon" href="./img/favicon.ico">
+ 
+         <!-- <link type="text/css" rel="stylesheet" href="./css/icon-globe.css"> -->
+Index: localise-html.py
+===================================================================
+--- localise-html.py	(revision 58154)
++++ localise-html.py	(working copy)
+@@ -7,7 +7,7 @@
+ from html.parser import HTMLParser
+ from sys import stdin, stderr, argv
+ from os import listdir, path
+-import json
++import json, re
+ 
+ rtl_languages = ['heb', 'ara', 'pes', 'urd', 'uig']
+ 
+@@ -35,20 +35,35 @@
+ 
+     def handle_starttag(self, tag, attrs):
+         """This is where localisation happens"""
+-        for attr in attrs:
+-            if attr[0]=="data-text" and attr[1] in self.locale:
+-                text = self.locale[attr[1]]
+-                if text.startswith("%%UNAVAILABLE"):
+-                    text = self.fallback_locale[attr[1]]
+-                self.data_text = self.run_replacements(text)
++        attr_localization = list(filter(lambda x: x[0] == "data-textattr", attrs))
++        if not attr_localization:
++            for attr in attrs:
++                if attr[0] == "data-text" and attr[1] in self.locale:
++                    text = self.locale[attr[1]]
++                    if text.startswith("%%UNAVAILABLE"):
++                        text = self.fallback_locale[attr[1]]
++                    self.data_text = self.run_replacements(text)
+ 
+-        """This is where html's dir attribute is set to ltr or rtl"""
+-        if tag == "html":
+-            text = self.get_starttag_text()
+-            self.p('<html dir="%s"' % ('rtl' if self.localename in rtl_languages else 'ltr') + text[text.index('html') + 4:])
++            """This is where html's dir attribute is set to ltr or rtl"""
++            if tag == "html":
++                text = self.get_starttag_text()
++                self.p('<html dir="%s"' % ('rtl' if self.localename in rtl_languages else 'ltr') + text[text.index('html') + 4:])
++            else:
++                self.p(self.get_starttag_text())
+         else:
+-            self.p(self.get_starttag_text())
++            attr_name, attr_value = attr_localization[0][1], None
++            for attr in attrs:
++                if attr[0] == "data-text" and attr[1] in self.locale:
++                    text = self.locale[attr[1]]
++                    if text.startswith("%%UNAVAILABLE"):
++                        text = self.fallback_locale[attr[1]]
++                    attr_value = self.run_replacements(text)
+ 
++            tag_text = self.get_starttag_text()
++            if attr_value:
++                tag_text = re.sub(r'''%s=["'].*?["']''' % attr_name, '%s="%s"' % (attr_name, attr_value), tag_text)
++            self.p(tag_text)
++
+     def handle_endtag(self, tag):
+         if self.data_text:
+             self.p(self.data_text)
