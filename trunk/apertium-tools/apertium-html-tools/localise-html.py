@@ -7,7 +7,7 @@ import argparse
 from html.parser import HTMLParser
 from sys import stdin, stderr, argv
 from os import listdir, path
-import json
+import json, re
 
 rtl_languages = ['heb', 'ara', 'pes', 'urd', 'uig']
 
@@ -35,19 +35,34 @@ class DataTextHTMLParser(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         """This is where localisation happens"""
-        for attr in attrs:
-            if attr[0]=="data-text" and attr[1] in self.locale:
-                text = self.locale[attr[1]]
-                if text.startswith("%%UNAVAILABLE"):
-                    text = self.fallback_locale[attr[1]]
-                self.data_text = self.run_replacements(text)
+        attr_localization = list(filter(lambda x: x[0] == "data-textattr", attrs))
+        if not attr_localization:
+            for attr in attrs:
+                if attr[0] == "data-text" and attr[1] in self.locale:
+                    text = self.locale[attr[1]]
+                    if text.startswith("%%UNAVAILABLE"):
+                        text = self.fallback_locale[attr[1]]
+                    self.data_text = self.run_replacements(text)
 
-        """This is where html's dir attribute is set to ltr or rtl"""
-        if tag == "html":
-            text = self.get_starttag_text()
-            self.p('<html dir="%s"' % ('rtl' if self.localename in rtl_languages else 'ltr') + text[text.index('html') + 4:])
+            """This is where html's dir attribute is set to ltr or rtl"""
+            if tag == "html":
+                text = self.get_starttag_text()
+                self.p('<html dir="%s"' % ('rtl' if self.localename in rtl_languages else 'ltr') + text[text.index('html') + 4:])
+            else:
+                self.p(self.get_starttag_text())
         else:
-            self.p(self.get_starttag_text())
+            attr_name, attr_value = attr_localization[0][1], None
+            for attr in attrs:
+                if attr[0] == "data-text" and attr[1] in self.locale:
+                    text = self.locale[attr[1]]
+                    if text.startswith("%%UNAVAILABLE"):
+                        text = self.fallback_locale[attr[1]]
+                    attr_value = self.run_replacements(text)
+
+            tag_text = self.get_starttag_text()
+            if attr_value:
+                tag_text = re.sub(r'''%s=["'].*?["']''' % attr_name, '%s="%s"' % (attr_name, attr_value), tag_text)
+            self.p(tag_text)
 
     def handle_endtag(self, tag):
         if self.data_text:

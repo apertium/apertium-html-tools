@@ -279,7 +279,11 @@ function localizeStrings(stringsFresh) {
                 });
                 try {
                     if(text.lastIndexOf('%%UNAVAILABLE%%') !== 0)
-                        $('[data-text=' + textId + ']').html(text);
+                        var elem = $('[data-text=' + textId + ']');
+                        if(elem.attr('data-textattr'))
+                            elem.attr(elem.attr('data-textattr'), text);
+                        else
+                            elem.html(text);
                 }
                 catch(e) {
                     console.error('Ignored "' + e + "\" when calling $('[data-text=' + " + textId + " + ']').html(" + text + ")"); // Only in IE8.

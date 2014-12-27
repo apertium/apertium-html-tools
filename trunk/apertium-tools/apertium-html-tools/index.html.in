@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="description" content="Apertium is a rule-based machine translation platform. It is free software and released under the terms of the GNU General Public License.">
+        <meta name="description"  data-textattr="content" data-text="description" content="Apertium is a rule-based machine translation platform. It is free software and released under the terms of the GNU General Public License.">
         <link rel="shortcut icon" href="./img/favicon.ico">
 
         <!-- <link type="text/css" rel="stylesheet" href="./css/icon-globe.css"> -->
