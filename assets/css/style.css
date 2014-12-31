@@ -293,3 +293,26 @@ html[dir=rtl] .pull-left:not(#rtlChecker) {
     float: right !important;
 }
 
+#spellcheckerInput {
+    overflow: auto;
+    height: 131px;
+    display: inline-block;
+}
+
+.spellcheckVisible .spellError {
+    border-bottom: 1px solid #f00;
+}
+
+.popover-content {
+    padding: 0;
+}
+
+.list-group {
+    margin-bottom: 0;
+}
+
+.list-group-item {
+    border: 0;
+    padding: 4px 10px;
+    cursor: pointer;
+}
