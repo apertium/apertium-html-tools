@@ -1,0 +1,64 @@
+/* General */
+
+.localeGlobe {
+    color: rgb(255, 255, 255);
+}
+
+.helpMessage {
+    background-color: rgba(245, 245, 245, .6);
+}
+
+.clearButton {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.clearButton:hover, .clearButton:focus {
+    color: #000;
+    background-color: #EEE;
+}
+
+/* Navbar */
+
+.apertiumLogo {
+    color: gray;
+}
+
+.apertiumSubLogo {
+    color: orange;
+}
+
+p.tagline {
+    color: rgb(255, 255, 255);
+}
+
+/* Translation */
+
+.notAvailable {
+    color: #b94a48;
+}
+
+.languageName:not(.text-muted) {
+    color: #333333;
+}
+
+.languageName:hover:not(.text-muted) {
+    color: #ffffff;
+    background-color: #446e9b;
+}
+
+button.disabledLang {
+    color: gray !important;
+}
+
+/* Analysis */
+
+.noAnalysis {
+    color: #8b0000;
+}
+
+/* No JS Banner */
+
+/* Footer */
+
+/* RTL Stuff */
+

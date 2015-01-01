@@ -4,7 +4,7 @@ debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/
 js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js debugjs
 debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/persistence.js build/js/caching.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
 css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css debugcss
-debugcss: build/css/bootstrap.css build/css/style.css
+debugcss: build/css/bootstrap.css build/css/style.css build/css/colors.css
 html: build/index.html build/index.debug.html build/not-found.html
 fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf build/fonts/fontawesome-webfont.svg build/fonts/fontawesome-webfont.eot
 
@@ -149,7 +149,7 @@ build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.HTML_URL
 .INTERMEDIATE: build/.HTML_URL build/.PIWIK_SITEID build/.PIWIK_URL
 
 ### CSS ###
-build/css/all.css: assets/css/bootstrap.css assets/css/style.css build/css/.d
+build/css/all.css: assets/css/bootstrap.css assets/css/style.css assets/css/colors.css build/css/.d
 	cat $^ > $@
 
 build/css/min.css: build/css/all.css
