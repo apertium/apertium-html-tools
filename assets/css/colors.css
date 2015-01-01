@@ -4,10 +4,6 @@
     color: rgb(255, 255, 255);
 }
 
-.helpMessage {
-    background-color: rgba(245, 245, 245, .6);
-}
-
 .clearButton {
     background-color: rgba(0, 0, 0, 0);
 }
@@ -33,10 +29,6 @@ p.tagline {
 
 /* Translation */
 
-.notAvailable {
-    color: #8B0000;
-}
-
 .languageName:not(.text-muted) {
     color: #333333;
 }
@@ -48,12 +40,6 @@ p.tagline {
 
 button.disabledLang {
     color: gray !important;
-}
-
-/* Analysis */
-
-.noAnalysis {
-    color: #8B0000;
 }
 
 /* No JS Banner */
