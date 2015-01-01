@@ -34,7 +34,7 @@ p.tagline {
 /* Translation */
 
 .notAvailable {
-    color: #b94a48;
+    color: #8B0000;
 }
 
 .languageName:not(.text-muted) {
@@ -42,7 +42,8 @@ p.tagline {
 }
 
 .languageName:hover:not(.text-muted) {
-    background-color: #EEE;
+    color: #FFFFFF;
+    background-color: #446E9B;
 }
 
 button.disabledLang {
@@ -52,7 +53,7 @@ button.disabledLang {
 /* Analysis */
 
 .noAnalysis {
-    color: #8b0000;
+    color: #8B0000;
 }
 
 /* No JS Banner */
