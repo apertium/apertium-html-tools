@@ -42,8 +42,7 @@ p.tagline {
 }
 
 .languageName:hover:not(.text-muted) {
-    color: #ffffff;
-    background-color: #446e9b;
+    background-color: #EEE;
 }
 
 button.disabledLang {
