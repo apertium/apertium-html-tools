@@ -9,7 +9,7 @@
 }
 
 .clearButton:hover, .clearButton:focus {
-    color: #000;
+    color: black;
     background-color: #EEE;
 }
 
@@ -24,17 +24,13 @@
 }
 
 p.tagline {
-    color: rgb(255, 255, 255);
+    color: white;
 }
 
 /* Translation */
 
-.languageName:not(.text-muted) {
-    color: #333333;
-}
-
 .languageName:hover:not(.text-muted) {
-    color: #FFFFFF;
+    color: white;
     background-color: #446E9B;
 }
 
