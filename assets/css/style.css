@@ -170,7 +170,6 @@ html[dir=rtl] .languageName {
 
 .languageName:hover:not(.text-muted) {
     cursor: pointer;
-    text-decoration: underline;
     color: white;
     background-color: #446E9B;
 }

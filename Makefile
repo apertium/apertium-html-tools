@@ -153,15 +153,7 @@ build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.HTML_URL
 
 ### CSS ###
 
-THEMES= \
-	cerulean \
-	cosmo \
-	cyborg \
-	darkly \
-	journal \
-	lumen \
-	paper \
-	readable
+THEMES= cerulean cosmo cyborg darkly journal lumen paper readable sandstone simplex slate spacelab superhero united yeti
 
 $(THEMES): % : all build/css/bootstrap.%.css build/css/.d
 
@@ -176,7 +168,7 @@ build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/b
 build/css/min.css: build/css/all.css
 	cp $< $@
 
-build/css/style.css: assets/css/style.css $(if $(theme), assets/css/style.$(theme).css, ) build/css/.d
+build/css/style.css: assets/css/style.css $(if $(theme), assets/css/themes/style.$(theme).css, ) build/css/.d
 	cat $^ > $@
 
 build/css/font-awesome.min.css: build/css/.d

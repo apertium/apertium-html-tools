@@ -1,0 +1,21 @@
+.clearButton {
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+.languageName:not(.text-muted) {
+    color: #375A7F;
+}
+
+.languageName:hover:not(.text-muted) {
+    background-color: #0CE3AC;
+}
+
+.apertiumLogo {
+    color: whitesmoke;
+}
+
+p.tagline {
+    margin: 10px 0px 10px;
+}
+
