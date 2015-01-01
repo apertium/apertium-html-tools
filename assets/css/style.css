@@ -31,6 +31,7 @@ h2 {
 .localeGlobe {
     font-size: 1.8em;
     padding: 0px 5px 0px 0px;
+    color: white;
 }
 
 .localeSelect {
@@ -52,6 +53,12 @@ h2 {
     position: absolute;
     top: 3px;
     padding: 0px 3px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.clearButton:hover, .clearButton:focus {
+    color: black;
+    background-color: #EEE;
 }
 
 html[dir=ltr] .clearButton {
@@ -88,6 +95,7 @@ html[dir=rtl] .clearButton {
 .apertiumLogo {
     font-size: 2.25em;
     top: .7em;
+     color: gray;
 }
 
 .apertiumSubLogo + .apertiumLogo {
@@ -100,6 +108,7 @@ html[dir=rtl] .clearButton {
     top: 1.25em;
     left: 6.5em;
     z-index: 2;
+    color: orange;
 }
 
 html[dir=ltr] .apertiumLogo {
@@ -128,6 +137,7 @@ p.tagline {
     font-size: 18px;
     font-weight: 700;
     margin: 0px 0px 10px;
+    color: white;
 }
 
 nav.navbar div.container {
@@ -161,6 +171,8 @@ html[dir=rtl] .languageName {
 .languageName:hover:not(.text-muted) {
     cursor: pointer;
     text-decoration: underline;
+    color: white;
+    background-color: #446E9B;
 }
 
 html[dir=ltr] #srcLanguages {
@@ -189,6 +201,7 @@ html[dir=rtl] #srcLanguages {
 
 button.disabledLang {
     opacity: 1 !important;
+    color: gray !important;
 }
 
 textarea#originalText, textarea#translatedText {

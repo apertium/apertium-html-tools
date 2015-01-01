@@ -4,7 +4,7 @@ debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/
 js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js debugjs
 debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/persistence.js build/js/caching.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
 css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css debugcss
-debugcss: build/css/bootstrap.css build/css/style.css build/css/colors.css
+debugcss: build/css/bootstrap.css build/css/style.css
 html: build/index.html build/index.debug.html build/not-found.html
 fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf build/fonts/fontawesome-webfont.svg build/fonts/fontawesome-webfont.eot
 
@@ -157,7 +157,11 @@ THEMES= \
 	cerulean \
 	cosmo \
 	cyborg \
-	darkly
+	darkly \
+	journal \
+	lumen \
+	paper \
+	readable
 
 $(THEMES): % : all build/css/bootstrap.%.css build/css/.d
 
@@ -166,13 +170,13 @@ theme = $(filter $(THEMES), $(MAKECMDGOALS))
 build/css/bootstrap.%.css: build/css/.d
 	curl -s 'http://maxcdn.bootstrapcdn.com/bootswatch/3.3.1/$*/bootstrap.min.css' -o $@
 
-build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/bootstrap.css) assets/css/style.css build/css/colors.css build/css/.d
+build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/bootstrap.css) build/css/style.css build/css/.d
 	cat $^ > $@
 
 build/css/min.css: build/css/all.css
 	cp $< $@
 
-build/css/colors.css: assets/css/colors.css $(if $(theme), assets/css/colors.$(theme).css, ) build/css/.d
+build/css/style.css: assets/css/style.css $(if $(theme), assets/css/style.$(theme).css, ) build/css/.d
 	cat $^ > $@
 
 build/css/font-awesome.min.css: build/css/.d
