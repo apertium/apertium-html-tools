@@ -4,11 +4,15 @@
 
 p.tagline {
     color: #777;
-    margin: 5px 0px 0px;
+    margin: 5px 0px 5px;
     font-weight: normal;
 }
 
 .apertiumLogo {
     color: gray;
+}
+
+.apertiumBox {
+    background-image: url('../img/Apertium_box_small.png');
 }
 

@@ -73,8 +73,12 @@ html[dir=rtl] .clearButton {
 
 .apertiumBox {
     width: 4.25em;
+    height: 3.65em;
     vertical-align: text-bottom;
     margin-right: -.5em;
+    background-image: url('../img/Apertium_box_white_small.png');
+    background-repeat: no-repeat;
+    background-size: auto 3.75em;
 }
 
 @font-face {

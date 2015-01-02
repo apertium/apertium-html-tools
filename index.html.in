@@ -85,7 +85,7 @@
                           <span class="icon-bar"></span>
                       </button>
                       <div>
-                          <img src="./img/Apertium_box_white_small.png" alt="Apertium Box" class="apertiumBox">
+                          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Apertium Box" class="apertiumBox">
                           <!-- <span class="apertiumSubLogo">Turkic</span> -->
                           <span class="apertiumLogo" style="margin-bottom: -.25em">Apertium</span>
                       </div>

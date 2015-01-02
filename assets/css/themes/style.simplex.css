@@ -14,7 +14,10 @@
 p.tagline {
     color: #444;
     font-weight: normal;
-    margin: 5px 0px 0px;
+    margin: 5px 0px 5px;
 }
 
+.apertiumBox {
+    background-image: url('../img/Apertium_box_small.png');
+}
 
