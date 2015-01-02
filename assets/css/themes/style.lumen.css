@@ -8,6 +8,9 @@
 
 p.tagline {
     color: #333;
+    font-weight: normal;
+    margin: 5px 0px 5px;
+}
 }
 
 .languageName:hover:not(.text-muted) {
