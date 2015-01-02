@@ -21,6 +21,7 @@ fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf 
 # Don't autoremove
 .PRECIOUS: build/.d build/js/.d build/css/.d build/strings/.d
 
+
 ### JS ###
 JSFILES= \
 	assets/js/jquery.jsonp-2.4.0.min.js \
@@ -87,6 +88,7 @@ build/js/bootstrap.min.js: build/js/.d
 build/js/%.js: assets/js/%.js build/js/.d
 	cp $< $@
 
+
 ### HTML ###
 build/index.debug.html: index.html.in debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json config.conf read-conf.py localise-html.py build/.d
 	sed -e '/@include_head@/r debug-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
@@ -148,12 +150,26 @@ build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.HTML_URL
 # TODO: is there a way to have prerequisites of _variables_? (could do away with the intermediate file)
 .INTERMEDIATE: build/.HTML_URL build/.PIWIK_SITEID build/.PIWIK_URL
 
+
 ### CSS ###
-build/css/all.css: assets/css/bootstrap.css assets/css/style.css build/css/.d
+
+THEMES= cerulean cosmo cyborg darkly journal lumen paper readable sandstone simplex slate spacelab superhero united yeti
+
+$(THEMES): % : all build/css/bootstrap.%.css build/css/.d
+
+theme = $(filter $(THEMES), $(MAKECMDGOALS))
+
+build/css/bootstrap.%.css: build/css/.d
+	curl -s 'http://maxcdn.bootstrapcdn.com/bootswatch/3.3.1/$*/bootstrap.min.css' -o $@
+
+build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/bootstrap.css) build/css/style.css build/css/.d
 	cat $^ > $@
 
 build/css/min.css: build/css/all.css
 	cp $< $@
+
+build/css/style.css: assets/css/style.css $(if $(theme), assets/css/themes/style.$(theme).css, ) build/css/.d
+	cat $^ > $@
 
 build/css/font-awesome.min.css: build/css/.d
 	curl -s 'http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' -o $@
@@ -163,6 +179,7 @@ build/css/bootstrap-rtl.min.css: build/css/.d
 
 build/css/%.css: assets/css/%.css build/css/.d
 	cp $< $@
+
 
 ### Fonts ###
 build/fonts/fontawesome-webfont.woff: build/fonts/.d

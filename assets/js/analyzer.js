@@ -151,7 +151,7 @@ function analyze() {
                 var splitUnit = data[i][0].split('/');
 
                 if(splitUnit[1][0] === '*')
-                    rightTD.addClass('noAnalysis');
+                    rightTD.addClass('text-danger');
 
                 var tr = $('<tr></tr>').append(leftTD).append(rightTD);
                 $('#morphAnalyzerOutput').append(tr);

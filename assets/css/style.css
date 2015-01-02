@@ -31,7 +31,7 @@ h2 {
 .localeGlobe {
     font-size: 1.8em;
     padding: 0px 5px 0px 0px;
-    color: rgb(255, 255, 255);
+    color: white;
 }
 
 .localeSelect {
@@ -39,10 +39,6 @@ h2 {
     margin-top: 7px;
     margin-bottom: 6px;
     height: 25px;
-}
-
-.helpMessage {
-    background-color: rgba(245, 245, 245, .6);
 }
 
 .modal-body h4:first-child {
@@ -56,8 +52,13 @@ h2 {
 .clearButton {
     position: absolute;
     top: 3px;
-    background-color: rgba(0, 0, 0, 0);
     padding: 0px 3px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.clearButton:hover, .clearButton:focus {
+    color: black;
+    background-color: #EEE;
 }
 
 html[dir=ltr] .clearButton {
@@ -68,17 +69,16 @@ html[dir=rtl] .clearButton {
     left: 18px;
 }
 
-.clearButton:hover, .clearButton:focus {
-    color: #000;
-    background-color: #EEE;
-}
-
 /* Navbar */
 
 .apertiumBox {
     width: 4.25em;
+    height: 3.65em;
     vertical-align: text-bottom;
     margin-right: -.5em;
+    background-image: url('../img/Apertium_box_white_small.png');
+    background-repeat: no-repeat;
+    background-size: auto 3.75em;
 }
 
 @font-face {
@@ -98,8 +98,8 @@ html[dir=rtl] .clearButton {
 
 .apertiumLogo {
     font-size: 2.25em;
-    color: gray;
     top: .7em;
+     color: gray;
 }
 
 .apertiumSubLogo + .apertiumLogo {
@@ -138,10 +138,10 @@ nav.navbar-default .nav {
 }
 
 p.tagline {
-    color: rgb(255, 255, 255);
     font-size: 18px;
     font-weight: 700;
     margin: 0px 0px 10px;
+    color: white;
 }
 
 nav.navbar div.container {
@@ -156,10 +156,6 @@ nav.navbar div.container {
 
 /* Translation */
 
-.notAvailable {
-    color: #b94a48;
-}
-
 html[dir=ltr] .languageName {
     padding-left: .5em;
 }
@@ -173,15 +169,13 @@ html[dir=rtl] .languageName {
 }
 
 .languageName:not(.text-muted) {
-    color: #333333;
     text-decoration: none;
 }
 
 .languageName:hover:not(.text-muted) {
-    color: #ffffff;
-    background-color: #446e9b;
     cursor: pointer;
-    text-decoration: underline;
+    color: white;
+    background-color: #446E9B;
 }
 
 html[dir=ltr] #srcLanguages {
@@ -209,8 +203,8 @@ html[dir=rtl] #srcLanguages {
 }
 
 button.disabledLang {
-    color: gray !important;
     opacity: 1 !important;
+    color: gray !important;
 }
 
 textarea#originalText, textarea#translatedText {
@@ -239,10 +233,6 @@ textarea#originalText, textarea#translatedText {
 }
 
 /* Analysis */
-
-.noAnalysis {
-    color: #8b0000;
-}
 
 div.unit {
     margin-left: 30px;
@@ -302,3 +292,4 @@ html[dir=rtl] .pull-right:not(#rtlChecker) {
 html[dir=rtl] .pull-left:not(#rtlChecker) {
     float: right !important;
 }
+
