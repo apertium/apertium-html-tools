@@ -74,6 +74,7 @@ if(modeEnabled('spellchecker')) {
             e.text($(this).text());
             e.removeClass('spellError');
             e.popover('hide');
+            check();
         });
     });
 }
@@ -107,16 +108,15 @@ function check() {
     words = $.trim($('#spellcheckerInput').text());
 
     $('#spellcheckerInput').addClass('spellcheckVisible');
-    words = encodeURI(words).replace(/%20/g, '+');
     // TODO send words to APY
-    words = words.split('+');
+    words = words.split(' ');
 
     for(d in dummy_words)
         dummy_words[d] = dummy_words[d].toLowerCase();
 
     $('#spellcheckerInput').html('');
     for(w in words) {
-        words[w] = words[w].replace(/%0A/g, '<br>');
+        words[w] = words[w].replace(/\n/g, '<br>');
         if(dummy_words.indexOf(words[w].toLowerCase()) == -1)
             $('#spellcheckerInput').html($('#spellcheckerInput').html() + '<span class="spellError">' + words[w] + '</span>');
         else

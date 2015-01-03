@@ -306,7 +306,8 @@ html[dir=rtl] .pull-left:not(#rtlChecker) {
 #spellcheckerInput {
     overflow: auto;
     height: 131px;
-    display: inline-block;
+    display: block;
+    resize: both;
 }
 
 .spellcheckVisible .spellError {
@@ -315,6 +316,9 @@ html[dir=rtl] .pull-left:not(#rtlChecker) {
 
 .popover-content {
     padding: 0;
+    max-height: 190px;
+    width: 110%;
+    overflow: auto;
 }
 
 .list-group {
