@@ -416,7 +416,7 @@ function translateText() {
                 success: function (data) {
                     if(data.responseStatus === 200) {
                         $('#translatedText').html(data.responseData.translatedText);
-                        $('#translatedText').removeClass('notAvailable');
+                        $('#translatedText').removeClass('notAvailable text-danger');
                     }
                     else
                         translationNotAvailable();
@@ -563,7 +563,7 @@ function detectLanguage() {
 
 function translationNotAvailable() {
     $('#translatedText').text(dynamicLocalizations['Not_Available']);
-    $('#translatedText').addClass('notAvailable');
+    $('#translatedText').addClass('notAvailable text-danger');
 }
 
 function muteLanguages() {

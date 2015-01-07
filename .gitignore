@@ -1,0 +1,5 @@
+__pycache__/
+build/
+config.conf
+assets/js/config.js
+

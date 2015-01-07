@@ -1,0 +1,16 @@
+.apertiumLogo {
+    color: #525252;
+}
+
+.languageName:not(.text-muted) {
+    color: white;
+}
+
+.languageName:hover:not(.text-muted) {
+    background-color: #2A9FD6;
+}
+
+textarea#translatedText:not(.text-danger) {
+    color: white;
+}
+
