@@ -193,6 +193,23 @@ if(modeEnabled('translation')) {
             });
         });
 
+        $('button#translateWpage').click(function () {
+             $('div#translateText').fadeOut('fast', function () {
+                 $('button#cancelWpageTranslate').fadeIn('fast')
+                 $('div#translateWpage').fadeIn('fast');
+             });
+         });
+
+         $('button#cancelWpageTranslate').click(function () {
+             droppedFile = undefined;
+             $('div#translateWpage').fadeOut('fast', function () {
+                 $('button#cancelWpageTranslate').fadeOut('fast')
+                 $('div#translateText').fadeIn('fast');
+                 $('input#fileInput').wrap('<form>').closest('form').get(0).reset();
+                 $('input#fileInput').unwrap();
+             });
+         });
+         
         $('input#fileInput').change(function () {
             $('div#fileUploadProgress').parent().fadeOut('fast', function () {
                 $('span#uploadError').fadeOut('fast');
