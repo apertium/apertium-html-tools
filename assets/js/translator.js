@@ -161,7 +161,13 @@ if(modeEnabled('translation')) {
                  $('button#cancelWpageTranslate').fadeIn('fast')
                  $('div#translateWpage').fadeIn('fast');
              });
-         });
+        });
+
+        // Strictly for testing
+        $("button#submitWpage").click(function () {
+            $("iframe#pageViewFrame")[0].src = $("input#wpageToTrans").val()
+        });
+
 
          $('button#cancelWpageTranslate').click(function () {
              droppedFile = undefined;
