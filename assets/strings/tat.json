@@ -9,21 +9,22 @@
             "tt",
             "tat"
         ],
-        "completion": " 72%  20.49%",
+        "completion": " 71%  19.77%",
         "missing": [
             "Translate_Document",
-            "Enable_JS_Warning",
             "Cancel",
-            "Download_File",
-            "File_Too_Large",
             "Apertium_Downloads",
-            "Format_Not_Supported",
-            "Drop_Document",
             "Documentation_Para",
-            "Not_Found_Error",
-            "What_Is_Apertium",
             "Downloads_Para",
-            "Contact_Para"
+            "File_Too_Large",
+            "Enable_JS_Warning",
+            "Format_Not_Supported",
+            "description",
+            "Drop_Document",
+            "Download_File",
+            "What_Is_Apertium",
+            "Contact_Para",
+            "Not_Found_Error"
         ]
     },
     "title": "Apertium | A free/open-source machine translation platform",

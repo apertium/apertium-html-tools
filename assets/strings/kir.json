@@ -9,12 +9,13 @@
             "ky",
             "kir"
         ],
-        "completion": " 87%  34.47%",
+        "completion": " 86%  33.26%",
         "missing": [
-            "Format_Not_Supported",
-            "Drop_Document",
             "Documentation_Para",
             "Downloads_Para",
+            "Format_Not_Supported",
+            "description",
+            "Drop_Document",
             "What_Is_Apertium",
             "Contact_Para"
         ]

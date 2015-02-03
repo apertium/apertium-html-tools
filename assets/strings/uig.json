@@ -8,14 +8,15 @@
             "ug",
             "uig"
         ],
-        "completion": " 85%  95.65%",
+        "completion": " 83%  92.29%",
         "missing": [
             "Translate_Document",
             "Cancel",
-            "Download_File",
             "File_Too_Large",
             "Format_Not_Supported",
+            "description",
             "Drop_Document",
+            "Download_File",
             "Not_Found_Error"
         ]
     },

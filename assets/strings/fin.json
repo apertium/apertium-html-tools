@@ -9,8 +9,9 @@
             "fi",
             "fin"
         ],
-        "completion": " 98%  92.64%",
+        "completion": " 96%  89.39%",
         "missing": [
+            "description",
             "Drop_Document"
         ]
     },

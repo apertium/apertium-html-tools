@@ -8,14 +8,15 @@
             "oc",
             "oci"
         ],
-        "completion": " 85% 103.43%",
+        "completion": " 83%  99.80%",
         "missing": [
             "Translate_Document",
             "Cancel",
-            "Download_File",
             "File_Too_Large",
             "Format_Not_Supported",
+            "description",
             "Drop_Document",
+            "Download_File",
             "Not_Found_Error"
         ]
     },

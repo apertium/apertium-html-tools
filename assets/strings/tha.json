@@ -5,8 +5,9 @@
         "locale": [
             "tha"
         ],
-        "completion": " 98%  92.96%",
+        "completion": " 96%  89.69%",
         "missing": [
+            "description",
             "Drop_Document"
         ]
     },

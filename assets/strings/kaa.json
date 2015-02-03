@@ -7,8 +7,9 @@
         "locale": [
             "kaa"
         ],
-        "completion": " 98% 107.44%",
+        "completion": " 96% 103.66%",
         "missing": [
+            "description",
             "Drop_Document"
         ]
     },

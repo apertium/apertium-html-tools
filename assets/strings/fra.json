@@ -9,14 +9,15 @@
             "fr",
             "fra"
         ],
-        "completion": " 85% 106.99%",
+        "completion": " 83% 103.23%",
         "missing": [
             "Translate_Document",
             "Cancel",
-            "Download_File",
             "File_Too_Large",
             "Format_Not_Supported",
+            "description",
             "Drop_Document",
+            "Download_File",
             "Not_Found_Error"
         ]
     },
