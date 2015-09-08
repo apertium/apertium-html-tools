@@ -54,7 +54,9 @@ $(document).ready(function () {
         localizeInterface();
         localizeStrings(stringsFresh);
 
-        if(window.history.replaceState && window.location.pathname !== '/index.debug.html') {
+        var pathname = window.location.pathname;
+
+        if(window.history.replaceState && !pathname.endsWith('/index.debug.html')) {
             var urlParams = [], urlParamNames = ['dir', 'choice'];
             $.each(urlParamNames, function () {
                 var urlParam = getURLParam(this);
@@ -62,7 +64,7 @@ $(document).ready(function () {
                     urlParams.push(this + '=' + encodeURIComponent(urlParam));
             });
 
-            var newURL = '/index.' + locale + '.html' + (urlParams.length > 0 ? '?' + urlParams.join('+') : '') + window.location.hash;
+            var newURL = pathname.substring(0, pathname.lastIndexOf('/')) + '/index.' + locale + '.html' + (urlParams.length > 0 ? '?' + urlParams.join('+') : '') + window.location.hash;
             window.history.replaceState({}, document.title, newURL);
         }
     }
