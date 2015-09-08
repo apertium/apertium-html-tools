@@ -1,6 +1,6 @@
 [APY]
-HTML_URL = http://www.apertium.org
-APY_URL = http://apy.projectjj.com
+HTML_URL = https://www.apertium.org
+APY_URL = https://www.apertium.org/apy
 
 # Set ALLOWED_* and ENABLED_* configuration parameters to undefined for all (no filtering)
 ALLOWED_LANGS =
@@ -12,8 +12,8 @@ DEFAULT_MODE = translation
 
 SHOW_NAVBAR = False
 
-PIWIK_SITEID = #1
-PIWIK_URL = #http://apertium.org/piwik
+#PIWIK_SITEID = 1
+#PIWIK_URL = http://apertium.org/piwik
 
 # Expiry times are in hours (set them to 0 for no caching)
 LIST_REQUEST_CACHE_EXPIRY = 24
