@@ -110,9 +110,16 @@ html[dir=rtl] .clearButton {
 .apertiumSubLogo {
     font-size: 1.75em;
     top: 1.25em;
-    left: 6.5em;
     z-index: 2;
     color: orange;
+}
+
+html[dir=ltr] .apertiumSubLogo {
+    left: 6.5em;
+}
+
+html[dir=rtl] .apertiumSubLogo {
+    right: 6.5em;
 }
 
 html[dir=ltr] .apertiumLogo {
