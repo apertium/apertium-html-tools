@@ -53,6 +53,9 @@ $(document).ready(function () {
     function localizeEverything(stringsFresh) {
         localizeInterface();
         localizeStrings(stringsFresh);
+        if ($('#translatedText').hasClass('notAvailable')) {
+            $('#translatedText').text(dynamicLocalizations['Not_Available']);
+        }
 
         var pathname = window.location.pathname;
 
