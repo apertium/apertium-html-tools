@@ -589,26 +589,26 @@ function muteLanguages() {
 }
 
 function autoSelectDstLang() {
-    if (!pairs[curSrcLang] || pairs[curSrcLang].indexOf(curDstLang) === -1) {
-        var newDstLang = 'default';
-        for (var i = 0; i<recentDstLangs.length; i++) {
+    if (pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) === -1) {
+        var newDstLang = undefined;
+        for (var i = 0; i < recentDstLangs.length; i++) {
             if (pairs[curSrcLang].indexOf(recentDstLangs[i]) !== -1) {
                 newDstLang = recentDstLangs[i];
                 break;
             }
         };
-        if (newDstLang === 'default') {
+        if(!newDstLang) {
             newDstLang = pairs[curSrcLang][0];
         }
 
-        if (recentDstLangs.indexOf(newDstLang) === -1) {
+        if(recentDstLangs.indexOf(newDstLang) === -1) {
             handleNewCurrentLang(newDstLang, recentDstLangs, 'dstLang');
         }
         else {
             curDstLang = newDstLang;
             $('.dstLang').removeClass('active');
-            $('.dstLang[data-code='+curDstLang+']').addClass('active');
             refreshLangList();
+            $('.dstLang[data-code=' + curDstLang + ']').addClass('active');
             muteLanguages();
             localizeInterface();
             translateText();
