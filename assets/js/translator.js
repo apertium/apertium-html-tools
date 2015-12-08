@@ -607,8 +607,8 @@ function autoSelectDstLang() {
         else {
             curDstLang = newDstLang;
             $('.dstLang').removeClass('active');
-            $('.dstLang[data-code=' + curDstLang + ']').addClass('active');
             refreshLangList();
+            $('.dstLang[data-code=' + curDstLang + ']').addClass('active');
             muteLanguages();
             localizeInterface();
             translateText();
