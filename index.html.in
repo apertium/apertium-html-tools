@@ -186,7 +186,7 @@
                                       <button class="btn clearButton"><i class="fa fa-times"></i></button>
                                   </div>
                                   <div class="col-sm-6">
-                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
+                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly onclick="this.focus();this.select()"></textarea>
                                   </div>
                                   <div class="col-sm-6">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
