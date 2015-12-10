@@ -40,6 +40,7 @@
             <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script type="text/javascript">
+            var delta=0;
             var $buoop = {};
             $buoop.ol = window.onload;
             window.onload = function () {
@@ -186,7 +187,7 @@
                                       <button class="btn clearButton"><i class="fa fa-times"></i></button>
                                   </div>
                                   <div class="col-sm-6">
-                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly onclick="this.focus();this.select()"></textarea>
+                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly onmousedown="delta=new Date().getTime()" onmouseup="if(new Date().getTime()-delta < 1000){this.focus();this.select()}"></textarea>
                                   </div>
                                   <div class="col-sm-6">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
