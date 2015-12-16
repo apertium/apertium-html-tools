@@ -214,8 +214,18 @@ button.disabledLang {
     color: gray !important;
 }
 
-textarea#originalText, textarea#translatedText {
+textarea#originalText, #translatedText {
     resize: vertical;
+}
+
+#translatedText {
+    /* Only default height, set more accurately in JavaScript */
+    min-height: 37.5ex;
+}
+
+.wordSuggestPop {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 @media(max-width: 768px) {
