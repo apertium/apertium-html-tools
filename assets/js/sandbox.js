@@ -1,3 +1,5 @@
+var currentSandboxRequest;
+
 if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
     $(document).ready(function () {
         $('#request').click(function () {
@@ -22,7 +24,10 @@ if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox')
 function request() {
     $('#sandboxOutput').addClass('blurred');
     var start_time = new Date().getTime();
-    $.jsonp({
+    if(currentSandboxRequest) {
+        currentSandboxRequest.abort();
+    }
+    currentSandboxRequest = $.jsonp({
         url: config.APY_URL + $('#sandboxInput').val(),
         beforeSend: ajaxSend,
         success: function (data) {
@@ -34,6 +39,7 @@ function request() {
         complete: function () {
             ajaxComplete();
             $('#time').text((new Date().getTime() - start_time) + ' ms');
+            currentSandboxRequest = undefined;
         }
     });
 }

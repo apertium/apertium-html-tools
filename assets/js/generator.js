@@ -1,4 +1,5 @@
 var generators = {}, generatorData = {};
+var currentGeneratorRequest;
 
 if(modeEnabled('generation')) {
     $(document).ready(function () {
@@ -129,10 +130,17 @@ function generate() {
     sendEvent('generator', 'generate', generatorMode, $('#morphGeneratorInput').val().length);
 
     $('#morphGenOutput').addClass('blurred');
-    $.jsonp({
+
+    if(currentGeneratorRequest) {
+        currentGeneratorRequest.abort();
+    }
+    currentGeneratorRequest = $.jsonp({
         url: config.APY_URL + '/generate',
         beforeSend: ajaxSend,
-        complete: ajaxComplete,
+        complete: function() {
+            ajaxComplete();
+            currentGeneratorRequest = undefined;
+        },
         data: {
             'lang': generatorMode,
             'q': $('#morphGeneratorInput').val()
