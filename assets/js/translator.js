@@ -3,6 +3,7 @@ var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
+var textTranslateRequest;
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
@@ -409,10 +410,16 @@ function translateText() {
     if($('div#translateText').is(":visible")) {
         if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
             sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
-            $.jsonp({
+            if(textTranslateRequest) {
+                textTranslateRequest.abort();
+            }
+            textTranslateRequest = $.jsonp({
                 url: config.APY_URL + '/translate',
                 beforeSend: ajaxSend,
-                complete: ajaxComplete,
+                complete: function() {
+                    ajaxComplete();
+                    textTranslateRequest = undefined;
+                },
                 data: {
                     'langpair': curSrcLang + '|' + curDstLang,
                     'q': $('#originalText').val()
@@ -526,10 +533,16 @@ function translateDoc() {
 }
 
 function detectLanguage() {
-    $.jsonp({
+    if(textTranslateRequest) {
+        textTranslateRequest.abort();
+    }
+    textTranslateRequest = $.jsonp({
         url: config.APY_URL + '/identifyLang',
         beforeSend: ajaxSend,
-        complete: ajaxComplete,
+        complete: function() {
+            ajaxComplete();
+            textTranslateRequest = undefined;
+        },
         data: {
             'q': $('#originalText').val()
         },
