@@ -209,7 +209,7 @@
                                 <div class="modal-backdrop" id="fileDropMask" style="opacity: 0; z-index: 10000;"></div>
                               </div>
 
-                              <div id="translateDoc" style="display: none;">
+                              <div id="docTranslation" style="display: none;">
                                   <div class="col-sm-6">
                                       <div class="well well-lg">
                                           <input type="file" id="fileInput">
