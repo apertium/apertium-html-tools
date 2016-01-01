@@ -56,6 +56,8 @@
                 button#translateDoc { display: none; }
             </style>
         <![endif]-->
+
+        <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaRenderCallback&render=explicit" async defer></script>
     </head>
     <body>
         <span class="fa hide" id="faChecker"></span>
@@ -529,12 +531,14 @@
                         <p>
                           What should there be instead of <span id="suggestionTargetWord"></span>?
                         </p>
-                        <form class="form-search">
-                          <input type="text" class="input-xxlarge" 
-                                 id="suggestedWordInput">
-                          <button type="submit" class="btn btn-primary" id="suggestBtn">Suggest</button>
+
+                        <form class="form-search form-inline">
+                          <input type="text" class="form-control" 
+                                 id="suggestedWordInput"
+                                 placeholder="New Word">
+                          <div id="suggestRecaptcha"></div>
+                          <button type="submit" class="btn btn-primary btn-block" id="suggestBtn">Suggest</button>
                         </form>
-                        <p id="suggestInfoDiv"></p>
                     </div>
                 </div>
             </div>

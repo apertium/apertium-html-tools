@@ -4,6 +4,12 @@ var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 
+var recaptchaRenderCallback = function () {
+    grecaptcha.render('suggestRecaptcha', {
+      'sitekey' : config.SUGGESTIONS.recaptcha_site_key
+    });
+}
+
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
@@ -171,6 +177,7 @@ if(modeEnabled('translation')) {
         $('#suggestBtn').click(function() {
             var fromWord = $('#suggestionTargetWord').html();
             var toWord = $('#suggestedWordInput').val();
+            var recaptchaResponse = grecaptcha.getResponse();
 
             if(toWord.length === 0) {
                 $('#suggestedWordInput').tooltip({
@@ -186,9 +193,37 @@ if(modeEnabled('translation')) {
                 return;
             }
 
+            // Obtaining context, (± config.SUGGESTIONS.context_wrap) words
+            // fallback to complete text if this fails.
+            var hashedWord = fromWord.hashCode() + fromWord + fromWord.hashCode();
+            $('.wordGettingSuggested').text(hashedWord);
+
+            var splitted = $('#translatedText').text().split(' ');
+            $('.wordGettingSuggested').text(fromWord)
+
+            var targetIndex = splitted.indexOf(hashedWord);
+            var wrapLength = parseInt(config.SUGGESTIONS.context_wrap);
+            var begin; var end;
+            begin  = (targetIndex > wrapLength)? (targetIndex-wrapLength) : 0;
+            end = (splitted.length-targetIndex-1 > wrapLength)? (targetIndex+wrapLength) :  splitted.length;
+            
+            var context = splitted.slice(begin, end).join(' ').replace(hashedWord, fromWord);
+            if (!context) {
+                context = $('#translatedText').attr('pristineText');
+            }
+
             $.jsonp({
-                url: config.APY_URL + '/list?q=pairs',
+                url: config.APY_URL + '/suggest',
+                beforeSend: ajaxSend,
+                data: {
+                    'langpair': curSrcLang + '|' + curDstLang,
+                    'word': fromWord,
+                    'newWord': toWord,
+                    'context': context,
+                    'g-recaptcha-response': recaptchaResponse
+                },
                 success: function (data) {
+                    console.log(data);
                     $('.wordGettingSuggested').html($('#suggestedWordInput').val());
                     $('.wordGettingSuggested').contents().unwrap();
                     $('#wordSuggestModal').modal('hide');
@@ -196,7 +231,8 @@ if(modeEnabled('translation')) {
                     $('#suggestedWordInput').tooltip('hide');
                     $('#suggestedWordInput').val('');
                 },
-                error: function () {
+                error: function (data) {
+                    console.log(data);
                     $('#suggestedWordInput').tooltip({
                         'title': 'An error occurred',
                         'trigger': 'manual',
@@ -207,9 +243,7 @@ if(modeEnabled('translation')) {
                         $('#suggestedWordInput').tooltip('hide');
                     }, 3000);
                 },
-                complete: function () {
-
-                }
+                complete: ajaxComplete
             });
         });
 

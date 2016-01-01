@@ -13,7 +13,7 @@ def getlist(conf_section, key, fallback=None):
 def check_config(conf, result):
     # Some error checking:
     for section in conf.sections():
-        if not section in ['APY', 'REPLACEMENTS']:
+        if not section in ['APY', 'REPLACEMENTS', 'SUGGESTIONS']:
             raise configparser.Error("\nUnknown section [%s]" %(section,))
 
     apy_diff = set(k.lower() for k in conf['APY'].keys()) - set(k.lower() for k in result.keys())
@@ -48,6 +48,7 @@ def load_conf(filename):
         'AVAILABLE_LOCALES_CACHE_EXPIRY' : conf_APY.getint('AVAILABLE_LOCALES_CACHE_EXPIRY', fallback=24),
 
         'REPLACEMENTS'                   : { k:v for k,v in conf['REPLACEMENTS'].items() },
+        'SUGGESTIONS'                    : { k:v for k,v in conf['SUGGESTIONS'].items() },
     }
     check_config(conf, result)
     return result

@@ -230,6 +230,14 @@ textarea#originalText, #translatedText {
     cursor: pointer;
 }
 
+#suggestedWordInput {
+    margin: 0.5em;
+}
+
+#suggestRecaptcha {
+    margin: 0.5em;
+}
+
 @media(max-width: 768px) {
     textarea#originalText {
         margin-bottom: 1em;
