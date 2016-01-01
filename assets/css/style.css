@@ -221,6 +221,8 @@ textarea#originalText, #translatedText {
 #translatedText {
     /* Only default height, set more accurately in JavaScript */
     min-height: 37.5ex;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .wordSuggestPop {

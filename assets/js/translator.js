@@ -472,7 +472,7 @@ function translateText() {
                         $('#translatedText').html(
                             $('#translatedText').html().replace(
                                 /(\*\S+|\@\S+|\#\S+)/g, 
-                                "<span class='wordSuggestPop text-danger'>$1</span>"));
+                                '<span class="wordSuggestPop text-danger" title="Improve Apertium\'s translation">$1</span>'));
 
                         $('.wordSuggestPop').click(function() {
                             $('.wordSuggestPop').removeClass('wordGettingSuggested');
