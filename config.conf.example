@@ -27,3 +27,4 @@ maintainer = <a href='http://wiki.apertium.org/wiki/Apertium' target='_blank'>Ap
 
 [SUGGESTIONS]
 RECAPTCHA_SITE_KEY = None
+CONTEXT_WRAP = 5
