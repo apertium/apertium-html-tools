@@ -180,6 +180,7 @@ if(modeEnabled('translation')) {
             var recaptchaResponse = grecaptcha.getResponse();
 
             if(toWord.length === 0) {
+                $('#suggestedWordInput').tooltip('destroy');
                 $('#suggestedWordInput').tooltip({
                     'title': 'Suggestion cannot be empty.',
                     'trigger': 'manual',
@@ -188,6 +189,7 @@ if(modeEnabled('translation')) {
                 $('#suggestedWordInput').tooltip('show')
                 setTimeout(function() {
                     $('#suggestedWordInput').tooltip('hide');
+                    $('#suggestedWordInput').tooltip('destroy');
                 }, 3000);
 
                 return;
@@ -196,24 +198,25 @@ if(modeEnabled('translation')) {
             // Obtaining context, (± config.SUGGESTIONS.context_wrap) words
             // fallback to complete text if this fails.
             var hashedWord = fromWord.hashCode() + fromWord + fromWord.hashCode();
-            $('.wordGettingSuggested').text(hashedWord);
+            $('#wordGettingSuggested').text(hashedWord);
 
             var splitted = $('#translatedText').text().split(' ');
-            $('.wordGettingSuggested').text(fromWord)
+            $('#wordGettingSuggested').text(fromWord)
 
             var targetIndex = splitted.indexOf(hashedWord);
             var wrapLength = parseInt(config.SUGGESTIONS.context_wrap);
-            var begin; var end;
-            begin  = (targetIndex > wrapLength)? (targetIndex-wrapLength) : 0;
-            end = (splitted.length-targetIndex-1 > wrapLength)? (targetIndex+wrapLength) :  splitted.length;
+            var begin, end;
+            begin  = (targetIndex > wrapLength)? (targetIndex-wrapLength): 0;
+            end = (splitted.length-targetIndex-1 > wrapLength)? (targetIndex+wrapLength): splitted.length;
             
             var context = splitted.slice(begin, end).join(' ').replace(hashedWord, fromWord);
             if (!context) {
                 context = $('#translatedText').attr('pristineText');
             }
 
-            $.jsonp({
+            $.ajax({
                 url: config.APY_URL + '/suggest',
+                type: 'POST',
                 beforeSend: ajaxSend,
                 data: {
                     'langpair': curSrcLang + '|' + curDstLang,
@@ -223,24 +226,25 @@ if(modeEnabled('translation')) {
                     'g-recaptcha-response': recaptchaResponse
                 },
                 success: function (data) {
-                    console.log(data);
-                    $('.wordGettingSuggested').html($('#suggestedWordInput').val());
-                    $('.wordGettingSuggested').contents().unwrap();
-                    $('#wordSuggestModal').modal('hide');
-
+                    // console.log(data);
                     $('#suggestedWordInput').tooltip('hide');
+                    $('#suggestedWordInput').tooltip('destroy');
                     $('#suggestedWordInput').val('');
+
+                    $('#wordSuggestModal').modal('hide');
                 },
                 error: function (data) {
-                    console.log(data);
+                    data = $.parseJSON(data.responseText);
+                    $('#suggestedWordInput').tooltip('destroy');
                     $('#suggestedWordInput').tooltip({
-                        'title': 'An error occurred',
+                        'title': (data['explanation']? data['explanation']: 'An error occurred'),
                         'trigger': 'manual',
                         'placement': 'bottom'
                     });
                     $('#suggestedWordInput').tooltip('show')
                     setTimeout(function() {
                         $('#suggestedWordInput').tooltip('hide');
+                        $('#suggestedWordInput').tooltip('destroy');
                     }, 3000);
                 },
                 complete: ajaxComplete
@@ -507,17 +511,30 @@ function translateText() {
                             $('#translatedText').html().replace(
                                 /(\*\S+|\@\S+|\#\S+)/g, 
                                 '<span class="wordSuggestPop text-danger" title="Improve Apertium\'s translation">$1</span>'));
+                        $('#translatedTextClone').html(
+                            $('#translatedText').attr('pristineText'));
 
                         $('.wordSuggestPop').click(function() {
-                            $('.wordSuggestPop').removeClass('wordGettingSuggested');
-                            $(this).addClass('wordGettingSuggested');
+                            $('.wordSuggestPop').removeAttr('id');
+                            $('.wordSuggestPopInline').removeAttr('id');
+                            $(this).attr('id', 'wordGettingSuggested');
 
-                            var highlightedTargetWord = $('#translatedText').attr('pristineText');
-                            highlightedTargetWord = highlightedTargetWord.replace($(this).html(),
-                                '<b>'+$(this).html()+'</b>');
-                            $('#translatedTextClone').html(highlightedTargetWord);
-                            $('#suggestionTargetWord').html($(this).html());
+                            $('#translatedTextClone').html(
+                                $('#translatedTextClone').html().replace(
+                                    /(\*\S+|\@\S+|\#\S+)/g, 
+                                    '<span class="wordSuggestPopInline text-danger" title="Improve Apertium\'s translation">$1</span>'));
 
+                            $('.wordSuggestPopInline').click(function() {
+                                $('.wordSuggestPop').removeAttr('id');
+                                $('.wordSuggestPopInline').removeAttr('id');
+                                $(this).attr('id', 'wordGettingSuggested');
+
+                                $('#suggestionTargetWord').html($(this).text());
+                                $('#suggestedWordInput').val('');
+                            });
+
+
+                            $('#suggestionTargetWord').html($(this).text());
                             $('#wordSuggestModal').modal();
                         });
                     }

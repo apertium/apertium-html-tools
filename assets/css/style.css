@@ -225,7 +225,7 @@ textarea#originalText, #translatedText {
     overflow-x: hidden;
 }
 
-.wordSuggestPop {
+.wordSuggestPop, .wordSuggestPopInline {
     text-decoration: underline;
     cursor: pointer;
 }
