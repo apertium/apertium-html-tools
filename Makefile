@@ -80,10 +80,10 @@ build/js/compat.js: assets/js/compat.js build/js/.d
 	cp $< $@
 
 build/js/jquery.min.js: build/js/.d
-	curl -s 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js' -o $@
+	curl -s 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js' -o $@
 
 build/js/bootstrap.min.js: build/js/.d
-	curl -s 'http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js' -o $@
+	curl -s 'http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js' -o $@
 
 build/js/%.js: assets/js/%.js build/js/.d
 	cp $< $@
@@ -160,7 +160,7 @@ $(THEMES): % : all build/css/bootstrap.%.css build/css/.d
 theme = $(filter $(THEMES), $(MAKECMDGOALS))
 
 build/css/bootstrap.%.css: build/css/.d
-	curl -s 'http://maxcdn.bootstrapcdn.com/bootswatch/3.3.1/$*/bootstrap.min.css' -o $@
+	curl -s 'http://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/$*/bootstrap.min.css' -o $@
 
 build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/bootstrap.css) build/css/style.css build/css/.d
 	cat $^ > $@
@@ -172,10 +172,10 @@ build/css/style.css: assets/css/style.css $(if $(theme), assets/css/themes/style
 	cat $^ > $@
 
 build/css/font-awesome.min.css: build/css/.d
-	curl -s 'http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' -o $@
+	curl -s 'http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' -o $@
 
 build/css/bootstrap-rtl.min.css: build/css/.d
-	curl -s 'http://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.1.1/css/bootstrap-rtl.min.css' -o $@
+	curl -s 'http://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.2.0-rc2/css/bootstrap-rtl.min.css' -o $@
 
 build/css/%.css: assets/css/%.css build/css/.d
 	cp $< $@
@@ -183,16 +183,16 @@ build/css/%.css: assets/css/%.css build/css/.d
 
 ### Fonts ###
 build/fonts/fontawesome-webfont.woff: build/fonts/.d
-	curl -s "http://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.woff" -o $@
+	curl -s "http://netdna.bootstrapcdn.com/font-awesome/4.5.0/fonts/fontawesome-webfont.woff" -o $@
 
 build/fonts/fontawesome-webfont.ttf: build/fonts/.d
-	curl -s "http://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.ttf" -o $@
+	curl -s "http://netdna.bootstrapcdn.com/font-awesome/4.5.0/fonts/fontawesome-webfont.ttf" -o $@
 
 build/fonts/fontawesome-webfont.svg: build/fonts/.d
-	curl -s 'http://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.svg' -o $@
+	curl -s 'http://netdna.bootstrapcdn.com/font-awesome/4.5.0/fonts/fontawesome-webfont.svg' -o $@
 
 build/fonts/fontawesome-webfont.eot: build/fonts/.d
-	curl -s 'http://netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.eot' -o $@
+	curl -s 'http://netdna.bootstrapcdn.com/font-awesome/4.5.0/fonts/fontawesome-webfont.eot' -o $@
 
 
 ### Images ###
