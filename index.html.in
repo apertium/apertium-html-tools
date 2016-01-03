@@ -528,21 +528,17 @@
                     <div class="modal-body">
                       <p id="translatedTextClone"></p>
                       <hr>
-                      <p>
-                        <span data-text="Suggest_Sentence"></span>
-                        <code><span id="suggestionTargetWord"></span></code> 
-                        ?
-                      </p>
+                      <p id="suggestSentenceContainer"></p>
 
-                        <form class="form-search form-inline">
-                          <input type="text" class="form-control" 
-                                 id="suggestedWordInput"
-                                 placeholder="New Word">
-                          <div id="suggestRecaptcha"></div>
-                          <button type="submit" class="btn btn-primary btn-block" id="suggestBtn">
-                            <span data-text="Suggest_Button"></span>
-                          </button>
-                        </form>
+                      <form class="form-search form-inline">
+                        <input type="text" class="form-control" 
+                               id="suggestedWordInput"
+                               placeholder="New Word">
+                        <div id="suggestRecaptcha"></div>
+                        <button type="submit" class="btn btn-primary btn-block" id="suggestBtn">
+                          <span data-text="Suggest_Button"></span>
+                        </button>
+                      </form>
                     </div>
                 </div>
             </div>

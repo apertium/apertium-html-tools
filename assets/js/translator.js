@@ -237,7 +237,7 @@ if(modeEnabled('translation')) {
                     data = $.parseJSON(data.responseText);
                     $('#suggestedWordInput').tooltip('destroy');
                     $('#suggestedWordInput').tooltip({
-                        'title': (data['explanation']? data['explanation']: 'An error occurred'),
+                        'title': (data['explanation'] ? data['explanation'] : 'An error occurred'),
                         'trigger': 'manual',
                         'placement': 'bottom'
                     });
@@ -533,7 +533,9 @@ function translateText() {
                                 $('#suggestedWordInput').val('');
                             });
 
-
+                            console.log(dynamicLocalizations['Suggest_Sentence']);
+                            $('#suggestSentenceContainer').html(
+                                dynamicLocalizations['Suggest_Sentence'].replace('{{targetWordCode}}', '<code><span id="suggestionTargetWord"></span></code>'))
                             $('#suggestionTargetWord').html($(this).text());
                             $('#wordSuggestModal').modal();
                         });
