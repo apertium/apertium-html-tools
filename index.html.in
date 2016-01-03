@@ -523,21 +523,25 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Improve Apertium's translation</h4>
+                        <h4 class="modal-title" data-text="Suggest_Title"></h4>
                     </div>
                     <div class="modal-body">
-                        <p id="translatedTextClone"></p>
-                        <hr>
-                        <p>
-                          What should there be instead of <span id="suggestionTargetWord"></span>?
-                        </p>
+                      <p id="translatedTextClone"></p>
+                      <hr>
+                      <p>
+                        <span data-text="Suggest_Sentence"></span>
+                        <code><span id="suggestionTargetWord"></span></code> 
+                        ?
+                      </p>
 
                         <form class="form-search form-inline">
                           <input type="text" class="form-control" 
                                  id="suggestedWordInput"
                                  placeholder="New Word">
                           <div id="suggestRecaptcha"></div>
-                          <button type="submit" class="btn btn-primary btn-block" id="suggestBtn">Suggest</button>
+                          <button type="submit" class="btn btn-primary btn-block" id="suggestBtn">
+                            <span data-text="Suggest_Button"></span>
+                          </button>
                         </form>
                     </div>
                 </div>
