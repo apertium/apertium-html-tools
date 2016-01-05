@@ -9,7 +9,8 @@ var dynamicLocalizations = {
     'detected': 'detected',
     'File_Too_Large': 'File is too large!',
     'Format_Not_Supported': 'Format not supported!',
-    'Download_File': 'Download {{fileName}}'
+    'Download_File': 'Download {{fileName}}',
+    'Suggest_Sentence': 'How would you suggest we translate {{targetWordCode}}?'
 };
 
 var localizedHTML = false;

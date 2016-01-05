@@ -4,6 +4,12 @@ var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 
+var recaptchaRenderCallback = function () {
+    grecaptcha.render('suggestRecaptcha', {
+      'sitekey' : config.SUGGESTIONS.recaptcha_site_key
+    });
+}
+
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
@@ -171,8 +177,10 @@ if(modeEnabled('translation')) {
         $('#suggestBtn').click(function() {
             var fromWord = $('#suggestionTargetWord').html();
             var toWord = $('#suggestedWordInput').val();
+            var recaptchaResponse = grecaptcha.getResponse();
 
             if(toWord.length === 0) {
+                $('#suggestedWordInput').tooltip('destroy');
                 $('#suggestedWordInput').tooltip({
                     'title': 'Suggestion cannot be empty.',
                     'trigger': 'manual',
@@ -181,35 +189,65 @@ if(modeEnabled('translation')) {
                 $('#suggestedWordInput').tooltip('show')
                 setTimeout(function() {
                     $('#suggestedWordInput').tooltip('hide');
+                    $('#suggestedWordInput').tooltip('destroy');
                 }, 3000);
 
                 return;
             }
 
-            $.jsonp({
-                url: config.APY_URL + '/list?q=pairs',
-                success: function (data) {
-                    $('.wordGettingSuggested').html($('#suggestedWordInput').val());
-                    $('.wordGettingSuggested').contents().unwrap();
-                    $('#wordSuggestModal').modal('hide');
+            // Obtaining context, (± config.SUGGESTIONS.context_wrap) words
+            // fallback to complete text if this fails.
+            var hashedWord = fromWord.hashCode() + fromWord + fromWord.hashCode();
+            $('#wordGettingSuggested').text(hashedWord);
 
-                    $('#suggestedWordInput').tooltip('hide');
-                    $('#suggestedWordInput').val('');
+            var splitted = $('#translatedText').text().split(' ');
+            $('#wordGettingSuggested').text(fromWord)
+
+            var targetIndex = splitted.indexOf(hashedWord);
+            var wrapLength = parseInt(config.SUGGESTIONS.context_wrap);
+            var begin, end;
+            begin  = (targetIndex > wrapLength)? (targetIndex-wrapLength): 0;
+            end = (splitted.length-targetIndex-1 > wrapLength)? (targetIndex+wrapLength): splitted.length;
+            
+            var context = splitted.slice(begin, end).join(' ').replace(hashedWord, fromWord);
+            if (!context) {
+                context = $('#translatedText').attr('pristineText');
+            }
+
+            $.ajax({
+                url: config.APY_URL + '/suggest',
+                type: 'POST',
+                beforeSend: ajaxSend,
+                data: {
+                    'langpair': curSrcLang + '|' + curDstLang,
+                    'word': fromWord,
+                    'newWord': toWord,
+                    'context': context,
+                    'g-recaptcha-response': recaptchaResponse
                 },
-                error: function () {
+                success: function (data) {
+                    // console.log(data);
+                    $('#suggestedWordInput').tooltip('hide');
+                    $('#suggestedWordInput').tooltip('destroy');
+                    $('#suggestedWordInput').val('');
+
+                    $('#wordSuggestModal').modal('hide');
+                },
+                error: function (data) {
+                    data = $.parseJSON(data.responseText);
+                    $('#suggestedWordInput').tooltip('destroy');
                     $('#suggestedWordInput').tooltip({
-                        'title': 'An error occurred',
+                        'title': (data['explanation'] ? data['explanation'] : 'An error occurred'),
                         'trigger': 'manual',
                         'placement': 'bottom'
                     });
                     $('#suggestedWordInput').tooltip('show')
                     setTimeout(function() {
                         $('#suggestedWordInput').tooltip('hide');
+                        $('#suggestedWordInput').tooltip('destroy');
                     }, 3000);
                 },
-                complete: function () {
-
-                }
+                complete: ajaxComplete
             });
         });
 
@@ -472,18 +510,33 @@ function translateText() {
                         $('#translatedText').html(
                             $('#translatedText').html().replace(
                                 /(\*\S+|\@\S+|\#\S+)/g, 
-                                "<span class='wordSuggestPop text-danger'>$1</span>"));
+                                '<span class="wordSuggestPop text-danger" title="Improve Apertium\'s translation">$1</span>'));
+                        $('#translatedTextClone').html(
+                            $('#translatedText').attr('pristineText'));
 
                         $('.wordSuggestPop').click(function() {
-                            $('.wordSuggestPop').removeClass('wordGettingSuggested');
-                            $(this).addClass('wordGettingSuggested');
+                            $('.wordSuggestPop').removeAttr('id');
+                            $('.wordSuggestPopInline').removeAttr('id');
+                            $(this).attr('id', 'wordGettingSuggested');
 
-                            var highlightedTargetWord = $('#translatedText').attr('pristineText');
-                            highlightedTargetWord = highlightedTargetWord.replace($(this).html(),
-                                '<b>'+$(this).html()+'</b>');
-                            $('#translatedTextClone').html(highlightedTargetWord);
-                            $('#suggestionTargetWord').html($(this).html());
+                            $('#translatedTextClone').html(
+                                $('#translatedTextClone').html().replace(
+                                    /(\*\S+|\@\S+|\#\S+)/g, 
+                                    '<span class="wordSuggestPopInline text-danger" title="Improve Apertium\'s translation">$1</span>'));
 
+                            $('.wordSuggestPopInline').click(function() {
+                                $('.wordSuggestPop').removeAttr('id');
+                                $('.wordSuggestPopInline').removeAttr('id');
+                                $(this).attr('id', 'wordGettingSuggested');
+
+                                $('#suggestionTargetWord').html($(this).text());
+                                $('#suggestedWordInput').val('');
+                            });
+
+                            console.log(dynamicLocalizations['Suggest_Sentence']);
+                            $('#suggestSentenceContainer').html(
+                                dynamicLocalizations['Suggest_Sentence'].replace('{{targetWordCode}}', '<code><span id="suggestionTargetWord"></span></code>'))
+                            $('#suggestionTargetWord').html($(this).text());
                             $('#wordSuggestModal').modal();
                         });
                     }

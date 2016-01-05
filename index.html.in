@@ -56,6 +56,8 @@
                 button#translateDoc { display: none; }
             </style>
         <![endif]-->
+
+        <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaRenderCallback&render=explicit" async defer></script>
     </head>
     <body>
         <span class="fa hide" id="faChecker"></span>
@@ -521,20 +523,22 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Improve Apertium's translation</h4>
+                        <h4 class="modal-title" data-text="Suggest_Title"></h4>
                     </div>
                     <div class="modal-body">
-                        <p id="translatedTextClone"></p>
-                        <hr>
-                        <p>
-                          What should there be instead of <span id="suggestionTargetWord"></span>?
-                        </p>
-                        <form class="form-search">
-                          <input type="text" class="input-xxlarge" 
-                                 id="suggestedWordInput">
-                          <button type="submit" class="btn btn-primary" id="suggestBtn">Suggest</button>
-                        </form>
-                        <p id="suggestInfoDiv"></p>
+                      <p id="translatedTextClone"></p>
+                      <hr>
+                      <p id="suggestSentenceContainer"></p>
+
+                      <form class="form-search form-inline">
+                        <input type="text" class="form-control" 
+                               id="suggestedWordInput"
+                               placeholder="New Word">
+                        <div id="suggestRecaptcha"></div>
+                        <button type="submit" class="btn btn-primary btn-block" id="suggestBtn">
+                          <span data-text="Suggest_Button"></span>
+                        </button>
+                      </form>
                     </div>
                 </div>
             </div>
