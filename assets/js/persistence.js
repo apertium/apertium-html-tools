@@ -97,7 +97,7 @@ function restoreChoices(mode) {
                 $('#originalText').val(retrieve('translationInput'));
 
             if('instantTranslation' in localStorage)
-                $('#instantTranslation').attr('checked', retrieve('instantTranslation'));
+                $('#instantTranslation').prop('checked', retrieve('instantTranslation'));
         }
 
         if(getURLParam('dir')) {

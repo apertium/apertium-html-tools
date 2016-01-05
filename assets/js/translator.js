@@ -485,7 +485,8 @@ function translateDoc() {
                     else if(this.readyState === 4 && xhr.status === 200) {
                         $('div#fileUploadProgress').parent().fadeOut('fast');
                         $('div#fileLoading').fadeOut('fast', function() {
-                            $('a#fileDownload').attr('href', (window.webkitURL ? webkitURL : URL).createObjectURL(xhr.response)).attr('download', file.name).fadeIn('fast');
+                            var URL = window.URL || window.webkitURL;
+                            $('a#fileDownload').attr('href', URL.createObjectURL(xhr.response)).attr('download', file.name).fadeIn('fast');
                             $('span#fileDownloadText').text(dynamicLocalizations['Download_File'].replace('{{fileName}}', file.name));
                             $('button#translate').prop('disabled', false);
                             $('input#fileInput').prop('disabled', false);
@@ -516,7 +517,7 @@ function translateDoc() {
         docTranslateError(dynamicLocalizations['Not_Available']);
 
     function updateProgressBar(ev) {
-        var done = ev.position || ev.loaded, total = ev.totalSize || ev.total;
+        var done = ev.loaded || ev.position, total = ev.total || ev.totalSize;
         var percentDone = Math.floor(done / total * 1000) / 10;
         $('div#fileUploadProgress').attr('aria-valuenow', percentDone).css('width', percentDone + '%');
     }
