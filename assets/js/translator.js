@@ -507,10 +507,13 @@ function translateText() {
                         $('#translatedText').removeClass('notAvailable text-danger');
 
                         $('#translatedText').attr('pristineText', data.responseData.translatedText);
-                        $('#translatedText').html(
-                            $('#translatedText').html().replace(
-                                /(\*\S+|\@\S+|\#\S+)/g, 
-                                '<span class="wordSuggestPop text-danger" title="Improve Apertium\'s translation">$1</span>'));
+
+                        if(config.SUGGESTIONS.enabled === 'True') {
+                            $('#translatedText').html(
+                                $('#translatedText').html().replace(
+                                    /(\*\S+|\@\S+|\#\S+)/g,
+                                    '<span class="wordSuggestPop text-danger" title="Improve Apertium\'s translation">$1</span>'));
+                        }
                         $('#translatedTextClone').html(
                             $('#translatedText').attr('pristineText'));
 
