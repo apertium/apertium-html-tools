@@ -24,3 +24,9 @@ AVAILABLE_LOCALES_CACHE_EXPIRY = 24
 # Localisation replacement strings, see assets/strings/*.json for usage:
 [REPLACEMENTS]
 maintainer = <a href='http://wiki.apertium.org/wiki/Apertium' target='_blank'>Apertium</a>
+
+[SUGGESTIONS]
+ENABLED = True
+RECAPTCHA_SITE_KEY = None
+CONTEXT_WRAP = 5
+
