@@ -165,7 +165,7 @@ function getLocales() {
         localePairs.sort();
         $('.localeSelect').empty();
         $.each(localePairs, function () {
-            $('.localeSelect').append($('<option></option>').prop('value', this[0]).text(this[1]));
+            $('.localeSelect').append($('<option></option>').val(this[0]).text(this[1]).prop('dir', rtlLanguages.indexOf(this[0]) !== -1 ? 'rtl' : 'ltr'));
         });
     }
 
