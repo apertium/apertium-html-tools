@@ -5,6 +5,7 @@ if(modeEnabled('analyzation')) {
     $(document).ready(function () {
         $('#analyze').click(function () {
             analyze();
+            persistChoices('analyzer', true);
         });
 
         $('#primaryAnalyzerMode').change(function () {
@@ -26,6 +27,10 @@ if(modeEnabled('analyzation')) {
 
         $('#morphAnalyzerInput').on('input propertychange', function () {
             persistChoices('analyzer');
+        });
+
+        $('#morphAnalyzerInput').blur(function() {
+            persistChoices('analyzer', true);
         });
     });
 }
