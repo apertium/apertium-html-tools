@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # Usage: ./localise-html.py -c config.conf index.html < assets/strings/bar.json > build/index.bar.html
 
