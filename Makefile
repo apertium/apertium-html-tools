@@ -56,16 +56,16 @@ build/js/locales.js: assets/strings/locales.json build/js/.d
 	echo "config.LOCALES = `cat $<`;" > $@
 
 build/js/listrequests.js: config.conf read-conf.py build/js/.d
-	echo -n "config.PAIRS = " > $@
+	printf "config.PAIRS = " > $@
 	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=pairs" >> $@ || ( rm $@; false; )
 	echo ";" >> $@
-	echo -n "config.GENERATORS = " >> $@
+	printf "config.GENERATORS = " >> $@
 	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=generators" >> $@ || ( rm $@; false; )
 	echo ";" >> $@
-	echo -n "config.ANALYZERS = " >> $@
+	printf "config.ANALYZERS = " >> $@
 	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=analyzers" >> $@ || ( rm $@; false; )
 	echo ";" >> $@
-	echo -n "config.TAGGERS = " >> $@
+	printf "config.TAGGERS = " >> $@
 	curl -s "$(shell ./read-conf.py -c $< get APY_URL)/list?q=taggers" >> $@ || ( rm $@; false; )
 	echo ";" >> $@
 
@@ -126,7 +126,7 @@ build/not-found.html: build/index.html not-found.html
 	sed -e '/<!-- Not found warning -->/r not-found.html' $< > $@
 
 build/strings/%.json: assets/strings/%.json config.conf read-conf.py minify-json.py build/strings/.d
-	@echo -n '    "@langNames": ' > $@.tmp
+	@printf '    "@langNames": ' > $@.tmp
 	curl -s "$(shell ./read-conf.py -c config.conf get APY_URL)/listLanguageNames?locale=$*" >> $@.tmp
 	@echo ',' >> $@.tmp
 	@sed "0,/{/ s/{/{\n/" $< | sed "1r $@.tmp" > $@
