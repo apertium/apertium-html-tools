@@ -70,13 +70,18 @@ function persistChoices(mode, updatePermalink) {
             q = $('#morphGeneratorInput').val();
         }
 
+        var qn;
+        if(hash === '#translation') qn = "";
+        if(hash === '#analyzation') qn = "A";
+        if(hash === '#generation') qn = "G";
+
         if(updatePermalink) {
             if(q.length > 0 && q.length < 1300) {
-                urlParams.push('q' + '=' + q);
+                urlParams.push('q' + qn + '=' + q);
             }
         }
-        else if(getURLParam('q').length > 0) {
-            urlParams.push('q' + '=' + getURLParam('q'));
+        else if(getURLParam('q' + qn).length > 0) {
+            urlParams.push('q' + qn + '=' + getURLParam('q' + qn));
         }
 
         var newURL = window.location.pathname + (urlParams.length > 0 ? '?' + urlParams.join('&') : '') + hash;
@@ -153,8 +158,8 @@ function restoreChoices(mode) {
                 $('#secondaryAnalyzerMode option[value="' + choice.join('-') + '"]').prop('selected', true);
         }
 
-        if(getURLParam('q').length > 0) {
-            $('#morphAnalyzerInput').val(decodeURIComponent(getURLParam('q')));
+        if(getURLParam('qA').length > 0) {
+            $('#morphAnalyzerInput').val(decodeURIComponent(getURLParam('qA')));
         }
     }
     else if(mode === 'generator') {
@@ -179,8 +184,8 @@ function restoreChoices(mode) {
                 $('#secondaryGeneratorMode option[value="' + choice.join('-') + '"]').prop('selected', true);
         }
 
-        if(getURLParam('q').length > 0) {
-            $('#morphGeneratorInput').val(decodeURIComponent(getURLParam('q')));
+        if(getURLParam('qG').length > 0) {
+            $('#morphGeneratorInput').val(decodeURIComponent(getURLParam('qG')));
         }
     }
     else if(mode === 'localization') {

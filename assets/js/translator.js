@@ -44,6 +44,7 @@ if(modeEnabled('translation')) {
 
         $('button#translate').click(function () {
             translate();
+            persistChoices('translator', true);
         });
 
         var timer,

@@ -60,7 +60,7 @@ $(document).ready(function () {
         var pathname = window.location.pathname;
 
         if(window.history.replaceState && !pathname.endsWith('/index.debug.html')) {
-            var urlParams = [], urlParamNames = ['dir', 'choice', 'q'];
+            var urlParams = [], urlParamNames = ['dir', 'choice', 'q', 'qA', 'qG'];
             $.each(urlParamNames, function () {
                 var urlParam = getURLParam(this);
                 if(urlParam)
