@@ -192,6 +192,14 @@
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
                                           <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>
                                       </button>
+                                      <button id="translatePage" class="btn btn-default" style="margin-top: 1em;">
+                                          <i class="fa fa-globe"></i> <span data-text="Translate_Webpage">Translate a webpage</span>
+                                      </button>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <button id="translatePageInstead" class="btn btn-default" style="margin-top: 1em;">
+                                         <i class="fa fa-globe"></i> <span data-text="Translate_Page_Instead">Translate this webpage</span>
+                                      </button>
                                   </div>
                                   <div class="col-sm-3 pull-right">
                                       <div class="checkbox">
@@ -236,6 +244,19 @@
                                           </a>
                                       </h1>
                                   </div>
+                              </div>
+                              <div id="pageTranslation" style="display: none;">
+                                    <h4> Translate a webpage </h4>
+                                  <div class="well well-lg">
+                                      <input type="text" id="url" placeholder="URL" class="form-control">
+                                      <button class="btn btn-sm btn-default pull-right" id="cancelPageTranslate">
+                                          <i class="fa fa-arrow-left"></i> <span data-text="Cancel">Cancel</span>
+                                      </button>
+                                  </div>
+                                  <div class="well well-lg translatedPageWrapper">
+                                      <iframe id="translatedPage"></iframe>
+                                  </div>
+
                               </div>
                           </div>
                       </fieldset>

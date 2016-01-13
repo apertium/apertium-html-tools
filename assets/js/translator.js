@@ -4,6 +4,8 @@ var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var textTranslateRequest;
+var pageTranslateRequest;
+
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
@@ -44,7 +46,6 @@ if(modeEnabled('translation')) {
 
         $('button#translate').click(function () {
             translate();
-            persistChoices('translator', true);
         });
 
         var timer,
@@ -73,12 +74,7 @@ if(modeEnabled('translation')) {
                 if($('#instantTranslation').prop('checked')) {
                     translateText();
                 }
-                persistChoices('translator', true);
             }, timeout);
-        });
-
-        $('#originalText').blur(function() {
-            persistChoices('translator', true);
         });
 
         $('#instantTranslation').change(function () {
@@ -155,10 +151,28 @@ if(modeEnabled('translation')) {
                 $('div#docTranslation').fadeIn('fast');
             });
         });
+        
+        $('button#translatePage').click(function () {
+            $('div#translateText').fadeOut('fast', function () {
+//                $('#fileInput').show();
+//                $('div#fileName').hide();
+                $('div#pageTranslation').fadeIn('fast');
+            });
+        });
 
         $('button#cancelDocTranslate').click(function () {
             droppedFile = undefined;
             $('div#docTranslation').fadeOut('fast', function () {
+                $('a#fileDownload').hide();
+                $('span#uploadError').hide();
+                $('div#translateText').fadeIn('fast');
+                $('input#fileInput').wrap('<form>').closest('form').get(0).reset();
+                $('input#fileInput').unwrap();
+            });
+        });
+        
+        $('button#cancelPageTranslate').click(function () {
+            $('div#pageTranslation').fadeOut('fast', function () {
                 $('a#fileDownload').hide();
                 $('span#uploadError').hide();
                 $('div#translateText').fadeIn('fast');
@@ -406,10 +420,15 @@ function populateTranslationList() {
 }
 
 function translate() {
-    if($('div#translateText').is(":visible"))
+    if($('div#translateText').is(":visible")) {
         translateText();
-    else
+    }
+    else if ($('div#pageTranslation').is(":visible")) {
+        translatePage();
+    }
+    else {
         translateDoc();
+    }
 }
 
 function translateText() {
@@ -434,6 +453,16 @@ function translateText() {
                     if(data.responseStatus === 200) {
                         $('#translatedText').html(data.responseData.translatedText);
                         $('#translatedText').removeClass('notAvailable text-danger');
+                        var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
+                        if (urlPattern.test($('#originalText').val())) {
+                            $('#translatePageInstead').show();                            
+                            $("#translatePageInstead").attr("onclick","$('#translateText').hide(); $('#translatePage').show(); translateLink(\'".concat(data.responseData.translatedText.concat("')")));
+
+                        }
+                        else {
+                            $('#translatePageInstead').hide();
+                        }
+                        
                     }
                     else
                         translationNotAvailable();
@@ -444,6 +473,49 @@ function translateText() {
         else
             translationNotAvailable();
     }
+}
+
+function translatePage() {
+    if($('div#pageTranslation').is(":visible")) {
+
+        if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+            
+            sendEvent('translator', 'translatePage', curSrcLang + '-' + curDstLang, $('#url').val().length);
+            if(pageTranslateRequest) {
+                pageTranslateRequest.abort();
+            }
+            pageTranslateRequest = $.jsonp({
+                url: config.APY_URL + '/translatePage',
+                beforeSend: ajaxSend,
+                complete: function() {
+                    ajaxComplete();
+                    textTranslateRequest = undefined;
+                },
+                data: {
+                    'langpair': curSrcLang + '|' + curDstLang,
+                    'url': $('#url').val()
+                },
+                success: function (data) {
+                    if(data.responseStatus === 200) {
+                        var iframe = document.getElementById('translatedPage'),
+                        iframedoc = iframe.contentDocument || iframe.contentWindow.document;
+                        iframedoc.body.innerHTML = data.responseData.translatedPage;
+ 
+                    }
+                    else
+                        translationNotAvailable();
+                },
+                error: translationNotAvailable
+            });
+        }
+        else
+            translationNotAvailable();
+    }
+}
+
+function translateLink(link) {
+    $('#url').val(link); 
+    translatePage();
 }
 
 function translateDoc() {
