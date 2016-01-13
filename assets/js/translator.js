@@ -74,8 +74,9 @@ if(modeEnabled('translation')) {
             timer = setTimeout(function () {
                 if($('#instantTranslation').prop('checked')) {
                     translateText();
-                    persistChoices('translator', true);
+                    
                 }
+                persistChoices('translator', true);
             }, timeout);
         });
         
