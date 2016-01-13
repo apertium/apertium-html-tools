@@ -44,6 +44,7 @@ if(modeEnabled('translation')) {
 
         $('button#translate').click(function () {
             translate();
+            persistChoices('translator', true);
         });
 
         var timer,
@@ -72,7 +73,12 @@ if(modeEnabled('translation')) {
                 if($('#instantTranslation').prop('checked')) {
                     translateText();
                 }
+                persistChoices('translator', true);
             }, timeout);
+        });
+
+        $('#originalText').blur(function() {
+            persistChoices('translator', true);
         });
 
         $('#instantTranslation').change(function () {

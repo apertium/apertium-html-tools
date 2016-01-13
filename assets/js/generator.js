@@ -5,6 +5,7 @@ if(modeEnabled('generation')) {
     $(document).ready(function () {
         $('#generate').click(function () {
             generate();
+            persistChoices('generator', true);
         });
 
         $('#primaryGeneratorMode').change(function () {
@@ -26,6 +27,10 @@ if(modeEnabled('generation')) {
 
         $('#morphGeneratorInput').on('input propertychange', function () {
             persistChoices('generator');
+        });
+
+        $('#morphGeneratorInput').blur(function() {
+            persistChoices('generator', true);
         });
     });
 }

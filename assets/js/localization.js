@@ -60,14 +60,14 @@ $(document).ready(function () {
         var pathname = window.location.pathname;
 
         if(window.history.replaceState && !pathname.endsWith('/index.debug.html')) {
-            var urlParams = [], urlParamNames = ['dir', 'choice'];
+            var urlParams = [], urlParamNames = ['dir', 'choice', 'q', 'qA', 'qG'];
             $.each(urlParamNames, function () {
                 var urlParam = getURLParam(this);
                 if(urlParam)
-                    urlParams.push(this + '=' + encodeURIComponent(urlParam));
+                    urlParams.push(this + '=' + urlParam);
             });
 
-            var newURL = pathname.substring(0, pathname.lastIndexOf('/')) + '/index.' + locale + '.html' + (urlParams.length > 0 ? '?' + urlParams.join('+') : '') + window.location.hash;
+            var newURL = pathname.substring(0, pathname.lastIndexOf('/')) + '/index.' + locale + '.html' + (urlParams.length > 0 ? '?' + urlParams.join('&') : '') + window.location.hash;
             window.history.replaceState({}, document.title, newURL);
         }
     }

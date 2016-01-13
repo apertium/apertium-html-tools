@@ -1,4 +1,4 @@
-function persistChoices(mode) {
+function persistChoices(mode, updatePermalink) {
     if(localStorage) {
         var objects;
         if(mode === 'translator') {
@@ -53,20 +53,38 @@ function persistChoices(mode) {
                 urlParams.push(this + '=' + encodeURIComponent(urlParam));
         });
 
+        var q;
         if(hash === '#translation' && curSrcLang && curDstLang) {
             urlParams = [];
             urlParams.push('dir' + '=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
+            q = $('#originalText').val();
         }
         else if(hash === '#analyzation' && $('#secondaryAnalyzerMode').val()) {
             urlParams = [];
             urlParams.push('choice' + '=' + encodeURIComponent($('#secondaryAnalyzerMode').val()));
+            q = $('#morphAnalyzerInput').val();
         }
         else if(hash === '#generation' && $('#secondaryGeneratorMode').val()) {
             urlParams = [];
             urlParams.push('choice' + '=' + encodeURIComponent($('#secondaryGeneratorMode').val()));
+            q = $('#morphGeneratorInput').val();
         }
 
-        var newURL = window.location.pathname + (urlParams.length > 0 ? '?' + urlParams.join('+') : '') + hash;
+        var qn;
+        if(hash === '#translation') qn = "";
+        if(hash === '#analyzation') qn = "A";
+        if(hash === '#generation') qn = "G";
+
+        if(updatePermalink) {
+            if(q.length > 0 && q.length < 1300) {
+                urlParams.push('q' + qn + '=' + q);
+            }
+        }
+        else if(getURLParam('q' + qn).length > 0) {
+            urlParams.push('q' + qn + '=' + getURLParam('q' + qn));
+        }
+
+        var newURL = window.location.pathname + (urlParams.length > 0 ? '?' + urlParams.join('&') : '') + hash;
         window.history.replaceState({}, document.title, newURL);
     }
 }
@@ -110,6 +128,10 @@ function restoreChoices(mode) {
             }
         }
 
+        if(getURLParam('q').length > 0) {
+            $('#originalText').val(decodeURIComponent(getURLParam('q')));
+        }
+
         refreshLangList();
     }
     else if(mode === 'analyzer') {
@@ -135,6 +157,10 @@ function restoreChoices(mode) {
             if(choice.length === 2)
                 $('#secondaryAnalyzerMode option[value="' + choice.join('-') + '"]').prop('selected', true);
         }
+
+        if(getURLParam('qA').length > 0) {
+            $('#morphAnalyzerInput').val(decodeURIComponent(getURLParam('qA')));
+        }
     }
     else if(mode === 'generator') {
         if(localStorage) {
@@ -156,6 +182,10 @@ function restoreChoices(mode) {
             populateSecondaryGeneratorList();
             if(choice.length === 2)
                 $('#secondaryGeneratorMode option[value="' + choice.join('-') + '"]').prop('selected', true);
+        }
+
+        if(getURLParam('qG').length > 0) {
+            $('#morphGeneratorInput').val(decodeURIComponent(getURLParam('qG')));
         }
     }
     else if(mode === 'localization') {
