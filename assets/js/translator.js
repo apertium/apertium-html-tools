@@ -6,7 +6,6 @@ var droppedFile;
 var textTranslateRequest;
 var pageTranslateRequest;
 
-
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
@@ -74,7 +73,6 @@ if(modeEnabled('translation')) {
             timer = setTimeout(function () {
                 if($('#instantTranslation').prop('checked')) {
                     translateText();
-                    
                 }
                 persistChoices('translator', true);
             }, timeout);
@@ -208,7 +206,7 @@ if(modeEnabled('translation')) {
                     droppedFile = ev.originalEvent.dataTransfer.files[0];
 
                     $('#fileDropBackdrop').fadeOut();
-                    if(!$('div#docTranslation').is(":visible")) {
+                    if(!$('div#docTranslation').is(':visible')) {
                         $('div#translateText').fadeOut('fast', function () {
                             $('input#fileInput').hide();
                             $('div#docTranslation').fadeIn('fast');
@@ -377,7 +375,7 @@ function populateTranslationList() {
         for(var j = numSrcLang; j < numSrcLang + srcLangsPerCol; j++)
             if(numSrcLang < srcLangs.length) {
                 var langCode = srcLangs[j], langName = getLangByCode(langCode);
-                $('#srcLanguages .languageCol:eq(' + i + ')').append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
+                $('#srcLanguages .languageCol:eq(' + i + ')').append($("<div class='languageName'></div>").attr('data-code', langCode).text(langName));
             }
     }
 
@@ -386,7 +384,7 @@ function populateTranslationList() {
         for(var j = numDstLang; j < numDstLang + dstLangsPerCol; j++)
             if(numDstLang < dstLangs.length) {
                 var langCode = dstLangs[j], langName = getLangByCode(langCode);
-                $('#dstLanguages .languageCol:eq(' + i + ')').append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
+                $('#dstLanguages .languageCol:eq(' + i + ')').append($("<div class='languageName'></div>").attr('data-code', langCode).text(langName));
             }
     }
 
@@ -427,10 +425,10 @@ function populateTranslationList() {
 }
 
 function translate() {
-    if($('div#translateText').is(":visible")) {
+    if($('div#translateText').is(':visible')) {
         translateText();
     }
-    else if ($('div#pageTranslation').is(":visible")) {
+    else if ($('div#pageTranslation').is(':visible')) {
         translatePage();
     }
     else {
@@ -439,7 +437,7 @@ function translate() {
 }
 
 function translateText() {
-    if($('div#translateText').is(":visible")) {
+    if($('div#translateText').is(':visible')) {
         if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
             sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
             if(textTranslateRequest) {
@@ -463,7 +461,7 @@ function translateText() {
                         var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
                         if (urlPattern.test($('#originalText').val())) {
                             $('#translatePageInstead').show();                            
-                            $("#translatePageInstead").attr("onclick","$('#translateText').hide(); $('#translatePage').show(); translateLink(\'".concat(data.responseData.translatedText.concat("')")));
+                            $('#translatePageInstead').attr('onclick','$(\'#translateText\').hide(); $(\'#pageTranslation\').show(); translateLink(\''.concat(data.responseData.translatedText.concat('\')')));
 
                         }
                         else {
@@ -483,7 +481,7 @@ function translateText() {
 }
 
 function translatePage() {
-    if($('div#pageTranslation').is(":visible")) {
+    if($('div#pageTranslation').is(':visible')) {
 
         if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
             
@@ -504,10 +502,9 @@ function translatePage() {
                 },
                 success: function (data) {
                     if(data.responseStatus === 200) {
-                        var iframe = document.getElementById('translatedPage'),
-                        iframedoc = iframe.contentDocument || iframe.contentWindow.document;
-                        iframedoc.body.innerHTML = data.responseData.translatedPage;
- 
+                        var iframe = $('#translatedPage');
+                        iframedoc = iframe.contents();
+                        iframedoc.contents().html(data.responseData.translatedPage);
                     }
                     else
                         translationNotAvailable();
