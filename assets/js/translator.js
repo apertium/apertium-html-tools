@@ -494,7 +494,7 @@ function translateText() {
 
                         $('#translatedText').attr('pristineText', data.responseData.translatedText);
 
-                        if(config.SUGGESTIONS.enabled === 'True') {
+                        if(config.SUGGESTIONS.enabled) {
                             $('#translatedText').html(
                                 $('#translatedText').html().replace(
                                     /(\*\S+|\@\S+|\#\S+)/g,

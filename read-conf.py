@@ -52,6 +52,12 @@ def load_conf(filename):
         'AVAILABLE_LOCALES_CACHE_EXPIRY' : conf_APY.getint('AVAILABLE_LOCALES_CACHE_EXPIRY', fallback=24),
 
         'REPLACEMENTS'                   : {k: v for k, v in conf['REPLACEMENTS'].items()},
+
+        'SUGGESTIONS'                    : {
+            'enabled': conf['SUGGESTIONS'].getboolean('ENABLED'),
+            'recaptcha_site_key': conf['SUGGESTIONS'].get('RECAPTCHA_SITE_KEY'),
+            'context_wrap': conf['SUGGESTIONS'].get('CONTEXT_WRAP')
+        },
     }
     check_config(conf, result)
     return result
