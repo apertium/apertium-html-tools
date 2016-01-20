@@ -85,6 +85,10 @@ if(modeEnabled('translation')) {
             persistChoices('translator');
         });
 
+        $('#markUnknownCheckbox').change(function() {
+            translate();
+        });
+
         $('#originalText').on('input propertychange', function () {
             persistChoices('translator');
         });
@@ -428,7 +432,8 @@ function translateText() {
                 },
                 data: {
                     'langpair': curSrcLang + '|' + curDstLang,
-                    'q': $('#originalText').val()
+                    'q': $('#originalText').val(),
+                    'markUnknown': ($('#markUnknownCheckbox').prop('checked')? 'yes': 'no')
                 },
                 success: function (data) {
                     if(data.responseStatus === 200) {
