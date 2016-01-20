@@ -20,6 +20,7 @@
     "Detect_Language": "Detect Language",
     "detected": "detected",
     "Instant_Translation": "Instant translation",
+    "Mark_Unknown_Words": "Mark unknown words",
     "Translate_Document": "Translate a document",
     "Drop_Document": "Drop a document",
     "Not_Available": "Translation not yet available!",
