@@ -206,6 +206,11 @@ build/img/%: assets/img/%
 
 images: $(IMAGES_BUILD)
 
+### Test server ###
+server:
+	exo-open "http://localhost:8082"
+	( cd build; python3 -m http.server 8082 )
+
 
 ### Clean ###
 clean:
