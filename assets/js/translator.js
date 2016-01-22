@@ -75,6 +75,12 @@ if(modeEnabled('translation')) {
                 }
                 persistChoices('translator', true);
             }, timeout);
+
+            var translatedTextElem = $('#translatedText')[0];
+            this.style.overflowY = 'hidden';
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+            translatedTextElem.style.height = (this.scrollHeight + 10) + 'px';
         });
 
         $('#originalText').blur(function() {
