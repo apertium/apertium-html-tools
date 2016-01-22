@@ -7,6 +7,8 @@ var textTranslateRequest;
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
+        synchronizeTextareaHeights();
+
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
             curSrcLang = $(this).attr('data-code');
             handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
@@ -76,11 +78,11 @@ if(modeEnabled('translation')) {
                 persistChoices('translator', true);
             }, timeout);
 
-            var translatedTextElem = $('#translatedText')[0];
-            this.style.overflowY = 'hidden';
-            this.style.height = 'auto';
-            this.style.height = this.scrollHeight + 'px';
-            translatedTextElem.style.height = (this.scrollHeight + 10) + 'px';
+            synchronizeTextareaHeights();
+        });
+
+        $(window).resize(function(event) {
+            synchronizeTextareaHeights();
         });
 
         $('#originalText').blur(function() {
@@ -646,4 +648,14 @@ function autoSelectDstLang() {
             translateText();
         }
     }
+}
+
+function synchronizeTextareaHeights() {
+    var translatedTextElem = $('#translatedText')[0];
+    var origText = $('#originalText')[0];
+
+    origText.style.overflowY = 'hidden';
+    origText.style.height = 'auto';
+    origText.style.height = origText.scrollHeight + 'px';
+    translatedTextElem.style.height = (origText.scrollHeight + 10) + 'px';
 }
