@@ -647,9 +647,8 @@ function autoSelectDstLang() {
 
 function synchronizeTextareaHeights() {
     // Comment this if block if auto resize should also work on mobiles
-    // and tablet devices.
-    // the 992 value is taken from bootstrap's breakpoints
-    if($(window).width() < 992) {
+    // the 768 value is taken from bootstrap's breakpoints
+    if($(window).width() < 768) {
         return;
     }
 
