@@ -239,6 +239,29 @@ textarea#originalText, textarea#translatedText {
     }
 }
 
+iframe#translatedPage {
+    width: 100%;
+    height: 100%;
+}
+
+div.translatedPageWrapper {
+    width: 100%;
+    height: 400px;
+    resize: vertical;
+    overflow: auto;
+}
+
+div#pageTranslation{
+    width: 100%;
+    height: 100%;
+}
+
+/*
+#url {
+    width:100%;
+}
+*/
+
 /* Analysis */
 
 div.unit {

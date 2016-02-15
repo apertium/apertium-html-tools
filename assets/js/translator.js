@@ -4,6 +4,7 @@ var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var textTranslateRequest;
+var pageTranslateRequest;
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
@@ -84,7 +85,7 @@ if(modeEnabled('translation')) {
         $(window).resize(function(event) {
             synchronizeTextareaHeights();
         });
-
+        
         $('#originalText').blur(function() {
             persistChoices('translator', true);
         });
@@ -167,10 +168,28 @@ if(modeEnabled('translation')) {
                 $('div#docTranslation').fadeIn('fast');
             });
         });
+        
+        $('button#translatePage').click(function () {
+            $('div#translateText').fadeOut('fast', function () {
+//                $('#fileInput').show();
+//                $('div#fileName').hide();
+                $('div#pageTranslation').fadeIn('fast');
+            });
+        });
 
         $('button#cancelDocTranslate').click(function () {
             droppedFile = undefined;
             $('div#docTranslation').fadeOut('fast', function () {
+                $('a#fileDownload').hide();
+                $('span#uploadError').hide();
+                $('div#translateText').fadeIn('fast');
+                $('input#fileInput').wrap('<form>').closest('form').get(0).reset();
+                $('input#fileInput').unwrap();
+            });
+        });
+        
+        $('button#cancelPageTranslate').click(function () {
+            $('div#pageTranslation').fadeOut('fast', function () {
                 $('a#fileDownload').hide();
                 $('span#uploadError').hide();
                 $('div#translateText').fadeIn('fast');
@@ -199,7 +218,7 @@ if(modeEnabled('translation')) {
                     droppedFile = ev.originalEvent.dataTransfer.files[0];
 
                     $('#fileDropBackdrop').fadeOut();
-                    if(!$('div#docTranslation').is(":visible")) {
+                    if(!$('div#docTranslation').is(':visible')) {
                         $('div#translateText').fadeOut('fast', function () {
                             $('input#fileInput').hide();
                             $('div#docTranslation').fadeIn('fast');
@@ -368,7 +387,7 @@ function populateTranslationList() {
         for(var j = numSrcLang; j < numSrcLang + srcLangsPerCol; j++)
             if(numSrcLang < srcLangs.length) {
                 var langCode = srcLangs[j], langName = getLangByCode(langCode);
-                $('#srcLanguages .languageCol:eq(' + i + ')').append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
+                $('#srcLanguages .languageCol:eq(' + i + ')').append($("<div class='languageName'></div>").attr('data-code', langCode).text(langName));
             }
     }
 
@@ -377,7 +396,7 @@ function populateTranslationList() {
         for(var j = numDstLang; j < numDstLang + dstLangsPerCol; j++)
             if(numDstLang < dstLangs.length) {
                 var langCode = dstLangs[j], langName = getLangByCode(langCode);
-                $('#dstLanguages .languageCol:eq(' + i + ')').append($('<div class="languageName"></div>').attr('data-code', langCode).text(langName));
+                $('#dstLanguages .languageCol:eq(' + i + ')').append($("<div class='languageName'></div>").attr('data-code', langCode).text(langName));
             }
     }
 
@@ -418,14 +437,19 @@ function populateTranslationList() {
 }
 
 function translate() {
-    if($('div#translateText').is(":visible"))
+    if($('div#translateText').is(':visible')) {
         translateText();
-    else
+    }
+    else if ($('div#pageTranslation').is(':visible')) {
+        translatePage();
+    }
+    else {
         translateDoc();
+    }
 }
 
 function translateText() {
-    if($('div#translateText').is(":visible")) {
+    if($('div#translateText').is(':visible')) {
         if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
             sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
             if(textTranslateRequest) {
@@ -447,6 +471,16 @@ function translateText() {
                     if(data.responseStatus === 200) {
                         $('#translatedText').html(data.responseData.translatedText);
                         $('#translatedText').removeClass('notAvailable text-danger');
+                        var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
+                        if (urlPattern.test($('#originalText').val())) {
+                            $('#translatePageInstead').show();                            
+                            $('#translatePageInstead').attr('onclick','$(\'#translateText\').hide(); $(\'#pageTranslation\').show(); translateLink(\''.concat(data.responseData.translatedText.concat('\')')));
+
+                        }
+                        else {
+                            $('#translatePageInstead').hide();
+                        }
+                        
                     }
                     else
                         translationNotAvailable();
@@ -457,6 +491,48 @@ function translateText() {
         else
             translationNotAvailable();
     }
+}
+
+function translatePage() {
+    if($('div#pageTranslation').is(':visible')) {
+
+        if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+            
+            sendEvent('translator', 'translatePage', curSrcLang + '-' + curDstLang, $('#url').val().length);
+            if(pageTranslateRequest) {
+                pageTranslateRequest.abort();
+            }
+            pageTranslateRequest = $.jsonp({
+                url: config.APY_URL + '/translatePage',
+                beforeSend: ajaxSend,
+                complete: function() {
+                    ajaxComplete();
+                    textTranslateRequest = undefined;
+                },
+                data: {
+                    'langpair': curSrcLang + '|' + curDstLang,
+                    'url': $('#url').val()
+                },
+                success: function (data) {
+                    if(data.responseStatus === 200) {
+                        var iframe = $('#translatedPage');
+                        iframedoc = iframe.contents();
+                        iframedoc.contents().html(data.responseData.translatedPage);
+                    }
+                    else
+                        translationNotAvailable();
+                },
+                error: translationNotAvailable
+            });
+        }
+        else
+            translationNotAvailable();
+    }
+}
+
+function translateLink(link) {
+    $('#url').val(link); 
+    translatePage();
 }
 
 function translateDoc() {
