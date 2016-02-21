@@ -239,6 +239,10 @@ textarea#originalText, textarea#translatedText {
     }
 }
 
+#translateOptions label {
+  clear: both;
+}
+
 /* Analysis */
 
 div.unit {
@@ -299,4 +303,3 @@ html[dir=rtl] .pull-right:not(#rtlChecker) {
 html[dir=rtl] .pull-left:not(#rtlChecker) {
     float: right !important;
 }
-
