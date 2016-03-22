@@ -35,6 +35,7 @@ JSFILES= \
 	assets/js/translator.js \
 	assets/js/analyzer.js \
 	assets/js/generator.js \
+	assets/js/improver.js \
 	assets/js/sandbox.js
 
 assets/js/config.js: config.conf read-conf.py
