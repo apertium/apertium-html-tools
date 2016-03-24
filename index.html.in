@@ -193,6 +193,21 @@
                                           <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>
                                       </button>
                                   </div>
+								<div class="modeContainer" id="improveContainer">
+									<div class="col-sm-6" id="imrTrans">
+										<button id="improveTranslation" class="btn btn-default" style="margin-top: 1em;" data-toggle="collapse" data-target="#coll">
+                                          <span data-text="Improve_Translation">Improve this translation</span>
+										</button>
+				  						<div id="coll" class="collapse">
+                                  			<div class="col-sm-6">
+						  						<div class="form-group">
+													<textarea class="form-control" id="improvement" rows="3" style="margin-top: 1em;"></textarea>
+						        				</div>
+					                			<button type="button" id="sendImprovedTranslation" class="btn btn-default">Send</button>
+					        				</div>	
+				       					</div>	
+                                  	</div>
+								</div>
                                   <div class="col-sm-3 pull-right">
                                       <div class="checkbox" id="translateOptions">
                                           <label class="pull-right">
