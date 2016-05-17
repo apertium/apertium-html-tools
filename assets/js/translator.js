@@ -5,6 +5,12 @@ var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var textTranslateRequest;
 
+var recaptchaRenderCallback = function () {
+    grecaptcha.render('suggestRecaptcha', {
+      'sitekey' : config.SUGGESTIONS.recaptcha_site_key
+    });
+}
+
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         synchronizeTextareaHeights();
@@ -184,6 +190,84 @@ if(modeEnabled('translation')) {
                 $('span#uploadError').fadeOut('fast');
             });
             $('a#fileDownload').fadeOut('fast');
+        });
+
+        $('#translatedText').css('height', $('#originalText').css('height'));
+        $('#suggestBtn').click(function() {
+            var fromWord = $('#suggestionTargetWord').html();
+            var toWord = $('#suggestedWordInput').val();
+            var recaptchaResponse = grecaptcha.getResponse();
+
+            if(toWord.length === 0) {
+                $('#suggestedWordInput').tooltip('destroy');
+                $('#suggestedWordInput').tooltip({
+                    'title': 'Suggestion cannot be empty.',
+                    'trigger': 'manual',
+                    'placement': 'bottom'
+                });
+                $('#suggestedWordInput').tooltip('show')
+                setTimeout(function() {
+                    $('#suggestedWordInput').tooltip('hide');
+                    $('#suggestedWordInput').tooltip('destroy');
+                }, 3000);
+
+                return;
+            }
+
+            // Obtaining context, (± config.SUGGESTIONS.context_wrap) words
+            // fallback to complete text if this fails.
+            var hashedWord = fromWord.hashCode() + fromWord + fromWord.hashCode();
+            $('#wordGettingSuggested').text(hashedWord);
+
+            var splitted = $('#translatedText').text().split(' ');
+            $('#wordGettingSuggested').text(fromWord)
+
+            var targetIndex = splitted.indexOf(hashedWord);
+            var wrapLength = parseInt(config.SUGGESTIONS.context_wrap);
+            var begin, end;
+            begin  = (targetIndex > wrapLength)? (targetIndex-wrapLength): 0;
+            end = (splitted.length-targetIndex-1 > wrapLength)? (targetIndex+wrapLength): splitted.length;
+            
+            var context = splitted.slice(begin, end).join(' ').replace(hashedWord, fromWord);
+            if (!context) {
+                context = $('#translatedText').attr('pristineText');
+            }
+
+            $.ajax({
+                url: config.APY_URL + '/suggest',
+                type: 'POST',
+                beforeSend: ajaxSend,
+                data: {
+                    'langpair': curSrcLang + '|' + curDstLang,
+                    'word': fromWord,
+                    'newWord': toWord,
+                    'context': context,
+                    'g-recaptcha-response': recaptchaResponse
+                },
+                success: function (data) {
+                    // console.log(data);
+                    $('#suggestedWordInput').tooltip('hide');
+                    $('#suggestedWordInput').tooltip('destroy');
+                    $('#suggestedWordInput').val('');
+
+                    $('#wordSuggestModal').modal('hide');
+                },
+                error: function (data) {
+                    data = $.parseJSON(data.responseText);
+                    $('#suggestedWordInput').tooltip('destroy');
+                    $('#suggestedWordInput').tooltip({
+                        'title': (data['explanation'] ? data['explanation'] : 'An error occurred'),
+                        'trigger': 'manual',
+                        'placement': 'bottom'
+                    });
+                    $('#suggestedWordInput').tooltip('show')
+                    setTimeout(function() {
+                        $('#suggestedWordInput').tooltip('hide');
+                        $('#suggestedWordInput').tooltip('destroy');
+                    }, 3000);
+                },
+                complete: ajaxComplete
+            });
         });
 
         $('body').on('dragover', function (ev) {
@@ -447,6 +531,40 @@ function translateText() {
                     if(data.responseStatus === 200) {
                         $('#translatedText').html(data.responseData.translatedText);
                         $('#translatedText').removeClass('notAvailable text-danger');
+
+                        $('#translatedText').attr('pristineText', data.responseData.translatedText);
+                        $('#translatedText').html(
+                            $('#translatedText').html().replace(
+                                /(\*\S+|\@\S+|\#\S+)/g, 
+                                '<span class="wordSuggestPop text-danger" title="Improve Apertium\'s translation">$1</span>'));
+                        $('#translatedTextClone').html(
+                            $('#translatedText').attr('pristineText'));
+
+                        $('.wordSuggestPop').click(function() {
+                            $('.wordSuggestPop').removeAttr('id');
+                            $('.wordSuggestPopInline').removeAttr('id');
+                            $(this).attr('id', 'wordGettingSuggested');
+
+                            $('#translatedTextClone').html(
+                                $('#translatedTextClone').html().replace(
+                                    /(\*\S+|\@\S+|\#\S+)/g, 
+                                    '<span class="wordSuggestPopInline text-danger" title="Improve Apertium\'s translation">$1</span>'));
+
+                            $('.wordSuggestPopInline').click(function() {
+                                $('.wordSuggestPop').removeAttr('id');
+                                $('.wordSuggestPopInline').removeAttr('id');
+                                $(this).attr('id', 'wordGettingSuggested');
+
+                                $('#suggestionTargetWord').html($(this).text());
+                                $('#suggestedWordInput').val('');
+                            });
+
+                            console.log(dynamicLocalizations['Suggest_Sentence']);
+                            $('#suggestSentenceContainer').html(
+                                dynamicLocalizations['Suggest_Sentence'].replace('{{targetWordCode}}', '<code><span id="suggestionTargetWord"></span></code>'))
+                            $('#suggestionTargetWord').html($(this).text());
+                            $('#wordSuggestModal').modal();
+                        });
                     }
                     else
                         translationNotAvailable();
