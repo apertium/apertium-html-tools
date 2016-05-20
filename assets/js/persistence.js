@@ -71,9 +71,9 @@ function persistChoices(mode, updatePermalink) {
         }
 
         var qn;
-        if(hash === '#translation') qn = "";
-        if(hash === '#analyzation') qn = "A";
-        if(hash === '#generation') qn = "G";
+        if(hash === '#translation') qn = '';
+        if(hash === '#analyzation') qn = 'A';
+        if(hash === '#generation') qn = 'G';
 
         if(updatePermalink) {
             if(q.length > 0 && q.length < 1300) {
