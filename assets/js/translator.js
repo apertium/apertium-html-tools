@@ -651,8 +651,8 @@ function autoSelectDstLang() {
 }
 
 function synchronizeTextareaHeights() {
-    // Disables auto-resize on mobile devices (< 992px viewport)
-    if($(window).width() < 992) {
+    // Comment if auto resize should also work on mobile devices
+    if($(window).width() < 768) {
         return;
     }
 
