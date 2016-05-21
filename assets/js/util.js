@@ -34,9 +34,16 @@ $(document).ready(function () {
 
     var hash = parent.location.hash;
 
-    if(!hash || !$(hash + 'Container')) {
-        hash = '#' + config.DEFAULT_MODE;
-        parent.location.hash = hash;
+    try {
+      if(!hash || !$(hash + 'Container')) {
+          hash = '#' + config.DEFAULT_MODE;
+          parent.location.hash = hash;
+      }
+    }
+    catch (e) {
+      console.error('Invalid hash: ' + e);
+      hash = '#' + config.DEFAULT_MODE;
+      parent.location.hash = hash;
     }
 
     $('.modeContainer' + hash + 'Container').show();
