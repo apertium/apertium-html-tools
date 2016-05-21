@@ -106,7 +106,9 @@ if(modeEnabled('translation')) {
         });
 
         $('.clearButton').click(function () {
-            $(this).blur().siblings('textarea').val('');
+            $('#originalText, #translatedText').val('');
+            $('#originalText').focus();
+            synchronizeTextareaHeights();
         });
 
         $('#detect').click(function () {
