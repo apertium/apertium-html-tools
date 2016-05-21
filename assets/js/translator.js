@@ -662,5 +662,5 @@ function synchronizeTextareaHeights() {
     });
     var originalTextScrollHeight = $('#originalText')[0].scrollHeight;
     $('#originalText').css('height', originalTextScrollHeight + 'px');
-    $('#translatedText').css('height', (originalTextScrollHeight + 10) + 'px');
+    $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
