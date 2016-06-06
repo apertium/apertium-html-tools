@@ -44,7 +44,7 @@
     "Input_Text": "Text d'entrada",
     "Notice_Mistake": "Heu trobat un error?",
     "Help_Improve": "Ajudeu-nos a millorar Apertium!",
-    "Contact_Us": "No dubteu en posar-se en contacte amb nosaltres si trobeu cap errada, si hi ha cap projecte en el que vos agradaria que treballarem o si voleu ajudar-nos.",
+    "Contact_Us": "No dubteu en posar-vos en contacte amb nosaltres si trobeu cap errada, si hi ha cap projecte en el qual vos agradaria que treballarem o si voleu ajudar-nos.",
     "Maintainer": "Aquest lloc web està mantingut per {{maintainer}}.",
     "About_Title": "Quant a la web",
     "Enable_JS_Warning": "La web només funciona amb navegadors que funcionen amb JavaScript, si no podeu <a href='http://www.enable-javascript.com/' target='_blank'>habilitar JavaScript</a>, podeu provar els <a href='http://traductor.prompsit.com' target='_blank'>traductors a Prompsit</a>.",
