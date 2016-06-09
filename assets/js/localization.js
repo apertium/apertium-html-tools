@@ -162,7 +162,9 @@ function getLocales() {
         var localePairs = [];
         for(var code in locales)
             localePairs.push([code, locales[code]]);
-        localePairs.sort();
+        localePairs = localePairs.sort(function (a, b) {
+            return a[1].toLowerCase().localeCompare(b[1].toLowerCase());
+        });
         $('.localeSelect').empty();
         $.each(localePairs, function () {
             $('.localeSelect').append($('<option></option>').val(this[0]).text(this[1]).prop('dir', rtlLanguages.indexOf(this[0]) !== -1 ? 'rtl' : 'ltr'));
