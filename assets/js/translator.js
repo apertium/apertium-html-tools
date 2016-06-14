@@ -232,8 +232,8 @@ if(modeEnabled('translation')) {
             var targetIndex = splitted.indexOf(hashedWord);
             var wrapLength = parseInt(config.SUGGESTIONS.context_wrap);
             var begin, end;
-            begin  = (targetIndex > wrapLength)? (targetIndex-wrapLength): 0;
-            end = (splitted.length-targetIndex-1 > wrapLength)? (targetIndex+wrapLength+1): splitted.length;
+            begin  = (targetIndex > wrapLength) ? (targetIndex - wrapLength) : 0;
+            end = (splitted.length - targetIndex - 1 > wrapLength) ? (targetIndex + wrapLength + 1) : splitted.length;
             
             var context = splitted.slice(begin, end).join(' ').replace(hashedWord, fromWord);
             if (!context) {
@@ -252,7 +252,6 @@ if(modeEnabled('translation')) {
                     'g-recaptcha-response': recaptchaResponse
                 },
                 success: function (data) {
-                    // console.log(data);
                     $('#suggestedWordInput').tooltip('hide');
                     $('#suggestedWordInput').tooltip('destroy');
                     $('#suggestedWordInput').val('');
@@ -273,10 +272,10 @@ if(modeEnabled('translation')) {
                         $('#suggestedWordInput').tooltip('destroy');
                     }, 3000);
                 },
-				complete: function(){
-					ajaxComplete
-					grecaptcha.reset();
-				}
+                complete: function(){
+                    ajaxComplete
+                    grecaptcha.reset();
+                }
             });
         });
 
@@ -578,8 +577,8 @@ function translateText() {
                         if(config.SUGGESTIONS.enabled) {
                             $('#translatedText').html(
                                 $('#translatedText').html().replace(
-                                    /(\*\S+|\@\S+|\#\S+)/g,
-                                    '<span class="wordSuggestPop text-danger" title="Improve Apertium\'s translation">$1</span>'));
+                                    /(\*|\@|\#)(\S+)/g,
+                                    '<span class="wordSuggestPop text-danger" title="Improve Apertium\'s translation">$2</span>'));
                         }
                         $('#translatedTextClone').html(
                             $('#translatedText').attr('pristineText'));
@@ -591,22 +590,21 @@ function translateText() {
 
                             $('#translatedTextClone').html(
                                 $('#translatedTextClone').html().replace(
-                                    /(\*\S+|\@\S+|\#\S+)/g, 
-                                    '<span class="wordSuggestPopInline text-danger" title="Improve Apertium\'s translation">$1</span>'));
+                                    /(\*|\@|\#)(\S+)/g, 
+                                    '<span class="wordSuggestPopInline text-danger" title="Improve Apertium\'s translation">$2</span>'));
 
                             $('.wordSuggestPopInline').click(function() {
                                 $('.wordSuggestPop').removeAttr('id');
                                 $('.wordSuggestPopInline').removeAttr('id');
                                 $(this).attr('id', 'wordGettingSuggested');
 
-                                $('#suggestionTargetWord').html($(this).text());
+                                $('#suggestionTargetWord').html($(this).text().replace(/(\*|\@|\#)/g,''));
                                 $('#suggestedWordInput').val('');
                             });
 
-                            console.log(dynamicLocalizations['Suggest_Sentence']);
                             $('#suggestSentenceContainer').html(
                                 dynamicLocalizations['Suggest_Sentence'].replace('{{targetWordCode}}', '<code><span id="suggestionTargetWord"></span></code>'))
-                            $('#suggestionTargetWord').html($(this).text());
+                            $('#suggestionTargetWord').html($(this).text().replace(/(\*|\@|\#)/g,''));
                             $('#wordSuggestModal').modal();
                         });
                     }
