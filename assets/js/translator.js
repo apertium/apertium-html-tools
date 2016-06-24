@@ -576,9 +576,7 @@ function translateText() {
 
                         if(config.SUGGESTIONS.enabled) {
                             $('#translatedText').html(
-                                $('#translatedText').html().replace(
-                                    /(\*|\@|\#)(\S+)/g,
-                                    '<span class="wordSuggestPop text-danger" title="Improve Apertium\'s translation">$2</span>'));
+                                $('#translatedText').html().replace(/(\*|\@|\#)(\S+)/g, '<span class="wordSuggestPop text-danger" title="Improve Apertium\'s translation">$2</span>'));
                         }
                         $('#translatedTextClone').html(
                             $('#translatedText').attr('pristineText'));
@@ -589,22 +587,20 @@ function translateText() {
                             $(this).attr('id', 'wordGettingSuggested');
 
                             $('#translatedTextClone').html(
-                                $('#translatedTextClone').html().replace(
-                                    /(\*|\@|\#)(\S+)/g, 
-                                    '<span class="wordSuggestPopInline text-danger" title="Improve Apertium\'s translation">$2</span>'));
+                                $('#translatedTextClone').html().replace(/(\*|\@|\#)(\S+)/g, '<span class="wordSuggestPopInline text-danger" title="Improve Apertium\'s translation">$2</span>'));
 
                             $('.wordSuggestPopInline').click(function() {
                                 $('.wordSuggestPop').removeAttr('id');
                                 $('.wordSuggestPopInline').removeAttr('id');
                                 $(this).attr('id', 'wordGettingSuggested');
 
-                                $('#suggestionTargetWord').html($(this).text().replace(/(\*|\@|\#)/g,''));
+                                $('#suggestionTargetWord').html($(this).text().replace(/(\*|\@|\#)/g, ''));
                                 $('#suggestedWordInput').val('');
                             });
 
                             $('#suggestSentenceContainer').html(
                                 dynamicLocalizations['Suggest_Sentence'].replace('{{targetWordCode}}', '<code><span id="suggestionTargetWord"></span></code>'))
-                            $('#suggestionTargetWord').html($(this).text().replace(/(\*|\@|\#)/g,''));
+                            $('#suggestionTargetWord').html($(this).text().replace(/(\*|\@|\#)/g, ''));
                             $('#wordSuggestModal').modal();
                         });
                     }
