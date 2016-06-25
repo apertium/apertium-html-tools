@@ -190,6 +190,13 @@ if(modeEnabled('translation')) {
             });
         });
 
+        $('input#webpage').keyup(function (ev) {
+            if(ev.keyCode === ENTER_KEY_CODE) {
+                translate();
+                return false;
+            }
+        });
+
         $('button#translateWebpage').click(function () {
             $('div#translateText').fadeOut('fast', function () {
                 $('input#webpage').attr({
@@ -653,6 +660,7 @@ function translateWebpage() {
     }
 
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+        sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
         $.jsonp({
             url: config.APY_URL + '/translatePage',
             beforeSend: ajaxSend,
