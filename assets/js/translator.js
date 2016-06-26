@@ -4,6 +4,7 @@ var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var textTranslateRequest;
+var currentSrc = "https://www.google.com/recaptcha/api.js?onload=recaptchaRenderCallback&render=explicit&hl=";
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     UPLOAD_FILE_SIZE_LIMIT = 32E6,
@@ -16,6 +17,29 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         synchronizeTextareaHeights();
+
+        var localLang = iso639Codes[$('.localeSelect').val()];
+        var newSrc = currentSrc + 'en';
+        var backoff = false;
+
+        for(var i = 0; i < localizeRecaptcha.length; i++) {
+            if (localLang == localizeRecaptcha[i]) {
+                newSrc = currentSrc + localLang;
+                backoff = false;
+                break
+            }
+            else {
+                backoff = true;
+            } 
+        }
+
+        if (backoff) {
+            newSrc = currentSrc + localizeRecaptchaAlternative[localLang]; 
+            }
+
+        $('#recapscript').attr('src', newSrc);
+        $('#recapscript').attr('async', '');
+        $('#recapscript').attr('defer', ''); 
 
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
             curSrcLang = $(this).attr('data-code');
@@ -202,6 +226,7 @@ if(modeEnabled('translation')) {
         $('#translatedText').css('height', $('#originalText').css('height'));
         $('#suggestCloseBtn').click(function() {
             $('#suggestedWordInput').val('');
+            grecaptcha.reset();
         });
         $('#suggestBtn').click(function() {
             var fromWord = $('#suggestionTargetWord').html();
@@ -578,8 +603,11 @@ function translateText() {
                         $('#translatedText').attr('pristineText', data.responseData.translatedText);
 
                         if(config.SUGGESTIONS.enabled) {
-                            $('#translatedText').html(
-                                $('#translatedText').html().replace(/(\*|\@|\#)(\S+)/g, '<span class="wordSuggestPop text-danger" title="Improve Apertium\'s translation">$2</span>'));
+                            var localizedTitle = dynamicLocalizations['Suggest_Title'];
+                            var placeholder = dynamicLocalizations['Suggest_Placeholder'];
+                            $('#suggestedWordInput').attr('placeholder', placeholder);
+                            $('#translatedText').html(                                
+                                $('#translatedText').html().replace(/(\*|\@|\#)(\S+)/g, '<span class="wordSuggestPop text-danger" title="' + localizedTitle + '">$2</span>'));
                         }
 
                         $('#translatedTextClone').html(
@@ -591,7 +619,7 @@ function translateText() {
                             $(this).attr('id', 'wordGettingSuggested');
 
                             $('#translatedTextClone').html(
-                                $('#translatedTextClone').html().replace(/(\*|\@|\#)(\S+)/g, '<span class="wordSuggestPopInline text-danger" title="Improve Apertium\'s translation">$2</span>'));
+                                $('#translatedTextClone').html().replace(/(\*|\@|\#)(\S+)/g, '<span class="wordSuggestPopInline text-danger" title="' + localizedTitle + '">$2</span>'));
 
                             $('.wordSuggestPopInline').click(function() {
                                 $('.wordSuggestPop').removeAttr('id');
