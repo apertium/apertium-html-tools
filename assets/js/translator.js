@@ -202,6 +202,7 @@ if(modeEnabled('translation')) {
         $('#translatedText').css('height', $('#originalText').css('height'));
         $('#suggestCloseBtn').click(function() {
             $('#suggestedWordInput').val('');
+            grecaptcha.reset();
         });
         $('#suggestBtn').click(function() {
             var fromWord = $('#suggestionTargetWord').html();
