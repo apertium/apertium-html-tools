@@ -200,6 +200,9 @@ if(modeEnabled('translation')) {
         });
 
         $('#translatedText').css('height', $('#originalText').css('height'));
+        $('#suggestCloseBtn').click(function() {
+            $('#suggestedWordInput').val('');
+        });
         $('#suggestBtn').click(function() {
             var fromWord = $('#suggestionTargetWord').html();
             var toWord = $('#suggestedWordInput').val();
@@ -578,6 +581,7 @@ function translateText() {
                             $('#translatedText').html(
                                 $('#translatedText').html().replace(/(\*|\@|\#)(\S+)/g, '<span class="wordSuggestPop text-danger" title="Improve Apertium\'s translation">$2</span>'));
                         }
+
                         $('#translatedTextClone').html(
                             $('#translatedText').attr('pristineText'));
 
@@ -596,11 +600,13 @@ function translateText() {
 
                                 $('#suggestionTargetWord').html($(this).text().replace(/(\*|\@|\#)/g, ''));
                                 $('#suggestedWordInput').val('');
+
                             });
 
                             $('#suggestSentenceContainer').html(
                                 dynamicLocalizations['Suggest_Sentence'].replace('{{targetWordCode}}', '<code><span id="suggestionTargetWord"></span></code>'))
                             $('#suggestionTargetWord').html($(this).text().replace(/(\*|\@|\#)/g, ''));
+
                             $('#wordSuggestModal').modal();
                         });
                     }
