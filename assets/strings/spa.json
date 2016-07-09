@@ -10,14 +10,16 @@
             "es",
             "spa"
         ],
-        "completion": " 88%  35.17%",
+        "completion": " 84%  34.08%",
         "missing": [
             "Documentation_Para",
-            "Downloads_Para",
-            "description",
-            "Drop_Document",
+            "Mark_Unknown_Words",
+            "All_Translation_Help",
             "What_Is_Apertium",
-            "Contact_Para"
+            "Downloads_Para",
+            "Contact_Para",
+            "description",
+            "Drop_Document"
         ]
     },
     "title": "Apertium | Una plataforma libre para la traducción automática",

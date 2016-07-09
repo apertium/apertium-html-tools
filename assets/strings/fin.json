@@ -9,8 +9,10 @@
             "fi",
             "fin"
         ],
-        "completion": " 96%  89.39%",
+        "completion": " 92%  86.63%",
         "missing": [
+            "Mark_Unknown_Words",
+            "All_Translation_Help",
             "description",
             "Drop_Document"
         ]

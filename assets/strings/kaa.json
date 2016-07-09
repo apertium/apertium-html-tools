@@ -7,8 +7,10 @@
         "locale": [
             "kaa"
         ],
-        "completion": " 96% 103.66%",
+        "completion": " 92% 100.47%",
         "missing": [
+            "Mark_Unknown_Words",
+            "All_Translation_Help",
             "description",
             "Drop_Document"
         ]

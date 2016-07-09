@@ -9,8 +9,10 @@
             "ca",
             "cat"
         ],
-        "completion": " 96% 105.39%",
+        "completion": " 92% 102.19%",
         "missing": [
+            "Mark_Unknown_Words",
+            "All_Translation_Help",
             "description",
             "Drop_Document"
         ]

@@ -8,8 +8,10 @@
             "nb",
             "nob"
         ],
-        "completion": " 96%  96.87%",
+        "completion": " 92%  93.88%",
         "missing": [
+            "Mark_Unknown_Words",
+            "All_Translation_Help",
             "description",
             "Drop_Document"
         ]

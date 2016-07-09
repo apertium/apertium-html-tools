@@ -37,7 +37,7 @@ if __name__ == '__main__':
     actions = ['new', 'create', 'sort', 'clean', 'scrub', 'update', 'rebase', 'all', 'cleanup']
     args.codes = args.codes + list(filter(lambda x: x not in actions, args.actions))
     args.actions = list(filter(lambda x: x in actions, args.actions))
-    
+
     if not args.actions:
         parser.error('the following arguments are required: actions')
 
@@ -110,4 +110,3 @@ if __name__ == '__main__':
                 strings = OrderedDict(sorted(strings.items(), key=lambda x: -1 if x[0] not in canonicalStrings.keys() else list(canonicalStrings.keys()).index(x[0])))
                 strings[args.metadataKey] = OrderedDict(sorted(strings[args.metadataKey].items(), key=lambda x: -1 if x[0] not in defaultMetadata.keys() else list(defaultMetadata.keys()).index(x[0])))
                 dumpJSON(f, strings)
-

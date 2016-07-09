@@ -7,8 +7,11 @@
         "locale": [
             "swe"
         ],
-        "completion": "100% 102.62%",
-        "missing": []
+        "completion": " 96%  99.46%",
+        "missing": [
+            "All_Translation_Help",
+            "Mark_Unknown_Words"
+        ]
     },
     "title": "Apertium | En fri maskinöversättningsplattform i öppen källkod",
     "tagline": "En fri maskinöversättningsplattform i öppen källkod",

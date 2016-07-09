@@ -9,15 +9,17 @@
             "ky",
             "kir"
         ],
-        "completion": " 86%  33.26%",
+        "completion": " 82%  32.23%",
         "missing": [
-            "Documentation_Para",
-            "Downloads_Para",
             "Format_Not_Supported",
-            "description",
-            "Drop_Document",
+            "Documentation_Para",
+            "Mark_Unknown_Words",
+            "All_Translation_Help",
             "What_Is_Apertium",
-            "Contact_Para"
+            "Downloads_Para",
+            "Contact_Para",
+            "description",
+            "Drop_Document"
         ]
     },
     "title": "Apertium | Эркин/ачык машинелик котормо платформасы",
