@@ -229,7 +229,7 @@ if(modeEnabled('translation')) {
             $('div#docTranslation').fadeOut('fast', function () {
                 $('a#fileDownload').hide();
                 $('span#uploadError').hide();
-                $('div#translateText').fadeIn('fast');
+                $('div#translateText').fadeIn('fast', synchronizeTextareaHeights);
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
             });
