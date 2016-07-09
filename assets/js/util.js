@@ -59,6 +59,7 @@ $(document).ready(function () {
         $('#' + mode + 'Container').show({
             queue: false
         });
+        synchronizeTextareaHeights();
     });
 
     $(window).on('hashchange', persistChoices);
