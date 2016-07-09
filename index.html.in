@@ -110,7 +110,9 @@
                   <h2 class="visible-xs" data-text="Translation">Translation</h2>
                   <form class="form-horizontal" role="form" id="translationForm">
                       <fieldset>
-                          <legend data-text="Translation_Help"></legend>
+                          <legend data-text="All_Translation_Help">
+                            Choose two languages and translate your text, documents and webpages using Apertium's translation platform!
+                          </legend>
                           <div class="form-group visible-xs">
                               <div class="col-sm-12">
                                   <select class="langSelect" id="srcLangSelect" style="display: inline-block !important">
@@ -266,7 +268,9 @@
                   <h2 class="visible-xs" data-text="Morphological_Analysis">Morphological analysis</h2>
                   <form class="form-horizontal" role="form" id="analysisForm">
                       <fieldset>
-                          <legend data-text="Morphological_Analysis_Help"></legend>
+                          <legend data-text="Morphological_Analysis_Help">
+                            Choose a language and analyse your text using Apertium's morphological analysers.
+                          </legend>
                           <div class="form-group">
                               <label for="primaryAnalyzerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
                               <div class="col-sm-3">
@@ -298,7 +302,9 @@
                   <h2 class="visible-xs" data-text="Morphological_Generation">Morphological generation</h2>
                   <form class="form-horizontal" role="form" id="generateForm">
                       <fieldset>
-                          <legend data-text="Morphological_Generation_Help"></legend>
+                          <legend data-text="Morphological_Generation_Help">
+                            Choose a language and generate surface forms from your text using Apertium's morphological generators.
+                          </legend>
                           <div class="form-group">
                               <label for="primaryGeneratorMode" class="col-sm-2 control-label" data-text="Language">Language</label>
                               <div class="col-sm-3">

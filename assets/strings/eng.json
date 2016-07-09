@@ -3,7 +3,7 @@
         "authors": [
             "sushain97"
         ],
-        "last-updated": "2014-12-02",
+        "last-updated": "2016-07-09",
         "locale": [
             "en",
             "eng"
@@ -16,6 +16,7 @@
     "description": "Apertium is a rule-based machine translation platform. It is free software and released under the terms of the GNU General Public License.",
     "Translation": "Translation",
     "Translation_Help": "Choose two languages and translate your text using Apertium's translation platform!",
+    "All_Translation_Help": "Choose two languages and translate your text, documents and webpages using Apertium's translation platform!",
     "Translate": "Translate",
     "Detect_Language": "Detect Language",
     "detected": "detected",
