@@ -4,6 +4,7 @@ var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var textTranslateRequest;
+globalImplementedLangs = [];//this is global specially for identify()
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     UPLOAD_FILE_SIZE_LIMIT = 32E6,
@@ -28,7 +29,7 @@ if(modeEnabled('translation')) {
             curDstLang = $(this).attr('data-code');
             handleNewCurrentLang(curDstLang, recentDstLangs, 'dstLang');
         });
-
+       
         $('.srcLang').click(function () {
             curSrcLang = $(this).attr('data-code');
             $('.srcLang').removeClass('active');
@@ -278,6 +279,8 @@ function getPairs() {
     }
 
     function handlePairs(pairData) {
+        for(var i = 0; i < pairData.length; i++)
+            globalImplementedLangs.push(pairData[i].sourceLanguage)
         $.each(pairData, function (i, pair) {
             srcLangs.push(pair.sourceLanguage);
             dstLangs.push(pair.targetLanguage);
@@ -475,6 +478,7 @@ function translateText() {
             if(textTranslateRequest) {
                 textTranslateRequest.abort();
             }
+            identify();
             textTranslateRequest = $.jsonp({
                 url: config.APY_URL + '/translate',
                 beforeSend: ajaxSend,
@@ -614,6 +618,8 @@ function translateDoc() {
     }
 }
 
+
+
 function detectLanguage() {
     if(textTranslateRequest) {
         textTranslateRequest.abort();
@@ -661,6 +667,61 @@ function detectLanguage() {
         },
         error: function () {
             $('#srcLang1').click();
+        }
+    });
+}
+
+function identify() {
+    if(textTranslateRequest) {
+        textTranslateRequest.abort();
+    }
+    textTranslateRequest = $.jsonp({
+        url: config.APY_URL + '/identifyLang',
+        beforeSend: ajaxSend,
+        complete: function() {
+            ajaxComplete();
+            textTranslateRequest = undefined;
+        },
+        data: {
+            'q': $('#originalText').val()
+        },
+        success: function (data) {           
+            var items = Object.keys(data).map(function(key) {
+                return [key, data[key]];
+            });
+            items.sort(function(first, second) {
+                return second[1] - first[1];
+            });
+           
+            var identifiedCode = items[0][0];
+            for (key in iso639Codes) {
+                if (iso639Codes[key] == identifiedCode) {
+                    identifiedCode = key;
+                }
+            }            
+
+            var langNameTarget = getLangByCode(identifiedCode);
+            var langNamesSource = [];
+            for (var i = 0; i < globalImplementedLangs.length; i++) {
+                var langNameSource = getLangByCode(globalImplementedLangs[i]);      
+                langNamesSource.push(langNameSource);
+            }
+ 
+            var isMatch = langNamesSource.indexOf(langNameTarget);
+
+            if (isMatch != -1) {
+                $('#identify').html(dynamicLocalizations['Translate_From'] + ' ' + '<a id="srcDetected" style="cursor: pointer">' + langNameTarget + '</a>');
+                $('#srcDetected').click(function () {
+                    handleNewCurrentLang(curSrcLang = identifiedCode, recentSrcLangs, 'srcLang');
+                    autoSelectDstLang();
+                });
+            }
+            else {
+                $('#identify').html(dynamicLocalizations['Sorry_Support'] + langNameTarget + ', ' + '<a data-toggle="modal" data-target="#contactModal" data-keyboard="true" style="cursor: pointer">' + dynamicLocalizations['ContactUs'] + '</a>');
+           }
+        },
+        error: function () {
+           $('#identify').html('');
         }
     });
 }

@@ -188,6 +188,8 @@
                                   <div class="col-sm-6">
                                       <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
                                   </div>
+                                  <div class="col-sm-8" id="identify" style="padding-top: 1em;">
+                                  </div>                                  
                                   <div class="col-sm-6">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
                                           <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>

@@ -11,8 +11,11 @@
             "ru",
             "rus"
         ],
-        "completion": "100%  97.53%",
-        "missing": []
+        "completion": " 96%  96.72%",
+        "missing": [
+            "Mark_Unknown_Words",
+            "Translate_From"
+        ]
     },
     "title": "Апертиум | Открытая платформа машинного перевода",
     "tagline": "Открытая платформа машинного перевода",
@@ -23,6 +26,7 @@
     "Detect_Language": "Определить язык",
     "detected": "определен автоматически",
     "Instant_Translation": "Мгновенный перевод",
+    "Mark_Unknown_Words": "%%UNAVAILABLE%% Mark unknown words",
     "Translate_Document": "Перевести документ",
     "Drop_Document": "Перетащите документ сюда",
     "Not_Available": "Перевод ещё не доступен!",
@@ -59,5 +63,8 @@
     "Documentation_Para": "Документация расположена в нашей <a href='http://wiki.apertium.org/'>вики</a> на <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank'>подстранице Документация</a>. Мы публикуем разнообразные бумаги с конференций и статьи из журналов, список которых доступен на странице <a href='http://wiki.apertium.org/wiki/Publications' target='_blank'>Публикации</a>.",
     "Apertium_Downloads": "Загрузки Apertium",
     "Downloads_Para": "Текущая версия <b>инструментария Apertium</b> и <b>данные о языковых парах</b> доступны на <a href='https://sourceforge.net/projects/apertium/' target='_blank'>странице SourceForge</a>. Инструкции по установке Apertium на всех основных платформах доступны <a href='http://wiki.apertium.org/wiki/Installation' target='_blank'>в вики</a>.",
-    "Contact_Para": "<h4>Канал IRC</h4> <p>Самый быстрый способ связаться с нами это использовать наш <a href='http://wiki.apertium.org/wiki/IRC' target='_blank'><abbr title='Internet Relay Chat'>IRC</abbr> канал, #apertium</a> на сервере irc.freenode.net, где общаются пользователи и разработчики. Вам не нужен IRC-клиент, можно использовать <a href='http://webchat.freenode.net/?channels=apertium'>вебчат freenode</a>. </p> <h4>Список рассылки</h4> <p>Подпишитесь на наш <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank'>список рассылки (apertium-stuff)</a>. Туда Вы можете писать предложения или ошибки, или просто обсуждать Apertium. </p> <h4>Ещё один список рассылки</h4> <p>С нами можно связаться через <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'>список рассылки apertium-contact</a> в случае, если Вы нашли ошибку, хотите, чтобы мы поработали над каким-то проектом или хотите помочь. </p>"
+    "Contact_Para": "<h4>Канал IRC</h4> <p>Самый быстрый способ связаться с нами это использовать наш <a href='http://wiki.apertium.org/wiki/IRC' target='_blank'><abbr title='Internet Relay Chat'>IRC</abbr> канал, #apertium</a> на сервере irc.freenode.net, где общаются пользователи и разработчики. Вам не нужен IRC-клиент, можно использовать <a href='http://webchat.freenode.net/?channels=apertium'>вебчат freenode</a>. </p> <h4>Список рассылки</h4> <p>Подпишитесь на наш <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank'>список рассылки (apertium-stuff)</a>. Туда Вы можете писать предложения или ошибки, или просто обсуждать Apertium. </p> <h4>Ещё один список рассылки</h4> <p>С нами можно связаться через <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'>список рассылки apertium-contact</a> в случае, если Вы нашли ошибку, хотите, чтобы мы поработали над каким-то проектом или хотите помочь. </p>",
+    "Translate_From": "Язык оригинала: ",
+    "Sorry_Support": "К сожалению, мы не поддерживаем ",
+    "ContactUs": "свяжитесь с нами!"
 }
