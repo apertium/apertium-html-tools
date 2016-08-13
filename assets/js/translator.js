@@ -710,11 +710,16 @@ function identify() {
             var isMatch = langNamesSource.indexOf(langNameTarget);
 
             if (isMatch != -1) {
-                $('#identify').html(dynamicLocalizations['Translate_From'] + ' ' + '<a id="srcDetected" style="cursor: pointer">' + langNameTarget + '</a>');
-                $('#srcDetected').click(function () {
-                    handleNewCurrentLang(curSrcLang = identifiedCode, recentSrcLangs, 'srcLang');
-                    autoSelectDstLang();
-                });
+                if (identifiedCode == curSrcLang) {
+                    $('#identify').html('');
+                }
+                else {
+                    $('#identify').html(dynamicLocalizations['Translate_From'] + ' ' + '<a id="srcDetected" style="cursor: pointer">' + langNameTarget + '</a>' + '?');
+                    $('#srcDetected').click(function () {
+                        handleNewCurrentLang(curSrcLang = identifiedCode, recentSrcLangs, 'srcLang');
+                        autoSelectDstLang();
+                    });
+                }
             }
             else {
                 $('#identify').html(dynamicLocalizations['Sorry_Support'] + langNameTarget + ', ' + '<a data-toggle="modal" data-target="#contactModal" data-keyboard="true" style="cursor: pointer">' + dynamicLocalizations['ContactUs'] + '</a>');
