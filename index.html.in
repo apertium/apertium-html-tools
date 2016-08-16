@@ -56,6 +56,7 @@
                 button#translateDoc { display: none; }
             </style>
         <![endif]-->
+
     </head>
     <body>
         <span class="fa hide" id="faChecker"></span>
@@ -531,10 +532,9 @@
                       <hr>
                       <p id="suggestSentenceContainer"></p>
 
-                      <form class="form-search form-inline">
+                      <form class="form-search form-inline" id="suggestedInput">
                         <input type="text" class="form-control" 
-                               id="suggestedWordInput"
-                               placeholder="New Word">
+                               id="suggestedWordInput">
                         <div id="suggestRecaptcha"></div>
                         <button type="submit" class="btn btn-primary btn-block" id="suggestBtn">
                           <span data-text="Suggest_Button"></span>
