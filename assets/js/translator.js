@@ -607,7 +607,7 @@ function translateText() {
                             var placeholder = dynamicLocalizations['Suggest_Placeholder'];
                             $('#suggestedWordInput').attr('placeholder', placeholder);
                             $('#translatedText').html(                                
-                                $('#translatedText').html().replace(/(\*|\@|\#)(\S+)/g, '<span class="wordSuggestPop text-danger" title="' + localizedTitle + '">$2</span>'));
+                                $('#translatedText').html().replace(/(^|\W|\d)(\*|\@|\#)(\w+)/g, '$1<span class="wordSuggestPop text-danger" title="' + localizedTitle + '">$3</span>'));
                         }
 
                         $('#translatedTextClone').html(
@@ -619,7 +619,7 @@ function translateText() {
                             $(this).attr('id', 'wordGettingSuggested');
 
                             $('#translatedTextClone').html(
-                                $('#translatedTextClone').html().replace(/(\*|\@|\#)(\S+)/g, '<span class="wordSuggestPopInline text-danger" title="' + localizedTitle + '">$2</span>'));
+                                $('#translatedTextClone').html().replace(/(^|\W|\d)(\*|\@|\#)(\w+)/g, '$1<span class="wordSuggestPopInline text-danger" title="' + localizedTitle + '">$3</span>'));
 
                             $('.wordSuggestPopInline').click(function() {
                                 $('.wordSuggestPop').removeAttr('id');
