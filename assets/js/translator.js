@@ -17,29 +17,15 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         synchronizeTextareaHeights();
-
-        var localLang = iso639Codes[$('.localeSelect').val()];
-        var newSrc = currentSrc + 'en';
-        var backoff = false;
-
-        for(var i = 0; i < localizeRecaptcha.length; i++) {
-            if (localLang == localizeRecaptcha[i]) {
-                newSrc = currentSrc + localLang;
-                backoff = false;
-                break
-            }
-            else {
-                backoff = true;
-            } 
+        recaptchaRenderCallback = function () {
+            grecaptcha.render('suggestRecaptcha', {
+              'sitekey' : config.SUGGESTIONS.recaptcha_site_key
+            });
         }
 
-        if (backoff) {
-            newSrc = currentSrc + localizeRecaptchaAlternative[localLang]; 
-            }
-
-        $('#recapscript').attr('src', newSrc);
-        $('#recapscript').attr('async', '');
-        $('#recapscript').attr('defer', ''); 
+        var locale2 = iso639Codes[$('.localeSelect').val()];
+        newSrc = pickRecaptchaLanguage(locale2);
+        $.getScript(newSrc);
 
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
             curSrcLang = $(this).attr('data-code');
@@ -224,11 +210,11 @@ if(modeEnabled('translation')) {
         });
 
         $('#translatedText').css('height', $('#originalText').css('height'));
-        $('#suggestCloseBtn').click(function() {
+        $('#suggestCloseBtn').click(function () {
             $('#suggestedWordInput').val('');
             grecaptcha.reset();
         });
-        $('#suggestBtn').click(function() {
+        $('#suggestBtn').click(function () {
             var fromWord = $('#suggestionTargetWord').html();
             var toWord = $('#suggestedWordInput').val();
             var recaptchaResponse = grecaptcha.getResponse();
@@ -241,30 +227,28 @@ if(modeEnabled('translation')) {
                     'placement': 'bottom'
                 });
                 $('#suggestedWordInput').tooltip('show')
-                setTimeout(function() {
-                    $('#suggestedWordInput').tooltip('hide');
+                setTimeout(function () {
                     $('#suggestedWordInput').tooltip('destroy');
                 }, 3000);
 
                 return;
             }
 
-            // Obtaining context, (± config.SUGGESTIONS.context_wrap) words
+            // Obtaining context, (± config.SUGGESTIONS.context_sizi) words
             // fallback to complete text if this fails.
             var hashedWord = fromWord.hashCode() + fromWord + fromWord.hashCode();
             $('#wordGettingSuggested').text(hashedWord);
 
-            var splitted = $('#translatedText').text().split(' ');
+            var splitText = $('#translatedText').text().split(' ');
             $('#wordGettingSuggested').text(fromWord)
 
-            var targetIndex = splitted.indexOf(hashedWord);
-            var wrapLength = parseInt(config.SUGGESTIONS.context_wrap);
-            var begin, end;
-            begin  = (targetIndex > wrapLength) ? (targetIndex - wrapLength) : 0;
-            end = (splitted.length - targetIndex - 1 > wrapLength) ? (targetIndex + wrapLength + 1) : splitted.length;
+            var targetIndex = splitText.indexOf(hashedWord);
+            var wrapLength = parseInt(config.SUGGESTIONS.context_size);
+            var begin  = (targetIndex > wrapLength) ? (targetIndex - wrapLength) : 0;
+            var end = (splitText.length - targetIndex - 1 > wrapLength) ? (targetIndex + wrapLength + 1) : splitText.length;
             
-            var context = splitted.slice(begin, end).join(' ').replace(hashedWord, fromWord);
-            if (!context) {
+            var context = splitText.slice(begin, end).join(' ').replace(hashedWord, fromWord);
+            if(!context) {
                 context = $('#translatedText').attr('pristineText');
             }
 
@@ -280,7 +264,6 @@ if(modeEnabled('translation')) {
                     'g-recaptcha-response': recaptchaResponse
                 },
                 success: function (data) {
-                    $('#suggestedWordInput').tooltip('hide');
                     $('#suggestedWordInput').tooltip('destroy');
                     $('#suggestedWordInput').val('');
 
@@ -295,12 +278,12 @@ if(modeEnabled('translation')) {
                         'placement': 'bottom'
                     });
                     $('#suggestedWordInput').tooltip('show')
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $('#suggestedWordInput').tooltip('hide');
                         $('#suggestedWordInput').tooltip('destroy');
                     }, 3000);
                 },
-                complete: function(){
+                complete: function (){
                     ajaxComplete
                     grecaptcha.reset();
                 }
@@ -603,36 +586,36 @@ function translateText() {
                         $('#translatedText').attr('pristineText', data.responseData.translatedText);
 
                         if(config.SUGGESTIONS.enabled) {
+
+
                             var localizedTitle = dynamicLocalizations['Suggest_Title'];
                             var placeholder = dynamicLocalizations['Suggest_Placeholder'];
                             $('#suggestedWordInput').attr('placeholder', placeholder);
                             $('#translatedText').html(                                
-                                $('#translatedText').html().replace(/(^|\W|\d)(\*|\@|\#)(\w+)/g, '$1<span class="wordSuggestPop text-danger" title="' + localizedTitle + '">$3</span>'));
+                                $('#translatedText').html().replace(/(^|\W|\d)(\*|\@|\#)(\w+)/g, '$1<span class="wordSuggestPopover text-danger" title="' + localizedTitle + '">$3</span>')
+                                );
                         }
 
-                        $('#translatedTextClone').html(
-                            $('#translatedText').attr('pristineText'));
-
-                        $('.wordSuggestPop').click(function() {
-                            $('.wordSuggestPop').removeAttr('id');
-                            $('.wordSuggestPopInline').removeAttr('id');
+                        $('#translatedTextClone').html($('#translatedText').attr('pristineText'));
+                        $('.wordSuggestPopover').click(function () {
+                            $('.wordSuggestPopover').removeAttr('id');
+                            $('.wordSuggestPopoverInline').removeAttr('id');
                             $(this).attr('id', 'wordGettingSuggested');
 
                             $('#translatedTextClone').html(
-                                $('#translatedTextClone').html().replace(/(^|\W|\d)(\*|\@|\#)(\w+)/g, '$1<span class="wordSuggestPopInline text-danger" title="' + localizedTitle + '">$3</span>'));
+                                $('#translatedTextClone').html().replace(/(^|\W|\d)(\*|\@|\#)(\w+)/g, '$1<span class="wordSuggestPopoverInline text-danger" title="' + localizedTitle + '">$3</span>')
+                                );
 
-                            $('.wordSuggestPopInline').click(function() {
-                                $('.wordSuggestPop').removeAttr('id');
-                                $('.wordSuggestPopInline').removeAttr('id');
+                            $('.wordSuggestPopoverInline').click(function () {
+                                $('.wordSuggestPopover').removeAttr('id');
+                                $('.wordSuggestPopoverInline').removeAttr('id');
                                 $(this).attr('id', 'wordGettingSuggested');
 
                                 $('#suggestionTargetWord').html($(this).text().replace(/(\*|\@|\#)/g, ''));
                                 $('#suggestedWordInput').val('');
-
                             });
 
-                            $('#suggestSentenceContainer').html(
-                                dynamicLocalizations['Suggest_Sentence'].replace('{{targetWordCode}}', '<code><span id="suggestionTargetWord"></span></code>'))
+                            $('#suggestSentenceContainer').html(dynamicLocalizations['Suggest_Sentence'].replace('{{targetWordCode}}', '<code><span id="suggestionTargetWord"></span></code>'));
                             $('#suggestionTargetWord').html($(this).text().replace(/(\*|\@|\#)/g, ''));
 
                             $('#wordSuggestModal').modal();

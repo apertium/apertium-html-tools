@@ -56,7 +56,7 @@ def load_conf(filename):
         'SUGGESTIONS'                    : {
             'enabled': conf['SUGGESTIONS'].getboolean('ENABLED'),
             'recaptcha_site_key': conf['SUGGESTIONS'].get('RECAPTCHA_SITE_KEY'),
-            'context_wrap': conf['SUGGESTIONS'].get('CONTEXT_WRAP')
+            'context_size': conf['SUGGESTIONS'].get('CONTEXT_SIZE')
         },
     }
     check_config(conf, result)
