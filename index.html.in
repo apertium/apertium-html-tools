@@ -56,7 +56,6 @@
                 button#translateDoc { display: none; }
             </style>
         <![endif]-->
-
     </head>
     <body>
         <span class="fa hide" id="faChecker"></span>
@@ -187,7 +186,7 @@
                                       <button class="btn clearButton"><i class="fa fa-times"></i></button>
                                   </div>
                                   <div class="col-sm-6">
-                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
+                                      <div class="form-control" id="translatedText" rows="15" spellcheck="false"></textarea>
                                   </div>
                                   <div class="col-sm-6">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
@@ -533,8 +532,7 @@
                       <p id="suggestSentenceContainer"></p>
 
                       <form class="form-search form-inline" id="suggestedInput">
-                        <input type="text" class="form-control" 
-                               id="suggestedWordInput">
+                        <input type="text" class="form-control" id="suggestedWordInput">
                         <div id="suggestRecaptcha"></div>
                         <button type="submit" class="btn btn-primary btn-block" id="suggestBtn">
                           <span data-text="Suggest_Button"></span>
