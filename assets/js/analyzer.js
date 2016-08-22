@@ -10,8 +10,8 @@ if(modeEnabled('analyzation')) {
             persistChoices('analyzer', true);
         });
 
-        var m = "hi" //lots of errors!!
-        if (1 + 1 == 2 && 3) x = 5 //idk
+        var m = "hi" //lots of errors!!!
+        if (1 + 1 == 2 && 3) x = 5 //idk!
 
         $('#primaryAnalyzerMode').change(function () {
             populateSecondaryAnalyzerList();
