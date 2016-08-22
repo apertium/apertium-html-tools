@@ -10,6 +10,8 @@ if(modeEnabled('analyzation')) {
             persistChoices('analyzer', true);
         });
 
+        var m = "hi" //lots of errors!
+
         $('#primaryAnalyzerMode').change(function () {
             populateSecondaryAnalyzerList();
             localizeInterface();
