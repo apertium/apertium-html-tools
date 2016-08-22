@@ -1,5 +1,7 @@
 /* exported persistChoices, restoreChoices */
 
+var URL_PARAM_Q_LIMIT = 1300;
+
 function persistChoices(mode, updatePermalink) {
     if(localStorage) {
         var objects;
@@ -80,7 +82,7 @@ function persistChoices(mode, updatePermalink) {
         if(hash === '#generation') { qName = 'G'; }
 
         if(updatePermalink) {
-            if(qVal.length > 0 && qVal.length < 1300) {
+            if(qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
                 urlParams.push('q' + qName + '=' + qVal);
             }
         }

@@ -27,6 +27,13 @@
 		"camelcase": "error",
 		"spaced-comment": "error",
 		"curly": "error",
+		"no-multi-spaces": "error",
+		"no-alert": "error",
+		"no-empty-function": "error",
+		"no-self-compare": "error",
+		"no-shadow-restricted-names": "error",
+		"no-floating-decimal": "error",
+		"no-useless-call": "error",
 		"indent": ["error", 4],
 		"quote-props": ["error", "consistent"],
 		"max-len": ["error", 140],
@@ -101,6 +108,12 @@
 					"tr", "div"
 				]
 			}
+		],
+		"complexity": ["warn", 32],
+		"no-use-before-define": ["warn", "nofunc"],
+		"no-magic-numbers": [
+			"warn",
+			{"ignore": [-1, 0, 0.5, 1, 2, 3, 10, 100, 1000]}
 		],
 		"dot-notation": [
 			"warn", {

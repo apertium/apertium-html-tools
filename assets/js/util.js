@@ -1,4 +1,9 @@
 /* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset */
+/* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
+
+var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
+    HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
+    XHR_LOADING = 3, XHR_DONE = 4;
 
 function ajaxSend() {
     $('#loading-indicator').show();
@@ -135,6 +140,16 @@ function modeEnabled(mode) {
     return config.ENABLED_MODES === null || config.ENABLED_MODES.indexOf(mode) !== -1;
 }
 
+function allowedLang(code) {
+    if(code.indexOf('_') === -1) {
+        return config.ALLOWED_LANGS === null || config.ALLOWED_LANGS.indexOf(code) !== -1;
+    }
+    else {
+        return allowedLang(code.split('_')[0]) &&
+            (config.ALLOWED_VARIANTS === null || config.ALLOWED_VARIANTS.indexOf(code.split('_')[1]) !== -1);
+    }
+}
+
 function filterLangList(langs, filterFn) {
     if(config.ALLOWED_LANGS === null && config.ALLOWED_VARIANTS === null) {
         return langs;
@@ -148,16 +163,6 @@ function filterLangList(langs, filterFn) {
         }
 
         return langs.filter(filterFn);
-    }
-}
-
-function allowedLang(code) {
-    if(code.indexOf('_') === -1) {
-        return config.ALLOWED_LANGS === null || config.ALLOWED_LANGS.indexOf(code) !== -1;
-    }
-    else {
-        return allowedLang(code.split('_')[0]) &&
-            (config.ALLOWED_VARIANTS === null || config.ALLOWED_VARIANTS.indexOf(code.split('_')[1]) !== -1);
     }
 }
 

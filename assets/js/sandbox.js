@@ -7,7 +7,7 @@ if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox')
         });
 
         $('#sandboxInput').keydown(function (e) {
-            if(e.keyCode === 13 && !e.shiftKey) {
+            if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
                 request();
             }

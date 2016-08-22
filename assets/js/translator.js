@@ -5,6 +5,12 @@ var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var textTranslateRequest;
 
+var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
+    UPLOAD_FILE_SIZE_LIMIT = 32E6,
+    TRANSLATION_LIST_WIDTH = 650,
+    TRANSLATION_LIST_ROWS = 8,
+    TRANSLATION_LIST_COLUMNS = 4;
+
 /* exported getPairs */
 
 if(modeEnabled('translation')) {
@@ -52,10 +58,11 @@ if(modeEnabled('translation')) {
         });
 
         var timer,
+            // eslint-disable-next-line no-magic-numbers
             lastPunct = false, punct = [46, 33, 58, 63, 47, 45, 190, 171, 49],
             timeoutPunct = 1000, timeoutOther = 3000;
         $('#originalText').on('keyup paste', function (event) {
-            if(lastPunct && (event.keyCode === 32 || event.keyCode === 13)) {
+            if(lastPunct && (event.keyCode === SPACE_KEY_CODE || event.keyCode === ENTER_KEY_CODE)) {
                 // Don't override the short timeout for simple space-after-punctuation
                 return;
             }
@@ -199,7 +206,7 @@ if(modeEnabled('translation')) {
         $('body').on('dragenter', function (ev) {
             ev.preventDefault();
             if(!$('div#fileDropBackdrop:visible').length) {
-                $('div#fileDropBackdrop').fadeTo(400, 0.5);
+                $('div#fileDropBackdrop').fadeTo('fast', 0.5);
                 $('div#fileDropMask').on('drop', function (ev) {
                     ev.preventDefault();
                     droppedFile = ev.originalEvent.dataTransfer.files[0];
@@ -370,17 +377,23 @@ function populateTranslationList() {
     $('.languageName').remove();
     $('.languageCol').show().removeClass('col-sm-3 col-sm-4 col-sm-6 col-sm-12');
 
-    var numSrcCols = Math.ceil(srcLangs.length / 8) < 5 ? Math.ceil(srcLangs.length / 8) : 4,
-        numDstCols = Math.ceil(dstLangs.length / 8) < 5 ? Math.ceil(dstLangs.length / 8) : 4;
+    var numSrcCols = Math.ceil(srcLangs.length / TRANSLATION_LIST_ROWS) < (TRANSLATION_LIST_COLUMNS + 1)
+            ? Math.ceil(srcLangs.length / TRANSLATION_LIST_ROWS)
+            : TRANSLATION_LIST_COLUMNS,
+        numDstCols = Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS) < (TRANSLATION_LIST_COLUMNS + 1)
+            ? Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS)
+            : TRANSLATION_LIST_COLUMNS;
     var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
         dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
 
-    $('#srcLanguages').css('min-width', Math.floor(650 * (numSrcCols / 4)) + 'px');
-    $('#srcLanguages .languageCol').addClass('col-sm-' + (12 / numSrcCols));
+    var BOOTSTRAP_MAX_COLUMNS = 12;
+
+    $('#srcLanguages').css('min-width', Math.floor(TRANSLATION_LIST_WIDTH * (numSrcCols / TRANSLATION_LIST_COLUMNS)) + 'px');
+    $('#srcLanguages .languageCol').addClass('col-sm-' + (BOOTSTRAP_MAX_COLUMNS / numSrcCols));
     $('#srcLanguages .languageCol:gt(' + (numSrcCols - 1) + ')').hide();
 
-    $('#dstLanguages').css('min-width', Math.floor(650 * (numDstCols / 4)) + 'px');
-    $('#dstLanguages .languageCol').addClass('col-sm-' + (12 / numDstCols));
+    $('#dstLanguages').css('min-width', Math.floor(TRANSLATION_LIST_WIDTH * (numDstCols / TRANSLATION_LIST_COLUMNS)) + 'px');
+    $('#dstLanguages .languageCol').addClass('col-sm-' + (BOOTSTRAP_MAX_COLUMNS / numDstCols));
     $('#dstLanguages .languageCol:gt(' + (numDstCols - 1) + ')').hide();
 
     for(var i = 0; i < numSrcCols; i++) {
@@ -475,7 +488,7 @@ function translateText() {
                     'markUnknown': $('#markUnknown').prop('checked') ? 'yes' : 'no'
                 },
                 success: function (data) {
-                    if(data.responseStatus === 200) {
+                    if(data.responseStatus === HTTP_OK_CODE) {
                         $('#translatedText').html(data.responseData.translatedText);
                         $('#translatedText').removeClass('notAvailable text-danger');
                     }
@@ -506,7 +519,7 @@ function translateDoc() {
             file = droppedFile;
         }
 
-        if(file.size > 32E6) {
+        if(file.size > UPLOAD_FILE_SIZE_LIMIT) {
             docTranslateError(dynamicLocalizations['File_Too_Large'], 'File_Too_Large');
         }
         else {
@@ -534,13 +547,13 @@ function translateDoc() {
                     xhr.upload.onprogress = updateProgressBar;
                 }
                 xhr.onreadystatechange = function () {
-                    if(this.readyState === 3) {
+                    if(this.readyState === XHR_LOADING) {
                         $('div#fileLoading').fadeIn('fast');
                         $('div#fileUploadProgress').parent().fadeIn('fast', function () {
                             updateProgressBar({'loaded': 1, 'total': 1});
                         });
                     }
-                    else if(this.readyState === 4 && xhr.status === 200) {
+                    else if(this.readyState === XHR_DONE && xhr.status === HTTP_OK_CODE) {
                         $('div#fileUploadProgress').parent().fadeOut('fast');
                         $('div#fileLoading').fadeOut('fast', function () {
                             var URL = window.URL || window.webkitURL;
@@ -553,7 +566,7 @@ function translateDoc() {
                             $('input#fileInput').prop('disabled', false);
                         });
                     }
-                    else if(this.status >= 400) {
+                    else if(this.status >= HTTP_BAD_REQUEST_CODE) {
                         docTranslateError(dynamicLocalizations['Not_Available']);
                     }
                 };
@@ -706,8 +719,7 @@ function autoSelectDstLang() {
 }
 
 function synchronizeTextareaHeights() {
-    // Comment if auto resize should also work on mobile devices
-    if($(window).width() < 768) {
+    if($(window).width() < TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH) {
         return;
     }
 
