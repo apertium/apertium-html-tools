@@ -2,4 +2,4 @@ jshint:
   enabled: false
 eslint:
   enabled: true
-  config_file: assets/js/.eslintrc.js
+  config_file: assets/js/.eslintrc.json
