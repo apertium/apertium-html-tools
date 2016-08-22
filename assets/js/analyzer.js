@@ -10,6 +10,8 @@ if(modeEnabled('analyzation')) {
             persistChoices('analyzer', true);
         });
 
+        var unused = 'hello';
+
         $('#primaryAnalyzerMode').change(function () {
             populateSecondaryAnalyzerList();
             localizeInterface();
