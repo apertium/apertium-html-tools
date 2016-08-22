@@ -1,3 +1,6 @@
+/* exported cache, readCache */
+
+// eslint-disable-next-line id-blacklist
 function cache(name, value) {
     if(localStorage) {
         localStorage[name] = JSON.stringify(value);
@@ -7,10 +10,14 @@ function cache(name, value) {
 
 function readCache(name, type) {
     if(localStorage && localStorage[name] && localStorage[name + '_timestamp']) {
-        if(parseInt(localStorage[name + '_timestamp']) + config[type.toUpperCase() + '_CACHE_EXPIRY'] * 3600000 > Date.now())
+        var currentTimestamp =
+            parseInt(localStorage[name + '_timestamp']) +
+            (config[type.toUpperCase() + '_CACHE_EXPIRY'] * 3600000);
+        if(currentTimestamp > Date.now()) {
             return JSON.parse(localStorage[name]);
-        else
-        	return null;
+        }
+        else {
+            return null;
+        }
     }
 }
-

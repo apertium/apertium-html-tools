@@ -23,7 +23,7 @@ if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox')
 
 function request() {
     $('#sandboxOutput').addClass('blurred');
-    var start_time = new Date().getTime();
+    var startTime = new Date().getTime();
     if(currentSandboxRequest) {
         currentSandboxRequest.abort();
     }
@@ -38,7 +38,7 @@ function request() {
         },
         complete: function () {
             ajaxComplete();
-            $('#time').text((new Date().getTime() - start_time) + ' ms');
+            $('#time').text(new Date().getTime() - startTime + ' ms');
             currentSandboxRequest = undefined;
         }
     });

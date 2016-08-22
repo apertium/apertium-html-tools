@@ -1,6 +1,8 @@
 var generators = {}, generatorData = {};
 var currentGeneratorRequest;
 
+/* exported getGenerators */
+
 if(modeEnabled('generation')) {
     $(document).ready(function () {
         $('#generate').click(function () {
@@ -29,7 +31,7 @@ if(modeEnabled('generation')) {
             persistChoices('generator');
         });
 
-        $('#morphGeneratorInput').blur(function() {
+        $('#morphGeneratorInput').blur(function () {
             persistChoices('generator', true);
         });
     });
@@ -51,7 +53,7 @@ function getGenerators() {
             deferred.resolve();
         }
         else {
-            console.error('Generators cache ' + (analyzers === null ? 'stale' : 'miss') + ', retrieving from server');
+            console.warn('Generators cache ' + (analyzers === null ? 'stale' : 'miss') + ', retrieving from server');
             $.jsonp({
                 url: config.APY_URL + '/list?q=generators',
                 beforeSend: ajaxSend,
@@ -60,7 +62,7 @@ function getGenerators() {
                     populateGeneratorList(generatorData);
                     cache('generators', data);
                 },
-                error: function (xOptions, error) {
+                error: function () {
                     console.error('Failed to get available generators');
                 },
                 complete: function () {
@@ -81,15 +83,17 @@ function populateGeneratorList(data) {
     for(var lang in data) {
         var generatorLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
         var group = generators[generatorLang];
-        if(group)
+        if(group) {
             group.push(lang);
-        else
+        }
+        else {
             generators[generatorLang] = [lang];
+        }
     }
 
     var generatorArray = [];
-    $.each(generators, function (key, value) {
-        generatorArray.push([key, value]);
+    $.each(generators, function (generatorLang, lang) {
+        generatorArray.push([generatorLang, lang]);
     });
     generatorArray = filterLangList(generatorArray, function (generator) {
         return allowedLang(generator[0]);
@@ -99,7 +103,7 @@ function populateGeneratorList(data) {
     });
 
     for(var i = 0; i < generatorArray.length; i++) {
-        var lang = generatorArray[i][0];
+        lang = generatorArray[i][0];
         $('#primaryGeneratorMode').append($('<option></option>').val(lang).text(getLangByCode(lang)));
     }
 
@@ -111,10 +115,12 @@ function populateSecondaryGeneratorList() {
     $('#secondaryGeneratorMode').empty();
 
     if(group) {
-        if(group.length <= 1)
+        if(group.length <= 1) {
             $('#secondaryGeneratorMode').fadeOut('fast');
-        else
+        }
+        else {
             $('#secondaryGeneratorMode').fadeIn('fast');
+        }
 
         group.sort(function (a, b) {
             return a.length - b.length;
@@ -122,16 +128,21 @@ function populateSecondaryGeneratorList() {
 
         for(var i = 0; i < group.length; i++) {
             var lang = group[i];
-            var langDisplay = lang.indexOf('-') !== -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
+            var langDisplay = lang.indexOf('-') !== -1
+                ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1])
+                : getLangByCode(lang);
             $('#secondaryGeneratorMode').append($('<option></option').val(lang).text(langDisplay));
         }
     }
-    else
+    else {
         $('#secondaryGeneratorMode').fadeOut('fast');
+    }
 }
 
 function generate() {
-    var generatorMode = generators[$('#primaryGeneratorMode').val()].length > 1 ? $('#secondaryGeneratorMode').val() : generators[$('#primaryGeneratorMode').val()][0];
+    var generatorMode = generators[$('#primaryGeneratorMode').val()].length > 1
+        ? $('#secondaryGeneratorMode').val()
+        : generators[$('#primaryGeneratorMode').val()][0];
     sendEvent('generator', 'generate', generatorMode, $('#morphGeneratorInput').val().length);
 
     $('#morphGenOutput').addClass('blurred');
@@ -139,10 +150,11 @@ function generate() {
     if(currentGeneratorRequest) {
         currentGeneratorRequest.abort();
     }
+
     currentGeneratorRequest = $.jsonp({
         url: config.APY_URL + '/generate',
         beforeSend: ajaxSend,
-        complete: function() {
+        complete: function () {
             ajaxComplete();
             currentGeneratorRequest = undefined;
         },

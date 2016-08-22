@@ -1,3 +1,5 @@
+/* exported persistChoices, restoreChoices */
+
 function persistChoices(mode, updatePermalink) {
     if(localStorage) {
         var objects;
@@ -38,8 +40,9 @@ function persistChoices(mode, updatePermalink) {
             };
         }
 
-        for(var name in objects)
-          localStorage[name] = JSON.stringify(objects[name]);
+        for(var name in objects) {
+            localStorage[name] = JSON.stringify(objects[name]);
+        }
     }
 
     if(window.history.replaceState && parent.location.hash) {
@@ -49,39 +52,40 @@ function persistChoices(mode, updatePermalink) {
 
         $.each(urlParamNames, function () {
             var urlParam = getURLParam(this);
-            if(urlParam)
+            if(urlParam) {
                 urlParams.push(this + '=' + encodeURIComponent(urlParam));
+            }
         });
 
-        var q;
+        var qVal;
         if(hash === '#translation' && curSrcLang && curDstLang) {
             urlParams = [];
             urlParams.push('dir' + '=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
-            q = $('#originalText').val();
+            qVal = $('#originalText').val();
         }
         else if(hash === '#analyzation' && $('#secondaryAnalyzerMode').val()) {
             urlParams = [];
             urlParams.push('choice' + '=' + encodeURIComponent($('#secondaryAnalyzerMode').val()));
-            q = $('#morphAnalyzerInput').val();
+            qVal = $('#morphAnalyzerInput').val();
         }
         else if(hash === '#generation' && $('#secondaryGeneratorMode').val()) {
             urlParams = [];
             urlParams.push('choice' + '=' + encodeURIComponent($('#secondaryGeneratorMode').val()));
-            q = $('#morphGeneratorInput').val();
+            qVal = $('#morphGeneratorInput').val();
         }
 
-        var qn;
-        if(hash === '#translation') qn = '';
-        if(hash === '#analyzation') qn = 'A';
-        if(hash === '#generation') qn = 'G';
+        var qName;
+        if(hash === '#translation') { qName = ''; }
+        if(hash === '#analyzation') { qName = 'A'; }
+        if(hash === '#generation') { qName = 'G'; }
 
         if(updatePermalink) {
-            if(q.length > 0 && q.length < 1300) {
-                urlParams.push('q' + qn + '=' + q);
+            if(qVal.length > 0 && qVal.length < 1300) {
+                urlParams.push('q' + qName + '=' + qVal);
             }
         }
-        else if(getURLParam('q' + qn).length > 0) {
-            urlParams.push('q' + qn + '=' + getURLParam('q' + qn));
+        else if(getURLParam('q' + qName).length > 0) {
+            urlParams.push('q' + qName + '=' + getURLParam('q' + qName));
         }
 
         var newURL = window.location.pathname + (urlParams.length > 0 ? '?' + urlParams.join('&') : '') + hash;
@@ -111,11 +115,13 @@ function restoreChoices(mode) {
                 $('#' + retrieve('curDstChoice')).addClass('active');
             }
 
-            if('translationInput' in localStorage)
+            if('translationInput' in localStorage) {
                 $('#originalText').val(retrieve('translationInput'));
+            }
 
-            if('instantTranslation' in localStorage)
+            if('instantTranslation' in localStorage) {
                 $('#instantTranslation').prop('checked', retrieve('instantTranslation'));
+            }
         }
 
         if(getURLParam('dir')) {
@@ -141,21 +147,25 @@ function restoreChoices(mode) {
                 populateSecondaryAnalyzerList();
                 $('#secondaryAnalyzerMode option[value="' + retrieve('secondaryAnalyzerChoice') + '"]').prop('selected', true);
             }
-            else if('primaryAnalyzerChoice' in localStorage)
+            else if('primaryAnalyzerChoice' in localStorage) {
                 $('#primaryAnalyzerMode option[value="' + retrieve('primaryAnalyzerChoice') + '"]').prop('selected', true);
-            else
+            }
+            else {
                 populateSecondaryAnalyzerList();
+            }
 
-            if('analyzerInput' in localStorage)
+            if('analyzerInput' in localStorage) {
                 $('#morphAnalyzerInput').val(retrieve('analyzerInput'));
+            }
         }
 
         if(getURLParam('choice')) {
             var choice = getURLParam('choice').split('-');
             $('#primaryAnalyzerMode option[value="' + choice[0] + '"]').prop('selected', true);
             populateSecondaryAnalyzerList();
-            if(choice.length === 2)
+            if(choice.length === 2) {
                 $('#secondaryAnalyzerMode option[value="' + choice.join('-') + '"]').prop('selected', true);
+            }
         }
 
         if(getURLParam('qA').length > 0) {
@@ -169,19 +179,22 @@ function restoreChoices(mode) {
                 populateSecondaryGeneratorList();
                 $('#secondaryGeneratorMode option[value="' + retrieve('secondaryGeneratorChoice') + '"]').prop('selected', true);
             }
-            else
+            else {
                 populateSecondaryGeneratorList();
+            }
 
-            if('generatorInput' in localStorage)
+            if('generatorInput' in localStorage) {
                 $('#morphGeneratorInput').val(retrieve('generatorInput'));
+            }
         }
 
         if(getURLParam('choice')) {
-            var choice = getURLParam('choice').split('-');
+            choice = getURLParam('choice').split('-');
             $('#primaryGeneratorMode option[value="' + choice[0] + '"]').prop('selected', true);
             populateSecondaryGeneratorList();
-            if(choice.length === 2)
+            if(choice.length === 2) {
                 $('#secondaryGeneratorMode option[value="' + choice.join('-') + '"]').prop('selected', true);
+            }
         }
 
         if(getURLParam('qG').length > 0) {

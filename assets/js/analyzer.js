@@ -1,6 +1,8 @@
 var analyzers = {}, analyzerData = {};
 var currentAnalyzerRequest;
 
+/* exported getAnalyzers */
+
 if(modeEnabled('analyzation')) {
     $(document).ready(function () {
         $('#analyze').click(function () {
@@ -29,7 +31,7 @@ if(modeEnabled('analyzation')) {
             persistChoices('analyzer');
         });
 
-        $('#morphAnalyzerInput').blur(function() {
+        $('#morphAnalyzerInput').blur(function () {
             persistChoices('analyzer', true);
         });
     });
@@ -51,7 +53,7 @@ function getAnalyzers() {
             deferred.resolve();
         }
         else {
-            console.error('Analyzers cache ' + (analyzers === null ? 'stale' : 'miss') + ', retrieving from server');
+            console.warn('Analyzers cache ' + (analyzers === null ? 'stale' : 'miss') + ', retrieving from server');
             $.jsonp({
                 url: config.APY_URL + '/list?q=analyzers',
                 beforeSend: ajaxSend,
@@ -60,7 +62,7 @@ function getAnalyzers() {
                     populateAnalyzerList(analyzerData);
                     cache('analyzers', data);
                 },
-                error: function (xOptions, error) {
+                error: function () {
                     console.error('Failed to get available analyzers');
                 },
                 complete: function () {
@@ -81,15 +83,17 @@ function populateAnalyzerList(data) {
     for(var lang in data) {
         var analyzerLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
         var group = analyzers[analyzerLang];
-        if(group)
+        if(group) {
             group.push(lang);
-        else
+        }
+        else {
             analyzers[analyzerLang] = [lang];
+        }
     }
 
     var analyzersArray = [];
-    $.each(analyzers, function (key, value) {
-        analyzersArray.push([key, value]);
+    $.each(analyzers, function (analyzerLang, lang) {
+        analyzersArray.push([analyzerLang, lang]);
     });
     analyzersArray = filterLangList(analyzersArray, function (analyzer) {
         return allowedLang(analyzer[0]);
@@ -99,7 +103,7 @@ function populateAnalyzerList(data) {
     });
 
     for(var i = 0; i < analyzersArray.length; i++) {
-        var lang = analyzersArray[i][0];
+        lang = analyzersArray[i][0];
         $('#primaryAnalyzerMode').append($('<option></option').val(lang).text(getLangByCode(lang)));
     }
 
@@ -111,10 +115,12 @@ function populateSecondaryAnalyzerList() {
     $('#secondaryAnalyzerMode').empty();
 
     if(group) {
-        if(group.length <= 1)
+        if(group.length <= 1) {
             $('#secondaryAnalyzerMode').fadeOut('fast');
-        else
+        }
+        else {
             $('#secondaryAnalyzerMode').fadeIn('fast');
+        }
 
         group.sort(function (a, b) {
             return a.length - b.length;
@@ -122,16 +128,21 @@ function populateSecondaryAnalyzerList() {
 
         for(var i = 0; i < group.length; i++) {
             var lang = group[i];
-            var langDisplay = lang.indexOf('-') !== -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
+            var langDisplay = lang.indexOf('-') !== -1
+                ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1])
+                : getLangByCode(lang);
             $('#secondaryAnalyzerMode').append($('<option></option').val(lang).text(langDisplay));
         }
     }
-    else
+    else {
         $('#secondaryAnalyzerMode').fadeOut('fast');
+    }
 }
 
 function analyze() {
-    var analyzerMode = analyzers[$('#primaryAnalyzerMode').val()].length > 1 ? $('#secondaryAnalyzerMode').val() : analyzers[$('#primaryAnalyzerMode').val()][0];
+    var analyzerMode = analyzers[$('#primaryAnalyzerMode').val()].length > 1
+        ? $('#secondaryAnalyzerMode').val()
+        : analyzers[$('#primaryAnalyzerMode').val()][0];
     sendEvent('analyzer', 'analyze', analyzerMode, $('#morphAnalyzerInput').val().length);
 
     $('#morphAnalyzerOutput').addClass('blurred');
@@ -143,7 +154,7 @@ function analyze() {
         url: config.APY_URL + '/analyze',
         pageCache: true,
         beforeSend: ajaxSend,
-        complete: function() {
+        complete: function () {
             ajaxComplete();
             currentAnalyzerRequest = undefined;
         },
@@ -163,22 +174,25 @@ function analyze() {
                 var rightTD = $('<td class="text-left"></td>');
                 var splitUnit = data[i][0].split('/');
 
-                if(splitUnit[1][0] === '*')
+                if(splitUnit[1][0] === '*') {
                     rightTD.addClass('text-danger');
+                }
 
                 var tr = $('<tr></tr>').append(leftTD).append(rightTD);
                 $('#morphAnalyzerOutput').append(tr);
 
-                var joinedMorphemes = {}, unitsWithMorphemes = [];
+                var joinedMorphemes = {};
                 for(var j = 1; j < splitUnit.length; j++) {
                     var unit = splitUnit[j];
                     if(unit.match(regex).length > 2) {
                         var matches = unit.match(regex);
                         for(var k = 1; k < matches.length - 1; k++) {
-                            if(joinedMorphemes[matches[k]])
+                            if(joinedMorphemes[matches[k]]) {
                                 joinedMorphemes[matches[k]].push(unit);
-                            else
+                            }
+                            else {
                                 joinedMorphemes[matches[k]] = [unit];
+                            }
                         }
                     }
                     else {
@@ -210,6 +224,7 @@ function analyze() {
             tagMatch = tagRegex.exec(unit);
         }
         var tagStartLoc = unit.indexOf('<');
-        return unit.substring(0, tagStartLoc !== -1 ? tagStartLoc : unit.length) + (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
+        return unit.substring(0, tagStartLoc !== -1 ? tagStartLoc : unit.length) +
+            (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
     }
 }
