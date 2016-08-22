@@ -340,8 +340,9 @@ function localizeStrings(stringsFresh) {
                 dynamicLocalizations[name] = localizations[name];
             }
         });
-
-        identify();
+        if($('#originalText').val() !== '' && nonDetectButton) {
+            identify();
+        }
     }
 }
 
