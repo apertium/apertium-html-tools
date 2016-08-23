@@ -62,17 +62,17 @@ function persistChoices(mode, updatePermalink) {
         var qVal;
         if(hash === '#translation' && curSrcLang && curDstLang) {
             urlParams = [];
-            urlParams.push('dir' + '=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
+            urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
             qVal = $('#originalText').val();
         }
         else if(hash === '#analyzation' && $('#secondaryAnalyzerMode').val()) {
             urlParams = [];
-            urlParams.push('choice' + '=' + encodeURIComponent($('#secondaryAnalyzerMode').val()));
+            urlParams.push('choice=' + encodeURIComponent($('#secondaryAnalyzerMode').val()));
             qVal = $('#morphAnalyzerInput').val();
         }
         else if(hash === '#generation' && $('#secondaryGeneratorMode').val()) {
             urlParams = [];
-            urlParams.push('choice' + '=' + encodeURIComponent($('#secondaryGeneratorMode').val()));
+            urlParams.push('choice=' + encodeURIComponent($('#secondaryGeneratorMode').val()));
             qVal = $('#morphGeneratorInput').val();
         }
 

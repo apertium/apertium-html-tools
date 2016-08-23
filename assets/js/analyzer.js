@@ -42,7 +42,7 @@ function getAnalyzers() {
 
     if(config.ANALYZERS) {
         analyzerData = config.ANALYZERS;
-        populateAnalyzerList(analyzers);
+        populateAnalyzerList(analyzerData);
         deferred.resolve();
     }
     else {

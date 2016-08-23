@@ -42,7 +42,7 @@ function getGenerators() {
 
     if(config.GENERATORS) {
         generatorData = config.GENERATORS;
-        populateGeneratorList(generators);
+        populateGeneratorList(generatorData);
         deferred.resolve();
     }
     else {
