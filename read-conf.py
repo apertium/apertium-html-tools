@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
-import configparser, json, re, argparse, sys
+import argparse
+import configparser
+import json
+import re
+import sys
 
 
 def getlist(conf_section, key, fallback=None):
@@ -13,12 +17,12 @@ def getlist(conf_section, key, fallback=None):
 def check_config(conf, result):
     # Some error checking:
     for section in conf.sections():
-        if not section in ['APY', 'REPLACEMENTS']:
-            raise configparser.Error("\nUnknown section [%s]" %(section,))
+        if section not in ['APY', 'REPLACEMENTS']:
+            raise configparser.Error("\nUnknown section [%s]" % (section,))
 
     apy_diff = set(k.lower() for k in conf['APY'].keys()) - set(k.lower() for k in result.keys())
     if apy_diff:
-        raise configparser.Error("\nUnknown key(s) in section [APY]: %s" %(apy_diff,))
+        raise configparser.Error("\nUnknown key(s) in section [APY]: %s" % (apy_diff,))
 
     return True
 
@@ -47,7 +51,7 @@ def load_conf(filename):
         'LOCALIZATION_CACHE_EXPIRY'      : conf_APY.getint('LOCALIZATION_CACHE_EXPIRY', fallback=24),
         'AVAILABLE_LOCALES_CACHE_EXPIRY' : conf_APY.getint('AVAILABLE_LOCALES_CACHE_EXPIRY', fallback=24),
 
-        'REPLACEMENTS'                   : { k:v for k,v in conf['REPLACEMENTS'].items() },
+        'REPLACEMENTS'                   : {k: v for k, v in conf['REPLACEMENTS'].items()},
     }
     check_config(conf, result)
     return result
@@ -80,8 +84,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-        # result = load_conf(args.config)
-        # args.func(result, args)
+    # result = load_conf(args.config)
+    # args.func(result, args)
     if 'func' in args:
         result = load_conf(args.config)
         args.func(result, args)
