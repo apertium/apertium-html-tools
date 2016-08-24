@@ -197,16 +197,7 @@ if(modeEnabled('translation')) {
             }
         });
 
-        $('button#translateWebpage').click(function () {
-            $('div#translateText').fadeOut('fast', function () {
-                $('input#webpage').attr({
-                    'required': true,
-                    'novalidate': false
-                });
-                $('button#cancelWebpageTranslate').fadeIn('fast');
-                $('div#translateWebpage').fadeIn('fast');
-            });
-        });
+        $('button#translateWebpage').click(showTranslateWebpageInterface);
 
         $('button#cancelWebpageTranslate').click(function () {
             $('input#webpage').attr({
@@ -219,6 +210,7 @@ if(modeEnabled('translation')) {
                     synchronizeTextareaHeights();
                 });
             });
+            window.location.hash = 'translation';
         });
 
         $('input#fileInput').change(function () {
@@ -648,25 +640,19 @@ function translateDoc() {
 
 function translateWebpage() {
     if(!$('div#translateWebpage').is(':visible')) {
-        $('div#translateText').fadeOut('fast', function () {
-            $('input#webpage').attr({
-                'required': true,
-                'novalidate': false
-            });
-            $('button#cancelWebpageTranslate').fadeIn('fast');
-            $('div#translateWebpage').fadeIn('fast');
-        });
-        $('input#webpage').val($('#originalText').val().trim());
+        showTranslateWebpageInterface($('#originalText').val().trim());
     }
 
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
         sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
+        $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
         $.jsonp({
             url: config.APY_URL + '/translatePage',
             beforeSend: ajaxSend,
             complete: function () {
                 ajaxComplete();
                 textTranslateRequest = undefined;
+                $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
             },
             data: {
                 'langpair': curSrcLang + '|' + curDstLang,
@@ -691,6 +677,21 @@ function translateWebpage() {
             error: translationNotAvailable
         });
     }
+}
+
+function showTranslateWebpageInterface(url) {
+    $('div#translateText').fadeOut('fast', function () {
+        $('input#webpage').attr({
+            'required': true,
+            'novalidate': false
+        });
+        $('button#cancelWebpageTranslate').fadeIn('fast');
+        $('div#translateWebpage').fadeIn('fast');
+    });
+    if(url && typeof url === 'string') {
+        $('input#webpage').val(url);
+    }
+    window.location.hash = 'webpageTranslation';
 }
 
 function detectLanguage() {

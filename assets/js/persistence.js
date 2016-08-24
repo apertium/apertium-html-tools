@@ -14,6 +14,7 @@ function persistChoices(mode, updatePermalink) {
                 'curSrcChoice': $('.srcLang.active').prop('id'),
                 'curDstChoice': $('.dstLang.active').prop('id'),
                 'translationInput': $('#originalText').val(),
+                'webpageInput': $('#webpage').val(),
                 'instantTranslation': $('#instantTranslation').prop('checked')
             };
         }
@@ -65,6 +66,11 @@ function persistChoices(mode, updatePermalink) {
             urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
             qVal = $('#originalText').val();
         }
+        if(hash === '#webpageTranslation' && curSrcLang && curDstLang) {
+            urlParams = [];
+            urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
+            qVal = $('#webpage').val();
+        }
         else if(hash === '#analyzation' && $('#secondaryAnalyzerMode').val()) {
             urlParams = [];
             urlParams.push('choice=' + encodeURIComponent($('#secondaryAnalyzerMode').val()));
@@ -78,6 +84,7 @@ function persistChoices(mode, updatePermalink) {
 
         var qName;
         if(hash === '#translation') { qName = ''; }
+        if(hash === '#webpageTranslation') { qName = 'P'; }
         if(hash === '#analyzation') { qName = 'A'; }
         if(hash === '#generation') { qName = 'G'; }
 
@@ -121,6 +128,10 @@ function restoreChoices(mode) {
                 $('#originalText').val(retrieve('translationInput'));
             }
 
+            if('webpageInput' in localStorage) {
+                $('#webpage').val(retrieve('webpageInput'));
+            }
+
             if('instantTranslation' in localStorage) {
                 $('#instantTranslation').prop('checked', retrieve('instantTranslation'));
             }
@@ -138,6 +149,10 @@ function restoreChoices(mode) {
 
         if(getURLParam('q').length > 0) {
             $('#originalText').val(decodeURIComponent(getURLParam('q')));
+        }
+
+        if(getURLParam('qP').length > 0) {
+            $('#webpage').val(decodeURIComponent(getURLParam('qP')));
         }
 
         refreshLangList();

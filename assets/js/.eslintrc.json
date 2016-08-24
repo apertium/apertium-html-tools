@@ -124,7 +124,7 @@
 				]
 			}
 		],
-		"complexity": ["warn", 32],
+		"complexity": ["warn", 36],
 		"no-use-before-define": ["warn", "nofunc"],
 		"no-magic-numbers": [
 			"warn",

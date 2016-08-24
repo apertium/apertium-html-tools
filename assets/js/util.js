@@ -44,7 +44,11 @@ $(document).ready(function () {
     var hash = parent.location.hash;
 
     try {
-        if(!hash || !$(hash + 'Container')) {
+        if(hash === '#webpageTranslation') {
+            hash = '#translation';
+            showTranslateWebpageInterface();
+        }
+        else if(!hash || !$(hash + 'Container').length) {
             hash = '#' + config.DEFAULT_MODE;
             parent.location.hash = hash;
         }
