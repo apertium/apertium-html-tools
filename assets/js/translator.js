@@ -4,7 +4,6 @@ var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var textTranslateRequest;
-var currentSrc = "https://www.google.com/recaptcha/api.js?onload=recaptchaRenderCallback&render=explicit&hl=";
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     UPLOAD_FILE_SIZE_LIMIT = 32E6,
@@ -19,12 +18,12 @@ if(modeEnabled('translation')) {
         synchronizeTextareaHeights();
         recaptchaRenderCallback = function () {
             grecaptcha.render('suggestRecaptcha', {
-              'sitekey' : config.SUGGESTIONS.recaptcha_site_key
+                'sitekey': config.SUGGESTIONS.recaptcha_site_key
             });
-        }
+        };
 
         var locale2 = iso639Codes[$('.localeSelect').val()];
-        newSrc = pickRecaptchaLanguage(locale2);
+        newSrc = getRecaptchaSrc(locale2);
         $.getScript(newSrc);
 
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
@@ -226,28 +225,27 @@ if(modeEnabled('translation')) {
                     'trigger': 'manual',
                     'placement': 'bottom'
                 });
-                $('#suggestedWordInput').tooltip('show')
+                $('#suggestedWordInput').tooltip('show');
                 setTimeout(function () {
                     $('#suggestedWordInput').tooltip('destroy');
-                }, 3000);
+                }, SUGGESTION_DESTROY_TIMEOUT);
 
                 return;
             }
 
-            // Obtaining context, (± config.SUGGESTIONS.context_sizi) words
+            // Obtaining context, (± config.SUGGESTIONS.context_size) words
             // fallback to complete text if this fails.
             var hashedWord = fromWord.hashCode() + fromWord + fromWord.hashCode();
             $('#wordGettingSuggested').text(hashedWord);
 
             var splitText = $('#translatedText').text().split(' ');
-            $('#wordGettingSuggested').text(fromWord)
+            $('#wordGettingSuggested').text(fromWord);
 
             var targetIndex = splitText.indexOf(hashedWord);
             var wrapLength = parseInt(config.SUGGESTIONS.context_size);
-            var begin  = (targetIndex > wrapLength) ? (targetIndex - wrapLength) : 0;
-            var end = (splitText.length - targetIndex - 1 > wrapLength) ? (targetIndex + wrapLength + 1) : splitText.length;
-            
-            var context = splitText.slice(begin, end).join(' ').replace(hashedWord, fromWord);
+            var begin = (targetIndex > wrapLength) ? (targetIndex - wrapLength) : 0;
+            var ending = (splitText.length - targetIndex - 1 > wrapLength) ? (targetIndex + wrapLength + 1) : splitText.length;
+            var context = splitText.slice(begin, ending).join(' ').replace(hashedWord, fromWord);
             if(!context) {
                 context = $('#translatedText').attr('pristineText');
             }
@@ -263,28 +261,27 @@ if(modeEnabled('translation')) {
                     'context': context,
                     'g-recaptcha-response': recaptchaResponse
                 },
-                success: function (data) {
+                success: function () {
                     $('#suggestedWordInput').tooltip('destroy');
                     $('#suggestedWordInput').val('');
-
                     $('#wordSuggestModal').modal('hide');
                 },
                 error: function (data) {
                     data = $.parseJSON(data.responseText);
                     $('#suggestedWordInput').tooltip('destroy');
                     $('#suggestedWordInput').tooltip({
-                        'title': (data['explanation'] ? data['explanation'] : 'An error occurred'),
+                        'title': (data.explanation ? data.explanation : 'An error occurred'),
                         'trigger': 'manual',
                         'placement': 'bottom'
                     });
-                    $('#suggestedWordInput').tooltip('show')
+                    $('#suggestedWordInput').tooltip('show');
                     setTimeout(function () {
                         $('#suggestedWordInput').tooltip('hide');
                         $('#suggestedWordInput').tooltip('destroy');
-                    }, 3000);
+                    }, SUGGESTION_DESTROY_TIMEOUT);
                 },
-                complete: function (){
-                    ajaxComplete
+                complete: function () {
+                    ajaxComplete;
                     grecaptcha.reset();
                 }
             });
@@ -586,14 +583,14 @@ function translateText() {
                         $('#translatedText').attr('pristineText', data.responseData.translatedText);
 
                         if(config.SUGGESTIONS.enabled) {
-
-
                             var localizedTitle = dynamicLocalizations['Suggest_Title'];
                             var placeholder = dynamicLocalizations['Suggest_Placeholder'];
                             $('#suggestedWordInput').attr('placeholder', placeholder);
-                            $('#translatedText').html(                                
-                                $('#translatedText').html().replace(/(^|\W|\d)(\*|\@|\#)(\w+)/g, '$1<span class="wordSuggestPopover text-danger" title="' + localizedTitle + '">$3</span>')
-                                );
+                            $('#translatedText').html(
+                                $('#translatedText').html().replace(/(^|\W|\d)(\*|@|#)(\w+)/g,
+                                '$1<span class="wordSuggestPopover text-danger" title="' +
+                                localizedTitle + '" style="cursor: pointer">$3</span>')
+                            );
                         }
 
                         $('#translatedTextClone').html($('#translatedText').attr('pristineText'));
@@ -603,20 +600,24 @@ function translateText() {
                             $(this).attr('id', 'wordGettingSuggested');
 
                             $('#translatedTextClone').html(
-                                $('#translatedTextClone').html().replace(/(^|\W|\d)(\*|\@|\#)(\w+)/g, '$1<span class="wordSuggestPopoverInline text-danger" title="' + localizedTitle + '">$3</span>')
-                                );
+                                $('#translatedTextClone').html().replace(/(^|\W|\d)(\*|@|#)(\w+)/g,
+                                '$1<span class="wordSuggestPopoverInline text-danger" title="' +
+                                localizedTitle + '" style="cursor: pointer">$3</span>')
+                            );
 
                             $('.wordSuggestPopoverInline').click(function () {
                                 $('.wordSuggestPopover').removeAttr('id');
                                 $('.wordSuggestPopoverInline').removeAttr('id');
                                 $(this).attr('id', 'wordGettingSuggested');
 
-                                $('#suggestionTargetWord').html($(this).text().replace(/(\*|\@|\#)/g, ''));
+                                $('#suggestionTargetWord').html($(this).text().replace(/(\*|@|#)/g, ''));
                                 $('#suggestedWordInput').val('');
                             });
 
-                            $('#suggestSentenceContainer').html(dynamicLocalizations['Suggest_Sentence'].replace('{{targetWordCode}}', '<code><span id="suggestionTargetWord"></span></code>'));
-                            $('#suggestionTargetWord').html($(this).text().replace(/(\*|\@|\#)/g, ''));
+                            $('#suggestSentenceContainer').html(dynamicLocalizations['Suggest_Sentence'].replace('{{targetWordCode}}',
+                                '<code><span id="suggestionTargetWord"></span></code>')
+                                );
+                            $('#suggestionTargetWord').html($(this).text().replace(/(\*|@|#)/g, ''));
 
                             $('#wordSuggestModal').modal();
                         });

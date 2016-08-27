@@ -4,8 +4,10 @@ var languages = {'af': 'Afrikaans',  'id': 'Bahasa Indonesia',  'cy': 'Cymraeg',
 // eslint-disable-next-line
 var iso639Codes = {'abk': 'ab', 'aar': 'aa', 'afr': 'af', 'aka': 'ak', 'sqi': 'sq', 'amh': 'am', 'ara': 'ar', 'arg': 'an', 'hye': 'hy', 'asm': 'as', 'ava': 'av', 'ave': 'ae', 'aym': 'ay', 'aze': 'az', 'bam': 'bm', 'bak': 'ba', 'eus': 'eu', 'bel': 'be', 'ben': 'bn', 'bih': 'bh', 'bis': 'bi', 'bos': 'bs', 'bre': 'br', 'bul': 'bg', 'mya': 'my', 'cat': 'ca', 'cha': 'ch', 'che': 'ce', 'nya': 'ny', 'zho': 'zh', 'chv': 'cv', 'cor': 'kw', 'cos': 'co', 'cre': 'cr', 'hrv': 'hr', 'ces': 'cs', 'dan': 'da', 'div': 'dv', 'nld': 'nl', 'dzo': 'dz', 'eng': 'en', 'epo': 'eo', 'est': 'et', 'ewe': 'ee', 'fao': 'fo', 'fij': 'fj', 'fin': 'fi', 'fra': 'fr', 'ful': 'ff', 'glg': 'gl', 'kat': 'ka', 'deu': 'de', 'ell': 'el', 'grn': 'gn', 'guj': 'gu', 'hat': 'ht', 'hau': 'ha', 'heb': 'he', 'her': 'hz', 'hin': 'hi', 'hmo': 'ho', 'hun': 'hu', 'ina': 'ia', 'ind': 'id', 'ile': 'ie', 'gle': 'ga', 'ibo': 'ig', 'ipk': 'ik', 'ido': 'io', 'isl': 'is', 'ita': 'it', 'iku': 'iu', 'jpn': 'ja', 'jav': 'jv', 'kal': 'kl', 'kan': 'kn', 'kau': 'kr', 'kas': 'ks', 'kaz': 'kk', 'khm': 'km', 'kik': 'ki', 'kin': 'rw', 'kir': 'ky', 'kom': 'kv', 'kon': 'kg', 'kor': 'ko', 'kur': 'ku', 'kua': 'kj', 'lat': 'la', 'ltz': 'lb', 'lug': 'lg', 'lim': 'li', 'lin': 'ln', 'lao': 'lo', 'lit': 'lt', 'lub': 'lu', 'lav': 'lv', 'glv': 'gv', 'mkd': 'mk', 'mlg': 'mg', 'msa': 'ms', 'mal': 'ml', 'mlt': 'mt', 'mri': 'mi', 'mar': 'mr', 'mah': 'mh', 'mon': 'mn', 'nau': 'na', 'nav': 'nv', 'nob': 'nb', 'nde': 'nd', 'nep': 'ne', 'ndo': 'ng', 'nno': 'nn', 'nor': 'no', 'iii': 'ii', 'nbl': 'nr', 'oci': 'oc', 'oji': 'oj', 'chu': 'cu', 'orm': 'om', 'ori': 'or', 'oss': 'os', 'pan': 'pa', 'pli': 'pi', 'fas': 'fa', 'pol': 'pl', 'pus': 'ps', 'por': 'pt', 'que': 'qu', 'roh': 'rm', 'run': 'rn', 'ron': 'ro', 'rus': 'ru', 'san': 'sa', 'srd': 'sc', 'snd': 'sd', 'sme': 'se', 'smo': 'sm', 'sag': 'sg', 'srp': 'sr', 'gla': 'gd', 'sna': 'sn', 'sin': 'si', 'slk': 'sk', 'slv': 'sl', 'som': 'so', 'sot': 'st', 'azb': 'az', 'spa': 'es', 'sun': 'su', 'swa': 'sw', 'ssw': 'ss', 'swe': 'sv', 'tam': 'ta', 'tel': 'te', 'tgk': 'tg', 'tha': 'th', 'tir': 'ti', 'bod': 'bo', 'tuk': 'tk', 'tgl': 'tl', 'tsn': 'tn', 'ton': 'to', 'tur': 'tr', 'tso': 'ts', 'tat': 'tt', 'twi': 'tw', 'tah': 'ty', 'uig': 'ug', 'ukr': 'uk', 'urd': 'ur', 'uzb': 'uz', 'ven': 've', 'vie': 'vi', 'vol': 'vo', 'wln': 'wa', 'cym': 'cy', 'wol': 'wo', 'fry': 'fy', 'xho': 'xh', 'yid': 'yi', 'yor': 'yo', 'zha': 'za', 'zul': 'zu',  'hbs': 'sh',  'pes': 'fa'};
 var rtlLanguages = ['heb', 'ara', 'pes', 'urd', 'uig'];
+// eslint-disable-next-line
 var localizeRecaptchaLanguages = ['ar', 'af', 'am', 'hy', 'az', 'eu', 'bn', 'bg', 'ca', 'zh-HK', 'zh-CN', 'zh-TW', 'hr', 'cs', 'da', 'nl', 'en-GB', 'en', 'et', 'fil', 'fi', 'fr', 'fr-CA', 'gl', 'ka', 'de', 'de-AT', 'de-CH', 'el', 'gu', 'iw', 'hi', 'hu', 'is', 'id', 'it', 'ja', 'kn', 'ko', 'lo', 'lv', 'lt', 'ms', 'ml', 'mr', 'mn', 'no', 'fa', 'pl', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sr', 'si', 'sk', 'sl', 'es', 'es-419', 'sw', 'sv', 'ta', 'te', 'th', 'tr', 'uk', 'ur', 'vi', 'zu'];
-var localizeReacaptchaAlternativeLanguages = {'zh': 'zh-TW', 'hrv': 'hr', 'srp': 'sr', 'msa': 'ms', 'cy': 'en', 'ga': 'en', 'gv': 'en', 'gd': 'en', 'rn': 'en', 'lg': 'en', 'mt': 'en', 'sq': 'fr', 'br': 'fr', 'se': 'no', 'eo': 'en', 'fo': 'da', 'ia': 'en', 'xh': 'af', 'mfe': 'fr', 'nb': 'no', 'nn': 'no', 'uz': 'ru', 'rm': 'en', 'tg': 'ru', 'ba': 'ru', 'be': 'ru', 'os': 'ru', 'kum': 'ru', 'ky': 'ru', 'mk': 'en', 'tt': 'ru', 'kk': 'ru', 'he': 'en', 'ne': 'hi', 'as': 'hi', 'pa': 'ur', 'mrj': 'ru', 'myv': 'ru', 'oc': 'es', 'cv': 'ru', 'arg': 'es', 'ast': 'es', 'hbs': 'en', 'bos':'en', 'nog': 'ru', 'sah': 'ru', 'uig': 'zh-TW', 'tyv': 'ru'};
+// eslint-disable-next-line
+var localizeReacaptchaAlternativeLanguages = {'zh': 'zh-TW', 'hrv': 'hr', 'srp': 'sr', 'msa': 'ms', 'cy': 'en', 'ga': 'en', 'gv': 'en', 'gd': 'en', 'rn': 'en', 'lg': 'en', 'mt': 'en', 'sq': 'fr', 'br': 'fr', 'se': 'no', 'eo': 'en', 'fo': 'da', 'ia': 'en', 'xh': 'af', 'mfe': 'fr', 'nb': 'no', 'nn': 'no', 'uz': 'ru', 'rm': 'en', 'tg': 'ru', 'ba': 'ru', 'be': 'ru', 'os': 'ru', 'kum': 'ru', 'ky': 'ru', 'mk': 'en', 'tt': 'ru', 'kk': 'ru', 'he': 'en', 'ne': 'hi', 'as': 'hi', 'pa': 'ur', 'mrj': 'ru', 'myv': 'ru', 'oc': 'es', 'cv': 'ru', 'arg': 'es', 'ast': 'es', 'hbs': 'en', 'bos': 'en', 'nog': 'ru', 'sah': 'ru', 'uig': 'zh-TW', 'tyv': 'ru'};
 var languagesInverse = {}, iso639CodesInverse = {};
 var localizedLanguageCodes = {}, localizedLanguageNames = {};
 var dynamicLocalizations = {
@@ -20,6 +22,8 @@ var dynamicLocalizations = {
 };
 
 var localizedHTML = false;
+
+var recaptchaScriptSrc = 'https://www.google.com/recaptcha/api.js?onload=recaptchaRenderCallback&render=explicit&hl=';
 
 /* exported getLangByCode */
 
@@ -63,14 +67,13 @@ $(document).ready(function () {
         persistChoices('localization');
 
         var locale2 = iso639Codes[locale];
-        newSrc = pickRecaptchaLanguage(locale2);        
+        newSrc = getRecaptchaSrc(locale2);
         $('#suggestRecaptcha').empty();
         $.getScript(newSrc);
 
         var placeholder = dynamicLocalizations['Suggest_Placeholder'];
         $('#suggestedWordInput').removeAttr('placeholder');
         $('#suggestedWordInput').attr('placeholder', placeholder);
-        
     });
 
     function localizeEverything(stringsFresh) {
@@ -397,20 +400,20 @@ function getLangByCode(code) {
     }
 }
 
-function pickRecaptchaLanguage(locale2) {
+function getRecaptchaSrc(locale2) {
     var newSrc = recaptchaScriptSrc + 'en';
     var backoff = true;
 
     for(var i = 0; i < localizeRecaptchaLanguages.length; i++) {
-        if(locale2 == localizeRecaptchaLanguages[i]) {
+        if(locale2 === localizeRecaptchaLanguages[i]) {
             newSrc = recaptchaScriptSrc + locale2;
             backoff = false;
-            break
-        } 
+            break;
+        }
     }
 
     if(backoff) {
-        newSrc = recaptchaScriptSrc + localizeReacaptchaAlternativeLanguages[locale2]; 
+        newSrc = recaptchaScriptSrc + localizeReacaptchaAlternativeLanguages[locale2];
     }
     return newSrc;
 }

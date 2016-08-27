@@ -17,7 +17,7 @@ def getlist(conf_section, key, fallback=None):
 def check_config(conf, result):
     # Some error checking:
     for section in conf.sections():
-        if section not in ['APY', 'REPLACEMENTS']:
+        if section not in ['APY', 'REPLACEMENTS', 'SUGGESTIONS']:
             raise configparser.Error("\nUnknown section [%s]" % (section,))
 
     apy_diff = set(k.lower() for k in conf['APY'].keys()) - set(k.lower() for k in result.keys())
