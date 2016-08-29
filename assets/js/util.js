@@ -1,9 +1,9 @@
 /* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset */
-/* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
+/* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE, SUGGESTION_DESTROY_TIMEOUT */
 
 var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
-    XHR_LOADING = 3, XHR_DONE = 4;
+    XHR_LOADING = 3, XHR_DONE = 4, SUGGESTION_DESTROY_TIMEOUT = 3000;
 
 function ajaxSend() {
     $('#loading-indicator').show();
@@ -187,3 +187,18 @@ function isSubset(subset, superset) {
         return superset.indexOf(val) >= 0;
     });
 }
+
+String.prototype.hashCode = function () {
+    var hash = 0;
+    var leftShift = 5;
+    if(this.length === 0) {
+        return hash;
+    }
+    for(i = 0; i < this.length; i++) {
+        char = this.charCodeAt(i);
+        hash = ((hash << leftShift) - hash) + char;
+        // eslint-disable-next-line
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+};
