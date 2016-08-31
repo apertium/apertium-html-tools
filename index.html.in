@@ -379,10 +379,10 @@
                             <div class="col-md-6">
                                 <div class="center-block">
                                     <a href="https://developers.google.com/open-source/soc/" target="_blank" style="text-decoration: none">
-                                        <img alt="Google Summer of Code" data-src="https://google-summer-of-code.googlecode.com/files/soc-logo-google-color.jpg" style="height: 2.5em;">
+                                        <img alt="Google Summer of Code" data-src="https://summerofcode.withgoogle.com/static/img/summer-of-code-logo.svg" style="height: 2.5em;">
                                     </a>
                                     <a href="https://developers.google.com/open-source/gci/" target="_blank" style="text-decoration: none">
-                                        <img alt="Google Code-In" data-src="https://developers.google.com/open-source/gci/2013/logo.png" style="height: 2.5em;">
+                                        <img alt="Google Code-In" data-src="https://developers.google.com/open-source/gci/images/logo-icon.png" style="height: 2.5em; padding-left: .5em;">
                                     </a>
                                 </div>
                             </div>
