@@ -233,23 +233,8 @@ if(modeEnabled('translation')) {
 
                 return;
             }
-
-            // Obtaining context, (± config.SUGGESTIONS.context_size) words
-            // fallback to complete text if this fails.
-            var hashedWord = fromWord.hashCode() + fromWord + fromWord.hashCode();
-            $('#wordGettingSuggested').text(hashedWord);
-
-            var splitText = $('#translatedText').text().split(' ');
-            $('#wordGettingSuggested').text(fromWord);
-
-            var targetIndex = splitText.indexOf(hashedWord);
-            var wrapLength = parseInt(config.SUGGESTIONS.context_size);
-            var begin = (targetIndex > wrapLength) ? (targetIndex - wrapLength) : 0;
-            var ending = (splitText.length - targetIndex - 1 > wrapLength) ? (targetIndex + wrapLength + 1) : splitText.length;
-            var context = splitText.slice(begin, ending).join(' ').replace(hashedWord, fromWord);
-            if(!context) {
-                context = $('#translatedText').attr('pristineText');
-            }
+            //var wrapLength = parseInt(config.SUGGESTIONS.context_size);
+            //var context = getContext(fromWord, wrapLength);
 
             $.ajax({
                 url: config.APY_URL + '/suggest',
@@ -330,6 +315,22 @@ if(modeEnabled('translation')) {
             return false;
         });
     });
+}
+
+function getContext(fromWord, wrapLength) {
+    var mark = 'MEGAWORD!';
+    var cleanMarkedText = $("#translatedText").html().replace(/<span[^>]*id="wordGettingSuggested"[^>]*>/g,
+        mark).replace(/<[/]?span[^>]*>/g, '');
+    var splittedText = cleanMarkedText.split(' ');
+    var targetIndex = splittedText.indexOf(mark + fromWord);
+            
+    var beginning = (targetIndex > wrapLength) ? (targetIndex - wrapLength) : 0;
+    var ending = (splittedText.length - targetIndex - 1 > wrapLength) ? (targetIndex + wrapLength + 1) : splittedText.length;
+    var context = splittedText.slice(beginning, ending).join(' ').replace(mark, '');
+    if(!context) {
+        context = $('#translatedText').attr('pristineText');
+    }
+    return context;
 }
 
 function getPairs() {
@@ -594,11 +595,18 @@ function translateText() {
                             );
                         }
 
-                        $('#translatedTextClone').html($('#translatedText').attr('pristineText'));
+                        
                         $('.wordSuggestPopover').click(function () {
+                            $('#translatedTextClone').html($('#translatedText').attr('pristineText'));
+
+                            var fromWord = $(this).html();
+                            $(this).attr('id', 'wordGettingSuggested');
+                            var wrapLength = parseInt(config.SUGGESTIONS.context_size);
+                            context = getContext(fromWord, wrapLength);
+                            $('#translatedTextClone').html(context);
+
                             $('.wordSuggestPopover').removeAttr('id');
                             $('.wordSuggestPopoverInline').removeAttr('id');
-                            $(this).attr('id', 'wordGettingSuggested');
 
                             $('#translatedTextClone').html(
                                 $('#translatedTextClone').html().replace(/(^|\W|\d)(\*|@|#)(\w+)/g,
@@ -621,6 +629,7 @@ function translateText() {
                             $('#suggestionTargetWord').html($(this).text().replace(/(\*|@|#)/g, ''));
 
                             $('#wordSuggestModal').modal();
+                            $(this).removeAttr('id');
                         });
                     }
                     else {
