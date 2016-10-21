@@ -76,7 +76,7 @@ function persistChoices(mode, updatePermalink) {
             qVal = $('#morphGeneratorInput').val();
         }
 
-        var qName;
+        var qName = "";
         if(hash === '#translation') { qName = ''; }
         if(hash === '#analyzation') { qName = 'A'; }
         if(hash === '#generation') { qName = 'G'; }
@@ -98,32 +98,26 @@ function persistChoices(mode, updatePermalink) {
 function restoreChoices(mode) {
     if(mode === 'translator') {
         if(localStorage) {
-            if('recentSrcLangs' in localStorage && isSubset(retrieve('recentSrcLangs'), srcLangs)) {
-                recentSrcLangs = retrieve('recentSrcLangs');
-                curSrcLang = retrieve('curSrcLang');
+            recentSrcLangs = safeRetrieve('recentSrcLangs', recentSrcLangs);
+            recentDstLangs = safeRetrieve('recentDstLangs', recentDstLangs);
+            curSrcLang = safeRetrieve('curSrcLang', "eng");
+            curDstLang = safeRetrieve('curDstLang', "spa");
+            if('recentSrcLangs' in localStorage && isSubset(recentSrcLangs, srcLangs)) {
                 $('.srcLang').removeClass('active');
                 $('#srcLangSelect option[value=' + curSrcLang + ']').prop('selected', true);
-                $('#' + retrieve('curSrcChoice')).addClass('active');
-                if(retrieve('curSrcChoice') === 'detect') {
+                $('#' + safeRetrieve('curSrcChoice', "srcLang1")).addClass('active');
+                if(safeRetrieve('curSrcChoice', "srcLang1") === 'detect') {
                     $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
                     $('#detectText').hide();
                 }
             }
-            if('recentDstLangs' in localStorage && isSubset(retrieve('recentDstLangs'), dstLangs)) {
-                recentDstLangs = retrieve('recentDstLangs');
-                curDstLang = retrieve('curDstLang');
+            if('recentDstLangs' in localStorage && isSubset(recentDstLangs, dstLangs)) {
                 $('.dstLang').removeClass('active');
                 $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
-                $('#' + retrieve('curDstChoice')).addClass('active');
+                $('#' + safeRetrieve('curDstChoice', "dstLang1")).addClass('active');
             }
-
-            if('translationInput' in localStorage) {
-                $('#originalText').val(retrieve('translationInput'));
-            }
-
-            if('instantTranslation' in localStorage) {
-                $('#instantTranslation').prop('checked', retrieve('instantTranslation'));
-            }
+            $('#originalText').val(safeRetrieve('translationInput', ""));
+            $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', "true"));
         }
 
         if(getURLParam('dir')) {
@@ -144,21 +138,21 @@ function restoreChoices(mode) {
     }
     else if(mode === 'analyzer') {
         if(localStorage) {
-            if('primaryAnalyzerChoice' in localStorage && 'secondaryAnalyzerChoice' in localStorage) {
-                $('#primaryAnalyzerMode option[value="' + retrieve('primaryAnalyzerChoice') + '"]').prop('selected', true);
+            var primaryAnalyzerChoice = safeRetrieve('primaryAnalyzerChoice', ""),
+                secondaryAnalyzerChoice = safeRetrieve('secondaryAnalyzerChoice', "");
+            if(primaryAnalyzerChoice && secondaryAnalyzerChoice) {
+                $('#primaryAnalyzerMode option[value="' + primaryAnalyzerChoice + '"]').prop('selected', true);
                 populateSecondaryAnalyzerList();
-                $('#secondaryAnalyzerMode option[value="' + retrieve('secondaryAnalyzerChoice') + '"]').prop('selected', true);
+                $('#secondaryAnalyzerMode option[value="' + secondaryAnalyzerChoice + '"]').prop('selected', true);
             }
-            else if('primaryAnalyzerChoice' in localStorage) {
-                $('#primaryAnalyzerMode option[value="' + retrieve('primaryAnalyzerChoice') + '"]').prop('selected', true);
+            else if(primaryAnalyzerChoice) {
+                $('#primaryAnalyzerMode option[value="' + primaryAnalyzerChoice + '"]').prop('selected', true);
             }
             else {
                 populateSecondaryAnalyzerList();
             }
 
-            if('analyzerInput' in localStorage) {
-                $('#morphAnalyzerInput').val(retrieve('analyzerInput'));
-            }
+            $('#morphAnalyzerInput').val(safeRetrieve('analyzerInput', ""));
         }
 
         if(getURLParam('choice')) {
@@ -176,18 +170,18 @@ function restoreChoices(mode) {
     }
     else if(mode === 'generator') {
         if(localStorage) {
+            var primaryGeneratorChoice = safeRetrieve('primaryGeneratorChoice', ""),
+                secondaryGeneratorChoice = safeRetrieve('secondaryGeneratorChoice', "");
             if('primaryGeneratorChoice' in localStorage && 'secondaryGeneratorChoice' in localStorage) {
-                $('#primaryGeneratorMode option[value="' + retrieve('primaryGeneratorChoice') + '"]').prop('selected', true);
+                $('#primaryGeneratorMode option[value="' + primaryGeneratorChoice + '"]').prop('selected', true);
                 populateSecondaryGeneratorList();
-                $('#secondaryGeneratorMode option[value="' + retrieve('secondaryGeneratorChoice') + '"]').prop('selected', true);
+                $('#secondaryGeneratorMode option[value="' + secondaryGeneratorChoice + '"]').prop('selected', true);
             }
             else {
                 populateSecondaryGeneratorList();
             }
 
-            if('generatorInput' in localStorage) {
-                $('#morphGeneratorInput').val(retrieve('generatorInput'));
-            }
+            $('#morphGeneratorInput').val(safeRetrieve('generatorInput', ""));
         }
 
         if(getURLParam('choice')) {
@@ -204,23 +198,19 @@ function restoreChoices(mode) {
         }
     }
     else if(mode === 'localization') {
-        if(localStorage && 'locale' in localStorage) {
-            locale = retrieve('locale');
-            $('.localeSelect').val(locale);
+        if(localStorage) {
+            locale = safeRetrieve('locale', "");
+            if(locale) {
+                $('.localeSelect').val(locale);
+            }
         }
     }
     else if(mode === 'sandbox') {
-        if(localStorage && 'sandboxInput' in localStorage) {
-            $('#sandboxInput').val(retrieve('sandboxInput'));
+        if(localStorage) {
+            $('#sandboxInput').val(safeRetrieve('sandboxInput', ""));
         }
     }
 
-    function retrieve(name) {
-        try {
-            return JSON.parse(localStorage[name]);
-        }
-        catch(e) {
-            return null;
-        }
-    }
 }
+
+/*:: export {persistChoices, restoreChoices} */

@@ -52,6 +52,13 @@ def load_conf(filename):
         'AVAILABLE_LOCALES_CACHE_EXPIRY' : conf_APY.getint('AVAILABLE_LOCALES_CACHE_EXPIRY', fallback=24),
 
         'REPLACEMENTS'                   : {k: v for k, v in conf['REPLACEMENTS'].items()},
+        # These are filled at various places by javascript:
+        'LANGNAMES': None,
+        'LOCALES': None,
+        'PAIRS': None,
+        'GENERATORS': None,
+        'ANALYZERS': None,
+        'TAGGERS': None
     }
     check_config(conf, result)
     return result
