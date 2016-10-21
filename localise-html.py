@@ -2,12 +2,12 @@
 
 # Usage: ./localise-html.py -c config.conf index.html < assets/strings/bar.json > build/index.bar.html
 
-read_conf = __import__('read-conf')
 import argparse
+import json
+import re
 from html.parser import HTMLParser
-from sys import stdin, stderr, argv
-from os import listdir, path
-import json, re
+from os import path
+read_conf = __import__('read-conf')
 
 rtl_languages = ['heb', 'ara', 'pes', 'urd', 'uig']
 
@@ -20,7 +20,7 @@ class DataTextHTMLParser(HTMLParser):
 
     def run_replacements(self, text):
         for k in self.replacements:
-            text = text.replace('{{%s}}'%(k,), self.replacements[k])
+            text = text.replace('{{%s}}' % (k,), self.replacements[k])
             return text
 
     def handle_startendtag(self, tag, attrs):
@@ -28,7 +28,7 @@ class DataTextHTMLParser(HTMLParser):
         # that doesn't quite make sense either
         if tag == "link" and ('id', 'rtlStylesheet') in attrs:
             text = self.get_starttag_text()
-            self.p(text[:text.index('/>')] + ('enabled' if self.localename in rtl_languages else 'disabled' ) + ' />')
+            self.p(text[:text.index('/>')] + ('enabled' if self.localename in rtl_languages else 'disabled') + ' />')
             print(text, text[:text.index('/>')])
         else:
             self.p(self.get_starttag_text())
@@ -73,20 +73,26 @@ class DataTextHTMLParser(HTMLParser):
                 self.localename,
                 self.locale["@langNames"]))
         self.p("</%s>" % (tag,))
+
     def handle_data(self, data):
         if self.data_text:
             self.p(self.data_text)
             self.data_text = None
         else:
             self.p(data)
+
     def handle_comment(self, data):
-        self.p("<!--%s-->" %(data,))
+        self.p("<!--%s-->" % (data,))
+
     def handle_entityref(self, name):
-        self.p("&%s;"%(name,))
+        self.p("&%s;" % (name,))
+
     def handle_charref(self, name):
         self.p("&#%s;" % (name,))
+
     def handle_decl(self, data):
         self.p("<!%s>" % (data,))
+
     def handle_pi(self, data):
         self.p("<?%s>" % (data,))
 

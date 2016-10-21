@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
+import argparse
+import json
+# import itertools
 from collections import OrderedDict
-import argparse, json, itertools
 
 # TODO: run Apertium to fill in placeholders if a fitting language pair is installed!
 
@@ -17,14 +19,14 @@ def loadJSON(f):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Manipulate localisation files', formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('actions', nargs='+', help="new/create: creates a new localisation file\n"
-        "sort: sorts according to the sort order specified by the canonical file (-c)\n"
-        "clean: removes localisations that are not present in the canonical file (-c)\n"
-        "scrub: removes localisations marked unavailable\n"
-        "update: updates metadata stats\n"
-        "rebase: adds entries for missing localisations as specified by the placeholder file (-p)\n"
-        "cleanup: clean, scrub, update, sort\n"
-        "all: clean, scrub, rebase, update, and sort")
-        #choices=['new', 'create'] + list(map(lambda x: '+'.join(x), itertools.chain.from_iterable([itertools.permutations(['clean', 'sort', 'update', 'rebase', 'scrub'], i) for i in range(1, 6)]))))
+                                                   "sort: sorts according to the sort order specified by the canonical file (-c)\n"
+                                                   "clean: removes localisations that are not present in the canonical file (-c)\n"
+                                                   "scrub: removes localisations marked unavailable\n"
+                                                   "update: updates metadata stats\n"
+                                                   "rebase: adds entries for missing localisations as specified by the placeholder file (-p)\n"
+                                                   "cleanup: clean, scrub, update, sort\n"
+                                                   "all: clean, scrub, rebase, update, and sort")
+    # choices=['new', 'create'] + list(map(lambda x: '+'.join(x), itertools.chain.from_iterable([itertools.permutations(['clean', 'sort', 'update', 'rebase', 'scrub'], i) for i in range(1, 6)]))))
     parser.add_argument('codes', nargs='+', help='language codes for filenames')
     parser.add_argument('-m', '--metadataKey', default='@metadata')
     parser.add_argument('-c', '--canonicalFile', default='eng.json', help='canonical file for keys and sort order')
