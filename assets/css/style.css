@@ -214,7 +214,7 @@ button.disabledLang {
     color: gray !important;
 }
 
-textarea#originalText, textarea#translatedText {
+textarea#originalText, div#translatedText {
     resize: vertical;
 }
 
