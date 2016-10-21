@@ -11,7 +11,10 @@ var dynamicLocalizations = {
     'detected': 'detected',
     'File_Too_Large': 'File is too large!',
     'Format_Not_Supported': 'Format not supported!',
-    'Download_File': 'Download {{fileName}}'
+    'Download_File': 'Download {{fileName}}',
+    'Translate_From': 'Translate from: ',
+    'Sorry_Support': 'Sorry, we don\'t support ',
+    'ContactUs': 'contact us!'
 };
 
 var localizedHTML = false;
@@ -337,6 +340,9 @@ function localizeStrings(stringsFresh) {
                 dynamicLocalizations[name] = localizations[name];
             }
         });
+        if($('#originalText').val() !== '' && nonDetectButton) {
+            identify();
+        }
     }
 }
 
