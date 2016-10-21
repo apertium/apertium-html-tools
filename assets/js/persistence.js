@@ -59,7 +59,7 @@ function persistChoices(mode, updatePermalink) {
             }
         });
 
-        var qVal;
+        var qVal = "";
         if(hash === '#translation' && curSrcLang && curDstLang) {
             urlParams = [];
             urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
@@ -82,7 +82,7 @@ function persistChoices(mode, updatePermalink) {
         if(hash === '#generation') { qName = 'G'; }
 
         if(updatePermalink) {
-            if(qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
+            if(qVal != undefined && qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
                 urlParams.push('q' + qName + '=' + qVal);
             }
         }
