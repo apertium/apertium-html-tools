@@ -1,9 +1,12 @@
-/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset */
+/* @flow */
+/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve */
 /* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
 
 var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
     XHR_LOADING = 3, XHR_DONE = 4;
+
+var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768;
 
 function ajaxSend() {
     $('#loading-indicator').show();
@@ -78,14 +81,16 @@ $(document).ready(function () {
     $(window).on('hashchange', persistChoices);
 
     if(config.ALLOWED_LANGS) {
-        $.each(config.ALLOWED_LANGS.slice(0), function () {
+        var withIso = [];
+        $.each(config.ALLOWED_LANGS, function () {
             if(iso639Codes[this]) {
-                config.ALLOWED_LANGS.push(iso639Codes[this]);
+                withIso.push(iso639Codes[this]);
             }
             if(iso639CodesInverse[this]) {
-                config.ALLOWED_LANGS.push(iso639CodesInverse[this]);
+                withIso.push(iso639CodesInverse[this]);
             }
         });
+        Array.prototype.push.apply(config.ALLOWED_LANGS, withIso);
     }
 
     $('form').submit(function () {
@@ -105,21 +110,32 @@ $(document).ready(function () {
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
-    config.PIWIK_URL = config.PIWIK_URL.replace(/http(s)?/, '');
-    if(config.PIWIK_URL.charAt(config.PIWIK_URL.length - 1) !== '/') {
-        config.PIWIK_URL += '/';
+    var url = config.PIWIK_URL;
+    url = url.replace(/http(s)?/, '');
+    if(url.charAt(url.length - 1) !== '/') {
+        url += '/';
     }
+    config.PIWIK_URL = url;
 
     /* eslint-disable */
     var _paq = _paq || [];
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
     (function() {
-        var u=(("https:" == document.location.protocol) ? "https" : "http") + config.PIWIK_URL;
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + url;
+        _paq = _paq || [];
         _paq.push(['setTrackerUrl', u+'piwik.php']);
         _paq.push(['setSiteId', config.PIWIK_SITEID]);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
-        g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+        var d=document,
+            g=d.createElement('script'),
+            s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript';
+        g.defer=true;
+        g.async=true;
+        g.src=u+'piwik.js';
+        if(s.parentNode) {
+            s.parentNode.insertBefore(g,s);
+        }
     })();
     /* eslint-enable */
 }
@@ -140,7 +156,7 @@ function sendEvent(category, action, label, value) {
 }
 /* eslint-enable id-blacklist */
 
-function modeEnabled(mode) {
+function modeEnabled(mode/*:string*/) {
     return config.ENABLED_MODES === null || config.ENABLED_MODES.indexOf(mode) !== -1;
 }
 
@@ -198,3 +214,45 @@ function isSubset(subset, superset) {
         return superset.indexOf(val) >= 0;
     });
 }
+
+var safeRetrieve = function/*::<T>*/(key/*:string*/, fallback/*:T*/)/*:T*/ {
+    if(!window.localStorage) {
+        return fallback;
+    }
+    var fromStorage = window.localStorage.getItem(key);
+    if(fromStorage == null) {
+        return fallback;
+    }
+    else {
+        try {
+            var parsed = JSON.parse(fromStorage);
+            if(parsed != null) {
+                return parsed;
+            }
+        }
+        catch(e) {
+            console.log(e);
+        }
+        return fallback;
+    }
+};
+
+function synchronizeTextareaHeights() {
+    if($(window).width() < TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH) {
+        return;
+    }
+
+    $('#originalText').css({
+        'overflow-y': 'hidden',
+        'height': 'auto'
+    });
+    var originalTextScrollHeight = $('#originalText')[0].scrollHeight;
+    $('#originalText').css('height', originalTextScrollHeight + 'px');
+    $('#translatedText').css('height', originalTextScrollHeight + 'px');
+}
+
+/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
+
+/*:: import {config} from "./config.js" */
+/*:: import {persistChoices} from "./persistence.js" */
+/*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */

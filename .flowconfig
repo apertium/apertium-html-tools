@@ -1,0 +1,9 @@
+[ignore]
+build/
+
+[include]
+
+[libs]
+interfaces/
+
+[options]

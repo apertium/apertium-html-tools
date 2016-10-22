@@ -4,3 +4,6 @@ jshint:
 eslint:
   enabled: true
   config_file: assets/js/.eslintrc.json
+python:
+  enabled: true
+  config_file: .flake8.ini

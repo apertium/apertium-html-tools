@@ -1,3 +1,5 @@
+/* @flow */
+
 var pairs = {};
 var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
@@ -5,8 +7,7 @@ var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var textTranslateRequest;
 
-var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
-    UPLOAD_FILE_SIZE_LIMIT = 32E6,
+var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_WIDTH = 650,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4;
@@ -267,7 +268,7 @@ if(modeEnabled('translation')) {
 function getPairs() {
     var deferred = $.Deferred();
 
-    if(config.PAIRS) {
+    if(config.PAIRS && "responseData" in config.PAIRS) {
         handlePairs(config.PAIRS.responseData);
         deferred.resolve();
     }
@@ -299,6 +300,11 @@ function getPairs() {
     }
 
     function handlePairs(pairData) {
+        if(!pairData) {
+            populateTranslationList();
+            restoreChoices('translator');
+            return;
+        }
         $.each(pairData, function (i, pair) {
             srcLangs.push(pair.sourceLanguage);
             dstLangs.push(pair.targetLanguage);
@@ -457,7 +463,7 @@ function populateTranslationList() {
     muteLanguages();
 
     function sortTranslationList() {
-        var sortLocale = locale in iso639Codes ? iso639Codes[locale] : locale;
+        var sortLocale = (locale && locale in iso639Codes) ? iso639Codes[locale] : locale;
 
         srcLangs = srcLangs.sort(function (a, b) {
             return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
@@ -529,20 +535,17 @@ function translateText() {
     }
 }
 
+function inputFile() {
+    if($('input#fileInput')[0].files.length > 0 && $('input#fileInput')[0].files[0].length !== 0) {
+        return $('input#fileInput')[0].files[0];
+    }
+    return undefined;           // like droppedFile
+}
+
 function translateDoc() {
     var validPair = pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1,
-        validFile = droppedFile !== undefined || $('input#fileInput')[0].files.length === 1;
-    if(validPair && validFile) {
-        var file;
-        if(droppedFile === undefined) {
-            if($('input#fileInput')[0].files.length !== 0 && $('input#fileInput')[0].files[0].length !== 0) {
-                file = $('input#fileInput')[0].files[0];
-            }
-        }
-        else {
-            file = droppedFile;
-        }
-
+        file = droppedFile !== undefined ? droppedFile : inputFile();
+    if(validPair && file !== undefined) {
         if(file.size > UPLOAD_FILE_SIZE_LIMIT) {
             docTranslateError(dynamicLocalizations['File_Too_Large'], 'File_Too_Large');
         }
@@ -570,11 +573,12 @@ function translateDoc() {
                 if(xhr.upload) {
                     xhr.upload.onprogress = updateProgressBar;
                 }
+                var fileName = file.name;
                 xhr.onreadystatechange = function () {
                     if(this.readyState === XHR_LOADING) {
                         $('div#fileLoading').fadeIn('fast');
                         $('div#fileUploadProgress').parent().fadeIn('fast', function () {
-                            updateProgressBar({'loaded': 1, 'total': 1});
+                            updateProgressBar({'loaded': 1, 'total': 1, 'position': undefined, 'totalSize': undefined});
                         });
                     }
                     else if(this.readyState === XHR_DONE && xhr.status === HTTP_OK_CODE) {
@@ -583,9 +587,9 @@ function translateDoc() {
                             var URL = window.URL || window.webkitURL;
                             $('a#fileDownload')
                                 .attr('href', URL.createObjectURL(xhr.response))
-                                .attr('download', file.name)
+                                .attr('download', fileName)
                                 .fadeIn('fast');
-                            $('span#fileDownloadText').text(dynamicLocalizations['Download_File'].replace('{{fileName}}', file.name));
+                            $('span#fileDownloadText').text(dynamicLocalizations['Download_File'].replace('{{fileName}}', fileName));
                             $('button#translate').prop('disabled', false);
                             $('input#fileInput').prop('disabled', false);
                         });
@@ -598,7 +602,7 @@ function translateDoc() {
                     docTranslateError(dynamicLocalizations['Not_Available']);
                 };
 
-                updateProgressBar({'loaded': 0, 'total': 1});
+                updateProgressBar({'loaded': 0, 'total': 1, 'position': undefined, 'totalSize': undefined});
                 $('div#fileUploadProgress').parent().fadeIn('fast');
                 xhr.open('post', config.APY_URL + '/translateDoc', true);
                 xhr.responseType = 'blob';
@@ -618,8 +622,15 @@ function translateDoc() {
     }
 
     function updateProgressBar(ev) {
-        var done = ev.loaded || ev.position, total = ev.total || ev.totalSize;
-        var percentDone = Math.floor(done / total * 1000) / 10;
+        var progress = 0.0;
+        if(ev instanceof ProgressEvent) {
+            progress = ev.loaded / ev. total;
+        }
+        else {
+            console.warn("Strange event type given updateProgressBar:");
+            console.warn(ev);
+        }
+        var percentDone = Math.floor(progress * 1000) / 10;
         $('div#fileUploadProgress').attr('aria-valuenow', percentDone).css('width', percentDone + '%');
     }
 
@@ -718,7 +729,7 @@ function detectLanguage() {
                 return b[1] - a[1];
             });
 
-            oldSrcLangs = recentSrcLangs;
+            var oldSrcLangs = recentSrcLangs;
             recentSrcLangs = [];
             for(var i = 0; i < possibleLanguages.length; i++) {
                 if(recentSrcLangs.length < 3 && possibleLanguages[i][0] in pairs) {
@@ -798,16 +809,8 @@ function autoSelectDstLang() {
     }
 }
 
-function synchronizeTextareaHeights() {
-    if($(window).width() < TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH) {
-        return;
-    }
-
-    $('#originalText').css({
-        'overflow-y': 'hidden',
-        'height': 'auto'
-    });
-    var originalTextScrollHeight = $('#originalText')[0].scrollHeight;
-    $('#originalText').css('height', originalTextScrollHeight + 'px');
-    $('#translatedText').css('height', originalTextScrollHeight + 'px');
-}
+/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode} from "./util.js" */
+/*:: import {persistChoices, restoreChoices} from "./persistence.js" */
+/*:: import localizeInterface from "./localization.js" */
+/*:: import {readCache,cache} from "./cache.js" */
+/*:: import {config} from "./config.js" */

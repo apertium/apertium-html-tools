@@ -24,6 +24,7 @@ fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf 
 
 ### JS ###
 JSFILES= \
+	assets/js/flow.js \
 	assets/js/jquery.jsonp-2.4.0.min.js \
 	assets/js/config.js \
 	build/js/locales.js \
@@ -206,10 +207,15 @@ build/img/%: assets/img/%
 
 images: $(IMAGES_BUILD)
 
+### Typechecking ###
+# grab the bin from https://github.com/facebook/flow/releases
+flow: build/js/all.js
+	grep -Ev '/\*:: *(ex|im)port ' $< | flow check-contents
+
 ### Test server ###
 server:
 	exo-open "http://localhost:8082"
-	( cd build; python3 -m http.server 8082 )
+	( cd build && python3 -m http.server 8082 )
 
 
 ### Clean ###
