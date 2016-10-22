@@ -1,3 +1,4 @@
+
 var locale;
 // eslint-disable-next-line
 var languages = {'af': 'Afrikaans',  'id': 'Bahasa Indonesia',  'cy': 'Cymraeg',  'de': 'Deutsch',  'en': 'English',  'ga': 'Gaeilge',  'gv': 'Gaelg',  'gd': 'Gàidhlig',  'rn': 'Ikirundi',  'sw': 'Kiswahili',  'lg': 'Luganda',  'mt': 'Malti',  'nl': 'Nederlands',  'sq': 'Shqip',  'vi': 'Tiếng Việt',  'tr': 'Türkçe',  'az': 'azərbaycan',  'br': 'brezhoneg',  'ca': 'català',  'da': 'dansk',  'se': 'davvisámegiella',  'et': 'eesti',  'es': 'español',  'eo': 'esperanto',  'eu': 'euskara',  'fr': 'français',  'fo': 'føroyskt',  'ia': 'interlingua',  'xh': 'isiXhosa',  'zu': 'isiZulu',  'it': 'italiano',  'mfe': 'kreol morisien',  'lv': 'latviešu',  'lt': 'lietuvių',  'hu': 'magyar',  'nb': 'norsk bokmål',  'nn': 'nynorsk',  'uz': 'oʻzbekcha',  'pl': 'polski',  'pt': 'português',  'ro': 'română',  'rm': 'rumantsch',  'sk': 'slovenčina',  'sl': 'slovenščina',  'fi': 'suomi',  'sv': 'svenska',  'is': 'íslenska',  'cs': 'čeština',  'el': 'Ελληνικά',  'tg': 'Тоҷикӣ',  'ba': 'башҡортса',  'be': 'беларуская',  'bg': 'български',  'os': 'ирон',  'kum': 'къумукъча',  'ky': 'кыргызча',  'mk': 'македонски',  'ru': 'русский',  'tt': 'татарча',  'uk': 'українська',  'kk': 'қазақша',  'hy': 'հայերեն',  'he': 'עברית',  'ur': 'اردو',  'ar': 'العربية',  'fa': 'فارسی',  'ne': 'नेपाली',  'mr': 'मराठी',  'hi': 'हिंदी',  'as': 'অসমীয়া',  'bn': 'বাংলা',  'pa': 'ਪੰਜਾਬੀ',  'te': 'తెలుగు',  'ml': 'മലയാളം',  'si': 'සිංහල',  'th': 'ไทย',  'lo': 'ລາວ',  'zh': '中文',  'ko': '한국어',  'mrj': 'Мары йӹлмӹ',  'gl': 'galego',  'myv': 'Эрзянь кель',  'oc': 'occitan',  'cv': 'чӑвашла',  'arg': 'aragonés',  'ast': 'asturianu',  'msa': 'bahasa malay',  'hbs': 'srpskohrvatski',  'srp': 'српски',  'hrv': 'hrvatski',  'bos': 'bosanski',  'nog': 'ногъайша',  'sah': 'сахалыы',  'uig': 'ئۇيغۇرچە',  'tyv': 'тыва дылда'};
@@ -110,7 +111,7 @@ function getLocale() {
                 beforeSend: ajaxSend,
                 success: function (data) {
                     for(var i = 0; i < data.length; i++) {
-                        localeGuess = data[i];
+                        var localeGuess = data[i];
                         if(localeGuess.indexOf('-') !== -1) {
                             localeGuess = localeGuess.split('-')[0];
                         }
@@ -217,9 +218,10 @@ function generateLanguageList() {
 }
 
 function localizeLanguageNames(localizedNamesFromJSON) {
-    if(config.LANGNAMES[locale]) {
-        handleLocalizedNames(config.LANGNAMES[locale]);
-        cache(locale + '_names', config.LANGNAMES[locale]);
+    if(config.LANGNAMES && locale in config.LANGNAMES) {
+        var l = config.LANGNAMES[locale];
+        handleLocalizedNames(l);
+        cache(locale + '_names', l);
     }
     else if(localizedNamesFromJSON) {
         handleLocalizedNames(localizedNamesFromJSON);
@@ -311,12 +313,12 @@ function localizeStrings(stringsFresh) {
                 try {
                     if(text.lastIndexOf('%%UNAVAILABLE%%') !== 0) {
                         var elem = $('[data-text=' + textId + ']');
-                    }
-                    if(elem.attr('data-textattr')) {
-                        elem.attr(elem.attr('data-textattr'), text);
-                    }
-                    else {
-                        elem.html(text);
+                        if(elem.attr('data-textattr')) {
+                            elem.attr(elem.attr('data-textattr'), text);
+                        }
+                        else {
+                            elem.html(text);
+                        }
                     }
                 }
                 catch(e) {
@@ -381,3 +383,8 @@ function getLangByCode(code) {
         return code;
     }
 }
+
+/*:: export {iso639CodesInverse, iso639Codes, localizeInterface} */
+
+/*:: import {persistChoices} from "./persistence.js" */
+/*:: import {config} from "./config.js" */
