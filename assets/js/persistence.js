@@ -123,8 +123,8 @@ function restoreChoices(mode) {
                 $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
                 $('#' + safeRetrieve('curDstChoice', "dstLang1")).addClass('active');
             }
-            $('#webpage').val(safeRetrieve('webpageInput', ""));
-            $('#originalText').val(safeRetrieve('translationInput', ""));
+            $('#webpage').val(safeRetrieve('webpageInput', ''));
+            $('#originalText').val(safeRetrieve('translationInput', ''));
             $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', "true"));
         }
 
