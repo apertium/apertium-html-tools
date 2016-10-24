@@ -139,7 +139,9 @@ function restoreChoices(mode) {
             if('instantTranslation' in localStorage) {
                 $('#instantTranslation').prop('checked', retrieve('instantTranslation'));
             }
-            $('#originalText').val(safeRetrieve('translationInput', ""));
+
+            $('#webpage').val(safeRetrieve('webpageInput', ''));
+            $('#originalText').val(safeRetrieve('translationInput', ''));
             $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', "true"));
         }
 
