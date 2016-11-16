@@ -466,7 +466,12 @@ function populateTranslationList() {
         var sortLocale = (locale && locale in iso639Codes) ? iso639Codes[locale] : locale;
 
         srcLangs = srcLangs.sort(function (a, b) {
-            return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+            try {
+                return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+            }
+            catch(e) {
+                return getLangByCode(a).localeCompare(getLangByCode(b));
+            }
         });
 
         dstLangs = dstLangs.sort(function (a, b) {
@@ -474,7 +479,13 @@ function populateTranslationList() {
                 bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
 
             if((aPossible && bPossible) || (!aPossible && !bPossible)) {
-                return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+                try {
+                    return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+                }
+                catch(e) {
+                    return getLangByCode(a).localeCompare(getLangByCode(b));
+                }
+
             }
             else if(aPossible && !bPossible) {
                 return -1;

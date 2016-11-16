@@ -103,6 +103,10 @@ function persistChoices(mode, updatePermalink) {
 }
 
 function restoreChoices(mode) {
+    if(localStorage && getURLParam('reset').length > 0) {
+        localStorage.clear();
+    }
+
     if(mode === 'translator') {
         if(localStorage) {
             recentSrcLangs = safeRetrieve('recentSrcLangs', recentSrcLangs);
