@@ -702,7 +702,7 @@ function hideTranslateWebpageInterface() {
         });
     });
     window.location.hash = 'translation';
-    $('.ap-content').addClass('.container').removeClass('.container-fluid');
+    $('.ap-content').addClass('container').removeClass('container-fluid');
 }
 
 function showTranslateWebpageInterface(url) {
@@ -718,7 +718,7 @@ function showTranslateWebpageInterface(url) {
         $('input#webpage').val(url);
     }
     window.location.hash = 'webpageTranslation';
-    $('.ap-content').addClass('.container-fluid').removeClass('.container');
+    $('.ap-content').addClass('container-fluid').removeClass('container');
 }
 
 function detectLanguage() {
