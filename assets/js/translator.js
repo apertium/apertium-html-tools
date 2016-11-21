@@ -200,19 +200,7 @@ if(modeEnabled('translation')) {
 
         $('button#translateWebpage').click(showTranslateWebpageInterface);
 
-        $('button#cancelWebpageTranslate').click(function () {
-            $('input#webpage').attr({
-                'required': false,
-                'novalidate': true
-            });
-            $('div#translateWebpage').fadeOut('fast', function () {
-                $('button#cancelWebpageTranslate').fadeOut('fast');
-                $('div#translateText').fadeIn('fast', function () {
-                    synchronizeTextareaHeights();
-                });
-            });
-            window.location.hash = 'translation';
-        });
+        $('button#cancelWebpageTranslate').click(hideTranslateWebpageInterface);
 
         $('input#fileInput').change(function () {
             $('div#fileUploadProgress').parent().fadeOut('fast', function () {
@@ -702,6 +690,21 @@ function translateWebpage() {
     }
 }
 
+function hideTranslateWebpageInterface() {
+    $('input#webpage').attr({
+        'required': false,
+        'novalidate': true
+    });
+    $('div#translateWebpage').fadeOut('fast', function () {
+        $('button#cancelWebpageTranslate').fadeOut('fast');
+        $('div#translateText').fadeIn('fast', function () {
+            synchronizeTextareaHeights();
+        });
+    });
+    window.location.hash = 'translation';
+    $('.ap-content').addClass('.container').removeClass('.container-fluid');
+}
+
 function showTranslateWebpageInterface(url) {
     $('div#translateText').fadeOut('fast', function () {
         $('input#webpage').attr({
@@ -715,6 +718,7 @@ function showTranslateWebpageInterface(url) {
         $('input#webpage').val(url);
     }
     window.location.hash = 'webpageTranslation';
+    $('.ap-content').addClass('.container-fluid').removeClass('.container');
 }
 
 function detectLanguage() {

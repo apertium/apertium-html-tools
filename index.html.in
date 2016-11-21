@@ -104,7 +104,7 @@
                   </ul>
               </div>
           </nav>
-          <div class="container">
+          <div class="container ap-content">
               <!-- Not found warning -->
               <div id="loading-indicator"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
               <div class="modeContainer" id="translationContainer">
@@ -126,7 +126,7 @@
                           <div class="form-group hidden-xs">
                               <div class="col-sm-6">
                                   <button type="button" class="btn btn-sm btn-default pull-left" id="cancelWebpageTranslate" style="display: none;">
-                                    <i class="fa fa-arrow-left"></i> <span data-text="Cancel">Cancel</span>
+                                    <i class="fa fa-arrow-left"></i> <span data-text="Back">Back</span>
                                   </button>
                                   <div class="btn-group" style="padding-left:5px;">
                                       <button type="button" class="btn btn-default btn-sm srcLang active" id="srcLang1"></button>
