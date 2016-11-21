@@ -703,6 +703,8 @@ function hideTranslateWebpageInterface() {
     });
     window.location.hash = 'translation';
     $('.ap-content').addClass('container').removeClass('container-fluid');
+    $('.ap-header-nav').show();
+    $('#footer').show();
 }
 
 function showTranslateWebpageInterface(url) {
@@ -719,6 +721,8 @@ function showTranslateWebpageInterface(url) {
     }
     window.location.hash = 'webpageTranslation';
     $('.ap-content').addClass('container-fluid').removeClass('container');
+    $('.ap-header-nav').hide();
+    $('#footer').hide();
 }
 
 function detectLanguage() {

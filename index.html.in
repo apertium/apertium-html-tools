@@ -75,7 +75,7 @@
         </script>
 
         <div id="wrap">
-          <nav class="navbar navbar-default" role="navigation">
+          <nav class="navbar navbar-default ap-header-nav" role="navigation">
               <div class="container" style="position: relative">
                   <div class="navbar-header">
                       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
