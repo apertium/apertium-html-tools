@@ -244,10 +244,11 @@ textarea#originalText, textarea#translatedText {
 }
 
 iframe.translatedWebpage {
-    height: 700px;
+    height: 100%;
     width: 100%;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
+    top: 0px;
+    bottom: 0px;
+    position: absolute;
 }
 
 /* Analysis */
