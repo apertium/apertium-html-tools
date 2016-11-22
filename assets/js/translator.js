@@ -521,7 +521,7 @@ function translateText() {
                 },
                 success: function (data) {
                     if(data.responseStatus === HTTP_OK_CODE) {
-                        $('#translatedText').html(data.responseData.translatedText);
+                        $('#translatedText').val(data.responseData.translatedText);
                         $('#translatedText').removeClass('notAvailable text-danger');
                     }
                     else {
