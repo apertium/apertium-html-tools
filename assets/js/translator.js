@@ -291,6 +291,7 @@ function getPairs() {
         if(!pairData) {
             populateTranslationList();
             restoreChoices('translator');
+            translate();
             return;
         }
         $.each(pairData, function (i, pair) {
@@ -316,6 +317,7 @@ function getPairs() {
 
         populateTranslationList();
         restoreChoices('translator');
+        translate();
     }
 
     return deferred.promise();
