@@ -672,7 +672,7 @@ function translateWebpage() {
             success: function (data) {
                 if(data.responseStatus === HTTP_OK_CODE) {
                     var iframe = $('<iframe id="translatedWebpage" class="translatedWebpage" frameborder="0"></iframe>')[0];
-                    $('iframe#translatedWebpage').replaceWith(iframe);
+                    $('#translatedWebpage').replaceWith(iframe);
                     iframe.contentWindow.document.open();
                     iframe.contentWindow.document.write(data.responseData.translatedText);
                     iframe.contentWindow.document.close();
@@ -779,6 +779,10 @@ function detectLanguage() {
 function translationNotAvailable() {
     $('#translatedText').text(dynamicLocalizations['Not_Available']);
     $('#translatedText').addClass('notAvailable text-danger');
+    var div = $('<div id="translatedWebpage" class="translatedWebpage"></div>');
+    div.text(dynamicLocalizations['Not_Available']);
+    div.addClass('notAvailable text-danger');
+    $('#translatedWebpage').replaceWith(div[0]);
 }
 
 function muteLanguages() {
