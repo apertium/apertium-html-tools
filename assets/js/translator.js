@@ -275,8 +275,9 @@ function getPairs() {
                     handlePairs(data.responseData);
                     cache('pairs', data.responseData);
                 },
-                error: function () {
+                error: function (a) {
                     console.error('Failed to get available translation language pairs');
+                    console.error(a);
                     translationNotAvailable();
                 },
                 complete: function () {
@@ -343,7 +344,7 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
     populateTranslationList();
     muteLanguages();
     localizeInterface();
-    translateText();
+    translate();
 }
 
 function refreshLangList(resetDetect) {
