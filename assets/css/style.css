@@ -243,11 +243,16 @@ textarea#originalText, textarea#translatedText {
     clear: both;
 }
 
+#translateWebpage > div {
+    position: absolute;
+    top: 45px;                 /* set by js synchronizeTextareaHeights */
+    bottom: 45px;
+}
 iframe.translatedWebpage {
     height: 100%;
     width: 100%;
-    top: 0px;
-    bottom: 0px;
+    top: 45px;                 /* set by js synchronizeTextareaHeights */
+    bottom: 45px;
     position: absolute;
 }
 

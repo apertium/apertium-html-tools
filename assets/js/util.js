@@ -249,6 +249,14 @@ function synchronizeTextareaHeights() {
     var originalTextScrollHeight = $('#originalText')[0].scrollHeight;
     $('#originalText').css('height', originalTextScrollHeight + 'px');
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
+
+    if($('div#translateWebpage').is(':visible')) {
+        var bottomOfButtons = Math.max(45, $('div#translateWebpage')[0].offsetTop);
+        $('iframe.translatedWebpage').css('top', bottomOfButtons + 'px');
+        $('.translateWebpage > div').css('top', bottomOfButtons + 'px');
+        $('iframe.translatedWebpage').css('bottom', bottomOfButtons + 'px');
+        $('.translateWebpage > div').css('bottom', bottomOfButtons + 'px');
+    }
 }
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
