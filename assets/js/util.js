@@ -253,9 +253,9 @@ function synchronizeTextareaHeights() {
     if($('div#translateWebpage').is(':visible')) {
         var bottomOfButtons = Math.max(45, $('div#translateWebpage')[0].offsetTop);
         $('iframe.translatedWebpage').css('top', bottomOfButtons + 'px');
-        $('.translateWebpage > div').css('top', bottomOfButtons + 'px');
+        $('#translateWebpage > div').css('top', bottomOfButtons + 'px');
         $('iframe.translatedWebpage').css('bottom', bottomOfButtons + 'px');
-        $('.translateWebpage > div').css('bottom', bottomOfButtons + 'px');
+        $('#translateWebpage > div').css('bottom', bottomOfButtons + 'px');
     }
 }
 

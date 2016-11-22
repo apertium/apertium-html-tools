@@ -663,6 +663,7 @@ function translateWebpage() {
             beforeSend: ajaxSend,
             complete: function () {
                 ajaxComplete();
+                synchronizeTextareaHeights();
                 textTranslateRequest = undefined;
                 $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
             },
@@ -721,11 +722,11 @@ function showTranslateWebpageInterface(url) {
     if(url && typeof url === 'string') {
         $('input#webpage').val(url);
     }
-    synchronizeTextareaHeights();
     window.location.hash = 'webpageTranslation';
     $('.ap-content').addClass('container-fluid').removeClass('container');
     $('.ap-header-nav').hide();
     $('#footer').hide();
+    synchronizeTextareaHeights();
 }
 
 function detectLanguage() {
