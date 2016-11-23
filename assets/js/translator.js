@@ -651,6 +651,11 @@ function translateDoc() {
     }
 }
 
+function translateLink(url) {
+    $('#webpage').val(url);
+    translateWebpage();
+}
+
 function translateWebpage() {
     if(!$('div#translateWebpage').is(':visible')) {
         showTranslateWebpageInterface($('#originalText').val().trim());
@@ -680,10 +685,19 @@ function translateWebpage() {
                     iframe.contentWindow.document.open();
                     iframe.contentWindow.document.write(data.responseData.translatedText);
                     iframe.contentWindow.document.close();
-                    $(iframe)
-                        .contents()
-                        .find('head')
+                    var contents = $(iframe).contents();
+                    contents.find('head')
                         .append($('<base>').attr('href', $('input#webpage').val()));
+                    $(iframe).load(function(){
+                        contents.find('a')
+                            .map(function(_i, a){
+                                var href = a.href;
+                                if(!a.onclick) {
+                                    a.onclick = function() { window.parent.translateLink(href); };
+                                    a.href = "#";
+                                }
+                            });
+                    });
                 }
                 else {
                     translationNotAvailable();
