@@ -671,6 +671,7 @@ function translateDoc() {
                 xhr.responseType = 'blob';
                 var fileData = new FormData();
                 fileData.append('langpair', curSrcLang + '|' + curDstLang);
+                fileData.append('markUnknown', $('#markUnknown').prop('checked') ? 'yes' : 'no');
                 fileData.append('file', file);
                 xhr.send(fileData);
                 sendEvent('translator', 'translateDoc', curSrcLang + '-' + curDstLang, file.size);
