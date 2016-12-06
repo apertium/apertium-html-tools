@@ -1,9 +1,10 @@
 {
     "@metadata": {
         "authors": [
-            "sushain97"
+            "sushain97",
+            "jakluk"
         ],
-        "last-updated": "2014-12-02",
+        "last-updated": "2014-12-31",
         "locale": [
             "en",
             "eng"
@@ -35,6 +36,9 @@
     "Morphological_Generation_Help": "Choose a language and generate surface forms from your text using Apertium's morphological generators.",
     "Generate": "Generate",
     "Spell_Checker": "Spell checker",
+    "Spell_Checker_Help": "Choose a language and check your text for spelling errors.",
+    "Instant_Checking": "Instant checking",
+    "Check": "Check",
     "APY_Sandbox": "APY sandbox",
     "APY_Sandbox_Help": "Send arbitrary requests",
     "APY_Request": "APY Request",
