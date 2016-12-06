@@ -186,7 +186,7 @@
                                       <button class="btn clearButton"><i class="fa fa-times"></i></button>
                                   </div>
                                   <div class="col-sm-6">
-                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
+                                      <div class="form-control" id="translatedText"></div>
                                   </div>
                                   <div class="col-sm-6">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
@@ -514,6 +514,30 @@
                                 <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" style="height: 5em; max-width: 100%;">
                             </a>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="wordSuggestModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Improve Apertium's translation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="translatedTextClone"></p>
+                        <hr>
+                        <p>
+                          What should there be instead of <span id="suggestionTargetWord"></span>?
+                        </p>
+                        <form class="form-search">
+                          <input type="text" class="input-xxlarge" 
+                                 id="suggestedWordInput">
+                          <button type="submit" class="btn btn-primary" id="suggestBtn">Suggest</button>
+                        </form>
+                        <p id="suggestInfoDiv"></p>
                     </div>
                 </div>
             </div>

@@ -200,6 +200,52 @@ if(modeEnabled('translation')) {
             $('a#fileDownload').fadeOut('fast');
         });
 
+        $('#translatedText').css('height', $('#originalText').css('height'));
+        $('#suggestBtn').click(function() {
+            var fromWord = $('#suggestionTargetWord').html();
+            var toWord = $('#suggestedWordInput').val();
+
+            if(toWord.length === 0) {
+                $('#suggestedWordInput').tooltip({
+                    'title': 'Suggestion cannot be empty.',
+                    'trigger': 'manual',
+                    'placement': 'bottom'
+                });
+                $('#suggestedWordInput').tooltip('show')
+                setTimeout(function() {
+                    $('#suggestedWordInput').tooltip('hide');
+                }, 3000);
+
+                return;
+            }
+
+            $.jsonp({
+                url: config.APY_URL + '/list?q=pairs',
+                success: function (data) {
+                    $('.wordGettingSuggested').html($('#suggestedWordInput').val());
+                    $('.wordGettingSuggested').contents().unwrap();
+                    $('#wordSuggestModal').modal('hide');
+
+                    $('#suggestedWordInput').tooltip('hide');
+                    $('#suggestedWordInput').val('');
+                },
+                error: function () {
+                    $('#suggestedWordInput').tooltip({
+                        'title': 'An error occurred',
+                        'trigger': 'manual',
+                        'placement': 'bottom'
+                    });
+                    $('#suggestedWordInput').tooltip('show')
+                    setTimeout(function() {
+                        $('#suggestedWordInput').tooltip('hide');
+                    }, 3000);
+                },
+                complete: function () {
+
+                }
+            });
+        });
+
         $('body').on('dragover', function (ev) {
             ev.preventDefault();
             return false;
@@ -508,6 +554,25 @@ function translateText() {
                     if(data.responseStatus === HTTP_OK_CODE) {
                         $('#translatedText').val(data.responseData.translatedText);
                         $('#translatedText').removeClass('notAvailable text-danger');
+
+                        $('#translatedText').attr('pristineText', data.responseData.translatedText);
+                        $('#translatedText').html(
+                            $('#translatedText').html().replace(
+                                /(\*\S+|\@\S+|\#\S+)/g, 
+                                "<span class='wordSuggestPop text-danger'>$1</span>"));
+
+                        $('.wordSuggestPop').click(function() {
+                            $('.wordSuggestPop').removeClass('wordGettingSuggested');
+                            $(this).addClass('wordGettingSuggested');
+
+                            var highlightedTargetWord = $('#translatedText').attr('pristineText');
+                            highlightedTargetWord = highlightedTargetWord.replace($(this).html(),
+                                '<b>'+$(this).html()+'</b>');
+                            $('#translatedTextClone').html(highlightedTargetWord);
+                            $('#suggestionTargetWord').html($(this).html());
+
+                            $('#wordSuggestModal').modal();
+                        });
                     }
                     else {
                         translationNotAvailable();
