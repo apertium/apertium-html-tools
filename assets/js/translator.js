@@ -1,6 +1,6 @@
 /* @flow */
 
-var pairs = {};
+var pairs = {}, chains = {}, oldPairs = pairs;
 var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
@@ -17,6 +17,31 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         synchronizeTextareaHeights();
+
+        if(config.TRANSLATION_CHAINING) {
+            $('.chainedTranslation').show()
+            function getTargets (src) {
+                var targets = [];
+                var targetsSeen = {src: true};
+                var targetLists = [pairs[src]];
+                while (targetLists.length > 0) {
+                    $.each(targetLists.pop(), function (i, trgt) {
+                        if (targetsSeen[trgt] === undefined || targetsSeen[trgt] !== true) {
+                            targets.push(trgt);
+                            if (pairs[trgt] !== undefined) {
+                                targetLists.push(pairs[trgt]);
+                            }
+                            targetsSeen[trgt] = true;
+                        }
+                    });
+                }
+                return targets;
+            }
+
+            $.each(pairs, function (src, trgts) {
+                chains[src] = getTargets(src);
+            });
+        }
 
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
             curSrcLang = $(this).attr('data-code');
@@ -56,6 +81,15 @@ if(modeEnabled('translation')) {
         $('button#translate').click(function () {
             translate();
             persistChoices('translator', true);
+        });
+
+        $('input.chainedTranslation').change(function () {
+            if ($('input.chainedTranslation').prop('checked')) {
+                pairs = chains;
+            } else {
+                pairs = oldPairs;
+            }
+            populateTranslationList();
         });
 
         var timer,
@@ -492,18 +526,25 @@ function translateText() {
             if(textTranslateRequest) {
                 textTranslateRequest.abort();
             }
+            var endpoint, request;
+            if (config.TRANSLATION_CHAINING) {
+                endpoint = '/translateChain';
+                request = {'langpairs': curSrcLang + '|' + curDstLang};
+            }
+            else {
+                endpoint = '/translate';
+                request = {'langpair': curSrcLang + '|' + curDstLang};
+            }
+            request['q'] = $('#originalText').val();
+            request['markUnknown'] = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             textTranslateRequest = $.jsonp({
-                url: config.APY_URL + '/translate',
+                url: config.APY_URL + endpoint,
                 beforeSend: ajaxSend,
                 complete: function () {
                     ajaxComplete();
                     textTranslateRequest = undefined;
                 },
-                data: {
-                    'langpair': curSrcLang + '|' + curDstLang,
-                    'q': $('#originalText').val(),
-                    'markUnknown': $('#markUnknown').prop('checked') ? 'yes' : 'no'
-                },
+                data: request,
                 success: function (data) {
                     if(data.responseStatus === HTTP_OK_CODE) {
                         $('#translatedText').val(data.responseData.translatedText);

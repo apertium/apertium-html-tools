@@ -199,6 +199,9 @@
                                           <label class="pull-right">
                                               <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span>
                                           </label>
+                                          <label class="pull-right">
+                                              <input type="checkbox" class="chainedTranslation" unchecked> <span data-text="Chained_Translation" class="chainedTranslation">Chained translation</span>
+                                          </label>
                                         </div>
                                   </div>
                               </div>
