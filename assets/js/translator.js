@@ -17,7 +17,7 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         synchronizeTextareaHeights();
-        
+
         function getDstLangs(srcLang) {
             var targets = [];
             var targetsSeen = {srcLang: true};
@@ -37,7 +37,7 @@ if(modeEnabled('translation')) {
         }
 
         if(config.TRANSLATION_CHAINING) {
-            $('.chaining').show();    
+            $('.chaining').show();
             $.each(pairs, function (srcLang, _dstLangs) {
                 chains[srcLang] = getDstLangs(srcLang);
             });
