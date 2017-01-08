@@ -17,28 +17,28 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         synchronizeTextareaHeights();
+        
+        function getDstLangs(srcLang) {
+            var targets = [];
+            var targetsSeen = {srcLang: true};
+            var targetLists = [pairs[srcLang]];
+            while(targetLists.length > 0) {
+                $.each(targetLists.pop(), function (i, trgt) {
+                    if(!targetsSeen[trgt]) {
+                        targets.push(trgt);
+                        if(pairs[trgt]) {
+                            targetLists.push(pairs[trgt]);
+                        }
+                        targetsSeen[trgt] = true;
+                    }
+                });
+            }
+            return targets;
+        }
 
         if(config.TRANSLATION_CHAINING) {
-            $('.chaining').show();
-            function getDstLangs(srcLang) {
-                var targets = [];
-                var targetsSeen = {srcLang: true};
-                var targetLists = [pairs[srcLang]];
-                while(targetLists.length > 0) {
-                    $.each(targetLists.pop(), function (i, trgt) {
-                        if(targetsSeen[trgt]) {
-                            targets.push(trgt);
-                            if(pairs[trgt]) {
-                                targetLists.push(pairs[trgt]);
-                            }
-                            targetsSeen[trgt] = true;
-                        }
-                    });
-                }
-                return targets;
-            }
-
-            $.each(pairs, function (srcLang, dstLangs) {
+            $('.chaining').show();    
+            $.each(pairs, function (srcLang, _dstLangs) {
                 chains[srcLang] = getDstLangs(srcLang);
             });
         }
@@ -536,7 +536,7 @@ function translateText() {
                 endpoint = '/translate';
                 request = {'langpair': curSrcLang + '|' + curDstLang};
             }
-            request.q = $('#originalText').val();
+            request.q = $('#originalText').val(); // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             textTranslateRequest = $.jsonp({
                 url: config.APY_URL + endpoint,
