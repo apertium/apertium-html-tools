@@ -8,10 +8,11 @@
             "nb",
             "nob"
         ],
-        "completion": " 96%  96.87%",
+        "completion": " 94%  96.43%",
         "missing": [
-            "description",
-            "Drop_Document"
+            "Drop_Document",
+            "Mark_Unknown_Words",
+            "description"
         ]
     },
     "title": "Apertium | En fri/åpen kildekode maskinoversettelsesplattform",

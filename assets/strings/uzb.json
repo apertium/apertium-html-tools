@@ -8,8 +8,10 @@
             "uz",
             "uzb"
         ],
-        "completion": "100% 100.00%",
-        "missing": []
+        "completion": " 98% 108.64%",
+        "missing": [
+            "Mark_Unknown_Words"
+        ]
     },
     "title": "Apertium | Tekin, ochiq kodli mashina tarjima platformasi",
     "tagline": "Tekin, ochiq kodli mashina tarjima platformasi",

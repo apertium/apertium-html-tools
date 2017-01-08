@@ -9,16 +9,17 @@
             "fr",
             "fra"
         ],
-        "completion": " 83% 103.23%",
+        "completion": " 82% 102.76%",
         "missing": [
-            "Translate_Document",
             "Cancel",
+            "Download_File",
+            "Drop_Document",
             "File_Too_Large",
             "Format_Not_Supported",
-            "description",
-            "Drop_Document",
-            "Download_File",
-            "Not_Found_Error"
+            "Mark_Unknown_Words",
+            "Not_Found_Error",
+            "Translate_Document",
+            "description"
         ]
     },
     "title": "Apertium | Une plateforme libre/open source de traduction automatique",

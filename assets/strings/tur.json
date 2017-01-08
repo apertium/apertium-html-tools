@@ -8,8 +8,10 @@
             "tr",
             "tur"
         ],
-        "completion": "100% 100.00%",
-        "missing": []
+        "completion": " 98% 100.08%",
+        "missing": [
+            "Mark_Unknown_Words"
+        ]
     },
     "title": "Apertium | Özgür ve açık kaynak kodlu bir makine çevirisi platformu",
     "tagline": "Özgür ve açık kaynak kodlu bir makine çevirisi platformu",
@@ -56,4 +58,5 @@
     "Documentation_Para": "Belgeler <a href='http://wiki.apertium.org/'>Wiki</a> sayfamızda, <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank'>Documentation</a> bölümündedir. Farklı konferans ve dergilerde yayınladığımız makalelerin listesine Wiki'de <a href='http://wiki.apertium.org/wiki/Publications' target='_blank'>Publications</a> sayfasından erişebilirsiniz.",
     "Apertium_Downloads": "Apertium'dan indirilebilecekler",
     "Downloads_Para": "<b>Apertium araçları</b> ve <b>eşleştirilmiş dil verilerinin</b> son sürümüne, <a href='https://sourceforge.net/projects/apertium/' target='_blank'>SourceForge sayfamızdan</a> erişebilirsiniz. Başlıca işletim sistemleri için Apertium kurulum belgeleri <a href='http://wiki.apertium.org/wiki/Installation' target='_blank'>Wiki kurulum sayfasında</a> bulunabilir.",
-    "Contact_Para": "<h4>IRC kanalı</h4> <p>Bize ulaşmanın en hızlı yolu, Apertium kullanıcıları ver geliştiricilerin buluşma ortamı olan, irc.freenode.net'ten erişebileceğiniz <a href='http://wiki.apertium.org/wiki/IRC' target='_blank'><abbr title='Internet Relay Chat'>IRC</abbr>kanalı, #apertium</a>'a katılmaktır. Bunun için özel bir IRC uygulaması kullanmanıza gerek yok. <a href='http://webchat.freenode.net/?channels=apertium'>freenode webchat</a> kullanarak katılabilirsiniz. </p> <h4>Email listesi</h4> <p>Ayrıca, <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank'> apertium-stuff email listesine</a> üye olarak, daha uzun önerilerde bulunup sorunları tartışabileceğiniz gibi, Apertium'la ilgili genel konuları takip edebilirsiniz.</p> <h4>İletişim</h4> <p>Eğer bir hata bulursanız, üzerinde çalışmamızı istediğiniz bir proje varsa, ya da yardım etmek isterseniz, <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'>apertium-contact email listesini</a> kullanarak bizimle iletişime geçmekten çekinmeyin.</p>" }
+    "Contact_Para": "<h4>IRC kanalı</h4> <p>Bize ulaşmanın en hızlı yolu, Apertium kullanıcıları ver geliştiricilerin buluşma ortamı olan, irc.freenode.net'ten erişebileceğiniz <a href='http://wiki.apertium.org/wiki/IRC' target='_blank'><abbr title='Internet Relay Chat'>IRC</abbr>kanalı, #apertium</a>'a katılmaktır. Bunun için özel bir IRC uygulaması kullanmanıza gerek yok. <a href='http://webchat.freenode.net/?channels=apertium'>freenode webchat</a> kullanarak katılabilirsiniz. </p> <h4>Email listesi</h4> <p>Ayrıca, <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank'> apertium-stuff email listesine</a> üye olarak, daha uzun önerilerde bulunup sorunları tartışabileceğiniz gibi, Apertium'la ilgili genel konuları takip edebilirsiniz.</p> <h4>İletişim</h4> <p>Eğer bir hata bulursanız, üzerinde çalışmamızı istediğiniz bir proje varsa, ya da yardım etmek isterseniz, <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'>apertium-contact email listesini</a> kullanarak bizimle iletişime geçmekten çekinmeyin.</p>"
+}
