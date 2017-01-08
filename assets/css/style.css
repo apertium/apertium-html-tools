@@ -28,6 +28,10 @@ h2 {
     z-index: 10000;
 }
 
+.chaining {
+    display: none;
+}
+
 .localeGlobe {
     color: #fff;
     font-size: 1.8em;

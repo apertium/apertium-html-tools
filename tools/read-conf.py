@@ -43,6 +43,7 @@ def load_conf(filename):
 
         'ENABLED_MODES'                  : getlist(conf_APY, 'ENABLED_MODES', fallback=["translation"]),
         'DEFAULT_MODE'                   : conf_APY.get('DEFAULT_MODE', fallback="translation"),
+        'TRANSLATION_CHAINING'           : conf_APY.getboolean('TRANSLATION_CHAINING', fallback=False),
 
         'SHOW_NAVBAR'                    : conf_APY.getboolean('SHOW_NAVBAR', fallback=False),
 
