@@ -1,6 +1,6 @@
 /* @flow */
 
-var pairs = {}, chains = {}, oldPairs = pairs;
+var pairs = {}, chains = {}, originalPairs = pairs;
 var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
@@ -19,16 +19,16 @@ if(modeEnabled('translation')) {
         synchronizeTextareaHeights();
 
         if(config.TRANSLATION_CHAINING) {
-            $('.chainedTranslation').show()
-            function getTargets (src) {
+            $('.chaining').show();
+            function getDstLangs(srcLang) {
                 var targets = [];
-                var targetsSeen = {src: true};
-                var targetLists = [pairs[src]];
-                while (targetLists.length > 0) {
+                var targetsSeen = {srcLang: true};
+                var targetLists = [pairs[srcLang]];
+                while(targetLists.length > 0) {
                     $.each(targetLists.pop(), function (i, trgt) {
-                        if (targetsSeen[trgt] === undefined || targetsSeen[trgt] !== true) {
+                        if(targetsSeen[trgt]) {
                             targets.push(trgt);
-                            if (pairs[trgt] !== undefined) {
+                            if(pairs[trgt]) {
                                 targetLists.push(pairs[trgt]);
                             }
                             targetsSeen[trgt] = true;
@@ -38,8 +38,8 @@ if(modeEnabled('translation')) {
                 return targets;
             }
 
-            $.each(pairs, function (src, trgts) {
-                chains[src] = getTargets(src);
+            $.each(pairs, function (srcLang, dstLangs) {
+                chains[srcLang] = getDstLangs(srcLang);
             });
         }
 
@@ -83,11 +83,12 @@ if(modeEnabled('translation')) {
             persistChoices('translator', true);
         });
 
-        $('input.chainedTranslation').change(function () {
-            if ($('input.chainedTranslation').prop('checked')) {
+        $('input#chainedTranslation').change(function () {
+            if($('input#chainedTranslation').prop('checked')) {
                 pairs = chains;
-            } else {
-                pairs = oldPairs;
+            }
+            else {
+                pairs = originalPairs;
             }
             populateTranslationList();
         });
@@ -527,7 +528,7 @@ function translateText() {
                 textTranslateRequest.abort();
             }
             var endpoint, request;
-            if (config.TRANSLATION_CHAINING) {
+            if($('input#chainedTranslation').prop('checked')) {
                 endpoint = '/translateChain';
                 request = {'langpairs': curSrcLang + '|' + curDstLang};
             }
@@ -535,8 +536,8 @@ function translateText() {
                 endpoint = '/translate';
                 request = {'langpair': curSrcLang + '|' + curDstLang};
             }
-            request['q'] = $('#originalText').val();
-            request['markUnknown'] = $('#markUnknown').prop('checked') ? 'yes' : 'no';
+            request.q = $('#originalText').val();
+            request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             textTranslateRequest = $.jsonp({
                 url: config.APY_URL + endpoint,
                 beforeSend: ajaxSend,
