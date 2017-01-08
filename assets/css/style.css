@@ -28,6 +28,10 @@ h2 {
     top: 45%;
 }
 
+.chaining {
+    display: none;
+}
+
 .localeGlobe {
     font-size: 1.8em;
     padding: 0px 5px 0px 0px;
