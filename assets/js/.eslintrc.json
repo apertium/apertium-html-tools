@@ -107,6 +107,11 @@
 				"max": 2
 			}
 		],
+		"no-unused-vars": [
+			"error", {
+				"argsIgnorePattern": "^_" 
+			}
+		],
 		"max-statements-per-line": [
 			"error", {
 				"max": 2
