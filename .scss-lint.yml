@@ -1,0 +1,25 @@
+scss_files: 'assets/css/**/*.css'
+exclude: 'assets/css/bootstrap.css'
+
+severity: error
+
+linters:
+  Indentation:
+    width: 4
+  ColorVariable:
+    enabled: false
+  SelectorFormat:
+    severity: warning
+    convention: camel_case
+  Comment:
+    enabled: false
+  IdSelector:
+    enabled: false
+  VendorPrefix:
+    enabled: false
+  QualifyingElement:
+    severity: warning
+  ImportantRule:
+    severity: warning
+  MergeableSelector:
+    severity: warning
