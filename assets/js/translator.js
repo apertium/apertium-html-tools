@@ -216,6 +216,8 @@ if(modeEnabled('translation')) {
                 $('div#fileName').hide();
                 $('div#docTranslation').fadeIn('fast');
             });
+            pairs = originalPairs;
+            populateTranslationList();
         });
 
         $('button#cancelDocTranslate').click(function () {
@@ -227,6 +229,8 @@ if(modeEnabled('translation')) {
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
             });
+            pairs = $('input#chainedTranslation').prop('checked')? chains: originalPairs;
+            populateTranslationList();
         });
 
         $('input#fileInput').change(function () {
@@ -573,7 +577,7 @@ function inputFile() {
 }
 
 function translateDoc() {
-    var validPair = originalPairs[curSrcLang] && originalPairs[curSrcLang].indexOf(curDstLang) !== -1,
+    var validPair = pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1,
         file = droppedFile !== undefined ? droppedFile : inputFile();
     if(validPair && file !== undefined) {
         if(file.size > UPLOAD_FILE_SIZE_LIMIT) {
@@ -732,6 +736,7 @@ function detectLanguage() {
 
 function translationNotAvailable() {
     $('#translatedText').val(dynamicLocalizations['Not_Available']);
+    $('#translatedText').text(dynamicLocalizations['Not_Available']);
     $('#translatedText').addClass('notAvailable text-danger');
 }
 
