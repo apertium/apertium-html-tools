@@ -229,7 +229,7 @@ if(modeEnabled('translation')) {
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
             });
-            pairs = $('input#chainedTranslation').prop('checked')? chains: originalPairs;
+            pairs = $('input#chainedTranslation').prop('checked') ? chains : originalPairs;
             populateTranslationList();
         });
 
