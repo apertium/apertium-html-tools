@@ -9,7 +9,7 @@
             "zh",
             "zho"
         ],
-        "completion": " 50%   5.04%",
+        "completion": " 49%   4.90%",
         "missing": [
             "APY_Request",
             "APY_Sandbox",
@@ -29,6 +29,7 @@
             "Mark_Unknown_Words",
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
+            "Multi_Step_Translation",
             "Not_Found_Error",
             "Translate_Document",
             "What_Is_Apertium",

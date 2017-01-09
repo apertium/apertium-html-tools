@@ -9,7 +9,7 @@
             "se",
             "sme"
         ],
-        "completion": " 65%  21.78%",
+        "completion": " 64%  21.18%",
         "missing": [
             "About_Apertium",
             "Apertium_Downloads",
@@ -24,6 +24,7 @@
             "Format_Not_Supported",
             "Instant_Translation",
             "Mark_Unknown_Words",
+            "Multi_Step_Translation",
             "Not_Found_Error",
             "Translate_Document",
             "What_Is_Apertium",

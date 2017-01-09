@@ -9,7 +9,7 @@
             "pt",
             "por"
         ],
-        "completion": " 61%  19.55%",
+        "completion": " 60%  19.01%",
         "missing": [
             "About_Apertium",
             "Apertium_Downloads",
@@ -26,6 +26,7 @@
             "File_Too_Large",
             "Format_Not_Supported",
             "Mark_Unknown_Words",
+            "Multi_Step_Translation",
             "Not_Found_Error",
             "Translate_Document",
             "What_Is_Apertium",

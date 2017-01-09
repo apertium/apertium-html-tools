@@ -9,7 +9,7 @@
             "kk",
             "kaz"
         ],
-        "completion": " 82%  91.19%",
+        "completion": " 80%  88.67%",
         "missing": [
             "Cancel",
             "Download_File",
@@ -17,6 +17,7 @@
             "File_Too_Large",
             "Format_Not_Supported",
             "Mark_Unknown_Words",
+            "Multi_Step_Translation",
             "Not_Found_Error",
             "Translate_Document",
             "description"

@@ -11,9 +11,10 @@
             "ru",
             "rus"
         ],
-        "completion": " 98%  97.09%",
+        "completion": " 96%  94.41%",
         "missing": [
-            "Mark_Unknown_Words"
+            "Mark_Unknown_Words",
+            "Multi_Step_Translation"
         ]
     },
     "title": "Апертиум | Открытая платформа машинного перевода",
