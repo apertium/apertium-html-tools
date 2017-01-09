@@ -125,7 +125,7 @@
                           </div>
                           <div class="form-group hidden-xs">
                               <div class="col-sm-6">
-                                  <div class="btn-group">
+                                  <div class="btn-group" id="srcLangSelectors">
                                       <button type="button" class="btn btn-default btn-sm srcLang active" id="srcLang1"></button>
                                       <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang2"></button>
                                       <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang3"></button>
@@ -153,7 +153,7 @@
                                   <button type="button" class="btn btn-default btn-sm pull-right swapLangBtn"><i class="fa fa-exchange"></i></button>
                               </div>
                               <div class="col-sm-6">
-                                  <div class="btn-group">
+                                  <div class="btn-group" id="dstLangSelectors">
                                       <button type="button" class="btn btn-default btn-sm dstLang active" id="dstLang1"></button>
                                       <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang2"></button>
                                       <div class="btn-group">

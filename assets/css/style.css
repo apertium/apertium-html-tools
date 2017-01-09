@@ -227,6 +227,10 @@ textarea#translatedText {
     }
 }
 
+#srcLangSelectors {
+    z-index: 100;
+}
+
 @media(min-width: 768px) {
     button.swapLangBtn {
         position: absolute;
