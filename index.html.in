@@ -191,7 +191,7 @@
                                           <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>
                                       </button>
                                   </div>
-                                  <div class="col-sm-3 pull-right">
+                                  <div class="col-sm-6 pull-right">
                                       <div class="checkbox" id="translateOptions">
                                           <label class="pull-right">
                                               <input type="checkbox" id="markUnknown" checked>
