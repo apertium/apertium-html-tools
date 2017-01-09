@@ -3,7 +3,7 @@
         "authors": [
             "sushain97"
         ],
-        "last-updated": "2014-12-02",
+        "last-updated": "2017-01-09",
         "locale": [
             "en",
             "eng"
@@ -21,7 +21,7 @@
     "detected": "detected",
     "Instant_Translation": "Instant translation",
     "Mark_Unknown_Words": "Mark unknown words",
-    "Chained_Translation": "Chained translation",
+    "Multi_Step_Translation": "<a href='https://en.wikipedia.org/wiki/Pivot_language' target='_blank'>Multi-step translation</a> (experimental)",
     "Translate_Document": "Translate a document",
     "Drop_Document": "Drop a document",
     "Not_Available": "Translation not yet available!",
