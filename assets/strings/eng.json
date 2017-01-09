@@ -21,6 +21,7 @@
     "detected": "detected",
     "Instant_Translation": "Instant translation",
     "Mark_Unknown_Words": "Mark unknown words",
+    "Chained_Translation": "Chained translation",
     "Translate_Document": "Translate a document",
     "Drop_Document": "Drop a document",
     "Not_Available": "Translation not yet available!",
