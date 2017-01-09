@@ -104,8 +104,8 @@ function restoreChoices(mode) {
         if(localStorage) {
             recentSrcLangs = safeRetrieve('recentSrcLangs', recentSrcLangs);
             recentDstLangs = safeRetrieve('recentDstLangs', recentDstLangs);
-            curSrcLang = safeRetrieve('curSrcLang', "eng");
-            curDstLang = safeRetrieve('curDstLang', "spa");
+            curSrcLang = safeRetrieve('curSrcLang', curSrcLang);
+            curDstLang = safeRetrieve('curDstLang', curDstLang);
             if('recentSrcLangs' in localStorage && isSubset(recentSrcLangs, srcLangs)) {
                 $('.srcLang').removeClass('active');
                 $('#srcLangSelect option[value=' + curSrcLang + ']').prop('selected', true);
@@ -120,8 +120,8 @@ function restoreChoices(mode) {
                 $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
                 $('#' + safeRetrieve('curDstChoice', "dstLang1")).addClass('active');
             }
-            $('#originalText').val(safeRetrieve('translationInput', ""));
-            $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', "true"));
+            $('#originalText').val(safeRetrieve('translationInput', ''));
+            $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', 'true'));
         }
 
         if(getURLParam('dir')) {
