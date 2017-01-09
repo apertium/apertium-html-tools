@@ -20,7 +20,8 @@ if(modeEnabled('translation')) {
 
         function getDstLangs(srcLang) {
             var targets = [];
-            var targetsSeen = {srcLang: true};
+            var targetsSeen = {};
+            targetsSeen[srcLang] = true;
             var targetLists = [pairs[srcLang]];
             while(targetLists.length > 0) {
                 $.each(targetLists.pop(), function (i, trgt) {
@@ -572,7 +573,7 @@ function inputFile() {
 }
 
 function translateDoc() {
-    var validPair = pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1,
+    var validPair = originalPairs[curSrcLang] && originalPairs[curSrcLang].indexOf(curDstLang) !== -1,
         file = droppedFile !== undefined ? droppedFile : inputFile();
     if(validPair && file !== undefined) {
         if(file.size > UPLOAD_FILE_SIZE_LIMIT) {
@@ -730,7 +731,7 @@ function detectLanguage() {
 }
 
 function translationNotAvailable() {
-    $('#translatedText').text(dynamicLocalizations['Not_Available']);
+    $('#translatedText').val(dynamicLocalizations['Not_Available']);
     $('#translatedText').addClass('notAvailable text-danger');
 }
 

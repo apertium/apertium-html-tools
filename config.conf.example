@@ -10,6 +10,9 @@ ALLOWED_VARIANTS = BR, aran, valencia
 ENABLED_MODES = translation
 DEFAULT_MODE = translation
 
+# Whether or not to enable chained translations
+TRANSLATION_CHAINING = False
+
 SHOW_NAVBAR = False
 
 #PIWIK_SITEID = 1
