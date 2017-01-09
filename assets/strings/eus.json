@@ -5,10 +5,11 @@
         "locale": [
             "eus"
         ],
-        "completion": " 57%  21.91%",
+        "completion": " 56%  21.33%",
         "missing": [
             "About",
             "About_Apertium",
+            "All_Translation_Help",
             "Apertium_Downloads",
             "Cancel",
             "Contact",

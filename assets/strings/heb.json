@@ -8,8 +8,9 @@
             "he",
             "heb"
         ],
-        "completion": " 82%  80.42%",
+        "completion": " 80%  78.30%",
         "missing": [
+            "All_Translation_Help",
             "Cancel",
             "Download_File",
             "Drop_Document",

@@ -8,8 +8,9 @@
             "de",
             "deu"
         ],
-        "completion": " 96% 109.07%",
+        "completion": " 94% 106.19%",
         "missing": [
+            "All_Translation_Help",
             "Mark_Unknown_Words",
             "description"
         ]

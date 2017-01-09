@@ -8,8 +8,9 @@
             "nn",
             "nno"
         ],
-        "completion": " 96%  95.95%",
+        "completion": " 94%  93.42%",
         "missing": [
+            "All_Translation_Help",
             "Mark_Unknown_Words",
             "description"
         ]

@@ -8,8 +8,9 @@
             "oc",
             "oci"
         ],
-        "completion": " 82%  99.34%",
+        "completion": " 80%  96.72%",
         "missing": [
+            "All_Translation_Help",
             "Cancel",
             "Download_File",
             "Drop_Document",

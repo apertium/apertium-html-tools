@@ -10,8 +10,9 @@
             "es",
             "spa"
         ],
-        "completion": " 86%  35.01%",
+        "completion": " 84%  34.08%",
         "missing": [
+            "All_Translation_Help",
             "Contact_Para",
             "Documentation_Para",
             "Downloads_Para",

@@ -8,8 +8,9 @@
             "ug",
             "uig"
         ],
-        "completion": " 82%  91.87%",
+        "completion": " 80%  89.45%",
         "missing": [
+            "All_Translation_Help",
             "Cancel",
             "Download_File",
             "Drop_Document",

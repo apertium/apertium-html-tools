@@ -7,8 +7,9 @@
         "locale": [
             "swe"
         ],
-        "completion": " 98% 102.15%",
+        "completion": " 96%  99.46%",
         "missing": [
+            "All_Translation_Help",
             "Mark_Unknown_Words"
         ]
     },

@@ -9,11 +9,12 @@
             "zh",
             "zho"
         ],
-        "completion": " 50%   5.04%",
+        "completion": " 49%   4.91%",
         "missing": [
             "APY_Request",
             "APY_Sandbox",
             "APY_Sandbox_Help",
+            "All_Translation_Help",
             "Apertium_Downloads",
             "Cancel",
             "Contact_Para",

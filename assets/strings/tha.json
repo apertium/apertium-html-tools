@@ -5,8 +5,9 @@
         "locale": [
             "tha"
         ],
-        "completion": " 94%  89.29%",
+        "completion": " 92%  86.93%",
         "missing": [
+            "All_Translation_Help",
             "Drop_Document",
             "Mark_Unknown_Words",
             "description"

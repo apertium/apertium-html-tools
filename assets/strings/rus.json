@@ -11,8 +11,9 @@
             "ru",
             "rus"
         ],
-        "completion": " 98%  97.09%",
+        "completion": " 96%  94.53%",
         "missing": [
+            "All_Translation_Help",
             "Mark_Unknown_Words"
         ]
     },

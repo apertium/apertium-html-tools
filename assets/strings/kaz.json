@@ -9,8 +9,9 @@
             "kk",
             "kaz"
         ],
-        "completion": " 82%  91.19%",
+        "completion": " 80%  88.78%",
         "missing": [
+            "All_Translation_Help",
             "Cancel",
             "Download_File",
             "Drop_Document",

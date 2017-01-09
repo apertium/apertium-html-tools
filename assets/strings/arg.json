@@ -7,8 +7,9 @@
         "locale": [
             "arg"
         ],
-        "completion": " 98% 109.85%",
+        "completion": " 96% 106.95%",
         "missing": [
+            "All_Translation_Help",
             "Mark_Unknown_Words"
         ]
     },
