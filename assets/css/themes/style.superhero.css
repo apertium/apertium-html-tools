@@ -1,19 +1,18 @@
 p.tagline {
-    color: #EBEBEB;
-    margin: 5px 0px 0px;
+    color: #ebebeb;
     font-weight: normal;
+    margin: 5px 0 0;
 }
 
 .localeGlobe {
-    color: #EBEBEB;
+    color: #ebebeb;
 }
 
 .apertiumLogo {
-    color: whitesmoke;
+    color: #f5f5f5;
 }
 
 .languageName:hover:not(.text-muted) {
-    color: #EBEBEB;
     background-color: #485563;
+    color: #ebebeb;
 }
-

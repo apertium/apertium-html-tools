@@ -6,4 +6,7 @@ eslint:
   config_file: assets/js/.eslintrc.json
 python:
   enabled: true
-  config_file: .flake8.ini
+  config_file: tools/.flake8.ini
+ scss:
+  enabled: true
+  config_file: assets/css/.scss-lint.yml
