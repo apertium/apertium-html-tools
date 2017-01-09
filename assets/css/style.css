@@ -99,7 +99,7 @@ html[dir=rtl] .clearButton {
 .apertiumLogo {
     font-size: 2.25em;
     top: .7em;
-     color: gray;
+    color: gray;
 }
 
 .apertiumSubLogo + .apertiumLogo {
@@ -119,7 +119,7 @@ html[dir=ltr] .apertiumSubLogo {
 }
 
 html[dir=rtl] .apertiumSubLogo {
-    right: 6.5em;
+    right: 3.0em;
 }
 
 html[dir=ltr] .apertiumLogo {

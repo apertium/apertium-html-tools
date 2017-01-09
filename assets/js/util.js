@@ -29,6 +29,18 @@ $(document).ready(function () {
     $('.navbar').css('margin-top', '0px');
     $('body > .container').css('margin-top', '0px');
 
+    if(config.SUBTITLE) {
+        $('.apertiumSubLogo')
+            .text(config.SUBTITLE)
+            .show();
+        if(config.SUBTITLE_COLOR) {
+            $('.apertiumSubLogo').css('color', config.SUBTITLE_COLOR);
+        }
+    }
+    else {
+        $('.apertiumSubLogo').hide();
+    }
+
     if(config.SHOW_NAVBAR) {
         if(config.ENABLED_MODES === null) {
             $('.nav a').removeClass('hide');

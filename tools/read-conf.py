@@ -35,6 +35,9 @@ def load_conf(filename):
         'HTML_URL'                       : conf_APY.get('HTML_URL', fallback="http://www.apertium.org"),
         'APY_URL'                        : conf_APY.get('APY_URL', fallback="http://apy.projectjj.com"),
 
+        'SUBTITLE'                       : conf_APY.get('SUBTITLE', fallback=None),
+        'SUBTITLE_COLOR'                 : conf_APY.get('SUBTITLE_COLOR', fallback=None),
+
         'ALLOWED_LANGS'                  : getlist(conf_APY, 'ALLOWED_LANGS', fallback=None),
         'ALLOWED_VARIANTS'               : getlist(conf_APY, 'ALLOWED_VARIANTS', fallback=None),
 
