@@ -92,6 +92,7 @@ if(modeEnabled('translation')) {
                 pairs = originalPairs;
             }
             populateTranslationList();
+            persistChoices('translator');
         });
 
         var timer,
@@ -140,6 +141,7 @@ if(modeEnabled('translation')) {
 
         $('#markUnknown').change(function () {
             translate();
+            persistChoices('translator');
         });
 
         $('#originalText').on('input propertychange', function () {

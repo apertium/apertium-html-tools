@@ -14,7 +14,9 @@ function persistChoices(mode, updatePermalink) {
                 'curSrcChoice': $('.srcLang.active').prop('id'),
                 'curDstChoice': $('.dstLang.active').prop('id'),
                 'translationInput': $('#originalText').val(),
-                'instantTranslation': $('#instantTranslation').prop('checked')
+                'instantTranslation': $('#instantTranslation').prop('checked'),
+                'markUnknown': $('#markUnknown').prop('checked'),
+                'chainedTranslation': $('#chainedTranslation').prop('checked')
             };
         }
         else if(mode === 'analyzer') {
@@ -122,6 +124,8 @@ function restoreChoices(mode) {
             }
             $('#originalText').val(safeRetrieve('translationInput', ''));
             $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', 'true'));
+            $('#markUnknown').prop('checked', safeRetrieve('markUnknown', 'true'));
+            $('#chainedTranslation').prop('checked', safeRetrieve('chainedTranslation', 'true'));
         }
 
         if(getURLParam('dir')) {

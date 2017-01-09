@@ -194,13 +194,18 @@
                                   <div class="col-sm-3 pull-right">
                                       <div class="checkbox" id="translateOptions">
                                           <label class="pull-right">
-                                              <input type="checkbox" id="markUnknown" checked> <span data-text="Mark_Unknown_Words">Mark unknown words</span>
+                                              <input type="checkbox" id="markUnknown" checked>
+                                              <span data-text="Mark_Unknown_Words">Mark unknown words</span>
                                           </label>
                                           <label class="pull-right">
-                                              <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span>
+                                              <input type="checkbox" id="instantTranslation" checked>
+                                              <span data-text="Instant_Translation">Instant translation</span>
                                           </label>
                                           <label class="pull-right">
-                                              <input type="checkbox" id="chainedTranslation" class="chaining"> <span data-text="Chained_Translation" class="chaining">Chained translation</span>
+                                              <input type="checkbox" id="chainedTranslation" class="chaining">
+                                              <span data-text="Multi_Step_Translation" class="chaining">
+                                                  Multi-step translation (experimental)
+                                              </span>
                                           </label>
                                         </div>
                                   </div>
