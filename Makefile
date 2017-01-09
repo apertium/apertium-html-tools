@@ -30,6 +30,7 @@ check-deps:
 
 ### JS ###
 JSFILES= \
+	assets/js/strict.js \
 	assets/js/flow.js \
 	assets/js/jquery.jsonp-2.4.0.min.js \
 	assets/js/config.js \
