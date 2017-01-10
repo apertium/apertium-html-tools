@@ -1,6 +1,8 @@
 Apertium Html-tools
 ====================
 
+[![Build Status](https://travis-ci.org/goavki/apertium-html-tools.svg?branch=master)](https://travis-ci.org/goavki/apertium-html-tools)
+
 Apertium Html-tools is a web application providing a fully localised interface for text/document translation, analysis, and generation powered by Apertium. Designed to use only static resources for quick and easy deployment with any web server, it is relatively lightweight and user-friendly. Html-tools relies on an Apertium HTTP API such as [Apertium-apy](http://wiki.apertium.org/wiki/Apertium-apy) or [ScaleMT] (http://wiki.apertium.org/wiki/ScaleMT) (to a lesser extent). Development takes place on [GitHub](https://github.com/goavki/apertium-html-tools); however, a read-only copy of the repository is kept in our [SVN repository (/trunk/apertium-tools/apertium-html-tools)](https://svn.code.sf.net/p/apertium/svn/trunk/apertium-tools/apertium-html-tools/).
 
 More information along with instructions for localization is available on the [Apertium Wiki](http://wiki.apertium.org/wiki/Apertium-html-tools).
@@ -17,7 +19,7 @@ Setup
 
 Running
 ----------
-The files can be served by any server. You can use whatever you like,
+The files within `/build` can be served by any server. You can use whatever you like,
 including Apache or even just Python's HTTP server. For example, to
 run on locally on `http://localhost:8080` you can do the following:
 
