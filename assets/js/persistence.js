@@ -111,8 +111,11 @@ function restoreChoices(mode) {
         if(localStorage) {
             recentSrcLangs = safeRetrieve('recentSrcLangs', recentSrcLangs);
             recentDstLangs = safeRetrieve('recentDstLangs', recentDstLangs);
-            curSrcLang = safeRetrieve('curSrcLang', "eng");
-            curDstLang = safeRetrieve('curDstLang', "spa");
+            var srcFallback = recentSrcLangs ? recentSrcLangs[0] : "eng";
+            var dstFallback = pairs[srcFallback] ? pairs[srcFallback][0] : "spa";
+            console.log(srcFallback, dstFallback);
+            curSrcLang = safeRetrieve('curSrcLang', srcFallback);
+            curDstLang = safeRetrieve('curDstLang', dstFallback);
             if('recentSrcLangs' in localStorage && isSubset(recentSrcLangs, srcLangs)) {
                 $('.srcLang').removeClass('active');
                 $('#srcLangSelect option[value=' + curSrcLang + ']').prop('selected', true);
