@@ -380,17 +380,26 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
 }
 
 function refreshLangList(resetDetect) {
-    recentSrcLangs = filterLangList(recentSrcLangs, srcLangs);
-    recentDstLangs = filterLangList(recentDstLangs, dstLangs);
+    var showLangs = 3;
+    recentSrcLangs = filterLangs(recentSrcLangs, srcLangs, showLangs);
+    recentDstLangs = filterLangs(recentDstLangs, dstLangs, showLangs);
 
     persistChoices('translator');
 
-    for(var i = 0; i < 3; i++) {
+    for(var i = 0; i < showLangs; i++) {
+        var srcBtn = $('#srcLang' + (i + 1));
+        var dstBtn = $('#dstLang' + (i + 1));
         if(i < recentSrcLangs.length && recentSrcLangs[i]) {
-            $('#srcLang' + (i + 1)).attr('data-code', recentSrcLangs[i]).text(getLangByCode(recentSrcLangs[i]));
+            srcBtn.show().attr('data-code', recentSrcLangs[i]).text(getLangByCode(recentSrcLangs[i]));
+        }
+        else {
+            srcBtn.hide();
         }
         if(i < recentDstLangs.length && recentDstLangs[i]) {
-            $('#dstLang' + (i + 1)).attr('data-code', recentDstLangs[i]).text(getLangByCode(recentDstLangs[i]));
+            dstBtn.show().attr('data-code', recentDstLangs[i]).text(getLangByCode(recentDstLangs[i]));
+        }
+        else {
+            dstBtn.hide();
         }
     }
 
@@ -406,17 +415,17 @@ function refreshLangList(resetDetect) {
         $('#detectedText').hide();
     }
 
-    function filterLangList(recentLangs, allLangs) {
+    function filterLangs(recentLangs, allLangs, showLangs) {
         recentLangs = recentLangs.filter(onlyUnique);
-        if(recentLangs.length < 3) {
+        if(recentLangs.length < showLangs) {
             for(var i = 0; i < allLangs.length; i++) {
-                if(recentLangs.length < 3 && recentLangs.indexOf(allLangs[i]) === -1) {
+                if(recentLangs.length < showLangs && recentLangs.indexOf(allLangs[i]) === -1) {
                     recentLangs.push(allLangs[i]);
                 }
             }
         }
-        if(recentLangs.length > 3) {
-            recentLangs = recentLangs.slice(0, 3);
+        if(recentLangs.length > showLangs) {
+            recentLangs = recentLangs.slice(0, showLangs);
         }
         return recentLangs;
     }
