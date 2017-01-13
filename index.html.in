@@ -130,7 +130,6 @@
                                       <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang3"></button>
                                       <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang4"></button>
                                       <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang5"></button>
-                                      <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang6"></button>
                                       <div class="btn-group">
                                           <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown">
                                               <span class="caret"></span>
@@ -156,9 +155,8 @@
                                       <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang2"></button>
                                       <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang3"></button>
                                       <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang4"></button>
-                                      <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang5"></button>
                                       <div class="btn-group">
-                                          <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang6"></button>
+                                          <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang5"></button>
                                           <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                                               <span class="caret"></span>
                                               <span class="sr-only">Toggle Dropdown</span>

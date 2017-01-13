@@ -392,7 +392,7 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
 }
 
 function refreshLangList(resetDetect) {
-    var showLangs = 6;
+    var showLangs = 5;
     recentSrcLangs = filterLangs(recentSrcLangs, srcLangs, showLangs);
     recentDstLangs = filterLangs(recentDstLangs, dstLangs, showLangs);
 
