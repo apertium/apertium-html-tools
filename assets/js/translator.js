@@ -337,7 +337,7 @@ function getPairs() {
             return;
         }
         $.each(pairData, function (i, pair) {
-            if(config.ALLOWED_PAIRS && config.ALLOWED_PAIRS.indexOf(pair.sourceLanguage+"-"+pair.targetLanguage) === -1) {
+            if(config.ALLOWED_PAIRS && config.ALLOWED_PAIRS.indexOf(pair.sourceLanguage + "-" + pair.targetLanguage) === -1) {
                 return;
             }
             srcLangs.push(pair.sourceLanguage);
@@ -353,8 +353,12 @@ function getPairs() {
         srcLangs = filterLangList(srcLangs.filter(onlyUnique));
         dstLangs = filterLangList(dstLangs.filter(onlyUnique));
 
-        curSrcLang = srcLangs[0];
-        curDstLang = dstLangs[0];
+        for(var k in pairs) {
+            // Default for new users is first available pair; TODO something smart based on browser lang setting
+            curSrcLang = k;
+            curDstLang = pairs[k][0];
+            break;
+        }
         for(var i = 0; i < 3; i++) {
             recentSrcLangs.push(i < srcLangs.length ? srcLangs[i] : undefined);
             recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
