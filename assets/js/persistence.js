@@ -61,7 +61,7 @@ function persistChoices(mode, updatePermalink) {
             }
         });
 
-        var qVal = "";
+        var qVal = '';
         if(hash === '#translation' && curSrcLang && curDstLang) {
             urlParams = [];
             urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
@@ -78,7 +78,7 @@ function persistChoices(mode, updatePermalink) {
             qVal = $('#morphGeneratorInput').val();
         }
 
-        var qName = "";
+        var qName = '';
         if(hash === '#translation') { qName = ''; }
         if(hash === '#analyzation') { qName = 'A'; }
         if(hash === '#generation') { qName = 'G'; }
@@ -148,8 +148,8 @@ function restoreChoices(mode) {
     }
     else if(mode === 'analyzer') {
         if(localStorage) {
-            var primaryAnalyzerChoice = safeRetrieve('primaryAnalyzerChoice', ""),
-                secondaryAnalyzerChoice = safeRetrieve('secondaryAnalyzerChoice', "");
+            var primaryAnalyzerChoice = safeRetrieve('primaryAnalyzerChoice', ''),
+                secondaryAnalyzerChoice = safeRetrieve('secondaryAnalyzerChoice', '');
             if(primaryAnalyzerChoice && secondaryAnalyzerChoice) {
                 $('#primaryAnalyzerMode option[value="' + primaryAnalyzerChoice + '"]').prop('selected', true);
                 populateSecondaryAnalyzerList();
@@ -162,7 +162,7 @@ function restoreChoices(mode) {
                 populateSecondaryAnalyzerList();
             }
 
-            $('#morphAnalyzerInput').val(safeRetrieve('analyzerInput', ""));
+            $('#morphAnalyzerInput').val(safeRetrieve('analyzerInput', ''));
         }
 
         if(getURLParam('choice')) {
@@ -180,8 +180,8 @@ function restoreChoices(mode) {
     }
     else if(mode === 'generator') {
         if(localStorage) {
-            var primaryGeneratorChoice = safeRetrieve('primaryGeneratorChoice', ""),
-                secondaryGeneratorChoice = safeRetrieve('secondaryGeneratorChoice', "");
+            var primaryGeneratorChoice = safeRetrieve('primaryGeneratorChoice', ''),
+                secondaryGeneratorChoice = safeRetrieve('secondaryGeneratorChoice', '');
             if('primaryGeneratorChoice' in localStorage && 'secondaryGeneratorChoice' in localStorage) {
                 $('#primaryGeneratorMode option[value="' + primaryGeneratorChoice + '"]').prop('selected', true);
                 populateSecondaryGeneratorList();
@@ -191,7 +191,7 @@ function restoreChoices(mode) {
                 populateSecondaryGeneratorList();
             }
 
-            $('#morphGeneratorInput').val(safeRetrieve('generatorInput', ""));
+            $('#morphGeneratorInput').val(safeRetrieve('generatorInput', ''));
         }
 
         if(getURLParam('choice')) {
@@ -209,7 +209,7 @@ function restoreChoices(mode) {
     }
     else if(mode === 'localization') {
         if(localStorage) {
-            locale = safeRetrieve('locale', "");
+            locale = safeRetrieve('locale', '');
             if(locale) {
                 $('.localeSelect').val(locale);
             }
@@ -217,7 +217,7 @@ function restoreChoices(mode) {
     }
     else if(mode === 'sandbox') {
         if(localStorage) {
-            $('#sandboxInput').val(safeRetrieve('sandboxInput', ""));
+            $('#sandboxInput').val(safeRetrieve('sandboxInput', ''));
         }
     }
 
