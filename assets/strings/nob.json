@@ -21,7 +21,7 @@
     "description": "Giellatekno utvikler frie oversettelsessystem for samiske (og andre) språk, ved hjelp av den regelbaserte maskinoversettelsesplattformen Apertium. All kode og data er fri programvare, utgitt under GNU General Public License.",
     "Translation": "Oversettelse",
     "Translation_Help": "Velg to språk og oversett teksten din med Giellateknos oversettere!",
-    "All_Translation_Help": "Velg to språk og oversett tekst, dokumenter og nettsider med Giellateknos oversettere!"
+    "All_Translation_Help": "Velg to språk og oversett tekst, dokumenter og nettsider med Giellateknos oversettere!",
     "Translate": "Oversett",
     "Detect_Language": "Gjenkjenn språk",
     "detected": "gjenkjent",
