@@ -8,6 +8,7 @@ var droppedFile;
 var textTranslateRequest;
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
+    TRANSLATION_LIST_BUTTONS = 3,
     TRANSLATION_LIST_WIDTH = 650,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4;
@@ -347,7 +348,7 @@ function getPairs() {
             return;
         }
         $.each(pairData, function (i, pair) {
-            if(config.ALLOWED_PAIRS && config.ALLOWED_PAIRS.indexOf(pair.sourceLanguage+"-"+pair.targetLanguage) === -1) {
+            if(config.ALLOWED_PAIRS && config.ALLOWED_PAIRS.indexOf(pair.sourceLanguage + "-" + pair.targetLanguage) === -1) {
                 return;
             }
             srcLangs.push(pair.sourceLanguage);
@@ -363,8 +364,12 @@ function getPairs() {
         srcLangs = filterLangList(srcLangs.filter(onlyUnique));
         dstLangs = filterLangList(dstLangs.filter(onlyUnique));
 
-        curSrcLang = srcLangs[0];
-        curDstLang = dstLangs[0];
+        for(var k in pairs) {
+            // Default for new users is first available pair; TODO something smart based on browser lang setting
+            curSrcLang = k;
+            curDstLang = pairs[k][0];
+            break;
+        }
         for(var i = 0; i < 3; i++) {
             recentSrcLangs.push(i < srcLangs.length ? srcLangs[i] : undefined);
             recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
@@ -401,13 +406,12 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
 }
 
 function refreshLangList(resetDetect) {
-    var showLangs = 3;
-    recentSrcLangs = filterLangs(recentSrcLangs, srcLangs, showLangs);
-    recentDstLangs = filterLangs(recentDstLangs, dstLangs, showLangs);
+    recentSrcLangs = filterLangs(recentSrcLangs, srcLangs);
+    recentDstLangs = filterLangs(recentDstLangs, dstLangs);
 
     persistChoices('translator');
 
-    for(var i = 0; i < showLangs; i++) {
+    for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
         var srcBtn = $('#srcLang' + (i + 1));
         var dstBtn = $('#dstLang' + (i + 1));
         if(i < recentSrcLangs.length && recentSrcLangs[i]) {
@@ -436,17 +440,17 @@ function refreshLangList(resetDetect) {
         $('#detectedText').hide();
     }
 
-    function filterLangs(recentLangs, allLangs, showLangs) {
+    function filterLangs(recentLangs, allLangs) {
         recentLangs = recentLangs.filter(onlyUnique);
-        if(recentLangs.length < showLangs) {
+        if(recentLangs.length < TRANSLATION_LIST_BUTTONS) {
             for(var i = 0; i < allLangs.length; i++) {
-                if(recentLangs.length < showLangs && recentLangs.indexOf(allLangs[i]) === -1) {
+                if(recentLangs.length < TRANSLATION_LIST_BUTTONS && recentLangs.indexOf(allLangs[i]) === -1) {
                     recentLangs.push(allLangs[i]);
                 }
             }
         }
-        if(recentLangs.length > showLangs) {
-            recentLangs = recentLangs.slice(0, showLangs);
+        if(recentLangs.length > TRANSLATION_LIST_BUTTONS) {
+            recentLangs = recentLangs.slice(0, TRANSLATION_LIST_BUTTONS);
         }
         return recentLangs;
     }
