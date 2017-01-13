@@ -104,7 +104,7 @@ if __name__ == '__main__':
                 presentKeys, allKeys = set(dict(filter(lambda x: x[0] == args.metadataKey or not x[1].startswith(args.unavailableString), strings.items())).keys()), set(canonicalStrings.keys())
                 presentValuesLength, allValuesLength = sum(map(len, map(lambda x: x[1], filter(lambda x: x[0] in presentKeys, strings.items())))), sum(map(len, canonicalStrings.values()))
                 strings[args.metadataKey]['completion'] = '%3d%% %6.2f%%' % (100 - int(len(allKeys - presentKeys) / len(allKeys) * 100), presentValuesLength / allValuesLength * 100)
-                strings[args.metadataKey]['missing'] = list(allKeys - presentKeys)
+                strings[args.metadataKey]['missing'] = sorted(list(allKeys - presentKeys))
                 dumpJSON(f, strings)
         if len(set(['sort', 'all', 'cleanup']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:

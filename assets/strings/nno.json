@@ -10,8 +10,8 @@
         ],
         "completion": " 94%  93.42%",
         "missing": [
-            "Mark_Unknown_Words",
             "All_Translation_Help",
+            "Mark_Unknown_Words",
             "description"
         ]
     },

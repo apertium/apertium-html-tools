@@ -103,6 +103,10 @@ function persistChoices(mode, updatePermalink) {
 }
 
 function restoreChoices(mode) {
+    if(localStorage && getURLParam('reset').length > 0) {
+        localStorage.clear();
+    }
+
     if(mode === 'translator') {
         if(localStorage) {
             recentSrcLangs = safeRetrieve('recentSrcLangs', recentSrcLangs);
@@ -123,6 +127,19 @@ function restoreChoices(mode) {
                 $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
                 $('#' + safeRetrieve('curDstChoice', "dstLang1")).addClass('active');
             }
+
+            if('translationInput' in localStorage) {
+                $('#originalText').val(safeRetrieve('translationInput', ""));
+            }
+
+            if('webpageInput' in localStorage) {
+                $('#webpage').val(safeRetrieve('webpageInput', ""));
+            }
+
+            if('instantTranslation' in localStorage) {
+                $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', true));
+            }
+
             $('#webpage').val(safeRetrieve('webpageInput', ''));
             $('#originalText').val(safeRetrieve('translationInput', ''));
             $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', "true"));

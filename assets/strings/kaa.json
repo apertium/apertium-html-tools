@@ -9,10 +9,10 @@
         ],
         "completion": " 92% 100.47%",
         "missing": [
-            "Mark_Unknown_Words",
             "All_Translation_Help",
-            "description",
-            "Drop_Document"
+            "Drop_Document",
+            "Mark_Unknown_Words",
+            "description"
         ]
     },
     "title": "Apertium | Biypul/ashıq mashinalı awdarmalaw platforması",

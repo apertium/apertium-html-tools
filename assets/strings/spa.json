@@ -12,14 +12,14 @@
         ],
         "completion": " 84%  34.08%",
         "missing": [
-            "Documentation_Para",
-            "Mark_Unknown_Words",
             "All_Translation_Help",
-            "What_Is_Apertium",
-            "Downloads_Para",
             "Contact_Para",
-            "description",
-            "Drop_Document"
+            "Documentation_Para",
+            "Downloads_Para",
+            "Drop_Document",
+            "Mark_Unknown_Words",
+            "What_Is_Apertium",
+            "description"
         ]
     },
     "title": "Apertium | Una plataforma libre para la traducción automática",
