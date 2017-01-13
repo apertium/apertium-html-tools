@@ -296,6 +296,9 @@ function getPairs() {
             return;
         }
         $.each(pairData, function (i, pair) {
+            if(config.ALLOWED_PAIRS && config.ALLOWED_PAIRS.indexOf(pair.sourceLanguage+"-"+pair.targetLanguage) === -1) {
+                return;
+            }
             srcLangs.push(pair.sourceLanguage);
             dstLangs.push(pair.targetLanguage);
 
