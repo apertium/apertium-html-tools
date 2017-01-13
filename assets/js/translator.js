@@ -8,6 +8,7 @@ var droppedFile;
 var textTranslateRequest;
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
+    TRANSLATION_LIST_BUTTONS = 3,
     TRANSLATION_LIST_WIDTH = 650,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4;
@@ -396,13 +397,12 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
 }
 
 function refreshLangList(resetDetect) {
-    var showLangs = 5;
-    recentSrcLangs = filterLangs(recentSrcLangs, srcLangs, showLangs);
-    recentDstLangs = filterLangs(recentDstLangs, dstLangs, showLangs);
+    recentSrcLangs = filterLangs(recentSrcLangs, srcLangs);
+    recentDstLangs = filterLangs(recentDstLangs, dstLangs);
 
     persistChoices('translator');
 
-    for(var i = 0; i < showLangs; i++) {
+    for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
         var srcBtn = $('#srcLang' + (i + 1));
         var dstBtn = $('#dstLang' + (i + 1));
         if(i < recentSrcLangs.length && recentSrcLangs[i]) {
@@ -419,17 +419,17 @@ function refreshLangList(resetDetect) {
         }
     }
 
-    function filterLangs(recentLangs, allLangs, showLangs) {
+    function filterLangs(recentLangs, allLangs) {
         recentLangs = recentLangs.filter(onlyUnique);
-        if(recentLangs.length < showLangs) {
+        if(recentLangs.length < TRANSLATION_LIST_BUTTONS) {
             for(var i = 0; i < allLangs.length; i++) {
-                if(recentLangs.length < showLangs && recentLangs.indexOf(allLangs[i]) === -1) {
+                if(recentLangs.length < TRANSLATION_LIST_BUTTONS && recentLangs.indexOf(allLangs[i]) === -1) {
                     recentLangs.push(allLangs[i]);
                 }
             }
         }
-        if(recentLangs.length > showLangs) {
-            recentLangs = recentLangs.slice(0, showLangs);
+        if(recentLangs.length > TRANSLATION_LIST_BUTTONS) {
+            recentLangs = recentLangs.slice(0, TRANSLATION_LIST_BUTTONS);
         }
         return recentLangs;
     }
