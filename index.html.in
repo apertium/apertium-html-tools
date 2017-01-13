@@ -114,7 +114,6 @@
                           <div class="form-group visible-xs">
                               <div class="col-sm-12">
                                   <select class="langSelect" id="srcLangSelect" style="display: inline-block !important">
-                                      <option data-text="Detect_Language" value="detect">Detect language</option>
                                   </select>
                                   <button type="button" class="btn btn-default btn-xs swapLangBtn"><i class="fa fa-exchange"></i></button>
                                   <select class="langSelect" id="dstLangSelect" style="display: inline-block !important">
