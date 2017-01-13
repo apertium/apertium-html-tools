@@ -15,7 +15,9 @@ function persistChoices(mode, updatePermalink) {
                 'curDstChoice': $('.dstLang.active').prop('id'),
                 'translationInput': $('#originalText').val(),
                 'webpageInput': $('#webpage').val(),
-                'instantTranslation': $('#instantTranslation').prop('checked')
+                'instantTranslation': $('#instantTranslation').prop('checked'),
+                'markUnknown': $('#markUnknown').prop('checked'),
+                'chainedTranslation': $('#chainedTranslation').prop('checked')
             };
         }
         else if(mode === 'analyzer') {
@@ -113,7 +115,6 @@ function restoreChoices(mode) {
             recentDstLangs = safeRetrieve('recentDstLangs', recentDstLangs);
             var srcFallback = recentSrcLangs ? recentSrcLangs[0] : "eng";
             var dstFallback = pairs[srcFallback] ? pairs[srcFallback][0] : "spa";
-            console.log(srcFallback, dstFallback);
             curSrcLang = safeRetrieve('curSrcLang', srcFallback);
             curDstLang = safeRetrieve('curDstLang', dstFallback);
             if('recentSrcLangs' in localStorage && isSubset(recentSrcLangs, srcLangs)) {
@@ -130,9 +131,13 @@ function restoreChoices(mode) {
                 $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
                 $('#' + safeRetrieve('curDstChoice', "dstLang1")).addClass('active');
             }
-            $('#webpage').val(safeRetrieve('webpageInput', ""));
-            $('#originalText').val(safeRetrieve('translationInput', ""));
-            $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', "true"));
+
+            $('#webpage').val(safeRetrieve('webpageInput', ''));
+            $('#originalText').val(safeRetrieve('translationInput', ''));
+            $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', true));
+            $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', true));
+            $('#markUnknown').prop('checked', safeRetrieve('markUnknown', true));
+            $('#chainedTranslation').prop('checked', safeRetrieve('chainedTranslation', true));
         }
 
         if(getURLParam('dir')) {

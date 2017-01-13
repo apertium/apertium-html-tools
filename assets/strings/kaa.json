@@ -7,12 +7,12 @@
         "locale": [
             "kaa"
         ],
-        "completion": " 92% 100.47%",
+        "completion": " 92% 100.34%",
         "missing": [
+            "Drop_Document",
             "Mark_Unknown_Words",
-            "All_Translation_Help",
-            "description",
-            "Drop_Document"
+            "Multi_Step_Translation",
+            "description"
         ]
     },
     "title": "Apertium | Biypul/ashıq mashinalı awdarmalaw platforması",

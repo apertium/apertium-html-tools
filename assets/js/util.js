@@ -29,6 +29,18 @@ $(document).ready(function () {
     $('.navbar').css('margin-top', '0px');
     $('body > .container').css('margin-top', '0px');
 
+    if(config.SUBTITLE) {
+        $('.apertiumSubLogo')
+            .text(config.SUBTITLE)
+            .show();
+        if(config.SUBTITLE_COLOR) {
+            $('.apertiumSubLogo').css('color', config.SUBTITLE_COLOR);
+        }
+    }
+    else {
+        $('.apertiumSubLogo').hide();
+    }
+
     if(config.SHOW_NAVBAR) {
         if(config.ENABLED_MODES === null) {
             $('.nav a').removeClass('hide');
@@ -78,7 +90,10 @@ $(document).ready(function () {
         synchronizeTextareaHeights();
     });
 
-    $(window).on('hashchange', persistChoices);
+    resizeFooter();
+    $(window)
+        .on('hashchange', persistChoices)
+        .resize(resizeFooter);
 
     if(config.ALLOWED_LANGS) {
         var withIso = [];
@@ -158,6 +173,12 @@ function sendEvent(category, action, label, value) {
 
 function modeEnabled(mode/*:string*/) {
     return config.ENABLED_MODES === null || config.ENABLED_MODES.indexOf(mode) !== -1;
+}
+
+function resizeFooter() {
+    var footerHeight = $('#footer').height();
+    $('#push').css('height', footerHeight);
+    $('#wrap').css('margin-bottom', -footerHeight);
 }
 
 function allowedLang(code) {

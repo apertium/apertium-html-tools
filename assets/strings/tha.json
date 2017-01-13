@@ -5,12 +5,12 @@
         "locale": [
             "tha"
         ],
-        "completion": " 92%  86.93%",
+        "completion": " 92%  86.82%",
         "missing": [
+            "Drop_Document",
             "Mark_Unknown_Words",
-            "All_Translation_Help",
-            "description",
-            "Drop_Document"
+            "Multi_Step_Translation",
+            "description"
         ]
     },
     "title": "อาเปอร์เทียม | แพรตฟอร์มเครื่องแปลภาษาเสรี/โอเพนซอร์ส",

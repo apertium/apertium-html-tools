@@ -7,10 +7,10 @@
         "locale": [
             "swe"
         ],
-        "completion": " 96%  99.46%",
+        "completion": " 96%  99.33%",
         "missing": [
-            "All_Translation_Help",
-            "Mark_Unknown_Words"
+            "Mark_Unknown_Words",
+            "Multi_Step_Translation"
         ]
     },
     "title": "Apertium | En fri maskinöversättningsplattform i öppen källkod",

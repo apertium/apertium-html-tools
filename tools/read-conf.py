@@ -35,12 +35,16 @@ def load_conf(filename):
         'HTML_URL'                       : conf_APY.get('HTML_URL', fallback="http://www.apertium.org"),
         'APY_URL'                        : conf_APY.get('APY_URL', fallback="http://apy.projectjj.com"),
 
+        'SUBTITLE'                       : conf_APY.get('SUBTITLE', fallback=None),
+        'SUBTITLE_COLOR'                 : conf_APY.get('SUBTITLE_COLOR', fallback=None),
+
         'ALLOWED_LANGS'                  : getlist(conf_APY, 'ALLOWED_LANGS', fallback=None),
         'ALLOWED_VARIANTS'               : getlist(conf_APY, 'ALLOWED_VARIANTS', fallback=None),
         'ALLOWED_PAIRS'                  : getlist(conf_APY, 'ALLOWED_PAIRS', fallback=None),
 
         'ENABLED_MODES'                  : getlist(conf_APY, 'ENABLED_MODES', fallback=["translation"]),
         'DEFAULT_MODE'                   : conf_APY.get('DEFAULT_MODE', fallback="translation"),
+        'TRANSLATION_CHAINING'           : conf_APY.getboolean('TRANSLATION_CHAINING', fallback=False),
 
         'SHOW_NAVBAR'                    : conf_APY.getboolean('SHOW_NAVBAR', fallback=False),
 
