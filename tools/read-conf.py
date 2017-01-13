@@ -40,6 +40,7 @@ def load_conf(filename):
 
         'ALLOWED_LANGS'                  : getlist(conf_APY, 'ALLOWED_LANGS', fallback=None),
         'ALLOWED_VARIANTS'               : getlist(conf_APY, 'ALLOWED_VARIANTS', fallback=None),
+        'ALLOWED_PAIRS'                  : getlist(conf_APY, 'ALLOWED_PAIRS', fallback=None),
 
         'ENABLED_MODES'                  : getlist(conf_APY, 'ENABLED_MODES', fallback=["translation"]),
         'DEFAULT_MODE'                   : conf_APY.get('DEFAULT_MODE', fallback="translation"),

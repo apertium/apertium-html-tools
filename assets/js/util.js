@@ -187,7 +187,7 @@ function allowedLang(code) {
     }
 }
 
-function filterLangList(langs, filterFn) {
+function filterLangList(langs/*:Array<string>*/, filterFn/*:(lang: string) => bool*/) {
     if(config.ALLOWED_LANGS === null && config.ALLOWED_VARIANTS === null) {
         return langs;
     }
