@@ -349,7 +349,7 @@ function getPairs() {
             curDstLang = pairs[k][0];
             break;
         }
-        for(var i = 0; i < 3; i++) {
+        for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
             recentSrcLangs.push(i < srcLangs.length ? srcLangs[i] : undefined);
             recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
         }
@@ -731,13 +731,13 @@ function detectLanguage() {
             var oldSrcLangs = recentSrcLangs;
             recentSrcLangs = [];
             for(var i = 0; i < possibleLanguages.length; i++) {
-                if(recentSrcLangs.length < 3 && possibleLanguages[i][0] in pairs) {
+                if(recentSrcLangs.length < TRANSLATION_LIST_BUTTONS && possibleLanguages[i][0] in pairs) {
                     recentSrcLangs.push(possibleLanguages[i][0]);
                 }
             }
             recentSrcLangs = recentSrcLangs.concat(oldSrcLangs);
-            if(recentSrcLangs.length > 3) {
-                recentSrcLangs = recentSrcLangs.slice(0, 3);
+            if(recentSrcLangs.length > TRANSLATION_LIST_BUTTONS) {
+                recentSrcLangs = recentSrcLangs.slice(0, TRANSLATION_LIST_BUTTONS);
             }
 
             curSrcLang = recentSrcLangs[0];
