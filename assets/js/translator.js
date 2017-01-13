@@ -374,18 +374,6 @@ function refreshLangList(resetDetect) {
         }
     }
 
-    if($('#detectedText').parent('.srcLang').attr('data-code')) {
-        $('#detectedText')
-            .text(getLangByCode($('#detectedText')
-            .parent('.srcLang')
-            .attr('data-code')) + ' - ' + dynamicLocalizations['detected']);
-    }
-
-    if(resetDetect) {
-        $('#detectText').show();
-        $('#detectedText').hide();
-    }
-
     function filterLangs(recentLangs, allLangs, showLangs) {
         recentLangs = recentLangs.filter(onlyUnique);
         if(recentLangs.length < showLangs) {
