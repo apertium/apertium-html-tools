@@ -391,60 +391,6 @@
                         <div data-text="What_Is_Apertium"></div>
                         <div data-text="Maintainer" style="padding-bottom: 2em;"></div>
 
-                        <div class="row lead">
-                            <div class="col-md-6">
-                                <div class="center-block">
-                                    <a href="https://developers.google.com/open-source/soc/" target="_blank" style="text-decoration: none">
-                                        <img alt="Google Summer of Code" data-src="https://summerofcode.withgoogle.com/static/img/summer-of-code-logo.svg" style="height: 2.5em;">
-                                    </a>
-                                    <a href="https://developers.google.com/open-source/gci/" target="_blank" style="text-decoration: none">
-                                        <img alt="Google Code-In" data-src="https://developers.google.com/open-source/gci/images/logo-icon.png" style="height: 2.5em; padding-left: .5em;">
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3 text-center">
-                                <a href="http://www.bytemark.co.uk/" target="_blank">
-                                    <img alt="Bytemark" data-src="./img/logo_bytemark.gif" style="width: 100%; margin-top: .5em">
-                                </a>
-                            </div>
-                            <div class="col-md-3 text-center">
-                                <a href="http://www.sourceforge.net" target="_blank">
-                                    <img alt="Sourceforge" data-src="./img/sourceforge.png" style="width: 100%; margin-top: .25em">
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="row lead">
-                            <div class="col-md-6 text-center">
-                                <a href="http://www.minetur.gob.es/" target="_blank">
-                                    <img alt="Ministry of Industry, Energy and Tourism" data-src="./img/logomitc120.jpg">
-                                </a>
-                            </div>
-                            <div class="col-md-6 text-center">
-                                <a href="http://www.ua.es/" target="_blank">
-                                    <img alt="Universidad de Alicante" data-src="./img/logouapp.gif">
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4 text-center">
-                                <a href="http://www.prompsit.com/" target="_blank">
-                                    <img alt="Prompsit Language Engineering S.L." data-src="./img/prompsit150x52.png">
-                                </a>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <a href="http://www10.gencat.net" target="_blank">
-                                    <img alt="Generalitat de Catalunya" data-src="./img/stsi.gif">
-                                </a>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <a href="http://www.mae.ro/" target="_blank">
-                                    <img alt="ROMÂNIA  Ministerul Afacerilor Externe" data-src="./img/logo_mae_ro_75pc.jpg">
-                                </a>
-                            </div>
-                        </div>
                         <div class="row">
                             <div style="display: inline-block; margin: 0 .5em 0 .5em">
                                 <a href="http://creativecommons.org/licenses/by-sa/3.0/">
