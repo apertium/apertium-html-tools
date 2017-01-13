@@ -1,14 +1,13 @@
 .apertiumLogo {
-    color: #98978B;
+    color: #98978b;
 }
 
 .languageName:hover:not(.text-muted) {
-    color: white;
-    background-color: #325D88;
+    background-color: #325d88;
+    color: #fff;
 }
 
 p.tagline {
-    margin: 10px 0px 0px;
+    margin: 10px 0 0;
     text-transform: uppercase;
 }
-

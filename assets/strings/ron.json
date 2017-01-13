@@ -8,12 +8,11 @@
             "ro",
             "ron"
         ],
-        "completion": " 49%  16.82%",
+        "completion": " 49%  16.80%",
         "missing": [
             "About",
             "About_Apertium",
             "About_Title",
-            "All_Translation_Help",
             "Apertium_Downloads",
             "Cancel",
             "Contact",
@@ -31,6 +30,7 @@
             "Instant_Translation",
             "Maintainer",
             "Mark_Unknown_Words",
+            "Multi_Step_Translation",
             "Not_Found_Error",
             "Translate_Document",
             "What_Is_Apertium",

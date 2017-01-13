@@ -10,14 +10,14 @@
             "es",
             "spa"
         ],
-        "completion": " 84%  34.08%",
+        "completion": " 84%  34.04%",
         "missing": [
-            "All_Translation_Help",
             "Contact_Para",
             "Documentation_Para",
             "Downloads_Para",
             "Drop_Document",
             "Mark_Unknown_Words",
+            "Multi_Step_Translation",
             "What_Is_Apertium",
             "description"
         ]

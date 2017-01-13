@@ -1,6 +1,6 @@
 /* @flow */
 
-var pairs = {};
+var pairs = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
@@ -17,6 +17,36 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         synchronizeTextareaHeights();
+
+        function getChainedDstLangs(srcLang) {
+            var targets = [];
+            var targetsSeen = {};
+            targetsSeen[srcLang] = true;
+            var targetLists = [pairs[srcLang]];
+
+            while(targetLists.length > 0) {
+                $.each(targetLists.pop(), function (i, trgt) {
+                    if(!targetsSeen[trgt]) {
+                        targets.push(trgt);
+                        if(pairs[trgt]) {
+                            targetLists.push(pairs[trgt]);
+                        }
+                        targetsSeen[trgt] = true;
+                    }
+                });
+            }
+
+            return targets;
+        }
+
+        if(config.TRANSLATION_CHAINING) {
+            $('.chaining').show();
+            $.each(pairs, function (srcLang, _dstLangs) {
+                chainedPairs[srcLang] = getChainedDstLangs(srcLang);
+            });
+            updatePairList();
+            populateTranslationList();
+        }
 
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
             curSrcLang = $(this).attr('data-code');
@@ -54,6 +84,12 @@ if(modeEnabled('translation')) {
         $('button#translate').click(function () {
             translate();
             persistChoices('translator', true);
+        });
+
+        $('input#chainedTranslation').change(function () {
+            updatePairList();
+            populateTranslationList();
+            persistChoices('translator');
         });
 
         var timer,
@@ -102,6 +138,7 @@ if(modeEnabled('translation')) {
 
         $('#markUnknown').change(function () {
             translate();
+            persistChoices('translator');
         });
 
         $('#originalText').on('input propertychange', function () {
@@ -178,6 +215,8 @@ if(modeEnabled('translation')) {
                 $('div#fileName').hide();
                 $('div#docTranslation').fadeIn('fast');
             });
+            pairs = originalPairs;
+            populateTranslationList();
         });
 
         $('button#cancelDocTranslate').click(function () {
@@ -189,6 +228,8 @@ if(modeEnabled('translation')) {
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
             });
+            updatePairList();
+            populateTranslationList();
         });
 
         $('input#webpage').keyup(function (ev) {
@@ -306,6 +347,9 @@ function getPairs() {
             return;
         }
         $.each(pairData, function (i, pair) {
+            if(config.ALLOWED_PAIRS && config.ALLOWED_PAIRS.indexOf(pair.sourceLanguage+"-"+pair.targetLanguage) === -1) {
+                return;
+            }
             srcLangs.push(pair.sourceLanguage);
             dstLangs.push(pair.targetLanguage);
 
@@ -357,17 +401,26 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
 }
 
 function refreshLangList(resetDetect) {
-    recentSrcLangs = filterLangList(recentSrcLangs, srcLangs);
-    recentDstLangs = filterLangList(recentDstLangs, dstLangs);
+    var showLangs = 3;
+    recentSrcLangs = filterLangs(recentSrcLangs, srcLangs, showLangs);
+    recentDstLangs = filterLangs(recentDstLangs, dstLangs, showLangs);
 
     persistChoices('translator');
 
-    for(var i = 0; i < 3; i++) {
+    for(var i = 0; i < showLangs; i++) {
+        var srcBtn = $('#srcLang' + (i + 1));
+        var dstBtn = $('#dstLang' + (i + 1));
         if(i < recentSrcLangs.length && recentSrcLangs[i]) {
-            $('#srcLang' + (i + 1)).attr('data-code', recentSrcLangs[i]).text(getLangByCode(recentSrcLangs[i]));
+            srcBtn.show().attr('data-code', recentSrcLangs[i]).text(getLangByCode(recentSrcLangs[i]));
+        }
+        else {
+            srcBtn.hide();
         }
         if(i < recentDstLangs.length && recentDstLangs[i]) {
-            $('#dstLang' + (i + 1)).attr('data-code', recentDstLangs[i]).text(getLangByCode(recentDstLangs[i]));
+            dstBtn.show().attr('data-code', recentDstLangs[i]).text(getLangByCode(recentDstLangs[i]));
+        }
+        else {
+            dstBtn.hide();
         }
     }
 
@@ -383,20 +436,24 @@ function refreshLangList(resetDetect) {
         $('#detectedText').hide();
     }
 
-    function filterLangList(recentLangs, allLangs) {
+    function filterLangs(recentLangs, allLangs, showLangs) {
         recentLangs = recentLangs.filter(onlyUnique);
-        if(recentLangs.length < 3) {
+        if(recentLangs.length < showLangs) {
             for(var i = 0; i < allLangs.length; i++) {
-                if(recentLangs.length < 3 && recentLangs.indexOf(allLangs[i]) === -1) {
+                if(recentLangs.length < showLangs && recentLangs.indexOf(allLangs[i]) === -1) {
                     recentLangs.push(allLangs[i]);
                 }
             }
         }
-        if(recentLangs.length > 3) {
-            recentLangs = recentLangs.slice(0, 3);
+        if(recentLangs.length > showLangs) {
+            recentLangs = recentLangs.slice(0, showLangs);
         }
         return recentLangs;
     }
+}
+
+function updatePairList() {
+    pairs = $('input#chainedTranslation').prop('checked') ? chainedPairs : originalPairs;
 }
 
 function populateTranslationList() {
@@ -516,18 +573,25 @@ function translateText() {
             if(textTranslateRequest) {
                 textTranslateRequest.abort();
             }
+            var endpoint, request;
+            if($('input#chainedTranslation').prop('checked')) {
+                endpoint = '/translateChain';
+                request = {'langpairs': curSrcLang + '|' + curDstLang};
+            }
+            else {
+                endpoint = '/translate';
+                request = {'langpair': curSrcLang + '|' + curDstLang};
+            }
+            request.q = $('#originalText').val(); // eslint-disable-line id-length
+            request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             textTranslateRequest = $.jsonp({
-                url: config.APY_URL + '/translate',
+                url: config.APY_URL + endpoint,
                 beforeSend: ajaxSend,
                 complete: function () {
                     ajaxComplete();
                     textTranslateRequest = undefined;
                 },
-                data: {
-                    'langpair': curSrcLang + '|' + curDstLang,
-                    'q': $('#originalText').val(),
-                    'markUnknown': $('#markUnknown').prop('checked') ? 'yes' : 'no'
-                },
+                data: request,
                 success: function (data) {
                     if(data.responseStatus === HTTP_OK_CODE) {
                         $('#translatedText').val(data.responseData.translatedText);
@@ -768,8 +832,10 @@ function detectLanguage() {
 }
 
 function translationNotAvailable() {
-    $('#translatedText').text(dynamicLocalizations['Not_Available']);
-    $('#translatedText').addClass('notAvailable text-danger');
+    $('#translatedText')
+        .val(dynamicLocalizations['Not_Available'])
+        .text(dynamicLocalizations['Not_Available'])
+        .addClass('notAvailable text-danger');
 }
 
 function muteLanguages() {

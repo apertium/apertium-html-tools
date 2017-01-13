@@ -1,8 +1,7 @@
 .apertiumLogo {
-    color: whitesmoke;
+    color: #f5f5f5;
 }
 
 .languageName:hover:not(.text-muted) {
-    background-color: #2780E3;
+    background-color: #2780e3;
 }
-

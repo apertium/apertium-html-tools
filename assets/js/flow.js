@@ -1,5 +1,6 @@
 /* :: declare var config: {
    ALLOWED_LANGS:any,
+   ALLOWED_PAIRS:any,
    LIST_REQUEST_CACHE_EXPIRY: number,
    ENABLED_MODES: [string],
    LOCALIZATION_CACHE_EXPIRY: number,

@@ -8,11 +8,10 @@
             "av",
             "ava"
         ],
-        "completion": " 54%  18.05%",
+        "completion": " 54%  18.03%",
         "missing": [
             "About",
             "About_Apertium",
-            "All_Translation_Help",
             "Apertium_Downloads",
             "Cancel",
             "Contact",
@@ -28,6 +27,7 @@
             "Format_Not_Supported",
             "Instant_Translation",
             "Mark_Unknown_Words",
+            "Multi_Step_Translation",
             "Not_Available",
             "Not_Found_Error",
             "Translate_Document",

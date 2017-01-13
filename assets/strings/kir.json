@@ -9,15 +9,15 @@
             "ky",
             "kir"
         ],
-        "completion": " 82%  32.23%",
+        "completion": " 82%  32.19%",
         "missing": [
-            "All_Translation_Help",
             "Contact_Para",
             "Documentation_Para",
             "Downloads_Para",
             "Drop_Document",
             "Format_Not_Supported",
             "Mark_Unknown_Words",
+            "Multi_Step_Translation",
             "What_Is_Apertium",
             "description"
         ]
