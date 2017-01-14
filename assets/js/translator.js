@@ -763,10 +763,8 @@ function translateWebpage() {
                         contents.find('a')
                             .map(function(_i, a){
                                 var href = a.href;
-                                if(!a.onclick) {
-                                    a.onclick = function() { window.parent.translateLink(href); };
-                                    a.href = "#";
-                                }
+                                $(a).on('click', function() { window.parent.translateLink(href); });
+                                a.href = "#";
                             });
                     });
                 }
