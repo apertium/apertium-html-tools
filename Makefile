@@ -12,7 +12,7 @@ html: build/index.html build/index.debug.html build/not-found.html
 fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf build/fonts/fontawesome-webfont.svg build/fonts/fontawesome-webfont.eot
 
 check-deps:
-	@if ! command -V curl; then echo; echo "You need to install curl"; echo; false; fi
+	@if ! command -V curl >/dev/null; then echo; echo "You need to install curl"; echo; false; fi
 
 # Note: the min.{js,css} are equal to all.{js,css}; minification gives
 # negligible improvements over just enabling gzip in the server, and
