@@ -713,6 +713,19 @@ function translateLink(url) {
     translateWebpage();
 }
 
+function cleanPage(html) {
+    // Pages like
+    // http://www.lapinkansa.fi/sagat/romssa-sami-searvvi-jodiheaddji-daruiduhttinpolitihkka-vaikkuha-ain-olbmuid-guottuide-samiid-birra-15843633/
+    // insert noise using document.write that 1. makes things
+    // enormously slow, and 2. completely mess up styling so e.g. you
+    // have to scroll through a full screen of whitespace before
+    // reaching content. This might mess things up some places – needs
+    // testing – but on the other hand most uses of document.write are
+    // evil.
+    return html.replace(/document[.]write[(]/g,
+                        'console.log("document.write "+');
+}
+
 function translateWebpage() {
     if(!$('div#translateWebpage').is(':visible')) {
         showTranslateWebpageInterface($('#originalText').val().trim());
@@ -740,7 +753,8 @@ function translateWebpage() {
                     var iframe = $('<iframe id="translatedWebpage" class="translatedWebpage" frameborder="0"></iframe>')[0];
                     $('#translatedWebpage').replaceWith(iframe);
                     iframe.contentWindow.document.open();
-                    iframe.contentWindow.document.write(data.responseData.translatedText);
+                    var html = cleanPage(data.responseData.translatedText);
+                    iframe.contentWindow.document.write(html);
                     iframe.contentWindow.document.close();
                     var contents = $(iframe).contents();
                     contents.find('head')
