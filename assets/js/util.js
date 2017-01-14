@@ -241,7 +241,7 @@ var safeRetrieve = function/*::<T>*/(key/*:string*/, fallback/*:T*/)/*:T*/ {
             }
         }
         catch(e) {
-            console.log(e);
+            console.log(key, fallback, e);
         }
         return fallback;
     }
