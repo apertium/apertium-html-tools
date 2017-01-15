@@ -14,6 +14,7 @@ function persistChoices(mode, updatePermalink) {
                 'curSrcChoice': $('.srcLang.active').prop('id'),
                 'curDstChoice': $('.dstLang.active').prop('id'),
                 'translationInput': $('#originalText').val(),
+                'webpageInput': $('#webpage').val(),
                 'instantTranslation': $('#instantTranslation').prop('checked'),
                 'markUnknown': $('#markUnknown').prop('checked'),
                 'chainedTranslation': $('#chainedTranslation').prop('checked')
@@ -67,6 +68,11 @@ function persistChoices(mode, updatePermalink) {
             urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
             qVal = $('#originalText').val();
         }
+        if(hash === '#webpageTranslation' && curSrcLang && curDstLang) {
+            urlParams = [];
+            urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
+            qVal = $('#webpage').val();
+        }
         else if(hash === '#analyzation' && $('#secondaryAnalyzerMode').val()) {
             urlParams = [];
             urlParams.push('choice=' + encodeURIComponent($('#secondaryAnalyzerMode').val()));
@@ -80,6 +86,7 @@ function persistChoices(mode, updatePermalink) {
 
         var qName = '';
         if(hash === '#translation') { qName = ''; }
+        if(hash === '#webpageTranslation') { qName = 'P'; }
         if(hash === '#analyzation') { qName = 'A'; }
         if(hash === '#generation') { qName = 'G'; }
 
@@ -122,10 +129,13 @@ function restoreChoices(mode) {
                 $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
                 $('#' + safeRetrieve('curDstChoice', "dstLang1")).addClass('active');
             }
+
+            $('#webpage').val(safeRetrieve('webpageInput', ''));
             $('#originalText').val(safeRetrieve('translationInput', ''));
-            $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', 'true'));
-            $('#markUnknown').prop('checked', safeRetrieve('markUnknown', 'true'));
-            $('#chainedTranslation').prop('checked', safeRetrieve('chainedTranslation', 'true'));
+            $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', true));
+            $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', true));
+            $('#markUnknown').prop('checked', safeRetrieve('markUnknown', true));
+            $('#chainedTranslation').prop('checked', safeRetrieve('chainedTranslation', true));
         }
 
         if(getURLParam('dir')) {
@@ -140,6 +150,10 @@ function restoreChoices(mode) {
 
         if(getURLParam('q').length > 0) {
             $('#originalText').val(decodeURIComponent(getURLParam('q')));
+        }
+
+        if(getURLParam('qP').length > 0) {
+            $('#webpage').val(decodeURIComponent(getURLParam('qP')));
         }
 
         refreshLangList();

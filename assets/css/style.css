@@ -254,6 +254,13 @@ textarea#translatedText {
     clear: both;
 }
 
+iframe.translatedWebpage {
+    height: 700px;
+    width: 100%;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
 /* Analysis */
 
 div.unit {

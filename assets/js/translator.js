@@ -52,7 +52,6 @@ if(modeEnabled('translation')) {
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
             curSrcLang = $(this).attr('data-code');
             handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
-
             autoSelectDstLang();
         });
 
@@ -70,7 +69,6 @@ if(modeEnabled('translation')) {
             muteLanguages();
             localizeInterface();
             translateText();
-
             autoSelectDstLang();
         });
 
@@ -121,7 +119,7 @@ if(modeEnabled('translation')) {
 
             timer = setTimeout(function () {
                 if($('#instantTranslation').prop('checked')) {
-                    translateText();
+                    translate();
                 }
                 persistChoices('translator', true);
             }, timeout);
@@ -227,12 +225,35 @@ if(modeEnabled('translation')) {
             $('div#docTranslation').fadeOut('fast', function () {
                 $('a#fileDownload').hide();
                 $('span#uploadError').hide();
-                $('div#translateText').fadeIn('fast');
+                $('div#translateText').fadeIn('fast', synchronizeTextareaHeights);
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
             });
             updatePairList();
             populateTranslationList();
+        });
+
+        $('input#webpage').keyup(function (ev) {
+            if(ev.keyCode === ENTER_KEY_CODE) {
+                translate();
+                return false;
+            }
+        });
+
+        $('button#translateWebpage').click(showTranslateWebpageInterface);
+
+        $('button#cancelWebpageTranslate').click(function () {
+            $('input#webpage').attr({
+                'required': false,
+                'novalidate': true
+            });
+            $('div#translateWebpage').fadeOut('fast', function () {
+                $('button#cancelWebpageTranslate').fadeOut('fast');
+                $('div#translateText').fadeIn('fast', function () {
+                    synchronizeTextareaHeights();
+                });
+            });
+            window.location.hash = 'translation';
         });
 
         $('input#fileInput').change(function () {
@@ -538,7 +559,10 @@ function populateTranslationList() {
 }
 
 function translate() {
-    if($('div#translateText').is(':visible')) {
+    if($('div#translateWebpage').is(':visible') || isURL($('#originalText').val())) {
+        translateWebpage();
+    }
+    else if($('div#translateText').is(':visible')) {
         translateText();
     }
     else {
@@ -702,6 +726,62 @@ function translateDoc() {
         $('input#fileInput').prop('disabled', false);
         console.error(errorMessage);
     }
+}
+
+function translateWebpage() {
+    if(!$('div#translateWebpage').is(':visible')) {
+        showTranslateWebpageInterface($('#originalText').val().trim());
+    }
+
+    if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+        sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
+        $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
+        $.jsonp({
+            url: config.APY_URL + '/translatePage',
+            beforeSend: ajaxSend,
+            complete: function () {
+                ajaxComplete();
+                textTranslateRequest = undefined;
+                $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
+            },
+            data: {
+                'langpair': curSrcLang + '|' + curDstLang,
+                'url': $('input#webpage').val()
+            },
+            success: function (data) {
+                if(data.responseStatus === HTTP_OK_CODE) {
+                    var iframe = $('<iframe id="translatedWebpage" class="translatedWebpage" frameborder="0"></iframe>')[0];
+                    $('iframe#translatedWebpage').replaceWith(iframe);
+                    iframe.contentWindow.document.open();
+                    iframe.contentWindow.document.write(data.responseData.translatedText);
+                    iframe.contentWindow.document.close();
+                    $(iframe)
+                        .contents()
+                        .find('head')
+                        .append($('<base>').attr('href', $('input#webpage').val()));
+                }
+                else {
+                    translationNotAvailable();
+                }
+            },
+            error: translationNotAvailable
+        });
+    }
+}
+
+function showTranslateWebpageInterface(url) {
+    $('div#translateText').fadeOut('fast', function () {
+        $('input#webpage').attr({
+            'required': true,
+            'novalidate': false
+        });
+        $('button#cancelWebpageTranslate').fadeIn('fast');
+        $('div#translateWebpage').fadeIn('fast');
+    });
+    if(url && typeof url === 'string') {
+        $('input#webpage').val(url);
+    }
+    window.location.hash = 'webpageTranslation';
 }
 
 function detectLanguage() {
