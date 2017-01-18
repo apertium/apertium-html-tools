@@ -45,13 +45,15 @@ JSFILES= \
 	assets/js/generator.js \
 	assets/js/sandbox.js
 
-assets/js/config.js: config.conf tools/read-conf.py
+CONFIG ?= config.conf
+
+assets/js/config.js: $(CONFIG) tools/read-conf.py
 	./tools/read-conf.py -c $< js > $@
 
 # Only create the file based on the example if it doesn't exist
 # already; otherwise just give a message that the user might want to
 # merge it in:
-config.conf: config.conf.example
+$(CONFIG): config.conf.example
 	@if test -f $@; then \
 		touch $@; \
 		echo; echo You may have to merge new changes from $^ into $@; echo; \
@@ -63,7 +65,7 @@ config.conf: config.conf.example
 build/js/locales.js: assets/strings/locales.json build/js/.d
 	echo "config.LOCALES = `cat $<`;" > $@
 
-build/js/listrequests.js: config.conf tools/read-conf.py build/js/.d
+build/js/listrequests.js: $(CONFIG) tools/read-conf.py build/js/.d
 	printf "config.PAIRS = " > $@
 	curl -Ss "$(shell ./tools/read-conf.py -c $< get APY_URL)/list?q=pairs" >> $@ || ( rm $@; false; )
 	echo ";" >> $@
@@ -98,17 +100,17 @@ build/js/%.js: assets/js/%.js build/js/.d
 
 
 ### HTML ###
-build/index.debug.html: index.html.in debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json config.conf tools/read-conf.py tools/localise-html.py build/.d
+build/index.debug.html: index.html.in debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json $(CONFIG) tools/read-conf.py tools/localise-html.py build/.d
 	sed -e '/@include_head@/r debug-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
-	./tools/localise-html.py -c config.conf $@ build/strings/eng.json $@
+	./tools/localise-html.py -c $(CONFIG) $@ build/strings/eng.json $@
 
 # timestamp links, only double quotes supported :>
 build/prod-head.html: prod-head.html build/js/all.js build/css/all.css
 	ts=`date +%s`; sed "s/\(href\|src\)=\"\([^\"]*\)\"/\1=\"\2?$${ts}\"/" $< > $@
 
-build/.PIWIK_URL: config.conf tools/read-conf.py build/.d
+build/.PIWIK_URL: $(CONFIG) tools/read-conf.py build/.d
 	./tools/read-conf.py -c $< get PIWIK_URL > $@
-build/.PIWIK_SITEID: config.conf tools/read-conf.py build/.d
+build/.PIWIK_SITEID: $(CONFIG) tools/read-conf.py build/.d
 	./tools/read-conf.py -c $< get PIWIK_SITEID > $@
 
 build/index.localiseme.html: index.html.in build/prod-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID
@@ -124,8 +126,8 @@ localhtml: $(shell sed -n 's%^[^"]*"\([^"]*\)":.*%build/index.\1.html build/stri
 build/l10n-rel.html: assets/strings/locales.json isobork build/.d
 	awk 'BEGIN{while(getline<"isobork")i[$$1]=$$2} /:/{sub(/^[^"]*"/,""); sub(/".*/,""); borkd=i[$$0]; if(!borkd)borkd=$$0; print "<link rel=\"alternate\" hreflang=\""borkd"\" href=\"index."$$0".html\">"}' $^ > $@
 
-build/index.%.html: build/strings/%.json build/index.localiseme.html config.conf tools/read-conf.py tools/localise-html.py
-	./tools/localise-html.py -c config.conf build/index.localiseme.html $< $@
+build/index.%.html: build/strings/%.json build/index.localiseme.html $(CONFIG) tools/read-conf.py tools/localise-html.py
+	./tools/localise-html.py -c $(CONFIG) build/index.localiseme.html $< $@
 
 build/index.html: build/index.eng.html
 	cp $^ $@
@@ -133,21 +135,24 @@ build/index.html: build/index.eng.html
 build/not-found.html: build/index.html not-found.html
 	sed -e '/<!-- Not found warning -->/r not-found.html' $< > $@
 
-build/strings/%.json: assets/strings/%.json config.conf tools/read-conf.py tools/minify-json.py build/strings/.d
+build/strings/%.langnames.json: tools/read-conf.py $(CONFIG) build/strings/.d
+	curl -Ss "$(shell $< -c $(CONFIG) get APY_URL)/listLanguageNames?locale=$*" >$@
+
+build/strings/%.json: assets/strings/%.json tools/read-conf.py $(CONFIG) tools/minify-json.py build/strings/%.langnames.json
 	@printf '    "@langNames": ' > $@.tmp
-	curl -Ss "$(shell ./tools/read-conf.py -c config.conf get APY_URL)/listLanguageNames?locale=$*" >> $@.tmp
+	@cat build/strings/$*.langnames.json >> $@.tmp
 	@echo ',' >> $@.tmp
 	@sed "0,/{/ s/{/{\n/" $< | sed "1r $@.tmp" > $@
 	./tools/minify-json.py $@
-	@rm $@.tmp
-# the first sed to ensure inserting after line 1 is unproblematic
+	rm $@.tmp
+# the first sed is there to ensure that inserting after line 1 is unproblematic
 
 build/strings/locales.json: assets/strings/locales.json build/strings/.d
 	cp $< $@
 
 
 ## Sitemap
-build/.HTML_URL: config.conf tools/read-conf.py build/.d
+build/.HTML_URL: $(CONFIG) tools/read-conf.py build/.d
 	./tools/read-conf.py -c $< get HTML_URL > $@
 build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.HTML_URL
 	sed -e 's%^<link%<xhtml:link%' -e "s%href=\"%&$(shell cat build/.HTML_URL)/%" build/l10n-rel.html > build/l10n-rel.html.tmp
