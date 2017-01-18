@@ -133,8 +133,7 @@ function restoreChoices(mode) {
             $('#webpage').val(safeRetrieve('webpageInput', ''));
             $('#originalText').val(safeRetrieve('translationInput', ''));
             $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', true));
-            $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', true));
-            $('#markUnknown').prop('checked', safeRetrieve('markUnknown', true));
+            $('#markUnknown').prop('checked', safeRetrieve('markUnknown', false));
             $('#chainedTranslation').prop('checked', safeRetrieve('chainedTranslation', true));
         }
 
