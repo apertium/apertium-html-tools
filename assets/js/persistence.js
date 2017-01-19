@@ -1,9 +1,34 @@
-/* exported persistChoices, restoreChoices */
+/* exported persistChoices, restoreChoices, cache, readCache */
 
 var URL_PARAM_Q_LIMIT = 1300;
 
+var store = new Store(config.HTML_URL);
+
+// eslint-disable-next-line id-blacklist
+function cache(name, value) {
+    store.set(name, value);
+    store.set(name + '_timestamp', Date.now());
+}
+
+function readCache(name, type) {
+    var ts = store.get(name + '_timestamp', 0);
+    var obj = store.get(name, null);
+    if(obj && ts) {
+        var expiry_hrs = config[type.toUpperCase() + '_CACHE_EXPIRY'];
+        if(expiry_hrs === undefined) {
+            expiry_hrs = 24;
+        }
+        var MS_IN_HOUR = 3600000,
+            expiryTime = ts + (expiry_hrs * MS_IN_HOUR);
+        if(expiryTime > Date.now()) {
+            return obj;
+        }
+    }
+    return null;
+}
+
 function persistChoices(mode, updatePermalink) {
-    if(localStorage) {
+    if(store.able()) {
         var objects;
         if(mode === 'translator') {
             objects = {
@@ -46,7 +71,7 @@ function persistChoices(mode, updatePermalink) {
         }
 
         for(var name in objects) {
-            localStorage[name] = JSON.stringify(objects[name]);
+            store.set(name, objects[name]);
         }
     }
 
@@ -105,36 +130,36 @@ function persistChoices(mode, updatePermalink) {
 }
 
 function restoreChoices(mode) {
-    if(localStorage && getURLParam('reset').length > 0) {
-        localStorage.clear();
+    if(store.able() && getURLParam('reset').length > 0) {
+        store.clear();
     }
 
     if(mode === 'translator') {
-        if(localStorage) {
-            recentSrcLangs = safeRetrieve('recentSrcLangs', recentSrcLangs);
-            recentDstLangs = safeRetrieve('recentDstLangs', recentDstLangs);
-            curSrcLang = safeRetrieve('curSrcLang', curSrcLang);
-            curDstLang = safeRetrieve('curDstLang', curDstLang);
-            if('recentSrcLangs' in localStorage && isSubset(recentSrcLangs, srcLangs)) {
+        if(store.able()) {
+            recentSrcLangs = store.get('recentSrcLangs', recentSrcLangs);
+            recentDstLangs = store.get('recentDstLangs', recentDstLangs);
+            curSrcLang = store.get('curSrcLang', curSrcLang);
+            curDstLang = store.get('curDstLang', curDstLang);
+            if(store.has('recentSrcLangs') && isSubset(recentSrcLangs, srcLangs)) {
                 $('.srcLang').removeClass('active');
                 $('#srcLangSelect option[value=' + curSrcLang + ']').prop('selected', true);
-                $('#' + safeRetrieve('curSrcChoice', "srcLang1")).addClass('active');
-                if(safeRetrieve('curSrcChoice', "srcLang1") === 'detect') {
+                $('#' + store.get('curSrcChoice', "srcLang1")).addClass('active');
+                if(store.get('curSrcChoice', "srcLang1") === 'detect') {
                     $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
                     $('#detectText').hide();
                 }
             }
-            if('recentDstLangs' in localStorage && isSubset(recentDstLangs, dstLangs)) {
+            if(store.has('recentDstLangs') && isSubset(recentDstLangs, dstLangs)) {
                 $('.dstLang').removeClass('active');
                 $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
-                $('#' + safeRetrieve('curDstChoice', "dstLang1")).addClass('active');
+                $('#' + store.get('curDstChoice', "dstLang1")).addClass('active');
             }
 
-            $('#webpage').val(safeRetrieve('webpageInput', ''));
-            $('#originalText').val(safeRetrieve('translationInput', ''));
-            $('#instantTranslation').prop('checked', safeRetrieve('instantTranslation', true));
-            $('#markUnknown').prop('checked', safeRetrieve('markUnknown', false));
-            $('#chainedTranslation').prop('checked', safeRetrieve('chainedTranslation', true));
+            $('#webpage').val(store.get('webpageInput', ''));
+            $('#originalText').val(store.get('translationInput', ''));
+            $('#instantTranslation').prop('checked', store.get('instantTranslation', true));
+            $('#markUnknown').prop('checked', store.get('markUnknown', false));
+            $('#chainedTranslation').prop('checked', store.get('chainedTranslation', true));
         }
 
         if(getURLParam('dir')) {
@@ -158,9 +183,9 @@ function restoreChoices(mode) {
         refreshLangList();
     }
     else if(mode === 'analyzer') {
-        if(localStorage) {
-            var primaryAnalyzerChoice = safeRetrieve('primaryAnalyzerChoice', ''),
-                secondaryAnalyzerChoice = safeRetrieve('secondaryAnalyzerChoice', '');
+        if(store.able()) {
+            var primaryAnalyzerChoice = store.get('primaryAnalyzerChoice', ''),
+                secondaryAnalyzerChoice = store.get('secondaryAnalyzerChoice', '');
             if(primaryAnalyzerChoice && secondaryAnalyzerChoice) {
                 $('#primaryAnalyzerMode option[value="' + primaryAnalyzerChoice + '"]').prop('selected', true);
                 populateSecondaryAnalyzerList();
@@ -173,7 +198,7 @@ function restoreChoices(mode) {
                 populateSecondaryAnalyzerList();
             }
 
-            $('#morphAnalyzerInput').val(safeRetrieve('analyzerInput', ''));
+            $('#morphAnalyzerInput').val(store.get('analyzerInput', ''));
         }
 
         if(getURLParam('choice')) {
@@ -190,10 +215,10 @@ function restoreChoices(mode) {
         }
     }
     else if(mode === 'generator') {
-        if(localStorage) {
-            var primaryGeneratorChoice = safeRetrieve('primaryGeneratorChoice', ''),
-                secondaryGeneratorChoice = safeRetrieve('secondaryGeneratorChoice', '');
-            if('primaryGeneratorChoice' in localStorage && 'secondaryGeneratorChoice' in localStorage) {
+        if(store.able()) {
+            var primaryGeneratorChoice = store.get('primaryGeneratorChoice', ''),
+                secondaryGeneratorChoice = store.get('secondaryGeneratorChoice', '');
+            if(store.has('primaryGeneratorChoice') && store.has('secondaryGeneratorChoice')) {
                 $('#primaryGeneratorMode option[value="' + primaryGeneratorChoice + '"]').prop('selected', true);
                 populateSecondaryGeneratorList();
                 $('#secondaryGeneratorMode option[value="' + secondaryGeneratorChoice + '"]').prop('selected', true);
@@ -202,7 +227,7 @@ function restoreChoices(mode) {
                 populateSecondaryGeneratorList();
             }
 
-            $('#morphGeneratorInput').val(safeRetrieve('generatorInput', ''));
+            $('#morphGeneratorInput').val(store.get('generatorInput', ''));
         }
 
         if(getURLParam('choice')) {
@@ -219,19 +244,20 @@ function restoreChoices(mode) {
         }
     }
     else if(mode === 'localization') {
-        if(localStorage) {
-            locale = safeRetrieve('locale', '');
+        if(store.able()) {
+            locale = store.get('locale', '');
             if(locale) {
                 $('.localeSelect').val(locale);
             }
         }
     }
     else if(mode === 'sandbox') {
-        if(localStorage) {
-            $('#sandboxInput').val(safeRetrieve('sandboxInput', ''));
+        if(store.able()) {
+            $('#sandboxInput').val(store.get('sandboxInput', ''));
         }
     }
 
 }
 
-/*:: export {persistChoices, restoreChoices} */
+/*:: export {persistChoices, restoreChoices, cache, readCache} */
+/*:: import {Store} from "./store.js" */

@@ -236,28 +236,6 @@ function isSubset(subset, superset) {
     });
 }
 
-var safeRetrieve = function/*::<T>*/(key/*:string*/, fallback/*:T*/)/*:T*/ {
-    if(!window.localStorage) {
-        return fallback;
-    }
-    var fromStorage = window.localStorage.getItem(key);
-    if(fromStorage == null) {
-        return fallback;
-    }
-    else {
-        try {
-            var parsed = JSON.parse(fromStorage);
-            if(parsed != null) {
-                return parsed;
-            }
-        }
-        catch(e) {
-            console.log(key, fallback, e);
-        }
-        return fallback;
-    }
-};
-
 function synchronizeTextareaHeights() {
     if($(window).width() < TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH) {
         return;
