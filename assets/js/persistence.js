@@ -159,7 +159,7 @@ function restoreChoices(mode) {
             $('#originalText').val(store.get('translationInput', ''));
             $('#instantTranslation').prop('checked', store.get('instantTranslation', true));
             $('#markUnknown').prop('checked', store.get('markUnknown', false));
-            $('#chainedTranslation').prop('checked', store.get('chainedTranslation', true));
+            $('#chainedTranslation').prop('checked', store.get('chainedTranslation', false));
         }
 
         if(getURLParam('dir')) {
