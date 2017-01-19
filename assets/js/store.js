@@ -5,14 +5,14 @@ var Store = function (prefix/*:string*/)/*:void*/ {
 };
 
 Store.prototype.get = function/*::<T>*/(key/*:string*/, fallback/*:T*/)/*:T*/ {
-    if(fallback == undefined) {
+    if(fallback === undefined) {
         console.warn("Store.get with undefined fallback! Key:", key);
     }
     if(this.able()) {
         return fallback;
     }
     var fromStorage = window.localStorage[this.prefix + key];
-    if(fromStorage == undefined) {
+    if(fromStorage === undefined) {
         return fallback;
     }
     else {
