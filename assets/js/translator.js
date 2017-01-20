@@ -140,7 +140,9 @@ if(modeEnabled('translation')) {
         });
 
         $('#markUnknown').change(function () {
-            translate();
+            if($('div#translateText').is(':visible')) {
+              translateText();
+            }
             persistChoices('translator');
         });
 
