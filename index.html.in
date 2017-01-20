@@ -215,7 +215,7 @@
                               <div id="docTranslation" style="display: none;">
                                   <div class="col-sm-6">
                                       <div class="well well-lg">
-                                          <input type="file" id="fileInput">
+                                          <input type="file" id="fileInput" accept="text/plain,text/html,text/rtf,application/rtf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.oasis.opendocument.text,application/x-latex,application/x-tex">
                                           <div class="lead" id="fileName" style="display: none;"></div>
                                           <div style="min-height: 50px; margin-top: 1em;">
                                               <span id="uploadError" class="text-danger lead" style="display: none"></span>

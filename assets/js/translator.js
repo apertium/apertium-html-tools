@@ -610,7 +610,9 @@ function translateDoc() {
             docTranslateError(dynamicLocalizations['File_Too_Large'], 'File_Too_Large');
         }
         else {
+            // Keep in sync with accept attribute of input#fileInput:
             var allowedMimeTypes = [
+                '',               // epiphany-browser gives this instead of a real MIME type
                 'text/plain', 'text/html',
                 'text/rtf', 'application/rtf',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -674,6 +676,7 @@ function translateDoc() {
                 sendEvent('translator', 'translateDoc', curSrcLang + '-' + curDstLang, file.size);
             }
             else {
+                console.log("Browser gave MIME type as", file.type);
                 docTranslateError(dynamicLocalizations['Format_Not_Supported'], 'Format_Not_Supported');
             }
         }
