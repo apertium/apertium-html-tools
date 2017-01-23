@@ -57,4 +57,5 @@
     "Contact": "Ta kontakt",
     "Documentation": "For utviklere",
     "About_Apertium": "Om Giellatekno"
+    "What_Is_Apertium": "Giellatekno ved UiT Norges arktiske universitet arbeider med maskinoversetting basert på våre grammatiske analysatorer for samiske språk, kombinert med tospråklige ordbøker, overføringsregler for grammatikk, og en generator for målspråket. Vi lager oversettingsprogram fra nordsamisk til andre samiske språk (inarisamisk, lulesamisk, sørsamisk), og dessuten til norsk og finsk. Giellatekno samarbeider med Apertium, som har en maskinoversettingsplattform med åpen kildekode. Ta kontakt med oss: giellatekno@uit.no",
 }
