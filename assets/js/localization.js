@@ -47,6 +47,12 @@ $(document).ready(function () {
     }
 
     $.when.apply($, deferredItems).then(function () {
+        if(!config.LOCALES.hasOwnProperty(locale)) { // in case of bad caching
+            for(var k in config.LOCALES) { // just pick one that exists
+                locale = k;
+                break;
+            }
+        }
         $('.localeSelect').val(locale);
         localizeEverything(localizedHTML);
         persistChoices('localization');
