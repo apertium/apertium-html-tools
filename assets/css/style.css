@@ -43,6 +43,7 @@ h2 {
     height: 25px;
     margin-bottom: 6px;
     margin-top: 7px;
+    text-transform: capitalize;
 }
 
 .modal-body h4:first-child {
