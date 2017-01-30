@@ -223,8 +223,11 @@
                                                   <div id="fileUploadProgress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                                               </div>
                                           </div>
+                                          <p>
+                                            <span data-text="Supported_Formats">Supported formats: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 and newer). <br/><i>Word 97 .doc files and pdf's are not supported.</i></span>
+                                          </p>
                                           <button type="button" class="btn btn-sm btn-default pull-right" id="cancelDocTranslate">
-                                              <i class="fa fa-arrow-left"></i> <span data-text="Cancel">Cancel</span>
+                                              <i class="fa fa-arrow-left"></i> <span data-text="Back">Back</span>
                                           </button>
                                       </div>
                                   </div>
