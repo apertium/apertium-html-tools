@@ -7,12 +7,25 @@ var iso639Codes = {'abk': 'ab', 'aar': 'aa', 'afr': 'af', 'aka': 'ak', 'sqi': 's
 var rtlLanguages = ['heb', 'ara', 'pes', 'urd', 'uig'];
 var languagesInverse = {}, iso639CodesInverse = {};
 var localizedLanguageCodes = {}, localizedLanguageNames = {};
+
 var dynamicLocalizations = {
-    'Not_Available': 'Translation not yet available!',
-    'detected': 'detected',
-    'File_Too_Large': 'File is too large!',
-    'Format_Not_Supported': 'Format not supported!',
-    'Download_File': 'Download {{fileName}}'
+    'eng': {
+        'Not_Available': 'Translation not yet available!',
+        'detected': 'detected',
+        'File_Too_Large': 'File is too large!',
+        'Format_Not_Supported': 'Format not supported!',
+        'Download_File': 'Download {{fileName}}'
+    }
+};
+function getDynamicLocalization (key) {
+    // global locale
+    var loc = dynamicLocalizations[locale] && dynamicLocalizations[locale][key];
+    if(loc && !(loc.match('%%UNAVAILABLE%%'))) {
+        return loc;
+    }
+    else {
+        return dynamicLocalizations['eng'][key];
+    }
 };
 
 var localizedHTML = false;
@@ -69,7 +82,7 @@ $(document).ready(function () {
         localizeInterface();
         localizeStrings(stringsFresh);
         if($('#translatedText').hasClass('notAvailable')) {
-            $('#translatedText').text(dynamicLocalizations['Not_Available']);
+            $('#translatedText').text(getDynamicLocalization('Not_Available'));
         }
 
         var pathname = window.location.pathname;
@@ -285,7 +298,7 @@ function localizeStrings(stringsFresh) {
     else {
         var localizations = readCache(locale + '_localizations', 'LOCALIZATION');
         if(localizations) {
-            handleLocalizations(localizations);
+            handleLocalizations(locale, localizations);
             localizeLanguageNames(localizations['@langNames']);
         }
         else {
@@ -296,7 +309,7 @@ function localizeStrings(stringsFresh) {
                 dataType: 'text',
                 success: function (data) {
                     data = JSON.parse(data.replace(/[\n\t\r]/g, ''));
-                    handleLocalizations(data);
+                    handleLocalizations(locale, data);
                     localizeLanguageNames(data['@langNames']);
                     cache(locale + '_localizations', data);
                 },
@@ -307,7 +320,7 @@ function localizeStrings(stringsFresh) {
         }
     }
 
-    function handleLocalizations(localizations) {
+    function handleLocalizations(locale, localizations) {
         for(var textId in localizations) {
             if(textId.charAt(0) !== '@') {
                 var text = localizations[textId];
@@ -334,17 +347,13 @@ function localizeStrings(stringsFresh) {
             }
         }
 
-        if(localizations['Download_File'] && $('#fileDownloadText').text().length) {
+        dynamicLocalizations[locale] = localizations;
+
+        if($('#fileDownloadText').text().length) {
             $('span#fileDownloadText').text(
-                localizations['Download_File'].replace('{{fileName}}', $('a#fileDownload').attr('download'))
+                getDynamicLocalization('Download_File').replace('{{fileName}}', $('a#fileDownload').attr('download'))
             );
         }
-
-        $.each(dynamicLocalizations, function (name) {
-            if(localizations[name] && localizations[name].lastIndexOf('%%UNAVAILABLE%%') !== 0) {
-                dynamicLocalizations[name] = localizations[name];
-            }
-        });
     }
 }
 
