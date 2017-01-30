@@ -285,6 +285,7 @@ if(modeEnabled('translation')) {
             }
             return false;
         });
+
     });
 }
 
@@ -645,6 +646,7 @@ function translateDoc() {
                         });
                     }
                     else if(this.readyState === XHR_DONE && xhr.status === HTTP_OK_CODE) {
+                        downloadBrowserWarn();
                         $('div#fileUploadProgress').parent().fadeOut('fast');
                         $('div#fileLoading').fadeOut('fast', function () {
                             var URL = window.URL || window.webkitURL;
@@ -714,6 +716,15 @@ function translateDoc() {
     }
 }
 
+function downloadBrowserWarn() {
+    if(typeof $bu_getBrowser == 'function') {
+        var detected = $bu_getBrowser();
+        // Show the warning for (what bu calls) "niche" browsers and Safari, but not Chromium:
+        if(detected.n.match(/^[xs]/) && !(navigator.userAgent.match(/Chromium/))) {
+            $('#fileDownloadBrowserWarning').show();
+        }
+    }
+}
 function detectLanguage() {
     if(textTranslateRequest) {
         textTranslateRequest.abort();
