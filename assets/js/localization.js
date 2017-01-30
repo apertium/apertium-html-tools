@@ -330,7 +330,7 @@ function localizeStrings(stringsFresh) {
                     }
                 });
                 try {
-                    if(text.lastIndexOf('%%UNAVAILABLE%%') !== 0) {
+                    if(!text.match('%%UNAVAILABLE%%')) {
                         var elem = $('[data-text=' + textId + ']');
                         if(elem.attr('data-textattr')) {
                             elem.attr(elem.attr('data-textattr'), text);
