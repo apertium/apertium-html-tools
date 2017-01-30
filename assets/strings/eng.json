@@ -27,6 +27,8 @@
     "Not_Available": "Translation not yet available!",
     "File_Too_Large": "File is too large!",
     "Cancel": "Cancel",
+    "Back": "Back",
+    "Translate_Webpage": "Translate a webpage"
     "Format_Not_Supported": "Format not supported",
     "Download_File": "Download {{fileName}}",
     "Morphological_Analysis": "Morphological analysis",
