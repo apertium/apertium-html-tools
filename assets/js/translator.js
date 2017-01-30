@@ -608,7 +608,7 @@ function translateDoc() {
         file = droppedFile !== undefined ? droppedFile : inputFile();
     if(validPair && file !== undefined) {
         if(file.size > UPLOAD_FILE_SIZE_LIMIT) {
-            docTranslateError(dynamicLocalizations['File_Too_Large'], 'File_Too_Large');
+            docTranslateError(getDynamicLocalization('File_Too_Large'), 'File_Too_Large');
         }
         else {
             // Keep in sync with accept attribute of input#fileInput:
@@ -653,17 +653,17 @@ function translateDoc() {
                                 .attr('href', URL.createObjectURL(xhr.response))
                                 .attr('download', fileName)
                                 .fadeIn('fast');
-                            $('span#fileDownloadText').text(dynamicLocalizations['Download_File'].replace('{{fileName}}', fileName));
+                            $('span#fileDownloadText').text(getDynamicLocalization('Download_File').replace('{{fileName}}', fileName));
                             $('button#translate').prop('disabled', false);
                             $('input#fileInput').prop('disabled', false);
                         });
                     }
                     else if(this.status >= HTTP_BAD_REQUEST_CODE) {
-                        docTranslateError(dynamicLocalizations['Not_Available']);
+                        docTranslateError(getDynamicLocalization('Not_Available'));
                     }
                 };
                 xhr.onerror = function () {
-                    docTranslateError(dynamicLocalizations['Not_Available']);
+                    docTranslateError(getDynamicLocalization('Not_Available'));
                 };
 
                 updateProgressBar({'loaded': 0, 'total': 1, 'position': undefined, 'totalSize': undefined});
@@ -679,12 +679,12 @@ function translateDoc() {
             }
             else {
                 console.log("Browser gave MIME type as", file.type);
-                docTranslateError(dynamicLocalizations['Format_Not_Supported'], 'Format_Not_Supported');
+                docTranslateError(getDynamicLocalization('Format_Not_Supported'), 'Format_Not_Supported');
             }
         }
     }
     else {
-        docTranslateError(dynamicLocalizations['Not_Available']);
+        docTranslateError(getDynamicLocalization('Not_Available'));
     }
 
     function updateProgressBar(ev) {
@@ -882,10 +882,10 @@ function detectLanguage() {
 }
 
 function translationNotAvailable() {
-    $('#translatedText').text(dynamicLocalizations['Not_Available']);
+    $('#translatedText').text(getDynamicLocalization('Not_Available'));
     $('#translatedText').addClass('notAvailable text-danger');
     var div = $('<div id="translatedWebpage" class="translatedWebpage"></div>');
-    div.text(dynamicLocalizations['Not_Available']);
+    div.text(getDynamicLocalization('Not_Available'));
     div.addClass('notAvailable text-danger');
     $('#translatedWebpage').replaceWith(div[0]);
 }
