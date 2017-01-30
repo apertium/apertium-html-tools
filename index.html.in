@@ -241,6 +241,7 @@
                                               <span id="fileDownloadText"></span>
                                           </a>
                                       </h1>
+                                      <p style="display:none" id="fileDownloadBrowserWarning" data-text="Download_Browser_Warning">Your browser might not handle downloads correctly. Either right-click and "Save As" that file-name or open this page in Firefox.</p>
                                   </div>
                               </div>
                               <div id="translateWebpage" style="display: none; overflow: hidden;">

@@ -35,6 +35,7 @@
     "Back": "Tilbake",
     "Translate_Webpage": "Oversett en nettside",
     "Format_Not_Supported": "Det formatet er ikke støttet!",
+    "Download_Browser_Warning":"Nettleseren din støtter kanskje ikke nedlastinger korrekt. Enten høyreklikk og «Lagre som» det filnavnet, eller åpne denne siden i <a href=\"https://www.mozilla.org/firefox/\">Firefox</a>.",
     "Download_File": "Last ned {{fileName}}",
     "Morphological_Analysis": "Morfologisk analyse",
     "Analyze": "Analyser",

@@ -16,6 +16,7 @@
     "File_Too_Large": "%%UNAVAILABLE%% Tiedosto on liian suuri.",
     "Cancel": "%%UNAVAILABLE%% Peruuta",
     "Format_Not_Supported": "%%UNAVAILABLE%% Tiedostomuotoa ei tueta.",
+    "Download_Browser_Warning":"%%UNAVAILABLE%% Your browser might not handle downloads correctly. Either right-click and \"Save As\" that file-name or open this page in <a href=\"https://www.mozilla.org/firefox/\">Firefox</a>.",
     "Download_File": "%%UNAVAILABLE%% Lataa tiedosto",
     "Morphological_Analysis": "%%UNAVAILABLE%% Morfologinen jäsennys",
     "Morphological_Analysis_Help": "%%UNAVAILABLE%% %%UNAVAILABLE%% Choose a language and analyse your text using Giellatekno's morphological analysers.",

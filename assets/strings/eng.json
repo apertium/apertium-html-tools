@@ -30,6 +30,7 @@
     "Back": "Back",
     "Translate_Webpage": "Translate a webpage",
     "Format_Not_Supported": "Format not supported",
+    "Download_Browser_Warning":"Your browser might not handle downloads correctly. Either right-click and \"Save As\" that file-name or open this page in <a href=\"https://www.mozilla.org/firefox/\">Firefox</a>.",
     "Download_File": "Download {{fileName}}",
     "Morphological_Analysis": "Morphological analysis",
     "Morphological_Analysis_Help": "Choose a language and analyse your text using Giellatekno's morphological analysers.",

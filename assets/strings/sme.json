@@ -54,6 +54,7 @@
     "Back": "Ruovttoluotta",
     "Translate_Webpage": "Jorgal neahttasiiddu",
     "Format_Not_Supported": "%%UNAVAILABLE%% Format not supported!",
+    "Download_Browser_Warning":"%%UNAVAILABLE%% Your browser might not handle downloads correctly. Either right-click and \"Save As\" that file-name or open this page in <a href=\"https://www.mozilla.org/firefox/\">Firefox</a>.",
     "Download_File": "%%UNAVAILABLE%% Download {{fileName}}",
     "Spell_Checker": "Sátnedárkkisteapmi",
     "Request": "Gohččun",
