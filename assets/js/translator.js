@@ -578,38 +578,53 @@ function unknownSpellmark(translation, outbox) {
         last = unknownMarkRE.lastIndex;
     }
     outbox.append($(document.createElement('span')).text(translation.substring(last)));
-    spell($('#translatedText.unknownWord'));
+    spell($('#translatedText .unknownWord'));
 }
 
 
 function spell(unks) {
-    console.info(unks);
-    for(var w in unks) {
-        console.log("spell", w);
-    }
-//     xhr = $.jsonp({
-//         url: 'http://divvun.no:3000/spellcheck31/script/ssrv.cgi?cmd=check_spelling&customerid=&',
-//         data: {
-//             'cmd': 'check_spelling',
-//             'customerid': "1%3AWvF0D4-UtPqN1-43nkD4-NKvUm2-daQqk3-LmNiI-z7Ysb4-mwry24-T8YrS3-Q2tpq2",
-//             'run_mode': 'web_service',
-//             'format': 'json',
-//             'out_type': 'words',
-//             'version': '1.0',
-//             'slang': 'se',
-//             'text': 'lean%2Cokta%2Csapmela%C5%A1'
-//         },
-//         success: function (data) {
-//             if(data.responseStatus === HTTP_OK_CODE) {
-//                 unknownSpellmark(data.responseData.translatedText, $('#translatedText'));
-//                 $('#translatedText').removeClass('notAvailable text-danger');
-//             }
-//             else {
-//                 translationNotAvailable();
-//             }
-//         },
-//         error: translationNotAvailable
-//     })
+    var forms = [], formmap = {};
+    unks.each(function(_i, w) {
+        var form = $(w).text();
+        formmap[form] = forms.length;
+        forms.push(form);
+    });
+    var xhr = $.jsonp({
+        url: 'http://divvun.no:3000/spellcheck31/script/ssrv.cgi',
+        data: {
+            'cmd': 'check_spelling',
+            'customerid': "1%3AWvF0D4-UtPqN1-43nkD4-NKvUm2-daQqk3-LmNiI-z7Ysb4-mwry24-T8YrS3-Q2tpq2",
+            'run_mode': 'web_service',
+            'format': 'json',
+            'out_type': 'words',
+            'version': '1.0',
+            'slang': 'se',
+            'text': forms.join(",")
+        },
+        success: function (data) {
+            $('#translatedText .unknownWord').each(function(_i, w){
+                var form = $(w).text(),
+                    d_i = formmap[form];
+                if(d_i === undefined || data[d_i] === undefined) {
+                    return;
+                }
+                if(data[d_i].word != form) {
+                    console.log("Unexpected form!=.word", data[d_i].word, form, formmap);
+                    return;
+                }
+                $(w).data('spelling', data[d_i]);
+                $(w).click(function(ev){
+                    var spelling = $(this).data('spelling');
+                    var old = $(this).text();
+                    var sugg = spelling.suggestions.shift();
+                    $(this).text(sugg);
+                    spelling.suggestions.push(old);
+                });
+            });
+            console.log(data);
+        },
+        error: console.log
+    });
 }
 
 function translateText() {
