@@ -153,7 +153,8 @@ if(modeEnabled('translation')) {
         });
 
         $('.clearButton').click(function () {
-            $('#originalText, #translatedText').val('');
+            $('#originalText').val('');
+            $('#translatedText').text('');
             $('#originalText').focus();
             synchronizeTextareaHeights();
         });
@@ -552,6 +553,65 @@ function translate() {
     }
 }
 
+
+var unknownMarkRE = /[#*]([^.,;:\t\* ]+)/g;
+
+function maybeStripMarks(markUnknown, translated) {
+    if (markUnknown) {
+        return translated;
+    }
+    else {
+        return translated.replace(unknownMarkRE, /\1/);
+    }
+}
+
+function unknownSpellmark(translation, outbox) {
+    outbox.html("");
+    unknownMarkRE.lastIndex = 0;
+    var match,
+        last = 0;
+    while((match = unknownMarkRE.exec(translation))) {
+        var preText = translation.substring(last, match.index),
+            unkText = match[1];
+        outbox.append($(document.createElement('span')).text(preText));
+        outbox.append($(document.createElement('span')).text(unkText).addClass('unknownWord'));
+        last = unknownMarkRE.lastIndex;
+    }
+    outbox.append($(document.createElement('span')).text(translation.substring(last)));
+    spell($('#translatedText.unknownWord'));
+}
+
+
+function spell(unks) {
+    console.info(unks);
+    for(var w in unks) {
+        console.log("spell", w);
+    }
+//     xhr = $.jsonp({
+//         url: 'http://divvun.no:3000/spellcheck31/script/ssrv.cgi?cmd=check_spelling&customerid=&',
+//         data: {
+//             'cmd': 'check_spelling',
+//             'customerid': "1%3AWvF0D4-UtPqN1-43nkD4-NKvUm2-daQqk3-LmNiI-z7Ysb4-mwry24-T8YrS3-Q2tpq2",
+//             'run_mode': 'web_service',
+//             'format': 'json',
+//             'out_type': 'words',
+//             'version': '1.0',
+//             'slang': 'se',
+//             'text': 'lean%2Cokta%2Csapmela%C5%A1'
+//         },
+//         success: function (data) {
+//             if(data.responseStatus === HTTP_OK_CODE) {
+//                 unknownSpellmark(data.responseData.translatedText, $('#translatedText'));
+//                 $('#translatedText').removeClass('notAvailable text-danger');
+//             }
+//             else {
+//                 translationNotAvailable();
+//             }
+//         },
+//         error: translationNotAvailable
+//     })
+}
+
 function translateText() {
     if($('div#translateText').is(':visible')) {
         if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
@@ -569,7 +629,8 @@ function translateText() {
                 request = {'langpair': curSrcLang + '|' + curDstLang};
             }
             request.q = $('#originalText').val(); // eslint-disable-line id-length
-            request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
+            var markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
+            request.markUnknown = 'yes'; // Remove marks on client instead, so we can spell afterwards.
             textTranslateRequest = $.jsonp({
                 url: config.APY_URL + endpoint,
                 beforeSend: ajaxSend,
@@ -580,7 +641,7 @@ function translateText() {
                 data: request,
                 success: function (data) {
                     if(data.responseStatus === HTTP_OK_CODE) {
-                        $('#translatedText').val(data.responseData.translatedText);
+                        unknownSpellmark(data.responseData.translatedText, $('#translatedText'));
                         $('#translatedText').removeClass('notAvailable text-danger');
                     }
                     else {
