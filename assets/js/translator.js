@@ -603,22 +603,41 @@ function spell(unks) {
         },
         success: function (data) {
             $('#translatedText .unknownWord').each(function(_i, w){
-                var form = $(w).text(),
+                var ww = $(w),
+                    form = ww.text(),
                     d_i = formmap[form];
-                if(d_i === undefined || data[d_i] === undefined) {
+                if(d_i === undefined || data[d_i] === undefined || (!data[d_i].suggestions)) {
                     return;
                 }
-                if(data[d_i].word != form) {
+                else if(data[d_i].word != form) {
                     console.log("Unexpected form!=.word", data[d_i].word, form, formmap);
                     return;
                 }
-                $(w).data('spelling', data[d_i]);
-                $(w).click(function(ev){
+                console.log(data[d_i]);
+                ww.data('spelling', data[d_i]);
+                ww.addClass('hasSuggestion');
+                ww.on('contextmenu', function(ev){
+                    ev.preventDefault(); // no browser right-click menu
                     var spelling = $(this).data('spelling');
-                    var old = $(this).text();
-                    var sugg = spelling.suggestions.shift();
-                    $(this).text(sugg);
-                    spelling.suggestions.push(old);
+
+                    var spanoff = $(this).offset();
+                    var newoff = { top:  spanoff.top+20,
+                                   left: spanoff.left };
+                    var repmenu = $('#repmenu');
+                    var at_same_err = repmenu.offset().top == newoff.top && repmenu.offset().left == newoff.left;
+                    if(repmenu.is(":visible") && at_same_err) {
+                        hiderep();
+                    }
+                    else {
+                        repmenu.show();
+                        repmenu.offset(newoff);
+                        if(!at_same_err) {
+                            makerepmenu(this, spelling);
+                        }
+                    }
+
+
+                    return false;
                 });
             });
             console.log(data);
