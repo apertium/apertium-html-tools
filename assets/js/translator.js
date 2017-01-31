@@ -294,7 +294,6 @@ if(modeEnabled('translation')) {
             }
             return false;
         });
-
     });
 }
 
