@@ -227,15 +227,6 @@ textarea#originalText,
     overflow: auto;
 }
 
-.unknownWord {
-    color: #908080;
-}
-
-.unknownWord.hasSuggestion {
-    text-decoration: red underline;
-    color: #333333;
-}
-
 @media(max-width: 768px) {
     textarea#originalText {
         margin-bottom: 1em;
@@ -345,4 +336,82 @@ html[dir=rtl] .pull-right:not(#rtlChecker) {
 
 html[dir=rtl] .pull-left:not(#rtlChecker) {
     float: right !important;
+}
+
+/* Spelling */
+
+.unknownWord {
+    color: #908080;
+}
+
+.unknownWord.hasSuggestion {
+    color: #333333;
+}
+
+.hasSuggestion {
+    cursor: pointer;
+    position: relative;
+}
+.hasSuggestion::after {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    width: 100%;
+    left: 0%;
+    top: 100%;
+    border-bottom: 2px dotted red;
+}
+@supports (text-decoration-style: wavy) {
+    .hasSuggestion {
+        -webkit-text-decoration-color: red;
+        -webkit-text-decoration-line: underline;
+        -webkit-text-decoration-style: wavy;
+        text-decoration-color: red;
+        text-decoration-line: underline;
+        text-decoration-style: wavy;
+    }
+    .hasSuggestion::after {
+        border-bottom: none;
+    }
+}
+
+#spellingMenu {
+    font-size: 92%;
+    position: absolute;
+    /* js sets these: */
+    /* left: 221.5px; */
+    /* top: 330px; */
+    z-index: 200000;
+    outline: 0px none;
+    /* presumably js class for this one: */
+    display: block;
+    /* js sets these? */
+    width: 170px;
+    min-height: 91px;           /* TODO set in js? other better solution? */
+}
+#spellingMenu > div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    z-index: 1000;
+    direction: ltr;
+}
+#spellingTable {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border: 1px solid #D4D0C8;
+}
+#spellingTable td {
+    vertical-align: middle;
+    padding-left: 2%;
+}
+#spellingTable td:hover {
+    background-color: #eee;
+}
+#spellingTable td a {
+    color: black;
+    cursor: pointer;
 }

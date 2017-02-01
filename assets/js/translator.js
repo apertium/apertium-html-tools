@@ -577,9 +577,35 @@ function unknownSpellmark(translation, outbox) {
         last = unknownMarkRE.lastIndex;
     }
     outbox.append($(document.createElement('span')).text(translation.substring(last)));
-    spell($('#translatedText .unknownWord'));
+    spell(outbox.find('.unknownWord'));
 }
 
+function spellDivvun(forms, language, onSuccess, onError) {
+    return $.jsonp({
+        url: 'http://divvun.no:3000/spellcheck31/script/ssrv.cgi',
+        data: {
+            'cmd': 'check_spelling',
+            'customerid': "1%3AWvF0D4-UtPqN1-43nkD4-NKvUm2-daQqk3-LmNiI-z7Ysb4-mwry24-T8YrS3-Q2tpq2",
+            'run_mode': 'web_service',
+            'format': 'json',
+            'out_type': 'words',
+            'version': '1.0',
+            'slang': iso639Codes[language],
+            'text': forms.join(",")
+        },
+        success: onSuccess,
+        error: onError
+    });
+}
+
+function getSpeller(language) {
+    if(language === 'sme') {
+        return spellDivvun;
+    }
+    else {
+        return spellDivvun;
+    }
+};
 
 function spell(unks) {
     var forms = [], formmap = {};
@@ -590,58 +616,50 @@ function spell(unks) {
             forms.push(form);
         }
     });
-    var xhr = $.jsonp({
-        url: 'http://divvun.no:3000/spellcheck31/script/ssrv.cgi',
-        data: {
-            'cmd': 'check_spelling',
-            'customerid': "1%3AWvF0D4-UtPqN1-43nkD4-NKvUm2-daQqk3-LmNiI-z7Ysb4-mwry24-T8YrS3-Q2tpq2",
-            'run_mode': 'web_service',
-            'format': 'json',
-            'out_type': 'words',
-            'version': '1.0',
-            'slang': 'se',
-            'text': forms.join(",")
-        },
-        success: function (data) {
-            $('#translatedText .unknownWord').each(function(_i, w){
-                var ww = $(w),
-                    form = ww.text(),
-                    d_i = formmap[form];
-                if(d_i === undefined || data[d_i] === undefined || (!data[d_i].suggestions)) {
-                    return;
-                }
-                else if(data[d_i].word != form) {
-                    console.log("Unexpected form!=.word", data[d_i].word, form, formmap);
-                    return;
-                }
-                console.log(data[d_i]);
-                ww.data('spelling', data[d_i]);
-                ww.addClass('hasSuggestion');
-                ww.on('contextmenu', function(ev){
-                    ev.preventDefault(); // no browser right-click menu
-                    var spelling = $(this).data('spelling');
-                    var spanoff = $(this).offset();
-                    var newoff = { top:  spanoff.top+20,
-                                   left: spanoff.left };
-                    var menu = $('#spellingMenu');
-                    var at_same_err = menu.offset().top == newoff.top && menu.offset().left == newoff.left;
-                    if(menu.is(":visible") && at_same_err) {
-                        hideSpellingMenu();
-                    }
-                    else {
-                        menu.show();
-                        menu.offset(newoff);
-                        if(!at_same_err) {
-                            makeSpellingMenu(this, spelling);
-                        }
-                    }
-                    return false;
-                });
-            });
-            console.log(data);
-        },
-        error: console.log
-    });
+    var language = 'sme';
+    var speller = getSpeller(language);
+    var success = function (data) {
+        $('#translatedText .unknownWord').each(function(_i, w){
+            var ww = $(w),
+                form = ww.text(),
+                d_i = formmap[form];
+            if(d_i === undefined || data[d_i] === undefined || (!data[d_i].suggestions)) {
+                return;
+            }
+            else if(data[d_i].word != form) {
+                console.log("Unexpected form!=.word", data[d_i].word, form, formmap);
+                return;
+            }
+            console.log(data[d_i]);
+            ww.data('spelling', data[d_i]);
+            ww.addClass('hasSuggestion');
+            ww.on('click', clickSpellingSuggestion); // or on 'contextmenu'?
+        });
+        console.log(data);
+    };
+    speller(forms, language, success, console.log);
+    $("body").click(hideSpellingMenu);
+}
+
+function clickSpellingSuggestion(ev) {
+    ev.preventDefault();
+    var spelling = $(this).data('spelling');
+    var spanoff = $(this).offset();
+    var newoff = { top:  spanoff.top+20,
+                   left: spanoff.left };
+    var menu = $('#spellingMenu');
+    var at_same_err = menu.offset().top == newoff.top && menu.offset().left == newoff.left;
+    if(menu.is(":visible") && at_same_err) {
+        hideSpellingMenu();
+    }
+    else {
+        menu.show();
+        menu.offset(newoff);
+        if(!at_same_err) {
+            makeSpellingMenu(this, spelling);
+        }
+    }
+    return false;
 }
 
 var hideSpellingMenu = function()/*:void*/
