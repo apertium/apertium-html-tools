@@ -375,7 +375,7 @@ function getPairs() {
     return deferred.promise();
 }
 
-function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
+function handleNewCurrentLang(lang, recentLangs, langType, resetDetect, noTranslate) {
     $('.' + langType).removeClass('active');
     if(recentLangs.indexOf(lang) === -1) {
         recentLangs.unshift(lang);
@@ -395,7 +395,9 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
     populateTranslationList();
     muteLanguages();
     localizeInterface();
-    translate();
+    if(!noTranslate) {
+        translate();
+    }
 }
 
 function refreshLangList(resetDetect) {
