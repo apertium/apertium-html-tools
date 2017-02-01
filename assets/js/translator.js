@@ -542,7 +542,7 @@ function populateTranslationList() {
 }
 
 function translate() {
-    if($('div#translateWebpage').is(':visible') || isURL($('#originalText').val())) {
+    if(showingWebpageTranslation() || isURL($('#originalText').val())) {
         translateWebpage();
     }
     else if($('div#translateText').is(':visible')) {
@@ -745,7 +745,8 @@ function cleanPage(html) {
 }
 
 function translateWebpage() {
-    if(!$('div#translateWebpage').is(':visible')) {
+    persistChoices('translator', true);
+    if(!showingWebpageTranslation()) {
         showTranslateWebpageInterface($('#originalText').val().trim());
     }
 
@@ -810,6 +811,10 @@ function hideTranslateWebpageInterface() {
     $('.ap-content').addClass('container').removeClass('container-fluid');
     $('.ap-header-nav').show();
     $('#footer').show();
+}
+
+function showingWebpageTranslation() {
+    return parent.location.hash === '#webpageTranslation';
 }
 
 function showTranslateWebpageInterface(url) {
