@@ -167,8 +167,8 @@ function restoreChoices(mode) {
             pair[0] = iso639CodesInverse[pair[0]] ? iso639CodesInverse[pair[0]] : pair[0];
             pair[1] = iso639CodesInverse[pair[1]] ? iso639CodesInverse[pair[1]] : pair[1];
             if(pairs[pair[0]] && pairs[pair[0]].indexOf(pair[1]) !== -1) {
-                handleNewCurrentLang(curSrcLang = pair[0], recentSrcLangs, 'srcLang');
-                handleNewCurrentLang(curDstLang = pair[1], recentDstLangs, 'dstLang');
+                handleNewCurrentLang(curSrcLang = pair[0], recentSrcLangs, 'srcLang', undefined, true);
+                handleNewCurrentLang(curDstLang = pair[1], recentDstLangs, 'dstLang', undefined, true);
             }
         }
 
