@@ -298,7 +298,7 @@ if(modeEnabled('translation')) {
     });
 }
 
-function getPairs() {
+function getPairs()  {
     var deferred = $.Deferred();
 
     if(config.PAIRS && "responseData" in config.PAIRS) {
@@ -585,8 +585,10 @@ function spell(unks) {
     var forms = [], formmap = {};
     unks.each(function(_i, w) {
         var form = $(w).text();
-        formmap[form] = forms.length;
-        forms.push(form);
+        if(!(formmap.hasOwnProperty(form))) {
+            formmap[form] = forms.length;
+            forms.push(form);
+        }
     });
     var xhr = $.jsonp({
         url: 'http://divvun.no:3000/spellcheck31/script/ssrv.cgi',
@@ -618,24 +620,21 @@ function spell(unks) {
                 ww.on('contextmenu', function(ev){
                     ev.preventDefault(); // no browser right-click menu
                     var spelling = $(this).data('spelling');
-
                     var spanoff = $(this).offset();
                     var newoff = { top:  spanoff.top+20,
                                    left: spanoff.left };
-                    var repmenu = $('#repmenu');
-                    var at_same_err = repmenu.offset().top == newoff.top && repmenu.offset().left == newoff.left;
-                    if(repmenu.is(":visible") && at_same_err) {
-                        hiderep();
+                    var menu = $('#spellingMenu');
+                    var at_same_err = menu.offset().top == newoff.top && menu.offset().left == newoff.left;
+                    if(menu.is(":visible") && at_same_err) {
+                        hideSpellingMenu();
                     }
                     else {
-                        repmenu.show();
-                        repmenu.offset(newoff);
+                        menu.show();
+                        menu.offset(newoff);
                         if(!at_same_err) {
-                            makerepmenu(this, spelling);
+                            makeSpellingMenu(this, spelling);
                         }
                     }
-
-
                     return false;
                 });
             });
@@ -644,6 +643,40 @@ function spell(unks) {
         error: console.log
     });
 }
+
+var hideSpellingMenu = function()/*:void*/
+{
+  var menu = $('#spellingMenu');
+  menu.offset({top:0, left:0}); // avoid some potential bugs with misplacement
+  menu.hide();
+};
+
+function makeSpellingMenu(node, spelling) {
+    $("#spellingTable").empty();
+    var tbody = $('<tbody />');
+    tbody.attr("role", "listbox");
+
+    spelling.suggestions.map(function(sugg){
+        var tr_rep =  $(document.createElement('tr')),
+            td_rep =  $(document.createElement('td')),
+            a_rep =  $(document.createElement('a'));
+        a_rep.text(sugg);
+        a_rep.attr("role", "option");
+        td_rep.append(a_rep);
+        td_rep.addClass("spellingSuggestion");
+        // has to be on td since <a> doesn't fill the whole td
+        td_rep.click({
+                       sugg: sugg
+                     },
+                     function(args){
+                         console.log(args);
+                         hideSpellingMenu();
+                     });
+        tr_rep.append(td_rep);
+        tbody.append(tr_rep);
+    });
+    $("#spellingTable").append(tbody);
+};
 
 function translateText() {
     if($('div#translateText').is(':visible')) {

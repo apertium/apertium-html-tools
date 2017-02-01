@@ -232,8 +232,8 @@ textarea#originalText,
 }
 
 .unknownWord.hasSuggestion {
-    text-decoration: underline;
-    color: #808080;
+    text-decoration: red underline;
+    color: #333333;
 }
 
 @media(max-width: 768px) {

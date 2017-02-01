@@ -184,6 +184,12 @@
                                   </div>
                                   <div class="col-sm-6">
                                       <div class="form-control" id="translatedText" rows="15"></div>
+                                      <div id="spellingMenu" style="display:none" role="listbox">
+                                        <div style="left: 0px;" role="presentation">
+                                          <table id="spellingTable" role="presentation" cellspacing="0" border="0" cellpadding="0">
+                                          </table>
+                                        </div>
+                                      </div>
                                   </div>
                                   <div class="col-sm-6">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
