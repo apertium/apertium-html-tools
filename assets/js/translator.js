@@ -575,7 +575,9 @@ function unknownSpellmark(translation, outbox) {
         var preText = translation.substring(last, match.index),
             unkText = match[1];
         outbox.append($(document.createElement('span')).text(preText));
-        outbox.append($(document.createElement('span')).text(unkText).addClass('unknownWord'));
+        var unk = $(document.createElement('span')).text(unkText).addClass('unknownWord');
+        unk.data('index', match.index); // used by pickSpellingSuggestion
+        outbox.append(unk);
         last = unknownMarkRE.lastIndex;
     }
     outbox.append($(document.createElement('span')).text(translation.substring(last)));
@@ -609,37 +611,43 @@ function getSpeller(language) {
     }
 };
 
+var spellXHR = null;
+
 function spell(unks) {
-    var forms = [], formmap = {};
-    unks.each(function(_i, w) {
-        var form = $(w).text();
-        if(!(formmap.hasOwnProperty(form))) {
-            formmap[form] = forms.length;
-            forms.push(form);
-        }
-    });
-    var language = 'sme';
+    console.log("spell");
+    var forms = unique(unks.map(function(_i, w) {
+        return $(w).text();
+    }));
+    var language = curSrcLang;
     var speller = getSpeller(language);
     var success = function (data) {
-        $('#translatedText .unknownWord').each(function(_i, w){
+        var suggmap = {};
+        for(var i in data) {
+            if(data[i].suggestions.length > 0) {
+                suggmap[data[i].word] = data[i];
+            }
+        }
+        unks.each(function(_i, w){
             var ww = $(w),
                 form = ww.text(),
-                d_i = formmap[form];
-            if(d_i === undefined || data[d_i] === undefined || (!data[d_i].suggestions)) {
+                d = suggmap[form];
+            if(d === undefined || (!d.suggestions)) {
                 return;
             }
-            else if(data[d_i].word != form) {
-                console.log("Unexpected form!=.word", data[d_i].word, form, formmap);
-                return;
-            }
-            console.log(data[d_i]);
-            ww.data('spelling', data[d_i]);
+            ww.data('spelling', d);
             ww.addClass('hasSuggestion');
             ww.on('click', clickSpellingSuggestion); // or on 'contextmenu'?
         });
         console.log(data);
     };
-    speller(forms, language, success, console.log);
+    if(forms.length > 0) {
+        console.log("forms nonempty – spelling them");
+        if(spellXHR != null) {
+            // We only ever want to have the latest check results:
+            spellXHR.abort();
+        }
+        spellXHR = speller(forms, language, success, console.log);
+    }
     $("body").click(hideSpellingMenu);
 }
 
@@ -686,17 +694,40 @@ function makeSpellingMenu(node, spelling) {
         td_rep.addClass("spellingSuggestion");
         // has to be on td since <a> doesn't fill the whole td
         td_rep.click({
-                       sugg: sugg
-                     },
-                     function(args){
-                         console.log(args);
-                         hideSpellingMenu();
-                     });
+            word: node,
+            suggestion: sugg
+        }, pickSpellingSuggestion);
         tr_rep.append(td_rep);
         tbody.append(tr_rep);
     });
     $("#spellingTable").append(tbody);
 };
+
+function pickSpellingSuggestion(args) {
+    hideSpellingMenu();
+    console.log(args);
+    var origtxt = $('#originalText').val(),
+        sugg = args.data.suggestion,
+        outIndex = $(args.data.word).data('index'),
+        inWord = $(args.data.word).text(),
+        pos = -1,
+        best = -1;
+    while((pos = origtxt.indexOf(inWord, pos)) != -1) {
+        best = pos;
+        if(best > outIndex) {
+            break;
+        }
+        ++pos;
+    }
+    if(best != -1) {
+        var replaced = origtxt.substr(0, best) + sugg + origtxt.substr(best+inWord.length);
+        $('#originalText').val(replaced);
+        translateText();
+    }
+    else {
+        console.log("Couldn't find inWord", inWord, " in #originalText", origtxt, "for suggestion", sugg, "near", outIndex);
+    }
+}
 
 function translateText() {
     if($('div#translateText').is(':visible')) {
