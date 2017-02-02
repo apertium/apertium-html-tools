@@ -8,12 +8,16 @@ Store.prototype.get = function/*::<T>*/(key/*:string*/, fallback/*:T*/)/*:T*/ {
     if(fallback === undefined) {
         console.warn("Store.get with undefined fallback! Key:", key);
     }
-    if(this.able()) {
+    if(!this.able()) {
         return fallback;
     }
     var fromStorage = window.localStorage[this.prefix + key];
     if(fromStorage === undefined) {
         return fallback;
+    }
+    else if(fromStorage === "undefined") {
+        // JSON.parse(JSON.stringify(undefined)) fails – manually "parse" if so:
+        return undefined;
     }
     else {
         try {
