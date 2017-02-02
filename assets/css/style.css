@@ -227,6 +227,10 @@ textarea#originalText,
     overflow: auto;
 }
 
+#translatedText {
+    white-space: pre-wrap;
+}
+
 @media(max-width: 768px) {
     textarea#originalText {
         margin-bottom: 1em;

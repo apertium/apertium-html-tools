@@ -584,6 +584,21 @@ function unknownSpellmark(translation, outbox) {
     spell(outbox.find('.unknownWord'));
 }
 
+function spellFake(forms, language, onSuccess, onError) {
+    // For testing when the network is down
+    var result = $(forms).map(function(_i, f) {
+        return {
+            word: f,
+            suggestions: [
+                f.split("").reverse().join(""),
+                f+"s",
+                f.replace(/ie/g, "ei")
+            ]
+        };
+    }).toArray();
+    onSuccess(result);
+}
+
 function spellDivvun(forms, language, onSuccess, onError) {
     return $.jsonp({
         url: 'http://divvun.no:3000/spellcheck31/script/ssrv.cgi',
@@ -605,6 +620,7 @@ function spellDivvun(forms, language, onSuccess, onError) {
 function getSpeller(language) {
     if(language === 'sme') {
         return spellDivvun;
+        // return spellFake;
     }
     else {
         return spellDivvun;
