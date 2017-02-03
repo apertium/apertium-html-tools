@@ -141,7 +141,7 @@ if(modeEnabled('translation')) {
 
         $('#markUnknown').change(function () {
             if($('div#translateText').is(':visible')) {
-              translateText();
+                translateText();
             }
             persistChoices('translator');
         });
@@ -285,14 +285,13 @@ if(modeEnabled('translation')) {
             }
             return false;
         });
-
     });
 }
 
 function getPairs() {
     var deferred = $.Deferred();
 
-    if(config.PAIRS && "responseData" in config.PAIRS) {
+    if(config.PAIRS && 'responseData' in config.PAIRS) {
         handlePairs(config.PAIRS.responseData);
         deferred.resolve();
     }
@@ -331,7 +330,7 @@ function getPairs() {
             return;
         }
         $.each(pairData, function (i, pair) {
-            if(config.ALLOWED_PAIRS && config.ALLOWED_PAIRS.indexOf(pair.sourceLanguage + "-" + pair.targetLanguage) === -1) {
+            if(config.ALLOWED_PAIRS && config.ALLOWED_PAIRS.indexOf(pair.sourceLanguage + '-' + pair.targetLanguage) === -1) {
                 return;
             }
             srcLangs.push(pair.sourceLanguage);
@@ -679,7 +678,7 @@ function translateDoc() {
                 sendEvent('translator', 'translateDoc', curSrcLang + '-' + curDstLang, file.size);
             }
             else {
-                console.log("Browser gave MIME type as", file.type);
+                console.warn('Browser gave MIME type as', file.type);
                 docTranslateError(getDynamicLocalization('Format_Not_Supported'), 'Format_Not_Supported');
             }
         }
@@ -691,10 +690,10 @@ function translateDoc() {
     function updateProgressBar(ev) {
         var progress = 0.0;
         if(ev instanceof ProgressEvent) {
-            progress = ev.loaded / ev. total;
+            progress = ev.loaded / ev.total;
         }
         else {
-            console.warn("Strange event type given updateProgressBar:");
+            console.warn('Strange event type given to updateProgressBar:');
             console.warn(ev);
         }
         var percentDone = Math.floor(progress * 1000) / 10;
@@ -717,7 +716,7 @@ function translateDoc() {
 }
 
 function downloadBrowserWarn() {
-    if(typeof $bu_getBrowser == 'function') {
+    if(typeof $bu_getBrowser == 'function') { // eslint-disable-line camelcase
         var detected = $bu_getBrowser();
         // Show the warning for (what bu calls) "niche" browsers and Safari, but not Chromium:
         if(detected.n.match(/^[xs]/) && !(navigator.userAgent.match(/Chromium/))) {

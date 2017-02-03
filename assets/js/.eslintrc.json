@@ -109,7 +109,7 @@
 		],
 		"no-unused-vars": [
 			"error", {
-				"argsIgnorePattern": "^_" 
+				"argsIgnorePattern": "^_"
 			}
 		],
 		"max-statements-per-line": [
@@ -127,6 +127,12 @@
 					"a", "b",
 					"tr", "div"
 				]
+			}
+		],
+		"spaced-comment": [
+			"error",
+			"always", {
+				"markers": [":", "::"]
 			}
 		],
 		"complexity": ["warn", 32],

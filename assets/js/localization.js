@@ -8,6 +8,7 @@ var rtlLanguages = ['heb', 'ara', 'pes', 'urd', 'uig'];
 var languagesInverse = {}, iso639CodesInverse = {};
 var localizedLanguageCodes = {}, localizedLanguageNames = {};
 
+var DEFAULT_LOCALE = 'eng';
 var dynamicLocalizations = {
     'eng': {
         'Not_Available': 'Translation not yet available!',
@@ -17,16 +18,17 @@ var dynamicLocalizations = {
         'Download_File': 'Download {{fileName}}'
     }
 };
-function getDynamicLocalization (key) {
+
+function getDynamicLocalization(key) {
     // global locale
     var loc = dynamicLocalizations[locale] && dynamicLocalizations[locale][key];
     if(loc && !(loc.match('%%UNAVAILABLE%%'))) {
         return loc;
     }
     else {
-        return dynamicLocalizations['eng'][key];
+        return dynamicLocalizations[DEFAULT_LOCALE][key];
     }
-};
+}
 
 var localizedHTML = false;
 
@@ -69,7 +71,7 @@ $(document).ready(function () {
             }
         }
         else {
-            console.log("No config.LOCALES");
+            console.warn('No config.LOCALES');
         }
         $('.localeSelect').val(locale);
         localizeEverything(localizedHTML);

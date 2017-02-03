@@ -1,6 +1,7 @@
 /* exported persistChoices, restoreChoices, cache, readCache */
 
-var URL_PARAM_Q_LIMIT = 1300;
+var URL_PARAM_Q_LIMIT = 1300,
+    DEFAULT_EXPIRY_HOURS = 24;
 
 var store = new Store(config.HTML_URL);
 
@@ -11,17 +12,17 @@ function cache(name, value) {
 }
 
 function readCache(name, type) {
-    var ts = store.get(name + '_timestamp', 0);
-    var obj = store.get(name, null);
-    if(obj && ts) {
-        var expiry_hrs = config[type.toUpperCase() + '_CACHE_EXPIRY'];
-        if(expiry_hrs === undefined) {
-            expiry_hrs = 24;
+    var timestamp = store.get(name + '_timestamp', 0);
+    var storedValue = store.get(name, null);
+    if(storedValue && timestamp) {
+        var expiryHours = config[type.toUpperCase() + '_CACHE_EXPIRY'];
+        if(expiryHours === undefined) {
+            expiryHours = DEFAULT_EXPIRY_HOURS;
         }
         var MS_IN_HOUR = 3600000,
-            expiryTime = ts + (expiry_hrs * MS_IN_HOUR);
+            expiryTime = ts + (expiryHours * MS_IN_HOUR);
         if(expiryTime > Date.now()) {
-            return obj;
+            return storedValue;
         }
     }
     return null;
@@ -109,7 +110,7 @@ function persistChoices(mode, updatePermalink) {
         if(hash === '#generation') { qName = 'G'; }
 
         if(updatePermalink) {
-            if(qVal != undefined && qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
+            if(qVal !== undefined && qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
                 urlParams.push('q' + qName + '=' + encodeURIComponent(qVal));
             }
         }
@@ -136,8 +137,8 @@ function restoreChoices(mode) {
             if(store.has('recentSrcLangs') && isSubset(recentSrcLangs, srcLangs)) {
                 $('.srcLang').removeClass('active');
                 $('#srcLangSelect option[value=' + curSrcLang + ']').prop('selected', true);
-                $('#' + store.get('curSrcChoice', "srcLang1")).addClass('active');
-                if(store.get('curSrcChoice', "srcLang1") === 'detect') {
+                $('#' + store.get('curSrcChoice', 'srcLang1')).addClass('active');
+                if(store.get('curSrcChoice', 'srcLang1') === 'detect') {
                     $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
                     $('#detectText').hide();
                 }
@@ -145,7 +146,7 @@ function restoreChoices(mode) {
             if(store.has('recentDstLangs') && isSubset(recentDstLangs, dstLangs)) {
                 $('.dstLang').removeClass('active');
                 $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
-                $('#' + store.get('curDstChoice', "dstLang1")).addClass('active');
+                $('#' + store.get('curDstChoice', 'dstLang1')).addClass('active');
             }
             $('#originalText').val(store.get('translationInput', ''));
             $('#instantTranslation').prop('checked', store.get('instantTranslation', true));
