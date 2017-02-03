@@ -424,6 +424,18 @@ function refreshLangList(resetDetect) {
         }
     }
 
+    if($('#detectedText').parent('.srcLang').attr('data-code')) {
+        $('#detectedText')
+            .text(getLangByCode($('#detectedText')
+            .parent('.srcLang')
+            .attr('data-code')) + ' - ' + getDynamicLocalization('detected'));
+    }
+
+    if(resetDetect) {
+        $('#detectText').show();
+        $('#detectedText').hide();
+    }
+
     function filterLangs(recentLangs, allLangs) {
         recentLangs = recentLangs.filter(onlyUnique);
         if(recentLangs.length < TRANSLATION_LIST_BUTTONS) {
@@ -893,8 +905,9 @@ function detectLanguage() {
 }
 
 function translationNotAvailable() {
-    $('#translatedText').text(getDynamicLocalization('Not_Available'));
-    $('#translatedText').addClass('notAvailable text-danger');
+    $('#translatedText')
+        .text(getDynamicLocalization('Not_Available'))
+        .addClass('notAvailable text-danger');
     var div = $('<div id="translatedWebpage" class="translatedWebpage"></div>');
     div.text(getDynamicLocalization('Not_Available'));
     div.addClass('notAvailable text-danger');

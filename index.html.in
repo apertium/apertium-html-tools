@@ -131,6 +131,10 @@
                                       <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang4"></button>
                                       <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang5"></button>
                                       <div class="btn-group">
+                                          <button type="button" class="btn btn-default btn-sm srcLang" id="detect">
+                                              <span data-text="Detect_Language" id="detectText">Detect language</span>
+                                              <span id="detectedText"></span>
+                                          </button>
                                           <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown">
                                               <span class="caret"></span>
                                               <span class="sr-only">Toggle Dropdown</span>

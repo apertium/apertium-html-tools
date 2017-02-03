@@ -241,6 +241,10 @@ textarea#originalText,
     z-index: 100;
 }
 
+#detect {                       /* no lang detection on giellatekno */
+    display: none;
+}
+
 @media(min-width: 768px) {
     button.swapLangBtn {
         position: absolute;
