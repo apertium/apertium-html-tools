@@ -1,7 +1,7 @@
 /* @flow */
 
 
-var unknownMarkRE = /([#*])([^.,;:\t\* ]+)/g;
+var unknownMarkRE = /([#*])([^.,;:\t\n\r\* ]+)/g;
 
 /* Insert text into div, but wrapping a class .unknownWord around each
  * word that starts with '*', or .ungeneratedWord around those that
