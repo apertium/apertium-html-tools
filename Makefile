@@ -40,6 +40,7 @@ JSFILES= \
 	assets/js/store.js \
 	assets/js/persistence.js \
 	assets/js/localization.js \
+	assets/js/spelling.js \
 	assets/js/translator.js \
 	assets/js/analyzer.js \
 	assets/js/generator.js \
