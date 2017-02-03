@@ -250,7 +250,7 @@ function localizeLanguageNames(localizedNamesFromJSON) {
     if(config.LANGNAMES && locale in config.LANGNAMES) {
         localizedNames = config.LANGNAMES[locale];
         handleLocalizedNames(localizedNames);
-        cache(locale + '_names', l);
+        cache(locale + '_names', localizedNames);
     }
     else if(localizedNamesFromJSON) {
         handleLocalizedNames(localizedNamesFromJSON);
