@@ -57,6 +57,10 @@ function spellFake(forms, language, onSuccess, onError) {
 }
 
 function spellDivvun(forms, language, onSuccess, onError) {
+    var slang = language;
+    if(iso639Codes.hasOwnProperty(language)) {
+        slang = iso639Codes[language];
+    }
     return $.jsonp({
         url: 'http://divvun.no:3000/spellcheck31/script/ssrv.cgi',
         data: {
@@ -66,7 +70,7 @@ function spellDivvun(forms, language, onSuccess, onError) {
             'format': 'json',
             'out_type': 'words',
             'version': '1.0',
-            'slang': iso639Codes[language],
+            'slang': slang,
             'text': forms.join(",")
         },
         success: onSuccess,
