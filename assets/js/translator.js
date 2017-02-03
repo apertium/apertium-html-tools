@@ -418,7 +418,7 @@ function refreshLangList(resetDetect) {
         $('#detectedText')
             .text(getLangByCode($('#detectedText')
             .parent('.srcLang')
-            .attr('data-code')) + ' - ' + dynamicLocalizations['detected']);
+            .attr('data-code')) + ' - ' + getDynamicLocalization('detected'));
     }
 
     if(resetDetect) {
