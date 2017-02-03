@@ -239,7 +239,8 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
+/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique,
+    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
 
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */

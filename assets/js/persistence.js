@@ -20,7 +20,7 @@ function readCache(name, type) {
             expiryHours = DEFAULT_EXPIRY_HOURS;
         }
         var MS_IN_HOUR = 3600000,
-            expiryTime = ts + (expiryHours * MS_IN_HOUR);
+            expiryTime = timestamp + (expiryHours * MS_IN_HOUR);
         if(expiryTime > Date.now()) {
             return storedValue;
         }

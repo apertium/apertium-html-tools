@@ -129,12 +129,6 @@
 				]
 			}
 		],
-		"spaced-comment": [
-			"error",
-			"always", {
-				"markers": [":", "::"]
-			}
-		],
 		"complexity": ["warn", 32],
 		"no-use-before-define": ["warn", "nofunc"],
 		"no-magic-numbers": [
@@ -144,6 +138,13 @@
 		"dot-notation": [
 			"warn", {
 				"allowPattern": "^.*?_.*$"
+			}
+		],
+		"spaced-comment": [
+			"warn",
+			"always", {
+				"markers": [":", "::"],
+				"exceptions": [":", "::"]
 			}
 		],
 		"no-undef": "off"

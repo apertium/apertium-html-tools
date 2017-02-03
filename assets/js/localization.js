@@ -19,14 +19,14 @@ var dynamicLocalizations = {
     }
 };
 
-function getDynamicLocalization(key) {
-    // global locale
-    var loc = dynamicLocalizations[locale] && dynamicLocalizations[locale][key];
-    if(loc && !(loc.match('%%UNAVAILABLE%%'))) {
+function getDynamicLocalization(stringKey) {
+    var globalLocate = dynamicLocalizations[locale] &&
+        dynamicLocalizations[locale][stringKey];
+    if(globalLocate && !(loc.match('%%UNAVAILABLE%%'))) {
         return loc;
     }
     else {
-        return dynamicLocalizations[DEFAULT_LOCALE][key];
+        return dynamicLocalizations[DEFAULT_LOCALE][stringKey];
     }
 }
 
@@ -246,9 +246,10 @@ function generateLanguageList() {
 }
 
 function localizeLanguageNames(localizedNamesFromJSON) {
+    var localizedNames;
     if(config.LANGNAMES && locale in config.LANGNAMES) {
-        var l = config.LANGNAMES[locale];
-        handleLocalizedNames(l);
+        localizedNames = config.LANGNAMES[locale];
+        handleLocalizedNames(localizedNames);
         cache(locale + '_names', l);
     }
     else if(localizedNamesFromJSON) {
@@ -258,7 +259,7 @@ function localizeLanguageNames(localizedNamesFromJSON) {
     else {
         var languages = generateLanguageList();
 
-        var localizedNames = readCache(locale + '_names', 'LANGUAGE_NAME');
+        localizedNames = readCache(locale + '_names', 'LANGUAGE_NAME');
         if(localizedNames) {
             handleLocalizedNames(localizedNames);
             cache(locale + '_names', localizedNames);
