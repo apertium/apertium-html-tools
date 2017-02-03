@@ -265,6 +265,16 @@ function unique(array) {
     });
 }
 
+
+$(document).ready(function() {
+    if(window.location.host.match("^localhost:")) {
+        console.log("Connecting to skewer …");
+        var s = document.createElement('script');
+        s.src = 'http://localhost:38495/skewer';
+        document.body.appendChild(s);
+    }
+});
+
 /*:: export {unique, synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
 
 /*:: import {config} from "./config.js" */

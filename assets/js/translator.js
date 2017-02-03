@@ -555,7 +555,7 @@ function translate() {
 }
 
 
-var unknownMarkRE = /[#*]([^.,;:\t\* ]+)/g;
+var unknownMarkRE = /([#*])([^.,;:\t\* ]+)/g;
 
 function maybeStripMarks(markUnknown, translated) {
     if (markUnknown) {
@@ -573,9 +573,10 @@ function unknownSpellmark(translation, outbox) {
         last = 0;
     while((match = unknownMarkRE.exec(translation))) {
         var preText = translation.substring(last, match.index),
-            unkText = match[1];
+            unkClass = (match[1] === '*') ? 'unknownWord' : 'ungeneratedWord',
+            unkText = match[2];
         outbox.append($(document.createElement('span')).text(preText));
-        var unk = $(document.createElement('span')).text(unkText).addClass('unknownWord');
+        var unk = $(document.createElement('span')).text(unkText).addClass(unkClass);
         unk.data('index', match.index); // used by pickSpellingSuggestion
         outbox.append(unk);
         last = unknownMarkRE.lastIndex;

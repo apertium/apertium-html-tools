@@ -344,8 +344,11 @@ html[dir=rtl] .pull-left:not(#rtlChecker) {
 
 /* Spelling */
 
+.ungeneratedWord {
+    color: #505060;
+}
 .unknownWord {
-    color: #908080;
+    color: #605050;
 }
 
 .unknownWord.hasSuggestion {
