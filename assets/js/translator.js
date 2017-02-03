@@ -298,7 +298,7 @@ if(modeEnabled('translation')) {
     });
 }
 
-function getPairs()  {
+function getPairs() {
     var deferred = $.Deferred();
 
     if(config.PAIRS && "responseData" in config.PAIRS) {
