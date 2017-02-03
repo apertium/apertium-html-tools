@@ -2,18 +2,15 @@
 
 /* eslint-disable id-blacklist */
 /* eslint id-length: ["error", {
-    "min": 4,
-    "exceptions": [
-        "get", "set", "key", "e", "has"
-    ]
+    "exceptions": ["get", "set", "key", "e", "has"]
 }] */
 
 // eslint-disable-next-line func-style
-var Store = function (prefix/*:string*/)/*:void*/ {
+var Store = function (prefix/*: string*/)/*: void*/ {
     this.prefix = prefix;
 };
 
-Store.prototype.get = function/*::<T>*/ (key/*:string*/, fallback/*:T*/)/*:T*/ {
+Store.prototype.get = function/*:: <T>*/ (key/*: string*/, fallback/*: T*/)/*: T*/ {
     if(fallback === undefined) {
         console.warn('Store.get with undefined fallback! Key:', key);
     }
@@ -42,13 +39,13 @@ Store.prototype.get = function/*::<T>*/ (key/*:string*/, fallback/*:T*/)/*:T*/ {
     }
 };
 
-Store.prototype.set = function/*::<T>*/ (key/*:string*/, value/*:T*/)/*:void*/ {
+Store.prototype.set = function/*:: <T>*/ (key/*: string*/, value/*: T*/)/*: void*/ {
     if(this.able()) {
         window.localStorage[this.prefix + key] = JSON.stringify(value);
     }
 };
 
-Store.prototype.clear = function ()/*:void*/ {
+Store.prototype.clear = function ()/*: void*/ {
     if(this.able()) {
         for(var key in window.localStorage) {
             if(key.startsWith(this.prefix)) {
@@ -58,12 +55,12 @@ Store.prototype.clear = function ()/*:void*/ {
     }
 };
 
-Store.prototype.has = function (key/*:string*/)/*:bool*/ {
+Store.prototype.has = function (key/*: string*/)/*: bool*/ {
     return this.able() &&
         (this.prefix + key) in window.localStorage;
 };
 
-Store.prototype.able = function ()/*:bool*/ {
+Store.prototype.able = function ()/*: bool*/ {
     return !!(window.localStorage);
 };
 

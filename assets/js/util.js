@@ -167,7 +167,7 @@ function sendEvent(category, action, label, value) {
 }
 /* eslint-enable id-blacklist */
 
-function modeEnabled(mode/*:string*/) {
+function modeEnabled(mode/*: string*/) {
     return config.ENABLED_MODES === null || config.ENABLED_MODES.indexOf(mode) !== -1;
 }
 
@@ -187,7 +187,7 @@ function allowedLang(code) {
     }
 }
 
-function filterLangList(langs/*:Array<string>*/, filterFn/*:(lang: string) => bool*/) {
+function filterLangList(langs/*: Array<string>*/, filterFn/*: (lang: string) => bool*/) {
     if(config.ALLOWED_LANGS === null && config.ALLOWED_VARIANTS === null) {
         return langs;
     }
