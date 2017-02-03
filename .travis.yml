@@ -3,5 +3,6 @@ node_js:
   - stable
 script:
   - find assets/strings -type f -name '*.json' -exec jsonlint -q '{}' +
+  - eslint -c assets/js/.eslintrc.json assets/js/*.js
 before_install:
-  - npm install jsonlint -g
+  - npm install jsonlint eslint -g
