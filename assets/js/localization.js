@@ -1,4 +1,3 @@
-
 var locale;
 // eslint-disable-next-line
 var languages = {'af': 'Afrikaans',  'id': 'Bahasa Indonesia',  'cy': 'Cymraeg',  'de': 'Deutsch',  'en': 'English',  'ga': 'Gaeilge',  'gv': 'Gaelg',  'gd': 'Gàidhlig',  'rn': 'Ikirundi',  'sw': 'Kiswahili',  'lg': 'Luganda',  'mt': 'Malti',  'nl': 'Nederlands',  'sq': 'Shqip',  'vi': 'Tiếng Việt',  'tr': 'Türkçe',  'az': 'azərbaycan',  'br': 'brezhoneg',  'ca': 'català',  'da': 'dansk',  'se': 'davvisámegiella',  'et': 'eesti',  'es': 'español',  'eo': 'esperanto',  'eu': 'euskara',  'fr': 'français',  'fo': 'føroyskt',  'ia': 'interlingua',  'xh': 'isiXhosa',  'zu': 'isiZulu',  'it': 'italiano',  'mfe': 'kreol morisien',  'lv': 'latviešu',  'lt': 'lietuvių',  'hu': 'magyar',  'nb': 'norsk bokmål',  'nn': 'nynorsk',  'uz': 'oʻzbekcha',  'pl': 'polski',  'pt': 'português',  'ro': 'română',  'rm': 'rumantsch',  'sk': 'slovenčina',  'sl': 'slovenščina',  'fi': 'suomi',  'sv': 'svenska',  'is': 'íslenska',  'cs': 'čeština',  'el': 'Ελληνικά',  'tg': 'Тоҷикӣ',  'ba': 'башҡортса',  'be': 'беларуская',  'bg': 'български',  'os': 'ирон',  'kum': 'къумукъча',  'ky': 'кыргызча',  'mk': 'македонски',  'ru': 'русский',  'tt': 'татарча',  'uk': 'українська',  'kk': 'қазақша',  'hy': 'հայերեն',  'he': 'עברית',  'ur': 'اردو',  'ar': 'العربية',  'fa': 'فارسی',  'ne': 'नेपाली',  'mr': 'मराठी',  'hi': 'हिंदी',  'as': 'অসমীয়া',  'bn': 'বাংলা',  'pa': 'ਪੰਜਾਬੀ',  'te': 'తెలుగు',  'ml': 'മലയാളം',  'si': 'සිංහල',  'th': 'ไทย',  'lo': 'ລາວ',  'zh': '中文',  'ko': '한국어',  'mrj': 'Мары йӹлмӹ',  'gl': 'galego',  'myv': 'Эрзянь кель',  'oc': 'occitan',  'cv': 'чӑвашла',  'arg': 'aragonés',  'ast': 'asturianu',  'msa': 'bahasa malay',  'hbs': 'srpskohrvatski',  'srp': 'српски',  'hrv': 'hrvatski',  'bos': 'bosanski',  'nog': 'ногъайша',  'sah': 'сахалыы',  'uig': 'ئۇيغۇرچە',  'tyv': 'тыва дылда'};
@@ -7,6 +6,10 @@ var iso639Codes = {'abk': 'ab', 'aar': 'aa', 'afr': 'af', 'aka': 'ak', 'sqi': 's
 var rtlLanguages = ['heb', 'ara', 'pes', 'urd', 'uig'];
 var languagesInverse = {}, iso639CodesInverse = {};
 var localizedLanguageCodes = {}, localizedLanguageNames = {};
+
+/* global config, getPairs, getGenerators, getAnalyzers, persistChoices, getURLParam, cache, ajaxSend, ajaxComplete, sendEvent,
+    srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
+    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
 
 var DEFAULT_LOCALE = 'eng';
 var dynamicLocalizations = {

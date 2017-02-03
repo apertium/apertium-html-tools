@@ -2,6 +2,9 @@ var analyzers = {}, analyzerData = {};
 var currentAnalyzerRequest;
 
 /* exported getAnalyzers */
+/* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
+    cache, getLangByCode, filterLangList, allowedLang, sendEvent */
+/* global ENTER_KEY_CODE */
 
 if(modeEnabled('analyzation')) {
     $(document).ready(function () {

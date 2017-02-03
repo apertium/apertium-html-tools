@@ -1,4 +1,7 @@
 /* exported persistChoices, restoreChoices, cache, readCache */
+/* global config, Store, getURLParam, iso639CodesInverse, pairs, refreshLangList populateSecondaryAnalyzerList,
+    populateSecondaryGeneratorList, isSubset, handleNewCurrentLang */
+/* global srcLangs:true, dstLangs:true, recentSrcLangs: true, recentDstLangs:true, curSrcLang:true, curDstLang:true, locale:true */
 
 var URL_PARAM_Q_LIMIT = 1300,
     DEFAULT_EXPIRY_HOURS = 24;

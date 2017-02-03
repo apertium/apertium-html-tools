@@ -146,7 +146,6 @@
 				"markers": [":", "::"],
 				"exceptions": [":", "::"]
 			}
-		],
-		"no-undef": "off"
+		]
 	}
 }

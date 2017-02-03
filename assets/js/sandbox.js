@@ -1,5 +1,8 @@
 var currentSandboxRequest;
 
+/* global config, ajaxSend, ajaxComplete, persistChoices, restoreChoices */
+/* global ENTER_KEY_CODE */
+
 if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
     $(document).ready(function () {
         $('#request').click(function () {
