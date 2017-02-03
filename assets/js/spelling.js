@@ -6,7 +6,7 @@ var unknownMarkRE = /([#*])([^.,;:\t\* ]+)/g;
 /* Insert text into div, but wrapping a class .unknownWord around each
  * word that starts with '*', or .ungeneratedWord around those that
  * start with '#'; then run the spell checker on .unknownWord's. */
-function insertWithSpelling(text, div) {
+function insertWithSpelling(text, div, language) {
     div.html("");
     unknownMarkRE.lastIndex = 0;
     var match,
@@ -22,7 +22,26 @@ function insertWithSpelling(text, div) {
         last = unknownMarkRE.lastIndex;
     }
     div.append($('<span />').text(text.substring(last)));
-    spell(div.find('.unknownWord'));
+    spell(div.find('.unknownWord'), language);
+}
+
+function readCacheSuggestions(form, language) {
+    console.log("read cache", form, language, readCache("spellingSuggestion:" + language + ":" + form, 'SPELLING'));
+    return readCache("spellingSuggestion:" + language + ":" + form, 'SPELLING');
+}
+
+function cacheSuggestions(form, suggestions, language) {
+
+    console.log("caching", form, language, suggestions);
+    cache("spellingSuggestion:" + language + ":" + form, suggestions);
+}
+
+function spellCached(forms, language, onSuccess, _onError) {
+    var data = $.map(forms, function(form, _i) {
+        console.log("read cached", form, language);
+        readCacheSuggestions(form, language);
+    });
+    onSuccess(data);
 }
 
 function spellFake(forms, language, onSuccess, onError) {
@@ -69,15 +88,11 @@ function getSpeller(language) {
     }
 };
 
-var spellXHR = null;
-
-function spell(unks) {
+function spell(unks, language) {
     var forms = unique(unks.map(function(_i, w) {
         return $(w).text();
     }));
-    var language = curSrcLang;
-    var speller = getSpeller(language);
-    var success = function (data) {
+    var handleSuggestions = function (data) {
         var suggmap = {};
         for(var i in data) {
             if(data[i].suggestions.length > 0) {
@@ -97,13 +112,42 @@ function spell(unks) {
         });
     };
     if(forms.length > 0) {
+        spellCached(forms, language, handleSuggestions, console.log);
+        spellUncached(forms, language, handleSuggestions, console.log);
+    }
+    $("body").click(hideSpellingMenu);
+}
+
+var spellXHR = null;
+
+function spellUncached(forms, language, onSuccess, onError) {
+    var speller = getSpeller(language);
+    var uncachedForms = $.grep(forms, function (form, _i){
+        return !readCacheSuggestions(form, language);
+    });
+    console.log("spellUncached; uncachedForms", uncachedForms);
+    var handleSuggestionsCaching = function(data) {
+        onSuccess(data);
+        var suggmap = {};
+        $.map(data, function(s, _i) {
+            if(s.suggestions.length > 0) {
+                suggmap[s.word] = s;
+            }
+        });
+        $.map(uncachedForms, function(f, _i) {
+            // The server reply doesn't include known/suggestionless
+            // words – but we want to cache that they are known
+            var s = suggmap[f] || { word: f, suggestions: [] };
+            cacheSuggestions(f, s, language);
+        });
+    };
+    if(uncachedForms.length > 0) {
         if(spellXHR != null) {
             // We only ever want to have the latest check results:
             spellXHR.abort();
         }
-        spellXHR = speller(forms, language, success, console.log);
+        spellXHR = speller(uncachedForms, language, handleSuggestionsCaching, onError);
     }
-    $("body").click(hideSpellingMenu);
 }
 
 function clickSpellingSuggestion(ev) {
@@ -183,4 +227,5 @@ function pickSpellingSuggestion(args) {
 }
 
 /*:: export {insertWithSpelling} */
-/*:: import {unique} from util.js */
+/*:: import {partition, unique} from util.js */
+/*:: import {readCache, cache} from "./persistence.js" */

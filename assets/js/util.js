@@ -265,6 +265,19 @@ function unique(array) {
     });
 }
 
+function partition(array, predicate) {
+    var ins = [], outs = [];
+    $.each(array, function(i, elt) {
+        if(predicate(i, elt)) {
+            ins.push(elt);
+        }
+        else {
+            outs.push(elt);
+        }
+    });
+    return [ins,outs];
+}
+
 
 $(document).ready(function() {
     if(window.location.host.match("^localhost:")) {
@@ -275,7 +288,7 @@ $(document).ready(function() {
     }
 });
 
-/*:: export {unique, synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
+/*:: export {partition, unique, synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
 
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */

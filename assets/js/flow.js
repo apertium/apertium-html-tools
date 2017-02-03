@@ -5,6 +5,7 @@
    ENABLED_MODES: [string],
    LOCALIZATION_CACHE_EXPIRY: number,
    AVAILABLE_LOCALES_CACHE_EXPIRY: number,
+   SPELLING_CACHE_EXPIRY: number,
    DEFAULT_MODE: string,
    PIWIK_URL: null|string,
    PIWIK_SITEID: null|number,

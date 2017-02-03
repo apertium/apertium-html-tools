@@ -585,7 +585,8 @@ function translateText() {
                 success: function (data) {
                     if(data.responseStatus === HTTP_OK_CODE) {
                         insertWithSpelling(data.responseData.translatedText,
-                                           $('#translatedText'));
+                                           $('#translatedText'),
+                                           curSrcLang);
                         $('#translatedText').removeClass('notAvailable text-danger');
                     }
                     else {
@@ -949,8 +950,7 @@ function autoSelectDstLang() {
 }
 
 /*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode} from "./util.js" */
-/*:: import {persistChoices, restoreChoices} from "./persistence.js" */
+/*:: import {readCache, cache, persistChoices, restoreChoices} from "./persistence.js" */
 /*:: import localizeInterface from "./localization.js" */
-/*:: import {readCache,cache} from "./cache.js" */
 /*:: import {config} from "./config.js" */
 /*:: import {insertWithSpelling} from "./spelling.js" */

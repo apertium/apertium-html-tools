@@ -55,6 +55,7 @@ def load_conf(filename):
         'LANGUAGE_NAME_CACHE_EXPIRY'     : conf_APY.getint('LANGUAGE_NAME_CACHE_EXPIRY', fallback=24),
         'LOCALIZATION_CACHE_EXPIRY'      : conf_APY.getint('LOCALIZATION_CACHE_EXPIRY', fallback=24),
         'AVAILABLE_LOCALES_CACHE_EXPIRY' : conf_APY.getint('AVAILABLE_LOCALES_CACHE_EXPIRY', fallback=24),
+        'SPELLING_CACHE_EXPIRY'          : conf_APY.getint('SPELLING_CACHE_EXPIRY', fallback=72),
 
         'REPLACEMENTS'                   : {k: v for k, v in conf['REPLACEMENTS'].items()},
         # These are filled at various places by javascript:
