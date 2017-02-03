@@ -26,20 +26,17 @@ function insertWithSpelling(text, div, language) {
 }
 
 function readCacheSuggestions(form, language) {
-    console.log("read cache", form, language, readCache("spellingSuggestion:" + language + ":" + form, 'SPELLING'));
     return readCache("spellingSuggestion:" + language + ":" + form, 'SPELLING');
 }
 
 function cacheSuggestions(form, suggestions, language) {
 
-    console.log("caching", form, language, suggestions);
     cache("spellingSuggestion:" + language + ":" + form, suggestions);
 }
 
 function spellCached(forms, language, onSuccess, _onError) {
     var data = $.map(forms, function(form, _i) {
-        console.log("read cached", form, language);
-        readCacheSuggestions(form, language);
+        return readCacheSuggestions(form, language);
     });
     onSuccess(data);
 }
@@ -125,7 +122,6 @@ function spellUncached(forms, language, onSuccess, onError) {
     var uncachedForms = $.grep(forms, function (form, _i){
         return !readCacheSuggestions(form, language);
     });
-    console.log("spellUncached; uncachedForms", uncachedForms);
     var handleSuggestionsCaching = function(data) {
         onSuccess(data);
         var suggmap = {};
