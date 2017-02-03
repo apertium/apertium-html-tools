@@ -888,8 +888,9 @@ function detectLanguage() {
 }
 
 function translationNotAvailable() {
-    $('#translatedText').text(getDynamicLocalization('Not_Available'));
-    $('#translatedText').addClass('notAvailable text-danger');
+    $('#translatedText')
+        .text(getDynamicLocalization('Not_Available'))
+        .addClass('notAvailable text-danger');
     var div = $('<div id="translatedWebpage" class="translatedWebpage"></div>');
     div.text(getDynamicLocalization('Not_Available'));
     div.addClass('notAvailable text-danger');
