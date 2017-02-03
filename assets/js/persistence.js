@@ -117,7 +117,7 @@ function persistChoices(mode, updatePermalink) {
 
         if(updatePermalink) {
             if(qVal != undefined && qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
-                urlParams.push('q' + qName + '=' + qVal);
+                urlParams.push('q' + qName + '=' + encodeURIComponent(qVal));
             }
         }
         else if(getURLParam('q' + qName).length > 0) {
