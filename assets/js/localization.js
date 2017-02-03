@@ -20,10 +20,10 @@ var dynamicLocalizations = {
 };
 
 function getDynamicLocalization(stringKey) {
-    var globalLocate = dynamicLocalizations[locale] &&
+    var globalLocale = dynamicLocalizations[locale] &&
         dynamicLocalizations[locale][stringKey];
-    if(globalLocate && !(loc.match('%%UNAVAILABLE%%'))) {
-        return loc;
+    if(globalLocale && !(globalLocale.match('%%UNAVAILABLE%%'))) {
+        return globalLocale;
     }
     else {
         return dynamicLocalizations[DEFAULT_LOCALE][stringKey];
