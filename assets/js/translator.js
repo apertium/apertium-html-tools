@@ -423,6 +423,18 @@ function refreshLangList(resetDetect) {
         }
     }
 
+    if($('#detectedText').parent('.srcLang').attr('data-code')) {
+        $('#detectedText')
+            .text(getLangByCode($('#detectedText')
+            .parent('.srcLang')
+            .attr('data-code')) + ' - ' + getDynamicLocalization('detected'));
+    }
+
+    if(resetDetect) {
+        $('#detectText').show();
+        $('#detectedText').hide();
+    }
+
     function filterLangs(recentLangs, allLangs) {
         recentLangs = recentLangs.filter(onlyUnique);
         if(recentLangs.length < TRANSLATION_LIST_BUTTONS) {
