@@ -15,13 +15,13 @@ function insertWithSpelling(text, div) {
         var preText = text.substring(last, match.index),
             unkClass = (match[1] === '*') ? 'unknownWord' : 'ungeneratedWord',
             unkText = match[2];
-        div.append($(document.createElement('span')).text(preText));
-        var unk = $(document.createElement('span')).text(unkText).addClass(unkClass);
+        div.append($('<span />').text(preText));
+        var unk = $('<span />').text(unkText).addClass(unkClass);
         unk.data('index', match.index); // used by pickSpellingSuggestion
         div.append(unk);
         last = unknownMarkRE.lastIndex;
     }
-    div.append($(document.createElement('span')).text(text.substring(last)));
+    div.append($('<span />').text(text.substring(last)));
     spell(div.find('.unknownWord'));
 }
 
@@ -136,23 +136,22 @@ var hideSpellingMenu = function()/*:void*/
 
 function makeSpellingMenu(node, spelling) {
     $("#spellingTable").empty();
-    var tbody = $('<tbody />');
-    tbody.attr("role", "listbox");
-
+    var tbody = $('<tbody />').attr("role", "listbox");
     spelling.suggestions.map(function(sugg){
-        var tr_rep =  $(document.createElement('tr')),
-            td_rep =  $(document.createElement('td')),
-            a_rep =  $(document.createElement('a'));
-        a_rep.text(sugg);
-        a_rep.attr("role", "option");
-        td_rep.append(a_rep);
-        td_rep.addClass("spellingSuggestion");
-        // has to be on td since <a> doesn't fill the whole td
-        td_rep.click({
-            word: node,
-            suggestion: sugg
-        }, pickSpellingSuggestion);
-        tr_rep.append(td_rep);
+        var a_rep = $('<a />')
+            .text(sugg)
+            .attr("role", "option");
+        var td_rep = $('<td />')
+            .addClass("spellingSuggestion")
+            .append(a_rep)
+            .click( // has to be on td since <a> doesn't fill the whole td
+                {
+                    word: node,
+                    suggestion: sugg
+                },
+                pickSpellingSuggestion);
+        var tr_rep = $('<tr />')
+            .append(td_rep);
         tbody.append(tr_rep);
     });
     $("#spellingTable").append(tbody);
