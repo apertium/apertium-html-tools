@@ -126,18 +126,17 @@ $(document).ready(function () {
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
     var url = config.PIWIK_URL;
-    url = url.replace(/http(s)?/, '');
-    if(url.charAt(url.length - 1) !== '/') {
-        url += '/';
+    if(document.location.protocol === 'https:') {
+        url = url.replace(/^(http(s)?)?:/, 'https:');
     }
-    config.PIWIK_URL = url;
+    // but if we're on plain http, we keep whatever was in the config
 
     /* eslint-disable */
     var _paq = _paq || [];
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
     (function() {
-        var u=(("https:" == document.location.protocol) ? "https" : "http") + url;
+        var u=url;
         _paq = _paq || [];
         _paq.push(['setTrackerUrl', u+'piwik.php']);
         _paq.push(['setSiteId', config.PIWIK_SITEID]);
