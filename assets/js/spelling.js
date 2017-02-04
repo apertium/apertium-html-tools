@@ -199,6 +199,7 @@ function makeSpellingMenu(node, spelling) {
         tbody.append(tr_rep);
     });
     $("#spellingTable").append(tbody);
+    sendEvent('translator', 'showSpelling', $(node).text());
 };
 
 function pickSpellingSuggestion(args) {
@@ -209,6 +210,7 @@ function pickSpellingSuggestion(args) {
         inWord = $(args.data.word).text(),
         pos = -1,
         best = -1;
+    sendEvent('translator', 'pickSpelling', inWord + '::' + sugg);
     while((pos = origtxt.indexOf(inWord, pos)) != -1) {
         best = pos;
         if(best > outIndex) {
