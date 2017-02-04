@@ -130,6 +130,9 @@ if(config.PIWIK_SITEID && config.PIWIK_URL) {
         url = url.replace(/^(http(s)?)?:/, 'https:');
     }
     // but if we're on plain http, we keep whatever was in the config
+    if(url.charAt(url.length - 1) !== '/') {
+        url += '/';
+    }
 
     /* eslint-disable */
     var _paq = _paq || [];
