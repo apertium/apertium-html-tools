@@ -90,6 +90,8 @@ html[dir=rtl] .clearButton {
 img.apertiumBox {               /* Giellatekno */
     background-image: url('../img/Giellatekno.png');
     height: 2.6em;
+    width: 0;
+    margin-right: 0;
 }
 
 @font-face {
@@ -135,7 +137,7 @@ html[dir=rtl] .apertiumSubLogo {
 }
 
 html[dir=ltr] .apertiumLogo {
-    left: 2.25em;
+    left: 0.5em;
 }
 
 html[dir=rtl] .apertiumLogo {
@@ -164,7 +166,8 @@ p.tagline {
 }
 
 nav.navbar div.container {
-    line-height: 1.5em;
+    line-height: 1em;
+    margin-bottom: 0.7em;
 }
 
 @media(max-width: 768px) {
