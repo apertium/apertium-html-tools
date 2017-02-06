@@ -350,7 +350,7 @@
                               <label for="sandboxInput" class="col-sm-2 control-label" data-text="APY_Request">APY Request</label>
                               <div class="col-sm-10">
                                   <textarea class="form-control" rows="3" id="sandboxInput" name="sandboxInput" spellcheck="false" required></textarea>
-                                  <div class="help-block">e.g. /perWord?lang=en-es&amp;modes=morph+translate+biltrans&amp;q=let+there+be+light</div>
+                                  <div class="help-block">e.g. /perWord?lang=sme-nob&amp;modes=morph&amp;q=in+leat+doppe</div>
                               </div>
                           </div>
                           <div class="col-sm-offset-2 col-sm-10">
