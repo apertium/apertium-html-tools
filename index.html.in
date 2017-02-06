@@ -83,6 +83,8 @@
                           <span class="icon-bar"></span>
                       </button>
                       <div>
+                          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Apertium Box" class="apertiumBox">
+                          <span class="apertiumSubLogo"></span>
                           <span class="apertiumLogo" style="margin-bottom: -.25em">Giellatekno Apertium</span>
                       </div>
                       <p data-text="tagline" class="tagline"></p>

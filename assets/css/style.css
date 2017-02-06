@@ -87,6 +87,11 @@ html[dir=rtl] .clearButton {
     width: 4.25em;
 }
 
+img.apertiumBox {               /* Giellatekno */
+    background-image: url('../img/Giellatekno.png');
+    height: 2.6em;
+}
+
 @font-face {
     font-family: 'DejaVu Sans Fallback';
     font-style: italic;
