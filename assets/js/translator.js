@@ -555,7 +555,7 @@ function populateTranslationList() {
 }
 
 function translate() {
-    if(showingWebpageTranslation() || isURL($('#originalText').val())) {
+    if(showingWebpageTranslation() || isURL($('#originalText').val().trim())) {
         translateWebpage();
     }
     else if($('div#translateText').is(':visible')) {
