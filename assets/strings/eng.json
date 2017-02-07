@@ -40,6 +40,7 @@
     "Morphological_Generation_Help": "Choose a language and generate surface forms from your text using Giellatekno's morphological generators.",
     "Generate": "Generate",
     "Spell_Checker": "Spell checker",
+    "Click_To_Spell": "Click to spell",
     "APY_Sandbox": "APY sandbox",
     "APY_Sandbox_Help": "Send arbitrary requests",
     "APY_Request": "APY Request",

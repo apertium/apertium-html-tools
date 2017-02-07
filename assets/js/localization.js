@@ -14,7 +14,8 @@ var dynamicLocalizations = {
         'detected': 'detected',
         'File_Too_Large': 'File is too large!',
         'Format_Not_Supported': 'Format not supported!',
-        'Download_File': 'Download {{fileName}}'
+        'Download_File': 'Download {{fileName}}',
+        'Click_To_Spell': 'Click to spell'
     }
 };
 function getDynamicLocalization (key) {
@@ -22,6 +23,10 @@ function getDynamicLocalization (key) {
     var loc = dynamicLocalizations[locale] && dynamicLocalizations[locale][key];
     if(loc && !(loc.match('%%UNAVAILABLE%%'))) {
         return loc;
+    }
+    else if(!dynamicLocalizations['eng'].hasOwnProperty(key)) {
+        console.warn("getDynamicLocalization called with unknown key ", key);
+        return key;
     }
     else {
         return dynamicLocalizations['eng'][key];

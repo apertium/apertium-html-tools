@@ -90,6 +90,7 @@ function getSpeller(language) {
 };
 
 function spell(unks, language) {
+    console.log("spell");
     var forms = unique(unks.map(function(_i, w) {
         return $(w).text();
     }));
@@ -109,6 +110,10 @@ function spell(unks, language) {
             }
             ww.data('spelling', d);
             ww.addClass('hasSuggestion');
+            ww.tooltip({
+                title: getDynamicLocalization('Click_To_Spell'),
+                placement:"top"
+            });
             ww.on('click', clickSpellingSuggestion); // or on 'contextmenu'?
         });
         clickSpellingSuggestionFirstTime(unks);
@@ -118,7 +123,9 @@ function spell(unks, language) {
         spellUncached(forms, language, handleSuggestions, console.log);
     }
     $("body").click(hideSpellingMenu);
+    $(function () { $('[data-toggle="tooltip"]').tooltip(); });
 }
+
 
 /* Educate the first-time user about the possibility of spelling: */
 function clickSpellingSuggestionFirstTime(unks) {
@@ -243,5 +250,6 @@ function pickSpellingSuggestion(args) {
 }
 
 /*:: export {insertWithSpelling} */
-/*:: import {partition, unique} from util.js */
+/*:: import {partition, unique} from ./util.js */
+/*:: import {getDynamicLocalization} from ./localization.js */
 /*:: import {readCache, cache, store} from "./persistence.js" */
