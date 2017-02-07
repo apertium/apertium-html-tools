@@ -512,6 +512,13 @@ function populateTranslationList() {
 
     muteLanguages();
 
+    if(srcLangs.length === 1) {
+        $('#srcLangSelectors div.btn-group').hide();
+    }
+    if(dstLangs.length === 1) {
+        $('#dstLangSelectors div.btn-group').hide();
+    }
+
     function sortTranslationList() {
         var sortLocale = (locale && locale in iso639Codes) ? iso639Codes[locale] : locale;
 
