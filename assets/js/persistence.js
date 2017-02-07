@@ -259,5 +259,5 @@ function restoreChoices(mode) {
 
 }
 
-/*:: export {persistChoices, restoreChoices, cache, readCache} */
+/*:: export {persistChoices, restoreChoices, cache, readCache, store} */
 /*:: import {Store} from "./store.js" */

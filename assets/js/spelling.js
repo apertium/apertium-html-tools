@@ -111,12 +111,26 @@ function spell(unks, language) {
             ww.addClass('hasSuggestion');
             ww.on('click', clickSpellingSuggestion); // or on 'contextmenu'?
         });
+        clickSpellingSuggestionFirstTime(unks);
     };
     if(forms.length > 0) {
         spellCached(forms, language, handleSuggestions, console.log);
         spellUncached(forms, language, handleSuggestions, console.log);
     }
     $("body").click(hideSpellingMenu);
+}
+
+/* Educate the first-time user about the possibility of spelling: */
+function clickSpellingSuggestionFirstTime(unks) {
+    // Don't do this if we can't store that we've done it
+    if(store.able() && !store.get('spellingShownMenuOnce', false)) {
+        var withSugg = $(unks).filter('.hasSuggestion');
+        if(withSugg.length >= 1) {
+            var first = withSugg[0];
+            first.click();
+            store.set('spellingShownMenuOnce', true);
+        }
+    }
 }
 
 var spellXHR = null;
@@ -230,4 +244,4 @@ function pickSpellingSuggestion(args) {
 
 /*:: export {insertWithSpelling} */
 /*:: import {partition, unique} from util.js */
-/*:: import {readCache, cache} from "./persistence.js" */
+/*:: import {readCache, cache, store} from "./persistence.js" */
