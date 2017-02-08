@@ -153,7 +153,8 @@
                                           </ul>
                                       </div>
                                   </div>
-                                  <div class="pull-right"><i class="fa fa-arrow-right"></i></div>
+                                  <button type="button" class="btn btn-default btn-sm pull-right swapLangBtn"><i class="fa fa-exchange"></i></button>
+
                               </div>
                               <div class="col-sm-6">
                                   <div class="btn-group" id="dstLangSelectors">
