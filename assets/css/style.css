@@ -239,6 +239,9 @@ button.btn.onlyLang {
     padding: 0;
     font-variant: small-caps;
 }
+button.btn.onlyLang:hover {
+    background-color: #fff;
+}
 
 textarea#originalText,
 #translatedText {
