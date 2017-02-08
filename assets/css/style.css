@@ -229,6 +229,17 @@ button.disabledLang {
     opacity: 1 !important;
 }
 
+button.btn.onlyLang {
+    background-color: #fff;
+    border: none;
+    cursor: inherit;
+    font-size: inherit;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    font-variant: small-caps;
+}
+
 textarea#originalText,
 #translatedText {
     resize: vertical;

@@ -527,6 +527,10 @@ function populateTranslationList() {
         $('#dstLangSelectors div.btn-group').hide();
         $('#dstLang1').prop('disabled', true);
     }
+    if(srcLangs.length === 1 && dstLangs.length === 1) {
+        $('#srcLang1').addClass('onlyLang');
+        $('#dstLang1').addClass('onlyLang');
+    }
 
     function sortTranslationList() {
         var sortLocale = (locale && locale in iso639Codes) ? iso639Codes[locale] : locale;
