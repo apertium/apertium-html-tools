@@ -521,9 +521,11 @@ function populateTranslationList() {
 
     if(srcLangs.length === 1) {
         $('#srcLangSelectors div.btn-group').hide();
+        $('#srcLang1').prop('disabled', true);
     }
     if(dstLangs.length === 1) {
         $('#dstLangSelectors div.btn-group').hide();
+        $('#dstLang1').prop('disabled', true);
     }
 
     function sortTranslationList() {
