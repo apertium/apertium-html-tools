@@ -1,11 +1,15 @@
 /* @flow */
 
-var pairs = {}, chainedPairs = {}, originalPairs = pairs;
+var pairs = {}, chainedPairs = {}, originalPairs = pairs, rawPairs;
 var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var textTranslateRequest;
+var curPaths = [], chosenPath = [];
+var svg, simulation, width = 800, height = 550, nodeSize = 20, nodeTextY = 5;
+var srcLinkPadding = 1.8, dstLinkPadding = 1.8;
+var srcNodeX = 0.3, srcNodeY = 0.6, dstNodeX = 0.7, dstNodeY = 0.6;
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
@@ -58,11 +62,13 @@ if(modeEnabled('translation')) {
             handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
 
             autoSelectDstLang();
+            refreshChainGraph();
         });
 
         $('#dstLanguages').on('click', '.languageName:not(.text-muted)', function () {
             curDstLang = $(this).attr('data-code');
             handleNewCurrentLang(curDstLang, recentDstLangs, 'dstLang');
+            refreshChainGraph();
         });
 
         $('.srcLang').click(function () {
@@ -71,6 +77,7 @@ if(modeEnabled('translation')) {
             $(this).addClass('active');
             populateTranslationList();
             refreshLangList(true);
+            refreshChainGraph();
             muteLanguages();
             localizeInterface();
             translateText();
@@ -83,6 +90,7 @@ if(modeEnabled('translation')) {
             $('.dstLang').removeClass('active');
             $(this).addClass('active');
             refreshLangList();
+            refreshChainGraph();
             muteLanguages();
             localizeInterface();
             translateText();
@@ -97,6 +105,7 @@ if(modeEnabled('translation')) {
             updatePairList();
             populateTranslationList();
             persistChoices('translator');
+            $('#chooseChain').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
         });
 
         var timer,
@@ -289,8 +298,298 @@ if(modeEnabled('translation')) {
             }
             return false;
         });
+
+        initChainGraph();
     });
 }
+
+function initChainGraph() {
+    var choose = d3.select('#chooseModalBody');
+    svg = choose
+        .append('svg')
+        .attr('width', width.toString() + 'px')
+        .attr('height', height.toString() + 'px');
+    choose.append('br');
+    choose.append('b').text('Valid Paths:');
+    choose.append('div').attr('id', 'validPaths');
+
+    /* eslint-disable no-magic-numbers */
+    svg.append('svg:defs').append('svg:marker')
+        .attr('id', 'end-arrow')
+        .attr('viewBox', '0 -5 10 10')
+        .attr('refX', 6)
+        .attr('markerWidth', 3)
+        .attr('markerHeight', 3)
+        .attr('orient', 'auto')
+      .append('svg:path')
+        .attr('d', 'M0,-5L10,0L0,5')
+        .attr('fill', '#999');
+
+    svg.append('svg:defs').append('svg:marker')
+        .attr('id', 'start-arrow')
+        .attr('viewBox', '0 -5 10 10')
+        .attr('refX', 4)
+        .attr('markerWidth', 3)
+        .attr('markerHeight', 3)
+        .attr('orient', 'auto')
+      .append('svg:path')
+        .attr('d', 'M10,-5L0,0L10,5')
+        .attr('fill', '#999');
+
+    simulation = d3.forceSimulation()
+        .force('link', d3.forceLink().id(function (d) { return d.id; }).distance(nodeSize * 10))
+        .force('charge', d3.forceManyBody().strength(-700))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .alphaDecay(0.018);
+    /* eslint-enable no-magic-numbers */
+
+    refreshChainGraph();
+}
+
+function boundary(dist, max) {
+    if(dist < nodeSize) return nodeSize;
+    if(dist < max - nodeSize) return dist;
+    return max - nodeSize;
+}
+
+function paths(src, trgt, curPath, seens) {
+    if(!originalPairs[src]) return [];
+    var rets = [];
+    var i, j;
+    for(i = 0; i < originalPairs[src].length; i++) {
+        var lang = originalPairs[src][i];
+        var newPath = curPath.slice();
+        newPath.push(lang);
+        var oldSeens = $.extend(true, {}, seens);
+        if(lang === trgt) rets.push(newPath);
+        else if(!(lang in seens)) {
+            seens[lang] = [];
+            var recurse = paths(lang, trgt, newPath, seens);
+            for(j = 0; j < recurse.length; j++) {
+                rets.push(recurse[j]);
+                seens[lang].push(recurse[j].slice(recurse[j].indexOf(lang)));
+            }
+        }
+        else {
+            for(j = 0; j < seens[lang].length; j++) {
+                rets.push(newPath.concat(seens[lang][j]));
+            }
+        }
+        seens = oldSeens;
+    }
+    return rets;
+}
+
+function displayPaths(paths) {
+    var graph = {};
+    var nodes = [];
+    var ids = [];
+    var source = paths[0][0];
+    var target = paths[0][paths[0].length - 1];
+    var i = 0;
+    for(i = 0; i < paths.length; i++) {
+        for(var j = 0; j < paths[i].length; j++) {
+            var lang = paths[i][j];
+            if(ids.indexOf(lang) === -1) {
+                if(lang === source) nodes.push({'id': lang, 'fx': srcNodeX * width, 'fy': srcNodeY * height});
+                else if(lang === target) nodes.push({'id': lang, 'fx': dstNodeX * width, 'fy': dstNodeY * height});
+                else nodes.push({'id': lang});
+                ids.push(lang);
+            }
+        }
+    }
+
+    function backForth(src, trgt) {
+        return (((src in originalPairs) ? (originalPairs[src].indexOf(trgt) !== -1) : true) &&
+                ((trgt in originalPairs) ? (originalPairs[trgt].indexOf(src) !== -1) : true));
+    }
+
+    graph.nodes = nodes;
+    graph.links = rawPairs.slice();
+    var bfs = [];
+    i = 0;
+    while(i < graph.links.length) {
+        var src = graph.links[i].sourceLanguage;
+        var trgt = graph.links[i].targetLanguage;
+        if((ids.indexOf(src) !== -1) && (ids.indexOf(trgt) !== -1)) {
+            if(backForth(src, trgt)) {
+                if((bfs.indexOf(src + trgt) === -1) && (bfs.indexOf(trgt + src) === -1)) {
+                    bfs.push(src + trgt);
+                    graph.links[i] = {'source': src, 'target': trgt, 'right': true, 'left': true};
+                    i++;
+                }
+                else graph.links.splice(i, 1);
+            }
+            else {
+                graph.links[i] = {'source': src, 'target': trgt, 'right': true};
+                i++;
+            }
+        }
+        else graph.links.splice(i, 1);
+    }
+
+    var link = svg.append('g')
+        .attr('class', 'links')
+      .selectAll('path')
+      .data(graph.links)
+      .enter()
+      .append('path')
+      .style('marker-start', function (d) { return d.left ? 'url(#start-arrow)' : ''; })
+      .style('marker-end', function (d) { return d.right ? 'url(#end-arrow)' : ''; })
+      .attr('id', function (d) { return d.source + '-' + d.target; })
+      .classed('some_path', false)
+      .classed('all_path', false);
+
+    var node = svg.append('g')
+        .attr('class', 'nodes')
+      .selectAll('g')
+      .data(graph.nodes)
+      .enter()
+      .append('g');
+
+    var circ = node.append('circle');
+    circ
+        .attr('r', nodeSize)
+        .attr('id', function (d) { return d.id; })
+        .classed('endpoint', function (d) { return (d.id === source || d.id === target); })
+        .call(d3.drag()
+            .on('start', dragStarted)
+            .on('drag', dragged)
+            .on('end', dragEnded))
+        .on('click', nodeClicked)
+        .append('title')
+            .text(function (d) { return d.id; });
+    node
+        .append('text')
+        .attr('class', 'langs')
+        .attr('dy', nodeTextY)
+        .text(function (d) { return d.id; });
+
+    simulation
+        .nodes(graph.nodes)
+        .on('tick', ticked);
+
+    simulation
+        .force('link')
+        .links(graph.links);
+
+    var text = node.selectAll('text');
+    function ticked() {
+        circ
+            .attr('cx', function (d) {
+                d.x = boundary(d.x, width);
+                d.y = boundary(d.y, height);
+                return d.x;
+            })
+            .attr('cy', function (d) { return d.y; });
+        text
+            .attr('x', function (d) { return boundary(d.x, width); })
+            .attr('y', function (d) { return boundary(d.y, height); });
+        link.attr('d', function (d) {
+            var srcx = boundary(d.source.x, width),
+                srcy = boundary(d.source.y, height),
+                trgtx = boundary(d.target.x, width),
+                trgty = boundary(d.target.y, height);
+            var deltaX = trgtx - srcx,
+                deltaY = trgty - srcy,
+                dist = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY)),
+                normX = deltaX / dist,
+                normY = deltaY / dist,
+                sourcePadding = nodeSize * srcLinkPadding,
+                targetPadding = nodeSize * dstLinkPadding,
+                sourceX = srcx + (sourcePadding * normX),
+                sourceY = srcy + (sourcePadding * normY),
+                targetX = trgtx - (targetPadding * normX),
+                targetY = trgty - (targetPadding * normY);
+            return 'M' + sourceX + ',' + sourceY + 'L' + targetX + ',' + targetY;
+        });
+    }
+}
+
+function refreshChainGraph() {
+    d3.selectAll('svg > g').remove();
+    d3.selectAll('#validPaths > a').remove();
+    chosenPath = [curSrcLang, curDstLang];
+    var tmpSeens = {};
+    tmpSeens[curSrcLang] = [];
+    curPaths = paths(curSrcLang, curDstLang, [curSrcLang], tmpSeens);
+    displayPaths(curPaths);
+    simulation.alpha(1).restart();
+    d3.select('.endpoint').dispatch('click');
+}
+
+function dragStarted(d) {
+    // eslint-disable-next-line no-magic-numbers
+    if(!d3.event.active) simulation.alphaTarget(0.3).restart();
+    d3.select(this).classed('dragging', true);
+    d.fx = boundary(d.x, width);
+    d.fy = boundary(d.y, height);
+}
+
+function dragged(d) {
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
+}
+
+function dragEnded(d) {
+    if(!d3.event.active) simulation.alphaTarget(0);
+    d3.select(this).classed('dragging', false);
+    if(!d3.select(this).classed('endpoint')) {
+        d.fx = null;
+        d.fy = null;
+    }
+}
+
+function nodeClicked() {
+    var curSel = !d3.select(this).classed('selected');
+    d3.select(this).classed('selected', curSel);
+    d3.selectAll('path').classed('some_path', false);
+    d3.selectAll('path').classed('all_path', false);
+    d3.selectAll('#validPaths > a').remove();
+
+    var highPaths = [];
+    curPaths.forEach(function (d) {
+        var some = false, all = true;
+        for(var i = 1; i < d.length - 1; i++) {
+            if(d3.select('#' + d[i]).classed('selected')) some = true;
+            else all = false;
+        }
+        highPaths.push({'path': d, 'some': some, 'all': all});
+    });
+    highPaths.forEach(function (d) {
+        var i;
+        var path = d.path;
+        if(d.some) {
+            for(i = 0; i < path.length - 1; i++) {
+                d3.select('#' + path[i] + '-' + path[i + 1]).classed('some_path', d.some);
+                d3.select('#' + path[i + 1] + '-' + path[i]).classed('some_path', d.some);
+            }
+        }
+        if(d.all) {
+            for(i = 0; i < path.length - 1; i++) {
+                d3.select('#' + path[i] + '-' + path[i + 1]).classed('all_path', d.all);
+                d3.select('#' + path[i + 1] + '-' + path[i]).classed('all_path', d.all);
+            }
+            if(d.path.length > d3.selectAll('.selected').size() - 1) {
+                d3.select('#validPaths')
+                    .append('a')
+                    .attr('data-dismiss', 'modal')
+                    .text(d.path.join(' → '))
+                    .on('click', function (a, b, validPath) {
+                        chosenPath = validPath[0].text.split(' → ');
+                    });
+            }
+        }
+    });
+}
+
+/*
+function onClear(d) {
+    d3.selectAll('circle').classed('selected', false);
+    d3.selectAll('path').classed('some_path', false);
+    d3.selectAll('path').classed('all_path', false);
+}
+*/
 
 function getPairs() {
     var deferred = $.Deferred();
@@ -327,6 +626,7 @@ function getPairs() {
     }
 
     function handlePairs(pairData) {
+        rawPairs = pairData;
         if(!pairData) {
             populateTranslationList();
             restoreChoices('translator');
@@ -573,7 +873,7 @@ function translateText() {
             var endpoint, request;
             if($('input#chainedTranslation').prop('checked')) {
                 endpoint = '/translateChain';
-                request = {'langpairs': curSrcLang + '|' + curDstLang};
+                request = {'langpairs': chosenPath.join('|')};
             }
             else {
                 endpoint = '/translate';
@@ -729,7 +1029,7 @@ function translateDoc() {
 function downloadBrowserWarn() {
     if(typeof $bu_getBrowser == 'function') { // eslint-disable-line camelcase
         var detected = $bu_getBrowser();
-        // Show the warning for (what bu calls) "niche" browsers and Safari, but not Chromium:
+        // Show the warning for (what bu calls) 'niche' browsers and Safari, but not Chromium:
         if(detected.n.match(/^[xs]/) && !(navigator.userAgent.match(/Chromium/))) {
             $('#fileDownloadBrowserWarning').show();
         }

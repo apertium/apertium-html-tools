@@ -1,10 +1,10 @@
 all: check-deps prod
 
-debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js build/sitemap.xml build/strings/locales.json build/index.eng.html build/strings/eng.json images
+debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js build/js/d3.v4.min.js build/sitemap.xml build/strings/locales.json build/index.eng.html build/strings/eng.json images
 
 prod: js css html fonts build/sitemap.xml build/strings/locales.json localhtml images
 
-js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js debugjs
+js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js build/js/d3.v4.min.js debugjs
 debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/store.js build/js/persistence.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
 css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css debugcss
 debugcss: build/css/bootstrap.css build/css/style.css
@@ -94,6 +94,9 @@ build/js/jquery.min.js: build/js/.d
 
 build/js/bootstrap.min.js: build/js/.d
 	curl -Ss 'http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js' -o $@
+
+build/js/d3.v4.min.js: build/js/.d
+	curl -Ss 'https://d3js.org/d3.v4.min.js' -o $@
 
 build/js/%.js: assets/js/%.js build/js/.d
 	cp $< $@

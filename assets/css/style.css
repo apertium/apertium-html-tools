@@ -321,3 +321,52 @@ html[dir=rtl] .pull-right:not(#rtlChecker) {
 html[dir=rtl] .pull-left:not(#rtlChecker) {
     float: right !important;
 }
+
+/* D3 path chooser stuff */
+
+.links path {
+    stroke: #999;
+    stroke-opacity: 0.6;
+    stroke-width: 4px;
+}
+
+.links path.some_path {
+    stroke: #3dd;
+}
+
+.links path.all_path {
+    stroke: #0c1;
+    stroke-opacity: 0.8;
+    stroke-width: 5px;
+}
+
+.nodes circle {
+    fill: #eee;
+    stroke: #222;
+    stroke-width: 2px;
+}
+
+.nodes circle.dragging {
+    fill: #ccc;
+}
+
+.nodes circle.selected {
+    fill: #aff;
+}
+
+.nodes circle.endpoint, .nodes circle.endpoint.selected, .nodes circle.endpoint.neighbor {
+    fill: #ff0;
+    stroke-width: 3px;
+}
+
+.langs {
+    text-anchor: middle;
+    font-size: 10pt;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}

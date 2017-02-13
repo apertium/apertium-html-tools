@@ -27,6 +27,13 @@
                 console.warn('Bootstrap JS from CDN not available - reverting to local copy');
             }
         </script>
+        <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+        <script type="text/javascript">
+            if(!window.d3) {
+                document.write('<script src="./js/d3.v4.min.js"><\/script>');
+                console.warn('d3 (v4) not available - reverting to local copy');
+            }
+        </script>
 
         <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
 @include_head@
@@ -189,6 +196,9 @@
                                   <div class="col-sm-6">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
                                           <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>
+                                      </button>
+                                      <button data-toggle="modal" data-target="#chooseModal" data-keyboard="true" id="chooseChain" class="btn btn-default" style="margin-top: 1em">
+                                          <span data-text="Choose_Chain">Choose a translation chain</span>
                                       </button>
                                   </div>
                                   <div class="col-sm-6 pull-right">
@@ -368,6 +378,19 @@
             <div class="pull-right well well-sm visible-xs helpMessage" style="margin-top: 10px;">
                 <span data-text="Notice_Mistake">Notice a mistake?</span>
                 <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve" data-keyboard="true">Help us improve Apertium!</a>
+            </div>
+        </div>
+
+        <div class="modal fade" id="chooseModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" data-text="Choose_Chain">Choose a translation chain</h4>
+                    </div>
+                    <div class="modal-body" id="chooseModalBody">
+                    </div>
+                </div>
             </div>
         </div>
 
