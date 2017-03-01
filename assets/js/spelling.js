@@ -62,7 +62,7 @@ function spellDivvun(forms, language, onSuccess, onError) {
         slang = iso639Codes[language];
     }
     return $.jsonp({
-        url: 'http://divvun.no:3000/spellcheck31/script/ssrv.cgi',
+        url: '//gtweb.uit.no/divvun3000/spellcheck31/script/ssrv.cgi',
         data: {
             'cmd': 'check_spelling',
             'customerid': "1%3AWvF0D4-UtPqN1-43nkD4-NKvUm2-daQqk3-LmNiI-z7Ysb4-mwry24-T8YrS3-Q2tpq2",
