@@ -9,7 +9,7 @@
             "zh",
             "zho"
         ],
-        "completion": " 49%   4.90%",
+        "completion": " 47%   4.47%",
         "missing": [
             "APY_Request",
             "APY_Sandbox",
@@ -18,6 +18,7 @@
             "Cancel",
             "Contact_Para",
             "Documentation_Para",
+            "Download_Browser_Warning",
             "Download_File",
             "Downloads_Para",
             "Drop_Document",
@@ -31,7 +32,9 @@
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Not_Found_Error",
+            "Supported_Formats",
             "Translate_Document",
+            "Translate_Webpage",
             "What_Is_Apertium",
             "description",
             "tagline",

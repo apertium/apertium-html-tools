@@ -8,10 +8,13 @@
             "de",
             "deu"
         ],
-        "completion": " 94% 106.06%",
+        "completion": " 89%  96.72%",
         "missing": [
+            "Download_Browser_Warning",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
+            "Supported_Formats",
+            "Translate_Webpage",
             "description"
         ]
     },

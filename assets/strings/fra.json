@@ -9,9 +9,10 @@
             "fr",
             "fra"
         ],
-        "completion": " 80%  99.93%",
+        "completion": " 75%  91.13%",
         "missing": [
             "Cancel",
+            "Download_Browser_Warning",
             "Download_File",
             "Drop_Document",
             "File_Too_Large",
@@ -19,7 +20,9 @@
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Not_Found_Error",
+            "Supported_Formats",
             "Translate_Document",
+            "Translate_Webpage",
             "description"
         ]
     },
