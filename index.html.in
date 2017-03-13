@@ -531,5 +531,10 @@
             <div class="lead text-warning well well-sm" data-text="Enable_JS_Warning"></div>
             <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" style="border: 0;" alt=""></p></noscript>
         </div>
+        <button class="btn btn-primary" id = "go-top"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
     </body>
+
+    <script type="text/javascript">
+      gotop();
+    </script>
 </html>

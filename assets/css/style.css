@@ -321,3 +321,21 @@ html[dir=rtl] .pull-right:not(#rtlChecker) {
 html[dir=rtl] .pull-left:not(#rtlChecker) {
     float: right !important;
 }
+
+/* Styling for the go-to-top button */
+#go-top{
+    display: none;
+    position: fixed;
+    z-index: 999;
+    right: 20px;
+    bottom: 20px;
+    opacity: 0.8;
+}
+
+#go-top:hover {
+    opacity: 1;
+}
+
+.fa-arrow-up {
+    color: white;
+}
