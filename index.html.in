@@ -9,6 +9,9 @@
         <meta name="description"  data-textattr="content" data-text="description" content="Apertium is a rule-based machine translation platform. It is free software and released under the terms of the GNU General Public License.">
         <link rel="shortcut icon" href="./img/favicon.ico">
 
+        <script type="text/javascript">
+          var timer_start = Date.now();
+        </script>
         <!-- <link type="text/css" rel="stylesheet" href="./css/icon-globe.css"> -->
         <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu"> <!-- Selectivzr bug requires this being in <link> rather than @import -->
 
@@ -27,7 +30,11 @@
                 console.warn('Bootstrap JS from CDN not available - reverting to local copy');
             }
         </script>
-
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pnotify/3.0.0/pnotify.js"></script>
+        <script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/pnotify/3.0.0/pnotify.buttons.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pnotify/3.0.0/pnotify.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pnotify/3.0.0/pnotify.buttons.css">
+        
         <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
 @include_head@
         <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.2.0-rc2/css/bootstrap-rtl.min.css" class="rtlStylesheet"> <!-- Positioned to override styles in bootstrap.css -->
@@ -532,4 +539,19 @@
             <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" style="border: 0;" alt=""></p></noscript>
         </div>
     </body>
+    <script type="text/javascript">
+      if(Date.now() - timer_start > 20){
+        PNotify.prototype.options.styling = "fontawesome";
+          $(function(){
+            new PNotify({
+              title: 'Inconvenience',
+              text: 'We are experiencing heavy loads at server!',
+              delay: 3000,
+              type: "info",
+              width: "400px"
+              
+          });
+        });
+      }
+    </script>
 </html>
