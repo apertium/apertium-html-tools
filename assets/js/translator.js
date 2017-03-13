@@ -581,8 +581,8 @@ function translateText() {
             }
             request.q = $('#originalText').val(); // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
-
-            if(request.q.length > 1950){
+            var thresholdLength = 1950;
+            if(request.q.length > thresholdLength){
                 textTranslateRequest = $.ajax({
                     url: config.APY_URL + endpoint,
                     beforeSend: ajaxSend,
@@ -606,7 +606,7 @@ function translateText() {
                     error: translationNotAvailable
                 });
             }
-            else{
+            else {
                 textTranslateRequest = $.jsonp({
                     url: config.APY_URL + endpoint,
                     beforeSend: ajaxSend,
