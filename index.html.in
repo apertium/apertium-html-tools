@@ -540,18 +540,6 @@
         </div>
     </body>
     <script type="text/javascript">
-      if(Date.now() - timer_start > 20){
-        PNotify.prototype.options.styling = "fontawesome";
-          $(function(){
-            new PNotify({
-              title: 'Inconvenience',
-              text: 'We are experiencing heavy loads at server!',
-              delay: 3000,
-              type: "info",
-              width: "400px"
-              
-          });
-        });
-      }
+      showNotice(timer_start);
     </script>
 </html>

@@ -248,3 +248,21 @@ function synchronizeTextareaHeights() {
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
 /*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
+
+/*  Function to generate an unintrusive error in case server side is loaded */
+
+function showNotice(timer_start){
+    var timeToLoadThreshold = 2000;
+    if(Date.now() - timer_start > timeToLoadThreshold){
+        PNotify.prototype.options.styling = "fontawesome";
+        $(function(){
+            new PNotify({
+                title: 'Inconvenience',
+                text: 'We are experiencing heavy loads at server!',
+                delay: 3000,
+                type: "info",
+                width: "400px"
+            });
+        });
+    }
+}
