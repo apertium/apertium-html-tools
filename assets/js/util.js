@@ -248,3 +248,30 @@ function synchronizeTextareaHeights() {
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
 /*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
+
+//As the dynamic extending of boxes is disables in devices with width < 768 (TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH), button appears only when the application
+//is run on desktop or larger screens
+
+/* Following is the function that provides functionality of go-to-top button */
+function gotop(){
+    var amountScrolled = 300; //amount by which user must scroll to view the button
+
+    $(window).scroll(function() {
+        if ( $(window).scrollTop() > amountScrolled ) {
+            $('#go-top').fadeIn('slow');
+            $('#go-top').removeClass("hidden-xs hidden-sm hidden-md hidden-lg");
+            $('#go-top').addClass("hidden-xs hidden-sm visible-md visible-lg");
+        } else {
+            $('#go-top').fadeOut('slow');
+            $('#go-top').removeClass("hidden-xs hidden-sm visible-md visible-lg");
+            $('#go-top').addClass("hidden-xs hidden-sm hidden-md hidden-lg");
+        }
+    });
+
+    $('#go-top').click(function() {
+        $('html, body').animate({
+            scrollTop: 0
+        }, 600);
+        return false;
+    });
+}
