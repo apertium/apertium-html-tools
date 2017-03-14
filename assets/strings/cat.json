@@ -9,11 +9,14 @@
             "ca",
             "cat"
         ],
-        "completion": " 92% 102.07%",
+        "completion": " 87%  93.08%",
         "missing": [
+            "Download_Browser_Warning",
             "Drop_Document",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
+            "Supported_Formats",
+            "Translate_Webpage",
             "description"
         ]
     },

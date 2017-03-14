@@ -9,12 +9,13 @@
             "tt",
             "tat"
         ],
-        "completion": " 68%  19.14%",
+        "completion": " 64%  17.45%",
         "missing": [
             "Apertium_Downloads",
             "Cancel",
             "Contact_Para",
             "Documentation_Para",
+            "Download_Browser_Warning",
             "Download_File",
             "Downloads_Para",
             "Drop_Document",
@@ -24,7 +25,9 @@
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Not_Found_Error",
+            "Supported_Formats",
             "Translate_Document",
+            "Translate_Webpage",
             "What_Is_Apertium",
             "description"
         ]

@@ -8,10 +8,13 @@
             "tr",
             "tur"
         ],
-        "completion": " 96%  97.32%",
+        "completion": " 91%  88.75%",
         "missing": [
+            "Download_Browser_Warning",
             "Mark_Unknown_Words",
-            "Multi_Step_Translation"
+            "Multi_Step_Translation",
+            "Supported_Formats",
+            "Translate_Webpage"
         ]
     },
     "title": "Apertium | Özgür ve açık kaynak kodlu bir makine çevirisi platformu",

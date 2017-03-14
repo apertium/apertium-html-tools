@@ -8,10 +8,13 @@
             "nn",
             "nno"
         ],
-        "completion": " 94%  93.30%",
+        "completion": " 89%  85.09%",
         "missing": [
+            "Download_Browser_Warning",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
+            "Supported_Formats",
+            "Translate_Webpage",
             "description"
         ]
     },
