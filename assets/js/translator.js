@@ -571,7 +571,7 @@ function translateText() {
                 textTranslateRequest.abort();
             }
             var endpoint, request;
-            if($('input#chainedTranslation').prop('checked')) {
+            if($('input#chainedTranslation').prop('checked') && config.TRANSLATION_CHAINING) {
                 endpoint = '/translateChain';
                 request = {'langpairs': curSrcLang + '|' + curDstLang};
             }
