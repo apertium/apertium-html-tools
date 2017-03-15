@@ -321,3 +321,167 @@ html[dir=rtl] .pull-right:not(#rtlChecker) {
 html[dir=rtl] .pull-left:not(#rtlChecker) {
     float: right !important;
 }
+
+#wrap-container-1 {
+    position: relative;
+}
+
+.apertiumLogo {
+    margin-bottom: -0.25em;
+}
+
+#globe-div {
+    width: 35%;
+}
+
+#localeGlobe1 {
+    padding: 5px 5px 0px 0px;
+}
+
+#srcLangSelect {
+    display: inline-block !important;
+}
+
+#dstLangSelect {
+    display: inline-block !important;
+}
+
+#translateDoc {
+    margin-top: 1em;
+}
+
+#fileDropBackdrop {
+    display: none; 
+    z-index: 1000;
+}
+
+#fileDropBackdrop-container {
+    text-align: center; 
+    position: absolute; 
+    top: 35%; 
+    left: 35%;
+}
+
+#dropDocumentHeader {
+    font-weight: bold;
+}
+
+#fileDropMask {
+    opacity: 0; 
+    z-index: 10000;
+}
+
+#docTranslation {
+    display: none;
+}
+
+#fileName {
+    display: none;
+}
+
+#docUpload {
+    min-height: 50px; 
+    margin-top: 1em;
+}
+
+#uploadError {
+    display: none;
+}
+
+#progress-1 {
+    display: none; 
+    margin-bottom: 0px;
+}
+
+#fileUploadProgress {
+    width: 0%;
+}
+
+#fileLoading {
+    display: none; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%;
+}
+
+#fileDownload {
+    display: none;
+}
+
+#fileDownloadBrowserWarning {
+    display:none;
+}
+
+#morphAnalyzerOutput {
+    border-spacing: 0px;
+}
+
+#localeGlobe2 {
+    padding: 5px 0px 0px 5px;
+}
+
+#footer-list {
+    display: inline-block;
+}
+
+#help-link {
+    cursor: pointer;
+}
+
+#help-message {
+    margin-top: 10px;
+}
+
+#maintainer-1 {
+    padding-bottom: 2em;
+}
+
+#dev-group-soc {
+    text-decoration: none;
+}
+
+#dev-group-gci {
+    text-decoration: none;
+}
+
+#img-gsoc {
+    height: 2.5em;
+}
+
+#img-gci {
+    height: 2.5em;
+    padding-left: .5em;
+}
+
+#bytemark-img {
+    width: 100%; 
+    margin-top: .5em;
+}
+
+#sourceforge-img {
+    width: 100%; 
+    margin-top: .25em;
+}
+
+#license-container-creative {
+    display: inline-block; 
+    margin: 0 .5em 0 .5em;
+}
+
+#license-container-GNU {
+    display: inline-block; 
+    margin: 0 .5em 0 .5em;
+}
+
+#apertium-img {
+    height: 5em; 
+    max-width: 100%;
+}
+
+#text-warning-img {
+    border: 0;
+}
+
+#aper {
+    margin-bottom: 1.5em;
+}
