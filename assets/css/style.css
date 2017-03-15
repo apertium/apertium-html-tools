@@ -321,3 +321,19 @@ html[dir=rtl] .pull-right:not(#rtlChecker) {
 html[dir=rtl] .pull-left:not(#rtlChecker) {
     float: right !important;
 }
+
+/* CSS styling for the info notice */
+.info-message {
+    display: none;
+    width: 400px;
+    height: auto;
+    z-index: 9999999;
+    top: 20px;
+    right: 20px;
+    position: fixed;
+    border: 10px solid #FFF;
+}
+
+.fa-times:hover{
+    cursor: pointer;
+}

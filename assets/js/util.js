@@ -251,19 +251,21 @@ function synchronizeTextareaHeights() {
 
 /*  Function to generate an unintrusive error in case server side is loaded */
 
-function showNotice(timer_start) {
+function showNotice() {
     var timeToLoadThreshold = 2000;
-    var timeDelay = 3000;
-    if(Date.now() - timer_start > timeToLoadThreshold){
-        PNotify.prototype.options.styling = "fontawesome";
+    var timeToShowMessage = 10000;
+    if(Date.now() - timerStart > timeToLoadThreshold) {
         $(function() {
-            new PNotify({
-                title: 'Inconvenience',
-                text: 'We are experiencing heavy loads at server!',
-                delay: timeDelay,
-                type: "info",
-                width: "400px"
-            });
+            $('.info-message').fadeIn('slow').delay(timeToShowMessage).fadeOut('slow');
+            $('.fa-times').click( function() {
+                $('.info-message').hide();
+            }); 
+            $('.info-message').mouseover( function() {
+                $(this).stop(true);
+            })
+            .mouseout( function() {
+                $(this).animate().delay(timeToShowMessage).fadeOut('slow');
+            })
         });
     }
 }
