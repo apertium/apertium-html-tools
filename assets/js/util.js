@@ -265,7 +265,7 @@ function showNotice() {
             })
             .mouseout( function() {
                 $(this).animate().delay(timeToShowMessage).fadeOut('slow');
-            })
+            });
         });
     }
 }
