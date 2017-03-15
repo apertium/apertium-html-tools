@@ -20,7 +20,7 @@ h2 {
     transition: all 1s ease;
 }
 
-#loading-indicator {
+#loadingIndicator {
     display: none;
     left: 48%;
     position: absolute;
@@ -140,7 +140,7 @@ html[dir=rtl] .apertiumLogo {
     font-size: 16px;
 }
 
-nav.navbar-default .nav {
+.navbar-default .nav {
     margin-top: 5px;
 }
 
@@ -150,14 +150,14 @@ nav.navbar-default .nav {
     }
 }
 
-p.tagline {
+.tagline {
     color: #fff;
     font-size: 18px;
     font-weight: 700;
     margin: 0 0 10px;
 }
 
-nav.navbar div.container {
+.navbar div.container {
     line-height: 1.5em;
 }
 
@@ -215,13 +215,13 @@ html[dir=rtl] #srcLanguages {
     right: 80%;
 }
 
-button.disabledLang {
+.disabledLang {
     color: #808080 !important;
     opacity: 1 !important;
 }
 
-textarea#originalText,
-textarea#translatedText {
+#originalText,
+#translatedText {
     resize: vertical;
 }
 

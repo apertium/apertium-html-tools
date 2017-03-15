@@ -105,7 +105,7 @@
           </nav>
           <div class="container">
               <!-- Not found warning -->
-              <div id="loading-indicator"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
+              <div id="loadingIndicator"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
               <div class="modeContainer" id="translationContainer">
                   <h2 class="visible-xs" data-text="Translation">Translation</h2>
                   <form class="form-horizontal" role="form" id="translationForm">

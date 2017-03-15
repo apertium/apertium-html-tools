@@ -10,11 +10,11 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768;
 
 function ajaxSend() {
-    $('#loading-indicator').show();
+    $('#loadingIndicator').show();
 }
 
 function ajaxComplete() {
-    $('#loading-indicator').hide();
+    $('#loadingIndicator').hide();
 }
 
 $(document).ajaxSend(ajaxSend);
