@@ -257,7 +257,7 @@ $(function () {
     if($(window).width() < TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH) {
         return;
     }
-    var amountScrolled = 300; //amount by which user must scroll to view the button
+    var amountScrolled = 300; /*:: amount by which user must scroll to view the button */
     var transitionTime = 600;
     $(window).scroll(function () {
         if($(window).scrollTop() > amountScrolled) {
