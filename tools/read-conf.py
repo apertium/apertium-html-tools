@@ -46,6 +46,8 @@ def load_conf(filename):
         'DEFAULT_MODE'                   : conf_APY.get('DEFAULT_MODE', fallback="translation"),
         'TRANSLATION_CHAINING'           : conf_APY.getboolean('TRANSLATION_CHAINING', fallback=False),
 
+        'DEFAULT_LOCALE'                 : conf_APY.get('DEFAULT_LOCALE', fallback="eng"),
+
         'SHOW_NAVBAR'                    : conf_APY.getboolean('SHOW_NAVBAR', fallback=False),
 
         'PIWIK_SITEID'                   : conf_APY.get('PIWIK_SITEID', fallback=None),

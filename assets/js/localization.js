@@ -11,9 +11,8 @@ var localizedLanguageCodes = {}, localizedLanguageNames = {};
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
     populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
 
-var DEFAULT_LOCALE = 'eng';
 var dynamicLocalizations = {
-    'eng': {
+    'fallback': {
         'Not_Available': 'Translation not yet available!',
         'detected': 'detected',
         'File_Too_Large': 'File is too large!',
@@ -29,7 +28,7 @@ function getDynamicLocalization(stringKey) {
         return globalLocale;
     }
     else {
-        return dynamicLocalizations[DEFAULT_LOCALE][stringKey];
+        return dynamicLocalizations['fallback'][stringKey];
     }
 }
 
@@ -158,7 +157,7 @@ function getLocale() {
                 },
                 error: function () {
                     console.error('Failed to determine locale,  defaulting to eng');
-                    locale = 'eng';
+                    locale = config.DEFAULT_LOCALE;
                 },
                 complete: function () {
                     ajaxComplete();
