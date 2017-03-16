@@ -253,25 +253,25 @@ function synchronizeTextareaHeights() {
 //  is run on desktop or larger screens
 
 /*  Following is the function that provides functionality of go-to-top button */
-function gotop(){
+$(function () {
+    if($(window).width() < TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH) {
+        return;
+    }
     var amountScrolled = 300; //amount by which user must scroll to view the button
     var transitionTime = 600;
-    $(window).scroll(function() {
-        if ( $(window).scrollTop() > amountScrolled ) {
-            $('#go-top').fadeIn('slow');
-            $('#go-top').removeClass('hidden-xs hidden-sm hidden-md hidden-lg');
-            $('#go-top').addClass('hidden-xs hidden-sm visible-md visible-lg');
-        } else {
-            $('#go-top').fadeOut('slow');
-            $('#go-top').removeClass('hidden-xs hidden-sm visible-md visible-lg');
-            $('#go-top').addClass('hidden-xs hidden-sm hidden-md hidden-lg');
+    $(window).scroll(function () {
+        if($(window).scrollTop() > amountScrolled) {
+            $('#go-top').fadeIn('fast');
+        } 
+        else {
+            $('#go-top').fadeOut('fast');
         }
     });
 
-    $('#go-top').click(function() {
+    $('#go-top').click(function () {
         $('html, body').animate({
             scrollTop: 0
         }, transitionTime);
         return false;
     });
-}
+});
