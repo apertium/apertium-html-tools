@@ -533,8 +533,4 @@
         </div>
         <button class="btn btn-primary" id = "go-top"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
     </body>
-
-    <script type="text/javascript">
-      gotop();
-    </script>
 </html>
