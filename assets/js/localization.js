@@ -156,7 +156,7 @@ function getLocale() {
                     }
                 },
                 error: function () {
-                    console.error('Failed to determine locale,  defaulting to '+config.DEFAULT_LOCALE);
+                    console.error('Failed to determine locale,  defaulting to ' + config.DEFAULT_LOCALE);
                     locale = config.DEFAULT_LOCALE;
                 },
                 complete: function () {
