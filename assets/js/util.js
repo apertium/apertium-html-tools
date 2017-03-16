@@ -262,7 +262,7 @@ $(function () {
     $(window).scroll(function () {
         if($(window).scrollTop() > amountScrolled) {
             $('#go-top').fadeIn('fast');
-        } 
+        }
         else {
             $('#go-top').fadeOut('fast');
         }
