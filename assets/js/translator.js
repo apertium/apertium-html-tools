@@ -770,9 +770,6 @@ function cleanPage(html) {
     // reaching content. This might mess things up some places – needs
     // testing – but on the other hand most uses of document.write are
     // evil.
-    if(html.match(/link[^>]*canonical[^>]*href[^>]*avvir[.]no/)) {
-        html = html.replace(/([a-zæøåášžđŋ])=([a-zæøåášžđŋ])/gi, '$1$2');
-    }
     return html.replace(/document[.]write[(]/g,
                         'console.log("document.write "+');
 }
