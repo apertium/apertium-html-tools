@@ -248,3 +248,21 @@ function synchronizeTextareaHeights() {
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
 /*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
+
+/* Function to copy the text in translatedText div to clipboard */
+
+function copy() {
+    var durationOfMessage=2000;
+    var textToCopy = document.getElementById('translatedText').select();
+    var copyMsg = document.execCommand('copy');
+    if(copyMsg) {
+        $( function() {
+          $('#copy-message-success').fadeIn('fast').delay(durationOfMessage).fadeOut('fast');
+        });
+    }
+    else {
+        $( function() {
+          $('#copy-message-fail').fadeIn('fast').delay(durationOfMessage).fadeOut('fast');
+        });
+    }
+}
