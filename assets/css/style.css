@@ -322,8 +322,9 @@ html[dir=rtl] .pull-left:not(#rtlChecker) {
     float: right !important;
 }
 
-/* Styling for the go-to-top button */
-#go-top{
+/* Styling for the back-to-top button */
+#backToTop .fa-arrow-up {
+    color: white;
     display: none;
     position: fixed;
     z-index: 999;
@@ -332,10 +333,6 @@ html[dir=rtl] .pull-left:not(#rtlChecker) {
     opacity: 0.8;
 }
 
-#go-top:hover {
+#backToTop:hover {
     opacity: 1;
-}
-
-.fa-arrow-up {
-    color: white;
 }
