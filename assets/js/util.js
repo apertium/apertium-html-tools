@@ -9,6 +9,9 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768;
 
+var amountScrolled = 300; /*:: amount by which user must scroll to view the button */
+var transitionTime = 600; /*:: time taken for the transition to move webpage to top */
+
 function ajaxSend() {
     $('#loadingIndicator').show();
 }
@@ -118,6 +121,28 @@ $(document).ready(function () {
 
     $('.modal').on('hide.bs.modal', function () {
         $('a[data-target=#' + $(this).attr('id') + ']').parents('li').removeClass('active');
+    });
+
+    /*  Following is the function that provides functionality of back-to-top button */
+
+    $(window).scroll(function () {
+        if($(window).scrollTop() > amountScrolled) {
+            $('#backToTop').fadeIn('fast');
+            $('#backToTop').removeClass('hidden-xs hidden-sm hidden-md hidden-lg');
+            $('#backToTop').addClass('hidden-xs hidden-sm visible-md visible-lg');
+        }
+        else {
+            $('#backToTop').fadeOut('fast');
+            $('#backToTop').removeClass('hidden-xs hidden-sm visible-md visible-lg');
+            $('#backToTop').addClass('hidden-xs hidden-sm hidden-md hidden-lg');
+        }
+    });
+
+    $('#backToTop').click(function () {
+        $('html, body').animate({
+            scrollTop: 0
+        }, transitionTime);
+        return false;
     });
 });
 
@@ -248,30 +273,3 @@ function synchronizeTextareaHeights() {
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
 /*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
-
-//  As the dynamic extending of boxes is disabled in devices with width < 768, button appears when the application
-//  is run on desktop or larger screens
-
-/*  Following is the function that provides functionality of go-to-top button */
-$(function () {
-    if($(window).width() < TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH) {
-        return;
-    }
-    var amountScrolled = 300; /*:: amount by which user must scroll to view the button */
-    var transitionTime = 600;
-    $(window).scroll(function () {
-        if($(window).scrollTop() > amountScrolled) {
-            $('#go-top').fadeIn('fast');
-        }
-        else {
-            $('#go-top').fadeOut('fast');
-        }
-    });
-
-    $('#go-top').click(function () {
-        $('html, body').animate({
-            scrollTop: 0
-        }, transitionTime);
-        return false;
-    });
-});
