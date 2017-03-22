@@ -143,7 +143,7 @@ function populateSecondaryAnalyzerList() {
 }
 
 function analyze() {
-    if($('#primaryAnalyzerMode').val() == null) {
+    if($('#primaryAnalyzerMode').val() === null) {
         return;
     }
 

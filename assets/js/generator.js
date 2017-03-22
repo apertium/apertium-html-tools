@@ -143,7 +143,7 @@ function populateSecondaryGeneratorList() {
 }
 
 function generate() {
-    if($('#primaryGeneratorMode').val() == null) {
+    if($('#primaryGeneratorMode').val() === null) {
         return;
     }
 
