@@ -127,12 +127,10 @@ $(document).ready(function () {
 
     $(window).scroll(function () {
         if($(window).scrollTop() > amountScrolled) {
-            $('#backToTop').fadeIn('fast');
             $('#backToTop').removeClass('hidden-xs hidden-sm hidden-md hidden-lg');
             $('#backToTop').addClass('hidden-xs hidden-sm visible-md visible-lg');
         }
         else {
-            $('#backToTop').fadeOut('fast');
             $('#backToTop').removeClass('hidden-xs hidden-sm visible-md visible-lg');
             $('#backToTop').addClass('hidden-xs hidden-sm hidden-md hidden-lg');
         }
@@ -144,6 +142,8 @@ $(document).ready(function () {
         }, transitionTime);
         return false;
     });
+
+    /* Function for backToTop ends here */
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
