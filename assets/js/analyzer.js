@@ -143,6 +143,10 @@ function populateSecondaryAnalyzerList() {
 }
 
 function analyze() {
+    if($('#primaryAnalyzerMode').val() == null) {
+        return;
+    }
+
     var analyzerMode = analyzers[$('#primaryAnalyzerMode').val()].length > 1
         ? $('#secondaryAnalyzerMode').val()
         : analyzers[$('#primaryAnalyzerMode').val()][0];
