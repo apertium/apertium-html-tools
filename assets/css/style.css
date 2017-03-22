@@ -323,8 +323,7 @@ html[dir=rtl] .pull-left:not(#rtlChecker) {
 }
 
 /* Styling for the back-to-top button */
-#backToTop .fa-arrow-up {
-    color: white;
+#backToTop {
     display: none;
     position: fixed;
     z-index: 999;
@@ -335,4 +334,8 @@ html[dir=rtl] .pull-left:not(#rtlChecker) {
 
 #backToTop:hover {
     opacity: 1;
+}
+
+.fa-arrow-up {
+    color: white;
 }
