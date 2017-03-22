@@ -783,8 +783,9 @@ function translateWebpage() {
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
         sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
         $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
-        $.jsonp({
+        $.ajax({
             url: config.APY_URL + '/translatePage',
+            dataType: "json",
             beforeSend: ajaxSend,
             complete: function () {
                 ajaxComplete();
@@ -818,10 +819,13 @@ function translateWebpage() {
                     });
                 }
                 else {
-                    translationNotAvailable();
+                    translationNotAvailableWebpage(data);
                 }
             },
-            error: translationNotAvailable
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(jqXHR, textStatus, errorThrown);
+                translationNotAvailableWebpage(jqXHR.responseJSON);
+            }
         });
     }
 }
@@ -921,10 +925,17 @@ function translationNotAvailable() {
     $('#translatedText')
         .text(getDynamicLocalization('Not_Available'))
         .addClass('notAvailable text-danger');
+}
+
+function translationNotAvailableWebpage(data) {
+    translationNotAvailable();
     var div = $('<div id="translatedWebpage" class="translatedWebpage"></div>');
     div.text(getDynamicLocalization('Not_Available'));
     div.addClass('notAvailable text-danger');
     $('#translatedWebpage').replaceWith(div[0]);
+    $('#translatedWebpage').append($('<div></div>').text(" "));
+    $('#translatedWebpage').append($('<div></div>').text(data.message));
+    $('#translatedWebpage').append($('<div></div>').text(data.explanation));
 }
 
 function muteLanguages() {
