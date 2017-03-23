@@ -736,6 +736,10 @@ function downloadBrowserWarn() {
     }
 }
 function detectLanguage() {
+    if($('#originalText').val().length === 0) {
+        return;
+    }
+
     if(textTranslateRequest) {
         textTranslateRequest.abort();
     }
