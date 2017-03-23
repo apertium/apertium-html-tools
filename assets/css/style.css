@@ -74,6 +74,23 @@ html[dir=rtl] .clearButton {
     left: 18px;
 }
 
+#backToTop {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    right: 20px;
+    bottom: 20px;
+    opacity: 0.8;
+}
+
+#backToTop:hover {
+    opacity: 1;
+}
+
+#backToTop .fa-arrow-up {
+    color: white;
+}
+
 /* Navbar */
 
 .apertiumBox {
@@ -320,22 +337,4 @@ html[dir=rtl] .pull-right:not(#rtlChecker) {
 
 html[dir=rtl] .pull-left:not(#rtlChecker) {
     float: right !important;
-}
-
-/* Styling for the back-to-top button */
-#backToTop {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    right: 20px;
-    bottom: 20px;
-    opacity: 0.8;
-}
-
-#backToTop:hover {
-    opacity: 1;
-}
-
-.fa-arrow-up {
-    color: white;
 }

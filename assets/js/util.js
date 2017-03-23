@@ -6,11 +6,10 @@
 var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
     XHR_LOADING = 3, XHR_DONE = 4;
+var AMOUNT_SCROLLED = 300; 
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768;
 
-var amountScrolled = 300; /*:: amount by which user must scroll to view the button */
-var transitionTime = 600; /*:: time taken for the transition to move webpage to top */
 
 function ajaxSend() {
     $('#loadingIndicator').show();
@@ -123,10 +122,8 @@ $(document).ready(function () {
         $('a[data-target=#' + $(this).attr('id') + ']').parents('li').removeClass('active');
     });
 
-    /*  Following is the function that provides functionality of back-to-top button */
-
     $(window).scroll(function () {
-        if($(window).scrollTop() > amountScrolled) {
+        if($(window).scrollTop() > AMOUNT_SCROLLED) {
             $('#backToTop').removeClass('hidden-xs hidden-sm hidden-md hidden-lg');
             $('#backToTop').addClass('hidden-xs hidden-sm visible-md visible-lg');
         }
@@ -139,11 +136,10 @@ $(document).ready(function () {
     $('#backToTop').click(function () {
         $('html, body').animate({
             scrollTop: 0
-        }, transitionTime);
+        }, 'fast');
         return false;
     });
 
-    /* Function for backToTop ends here */
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
