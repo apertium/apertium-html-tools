@@ -10,7 +10,6 @@ var AMOUNT_SCROLLED = 300;
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768;
 
-
 function ajaxSend() {
     $('#loadingIndicator').show();
 }
