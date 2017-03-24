@@ -736,7 +736,8 @@ function downloadBrowserWarn() {
     }
 }
 function detectLanguage() {
-    if($('#originalText').val().length === 0) {
+    var originalText = $('#originalText').val();
+    if(originalText.length === 0) {
         return;
     }
 
@@ -752,7 +753,7 @@ function detectLanguage() {
             textTranslateRequest = undefined;
         },
         data: {
-            'q': $('#originalText').val()
+            'q': originalText
         },
         success: function (data) {
             var possibleLanguages = [];
