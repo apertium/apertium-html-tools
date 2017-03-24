@@ -122,7 +122,7 @@ $(document).ready(function () {
     });
 
     $(window).scroll(function () {
-        if($(window).scrollTop() > AMOUNT_SCROLLED) {
+        if($(window).scrollTop() > AMOUNT_SCROLLED_ON_WEBPAGE) {
             $('#backToTop').removeClass('hidden-xs hidden-sm hidden-md hidden-lg');
             $('#backToTop').addClass('hidden-xs hidden-sm visible-md visible-lg');
         }
