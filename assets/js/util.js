@@ -6,9 +6,8 @@
 var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
     XHR_LOADING = 3, XHR_DONE = 4;
-var AMOUNT_SCROLLED_ON_WEBPAGE = 300;
 
-var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768;
+var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768, BACK_TO_TOP_ACTIVATION_HEIGHT = 300;
 
 function ajaxSend() {
     $('#loadingIndicator').show();
@@ -122,7 +121,7 @@ $(document).ready(function () {
     });
 
     $(window).scroll(function () {
-        if($(window).scrollTop() > AMOUNT_SCROLLED_ON_WEBPAGE) {
+        if($(window).scrollTop() > BACK_TO_TOP_ACTIVATION_HEIGHT) {
             $('#backToTop').removeClass('hidden-xs hidden-sm hidden-md hidden-lg');
             $('#backToTop').addClass('hidden-xs hidden-sm visible-md visible-lg');
         }
