@@ -321,3 +321,14 @@ html[dir=rtl] .pull-right:not(#rtlChecker) {
 html[dir=rtl] .pull-left:not(#rtlChecker) {
     float: right !important;
 }
+
+.info-message {
+    display: none;
+    width: 400px;
+    height: auto;
+    z-index: 9999999;
+    top: 15px;
+    right: 20px;
+    position: fixed;
+    border: 10px solid #FFF;
+}

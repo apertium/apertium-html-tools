@@ -192,6 +192,9 @@
                                       </button>
                                   </div>
                                   <div class="col-sm-6 pull-right">
+                                      <div class="copy pull-left" style="margin-top: 1%;">
+                                        <button class="btn btn-default" onclick="copy()"><i class="fa fa-clone" aria-hidden="true"></i></button>
+                                      </div>
                                       <div class="checkbox" id="translateOptions">
                                           <label class="pull-right">
                                               <input type="checkbox" id="markUnknown" checked>
@@ -531,5 +534,7 @@
             <div class="lead text-warning well well-sm" data-text="Enable_JS_Warning"></div>
             <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" style="border: 0;" alt=""></p></noscript>
         </div>
+        <div id="copy-message-success" class="well info-message">Text is copied</div>
+        <div id="copy-message-fail" class="well info-message">Oops! Could not copy text</div>
     </body>
 </html>
