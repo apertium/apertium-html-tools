@@ -532,4 +532,17 @@
             <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" style="border: 0;" alt=""></p></noscript>
         </div>
     </body>
+    <script type="text/javascript">
+    $(document).ready(changePos);
+    $(window).resize(changePos);
+
+    function changePos() {
+      if($('#parent-div').width() - $('#srcLangSelectors').width() <= 15){
+          $('#srcLangSelectors').css('width','85%');
+      }
+      else{
+          $('#srcLangSelectors').css('width','90%');
+      }
+    }
+    </script>
 </html>

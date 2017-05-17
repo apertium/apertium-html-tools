@@ -7,7 +7,6 @@
 
 // eslint-disable-next-line func-style
 
-var isCookieEnabled = navigator.cookieEnabled;
 var Store = function (prefix/*: string*/)/*: void*/ {
     this.prefix = prefix;
 };
@@ -16,7 +15,7 @@ Store.prototype.get = function/*:: <T>*/ (key/*: string*/, fallback/*: T*/)/*: T
     if(fallback === undefined) {
         console.warn('Store.get with undefined fallback! Key:', key);
     }
-    if(isCookieEnabled === true) {
+    if(navigator.cookieEnabled === true) {
         if(!this.able()) {
             return fallback;
         }
@@ -44,7 +43,7 @@ Store.prototype.get = function/*:: <T>*/ (key/*: string*/, fallback/*: T*/)/*: T
 };
 
 Store.prototype.set = function/*:: <T>*/ (key/*: string*/, value/*: T*/)/*: void*/ {
-    if(isCookieEnabled === true) {
+    if(navigator.cookieEnabled === true) {
         if(this.able()) {
             window.localStorage[this.prefix + key] = JSON.stringify(value);
         }
@@ -52,7 +51,7 @@ Store.prototype.set = function/*:: <T>*/ (key/*: string*/, value/*: T*/)/*: void
 };
 
 Store.prototype.clear = function ()/*: void*/ {
-    if(isCookieEnabled === true) {
+    if(navigator.cookieEnabled === true) {
         if(this.able()) {
             for(var key in window.localStorage) {
                 if(key.startsWith(this.prefix)) {
@@ -64,13 +63,13 @@ Store.prototype.clear = function ()/*: void*/ {
 };
 
 Store.prototype.has = function (key/*: string*/)/*: bool*/ {
-    if(isCookieEnabled === true) {
+    if(navigator.cookieEnabled === true) {
         return this.able() &&
             (this.prefix + key) in window.localStorage;
     }
 };
 
-if(isCookieEnabled === true) {
+if(navigator.cookieEnabled === true) {
     Store.prototype.able = function ()/*: bool*/ {
         return !!(window.localStorage);
     };

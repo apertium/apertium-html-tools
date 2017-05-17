@@ -32,7 +32,7 @@ function readCache(name, type) {
 }
 
 function persistChoices(mode, updatePermalink) {
-    if(isCookieEnabled === true) {
+    if(navigator.cookieEnabled === true) {
         if(store.able()) {
             var objects;
             if(mode === 'translator') {
@@ -128,14 +128,14 @@ function persistChoices(mode, updatePermalink) {
 }
 
 function restoreChoices(mode) {
-    if(isCookieEnabled === true) {
+    if(navigator.cookieEnabled === true) {
         if(store.able() && getURLParam('reset').length > 0) {
             store.clear();
         }
     }
 
     if(mode === 'translator') {
-        if(isCookieEnabled === true) {
+        if(navigator.cookieEnabled === true) {
             if(store.able()) {
                 recentSrcLangs = store.get('recentSrcLangs', recentSrcLangs);
                 recentDstLangs = store.get('recentDstLangs', recentDstLangs);
@@ -178,7 +178,7 @@ function restoreChoices(mode) {
         refreshLangList();
     }
     else if(mode === 'analyzer') {
-        if(isCookieEnabled === true) {
+        if(navigator.cookieEnabled === true) {
             if(store.able()) {
                 var primaryAnalyzerChoice = store.get('primaryAnalyzerChoice', ''),
                     secondaryAnalyzerChoice = store.get('secondaryAnalyzerChoice', '');
@@ -211,7 +211,7 @@ function restoreChoices(mode) {
         }
     }
     else if(mode === 'generator') {
-        if(isCookieEnabled === true) {
+        if(navigator.cookieEnabled === true) {
             if(store.able()) {
                 var primaryGeneratorChoice = store.get('primaryGeneratorChoice', ''),
                     secondaryGeneratorChoice = store.get('secondaryGeneratorChoice', '');
@@ -242,7 +242,7 @@ function restoreChoices(mode) {
         }
     }
     else if(mode === 'localization') {
-        if(isCookieEnabled === true) {
+        if(navigator.cookieEnabled === true) {
             if(store.able()) {
                 locale = store.get('locale', '');
                 if(locale) {
@@ -252,7 +252,7 @@ function restoreChoices(mode) {
         }
     }
     else if(mode === 'sandbox') {
-        if(isCookieEnabled === true) {
+        if(navigator.cookieEnabled === true) {
             if(store.able()) {
                 $('#sandboxInput').val(store.get('sandboxInput', ''));
             }
