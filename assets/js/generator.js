@@ -143,6 +143,10 @@ function populateSecondaryGeneratorList() {
 }
 
 function generate() {
+    if($('#primaryGeneratorMode').val() === null) {
+        return;
+    }
+
     var generatorMode = generators[$('#primaryGeneratorMode').val()].length > 1
         ? $('#secondaryGeneratorMode').val()
         : generators[$('#primaryGeneratorMode').val()][0];

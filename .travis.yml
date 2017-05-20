@@ -4,5 +4,6 @@ node_js:
 script:
   - find assets/strings -type f -name '*.json' -exec jsonlint -q '{}' +
   - eslint -c assets/js/.eslintrc.json assets/js/*.js
+  - htmlhint --config .htmlhintrc.json *.html
 before_install:
-  - npm install jsonlint eslint -g
+  - npm install jsonlint eslint htmlhint -g

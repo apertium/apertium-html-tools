@@ -571,7 +571,7 @@ function translateText() {
                 textTranslateRequest.abort();
             }
             var endpoint, request;
-            if($('input#chainedTranslation').prop('checked')) {
+            if($('input#chainedTranslation').prop('checked') && config.TRANSLATION_CHAINING) {
                 endpoint = '/translateChain';
                 request = {'langpairs': curSrcLang + '|' + curDstLang};
             }
@@ -736,6 +736,11 @@ function downloadBrowserWarn() {
     }
 }
 function detectLanguage() {
+    var originalText = $('#originalText').val();
+    if(originalText.length === 0) {
+        return;
+    }
+
     if(textTranslateRequest) {
         textTranslateRequest.abort();
     }
@@ -748,7 +753,7 @@ function detectLanguage() {
             textTranslateRequest = undefined;
         },
         data: {
-            'q': $('#originalText').val()
+            'q': originalText
         },
         success: function (data) {
             var possibleLanguages = [];
