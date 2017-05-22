@@ -563,6 +563,7 @@ function translate() {
     }
 }
 
+
 function translateText() {
     if($('div#translateText').is(':visible')) {
         if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
@@ -581,31 +582,39 @@ function translateText() {
             }
             request.q = $('#originalText').val(); // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
-
-            textTranslateRequest = $.jsonp({
-                url: config.APY_URL + endpoint,
-                beforeSend: ajaxSend,
-                complete: function () {
-                    ajaxComplete();
-                    textTranslateRequest = undefined;
-                },
-                data: request,
-                success: function (data) {
-                    if(data.responseStatus === HTTP_OK_CODE) {
-                        $('#translatedText').val(data.responseData.translatedText);
-                        $('#translatedText').removeClass('notAvailable text-danger');
-                    }
-                    else {
-                        translationNotAvailable();
-                    }
-                },
-                error: translationNotAvailable
-            });
+            var methodType = (request.q.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET';
+            ajaxCallForTranslation(methodType, request, endpoint);
         }
         else {
             translationNotAvailable();
         }
     }
+}
+
+function ajaxCallForTranslation(methodType, request, endpoint) {
+    textTranslateRequest = $.ajax({
+        url: config.APY_URL + endpoint,
+        beforeSend: ajaxSend,
+        complete: function () {
+            ajaxComplete();
+            textTranslateRequest = undefined;
+        },
+        data: request,
+        type: methodType,
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        dataType: 'json',
+        success: function (data) {
+            if(endpoint === '/translateChain' || endpoint === '/translate') {
+                if(data.responseStatus === HTTP_OK_CODE) {
+                    $('#translatedText').val(data.responseData.translatedText);
+                    $('#translatedText').removeClass('notAvailable text-danger');
+                }
+                else {
+                    translationNotAvailable();
+                }
+        },
+        error: translationNotAvailable
+    });
 }
 
 function inputFile() {
