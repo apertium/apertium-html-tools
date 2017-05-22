@@ -564,7 +564,6 @@ function translate() {
     }
 }
 
-
 function translateText() {
     if($('div#translateText').is(':visible')) {
         if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
@@ -605,14 +604,13 @@ function ajaxCallForTranslation(methodType, request, endpoint) {
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         dataType: 'json',
         success: function (data) {
-            if(endpoint === '/translateChain' || endpoint === '/translate') {
-                if(data.responseStatus === HTTP_OK_CODE) {
-                    $('#translatedText').val(data.responseData.translatedText);
-                    $('#translatedText').removeClass('notAvailable text-danger');
-                }
-                else {
-                    translationNotAvailable();
-                }
+            if(data.responseStatus === HTTP_OK_CODE) {
+                $('#translatedText').val(data.responseData.translatedText);
+                $('#translatedText').removeClass('notAvailable text-danger');
+            }
+            else {
+                translationNotAvailable();
+            }
         },
         error: translationNotAvailable
     });
