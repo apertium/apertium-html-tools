@@ -1,6 +1,6 @@
 var generators = {}, generatorData = {};
 var currentGeneratorRequest;
-
+var THRESHOLD_REQUEST_LENGTH_FOR_GENERATE = 2020;
 /* exported getGenerators */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
     localizeInterface, getLangByCode, sendEvent, restoreChoices */
@@ -158,17 +158,24 @@ function generate() {
         currentGeneratorRequest.abort();
     }
 
-    currentGeneratorRequest = $.jsonp({
+    var request = {'lang': generatorMode};
+    request.q = $('#morphGeneratorInput').val();
+    var methodType = if(request.q.length > THRESHOLD_REQUEST_LENGTH_FOR_GENERATE) ? 'POST' : 'GET';
+    ajaxCallForGenerate(request, methodType);
+}
+
+function ajaxCallForGenerate(request, methodType) {
+    currentGeneratorRequest = $.ajax({
         url: config.APY_URL + '/generate',
         beforeSend: ajaxSend,
         complete: function () {
             ajaxComplete();
             currentGeneratorRequest = undefined;
         },
-        data: {
-            'lang': generatorMode,
-            'q': $('#morphGeneratorInput').val()
-        },
+        data: request,
+        type: methodType,
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        dataType: 'json',
         success: function (data) {
             $('#morphGenOutput').empty();
             for(var i = 0; i < data.length; i++) {
