@@ -9,6 +9,9 @@
         <meta name="description"  data-textattr="content" data-text="description" content="Apertium is a rule-based machine translation platform. It is free software and released under the terms of the GNU General Public License.">
         <link rel="shortcut icon" href="./img/favicon.ico">
 
+        <script type="text/javascript">
+          var timerStart = Date.now();
+        </script>
         <!-- <link type="text/css" rel="stylesheet" href="./css/icon-globe.css"> -->
         <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu"> <!-- Selectivzr bug requires this being in <link> rather than @import -->
 
@@ -27,7 +30,7 @@
                 console.warn('Bootstrap JS from CDN not available - reverting to local copy');
             }
         </script>
-
+        
         <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
 @include_head@
         <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.2.0-rc2/css/bootstrap-rtl.min.css" class="rtlStylesheet"> <!-- Positioned to override styles in bootstrap.css -->
@@ -531,5 +534,13 @@
             <div class="lead text-warning well well-sm" data-text="Enable_JS_Warning"></div>
             <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" style="border: 0;" alt=""></p></noscript>
         </div>
+
+        <div class="info-message well">
+          <h3>Inconvenience<i class="fa fa-times pull-right"></i></h3>
+          <p>We are highly sorry for the inconvenience caused but our server appears loaded now. Please try again later. <br/> In order to set apertium locally, please refer to <a href = "https://github.com/goavki/apertium-html-tools/" target="_blank"> this </a> link.
+        </div>
     </body>
+    <script type="text/javascript">
+      showNotice();
+    </script>
 </html>

@@ -248,3 +248,24 @@ function synchronizeTextareaHeights() {
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
 /*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
+
+/*  Function to generate an unintrusive error in case server side is loaded */
+
+function showNotice() {
+    var timeToLoadThreshold = 2000;
+    var timeToShowMessage = 10000;
+    if(Date.now() - timerStart > timeToLoadThreshold) {
+        $(function() {
+            $('.info-message').fadeIn('slow').delay(timeToShowMessage).fadeOut('slow');
+            $('.fa-times').click( function() {
+                $('.info-message').hide();
+            }); 
+            $('.info-message').mouseover( function() {
+                $(this).stop(true);
+            })
+            .mouseout( function() {
+                $(this).animate().delay(timeToShowMessage).fadeOut('slow');
+            });
+        });
+    }
+}
