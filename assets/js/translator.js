@@ -652,7 +652,9 @@ function translateDoc() {
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 // 'application/msword', 'application/vnd.ms-powerpoint', 'application/vnd.ms-excel'
                 'application/vnd.oasis.opendocument.text',
-                'application/x-latex', 'application/x-tex'
+                'application/x-latex', 'application/x-tex',
+                'application/pdf',
+                'application/x-pdf',
             ];
 
             if(allowedMimeTypes.indexOf(file.type) !== -1) {
