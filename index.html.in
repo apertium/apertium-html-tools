@@ -228,7 +228,7 @@
                               <div id="docTranslation" style="display: none;">
                                   <div class="col-sm-6">
                                       <div class="well well-lg">
-                                          <input type="file" id="fileInput" accept="text/plain,text/html,text/rtf,application/rtf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.oasis.opendocument.text,application/x-latex,application/x-tex">
+                                          <input type="file" id="fileInput" accept="text/plain,text/html,text/rtf,application/rtf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.oasis.opendocument.text,application/x-latex,application/x-tex,application/pdf,application/x-pdf">
                                           <div class="lead" id="fileName" style="display: none;"></div>
                                           <div style="min-height: 50px; margin-top: 1em;">
                                               <span id="uploadError" class="text-danger lead" style="display: none"></span>
@@ -237,7 +237,7 @@
                                               </div>
                                           </div>
                                           <p>
-                                            <span data-text="Supported_Formats">Supported formats: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 and newer). Word 97 .doc files and pdf's are not supported.</span>
+                                            <span data-text="Supported_Formats">Supported formats: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 and newer), pdf. Word 97 .doc files are not supported.</span>
                                           </p>
                                           <button type="button" class="btn btn-sm btn-default pull-right" id="cancelDocTranslate">
                                               <i class="fa fa-arrow-left"></i> <span data-text="Back">Back</span>
