@@ -123,13 +123,13 @@ $(document).ready(function () {
     $(window).scroll(function () {
         if($(window).scrollTop() > BACK_TO_TOP_ACTIVATION_HEIGHT) {
             $('#backToTop')
-                .removeClass('hidden-xs hidden-sm hidden-md hidden-lg')
-                .addClass('hidden-xs hidden-sm visible-md visible-lg');
+                .removeClass('hidden-md hidden-lg')
+                .addClass('visible-md visible-lg');
         }
         else {
             $('#backToTop')
-                .removeClass('hidden-xs hidden-sm visible-md visible-lg')
-                .addClass('hidden-xs hidden-sm hidden-md hidden-lg');
+                .removeClass('visible-md visible-lg')
+                .addClass('hidden-md hidden-lg');
         }
     });
 
