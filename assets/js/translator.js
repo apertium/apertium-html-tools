@@ -669,7 +669,11 @@ function translateDoc() {
                 if(xhr.upload) {
                     xhr.upload.onprogress = updateProgressBar;
                 }
-                var fileName = file.name;
+                var fileName = curDstLang + file.name;
+                if(file.name.match(/[.]pdf$/)) {
+                    // Because pdf is translated using pdftohtml:
+                    fileName = fileName + '.html';
+                }
                 xhr.onreadystatechange = function () {
                     if(this.readyState === XHR_LOADING) {
                         $('div#fileLoading').fadeIn('fast');
