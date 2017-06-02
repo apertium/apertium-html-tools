@@ -762,8 +762,8 @@ function downloadBrowserWarn() {
     }
 }
 
-function translateLink(url) {
-    $('#webpage').val(url);
+function translateLink(href) {
+    $('#webpage').val(href);
     translateWebpage();
 }
 
@@ -821,6 +821,7 @@ function translateWebpage() {
                                 var href = a.href;
                                 $(a).on('click', function() { window.parent.translateLink(href); });
                                 a.href = "#";
+                                a.target = "";
                             });
                     });
                 }
