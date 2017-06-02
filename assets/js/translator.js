@@ -762,8 +762,20 @@ function downloadBrowserWarn() {
     }
 }
 
+window.onpopstate = function(event) {
+    // TODO: Could do the whole restoreChoices here? But would have to call the right translate() functions anyway
+    if(getURLParam('qP').length > 0) {
+        $('#webpage').val(decodeURIComponent(getURLParam('qP')));
+        translateWebpage();
+    }
+};
+
 function translateLink(href) {
     $('#webpage').val(href);
+    if(window.history) {
+        // used by window.onpopstate:
+        window.history.pushState({}, document.title, window.location.href);
+    }
     translateWebpage();
 }
 
