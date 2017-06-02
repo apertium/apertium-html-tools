@@ -175,7 +175,7 @@ function ajaxCallForGenerate(methodType, request) {
         data: request,
         type: methodType,
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        //dataType: 'json',
+        //  dataType: 'json',
         success: function (data) {
             $('#morphGenOutput').empty();
             for(var i = 0; i < data.length; i++) {
