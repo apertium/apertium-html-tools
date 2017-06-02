@@ -162,7 +162,7 @@ function analyze() {
     var request = {'lang': analyzerMode};
     request.q = $('#morphAnalyzerInput').val();
     var methodType = (request.q.length > THRESHOLD_REQUEST_LENGTH_FOR_ANALYZE) ? 'POST' : 'GET';
-    ajaxCallForAnalyze(methodType, request); 
+    ajaxCallForAnalyze(methodType, request);
 
     function formatUnit(unit) {
         var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags = [];
