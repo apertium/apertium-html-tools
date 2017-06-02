@@ -1,5 +1,6 @@
 var analyzers = {}, analyzerData = {};
 var currentAnalyzerRequest;
+var THRESHOLD_REQUEST_LENGTH_FOR_ANALYZE = 2020;
 
 /* exported getAnalyzers */
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
@@ -157,7 +158,27 @@ function analyze() {
     if(currentAnalyzerRequest) {
         currentAnalyzerRequest.abort();
     }
-    currentAnalyzerRequest = $.jsonp({
+
+    var request = {'lang': analyzerMode};
+    request.q = $('#morphAnalyzerInput').val();
+    var methodType = (request.q.length > THRESHOLD_REQUEST_LENGTH_FOR_ANALYZE) ? 'POST' : 'GET';
+    ajaxCallForAnalyze(methodType, request); 
+
+    function formatUnit(unit) {
+        var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags = [];
+        var tagMatch = tagRegex.exec(unit);
+        while(tagMatch !== null) {
+            tags.push(tagMatch[1]);
+            tagMatch = tagRegex.exec(unit);
+        }
+        var tagStartLoc = unit.indexOf('<');
+        return unit.substring(0, tagStartLoc !== -1 ? tagStartLoc : unit.length) +
+            (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
+    }
+}
+
+function ajaxCallForAnalyze(methodType, request) {
+    currentAnalyzerRequest = $.ajax({
         url: config.APY_URL + '/analyze',
         pageCache: true,
         beforeSend: ajaxSend,
@@ -165,10 +186,10 @@ function analyze() {
             ajaxComplete();
             currentAnalyzerRequest = undefined;
         },
-        data: {
-            'lang': analyzerMode,
-            'q': $('#morphAnalyzerInput').val()
-        },
+        data: request,
+        type: methodType,
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        //datatype: 'json',
         success: function (data) {
             var regex = /([^<]*)((<[^>]+>)*)/g;
             $('#morphAnalyzerOutput').empty();
@@ -222,16 +243,4 @@ function analyze() {
             $('#morphAnalyzerOutput').text(error).removeClass('blurred');
         }
     });
-
-    function formatUnit(unit) {
-        var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags = [];
-        var tagMatch = tagRegex.exec(unit);
-        while(tagMatch !== null) {
-            tags.push(tagMatch[1]);
-            tagMatch = tagRegex.exec(unit);
-        }
-        var tagStartLoc = unit.indexOf('<');
-        return unit.substring(0, tagStartLoc !== -1 ? tagStartLoc : unit.length) +
-            (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
-    }
 }
