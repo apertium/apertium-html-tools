@@ -160,8 +160,8 @@ function analyze() {
     }
 
     var request = {'lang': analyzerMode};
-    request.q = $('#morphAnalyzerInput').val();
-    var methodType = (request.q.length > THRESHOLD_REQUEST_LENGTH_FOR_ANALYZE) ? 'POST' : 'GET';
+    request.dataInput = $('#morphAnalyzerInput').val();
+    var methodType = (request.dataInput.length > THRESHOLD_REQUEST_LENGTH_FOR_ANALYZE) ? 'POST' : 'GET';
     ajaxCallForAnalyze(methodType, request);
 }
 

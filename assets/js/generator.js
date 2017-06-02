@@ -159,8 +159,8 @@ function generate() {
     }
 
     var request = {'lang': generatorMode};
-    request.q = $('#morphGeneratorInput').val();
-    var methodType = (request.q.length > THRESHOLD_REQUEST_LENGTH_FOR_GENERATE) ? 'POST' : 'GET';
+    request.dataInput = $('#morphGeneratorInput').val();
+    var methodType = (request.dataInput.length > THRESHOLD_REQUEST_LENGTH_FOR_GENERATE) ? 'POST' : 'GET';
     ajaxCallForGenerate(request, methodType);
 }
 
