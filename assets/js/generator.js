@@ -1,10 +1,10 @@
 var generators = {}, generatorData = {};
 var currentGeneratorRequest;
-var THRESHOLD_REQUEST_LENGTH_FOR_GENERATE = 2020;
+
 /* exported getGenerators */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
-    localizeInterface, getLangByCode, sendEvent, restoreChoices */
-/* global ENTER_KEY_CODE */
+    localizeInterface, getLangByCode, sendEvent, restoreChoices, ajaxCallForAllModes */
+/* global ENTER_KEY_CODE, THRESHOLD_REQUEST_LENGTH */
 
 if(modeEnabled('generation')) {
     $(document).ready(function () {
@@ -160,36 +160,26 @@ function generate() {
 
     var request = {'lang': generatorMode};
     request.dataInput = $('#morphGeneratorInput').val();
-    var methodType = (request.dataInput.length > THRESHOLD_REQUEST_LENGTH_FOR_GENERATE) ? 'POST' : 'GET';
-    ajaxCallForGenerate(request, methodType);
+    var methodType = (request.dataInput.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET';
+    var endpoint = '/generate';
+    var callbackSuccess = handleGenerateSuccessResponse;
+    var callbackError = handleGenerateErrorResponse;
+    ajaxCallForAllModes(methodType, request, endpoint, callbackSuccess, callbackError, currentGeneratorRequest);
 }
 
-function ajaxCallForGenerate(methodType, request) {
-    currentGeneratorRequest = $.ajax({
-        url: config.APY_URL + '/generate',
-        beforeSend: ajaxSend,
-        complete: function () {
-            ajaxComplete();
-            currentGeneratorRequest = undefined;
-        },
-        data: request,
-        type: methodType,
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        //  dataType: 'json',
-        success: function (data) {
-            $('#morphGenOutput').empty();
-            for(var i = 0; i < data.length; i++) {
-                var div = $('<div data-toggle="tooltip" data-placement="auto" data-html="true"></div>');
-                var strong = $('<strong></strong>').text(data[i][1].trim());
-                var span = $('<span></span>').html('&nbsp;&nbsp;&#8620;&nbsp;&nbsp;' + data[i][0]);
-                div.append(strong).append(span);
-                $('#morphGenOutput').append(div);
-            }
-            $('#morphGenOutput').removeClass('blurred');
-        },
-        error: function (xOptions, error) {
-            $('#morphGenOutput').text(error);
-            $('#morphGenOutput').removeClass('blurred');
-        }
-    });
+function handleGenerateSuccessResponse(data) {
+    $('#morphGenOutput').empty();
+    for(var i = 0; i < data.length; i++) {
+        var div = $('<div data-toggle="tooltip" data-placement="auto" data-html="true"></div>');
+        var strong = $('<strong></strong>').text(data[i][1].trim());
+        var span = $('<span></span>').html('&nbsp;&nbsp;&#8620;&nbsp;&nbsp;' + data[i][0]);
+        div.append(strong).append(span);
+        $('#morphGenOutput').append(div);
+    }
+    $('#morphGenOutput').removeClass('blurred');
+}
+
+function handleGenerateErrorResponse(xOptions, error) {
+    $('#morphGenOutput').text(error);
+    $('#morphGenOutput').removeClass('blurred');  
 }

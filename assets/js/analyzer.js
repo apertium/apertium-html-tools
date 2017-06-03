@@ -1,11 +1,10 @@
 var analyzers = {}, analyzerData = {};
 var currentAnalyzerRequest;
-var THRESHOLD_REQUEST_LENGTH_FOR_ANALYZE = 2020;
 
 /* exported getAnalyzers */
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
-    cache, getLangByCode, filterLangList, allowedLang, sendEvent */
-/* global ENTER_KEY_CODE */
+    cache, getLangByCode, filterLangList, allowedLang, sendEvent, ajaxCallForAllModes */
+/* global ENTER_KEY_CODE, THRESHOLD_REQUEST_LENGTH */
 
 if(modeEnabled('analyzation')) {
     $(document).ready(function () {
@@ -161,86 +160,75 @@ function analyze() {
 
     var request = {'lang': analyzerMode};
     request.dataInput = $('#morphAnalyzerInput').val();
-    var methodType = (request.dataInput.length > THRESHOLD_REQUEST_LENGTH_FOR_ANALYZE) ? 'POST' : 'GET';
-    ajaxCallForAnalyze(methodType, request);
+    var methodType = (request.dataInput.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET';
+    var endpoint = '/analyze';
+    var callbackSuccess = handleAnalyzeSuccessResponse;
+    var callbackError = handleAnalyzeErrorResponse;
+    ajaxCallForAllModes(methodType, request, endpoint, callbackSuccess, callbackError, currentAnalyzerRequest);
 }
 
-function ajaxCallForAnalyze(methodType, request) {
-    currentAnalyzerRequest = $.ajax({
-        url: config.APY_URL + '/analyze',
-        pageCache: true,
-        beforeSend: ajaxSend,
-        complete: function () {
-            ajaxComplete();
-            currentAnalyzerRequest = undefined;
-        },
-        data: request,
-        type: methodType,
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        //  datatype: 'json',
-        success: function (data) {
-            var regex = /([^<]*)((<[^>]+>)*)/g;
-            $('#morphAnalyzerOutput').empty();
-            for(var i = 0; i < data.length; i++) {
-                var leftTD = $('<td class="text-right"></td>');
-                var strong = $('<strong></strong>').text(data[i][1].trim());
-                var arrow = $('<span></span>').html('&nbsp;&nbsp;&#8620;');
-                leftTD.append(strong).append(arrow);
+function handleAnalyzeSuccessResponse(data) {
+    var regex = /([^<]*)((<[^>]+>)*)/g;
+    $('#morphAnalyzerOutput').empty();
+    for(var i = 0; i < data.length; i++) {
+        var leftTD = $('<td class="text-right"></td>');
+        var strong = $('<strong></strong>').text(data[i][1].trim());
+        var arrow = $('<span></span>').html('&nbsp;&nbsp;&#8620;');
+        leftTD.append(strong).append(arrow);
 
-                var rightTD = $('<td class="text-left"></td>');
-                var splitUnit = data[i][0].split('/');
+        var rightTD = $('<td class="text-left"></td>');
+        var splitUnit = data[i][0].split('/');
 
-                if(splitUnit[1][0] === '*') {
-                    rightTD.addClass('text-danger');
-                }
+        if(splitUnit[1][0] === '*') {
+            rightTD.addClass('text-danger');
+        }
 
-                var tr = $('<tr></tr>').append(leftTD).append(rightTD);
-                $('#morphAnalyzerOutput').append(tr);
+        var tr = $('<tr></tr>').append(leftTD).append(rightTD);
+        $('#morphAnalyzerOutput').append(tr);
 
-                var joinedMorphemes = {};
-                for(var j = 1; j < splitUnit.length; j++) {
-                    var unit = splitUnit[j];
-                    if(unit.match(regex).length > 2) {
-                        var matches = unit.match(regex);
-                        for(var k = 1; k < matches.length - 1; k++) {
-                            if(joinedMorphemes[matches[k]]) {
-                                joinedMorphemes[matches[k]].push(unit);
-                            }
-                            else {
-                                joinedMorphemes[matches[k]] = [unit];
-                            }
-                        }
+        var joinedMorphemes = {};
+        for(var j = 1; j < splitUnit.length; j++) {
+            var unit = splitUnit[j];
+            if(unit.match(regex).length > 2) {
+                var matches = unit.match(regex);
+                for(var k = 1; k < matches.length - 1; k++) {
+                    if(joinedMorphemes[matches[k]]) {
+                        joinedMorphemes[matches[k]].push(unit);
                     }
                     else {
-                        var unitDiv = $('<div></div>').html(formatUnit(unit));
-                        rightTD.append(unitDiv);
+                        joinedMorphemes[matches[k]] = [unit];
                     }
                 }
-                $.each(joinedMorphemes, function (joinedMorpheme, units) {
-                    var morphemeDiv = $('<div></div>').html(formatUnit(joinedMorpheme));
-                    rightTD.append(morphemeDiv);
-                    for(var j = 0; j < units.length; j++) {
-                        var unitDiv = $('<div class="unit"></div>').html(formatUnit(units[j].match(regex)[0]));
-                        rightTD.append(unitDiv);
-                    }
-                });
-                $('#morphAnalyzerOutput').removeClass('blurred');
             }
-        },
-        error: function (xOptions, error) {
-            $('#morphAnalyzerOutput').text(error).removeClass('blurred');
+            else {
+                var unitDiv = $('<div></div>').html(formatUnit(unit));
+                rightTD.append(unitDiv);
+            }
         }
-    });
-
-    function formatUnit(unit) {
-        var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags = [];
-        var tagMatch = tagRegex.exec(unit);
-        while(tagMatch !== null) {
-            tags.push(tagMatch[1]);
-            tagMatch = tagRegex.exec(unit);
-        }
-        var tagStartLoc = unit.indexOf('<');
-        return unit.substring(0, tagStartLoc !== -1 ? tagStartLoc : unit.length) +
-            (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
+        $.each(joinedMorphemes, function (joinedMorpheme, units) {
+            var morphemeDiv = $('<div></div>').html(formatUnit(joinedMorpheme));
+            rightTD.append(morphemeDiv);
+            for(var j = 0; j < units.length; j++) {
+                var unitDiv = $('<div class="unit"></div>').html(formatUnit(units[j].match(regex)[0]));
+                rightTD.append(unitDiv);
+            }
+        });
+        $('#morphAnalyzerOutput').removeClass('blurred');
     }
+}
+
+function formatUnit(unit) {
+    var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags = [];
+    var tagMatch = tagRegex.exec(unit);
+    while(tagMatch !== null) {
+        tags.push(tagMatch[1]);
+        tagMatch = tagRegex.exec(unit);
+    }
+    var tagStartLoc = unit.indexOf('<');
+    return unit.substring(0, tagStartLoc !== -1 ? tagStartLoc : unit.length) +
+        (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
+}
+
+function handleAnalyzeErrorResponse(xOptions, error) {
+    $('#morphAnalyzerOutput').text(error).removeClass('blurred');
 }

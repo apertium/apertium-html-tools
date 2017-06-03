@@ -8,6 +8,7 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     XHR_LOADING = 3, XHR_DONE = 4;
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768;
+var THRESHOLD_REQUEST_LENGTH = 2000; // keep 48 charcters buffer for remaining params
 
 function ajaxSend() {
     $('#loadingIndicator').show();
@@ -242,8 +243,29 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique,
-    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
+function ajaxCallForAllModes(methodType, request, endpoint, callbackSuccess, callbackError, requestName) {
+    requestName = $.ajax({
+        url: config.APY_URL + endpoint,
+        beforeSend: ajaxSend,
+        complete: function () {
+            ajaxComplete();
+            requestName = undefined;
+        },
+        data: request,
+        type: methodType,
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        dataType: 'json',
+        success: function (data) {
+            callbackSuccess(data);
+        },
+        error: function(xOptions, error) {
+            callbackError(xOptions, error);
+        }
+    });
+}
+
+/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, ajaxCallForAllModes
+    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE, THRESHOLD_REQUEST_LENGTH} */
 
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
