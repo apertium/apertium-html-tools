@@ -121,7 +121,7 @@ $(document).ready(function () {
     });
 
     $(window).scroll(function () {
-        if($(window).scrollTop() > BACK_TO_TOP_ACTIVATION_HEIGHT) {
+        /*if($(window).scrollTop() > BACK_TO_TOP_ACTIVATION_HEIGHT) {
             $('#backToTop')
                 .removeClass('hidden-md hidden-lg')
                 .addClass('visible-md visible-lg');
@@ -130,7 +130,9 @@ $(document).ready(function () {
             $('#backToTop')
                 .removeClass('visible-md visible-lg')
                 .addClass('hidden-md hidden-lg');
-        }
+        }*/
+        $backToTop = $('#backToTop');
+        ($(window).scrollTop() > BACK_TO_TOP_ACTIVATION_HEIGHT) ? $backToTop.show() : $backToTop.hide();
     });
 
     $('#backToTop').click(function () {
