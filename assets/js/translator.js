@@ -13,11 +13,10 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4;
 
-var THRESHOLD_REQUEST_LENGTH = 2000; // keep 48 charcters buffer for remaining params
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
-    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes */
-/* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
+    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes, ajaxCallForAllModes */
+/* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, THRESHOLD_REQUEST_LENGTH */
 /* global $bu_getBrowser */
 
 if(modeEnabled('translation')) {
@@ -583,7 +582,9 @@ function translateText() {
             request.q = $('#originalText').val(); // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             var methodType = (request.q.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET';
-            ajaxCallForTranslation(methodType, request, endpoint);
+            var callbackSuccess = handleTranslateSuccessResponse;
+            var callbackError = handleTranslateErrorResponse;
+            ajaxCallForAllModes(methodType, request, endpoint, callbackSuccess, callbackError,textTranslateRequest);
         }
         else {
             translationNotAvailable();
@@ -591,29 +592,18 @@ function translateText() {
     }
 }
 
-function ajaxCallForTranslation(methodType, request, endpoint) {
-    textTranslateRequest = $.ajax({
-        url: config.APY_URL + endpoint,
-        beforeSend: ajaxSend,
-        complete: function () {
-            ajaxComplete();
-            textTranslateRequest = undefined;
-        },
-        data: request,
-        type: methodType,
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        dataType: 'json',
-        success: function (data) {
-            if(data.responseStatus === HTTP_OK_CODE) {
-                $('#translatedText').val(data.responseData.translatedText);
-                $('#translatedText').removeClass('notAvailable text-danger');
-            }
-            else {
-                translationNotAvailable();
-            }
-        },
-        error: translationNotAvailable
-    });
+function handleTranslateSuccessResponse(data) {
+    if(data.responseStatus === HTTP_OK_CODE) {
+        $('#translatedText').val(data.responseData.translatedText);
+        $('#translatedText').removeClass('notAvailable text-danger');
+    }
+    else {
+        translationNotAvailable();
+    }
+}
+
+function handleTranslateErrorResponse(xOptions, error) {
+    translationNotAvailable();
 }
 
 function inputFile() {
