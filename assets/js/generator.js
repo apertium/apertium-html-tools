@@ -3,7 +3,7 @@ var currentGeneratorRequest;
 
 /* exported getGenerators */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
-    localizeInterface, getLangByCode, sendEvent, restoreChoices, ajaxCallForAllModes */
+    localizeInterface, getLangByCode, sendEvent, restoreChoices, apyCall */
 /* global ENTER_KEY_CODE, THRESHOLD_REQUEST_LENGTH */
 
 if(modeEnabled('generation')) {

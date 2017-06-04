@@ -15,7 +15,7 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
-    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes, ajaxCallForAllModes */
+    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes, apyCall */
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, THRESHOLD_REQUEST_LENGTH */
 /* global $bu_getBrowser */
 
@@ -584,7 +584,15 @@ function translateText() {
             var methodType = (request.q.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET';
             var success = handleTranslateSuccessResponse;
             var error = translationNotAvailable;
-            apyCall(methodType, request, endpoint, success, error, 'textTranslateRequest');
+            //apyCall(methodType, request, endpoint, success, error, 'textTranslateRequest');
+            var translateObject = {
+                'methodType': methodType,
+                'request': request,
+                'success': success,
+                'error': error,
+                'requestName': 'textTranslateRequest'
+            };
+            apyCall(translateObject, endpoint);
         }
         else {
             translationNotAvailable();
