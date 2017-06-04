@@ -75,7 +75,6 @@ html[dir=rtl] .clearButton {
 }
 
 #backToTop {
-    display: none;
     position: fixed;
     z-index: 999;
     right: 20px;
