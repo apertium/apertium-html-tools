@@ -120,19 +120,9 @@ $(document).ready(function () {
         $('a[data-target=#' + $(this).attr('id') + ']').parents('li').removeClass('active');
     });
 
+    $('#backToTop').addClass('hide');
     $(window).scroll(function () {
-        /*if($(window).scrollTop() > BACK_TO_TOP_ACTIVATION_HEIGHT) {
-            $('#backToTop')
-                .removeClass('hidden-md hidden-lg')
-                .addClass('visible-md visible-lg');
-        }
-        else {
-            $('#backToTop')
-                .removeClass('visible-md visible-lg')
-                .addClass('hidden-md hidden-lg');
-        }*/
-        $backToTop = $('#backToTop');
-        ($(window).scrollTop() > BACK_TO_TOP_ACTIVATION_HEIGHT) ? $backToTop.show() : $backToTop.hide();
+        $('#backToTop').toggleClass('hide', $(window).scrollTop() < BACK_TO_TOP_ACTIVATION_HEIGHT);
     });
 
     $('#backToTop').click(function () {
