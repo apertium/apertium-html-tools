@@ -161,10 +161,9 @@ function analyze() {
     var request = {'lang': analyzerMode};
     request.dataInput = $('#morphAnalyzerInput').val();
     var methodType = (request.dataInput.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET';
-    var endpoint = '/analyze';
-    var callbackSuccess = handleAnalyzeSuccessResponse;
-    var callbackError = handleAnalyzeErrorResponse;
-    ajaxCallForAllModes(methodType, request, endpoint, callbackSuccess, callbackError, currentAnalyzerRequest);
+    var success = handleAnalyzeSuccessResponse;
+    var error = handleAnalyzeErrorResponse;
+    apyCall(methodType, request, '/analyze', success, error, 'currentAnalyzerRequest');
 }
 
 function handleAnalyzeSuccessResponse(data) {
