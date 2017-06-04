@@ -74,6 +74,22 @@ html[dir=rtl] .clearButton {
     left: 18px;
 }
 
+#backToTop {
+    position: fixed;
+    z-index: 999;
+    right: 20px;
+    bottom: 20px;
+    opacity: 0.5;
+}
+
+#backToTop:hover {
+    opacity: 1;
+}
+
+#backToTop .fa-arrow-up {
+    color: white;
+}
+
 /* Navbar */
 
 .apertiumBox {

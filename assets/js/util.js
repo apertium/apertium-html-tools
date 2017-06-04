@@ -7,7 +7,7 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
     XHR_LOADING = 3, XHR_DONE = 4;
 
-var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768;
+var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768, BACK_TO_TOP_ACTIVATION_HEIGHT = 300;
 
 function ajaxSend() {
     $('#loadingIndicator').show();
@@ -119,6 +119,19 @@ $(document).ready(function () {
     $('.modal').on('hide.bs.modal', function () {
         $('a[data-target=#' + $(this).attr('id') + ']').parents('li').removeClass('active');
     });
+
+    $('#backToTop').addClass('hide');
+    $(window).scroll(function () {
+        $('#backToTop').toggleClass('hide', $(window).scrollTop() < BACK_TO_TOP_ACTIVATION_HEIGHT);
+    });
+
+    $('#backToTop').click(function () {
+        $('html, body').animate({
+            scrollTop: 0
+        }, 'fast');
+        return false;
+    });
+
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
