@@ -3,7 +3,7 @@ var currentAnalyzerRequest;
 
 /* exported getAnalyzers */
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
-    cache, getLangByCode, filterLangList, allowedLang, sendEvent, ajaxCallForAllModes */
+    cache, getLangByCode, filterLangList, allowedLang, sendEvent, apyCall */
 /* global ENTER_KEY_CODE, THRESHOLD_REQUEST_LENGTH */
 
 if(modeEnabled('analyzation')) {

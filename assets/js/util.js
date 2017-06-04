@@ -1,6 +1,6 @@
 /* @flow */
-/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve */
-/* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
+/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, apyCall */
+/* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE, THRESHOLD_REQUEST_LENGTH */
 /* global config, persistChoices, iso639Codes, iso639CodesInverse */
 
 var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
@@ -243,7 +243,7 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-function apyCall(methodType, request, endpoint, success, error, requestName) {
+/*function apyCall(methodType, request, endpoint, success, error, requestName) {
     window[requestName] = $.ajax({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
@@ -261,6 +261,23 @@ function apyCall(methodType, request, endpoint, success, error, requestName) {
         error: function(xOptions, error) {
             error(xOptions, error);
         }
+    });
+}*/
+
+function apyCall(requestObject, endpoint) {
+    window[requestObject.requestName] = $.ajax({
+        url: config.APY_URL + endpoint,
+        beforeSend: ajaxSend,
+        complete: function () {
+            ajaxComplete();
+            window[requestObject.requestName] = undefined;
+        },
+        data: requestObject.request,
+        type: requestObject.methodType,
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        dataType: 'json',
+        success: requestObject.success,
+        error: requestObject.error
     });
 }
 
