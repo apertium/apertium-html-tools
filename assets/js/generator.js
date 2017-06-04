@@ -161,10 +161,9 @@ function generate() {
     var request = {'lang': generatorMode};
     request.dataInput = $('#morphGeneratorInput').val();
     var methodType = (request.dataInput.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET';
-    var endpoint = '/generate';
-    var callbackSuccess = handleGenerateSuccessResponse;
-    var callbackError = handleGenerateErrorResponse;
-    ajaxCallForAllModes(methodType, request, endpoint, callbackSuccess, callbackError, currentGeneratorRequest);
+    var success = handleGenerateSuccessResponse;
+    var error = handleGenerateErrorResponse;
+    apyCall(methodType, request, '/generate', success, error, 'currentGeneratorRequest');
 }
 
 function handleGenerateSuccessResponse(data) {

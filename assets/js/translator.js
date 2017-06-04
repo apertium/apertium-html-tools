@@ -582,9 +582,9 @@ function translateText() {
             request.q = $('#originalText').val(); // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             var methodType = (request.q.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET';
-            var callbackSuccess = handleTranslateSuccessResponse;
-            var callbackError = handleTranslateErrorResponse;
-            ajaxCallForAllModes(methodType, request, endpoint, callbackSuccess, callbackError,textTranslateRequest);
+            var success = handleTranslateSuccessResponse;
+            var error = translationNotAvailable;
+            apyCall(methodType, request, endpoint, success, error, 'textTranslateRequest');
         }
         else {
             translationNotAvailable();
@@ -600,10 +600,6 @@ function handleTranslateSuccessResponse(data) {
     else {
         translationNotAvailable();
     }
-}
-
-function handleTranslateErrorResponse(xOptions, error) {
-    translationNotAvailable();
 }
 
 function inputFile() {

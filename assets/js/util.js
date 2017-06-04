@@ -243,23 +243,23 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-function ajaxCallForAllModes(methodType, request, endpoint, callbackSuccess, callbackError, requestName) {
-    requestName = $.ajax({
+function apyCall(methodType, request, endpoint, success, error, requestName) {
+    window[requestName] = $.ajax({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
         complete: function () {
             ajaxComplete();
-            requestName = undefined;
+            window[requestName] = undefined;
         },
         data: request,
         type: methodType,
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         dataType: 'json',
         success: function (data) {
-            callbackSuccess(data);
+            success(data);
         },
         error: function(xOptions, error) {
-            callbackError(xOptions, error);
+            error(xOptions, error);
         }
     });
 }
