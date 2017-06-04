@@ -7,6 +7,7 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
     XHR_LOADING = 3, XHR_DONE = 4;
 
+<<<<<<< 9bd9d62096b4011a8731a9c205b02478aff9429a
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
@@ -44,6 +45,8 @@ if (typeof Object.assign != 'function') {
   };
 }
 /* eslint-enable */
+
+var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768, BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300;
 
 function ajaxSend() {
     $('#loadingIndicator').show();
