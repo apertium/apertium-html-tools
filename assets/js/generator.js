@@ -158,8 +158,10 @@ function generate() {
         currentGeneratorRequest.abort();
     }
 
-    var request = {'lang': generatorMode};
-    request['q'] = $('#morphGeneratorInput').val();
+    var request = {
+        'lang': generatorMode,
+        'q': $('#morphGeneratorInput').val()
+    };
     var generateObject = {
         'request': request,
         'success': handleGenerateSuccessResponse,
