@@ -252,7 +252,7 @@ function apyCall(requestObject, endpoint) {
             window[requestObject.requestName] = undefined;
         },
         data: requestObject.request,
-        type: (requestObject.request['q'].length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET',
+        type: (requestObject.request.q.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET',
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         dataType: 'json',
         success: requestObject.success,

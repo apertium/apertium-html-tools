@@ -158,8 +158,10 @@ function analyze() {
         currentAnalyzerRequest.abort();
     }
 
-    var request = {'lang': analyzerMode};
-    request['q'] = $('#morphAnalyzerInput').val();
+    var request = {
+        'lang': analyzerMode,
+        'q': $('#morphAnalyzerInput').val()
+    };
     var analyzeObject = {
         'request': request,
         'success': handleAnalyzeSuccessResponse,
