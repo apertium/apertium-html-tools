@@ -844,7 +844,8 @@ function autoSelectDstLang() {
     }
 }
 
-/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode, apyCall} from "./util.js" */
+/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode, 
+    apyCall} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
 /*:: import localizeInterface from "./localization.js" */
 /*:: import {readCache,cache} from "./cache.js" */
