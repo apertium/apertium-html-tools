@@ -4,7 +4,7 @@ var currentAnalyzerRequest;
 /* exported getAnalyzers */
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
     cache, getLangByCode, filterLangList, allowedLang, sendEvent, apyCall */
-/* global ENTER_KEY_CODE, THRESHOLD_REQUEST_LENGTH */
+/* global ENTER_KEY_CODE */
 
 if(modeEnabled('analyzation')) {
     $(document).ready(function () {
@@ -159,11 +159,14 @@ function analyze() {
     }
 
     var request = {'lang': analyzerMode};
-    request.dataInput = $('#morphAnalyzerInput').val();
-    var methodType = (request.dataInput.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET';
-    var success = handleAnalyzeSuccessResponse;
-    var error = handleAnalyzeErrorResponse;
-    apyCall(methodType, request, '/analyze', success, error, 'currentAnalyzerRequest');
+    request.q = $('#morphAnalyzerInput').val();
+    var analyzeObject = {
+        'request': request,
+        'success': handleAnalyzeSuccessResponse,
+        'error': handleAnalyzeErrorResponse,
+        'requestName': 'currentAnalyzerRequest'
+    };
+    apyCall(analyzeObject, '/analyze');
 }
 
 function handleAnalyzeSuccessResponse(data) {

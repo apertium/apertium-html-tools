@@ -4,7 +4,7 @@ var currentGeneratorRequest;
 /* exported getGenerators */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
     localizeInterface, getLangByCode, sendEvent, restoreChoices, apyCall */
-/* global ENTER_KEY_CODE, THRESHOLD_REQUEST_LENGTH */
+/* global ENTER_KEY_CODE */
 
 if(modeEnabled('generation')) {
     $(document).ready(function () {
@@ -159,11 +159,14 @@ function generate() {
     }
 
     var request = {'lang': generatorMode};
-    request.dataInput = $('#morphGeneratorInput').val();
-    var methodType = (request.dataInput.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET';
-    var success = handleGenerateSuccessResponse;
-    var error = handleGenerateErrorResponse;
-    apyCall(methodType, request, '/generate', success, error, 'currentGeneratorRequest');
+    request.q = $('#morphGeneratorInput').val();
+    var generateObject = {
+        'request': request,
+        'success': handleGenerateSuccessResponse,
+        'error': handleGenerateErrorResponse,
+        'requestName': 'currentGeneratorRequest'
+    };
+    apyCall(generateObject, '/generate');
 }
 
 function handleGenerateSuccessResponse(data) {
