@@ -252,7 +252,7 @@ function apyCall(requestObject, endpoint) {
             window[requestObject.requestName] = undefined;
         },
         data: requestObject.request,
-        type: (requestObject.request.q.length > THRESHOLD_REQUEST_LENGTH) ? 'POST': 'GET',
+        type: (requestObject.request['q'].length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET',
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         dataType: 'json',
         success: requestObject.success,
@@ -260,8 +260,9 @@ function apyCall(requestObject, endpoint) {
     });
 }
 
-/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, apyCall
-    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
+/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete} 
+/*:: export {filterLangList, onlyUnique, apyCall}
+/*:: export {SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
 
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */

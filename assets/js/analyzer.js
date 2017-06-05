@@ -159,7 +159,7 @@ function analyze() {
     }
 
     var request = {'lang': analyzerMode};
-    request.q = $('#morphAnalyzerInput').val();
+    request['q'] = $('#morphAnalyzerInput').val();
     var analyzeObject = {
         'request': request,
         'success': handleAnalyzeSuccessResponse,

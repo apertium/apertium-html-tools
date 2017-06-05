@@ -159,7 +159,7 @@ function generate() {
     }
 
     var request = {'lang': generatorMode};
-    request.q = $('#morphGeneratorInput').val();
+    request['q'] = $('#morphGeneratorInput').val();
     var generateObject = {
         'request': request,
         'success': handleGenerateSuccessResponse,
@@ -183,5 +183,5 @@ function handleGenerateSuccessResponse(data) {
 
 function handleGenerateErrorResponse(xOptions, error) {
     $('#morphGenOutput').text(error);
-    $('#morphGenOutput').removeClass('blurred');  
+    $('#morphGenOutput').removeClass('blurred');
 }
