@@ -1,6 +1,6 @@
 /* @flow */
 /* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, apyCall */
-/* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE, THRESHOLD_REQUEST_LENGTH */
+/* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
 /* global config, persistChoices, iso639Codes, iso639CodesInverse */
 
 var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
@@ -243,27 +243,6 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-/*function apyCall(methodType, request, endpoint, success, error, requestName) {
-    window[requestName] = $.ajax({
-        url: config.APY_URL + endpoint,
-        beforeSend: ajaxSend,
-        complete: function () {
-            ajaxComplete();
-            window[requestName] = undefined;
-        },
-        data: request,
-        type: methodType,
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        dataType: 'json',
-        success: function (data) {
-            success(data);
-        },
-        error: function(xOptions, error) {
-            error(xOptions, error);
-        }
-    });
-}*/
-
 function apyCall(requestObject, endpoint) {
     window[requestObject.requestName] = $.ajax({
         url: config.APY_URL + endpoint,
@@ -273,7 +252,7 @@ function apyCall(requestObject, endpoint) {
             window[requestObject.requestName] = undefined;
         },
         data: requestObject.request,
-        type: requestObject.methodType,
+        type: (requestObject.request.q.length > THRESHOLD_REQUEST_LENGTH) ? 'POST': 'GET',
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         dataType: 'json',
         success: requestObject.success,
@@ -281,8 +260,8 @@ function apyCall(requestObject, endpoint) {
     });
 }
 
-/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, ajaxCallForAllModes
-    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE, THRESHOLD_REQUEST_LENGTH} */
+/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, apyCall
+    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
 
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
