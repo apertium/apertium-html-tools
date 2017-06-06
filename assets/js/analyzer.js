@@ -3,7 +3,7 @@ var currentAnalyzerRequest;
 
 /* exported getAnalyzers */
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
-    cache, getLangByCode, filterLangList, allowedLang, sendEvent, apyCall */
+    cache, getLangByCode, filterLangList, allowedLang, sendEvent, callApy */
 /* global ENTER_KEY_CODE */
 
 if(modeEnabled('analyzation')) {
@@ -158,17 +158,15 @@ function analyze() {
         currentAnalyzerRequest.abort();
     }
 
-    var request = {
-        'lang': analyzerMode,
-        'q': $('#morphAnalyzerInput').val()
-    };
-    var analyzeObject = {
-        'request': request,
+    callApy({
+        'request': {
+            'lang': analyzerMode,
+            'q': $('#morphAnalyzerInput').val()
+        },
         'success': handleAnalyzeSuccessResponse,
         'error': handleAnalyzeErrorResponse,
         'requestName': 'currentAnalyzerRequest'
-    };
-    apyCall(analyzeObject, '/analyze');
+    }, '/analyze');
 }
 
 function handleAnalyzeSuccessResponse(data) {

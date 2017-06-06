@@ -3,7 +3,7 @@ var currentGeneratorRequest;
 
 /* exported getGenerators */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
-    localizeInterface, getLangByCode, sendEvent, restoreChoices, apyCall */
+    localizeInterface, getLangByCode, sendEvent, restoreChoices, callApy */
 /* global ENTER_KEY_CODE */
 
 if(modeEnabled('generation')) {
@@ -158,17 +158,15 @@ function generate() {
         currentGeneratorRequest.abort();
     }
 
-    var request = {
-        'lang': generatorMode,
-        'q': $('#morphGeneratorInput').val()
-    };
-    var generateObject = {
-        'request': request,
+    callApy({
+        'request': {
+            'lang': generatorMode,
+            'q': $('#morphGeneratorInput').val()
+        },
         'success': handleGenerateSuccessResponse,
         'error': handleGenerateErrorResponse,
         'requestName': 'currentGeneratorRequest'
-    };
-    apyCall(generateObject, '/generate');
+    }, '/generate');
 }
 
 function handleGenerateSuccessResponse(data) {

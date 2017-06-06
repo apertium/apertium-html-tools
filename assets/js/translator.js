@@ -15,7 +15,7 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
-    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes, apyCall */
+    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes, callApy */
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
 /* global $bu_getBrowser */
 
@@ -581,13 +581,12 @@ function translateText() {
             }
             request.q = $('#originalText').val(); // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
-            var translateObject = {
+            callApy({
                 'request': request,
                 'success': handleTranslateSuccessResponse,
                 'error': translationNotAvailable,
                 'requestName': 'textTranslateRequest'
-            };
-            apyCall(translateObject, endpoint);
+            }, endpoint);
         }
         else {
             translationNotAvailable();
@@ -845,7 +844,7 @@ function autoSelectDstLang() {
 }
 
 /*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode,
-    apyCall} from "./util.js" */
+    callApy} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
 /*:: import localizeInterface from "./localization.js" */
 /*:: import {readCache,cache} from "./cache.js" */
