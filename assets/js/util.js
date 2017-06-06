@@ -1,5 +1,5 @@
 /* @flow */
-/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, apyCall */
+/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy */
 /* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
 /* global config, persistChoices, iso639Codes, iso639CodesInverse */
 
@@ -7,8 +7,8 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
     XHR_LOADING = 3, XHR_DONE = 4;
 
-var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768;
-var THRESHOLD_REQUEST_LENGTH = 2000; // keep 48 charcters buffer for remaining params
+var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
+    THRESHOLD_REQUEST_LENGTH = 2000; // keep 48 charcters buffer for remaining params
 
 function ajaxSend() {
     $('#loadingIndicator').show();
@@ -243,7 +243,7 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-function apyCall(requestObject, endpoint) {
+function callApy(requestObject, endpoint) {
     window[requestObject.requestName] = $.ajax({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
@@ -261,7 +261,7 @@ function apyCall(requestObject, endpoint) {
 }
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete}
-/*:: export {filterLangList, onlyUnique, apyCall}
+/*:: export {filterLangList, onlyUnique, callApy}
 /*:: export {SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
 
 /*:: import {config} from "./config.js" */
