@@ -6,7 +6,6 @@
 }] */
 
 // eslint-disable-next-line func-style
-
 var Store = function (prefix/*: string*/)/*: void*/ {
     this.prefix = prefix;
 };
@@ -58,7 +57,7 @@ Store.prototype.clear = function ()/*: void*/ {
 
 Store.prototype.has = function (key/*: string*/)/*: bool*/ {
     return this.able() &&
-            (this.prefix + key) in window.localStorage;
+        (this.prefix + key) in window.localStorage;
 };
 
 Store.prototype.able = function ()/*: bool*/ {

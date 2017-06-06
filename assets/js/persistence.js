@@ -191,7 +191,7 @@ function restoreChoices(mode) {
 
             $('#morphAnalyzerInput').val(store.get('analyzerInput', ''));
         }
-        
+
         if(getURLParam('choice')) {
             var choice = getURLParam('choice').split('-');
             $('#primaryAnalyzerMode option[value="' + choice[0] + '"]').prop('selected', true);
