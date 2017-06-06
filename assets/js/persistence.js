@@ -247,6 +247,7 @@ function restoreChoices(mode) {
             $('#sandboxInput').val(store.get('sandboxInput', ''));
         }
     }
+
 }
 
 /*:: export {persistChoices, restoreChoices, cache, readCache} */
