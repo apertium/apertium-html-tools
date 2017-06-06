@@ -15,10 +15,8 @@ Store.prototype.get = function/*:: <T>*/ (key/*: string*/, fallback/*: T*/)/*: T
     if(fallback === undefined) {
         console.warn('Store.get with undefined fallback! Key:', key);
     }
-    if(navigator.cookieEnabled === true) {
-        if(!this.able()) {
-            return fallback;
-        }
+    if(!this.able()) {
+        return fallback;
     }
     var fromStorage = window.localStorage[this.prefix + key];
     if(fromStorage === undefined) {
@@ -43,36 +41,34 @@ Store.prototype.get = function/*:: <T>*/ (key/*: string*/, fallback/*: T*/)/*: T
 };
 
 Store.prototype.set = function/*:: <T>*/ (key/*: string*/, value/*: T*/)/*: void*/ {
-    if(navigator.cookieEnabled === true) {
-        if(this.able()) {
-            window.localStorage[this.prefix + key] = JSON.stringify(value);
-        }
+    if(this.able()) {
+        window.localStorage[this.prefix + key] = JSON.stringify(value);
     }
 };
 
 Store.prototype.clear = function ()/*: void*/ {
-    if(navigator.cookieEnabled === true) {
-        if(this.able()) {
-            for(var key in window.localStorage) {
-                if(key.startsWith(this.prefix)) {
-                    window.localStorage.removeItem(key);
-                }
+    if(this.able()) {
+        for(var key in window.localStorage) {
+            if(key.startsWith(this.prefix)) {
+                window.localStorage.removeItem(key);
             }
         }
     }
 };
 
 Store.prototype.has = function (key/*: string*/)/*: bool*/ {
-    if(navigator.cookieEnabled === true) {
-        return this.able() &&
+    return this.able() &&
             (this.prefix + key) in window.localStorage;
-    }
 };
 
-if(navigator.cookieEnabled === true) {
-    Store.prototype.able = function ()/*: bool*/ {
+Store.prototype.able = function ()/*: bool*/ {
+    try {
         return !!(window.localStorage);
-    };
-}
+    }
+    catch(e) {
+        console.warn('Cookies are disabled. Thus, unable to access localStorage.');
+        return false;
+    }
+};
 
 /*:: export {Store} */

@@ -32,53 +32,52 @@ function readCache(name, type) {
 }
 
 function persistChoices(mode, updatePermalink) {
-    if(navigator.cookieEnabled === true) {
-        if(store.able()) {
-            var objects;
-            if(mode === 'translator') {
-                objects = {
-                    'recentSrcLangs': recentSrcLangs,
-                    'recentDstLangs': recentDstLangs,
-                    'curSrcLang': curSrcLang,
-                    'curDstLang': curDstLang,
-                    'curSrcChoice': $('.srcLang.active').prop('id'),
-                    'curDstChoice': $('.dstLang.active').prop('id'),
-                    'translationInput': $('#originalText').val(),
-                    'instantTranslation': $('#instantTranslation').prop('checked'),
-                    'markUnknown': $('#markUnknown').prop('checked'),
-                    'chainedTranslation': $('#chainedTranslation').prop('checked')
-                };
-            }
-            else if(mode === 'analyzer') {
-                objects = {
-                    'primaryAnalyzerChoice': $('#primaryAnalyzerMode').val(),
-                    'secondaryAnalyzerChoice': $('#secondaryAnalyzerMode').val(),
-                    'analyzerInput': $('#morphAnalyzerInput').val()
-                };
-            }
-            else if(mode === 'generator') {
-                objects = {
-                    'primaryGeneratorChoice': $('#primaryGeneratorMode').val(),
-                    'secondaryGeneratorChoice': $('#secondaryGeneratorMode').val(),
-                    'generatorInput': $('#morphGeneratorInput').val()
-                };
-            }
-            else if(mode === 'localization') {
-                objects = {
-                    'locale': $('.localeSelect').val()
-                };
-            }
-            else if(mode === 'sandbox') {
-                objects = {
-                    'sandboxInput': $('#sandboxInput').val()
-                };
-            }
+    if(store.able()) {
+        var objects;
+        if(mode === 'translator') {
+            objects = {
+                'recentSrcLangs': recentSrcLangs,
+                'recentDstLangs': recentDstLangs,
+                'curSrcLang': curSrcLang,
+                'curDstLang': curDstLang,
+                'curSrcChoice': $('.srcLang.active').prop('id'),
+                'curDstChoice': $('.dstLang.active').prop('id'),
+                'translationInput': $('#originalText').val(),
+                'instantTranslation': $('#instantTranslation').prop('checked'),
+                'markUnknown': $('#markUnknown').prop('checked'),
+                'chainedTranslation': $('#chainedTranslation').prop('checked')
+            };
+        }
+        else if(mode === 'analyzer') {
+            objects = {
+                'primaryAnalyzerChoice': $('#primaryAnalyzerMode').val(),
+                'secondaryAnalyzerChoice': $('#secondaryAnalyzerMode').val(),
+                'analyzerInput': $('#morphAnalyzerInput').val()
+            };
+        }
+        else if(mode === 'generator') {
+            objects = {
+                'primaryGeneratorChoice': $('#primaryGeneratorMode').val(),
+                'secondaryGeneratorChoice': $('#secondaryGeneratorMode').val(),
+                'generatorInput': $('#morphGeneratorInput').val()
+            };
+        }
+        else if(mode === 'localization') {
+            objects = {
+                'locale': $('.localeSelect').val()
+            };
+        }
+        else if(mode === 'sandbox') {
+            objects = {
+                'sandboxInput': $('#sandboxInput').val()
+            };
+        }
 
-            for(var name in objects) {
-                store.set(name, objects[name]);
-            }
+        for(var name in objects) {
+            store.set(name, objects[name]);
         }
     }
+
     if(window.history.replaceState && parent.location.hash) {
         var hash = parent.location.hash,
             urlParams = [],
@@ -128,39 +127,36 @@ function persistChoices(mode, updatePermalink) {
 }
 
 function restoreChoices(mode) {
-    if(navigator.cookieEnabled === true) {
-        if(store.able() && getURLParam('reset').length > 0) {
-            store.clear();
-        }
+    if(store.able() && getURLParam('reset').length > 0) {
+        store.clear();
     }
 
     if(mode === 'translator') {
-        if(navigator.cookieEnabled === true) {
-            if(store.able()) {
-                recentSrcLangs = store.get('recentSrcLangs', recentSrcLangs);
-                recentDstLangs = store.get('recentDstLangs', recentDstLangs);
-                curSrcLang = store.get('curSrcLang', curSrcLang);
-                curDstLang = store.get('curDstLang', curDstLang);
-                if(store.has('recentSrcLangs') && isSubset(recentSrcLangs, srcLangs)) {
-                    $('.srcLang').removeClass('active');
-                    $('#srcLangSelect option[value=' + curSrcLang + ']').prop('selected', true);
-                    $('#' + store.get('curSrcChoice', 'srcLang1')).addClass('active');
-                    if(store.get('curSrcChoice', 'srcLang1') === 'detect') {
-                        $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
-                        $('#detectText').hide();
-                    }
+        if(store.able()) {
+            recentSrcLangs = store.get('recentSrcLangs', recentSrcLangs);
+            recentDstLangs = store.get('recentDstLangs', recentDstLangs);
+            curSrcLang = store.get('curSrcLang', curSrcLang);
+            curDstLang = store.get('curDstLang', curDstLang);
+            if(store.has('recentSrcLangs') && isSubset(recentSrcLangs, srcLangs)) {
+                $('.srcLang').removeClass('active');
+                $('#srcLangSelect option[value=' + curSrcLang + ']').prop('selected', true);
+                $('#' + store.get('curSrcChoice', 'srcLang1')).addClass('active');
+                if(store.get('curSrcChoice', 'srcLang1') === 'detect') {
+                    $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
+                    $('#detectText').hide();
                 }
-                if(store.has('recentDstLangs') && isSubset(recentDstLangs, dstLangs)) {
-                    $('.dstLang').removeClass('active');
-                    $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
-                    $('#' + store.get('curDstChoice', 'dstLang1')).addClass('active');
-                }
-                $('#originalText').val(store.get('translationInput', ''));
-                $('#instantTranslation').prop('checked', store.get('instantTranslation', true));
-                $('#markUnknown').prop('checked', store.get('markUnknown', false));
-                $('#chainedTranslation').prop('checked', store.get('chainedTranslation', false));
             }
+            if(store.has('recentDstLangs') && isSubset(recentDstLangs, dstLangs)) {
+                $('.dstLang').removeClass('active');
+                $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
+                $('#' + store.get('curDstChoice', 'dstLang1')).addClass('active');
+            }
+            $('#originalText').val(store.get('translationInput', ''));
+            $('#instantTranslation').prop('checked', store.get('instantTranslation', true));
+            $('#markUnknown').prop('checked', store.get('markUnknown', false));
+            $('#chainedTranslation').prop('checked', store.get('chainedTranslation', false));
         }
+
         if(getURLParam('dir')) {
             var pair = getURLParam('dir').split('-');
             pair[0] = iso639CodesInverse[pair[0]] ? iso639CodesInverse[pair[0]] : pair[0];
@@ -178,25 +174,24 @@ function restoreChoices(mode) {
         refreshLangList();
     }
     else if(mode === 'analyzer') {
-        if(navigator.cookieEnabled === true) {
-            if(store.able()) {
-                var primaryAnalyzerChoice = store.get('primaryAnalyzerChoice', ''),
-                    secondaryAnalyzerChoice = store.get('secondaryAnalyzerChoice', '');
-                if(primaryAnalyzerChoice && secondaryAnalyzerChoice) {
-                    $('#primaryAnalyzerMode option[value="' + primaryAnalyzerChoice + '"]').prop('selected', true);
-                    populateSecondaryAnalyzerList();
-                    $('#secondaryAnalyzerMode option[value="' + secondaryAnalyzerChoice + '"]').prop('selected', true);
-                }
-                else if(primaryAnalyzerChoice) {
-                    $('#primaryAnalyzerMode option[value="' + primaryAnalyzerChoice + '"]').prop('selected', true);
-                }
-                else {
-                    populateSecondaryAnalyzerList();
-                }
-
-                $('#morphAnalyzerInput').val(store.get('analyzerInput', ''));
+        if(store.able()) {
+            var primaryAnalyzerChoice = store.get('primaryAnalyzerChoice', ''),
+                secondaryAnalyzerChoice = store.get('secondaryAnalyzerChoice', '');
+            if(primaryAnalyzerChoice && secondaryAnalyzerChoice) {
+                $('#primaryAnalyzerMode option[value="' + primaryAnalyzerChoice + '"]').prop('selected', true);
+                populateSecondaryAnalyzerList();
+                $('#secondaryAnalyzerMode option[value="' + secondaryAnalyzerChoice + '"]').prop('selected', true);
             }
+            else if(primaryAnalyzerChoice) {
+                $('#primaryAnalyzerMode option[value="' + primaryAnalyzerChoice + '"]').prop('selected', true);
+            }
+            else {
+                populateSecondaryAnalyzerList();
+            }
+
+            $('#morphAnalyzerInput').val(store.get('analyzerInput', ''));
         }
+        
         if(getURLParam('choice')) {
             var choice = getURLParam('choice').split('-');
             $('#primaryAnalyzerMode option[value="' + choice[0] + '"]').prop('selected', true);
@@ -211,21 +206,19 @@ function restoreChoices(mode) {
         }
     }
     else if(mode === 'generator') {
-        if(navigator.cookieEnabled === true) {
-            if(store.able()) {
-                var primaryGeneratorChoice = store.get('primaryGeneratorChoice', ''),
-                    secondaryGeneratorChoice = store.get('secondaryGeneratorChoice', '');
-                if(store.has('primaryGeneratorChoice') && store.has('secondaryGeneratorChoice')) {
-                    $('#primaryGeneratorMode option[value="' + primaryGeneratorChoice + '"]').prop('selected', true);
-                    populateSecondaryGeneratorList();
-                    $('#secondaryGeneratorMode option[value="' + secondaryGeneratorChoice + '"]').prop('selected', true);
-                }
-                else {
-                    populateSecondaryGeneratorList();
-                }
-
-                $('#morphGeneratorInput').val(store.get('generatorInput', ''));
+        if(store.able()) {
+            var primaryGeneratorChoice = store.get('primaryGeneratorChoice', ''),
+                secondaryGeneratorChoice = store.get('secondaryGeneratorChoice', '');
+            if(store.has('primaryGeneratorChoice') && store.has('secondaryGeneratorChoice')) {
+                $('#primaryGeneratorMode option[value="' + primaryGeneratorChoice + '"]').prop('selected', true);
+                populateSecondaryGeneratorList();
+                $('#secondaryGeneratorMode option[value="' + secondaryGeneratorChoice + '"]').prop('selected', true);
             }
+            else {
+                populateSecondaryGeneratorList();
+            }
+
+            $('#morphGeneratorInput').val(store.get('generatorInput', ''));
         }
 
         if(getURLParam('choice')) {
@@ -242,20 +235,16 @@ function restoreChoices(mode) {
         }
     }
     else if(mode === 'localization') {
-        if(navigator.cookieEnabled === true) {
-            if(store.able()) {
-                locale = store.get('locale', '');
-                if(locale) {
-                    $('.localeSelect').val(locale);
-                }
+        if(store.able()) {
+            locale = store.get('locale', '');
+            if(locale) {
+                $('.localeSelect').val(locale);
             }
         }
     }
     else if(mode === 'sandbox') {
-        if(navigator.cookieEnabled === true) {
-            if(store.able()) {
-                $('#sandboxInput').val(store.get('sandboxInput', ''));
-            }
+        if(store.able()) {
+            $('#sandboxInput').val(store.get('sandboxInput', ''));
         }
     }
 }
