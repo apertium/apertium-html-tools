@@ -243,7 +243,7 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-function callApy(options, endpoint, requestName) {
+function callApy(options, endpoint) {
     return $.ajax(Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,

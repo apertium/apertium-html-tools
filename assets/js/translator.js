@@ -589,7 +589,7 @@ function translateText() {
                     ajaxComplete();
                     textTranslateRequest = undefined;
                 }
-            }, endpoint, 'textTranslateRequest');
+            }, endpoint);
         }
         else {
             translationNotAvailable();

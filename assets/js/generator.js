@@ -169,7 +169,7 @@ function generate() {
             ajaxComplete();
             currentGeneratorRequest = undefined;
         }
-    }, '/generate', 'currentGeneratorRequest');
+    }, '/generate');
 }
 
 function handleGenerateSuccessResponse(data) {

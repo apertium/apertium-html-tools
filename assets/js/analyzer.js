@@ -169,7 +169,7 @@ function analyze() {
             ajaxComplete();
             currentAnalyzerRequest = undefined;
         }
-    }, '/analyze', 'currentAnalyzerRequest');
+    }, '/analyze');
 }
 
 function handleAnalyzeSuccessResponse(data) {
