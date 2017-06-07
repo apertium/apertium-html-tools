@@ -17,6 +17,7 @@ Store.prototype.get = function/*:: <T>*/ (key/*: string*/, fallback/*: T*/)/*: T
     if(!this.able()) {
         return fallback;
     }
+
     var fromStorage = window.localStorage[this.prefix + key];
     if(fromStorage === undefined) {
         return fallback;
@@ -66,7 +67,8 @@ Store.prototype.able = function ()/*: bool*/ {
     }
     catch(e) {
         if(e.name === 'SecurityError') {
-            console.warn('Cookies disabled. Unable to access local browser storage.');
+            // Firefox and Chrome disable LocalStorage simultaneously with cookies and
+            // throw a SecurityError on an attempt to use it.
             return false;
         }
         else {
