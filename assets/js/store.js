@@ -65,7 +65,13 @@ Store.prototype.able = function ()/*: bool*/ {
         return !!(window.localStorage);
     }
     catch(e) {
-
+        if(e.name === 'SecurityError' ) {
+            console.warn('Cookies disabled. Unable to access local browser storage.');
+            return false;
+        }
+        else {
+            throw e;
+        }
     }
 };
 
