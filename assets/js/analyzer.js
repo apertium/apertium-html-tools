@@ -158,7 +158,7 @@ function analyze() {
         currentAnalyzerRequest.abort();
     }
 
-    callApy({
+    currentAnalyzerRequest = callApy({
         data: {
             'lang': analyzerMode,
             'q': $('#morphAnalyzerInput').val()
