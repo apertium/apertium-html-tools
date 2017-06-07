@@ -159,14 +159,17 @@ function analyze() {
     }
 
     callApy({
-        'request': {
+        data: {
             'lang': analyzerMode,
             'q': $('#morphAnalyzerInput').val()
         },
-        'success': handleAnalyzeSuccessResponse,
-        'error': handleAnalyzeErrorResponse,
-        'requestName': 'currentAnalyzerRequest'
-    }, '/analyze');
+        success: handleAnalyzeSuccessResponse,
+        error: handleAnalyzeErrorResponse,
+        complete: function() {
+            ajaxComplete();
+            currentAnalyzerRequest = undefined;
+        }
+    }, '/analyze', 'currentAnalyzerRequest');
 }
 
 function handleAnalyzeSuccessResponse(data) {

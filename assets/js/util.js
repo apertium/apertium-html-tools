@@ -243,21 +243,16 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-function callApy(options, endpoint) {
-    window[options.requestName] = $.ajax({
+function callApy(options, endpoint, requestName) {
+    var callApyObject = Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
-        complete: function () {
-            ajaxComplete();
-            window[options.requestName] = undefined;
-        },
-        data: options.request,
-        type: (options.request.q.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET',
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        dataType: 'json',
-        success: options.success,
-        error: options.error
-    });
+        dataType: 'json'
+    }, options);
+
+    callApyObject.type = (callApyObject.data.q.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET';
+    window[requestName] = $.ajax(callApyObject);
 }
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete}
