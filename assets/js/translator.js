@@ -581,7 +581,7 @@ function translateText() {
             }
             request.q = $('#originalText').val(); // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
-            callApy({
+            textTranslateRequest = callApy({
                 data: request,
                 success: handleTranslateSuccessResponse,
                 error: translationNotAvailable,

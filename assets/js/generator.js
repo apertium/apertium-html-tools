@@ -158,7 +158,7 @@ function generate() {
         currentGeneratorRequest.abort();
     }
 
-    callApy({
+    currentGeneratorRequest = callApy({
         data: {
             'lang': generatorMode,
             'q': $('#morphGeneratorInput').val()

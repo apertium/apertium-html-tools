@@ -244,15 +244,13 @@ function synchronizeTextareaHeights() {
 }
 
 function callApy(options, endpoint, requestName) {
-    var callApyObject = Object.assign({
+    return $.ajax(Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        dataType: 'json'
-    }, options);
-
-    callApyObject.type = (callApyObject.data.q.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET';
-    window[requestName] = $.ajax(callApyObject);
+        dataType: 'json',
+        type: (options.data.q.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET'
+    }, options));
 }
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete}
