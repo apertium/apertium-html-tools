@@ -582,11 +582,14 @@ function translateText() {
             request.q = $('#originalText').val(); // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             callApy({
-                'request': request,
-                'success': handleTranslateSuccessResponse,
-                'error': translationNotAvailable,
-                'requestName': 'textTranslateRequest'
-            }, endpoint);
+                data: request,
+                success: handleTranslateSuccessResponse,
+                error: translationNotAvailable,
+                complete: function() {
+                    ajaxComplete();
+                    textTranslateRequest = undefined;
+                }
+            }, endpoint, 'textTranslateRequest');
         }
         else {
             translationNotAvailable();

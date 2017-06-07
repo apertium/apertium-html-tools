@@ -159,14 +159,17 @@ function generate() {
     }
 
     callApy({
-        'request': {
+        data: {
             'lang': generatorMode,
             'q': $('#morphGeneratorInput').val()
         },
-        'success': handleGenerateSuccessResponse,
-        'error': handleGenerateErrorResponse,
-        'requestName': 'currentGeneratorRequest'
-    }, '/generate');
+        success: handleGenerateSuccessResponse,
+        error: handleGenerateErrorResponse,
+        complete: function() {
+            ajaxComplete();
+            currentGeneratorRequest = undefined;
+        }
+    }, '/generate', 'currentGeneratorRequest');
 }
 
 function handleGenerateSuccessResponse(data) {
