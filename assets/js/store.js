@@ -62,26 +62,11 @@ Store.prototype.has = function (key/*: string*/)/*: bool*/ {
 
 Store.prototype.able = function ()/*: bool*/ {
     try {
-        throwLocalStorageNotAccessibleError();
         return !!(window.localStorage);
     }
     catch(e) {
-        if(e.name === 'localStorageNotAccessibleError') {
-            console.warn(e.message);
-            return false;
-        }
-        else {
-            console.warn('Some exception has occurred while loading the page.');
-            throw e;
-        }
+
     }
 };
-
-function throwLocalStorageNotAccessibleError() {
-    throw {
-        'name': 'localStorageNotAccessibleError',
-        'message': 'Cookies are disabled. Thus, unable to access localStorage.'
-    };
-}
 
 /*:: export {Store} */
