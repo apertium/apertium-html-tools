@@ -531,5 +531,9 @@
             <div class="lead text-warning well well-sm" data-text="Enable_JS_Warning"></div>
             <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" style="border: 0;" alt=""></p></noscript>
         </div>
+        <div class="info-message well" style="margin: 8px; padding: 8px;">
+          <h4 style="margin: 0px; padding: 0px;">Inconvenience<i class="fa fa-times pull-right"></i></h4>
+          <p>We are highly sorry for the inconvenience caused but our server appears loaded now. Please try again later. <br/> In order to set apertium locally, please refer to <a href = "http://wiki.apertium.org/wiki/Apertium-apy" target="_blank"> this </a> link.
+        </div>
     </body>
 </html>

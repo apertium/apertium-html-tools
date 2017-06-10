@@ -74,6 +74,22 @@ html[dir=rtl] .clearButton {
     left: 18px;
 }
 
+.info-message {
+    display: none;
+    width: 360px;
+    height: 100px;
+    font-size: 12px;
+    z-index: 9999999;
+    top: 20px;
+    right: 20px;
+    position: fixed;
+    border: 8px solid #FFF;
+}
+
+.info-message .fa-times:hover{
+    cursor: pointer;
+}
+
 /* Navbar */
 
 .apertiumBox {

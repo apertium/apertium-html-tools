@@ -244,49 +244,63 @@ function synchronizeTextareaHeights() {
 }
 
 function callApy(options, endpoint) {
+    var startTime = new Date().getTime();
     var requestOptions = Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
     }, options);
 
-    if(options.data.q.length > THRESHOLD_REQUEST_LENGTH) {
-        requestOptions.type = 'POST';
-        return $.ajax(requestOptions);
-    }
-    else {
-        return $.jsonp(requestOptions);
-    }
+    var endTime = new Date().getTime();
+    checkServiceLoadTimes(endTime - startTime);
+    return $.jsonp(requestOptions);
+
 }
 
-function callApy(options, endpoint) {
-    var callApyObject = Object.assign({
-        url: config.APY_URL + endpoint,
-        beforeSend: ajaxSend,
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
-    }, options);
-    //alert(window.location.href);
-    var urlName = window.location.protocol + window.location.hostname + window.location.pathname + '?'; //+ window.location.pathname;
-    urlName += $.param(callApyObject['data']);
-    alert(urlName);
-    //for(var key in callApyObject[data]) {
-    //    urlName += (key + ''
-    //}
-    //urlName.concat($.param(callApyObject['data']));
-    //alert($.param(callApyObject['data']));
-    //var requestLength = 0;
-    //traverseObject(callApyObject);
-}
+function checkServiceLoadTimes(timeTaken) {
+    var individualThreshold = 2000;
+    var cumulativeThreshold = 1500;
 
-function traverseObject(obj) {
-    for(var key in obj) {
-        if(typeof obj[key] === 'object') {
-            traverseObject(obj[key]);
+    if(store.able()) {
+        if(sessionStorage.numberCalls) {
+            sessionStorage.numberCalls = Number(sessionStorage.numberCalls) + 1;
         }
         else {
-            alert('The value is: ' + key + ' ' + obj[key]);
+            sessionStorage.numberCalls = 1;
         }
-    }
+
+        if(sessionStorage.cumulativeTime) {
+            sessionStorage.cumulativeTime = Number(sessionStorage.cumulativeTime) + timeTaken;
+        }
+        else {
+            sessionStorage.cumulativeTime = timeTaken;
+        }
+
+        var averageLoadTime = (sessionStorage.cumulativeTime) / (sessionStorage.numberCalls);
+
+        if(timeTaken > individualThreshold || averageLoadTime > cumulativeThreshold) {
+            displayNotification();
+        }
+        if(averageLoadTime < 10000) {
+            displayNotification();
+        }
+    } 
+}
+
+function displayNotification() {
+    var durationOfMessage = 10000;
+    $(function() {
+        $('.info-message').fadeIn('slow').delay(durationOfMessage).fadeOut('slow');
+        $('.fa-times').click( function() {
+            $('.info-message').fadeOut('fast');
+        });
+        $('.info-message').mouseover( function() {
+            $(this).stop(true);
+        })
+        .mouseout( function() {
+            $(this).animate().delay(durationOfMessage).fadeOut('slow');
+        });
+    });
 }
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete}
