@@ -8,7 +8,7 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     XHR_LOADING = 3, XHR_DONE = 4;
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
-    THRESHOLD_REQUEST_LENGTH = 2048;
+    THRESHOLD_REQUEST_LENGTH = 2000; // keep 48 characters buffer for remaining params
 
 function ajaxSend() {
     $('#loadingIndicator').show();
