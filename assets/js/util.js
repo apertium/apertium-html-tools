@@ -244,13 +244,49 @@ function synchronizeTextareaHeights() {
 }
 
 function callApy(options, endpoint) {
-    return $.ajax(Object.assign({
+    var requestOptions = Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        dataType: 'json',
-        type: (options.data.q.length > THRESHOLD_REQUEST_LENGTH) ? 'POST' : 'GET'
-    }, options));
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+    }, options);
+
+    if(options.data.q.length > THRESHOLD_REQUEST_LENGTH) {
+        requestOptions.type = 'POST';
+        return $.ajax(requestOptions);
+    }
+    else {
+        return $.jsonp(requestOptions);
+    }
+}
+
+function callApy(options, endpoint) {
+    var callApyObject = Object.assign({
+        url: config.APY_URL + endpoint,
+        beforeSend: ajaxSend,
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+    }, options);
+    //alert(window.location.href);
+    var urlName = window.location.protocol + window.location.hostname + window.location.pathname + '?'; //+ window.location.pathname;
+    urlName += $.param(callApyObject['data']);
+    alert(urlName);
+    //for(var key in callApyObject[data]) {
+    //    urlName += (key + ''
+    //}
+    //urlName.concat($.param(callApyObject['data']));
+    //alert($.param(callApyObject['data']));
+    //var requestLength = 0;
+    //traverseObject(callApyObject);
+}
+
+function traverseObject(obj) {
+    for(var key in obj) {
+        if(typeof obj[key] === 'object') {
+            traverseObject(obj[key]);
+        }
+        else {
+            alert('The value is: ' + key + ' ' + obj[key]);
+        }
+    }
 }
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete}
