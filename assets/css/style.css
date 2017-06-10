@@ -74,7 +74,7 @@ html[dir=rtl] .clearButton {
     left: 18px;
 }
 
-.info-message {
+#unobtrusiveWarning {
     display: none;
     width: 360px;
     height: 100px;
@@ -84,10 +84,17 @@ html[dir=rtl] .clearButton {
     right: 20px;
     position: fixed;
     border: 8px solid #FFF;
+    margin: 8px;
+    padding: 8px;
 }
 
-.info-message .fa-times:hover{
+#unobtrusiveWarning .fa-times:hover {
     cursor: pointer;
+}
+
+#unobtrusiveWarningTitle {
+    margin: 0px;
+    padding: 0px;
 }
 
 /* Navbar */

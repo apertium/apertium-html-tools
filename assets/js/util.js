@@ -8,7 +8,7 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     XHR_LOADING = 3, XHR_DONE = 4;
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
-    THRESHOLD_REQUEST_LENGTH = 2000; // keep 48 charcters buffer for remaining params
+    THRESHOLD_REQUEST_LENGTH = 2048;
 
 function ajaxSend() {
     $('#loadingIndicator').show();
@@ -120,6 +120,8 @@ $(document).ready(function () {
     $('.modal').on('hide.bs.modal', function () {
         $('a[data-target=#' + $(this).attr('id') + ']').parents('li').removeClass('active');
     });
+
+    $('#unobtrusiveWarning').addClass('hide');
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
@@ -244,17 +246,22 @@ function synchronizeTextareaHeights() {
 }
 
 function callApy(options, endpoint) {
-    var startTime = new Date().getTime();
     var requestOptions = Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
     }, options);
 
+    var urlForRequest = window.location.protocol + window.location.hostname + window.location.pathname + '?';
+    urlForRequest += $.param(requestOptions['data']);
+    var startTime = new Date().getTime();
+    if(urlForRequest.length > THRESHOLD_REQUEST_LENGTH) {
+        requestOptions.type = 'POST';
+        return $.ajax(requestOptions);
+    }
     var endTime = new Date().getTime();
-    checkServiceLoadTimes(endTime - startTime);
+    checkServiceLoadTimes(endTime - startTime); //for demo, implementation changes on merging GET v/s POST
     return $.jsonp(requestOptions);
-
 }
 
 function checkServiceLoadTimes(timeTaken) {
@@ -279,27 +286,34 @@ function checkServiceLoadTimes(timeTaken) {
         var averageLoadTime = (sessionStorage.cumulativeTime) / (sessionStorage.numberCalls);
 
         if(timeTaken > individualThreshold || averageLoadTime > cumulativeThreshold) {
-            displayNotification();
+            displayUnobtrusiveWarning();
         }
         if(averageLoadTime < 10000) {
-            displayNotification();
+            displayUnobtrusiveWarning();
         }
     } 
 }
 
-function displayNotification() {
+function displayUnobtrusiveWarning() {
     var durationOfMessage = 10000;
     $(function() {
-        $('.info-message').fadeIn('slow').delay(durationOfMessage).fadeOut('slow');
-        $('.fa-times').click( function() {
-            $('.info-message').fadeOut('fast');
+        $('#unobtrusiveWarning').removeClass('hide');
+        $('#unobtrusiveWarning').fadeIn('slow').delay(durationOfMessage).fadeOut('slow', hideUnobtrusiveWarning);
+        $('#unobtrusiveWarning .fa-times').click( function() {
+            $('#unobtrusiveWarning').fadeOut('fast', hideUnobtrusiveWarning);
         });
-        $('.info-message').mouseover( function() {
+        $('#unobtrusiveWarning').mouseover( function() {
             $(this).stop(true);
         })
         .mouseout( function() {
-            $(this).animate().delay(durationOfMessage).fadeOut('slow');
+            $(this).animate().delay(durationOfMessage).fadeOut('slow', hideUnobtrusiveWarning);
         });
+    });
+}
+
+function hideUnobtrusiveWarning() {
+    $(function() {
+        $('#unobtrusiveWarning').addClass('hide');
     });
 }
 
