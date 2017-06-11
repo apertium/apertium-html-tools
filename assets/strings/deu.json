@@ -3,17 +3,23 @@
         "authors": [
             "roybaer"
         ],
-        "last-updated": "2016-03-28",
+        "last-updated": "2014-12-03",
         "locale": [
             "de",
             "deu"
         ],
-        "completion": "100% 113.91%",
-        "missing": []
+        "completion": " 89%  96.72%",
+        "missing": [
+            "Download_Browser_Warning",
+            "Mark_Unknown_Words",
+            "Multi_Step_Translation",
+            "Supported_Formats",
+            "Translate_Webpage",
+            "description"
+        ]
     },
     "title": "Apertium | Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "tagline": "Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
-    "description": "Apertium ist eine Plattform für regelbasierte maschinelle Übersetzungen. Es ist freie Software und wurde unter den Bedingungen der GNU General Public License veröffentlicht.",
     "Translation": "Übersetzung",
     "Translation_Help": "Wählen Sie zwei Sprachen und übersetzen Sie Ihren Text mit Apertiums Übersetzungsplattform!",
     "Translate": "Übersetzen",
@@ -28,9 +34,6 @@
     "File_Too_Large": "Die Datei ist zu groß!",
     "Cancel": "Abbrechen",
     "Format_Not_Supported": "Format wird nicht unterstützt!",
-    "Translate_Webpage": "Eine Webseite übersetzen",
-    "Supported_Formats": "Unterstützte Formate: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 und neuer). <br/><i>.doc-Dateien von Word 97 und PDFs werden nicht unterstützt.</i>",
-    "Download_Browser_Warning": "Ihr Browser lädt Dateien möglicherweise nicht korrekt herunter. Speichern Sie den Link entweder per Rechtsklick unter dem richtigen Dateinamen oder öffnen Sie diese Seite in <a href=\"https://www.mozilla.org/firefox/\">Firefox</a>.",
     "Download_File": "{{fileName}} herunterladen",
     "Morphological_Analysis": "Morphologische Analyse",
     "Morphological_Analysis_Help": "Wählen Sie eine Sprache und analysieren Sie Ihren Text mit Apertiums morphologischen Analysierern.",
