@@ -219,15 +219,13 @@ function filterLangList(langs/*: Array<string>*/, filterFn/*: (lang: string) => 
     }
 }
 
-/* eslint-disable */
 function getURLParam(name) {
-    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+    var regexS = '[\\?&]' + name + '=([^&#]*)';
     var regex = new RegExp(regexS);
     var results = regex.exec(window.location.href);
-    return results === null ? "" : results[1];
+    return results === null ? '' : results[1];
 }
-/* eslint-enable */
 
 // eslint-disable-next-line id-blacklist
 function onlyUnique(value, index, self) {

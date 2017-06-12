@@ -28,7 +28,7 @@ function getDynamicLocalization(stringKey) {
         return globalLocale;
     }
     else {
-        return dynamicLocalizations['fallback'][stringKey];
+        return dynamicLocalizations.fallback[stringKey];
     }
 }
 
