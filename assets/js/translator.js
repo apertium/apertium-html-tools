@@ -15,7 +15,7 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
-    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes */
+    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes, callApy */
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
 /* global $bu_getBrowser */
 
@@ -585,29 +585,29 @@ function translateText() {
             }
             request.q = $('#originalText').val(); // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
-            textTranslateRequest = $.jsonp({
-                url: config.APY_URL + endpoint,
-                beforeSend: ajaxSend,
-                complete: function () {
+            textTranslateRequest = callApy({
+                data: request,
+                success: handleTranslateSuccessResponse,
+                error: translationNotAvailable,
+                complete: function() {
                     ajaxComplete();
                     textTranslateRequest = undefined;
-                },
-                data: request,
-                success: function (data) {
-                    if(data.responseStatus === HTTP_OK_CODE) {
-                        $('#translatedText').val(data.responseData.translatedText);
-                        $('#translatedText').removeClass('notAvailable text-danger');
-                    }
-                    else {
-                        translationNotAvailable();
-                    }
-                },
-                error: translationNotAvailable
-            });
+                }
+            }, endpoint);
         }
         else {
             translationNotAvailable();
         }
+    }
+}
+
+function handleTranslateSuccessResponse(data) {
+    if(data.responseStatus === HTTP_OK_CODE) {
+        $('#translatedText').val(data.responseData.translatedText);
+        $('#translatedText').removeClass('notAvailable text-danger');
+    }
+    else {
+        translationNotAvailable();
     }
 }
 
@@ -850,7 +850,8 @@ function autoSelectDstLang() {
     }
 }
 
-/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode} from "./util.js" */
+/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode,
+    callApy} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
 /*:: import localizeInterface from "./localization.js" */
 /*:: import {readCache,cache} from "./cache.js" */

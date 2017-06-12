@@ -3,7 +3,7 @@ var currentGeneratorRequest;
 
 /* exported getGenerators */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
-    localizeInterface, getLangByCode, sendEvent, restoreChoices */
+    localizeInterface, getLangByCode, sendEvent, restoreChoices, callApy */
 /* global ENTER_KEY_CODE */
 
 if(modeEnabled('generation')) {
@@ -158,31 +158,33 @@ function generate() {
         currentGeneratorRequest.abort();
     }
 
-    currentGeneratorRequest = $.jsonp({
-        url: config.APY_URL + '/generate',
-        beforeSend: ajaxSend,
-        complete: function () {
-            ajaxComplete();
-            currentGeneratorRequest = undefined;
-        },
+    currentGeneratorRequest = callApy({
         data: {
             'lang': generatorMode,
             'q': $('#morphGeneratorInput').val()
         },
-        success: function (data) {
-            $('#morphGenOutput').empty();
-            for(var i = 0; i < data.length; i++) {
-                var div = $('<div data-toggle="tooltip" data-placement="auto" data-html="true"></div>');
-                var strong = $('<strong></strong>').text(data[i][1].trim());
-                var span = $('<span></span>').html('&nbsp;&nbsp;&#8620;&nbsp;&nbsp;' + data[i][0]);
-                div.append(strong).append(span);
-                $('#morphGenOutput').append(div);
-            }
-            $('#morphGenOutput').removeClass('blurred');
-        },
-        error: function (xOptions, error) {
-            $('#morphGenOutput').text(error);
-            $('#morphGenOutput').removeClass('blurred');
+        success: handleGenerateSuccessResponse,
+        error: handleGenerateErrorResponse,
+        complete: function() {
+            ajaxComplete();
+            currentGeneratorRequest = undefined;
         }
-    });
+    }, '/generate');
+}
+
+function handleGenerateSuccessResponse(data) {
+    $('#morphGenOutput').empty();
+    for(var i = 0; i < data.length; i++) {
+        var div = $('<div data-toggle="tooltip" data-placement="auto" data-html="true"></div>');
+        var strong = $('<strong></strong>').text(data[i][1].trim());
+        var span = $('<span></span>').html('&nbsp;&nbsp;&#8620;&nbsp;&nbsp;' + data[i][0]);
+        div.append(strong).append(span);
+        $('#morphGenOutput').append(div);
+    }
+    $('#morphGenOutput').removeClass('blurred');
+}
+
+function handleGenerateErrorResponse(xOptions, error) {
+    $('#morphGenOutput').text(error);
+    $('#morphGenOutput').removeClass('blurred');
 }

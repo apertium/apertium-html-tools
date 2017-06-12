@@ -1,5 +1,5 @@
 /* @flow */
-/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve */
+/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy */
 /* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
 /* global config, persistChoices, iso639Codes, iso639CodesInverse */
 
@@ -7,7 +7,35 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
     XHR_LOADING = 3, XHR_DONE = 4;
 
-var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768, BACK_TO_TOP_ACTIVATION_HEIGHT = 300;
+var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
+    BACK_TO_TOP_ACTIVATION_HEIGHT = 300,
+    THRESHOLD_REQUEST_LENGTH = 2000; // keep 48 characters buffer for remaining params
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
+if (typeof Object.assign != 'function') {
+  Object.assign = function(target, varArgs) { // .length of function is 2
+    'use strict';
+    if (target == null) { // TypeError if undefined or null
+      throw new TypeError('Cannot convert undefined or null to object');
+    }
+
+    var to = Object(target);
+
+    for (var index = 1; index < arguments.length; index++) {
+      var nextSource = arguments[index];
+
+      if (nextSource != null) { // Skip over if undefined or null
+        for (var nextKey in nextSource) {
+          // Avoid bugs when hasOwnProperty is shadowed
+          if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+            to[nextKey] = nextSource[nextKey];
+          }
+        }
+      }
+    }
+    return to;
+  };
+}
 
 function ajaxSend() {
     $('#loadingIndicator').show();
@@ -253,8 +281,26 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique,
-    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
+function callApy(options, endpoint) {
+    var requestOptions = Object.assign({
+        url: config.APY_URL + endpoint,
+        beforeSend: ajaxSend,
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+    }, options);
+
+    var urlForRequest = window.location.protocol + window.location.hostname + window.location.pathname + '?';
+    urlForRequest += $.param(requestOptions['data']);
+
+    if(urlForRequest.length > THRESHOLD_REQUEST_LENGTH) {
+        requestOptions.type = 'POST';
+        return $.ajax(requestOptions);
+    }
+    return $.jsonp(requestOptions);
+}
+
+/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete}
+/*:: export {filterLangList, onlyUnique, callApy}
+/*:: export {SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
 
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
