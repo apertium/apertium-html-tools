@@ -41,7 +41,6 @@
 		"space-before-blocks": "error",
 		"space-in-parens": "error",
 		"space-infix-ops": "error",
-		"spaced-comment": "error",
 		"yoda": "error",
 		"eqeqeq": ["error", "smart"],
 		"func-style": ["error", "declaration"],
