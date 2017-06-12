@@ -589,7 +589,7 @@ function translateText() {
                 data: request,
                 success: handleTranslateSuccessResponse,
                 error: translationNotAvailable,
-                complete: function() {
+                complete: function () {
                     ajaxComplete();
                     textTranslateRequest = undefined;
                 }

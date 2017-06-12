@@ -165,7 +165,7 @@ function analyze() {
         },
         success: handleAnalyzeSuccessResponse,
         error: handleAnalyzeErrorResponse,
-        complete: function() {
+        complete: function () {
             ajaxComplete();
             currentAnalyzerRequest = undefined;
         }

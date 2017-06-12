@@ -8,10 +8,11 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     XHR_LOADING = 3, XHR_DONE = 4;
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
-    BACK_TO_TOP_ACTIVATION_HEIGHT = 300,
-    THRESHOLD_REQUEST_LENGTH = 2000; // keep 48 characters buffer for remaining params
+    BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
+    THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
 
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
+// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
+/* eslint-disable */
 if (typeof Object.assign != 'function') {
   Object.assign = function(target, varArgs) { // .length of function is 2
     'use strict';
@@ -36,6 +37,7 @@ if (typeof Object.assign != 'function') {
     return to;
   };
 }
+/* eslint-enable */
 
 function ajaxSend() {
     $('#loadingIndicator').show();
@@ -150,7 +152,7 @@ $(document).ready(function () {
 
     $('#backToTop').addClass('hide');
     $(window).scroll(function () {
-        $('#backToTop').toggleClass('hide', $(window).scrollTop() < BACK_TO_TOP_ACTIVATION_HEIGHT);
+        $('#backToTop').toggleClass('hide', $(window).scrollTop() < BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT);
     });
 
     $('#backToTop').click(function () {
@@ -288,19 +290,18 @@ function callApy(options, endpoint) {
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
     }, options);
 
-    var urlForRequest = window.location.protocol + window.location.hostname + window.location.pathname + '?';
-    urlForRequest += $.param(requestOptions['data']);
+    var requestUrl = window.location.protocol + window.location.hostname +
+        window.location.pathname + '?' + $.param(requestOptions.data);
 
-    if(urlForRequest.length > THRESHOLD_REQUEST_LENGTH) {
+    if(requestUrl.length > THRESHOLD_REQUEST_URL_LENGTH) {
         requestOptions.type = 'POST';
         return $.ajax(requestOptions);
     }
     return $.jsonp(requestOptions);
 }
 
-/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete}
-/*:: export {filterLangList, onlyUnique, callApy}
-/*:: export {SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
+/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
+    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
 
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */

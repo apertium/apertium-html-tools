@@ -165,7 +165,7 @@ function generate() {
         },
         success: handleGenerateSuccessResponse,
         error: handleGenerateErrorResponse,
-        complete: function() {
+        complete: function () {
             ajaxComplete();
             currentGeneratorRequest = undefined;
         }
