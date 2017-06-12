@@ -418,10 +418,10 @@ function refreshLangList(resetDetect) {
     }
 
     if($('#detectedText').parent('.srcLang').attr('data-code')) {
-        $('#detectedText')
-            .text(getLangByCode($('#detectedText')
-            .parent('.srcLang')
-            .attr('data-code')) + ' - ' + getDynamicLocalization('detected'));
+        $('#detectedText').text(
+            getLangByCode($('#detectedText').parent('.srcLang').attr('data-code')) +
+            ' - ' + getDynamicLocalization('detected')
+        );
     }
 
     if(resetDetect) {
@@ -479,9 +479,11 @@ function populateTranslationList() {
             if(numSrcLang < srcLangs.length) {
                 var langCode = srcLangs[j], langName = getLangByCode(langCode);
                 $('#srcLanguages .languageCol:eq(' + i + ')')
-                    .append($('<div class="languageName"></div>')
-                    .attr('data-code', langCode)
-                    .text(langName));
+                    .append(
+                        $('<div class="languageName"></div>')
+                            .attr('data-code', langCode)
+                            .text(langName)
+                    );
             }
         }
     }
@@ -492,9 +494,11 @@ function populateTranslationList() {
             if(numDstLang < dstLangs.length) {
                 langCode = dstLangs[j], langName = getLangByCode(langCode);
                 $('#dstLanguages .languageCol:eq(' + i + ')')
-                    .append($('<div class="languageName"></div>')
-                    .attr('data-code', langCode)
-                    .text(langName));
+                    .append(
+                        $('<div class="languageName"></div>')
+                            .attr('data-code', langCode)
+                            .text(langName)
+                    );
             }
         }
     }
@@ -611,7 +615,7 @@ function inputFile() {
     if($('input#fileInput')[0].files.length > 0 && $('input#fileInput')[0].files[0].length !== 0) {
         return $('input#fileInput')[0].files[0];
     }
-    return undefined;           // like droppedFile
+    return undefined; // like droppedFile
 }
 
 function translateDoc() {
@@ -624,7 +628,7 @@ function translateDoc() {
         else {
             // Keep in sync with accept attribute of input#fileInput:
             var allowedMimeTypes = [
-                '',               // epiphany-browser gives this instead of a real MIME type
+                '', // epiphany-browser gives this instead of a real MIME type
                 'text/plain', 'text/html',
                 'text/rtf', 'application/rtf',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
