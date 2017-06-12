@@ -3,7 +3,7 @@ var currentAnalyzerRequest;
 
 /* exported getAnalyzers */
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
-    cache, getLangByCode, filterLangList, allowedLang, sendEvent, callApy */
+    cache, getLangByCode, filterLangList, allowedLang, sendEvent, callApy, callApyDuration */
 /* global ENTER_KEY_CODE */
 
 if(modeEnabled('analyzation')) {
@@ -165,8 +165,9 @@ function analyze() {
         },
         success: handleAnalyzeSuccessResponse,
         error: handleAnalyzeErrorResponse,
-        complete: function() {
+        complete: function () {
             ajaxComplete();
+            callApyDuration();
             currentAnalyzerRequest = undefined;
         }
     }, '/analyze');

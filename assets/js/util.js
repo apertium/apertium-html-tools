@@ -1,5 +1,5 @@
 /* @flow */
-/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy */
+/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy, callApyDuration */
 /* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
 /* global config, persistChoices, iso639Codes, iso639CodesInverse */
 
@@ -8,7 +8,38 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     XHR_LOADING = 3, XHR_DONE = 4;
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
-    THRESHOLD_REQUEST_LENGTH = 2048;
+    BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
+    THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
+
+var callApyStartTime, callApyEndTime;
+
+// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
+/* eslint-disable */
+if (typeof Object.assign != 'function') {
+  Object.assign = function(target, varArgs) { // .length of function is 2
+    'use strict';
+    if (target == null) { // TypeError if undefined or null
+      throw new TypeError('Cannot convert undefined or null to object');
+    }
+
+    var to = Object(target);
+
+    for (var index = 1; index < arguments.length; index++) {
+      var nextSource = arguments[index];
+
+      if (nextSource != null) { // Skip over if undefined or null
+        for (var nextKey in nextSource) {
+          // Avoid bugs when hasOwnProperty is shadowed
+          if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+            to[nextKey] = nextSource[nextKey];
+          }
+        }
+      }
+    }
+    return to;
+  };
+}
+/* eslint-enable */
 
 function ajaxSend() {
     $('#loadingIndicator').show();
@@ -121,6 +152,18 @@ $(document).ready(function () {
         $('a[data-target=#' + $(this).attr('id') + ']').parents('li').removeClass('active');
     });
 
+    $('#backToTop').addClass('hide');
+    $(window).scroll(function () {
+        $('#backToTop').toggleClass('hide', $(window).scrollTop() < BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT);
+    });
+
+    $('#backToTop').click(function () {
+        $('html, body').animate({
+            scrollTop: 0
+        }, 'fast');
+        return false;
+    });
+
     $('#unobtrusiveWarning').addClass('hide');
 });
 
@@ -209,15 +252,13 @@ function filterLangList(langs/*: Array<string>*/, filterFn/*: (lang: string) => 
     }
 }
 
-/* eslint-disable */
 function getURLParam(name) {
-    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+    var regexS = '[\\?&]' + name + '=([^&#]*)';
     var regex = new RegExp(regexS);
     var results = regex.exec(window.location.href);
-    return results === null ? "" : results[1];
+    return results === null ? '' : results[1];
 }
-/* eslint-enable */
 
 // eslint-disable-next-line id-blacklist
 function onlyUnique(value, index, self) {
@@ -246,59 +287,64 @@ function synchronizeTextareaHeights() {
 }
 
 function callApy(options, endpoint) {
+    var requestType;
     var requestOptions = Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
     }, options);
 
-    var urlForRequest = window.location.protocol + window.location.hostname + window.location.pathname + '?';
-    urlForRequest += $.param(requestOptions['data']);
-    var startTime = new Date().getTime();
-    if(urlForRequest.length > THRESHOLD_REQUEST_LENGTH) {
+    var requestUrl = window.location.protocol + window.location.hostname +
+        window.location.pathname + '?' + $.param(requestOptions.data);
+
+    callApyStartTime = Date.now();
+    if(requestUrl.length > THRESHOLD_REQUEST_URL_LENGTH) {
         requestOptions.type = 'POST';
         return $.ajax(requestOptions);
     }
-    var endTime = new Date().getTime();
-    checkServiceLoadTimes(endTime - startTime); //for demo, implementation changes on merging GET v/s POST
     return $.jsonp(requestOptions);
 }
 
-function checkServiceLoadTimes(timeTaken) {
-    var individualThreshold = 2000;
-    var cumulativeThreshold = 1500;
+function callApyDuration() {
+    callApyEndTime = Date.now();
+    checkServiceLoadTimes(callApyEndTime - callApyStartTime);
+}
 
+function checkServiceLoadTimes(requestDuration) {
+    var individualDurationThreshold = 2000;
+    var cumulativeDurationThreshold = 1500;
+    var demoThreshold = 10000; // for demo purposes only
     if(store.able()) {
-        if(sessionStorage.numberCalls) {
-            sessionStorage.numberCalls = Number(sessionStorage.numberCalls) + 1;
+        if(sessionStorage.requestsMade) {
+            sessionStorage.requestsMade = Number(sessionStorage.requestsMade) + 1;
         }
         else {
-            sessionStorage.numberCalls = 1;
+            requestsMade = 1;
         }
 
-        if(sessionStorage.cumulativeTime) {
-            sessionStorage.cumulativeTime = Number(sessionStorage.cumulativeTime) + timeTaken;
+        if(sessionStorage.cumulativeRequestsTime) {
+            sessionStorage.cumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime) + requestDuration;
         }
         else {
-            sessionStorage.cumulativeTime = timeTaken;
+            sessionStorage.cumulativeRequestsTime = requestDuration;
         }
 
-        var averageLoadTime = (sessionStorage.cumulativeTime) / (sessionStorage.numberCalls);
+        var averageRequestsTime = (sessionStorage.cumulativeRequestsTime) / (sessionStorage.requestsMade);
 
-        if(timeTaken > individualThreshold || averageLoadTime > cumulativeThreshold) {
+        if(requestDuration > individualDurationThreshold || averageRequestsTime > cumulativeDurationThreshold) {
             displayUnobtrusiveWarning();
         }
-        if(averageLoadTime < 10000) {
+        if(averageRequestsTime < demoThreshold) { // for demonstration , will remove it later
             displayUnobtrusiveWarning();
         }
     } 
 }
 
 function displayUnobtrusiveWarning() {
-    var durationOfMessage = 10000;
+    var messageDuration = 10000;
     $(function() {
         $('#unobtrusiveWarning').removeClass('hide');
-        $('#unobtrusiveWarning').fadeIn('slow').delay(durationOfMessage).fadeOut('slow', hideUnobtrusiveWarning);
+        $('#unobtrusiveWarning').fadeIn('slow').delay(messageDuration).fadeOut('slow', hideUnobtrusiveWarning);
         $('#unobtrusiveWarning .fa-times').click( function() {
             $('#unobtrusiveWarning').fadeOut('fast', hideUnobtrusiveWarning);
         });
@@ -317,9 +363,8 @@ function hideUnobtrusiveWarning() {
     });
 }
 
-/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete}
-/*:: export {filterLangList, onlyUnique, callApy}
-/*:: export {SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
+/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
+    callApyDuration, SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
 
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
