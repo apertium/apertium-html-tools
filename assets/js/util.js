@@ -1,5 +1,6 @@
 /* @flow */
-/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy */
+/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve,
+   callApy, callApyDuration */
 /* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
 /* global config, persistChoices, iso639Codes, iso639CodesInverse */
 
@@ -10,6 +11,8 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
+
+var callApyStartTime, callApyEndTime;
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -293,6 +296,7 @@ function callApy(options, endpoint) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
+    callApyStartTime = Date.now();
     if(requestUrl.length > THRESHOLD_REQUEST_URL_LENGTH) {
         requestOptions.type = 'POST';
         return $.ajax(requestOptions);
@@ -300,8 +304,66 @@ function callApy(options, endpoint) {
     return $.jsonp(requestOptions);
 }
 
+function callApyDuration() {
+    callApyEndTime = Date.now();
+    checkServiceLoadTimes(callApyEndTime - callApyStartTime);
+}
+
+function checkServiceLoadTimes(requestDuration) {
+    var individualDurationThreshold = 2000;
+    var cumulativeDurationThreshold = 1500;
+    var demoThreshold = 10000; // for demo purposes only
+    if(store.able()) {
+        if(sessionStorage.requestsMade) {
+            sessionStorage.requestsMade = Number(sessionStorage.requestsMade) + 1;
+        }
+        else {
+            sessionStorage.requestsMade = 1;
+        }
+
+        if(sessionStorage.cumulativeRequestsTime) {
+            sessionStorage.cumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime) + requestDuration;
+        }
+        else {
+            sessionStorage.cumulativeRequestsTime = requestDuration;
+        }
+
+        var averageRequestsDuration = (sessionStorage.cumulativeRequestsTime) / (sessionStorage.requestsMade);
+
+        if(requestDuration > individualDurationThreshold || averageRequestsDuration > cumulativeDurationThreshold) {
+            displayUnobtrusiveWarning();
+        }
+        if(averageRequestsTime < demoThreshold) { // for demonstration , will remove it later
+            displayUnobtrusiveWarning();
+        }
+    }
+}
+
+function displayUnobtrusiveWarning() {
+    var messageDuration = 10000;
+    $(function() {
+        $('#unobtrusiveWarning').removeClass('hide');
+        $('#unobtrusiveWarning').fadeIn('slow').delay(messageDuration).fadeOut('slow', hideUnobtrusiveWarning);
+        $('#unobtrusiveWarning .fa-times').click( function() {
+            $('#unobtrusiveWarning').fadeOut('fast', hideUnobtrusiveWarning);
+        });
+        $('#unobtrusiveWarning').mouseover( function() {
+            $(this).stop(true);
+        })
+        .mouseout( function() {
+            $(this).animate().delay(durationOfMessage).fadeOut('slow', hideUnobtrusiveWarning);
+        });
+    });
+}
+
+function hideUnobtrusiveWarning() {
+    $(function() {
+        $('#unobtrusiveWarning').addClass('hide');
+    });
+}
+
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
-    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
+    callApyDuration, SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
 
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
