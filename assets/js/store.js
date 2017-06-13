@@ -73,7 +73,7 @@ Store.prototype.able = function ()/*: bool*/ {
         else {
             throw e;
         }
-    } 
+    }
 };
 
 /*:: export {Store} */
