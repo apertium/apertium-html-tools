@@ -531,9 +531,10 @@
             <div class="lead text-warning well well-sm" data-text="Enable_JS_Warning"></div>
             <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" style="border: 0;" alt=""></p></noscript>
         </div>
+        <button class="btn btn-default hidden-sm hidden-xs" id="backToTop"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
         <div id="unobtrusiveWarning" class="well hidden-xs hidden-sm">
           <h4 id="unobtrusiveWarningTitle" data-text="Unobtrusive_Title"></h4><i class="fa fa-times pull-right"></i>
           <p data-text="Unobtrusive_Warning"></p>.
-        </div>
+        </div>        
     </body>
 </html>
