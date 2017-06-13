@@ -333,7 +333,7 @@ function checkServiceLoadTimes(requestDuration) {
         if(requestDuration > individualDurationThreshold || averageRequestsDuration > cumulativeDurationThreshold) {
             displayUnobtrusiveWarning();
         }
-        if(averageRequestsTime < demoThreshold) { // for demonstration , will remove it later
+        if(averageRequestsDuration < demoThreshold) { // for demonstration , will remove it later
             displayUnobtrusiveWarning();
         }
     }
@@ -351,7 +351,7 @@ function displayUnobtrusiveWarning() {
             $(this).stop(true);
         })
         .mouseout( function() {
-            $(this).animate().delay(durationOfMessage).fadeOut('slow', hideUnobtrusiveWarning);
+            $(this).animate().delay(messageDuration).fadeOut('slow', hideUnobtrusiveWarning);
         });
     });
 }
