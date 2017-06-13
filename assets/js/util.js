@@ -165,6 +165,8 @@ $(document).ready(function () {
         return false;
     });
 
+    $('#unobtrusiveWarning').addClass('hide');
+
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
