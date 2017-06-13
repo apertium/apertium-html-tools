@@ -61,7 +61,19 @@ Store.prototype.has = function (key/*: string*/)/*: bool*/ {
 };
 
 Store.prototype.able = function ()/*: bool*/ {
-    return !!(window.localStorage);
+    try {
+        return !!(window.localStorage);
+    }
+    catch(e) {
+        if(e.name === 'SecurityError') {
+            // Firefox and Chrome disable LocalStorage simultaneously with cookies and
+            // throw a SecurityError on an attempt to use it.
+            return false;
+        }
+        else {
+            throw e;
+        }
+    }
 };
 
 /*:: export {Store} */
