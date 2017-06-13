@@ -64,7 +64,5 @@
     "Contact": "Contactar",
     "Documentation": "Documentación",
     "About_Apertium": "Acerca de Apertium",
-    "Apertium_Downloads": "Descargas de Apertium",
-    "Unobtrusive_Title": "Inconveniencia",
-    "Unobtrusive_Warning": "Somos altamente tristes para la inconveniencia causada pero nuestro servidor aparece cargado ahora. Para poner apertium localmente, complacer referir a esto <a href='http://wiki.apertium.org/wiki/Apertium-apy' target='_blank'> enlace</a>."
+    "Apertium_Downloads": "Descargas de Apertium"
 }
