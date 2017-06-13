@@ -336,7 +336,7 @@ function checkServiceLoadTimes(requestDuration) {
         if(averageRequestsTime < demoThreshold) { // for demonstration , will remove it later
             displayUnobtrusiveWarning();
         }
-    } 
+    }
 }
 
 function displayUnobtrusiveWarning() {

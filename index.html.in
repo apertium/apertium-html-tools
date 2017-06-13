@@ -535,6 +535,6 @@
         <div id="unobtrusiveWarning" class="well hidden-xs hidden-sm">
           <h4 id="unobtrusiveWarningTitle" data-text="Unobtrusive_Title"></h4><i class="fa fa-times pull-right"></i>
           <p data-text="Unobtrusive_Warning"></p>.
-        </div>        
+        </div>
     </body>
 </html>
