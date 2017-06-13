@@ -17,6 +17,7 @@ Store.prototype.get = function/*:: <T>*/ (key/*: string*/, fallback/*: T*/)/*: T
     if(!this.able()) {
         return fallback;
     }
+
     var fromStorage = window.localStorage[this.prefix + key];
     if(fromStorage === undefined) {
         return fallback;
