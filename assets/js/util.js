@@ -11,7 +11,8 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
 
-var apyRequestStartTime, apyRequestEndTime;
+var apyRequestStartTime, apyRequestEndTime, prevApyRequestStartTime, 
+    thresholdGapBetweenRequests = 50000; // to be changed later
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -47,8 +48,12 @@ function ajaxSend() {
 
 function ajaxComplete() {
     $('#loadingIndicator').hide();
-    apyRequestStartTime = Date.now();
-    checkServiceLoadTimes(apyRequestStartTime - apyRequestStartTime);
+    apyRequestEndTime = Date.now();
+    if(apyRequestStartTime - prevApyRequestStartTime > thresholdGapBetweenRequests) {
+        clearSessionStorage();
+    }
+    prevApyRequestStartTime = apyRequestStartTime;
+    checkServiceLoadTimes(apyRequestEndTime - apyRequestStartTime);
 }
 
 $(document).ajaxSend(ajaxSend);
@@ -311,31 +316,17 @@ function checkServiceLoadTimes(requestDuration) {
     var individualDurationThreshold = 2000;
     var cumulativeDurationThreshold = 1500;
     var demoThreshold = 10000; // for demo purposes only
-    if(store.able()) {
-        /*if(sessionStorage.requestsMade) {
-            sessionStorage.requestsMade = Number(sessionStorage.requestsMade) + 1;
-        }
-        else {
-            sessionStorage.requestsMade = 1;
-        }
+    try {
+        window.sessionStorage;
 
-        if(sessionStorage.cumulativeRequestsTime) {
-            sessionStorage.cumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime) + requestDuration;
-        }
-        else {
-            sessionStorage.cumulativeRequestsTime = requestDuration;
-        }*/
-        if(!sessionStorage.requestsMade) {
-            sessionStorage.requestsMade = 0;
-        }
-        sessionStorage.requestsMade = Number(sessionStorage.requestsMade) + 1;
+        var oldRequestsMade = Number(sessionStorage.requestsMade);
+        sessionStorage.requestsMade = oldRequestsMade ? oldRequestsMade + 1 : 1;
 
-        if(!sessionStorage.cumulativeRequestsTime) {
-            sessionStorage.cumulativeRequestsTime = 0;
-        }
-        sessionStorage.cumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime) + requestDuration;
+        var oldCumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime);
+        sessionStorage.cumulativeRequestsTime = oldCumulativeRequestsTime ? oldCumulativeRequestsTime + requestDuration : requestDuration;
+
         alert(sessionStorage.cumulativeRequestsTime + ' ' + sessionStorage.requestsMade);
-        var averageRequestsDuration = (sessionStorage.cumulativeRequestsTime) / (sessionStorage.requestsMade);
+        var averageRequestsDuration = (Number(sessionStorage.cumulativeRequestsTime) / Number(sessionStorage.requestsMade));
 
         if(requestDuration > individualDurationThreshold || averageRequestsDuration > cumulativeDurationThreshold) {
             displayUnobtrusiveWarning();
@@ -343,6 +334,25 @@ function checkServiceLoadTimes(requestDuration) {
         if(averageRequestsDuration < demoThreshold) { // for demonstration , will remove it later
             displayUnobtrusiveWarning();
         }
+    }
+    catch(e) {
+        if(e.name === 'SecurityError') {
+            console.warn('Session Storage not available');
+        }
+        else throw e;
+    }
+}
+
+function clearSessionStorage() {
+    try {
+        window.sessionStorage;
+        sessionStorage.clear();
+    }
+    catch(e) {
+        if(e.name === 'SecurityError') {
+            console.warn('Session Storage not available');
+        }
+        else throw e;
     }
 }
 
