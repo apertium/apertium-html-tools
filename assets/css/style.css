@@ -90,7 +90,7 @@ html[dir=rtl] .clearButton {
     color: white;
 }
 
-#unobtrusiveWarning {
+#installationNotice {
     display: none;
     width: 360px;
     height: 100px;
@@ -104,11 +104,11 @@ html[dir=rtl] .clearButton {
     padding: 8px;
 }
 
-#unobtrusiveWarning .fa-times:hover {
+#installationNotice .fa-times:hover {
     cursor: pointer;
 }
 
-#unobtrusiveWarningTitle {
+#installationNoticeTitle {
     margin: 0px;
     padding: 0px;
 }

@@ -3,7 +3,7 @@ var currentGeneratorRequest;
 
 /* exported getGenerators */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
-    localizeInterface, getLangByCode, sendEvent, restoreChoices, callApy, callApyDuration */
+    localizeInterface, getLangByCode, sendEvent, restoreChoices, callApy */
 /* global ENTER_KEY_CODE */
 
 if(modeEnabled('generation')) {
@@ -167,7 +167,6 @@ function generate() {
         error: handleGenerateErrorResponse,
         complete: function () {
             ajaxComplete();
-            callApyDuration();
             currentGeneratorRequest = undefined;
         }
     }, '/generate');
