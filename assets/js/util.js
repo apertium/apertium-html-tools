@@ -334,8 +334,7 @@ function checkServiceLoadTimes(requestDuration) {
             lastNRequestsDuration.push(requestDuration);
             sessionStorage.setItem('lastNRequestsDuration', JSON.stringify(lastNRequestsDuration));            
         }
-
-        alert(sessionStorage.cumulativeRequestsTime + ' ' + sessionStorage.requestsMade);
+        
         var averageRequestsDuration = (Number(sessionStorage.cumulativeRequestsTime) / Number(sessionStorage.requestsMade));
 
         if(requestDuration > individualDurationThreshold || averageRequestsDuration > cumulativeDurationThreshold) {
