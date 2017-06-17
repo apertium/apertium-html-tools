@@ -162,6 +162,8 @@ $(document).ready(function () {
         return false;
     });
 
+    adjustLanguageDropdown();
+    $(window).resize(adjustLanguageDropdown);
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
@@ -298,6 +300,11 @@ function callApy(options, endpoint) {
         return $.ajax(requestOptions);
     }
     return $.jsonp(requestOptions);
+}
+
+function adjustLanguageDropdown() {
+    alert('dropdown called');
+    
 }
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
