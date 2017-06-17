@@ -249,7 +249,7 @@ html[dir=rtl] #srcLanguages {
 
 #srcLangSelectors {
     z-index: 100;
-    width: 90%;
+    width: calc(100% - 50px);
 }
 
 @media(min-width: 768px) {
