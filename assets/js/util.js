@@ -164,7 +164,7 @@ $(document).ready(function () {
         return false;
     });
 
-    $('#originalText').mouseup( function() {
+    $('#originalText').mouseup(function () {
         if($('#originalText').height() < originalTextScrollHeight) {
             $('#originalText').css('overflow-y', 'scroll');
         }
