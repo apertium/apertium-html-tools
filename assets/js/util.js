@@ -11,8 +11,7 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
 
-var apyRequestStartTime, apyRequestEndTime, prevApyRequestStartTime, 
-    thresholdGapBetweenRequests = 50000; // to be changed later
+var apyRequestStartTime, apyRequestEndTime, lastNRequests = 10;
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -49,10 +48,6 @@ function ajaxSend() {
 function ajaxComplete() {
     $('#loadingIndicator').hide();
     apyRequestEndTime = Date.now();
-    if(apyRequestStartTime - prevApyRequestStartTime > thresholdGapBetweenRequests) {
-        clearSessionStorage();
-    }
-    prevApyRequestStartTime = apyRequestStartTime;
     checkServiceLoadTimes(apyRequestEndTime - apyRequestStartTime);
 }
 
@@ -315,6 +310,8 @@ function callApy(options, endpoint) {
 function checkServiceLoadTimes(requestDuration) {
     var individualDurationThreshold = 2000;
     var cumulativeDurationThreshold = 1500;
+    var lastNRequestsDuration = [];
+    var storedLastNRequestsDuration = [];
     var demoThreshold = 10000; // for demo purposes only
     try {
         window.sessionStorage;
@@ -325,6 +322,19 @@ function checkServiceLoadTimes(requestDuration) {
         var oldCumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime);
         sessionStorage.cumulativeRequestsTime = oldCumulativeRequestsTime ? oldCumulativeRequestsTime + requestDuration : requestDuration;
 
+        if(sessionStorage.requestsMade >= lastNRequests) {
+            sessionStorage.requestsMade = lastNRequests;
+            storedLastNRequestsDuration = JSON.parse(sessionStorage.getItem('lastNRequestsDuration'));
+            sessionStorage.cumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime) - storedLastNRequestsDuration[0]; // move the window
+            lastNRequestsDuration.shift();
+            lastNRequestsDuration.push(requestDuration);
+            sessionStorage.setItem('lastNRequestsDuration', JSON.stringify(lastNRequestsDuration));
+        }
+        else {
+            lastNRequestsDuration.push(requestDuration);
+            sessionStorage.setItem('lastNRequestsDuration', JSON.stringify(lastNRequestsDuration));            
+        }
+
         alert(sessionStorage.cumulativeRequestsTime + ' ' + sessionStorage.requestsMade);
         var averageRequestsDuration = (Number(sessionStorage.cumulativeRequestsTime) / Number(sessionStorage.requestsMade));
 
@@ -334,19 +344,6 @@ function checkServiceLoadTimes(requestDuration) {
         if(averageRequestsDuration < demoThreshold) { // for demonstration , will remove it later
             displayUnobtrusiveWarning();
         }
-    }
-    catch(e) {
-        if(e.name === 'SecurityError') {
-            console.warn('Session Storage not available');
-        }
-        else throw e;
-    }
-}
-
-function clearSessionStorage() {
-    try {
-        window.sessionStorage;
-        sessionStorage.clear();
     }
     catch(e) {
         if(e.name === 'SecurityError') {
