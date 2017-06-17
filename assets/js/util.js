@@ -162,9 +162,11 @@ $(document).ready(function () {
         return false;
     });
 
-    adjustLanguageDropdown();
-    $(window).resize(adjustLanguageDropdown);
+    adjustLanguageSelectorsDropdown();
+
 });
+
+$(window).resize(adjustLanguageSelectorsDropdown);
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
     var url = config.PIWIK_URL;
@@ -302,10 +304,14 @@ function callApy(options, endpoint) {
     return $.jsonp(requestOptions);
 }
 
-function adjustLanguageDropdown() {
-    alert('dropdown called');
-    
+function adjustLanguageSelectorsDropdown() {
+    var windowWidth = $(window).innerWidth();
+    var thresholdWindowWidth = 1000;
+    var offset = 180;
+    $('#dstLanguages').css('marginRight', windowWidth < thresholdWindowWidth ? '-' + offset + 'px' : '0px');
+    $('#srcLanguages').css('marginLeft', windowWidth < thresholdWindowWidth ? '-' + offset + 'px' : '0px');
 }
+
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
     SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
