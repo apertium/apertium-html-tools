@@ -119,8 +119,7 @@ $(document).ready(function () {
 
     resizeFooter();
     $(window)
-        .on('hashchange', persistChoices)
-        .resize(resizeFooter);
+        .on('hashchange', persistChoices);
 
     if(config.ALLOWED_LANGS) {
         var withIso = [];
@@ -164,9 +163,11 @@ $(document).ready(function () {
 
     adjustLanguageSelectorsDropdown();
 
+    $(window).resize(function () {
+        resizeFooter();
+        adjustLanguageSelectorsDropdown();
+    });
 });
-
-$(window).resize(adjustLanguageSelectorsDropdown);
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
     var url = config.PIWIK_URL;
