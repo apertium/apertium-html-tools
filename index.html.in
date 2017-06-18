@@ -138,7 +138,7 @@
                                               <span class="caret"></span>
                                               <span class="sr-only">Toggle Dropdown</span>
                                           </button>
-                                          <ul class="dropdown-menu pull-right" id="srcLanguages" role="menu">
+                                          <ul class="dropdown-menu" id="srcLanguages" role="menu">
                                               <li>
                                                   <div class="row">
                                                       <div class="languageCol"></div>
