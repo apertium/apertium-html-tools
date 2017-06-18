@@ -161,11 +161,9 @@ $(document).ready(function () {
         return false;
     });
 
-   // adjustLanguageSelectorsDropdown();
-
     $(window).resize(function () {
         resizeFooter();
-        //adjustLanguageSelectorsDropdown();
+        populateTranslationList();
     });
 });
 
@@ -305,18 +303,10 @@ function callApy(options, endpoint) {
     return $.jsonp(requestOptions);
 }
 
-function adjustLanguageSelectorsDropdown() {
-    var windowWidth = $(window).innerWidth();
-    var thresholdWindowWidth = 1000;
-    var offset = 180;
-    $('#dstLanguages').css('marginRight', windowWidth < thresholdWindowWidth ? '-' + offset + 'px' : '0px');
-    $('#srcLanguages').css('marginLeft', windowWidth < thresholdWindowWidth ? '-' + offset + 'px' : '0px');
-}
-
-
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
     SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
 
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
 /*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
+/*:: import {populateTranslationList} from "./translator.js" */
