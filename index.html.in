@@ -186,12 +186,12 @@
                                   <div class="col-sm-6">
                                       <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
                                   </div>
-                                  <div class="col-sm-6">
+                                  <div class="col-sm-3">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
                                           <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>
                                       </button>
                                   </div>
-                                  <div class="col-sm-6 pull-right">
+                                  <div class="col-lg-3 col-md-6  pull-right">
                                       <div class="checkbox" id="translateOptions">
                                           <label class="pull-right">
                                               <input type="checkbox" id="markUnknown" checked>
