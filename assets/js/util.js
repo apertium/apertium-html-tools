@@ -169,7 +169,6 @@ $(document).ready(function () {
             $('#originalText').css('overflow-y', 'scroll');
         }
     });
-
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
