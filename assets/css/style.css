@@ -90,6 +90,29 @@ html[dir=rtl] .clearButton {
     color: white;
 }
 
+#installationNotice {
+    display: none;
+    width: 360px;
+    height: 100px;
+    font-size: 12px;
+    z-index: 9999999;
+    top: 20px;
+    right: 20px;
+    position: fixed;
+    border: 8px solid #FFF;
+    margin: 8px;
+    padding: 8px;
+}
+
+#installationNotice .fa-times:hover {
+    cursor: pointer;
+}
+
+#installationNoticeTitle {
+    margin: 0px;
+    padding: 0px;
+}
+
 /* Navbar */
 
 .apertiumBox {
