@@ -534,7 +534,7 @@
         <button class="btn btn-default hidden-sm hidden-xs" id="backToTop"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
         <div id="installationNotice" class="well hidden-xs hidden-sm">
           <h4 id="installationNoticeTitle" data-text="Installation_Notice_Title"></h4><i class="fa fa-times pull-right"></i>
-          <p data-text="Installation_Notice"></p>.
+          <p data-text="Installation_Notice"></p>
         </div>
     </body>
 </html>
