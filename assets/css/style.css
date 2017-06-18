@@ -326,7 +326,25 @@ body {
     }
 }
 
-@media print { #footer { display: none; } }
+@media print {
+    #footer {
+        display: none;
+    }
+}
+
+#footer-container {
+    position: relative;
+}
+
+#version {
+    position: absolute;
+    right: 15px;
+    top: 40px;
+}
+
+#version:hover, #version:active, #version:focus {
+    text-decoration: none;
+}
 
 /* RTL Stuff */
 
