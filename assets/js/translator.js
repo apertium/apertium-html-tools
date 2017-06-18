@@ -461,8 +461,9 @@ function populateTranslationList() {
             ? Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS)
             : TRANSLATION_LIST_COLUMNS;
 
-    numSrcCols = $(window).width() < 1000 && numSrcCols === TRANSLATION_LIST_COLUMNS ? numSrcCols - 1 : numSrcCols;
-    numDstCols = $(window).width() < 1000 && numDstCols === TRANSLATION_LIST_COLUMNS ? numDstCols - 1 : numDstCols;
+    var thresholdWindowWidth = 1000;
+    numSrcCols = $(window).width() < thresholdWindowWidth && numSrcCols === TRANSLATION_LIST_COLUMNS ? numSrcCols - 1 : numSrcCols;
+    numDstCols = $(window).width() < thresholdWindowWidth && numDstCols === TRANSLATION_LIST_COLUMNS ? numDstCols - 1 : numDstCols;
 
     var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
         dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
