@@ -1,6 +1,4 @@
 version: '3'
-volumes:
-  html-tools:
 services:
   apy:
     build:
@@ -17,15 +15,14 @@ services:
     links:
       - apy
     volumes:
-      - html-tools:/root/apertium-html-tools
+      - .:/root/apertium-html-tools
   nginx:
     image: nginx
     ports:
       - 4545:80
     volumes:
-      - html-tools:/root/apertium-html-tools
+      - .:/root/apertium-html-tools
       - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
-      - apy
       - html-tools
-    command: /bin/bash -c "chmod -R a+rx /root && nginx -g 'daemon off;'"
+    command: /bin/bash -c "chmod a+rx /root && nginx -g 'daemon off;'"

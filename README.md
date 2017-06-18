@@ -38,6 +38,7 @@ For example, to run on locally on `http://localhost:8080` you can do the followi
 A completely local setup with language data and translation from Apertium, an APy
 instance, and Nginx to serve Html-tools is provided through [Docker](https://www.docker.com/).
 After installing Docker, simply run the following and check `http://localhost:4545`.
+Any changes to the local version of Html-tools will trigger a `make`.
 
     docker-compose up
 
