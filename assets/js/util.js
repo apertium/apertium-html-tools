@@ -161,11 +161,11 @@ $(document).ready(function () {
         return false;
     });
 
-    adjustLanguageSelectorsDropdown();
+   // adjustLanguageSelectorsDropdown();
 
     $(window).resize(function () {
         resizeFooter();
-        adjustLanguageSelectorsDropdown();
+        //adjustLanguageSelectorsDropdown();
     });
 });
 
