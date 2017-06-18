@@ -352,7 +352,7 @@
 
         <div id="footer">
             <div class="navbar-bottom hidden-xs">
-                <div class="container">
+                <div class="container" id="footer-container">
                     <ul class="nav nav-pills pull-left" style="display: inline-block;">
                         <li><a data-toggle="modal" data-target="#aboutModal" data-keyboard="true"><i class="fa fa-question-circle"></i> <span data-text="About">About</span></a></li>
                         <li><a data-toggle="modal" data-target="#downloadModal" data-keyboard="true"><i class="fa fa-download"></i> <span data-text="Download">Download</span></a></li>
@@ -363,6 +363,11 @@
                         <span data-text="Notice_Mistake">Notice a mistake?</span>
                         <a data-toggle="modal" data-target="#aboutModal" data-text="Help_Improve" data-keyboard="true" style="cursor: pointer">Help us improve Apertium!</a>
                     </div>
+                    <a id="version" class="text-muted hidden-sm hidden-xs" href="https://github.com/goavki/apertium-html-tools" target="_blank">
+                        <small>
+@include_version@
+                        </small>
+                    </a>
                 </div>
             </div>
 

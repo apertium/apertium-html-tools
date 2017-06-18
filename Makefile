@@ -115,7 +115,10 @@ build/.PIWIK_SITEID: $(CONFIG) tools/read-conf.py build/.d
 	./tools/read-conf.py -c $< get PIWIK_SITEID > $@
 
 build/index.localiseme.html: index.html.in build/prod-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID
-	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
+	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' \
+		-e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" \
+		-e "s%@include_version@%$(shell git describe --tags --always || '')%" \
+		$< > $@
 
 
 ## HTML localisation
