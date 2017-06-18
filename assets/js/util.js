@@ -319,10 +319,10 @@ function checkServiceLoadTimes(requestDuration) {
     catch(e) {
         if(e.name === 'SecurityError') {
             console.warn('Session Storage not available');
+            return;
         }
         else {
             throw e;
-            return;
         }
     }    
 
