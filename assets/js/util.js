@@ -11,6 +11,8 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
 
+var originalTextScrollHeight;
+
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
 if (typeof Object.assign != 'function') {
@@ -162,6 +164,9 @@ $(document).ready(function () {
         return false;
     });
 
+    $('#originalText').mouseup(function () {
+        $('#originalText').css('overflow-y', $('#originalText').height() < originalTextScrollHeight ? 'scroll' : 'hidden');
+    });
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
@@ -278,7 +283,7 @@ function synchronizeTextareaHeights() {
         'overflow-y': 'hidden',
         'height': 'auto'
     });
-    var originalTextScrollHeight = $('#originalText')[0].scrollHeight;
+    originalTextScrollHeight = $('#originalText')[0].scrollHeight;
     $('#originalText').css('height', originalTextScrollHeight + 'px');
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
