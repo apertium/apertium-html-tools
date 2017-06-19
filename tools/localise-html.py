@@ -111,6 +111,7 @@ def run(html_path, json_path, out_path, conf_path, fallback_path):
     with open(out_path, 'w') as out:
         out.write("".join(parser.output))
 
+
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser(description='Localise an HTML file using a json file from stdin')
     argparser.add_argument('template', help='HTML file to localise')

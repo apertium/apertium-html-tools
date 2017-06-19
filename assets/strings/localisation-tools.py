@@ -16,6 +16,7 @@ def dumpJSON(f, data):
 def loadJSON(f):
     return json.loads(f.read(), object_pairs_hook=OrderedDict)
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Manipulate localisation files', formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('actions', nargs='+', help="new/create: creates a new localisation file\n"
