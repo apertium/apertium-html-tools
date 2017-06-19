@@ -133,8 +133,6 @@ if(modeEnabled('translation')) {
             synchronizeTextareaHeights();
         });
 
-        //$(window).resize(synchronizeTextareaHeights);
-
         $('#originalText').blur(function () {
             persistChoices('translator', true);
         });
