@@ -116,7 +116,7 @@ $(document).ready(function () {
         $('#' + mode + 'Container').show({
             queue: false
         });
-        synchronizeTextareaHeights();
+        //synchronizeTextareaHeights();
     });
 
     resizeFooter();
