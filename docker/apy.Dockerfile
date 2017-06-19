@@ -56,16 +56,11 @@ ADD https://raw.githubusercontent.com/unhammer/apertium-get/master/apertium-get 
 RUN chmod +x apertium-get
 
 RUN apertium-get en-es
-RUN cd apertium-en-es && make install && ln -s /usr/local/share/apertium/apertium-en-es /usr/share/apertium/apertium-en-es
-
+RUN apertium-get kaz-tat
 RUN apertium-get nno-nob
-RUN cd apertium-nno && make install && ln -s /usr/local/share/apertium/apertium-nno /usr/share/apertium/apertium-nno
-RUN cd apertium-nob && make install && ln -s /usr/local/share/apertium/apertium-nob /usr/share/apertium/apertium-nob
-RUN cd apertium-nno-nob && make install && ln -s /usr/local/share/apertium/apertium-nno-nob /usr/share/apertium/apertium-nno-nob
 
 EXPOSE 2737
 CMD ["python3", \
-    "/root/apertium-apy/servlet.py", "/usr/local/share/apertium", \
-    "--lang-names", "/root/apertium-apy/langNames.db", \
-    "--nonpairs-path", "/source" \
+    "/root/apertium-apy/servlet.py", "/source", \
+    "--lang-names", "/root/apertium-apy/langNames.db" \
 ]
