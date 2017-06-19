@@ -165,9 +165,7 @@ $(document).ready(function () {
     });
 
     $('#originalText').mouseup(function () {
-        if($('#originalText').height() < originalTextScrollHeight) {
-            $('#originalText').css('overflow-y', 'scroll');
-        }
+        $('#originalText').css('overflow-y', $('#originalText').height() < originalTextScrollHeight ? 'scroll' : 'hidden');
     });
 });
 
