@@ -12,6 +12,7 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
 
 var originalTextScrollHeight;
+
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
 if (typeof Object.assign != 'function') {
@@ -164,7 +165,7 @@ $(document).ready(function () {
     });
 
     $('#originalText').mouseup(function () {
-        $('#originalText').css('overflow-y', $('$originalText').height() < originalTextScrollHeight ? 'scroll' : 'hidden');
+        $('#originalText').css('overflow-y', $('#originalText').height() < originalTextScrollHeight ? 'scroll' : 'hidden');
     });
 });
 
