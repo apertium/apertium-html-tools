@@ -50,6 +50,7 @@ function ajaxSend() {
 
 function ajaxComplete() {
     $('#loadingIndicator').hide();
+    checkServiceLoadTimes(Date.now() - apyRequestStartTime);
 }
 
 $(document).ajaxSend(ajaxSend);
@@ -299,6 +300,7 @@ function callApy(options, endpoint) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
+    apyRequestStartTime = Date.now();
     if(requestUrl.length > THRESHOLD_REQUEST_URL_LENGTH) {
         requestOptions.type = 'POST';
         return $.ajax(requestOptions);
