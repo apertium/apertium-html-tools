@@ -936,12 +936,12 @@ function translationNotAvailable() {
 function translationNotAvailableWebpage(data) {
     translationNotAvailable();
     var div = $('<div id="translatedWebpage" class="translatedWebpage"></div>');
-    div.text(dynamicLocalizations('Not_Available'));
+    div.text(dynamicLocalizations['Not_Available']);
     div.addClass('notAvailable text-danger');
     $('#translatedWebpage').replaceWith(div[0]);
     $('#translatedWebpage').append($('<div></div>').text(" "));
-    $('#translatedWebpage').append($('<div></div>').text(data.message));
-    $('#translatedWebpage').append($('<div></div>').text(data.explanation));
+    //$('#translatedWebpage').append($('<div></div>').text(data.message));
+    //$('#translatedWebpage').append($('<div></div>').text(data.explanation));
 }
 
 function muteLanguages() {
