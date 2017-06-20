@@ -11,6 +11,11 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
 
+var apyRequestStartTime, 
+    INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 10,
+    INDIVIDUAL_DURATION_THRESHOLD = 2000,
+    CUMULATIVE_DURATION_THRESHOLD = 1500;
+
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
 if (typeof Object.assign != 'function') {
@@ -162,6 +167,7 @@ $(document).ready(function () {
         return false;
     });
 
+    $('#installationNotice').addClass('hide');
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
@@ -298,6 +304,70 @@ function callApy(options, endpoint) {
         return $.ajax(requestOptions);
     }
     return $.jsonp(requestOptions);
+}
+
+function checkServiceLoadTimes(requestDuration) {
+    var lastNRequestsDuration = [];
+    var storedLastNRequestsDuration = [];
+    var demoThreshold = 10000; // for demo purposes only
+    try {
+        window.sessionStorage;
+    }
+    catch(e) {
+        if(e.name === 'SecurityError') {
+            console.warn('Session Storage not available');
+            return;
+        }
+        else {
+            throw e;
+        }
+    }    
+
+    var oldRequestsMade = Number(sessionStorage.requestsMade);
+    sessionStorage.requestsMade = oldRequestsMade ? oldRequestsMade + 1 : 1;
+
+    var oldCumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime);
+    sessionStorage.cumulativeRequestsTime = oldCumulativeRequestsTime ? oldCumulativeRequestsTime + requestDuration : requestDuration;
+
+    if(sessionStorage.requestsMade >= INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
+        sessionStorage.requestsMade = INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH;
+        storedLastNRequestsDuration = JSON.parse(sessionStorage.getItem('lastNRequestsDuration'));
+        sessionStorage.cumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime) - storedLastNRequestsDuration[0]; // move the window
+        lastNRequestsDuration.shift();
+        lastNRequestsDuration.push(requestDuration);
+        sessionStorage.setItem('lastNRequestsDuration', JSON.stringify(lastNRequestsDuration));
+    }
+    else {
+        lastNRequestsDuration.push(requestDuration);
+        sessionStorage.setItem('lastNRequestsDuration', JSON.stringify(lastNRequestsDuration));            
+    }
+        
+    var averageRequestsDuration = (Number(sessionStorage.cumulativeRequestsTime) / Number(sessionStorage.requestsMade));
+
+    if(requestDuration > INDIVIDUAL_DURATION_THRESHOLD || averageRequestsDuration > CUMULATIVE_DURATION_THRESHOLD) {
+        displayUnobtrusiveWarning();
+    }
+    if(averageRequestsDuration < demoThreshold) { // for demonstration , will remove it later
+        displayUnobtrusiveWarning();
+    }
+}
+
+function displayUnobtrusiveWarning() {
+    var messageDuration = 10000;
+
+    $('#installationNotice').removeClass('hide').fadeIn('slow').delay(messageDuration).fadeOut('slow', hideUnobtrusiveWarning);;
+    $('#installationNotice .fa-times').click(function () {
+        $('#installationNotice').fadeOut('fast', hideUnobtrusiveWarning);
+    });
+    $('#installationNotice').mouseover(function () {
+        $(this).stop(true);
+    }).mouseout(function () {
+            $(this).animate().delay(messageDuration).fadeOut('slow', hideUnobtrusiveWarning);
+        });
+}
+
+function hideUnobtrusiveWarning() {
+    $('#installationNotice').addClass('hide');
 }
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
