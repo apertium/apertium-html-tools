@@ -43,6 +43,7 @@ function persistChoices(mode, updatePermalink) {
                 'curSrcChoice': $('.srcLang.active').prop('id'),
                 'curDstChoice': $('.dstLang.active').prop('id'),
                 'translationInput': $('#originalText').val(),
+                'webpageInput': $('#webpage').val(),
                 'instantTranslation': $('#instantTranslation').prop('checked'),
                 'markUnknown': $('#markUnknown').prop('checked'),
                 'chainedTranslation': $('#chainedTranslation').prop('checked')
@@ -95,6 +96,11 @@ function persistChoices(mode, updatePermalink) {
             urlParams = [];
             urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
             qVal = $('#originalText').val();
+        }
+        if(hash === '#webpageTranslation' && curSrcLang && curDstLang) {
+            urlParams = [];
+            urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
+            qVal = $('#webpage').val();
         }
         else if(hash === '#analyzation' && $('#secondaryAnalyzerMode').val()) {
             urlParams = [];
@@ -151,6 +157,8 @@ function restoreChoices(mode) {
                 $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
                 $('#' + store.get('curDstChoice', 'dstLang1')).addClass('active');
             }
+
+            $('#webpage').val(store.get('webpageInput', ''));            
             $('#originalText').val(store.get('translationInput', ''));
             $('#instantTranslation').prop('checked', store.get('instantTranslation', true));
             $('#markUnknown').prop('checked', store.get('markUnknown', false));
@@ -171,6 +179,10 @@ function restoreChoices(mode) {
             $('#originalText').val(decodeURIComponent(getURLParam('q')));
         }
 
+        if(getURLParam('qP').length > 0) {
+            $('#webpage').val(decodeURIComponent(getURLParam('qP')));
+        }
+        
         refreshLangList();
     }
     else if(mode === 'analyzer') {

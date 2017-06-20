@@ -813,12 +813,12 @@ function translateWebpage() {
                     });
                 }
                 else {
-                    translationNotAvailableWebpage(data);
+                    translationNotAvailable();
                 }
             },
             error: function(jqXHR, textStatus, errorThrown){
                 console.log(jqXHR, textStatus, errorThrown);
-                translationNotAvailableWebpage(jqXHR.responseJSON);
+                translationNotAvailable();
             }
         });
     }

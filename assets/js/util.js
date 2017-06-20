@@ -101,6 +101,22 @@ $(document).ready(function () {
         parent.location.hash = hash;
     }
 
+    try {
+        if(hash === '#webpageTranslation') {
+            hash = '#translation';
+            showTranslateWebpageInterface();
+        }
+        else if(!hash || !$(hash + 'Container').length) {
+            hash = '#' + config.DEFAULT_MODE;
+            parent.location.hash = hash;
+        }
+    }
+    catch(e) {
+        console.error('Invalid hash: ' + e);
+        hash = '#' + config.DEFAULT_MODE;
+        parent.location.hash = hash;
+    }
+
     $('.modeContainer' + hash + 'Container').show();
     $('.navbar-default .nav li > a[data-mode=' + hash.substring(1) + ']').parent().addClass('active');
 
