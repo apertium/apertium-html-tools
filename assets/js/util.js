@@ -11,7 +11,7 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
 
-var apyRequestStartTime, 
+var apyRequestStartTime,
     INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 10,
     INDIVIDUAL_DURATION_THRESHOLD = 2000,
     CUMULATIVE_DURATION_THRESHOLD = 1500;
@@ -323,7 +323,7 @@ function checkServiceLoadTimes(requestDuration) {
         else {
             throw e;
         }
-    }    
+    }
 
     var oldRequestsMade = Number(sessionStorage.requestsMade);
     sessionStorage.requestsMade = oldRequestsMade ? oldRequestsMade + 1 : 1;
@@ -341,9 +341,9 @@ function checkServiceLoadTimes(requestDuration) {
     }
     else {
         lastNRequestsDuration.push(requestDuration);
-        sessionStorage.setItem('lastNRequestsDuration', JSON.stringify(lastNRequestsDuration));            
+        sessionStorage.setItem('lastNRequestsDuration', JSON.stringify(lastNRequestsDuration));         
     }
-        
+ 
     var averageRequestsDuration = (Number(sessionStorage.cumulativeRequestsTime) / Number(sessionStorage.requestsMade));
 
     if(requestDuration > INDIVIDUAL_DURATION_THRESHOLD || averageRequestsDuration > CUMULATIVE_DURATION_THRESHOLD) {
