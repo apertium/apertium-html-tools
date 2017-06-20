@@ -334,7 +334,7 @@ function checkServiceLoadTimes(requestDuration) {
     if(sessionStorage.requestsMade >= INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
         sessionStorage.requestsMade = INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH;
         storedLastNRequestsDuration = JSON.parse(sessionStorage.getItem('lastNRequestsDuration'));
-        sessionStorage.cumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime) - storedLastNRequestsDuration[0]; // move the window
+        sessionStorage.cumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime) - storedLastNRequestsDuration[0];
         lastNRequestsDuration.shift();
         lastNRequestsDuration.push(requestDuration);
         sessionStorage.setItem('lastNRequestsDuration', JSON.stringify(lastNRequestsDuration));
@@ -357,7 +357,7 @@ function checkServiceLoadTimes(requestDuration) {
 function displayUnobtrusiveWarning() {
     var messageDuration = 10000;
 
-    $('#installationNotice').removeClass('hide').fadeIn('slow').delay(messageDuration).fadeOut('slow', hideUnobtrusiveWarning);;
+    $('#installationNotice').removeClass('hide').fadeIn('slow').delay(messageDuration).fadeOut('slow', hideUnobtrusiveWarning);
     $('#installationNotice .fa-times').click(function () {
         $('#installationNotice').fadeOut('fast', hideUnobtrusiveWarning);
     });
