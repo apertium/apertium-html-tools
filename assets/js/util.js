@@ -364,8 +364,8 @@ function displayUnobtrusiveWarning() {
     $('#installationNotice').mouseover(function () {
         $(this).stop(true);
     }).mouseout(function () {
-            $(this).animate().delay(messageDuration).fadeOut('slow', hideUnobtrusiveWarning);
-        });
+        $(this).animate().delay(messageDuration).fadeOut('slow', hideUnobtrusiveWarning);
+    });
 }
 
 function hideUnobtrusiveWarning() {
