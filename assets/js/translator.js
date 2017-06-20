@@ -241,6 +241,9 @@ if(modeEnabled('translation')) {
             populateTranslationList();
         });
 
+        $('button#translateWebpage').click(showTranslateWebpageInterface);
+        $('button#cancelWebpageTranslate').click(hideTranslateWebpageInterface);
+
         $('input#fileInput').change(function () {
             $('div#fileUploadProgress').parent().fadeOut('fast', function () {
                 $('span#uploadError').fadeOut('fast');
@@ -559,7 +562,10 @@ function populateTranslationList() {
 }
 
 function translate() {
-    if($('div#translateText').is(':visible')) {
+    if($('div#translateWebpage').is(':visible') || isURL($('#originalText').val())) {
+        translateWebpage();
+    }
+    else if($('div#translateText').is(':visible')) {
         translateText();
     }
     else {
@@ -730,6 +736,131 @@ function translateDoc() {
     }
 }
 
+window.onpopstate = function(event) {
+    // TODO: Could do the whole restoreChoices here? But would have to call the right translate() functions anyway
+    if(getURLParam('qP').length > 0) {
+        $('#webpage').val(decodeURIComponent(getURLParam('qP')));
+        translateWebpage();
+    }
+};
+
+function translateLink(href) {
+    $('#webpage').val(href);
+    if(window.history) {
+        // used by window.onpopstate:
+        window.history.pushState({}, document.title, window.location.href);
+    }
+    translateWebpage();
+}
+
+function cleanPage(html) {
+    // Pages like
+    // http://www.lapinkansa.fi/sagat/romssa-sami-searvvi-jodiheaddji-daruiduhttinpolitihkka-vaikkuha-ain-olbmuid-guottuide-samiid-birra-15843633/
+    // insert noise using document.write that 1. makes things
+    // enormously slow, and 2. completely mess up styling so e.g. you
+    // have to scroll through a full screen of whitespace before
+    // reaching content. This might mess things up some places – needs
+    // testing – but on the other hand most uses of document.write are
+    // evil.
+    return html.replace(/document[.]write[(]/g,
+                        'console.log("document.write "+');
+}
+
+function translateWebpage() {
+    persistChoices('translator', true);
+    if(!$('div#translateWebpage').is(':visible')) {
+        showTranslateWebpageInterface($('#originalText').val().trim());
+    }
+
+    if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+        sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
+        $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
+        $.jsonp({
+            url: config.APY_URL + '/translatePage',
+            beforeSend: ajaxSend,
+            complete: function () {
+                ajaxComplete();
+                textTranslateRequest = undefined;
+                $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
+            },
+            data: {
+                'langpair': curSrcLang + '|' + curDstLang,
+                'url': $('input#webpage').val()
+            },
+            success: function (data) {
+                if(data.responseStatus === HTTP_OK_CODE) {
+                    var iframe = $('<iframe id="translatedWebpage" class="translatedWebpage" frameborder="0"></iframe>')[0];
+                    $('iframe#translatedWebpage').replaceWith(iframe);
+                    iframe.contentWindow.document.open();
+                    var translatedHTML = cleanPage(data.responseData.translatedText);
+                    iframe.contentWindow.document.write(translatedHTML);
+                    iframe.contentWindow.document.close();
+
+                    var contents = $(iframe).contents();
+                    contents
+                        .find('head')
+                        .append($('<base>').attr('href', $('input#webpage').val()));
+
+                    $(iframe).load(function () {
+                        contents
+                            .find('a')
+                            .map(function(_i, a) {
+                                var href = a.href;
+                                $(a).on('click', function() {window.parent.translateLink(href); });
+                                a.href = '#';
+                                a.target = '';
+                            });
+                    });
+                }
+                else {
+                    translationNotAvailableWebpage(data);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(jqXHR, textStatus, errorThrown);
+                translationNotAvailableWebpage(jqXHR.responseJSON);
+            }
+        });
+    }
+}
+
+function showTranslateWebpageInterface(url) {
+    $('#srcLangSelectors').css({
+        'padding-left': '5px',
+        'width': 'calc(87% - 34px)'
+    });
+    $('div#translateText').fadeOut('fast', function () {
+        $('input#webpage').attr({
+            'required': true,
+            'novalidate': false
+        });
+        $('button#cancelWebpageTranslate').fadeIn('fast');
+        $('div#translateWebpage').fadeIn('fast');
+    });
+    if(url && typeof url === 'string') {
+        $('input#webpage').val(url);
+    }
+    window.location.hash = 'webpageTranslation';
+}
+
+function hideTranslateWebpageInterface() {
+    $('#srcLangSelectors').css({
+        'padding-left': '0px',
+        'width': 'calc(100% - 34px)'
+    });
+    $('input#webpage').attr({
+        'required': false,
+        'novalidate': true
+    });
+    $('div#translateWebpage').fadeOut('fast', function () {
+        $('button#cancelWebpageTranslate').fadeOut('fast');
+        $('div#translateText').fadeIn('fast', function () {
+            synchronizeTextareaHeights();
+        });
+    });
+    window.location.hash = 'translation';
+}
+
 function downloadBrowserWarn() {
     if(typeof $bu_getBrowser == 'function') { // eslint-disable-line camelcase
         var detected = $bu_getBrowser();
@@ -800,6 +931,17 @@ function translationNotAvailable() {
         .val(getDynamicLocalization('Not_Available'))
         .text(getDynamicLocalization('Not_Available'))
         .addClass('notAvailable text-danger');
+}
+
+function translationNotAvailableWebpage(data) {
+    translationNotAvailable();
+    var div = $('<div id="translatedWebpage" class="translatedWebpage"></div>');
+    div.text(dynamicLocalizations('Not_Available'));
+    div.addClass('notAvailable text-danger');
+    $('#translatedWebpage').replaceWith(div[0]);
+    $('#translatedWebpage').append($('<div></div>').text(" "));
+    $('#translatedWebpage').append($('<div></div>').text(data.message));
+    $('#translatedWebpage').append($('<div></div>').text(data.explanation));
 }
 
 function muteLanguages() {
