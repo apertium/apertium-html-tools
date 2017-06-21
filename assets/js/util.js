@@ -41,23 +41,15 @@ if (typeof Object.assign != 'function') {
 }
 /* eslint-enable */
 
-function debounce(func, wait, immediate) {
-    var timeout;
-    return function () {
-        var context = this, args = arguments;
-        function later() {
-            timeout = null;
-            if(!immediate) {
-                func.apply(context, args);
-            }
-        }
-        var callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if(callNow) {
-            func.apply(context, args);
-        }
-    };
+function debounce(func, delay) {
+  var clock = null;
+  return function () {
+    var context = this, args = arguments;
+    clearTimeout(clock);
+    clock = setTimeout(function () {
+      func.apply(context, args);
+    }, delay);
+  };
 }
 
 function ajaxSend() {
