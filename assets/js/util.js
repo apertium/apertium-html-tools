@@ -358,8 +358,8 @@ function displayUnobtrusiveWarning() {
     var messageDuration = 10000;
 
     $('#installationNotice').removeClass('hide').fadeIn('slow')
-                                                .delay(messageDuration)
-                                                .fadeOut('slow', hideUnobtrusiveWarning);
+        .delay(messageDuration)
+        .fadeOut('slow', hideUnobtrusiveWarning);
     $('#installationNotice .fa-times').click(function () {
         $('#installationNotice').fadeOut('fast', hideUnobtrusiveWarning);
     });
@@ -367,8 +367,8 @@ function displayUnobtrusiveWarning() {
         $(this).stop(true);
     }).mouseout(function () {
         $(this).animate()
-               .delay(messageDuration)
-               .fadeOut('slow', hideUnobtrusiveWarning);
+        .delay(messageDuration)
+       .fadeOut('slow', hideUnobtrusiveWarning);
     });
 }
 
