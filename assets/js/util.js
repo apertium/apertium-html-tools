@@ -11,8 +11,7 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
 
-var resizedClock,
-    timeoutForPopulateTranslationList = 500;
+var timeoutForPopulateTranslationList = 500;
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -41,6 +40,21 @@ if (typeof Object.assign != 'function') {
   };
 }
 /* eslint-enable */
+
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
 
 function ajaxSend() {
     $('#loadingIndicator').show();
@@ -121,14 +135,12 @@ $(document).ready(function () {
     });
 
     resizeFooter();
+    var debouncepopulateTranslationList = debounce(populateTranslationList, timeoutForPopulateTranslationList);
     $(window)
         .on('hashchange', persistChoices)
         .resize(function () {
             resizeFooter();
-            if(resizedClock) {
-                clearTimeout(resizedClock);
-            }
-            resizedClock = setTimeout(populateTranslationList, timeoutForPopulateTranslationList);
+            debouncepopulateTranslationList();
         });
 
     if(config.ALLOWED_LANGS) {
