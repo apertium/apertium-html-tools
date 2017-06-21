@@ -42,14 +42,14 @@ if (typeof Object.assign != 'function') {
 /* eslint-enable */
 
 function debounce(func, delay) {
-  var clock = null;
-  return function () {
-    var context = this, args = arguments;
-    clearTimeout(clock);
-    clock = setTimeout(function () {
-      func.apply(context, args);
-    }, delay);
-  };
+    var clock = null;
+    return function () {
+        var context = this, args = arguments;
+        clearTimeout(clock);
+        clock = setTimeout(function () {
+            func.apply(context, args);
+        }, delay);
+    };
 }
 
 function ajaxSend() {
