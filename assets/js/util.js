@@ -1,7 +1,7 @@
 /* @flow */
 /* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy */
 /* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
-/* global config, persistChoices, iso639Codes, iso639CodesInverse */
+/* global config, persistChoices, iso639Codes, iso639CodesInverse, populateTranslationList */
 
 var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
