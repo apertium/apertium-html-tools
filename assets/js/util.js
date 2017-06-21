@@ -119,7 +119,7 @@ $(document).ready(function () {
         });
         synchronizeTextareaHeights();
     });
-    
+
     resizeFooter();
     $(window)
         .on('hashchange', persistChoices)
