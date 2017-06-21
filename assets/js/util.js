@@ -367,8 +367,8 @@ function displayUnobtrusiveWarning() {
         $(this).stop(true);
     }).mouseout(function () {
         $(this).animate()
-        .delay(messageDuration)
-       .fadeOut('slow', hideUnobtrusiveWarning);
+            .delay(messageDuration)
+            .fadeOut('slow', hideUnobtrusiveWarning);
     });
 }
 
