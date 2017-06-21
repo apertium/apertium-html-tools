@@ -119,7 +119,11 @@ $(document).ready(function () {
 
     resizeFooter();
     $(window)
-        .on('hashchange', persistChoices);
+        .on('hashchange', persistChoices)
+        .resize(function () {
+            resizeFooter();
+            populateTranslationList();
+        });
 
     if(config.ALLOWED_LANGS) {
         var withIso = [];
@@ -159,11 +163,6 @@ $(document).ready(function () {
             scrollTop: 0
         }, 'fast');
         return false;
-    });
-
-    $(window).resize(function () {
-        resizeFooter();
-        populateTranslationList();
     });
 });
 
