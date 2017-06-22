@@ -17,7 +17,6 @@
             "Download_Browser_Warning",
             "Downloads_Para",
             "Drop_Document",
-            "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",
             "Translate_Webpage",
@@ -25,6 +24,7 @@
             "description"
         ]
     },
+    "Mark_Unknown_Words": "Marcar palabras desconocidas",
     "title": "Apertium | Una plataforma libre para la traducción automática",
     "tagline": "Plataforma libre para la traducción automática",
     "Translation": "Traducción",
