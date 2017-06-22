@@ -108,10 +108,10 @@ $(document).ready(function () {
         var mode = $(this).data('mode');
         $('.nav li').removeClass('active');
         $(this).parent('li').addClass('active');
-        $('.modeContainer:not(#' + mode + 'Container)').hide({
+        $('.modeContainer:not(#' + mode + 'Container)').stop().hide({
             queue: false
         });
-        $('#' + mode + 'Container').show({
+        $('#' + mode + 'Container').stop().show({
             queue: false
         });
         synchronizeTextareaHeights();
