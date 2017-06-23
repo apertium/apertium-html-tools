@@ -262,11 +262,11 @@ html[dir='rtl'] #srcLanguages {
     clear: both;
 }
 
-iframe.translatedWebpage {
+.translatedWebpage {
+    border: 1px solid #ccc;
+    border-radius: 4px;
     height: 700px;
     width: 100%;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
 }
 
 /* Analysis */

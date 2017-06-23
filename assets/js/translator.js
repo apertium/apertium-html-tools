@@ -748,6 +748,7 @@ function translateLink(href) {
 
 function cleanPage(html) {
     // Pages like
+    // eslint-disable-next-line max-len
     // http://www.lapinkansa.fi/sagat/romssa-sami-searvvi-jodiheaddji-daruiduhttinpolitihkka-vaikkuha-ain-olbmuid-guottuide-samiid-birra-15843633/
     // insert noise using document.write that 1. makes things
     // enormously slow, and 2. completely mess up styling so e.g. you
@@ -803,7 +804,9 @@ function handleTranslateWebpageSuccessResponse(data) {
                 .find('a')
                 .map(function(index, a) {
                     var href = a.href;
-                    $(a).on('click', function() {window.parent.translateLink(href); });
+                    $(a).on('click', function() { 
+                        window.parent.translateLink(href); 
+                    });
                     a.href = '#';
                     a.target = '';
                 });
