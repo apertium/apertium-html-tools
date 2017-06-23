@@ -9,7 +9,7 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
-    THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
+    APY_REQUEST_URL_THRESHOLD_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
 
 var apyRequestStartTime, installationNoticeFlag = true, lastNRequestsDuration = [],
     requestsMade = 0, cumulativeRequestsTime = 0,
@@ -117,10 +117,10 @@ $(document).ready(function () {
         var mode = $(this).data('mode');
         $('.nav li').removeClass('active');
         $(this).parent('li').addClass('active');
-        $('.modeContainer:not(#' + mode + 'Container)').hide({
+        $('.modeContainer:not(#' + mode + 'Container)').stop().hide({
             queue: false
         });
-        $('#' + mode + 'Container').show({
+        $('#' + mode + 'Container').stop().show({
             queue: false
         });
         synchronizeTextareaHeights();
@@ -304,7 +304,7 @@ function callApy(options, endpoint) {
         window.location.pathname + '?' + $.param(requestOptions.data);
 
     apyRequestStartTime = Date.now();
-    if(requestUrl.length > THRESHOLD_REQUEST_URL_LENGTH) {
+    if(requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
         requestOptions.type = 'POST';
         return $.ajax(requestOptions);
     }
