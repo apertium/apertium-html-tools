@@ -39,8 +39,9 @@ if (typeof Object.assign != 'function') {
 }
 /* eslint-enable */
 
-function debounce(func, delay = 250) {
+function debounce(func, delay) {
     var clock = null;
+    delay = delay || 250;
     return function () {
         var context = this, args = arguments;
         clearTimeout(clock);
