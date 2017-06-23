@@ -96,7 +96,7 @@ html[dir='rtl'] .clearButton {
     z-index: 9999999;
 }
 
-#installationNotice .fa-times:hover {
+#installationNotice .fa-times:hover { /* sass-lint:disable-line class-name-format */
     cursor: pointer;
 }
 
