@@ -16,7 +16,7 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, isURL */
+    callApy, isURL, getURLParam */
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
 /* global $bu_getBrowser */
 
@@ -737,14 +737,6 @@ function translateDoc() {
     }
 }
 
-window.onpopstate = function(event) {
-    // TODO: Could do the whole restoreChoices here? But would have to call the right translate() functions anyway
-    if(getURLParam('qP').length > 0) {
-        $('#webpage').val(decodeURIComponent(getURLParam('qP')));
-        translateWebpage();
-    }
-};
-
 function translateLink(href) {
     $('#webpage').val(href);
     if(window.history) {
@@ -764,7 +756,7 @@ function cleanPage(html) {
     // testing – but on the other hand most uses of document.write are
     // evil.
     return html.replace(/document[.]write[(]/g,
-                        'console.log("document.write "+');
+        'console.log("document.write "+');
 }
 
 function translateWebpage() {
@@ -787,7 +779,7 @@ function translateWebpage() {
                 ajaxComplete();
                 textTranslateRequest = undefined;
                 $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
-            }             
+            }
         }, '/translatePage');
     }
 }
@@ -808,23 +800,22 @@ function handleTranslateWebpageSuccessResponse(data) {
 
         $(iframe).load(function () {
             contents
-            .find('a')
-            .map(function(_i, a) {
-                var href = a.href;
-                //$(a).on('click', function() {window.parent.translateLink(href); });
-                a.href = '#';
-                a.target = '';
-            });
+                .find('a')
+                .map(function(index, a) {
+                    var href = a.href;
+                    $(a).on('click', function() {window.parent.translateLink(href); });
+                    a.href = '#';
+                    a.target = '';
+                });
         });
     }
     else {
-        translationNotAvailable();
+        translationNotAvailableWebpage(data);
     }
 }
 
 function handleTranslateWebpageErrorResponse(jqXHR, textStatus, errorThrown) {
-    console.log(jqXHR, textStatus, errorThrown);
-    translationNotAvailable();
+    translationNotAvailableWebpage(jqXHR.responseJSON);
 }
 
 
@@ -940,12 +931,12 @@ function translationNotAvailable() {
 function translationNotAvailableWebpage(data) {
     translationNotAvailable();
     var div = $('<div id="translatedWebpage" class="translatedWebpage"></div>');
-    div.text(dynamicLocalizations['Not_Available']);
+    div.text(getDynamicLocalization('Not_Available'));
     div.addClass('notAvailable text-danger');
     $('#translatedWebpage').replaceWith(div[0]);
-    $('#translatedWebpage').append($('<div></div>').text(" "));
-    //$('#translatedWebpage').append($('<div></div>').text(data.message));
-    //$('#translatedWebpage').append($('<div></div>').text(data.explanation));
+    $('#translatedWebpage').append($('<div></div>').text(' '));
+    $('#translatedWebpage').append($('<div></div>').text(data.message));
+    $('#translatedWebpage').append($('<div></div>').text(data.explanation));
 }
 
 function muteLanguages() {
@@ -1002,4 +993,4 @@ function autoSelectDstLang() {
 /*:: import localizeInterface from "./localization.js" */
 /*:: import {readCache,cache} from "./cache.js" */
 /*:: import {config} from "./config.js" */
-/*:: import {isURL} from "./util.js" */
+/*:: import {isURL, getURLParam} from "./util.js" */

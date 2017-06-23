@@ -159,7 +159,7 @@ function restoreChoices(mode) {
                 $('#' + store.get('curDstChoice', 'dstLang1')).addClass('active');
             }
 
-            $('#webpage').val(store.get('webpageInput', ''));            
+            $('#webpage').val(store.get('webpageInput', ''));
             $('#originalText').val(store.get('translationInput', ''));
             $('#instantTranslation').prop('checked', store.get('instantTranslation', true));
             $('#markUnknown').prop('checked', store.get('markUnknown', false));
@@ -183,7 +183,7 @@ function restoreChoices(mode) {
         if(getURLParam('qP').length > 0) {
             $('#webpage').val(decodeURIComponent(getURLParam('qP')));
         }
-        
+
         refreshLangList();
     }
     else if(mode === 'analyzer') {
