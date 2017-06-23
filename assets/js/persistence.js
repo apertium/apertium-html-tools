@@ -115,6 +115,7 @@ function persistChoices(mode, updatePermalink) {
 
         var qName = '';
         if(hash === '#translation') { qName = ''; }
+        if(hash === '#webpageTranslation') { qName = 'P'; }
         if(hash === '#analyzation') { qName = 'A'; }
         if(hash === '#generation') { qName = 'G'; }
 

@@ -15,7 +15,8 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
-    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes, callApy */
+    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
+    callApy, isURL */
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
 /* global $bu_getBrowser */
 
@@ -775,54 +776,57 @@ function translateWebpage() {
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
         sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
         $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
-        $.jsonp({
-            url: config.APY_URL + '/translatePage',
-            beforeSend: ajaxSend,
-            complete: function () {
-                ajaxComplete();
-                textTranslateRequest = undefined;
-                $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
-            },
+        callApy({
             data: {
                 'langpair': curSrcLang + '|' + curDstLang,
                 'url': $('input#webpage').val()
             },
-            success: function (data) {
-                if(data.responseStatus === HTTP_OK_CODE) {
-                    var iframe = $('<iframe id="translatedWebpage" class="translatedWebpage" frameborder="0"></iframe>')[0];
-                    $('iframe#translatedWebpage').replaceWith(iframe);
-                    iframe.contentWindow.document.open();
-                    var translatedHTML = cleanPage(data.responseData.translatedText);
-                    iframe.contentWindow.document.write(translatedHTML);
-                    iframe.contentWindow.document.close();
-
-                    var contents = $(iframe).contents();
-                    contents
-                        .find('head')
-                        .append($('<base>').attr('href', $('input#webpage').val()));
-
-                    $(iframe).load(function () {
-                        contents
-                            .find('a')
-                            .map(function(_i, a) {
-                                var href = a.href;
-                                $(a).on('click', function() {window.parent.translateLink(href); });
-                                a.href = '#';
-                                a.target = '';
-                            });
-                    });
-                }
-                else {
-                    translationNotAvailable();
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log(jqXHR, textStatus, errorThrown);
-                translationNotAvailable();
-            }
-        });
+            success: handleTranslateWebpageSuccessResponse,
+            error: handleTranslateWebpageErrorResponse,
+            complete: function () {
+                ajaxComplete();
+                textTranslateRequest = undefined;
+                $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
+            }             
+        }, '/translatePage');
     }
 }
+
+function handleTranslateWebpageSuccessResponse(data) {
+    if(data.responseStatus === HTTP_OK_CODE) {
+        var iframe = $('<iframe id="translatedWebpage" class="translatedWebpage" frameborder="0"></iframe>')[0];
+        $('iframe#translatedWebpage').replaceWith(iframe);
+        iframe.contentWindow.document.open();
+        var translatedHTML = cleanPage(data.responseData.translatedText);
+        iframe.contentWindow.document.write(translatedHTML);
+        iframe.contentWindow.document.close();
+
+        var contents = $(iframe).contents();
+        contents
+            .find('head')
+            .append($('<base>').attr('href', $('input#webpage').val()));
+
+        $(iframe).load(function () {
+            contents
+            .find('a')
+            .map(function(_i, a) {
+                var href = a.href;
+                //$(a).on('click', function() {window.parent.translateLink(href); });
+                a.href = '#';
+                a.target = '';
+            });
+        });
+    }
+    else {
+        translationNotAvailable();
+    }
+}
+
+function handleTranslateWebpageErrorResponse(jqXHR, textStatus, errorThrown) {
+    console.log(jqXHR, textStatus, errorThrown);
+    translationNotAvailable();
+}
+
 
 function showTranslateWebpageInterface(url) {
     $('#srcLangSelectors').css({
@@ -998,3 +1002,4 @@ function autoSelectDstLang() {
 /*:: import localizeInterface from "./localization.js" */
 /*:: import {readCache,cache} from "./cache.js" */
 /*:: import {config} from "./config.js" */
+/*:: import {isURL} from "./util.js" */
