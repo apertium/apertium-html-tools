@@ -10,7 +10,7 @@
             "es",
             "spa"
         ],
-        "completion": " 79%  31.04%",
+        "completion": " 81%  31.64%",
         "missing": [
             "Contact_Para",
             "Documentation_Para",
@@ -24,7 +24,6 @@
             "description"
         ]
     },
-    "Mark_Unknown_Words": "Marcar palabras desconocidas",
     "title": "Apertium | Una plataforma libre para la traducción automática",
     "tagline": "Plataforma libre para la traducción automática",
     "Translation": "Traducción",
@@ -33,6 +32,7 @@
     "Detect_Language": "Detectar idioma",
     "detected": "detectado",
     "Instant_Translation": "Traducción instantánea",
+    "Mark_Unknown_Words": "Marcar palabras desconocidas",
     "Translate_Document": "Traducir un documento",
     "Not_Available": "Traducción todavía no disponible!",
     "File_Too_Large": "¡El fichero es demasiado grande!",
