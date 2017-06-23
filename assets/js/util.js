@@ -313,10 +313,10 @@ function callApy(options, endpoint) {
 
 function checkServiceLoadTimes(requestDuration) {
     requestsMade++;
-    cumulativeRequestsTime+=requestDuration;
+    cumulativeRequestsTime += requestDuration;
     if(requestsMade >= INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
         requestsMade = INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH;
-        cumulativeRequestsTime = cumulativeRequestsTime - lastNRequestsDuration[0];
+        cumulativeRequestsTime -= lastNRequestsDuration[0];
         lastNRequestsDuration.shift();
         lastNRequestsDuration.push(requestDuration);
     }
@@ -326,7 +326,7 @@ function checkServiceLoadTimes(requestDuration) {
 
     var averageRequestsDuration = cumulativeRequestsTime / requestsMade;
 
-    if(requestDuration > INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD || 
+    if(requestDuration > INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD ||
         averageRequestsDuration > INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD) {
         displayUnobtrusiveWarning();
         installationNoticeFlag = false;
