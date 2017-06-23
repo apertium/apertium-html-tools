@@ -802,10 +802,10 @@ function handleTranslateWebpageSuccessResponse(data) {
         $(iframe).load(function () {
             contents
                 .find('a')
-                .map(function(index, a) {
+                .map(function (index, a) {
                     var href = a.href;
-                    $(a).on('click', function() { 
-                        window.parent.translateLink(href); 
+                    $(a).on('click', function () {
+                        window.parent.translateLink(href);
                     });
                     a.href = '#';
                     a.target = '';
