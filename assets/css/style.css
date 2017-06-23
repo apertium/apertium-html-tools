@@ -83,17 +83,17 @@ html[dir='rtl'] .clearButton {
 }
 
 #installationNotice {
+    border: 8px solid #fff;
     display: none;
-    width: 360px;
-    height: 85px;
     font-size: 12px;
-    z-index: 9999999;
-    top: 20px;
-    right: 20px;
-    position: fixed;
-    border: 8px solid #FFF;
+    height: 85px;
     margin: 8px;
     padding: 8px;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    width: 360px;
+    z-index: 9999999;
 }
 
 #installationNotice .fa-times:hover {
@@ -101,8 +101,8 @@ html[dir='rtl'] .clearButton {
 }
 
 #installationNoticeTitle {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 /* Navbar */
