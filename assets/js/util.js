@@ -11,10 +11,11 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
 
-var apyRequestStartTime,
+var apyRequestStartTime, installationNoticeFlag = true, lastNRequestsDuration = [],
+    requestsMade = 0, cumulativeRequestsTime = 0,
     INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 10,
-    INDIVIDUAL_DURATION_THRESHOLD = 2000,
-    CUMULATIVE_DURATION_THRESHOLD = 1500;
+    INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD = 2000,
+    INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 1500;
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -50,7 +51,9 @@ function ajaxSend() {
 
 function ajaxComplete() {
     $('#loadingIndicator').hide();
-    checkServiceLoadTimes(Date.now() - apyRequestStartTime);
+    if(installationNoticeFlag) {
+        checkServiceLoadTimes(Date.now() - apyRequestStartTime);
+    }
 }
 
 $(document).ajaxSend(ajaxSend);
@@ -309,48 +312,24 @@ function callApy(options, endpoint) {
 }
 
 function checkServiceLoadTimes(requestDuration) {
-    var lastNRequestsDuration = [];
-    var storedLastNRequestsDuration = [];
-    var demoThreshold = 10000; // for demo purposes only
-    try {
-        window.sessionStorage;
-    }
-    catch(e) {
-        if(e.name === 'SecurityError') {
-            console.warn('Session Storage not available');
-            return;
-        }
-        else {
-            throw e;
-        }
-    }
-
-    var oldRequestsMade = Number(sessionStorage.requestsMade);
-    sessionStorage.requestsMade = oldRequestsMade ? oldRequestsMade + 1 : 1;
-
-    var oldCumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime);
-    sessionStorage.cumulativeRequestsTime = oldCumulativeRequestsTime ? oldCumulativeRequestsTime + requestDuration : requestDuration;
-
-    if(sessionStorage.requestsMade >= INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
-        sessionStorage.requestsMade = INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH;
-        storedLastNRequestsDuration = JSON.parse(sessionStorage.getItem('lastNRequestsDuration'));
-        sessionStorage.cumulativeRequestsTime = Number(sessionStorage.cumulativeRequestsTime) - storedLastNRequestsDuration[0];
+    requestsMade++;
+    cumulativeRequestsTime+=requestDuration;
+    if(requestsMade >= INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
+        requestsMade = INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH;
+        cumulativeRequestsTime = cumulativeRequestsTime - lastNRequestsDuration[0];
         lastNRequestsDuration.shift();
         lastNRequestsDuration.push(requestDuration);
-        sessionStorage.setItem('lastNRequestsDuration', JSON.stringify(lastNRequestsDuration));
     }
     else {
         lastNRequestsDuration.push(requestDuration);
-        sessionStorage.setItem('lastNRequestsDuration', JSON.stringify(lastNRequestsDuration));
     }
 
-    var averageRequestsDuration = (Number(sessionStorage.cumulativeRequestsTime) / Number(sessionStorage.requestsMade));
+    var averageRequestsDuration = cumulativeRequestsTime / requestsMade;
 
-    if(requestDuration > INDIVIDUAL_DURATION_THRESHOLD || averageRequestsDuration > CUMULATIVE_DURATION_THRESHOLD) {
+    if(requestDuration > INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD || 
+        averageRequestsDuration > INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD) {
         displayUnobtrusiveWarning();
-    }
-    if(averageRequestsDuration < demoThreshold) { // for demonstration , will remove it later
-        displayUnobtrusiveWarning();
+        installationNoticeFlag = false;
     }
 }
 
