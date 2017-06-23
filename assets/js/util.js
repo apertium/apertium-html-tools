@@ -11,8 +11,6 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
 
-var timeoutForPopulateTranslationList = 500;
-
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
 if (typeof Object.assign != 'function') {
@@ -41,7 +39,7 @@ if (typeof Object.assign != 'function') {
 }
 /* eslint-enable */
 
-function debounce(func, delay) {
+function debounce(func, delay = 250) {
     var clock = null;
     return function () {
         var context = this, args = arguments;
@@ -131,7 +129,7 @@ $(document).ready(function () {
     });
 
     resizeFooter();
-    var debouncepopulateTranslationList = debounce(populateTranslationList, timeoutForPopulateTranslationList);
+    var debouncepopulateTranslationList = debounce(populateTranslationList);
     $(window)
         .on('hashchange', persistChoices)
         .resize(function () {

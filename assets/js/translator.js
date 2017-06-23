@@ -6,6 +6,7 @@ var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var textTranslateRequest;
+var thresholdWindowWidth = 1024;
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
@@ -461,7 +462,6 @@ function populateTranslationList() {
             ? Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS)
             : TRANSLATION_LIST_COLUMNS;
 
-    var thresholdWindowWidth = 1020;
     numSrcCols = $(window).width() < thresholdWindowWidth && numSrcCols === TRANSLATION_LIST_COLUMNS ? numSrcCols - 1 : numSrcCols;
     numDstCols = $(window).width() < thresholdWindowWidth && numDstCols === TRANSLATION_LIST_COLUMNS ? numDstCols - 1 : numDstCols;
 
