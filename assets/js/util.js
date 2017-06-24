@@ -9,13 +9,14 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
-    APY_REQUEST_URL_THRESHOLD_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
-
-var apyRequestStartTime, installationNoticeFlag = true, lastNRequestsDuration = [],
-    requestsMade = 0, cumulativeRequestsTime = 0,
+    APY_REQUEST_URL_THRESHOLD_LENGTH = 2000, // maintain 48 characters buffer for generated parameters
     INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 10,
     INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD = 2000,
     INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 1500;
+
+var apyRequestStartTime, installationNotificationShown = false, isCallApyCompleted,
+    lastNRequestsDuration = [], requestsMade = 0, cumulativeRequestsTime = 0;
+
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -51,7 +52,8 @@ function ajaxSend() {
 
 function ajaxComplete() {
     $('#loadingIndicator').hide();
-    if(installationNoticeFlag) {
+    if(installationNotificationShown === false) {
+        clearTimeout(isCallApyCompleted);
         checkServiceLoadTimes(Date.now() - apyRequestStartTime);
     }
 }
@@ -171,7 +173,8 @@ $(document).ready(function () {
         return false;
     });
 
-    $('#installationNotice').addClass('hide');
+    //$('#installationNotice').addClass('hide');
+    $('#installationNotice').hide();
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
@@ -303,7 +306,14 @@ function callApy(options, endpoint) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
-    apyRequestStartTime = Date.now();
+    if(installationNotificationShown === false) {
+        apyRequestStartTime = Date.now();
+        isCallApyCompleted = setTimeout(function () {
+            displayUnobtrusiveWarning();
+            clearTimeout(isCallApyCompleted);
+        }, INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD);
+    }
+
     if(requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
         requestOptions.type = 'POST';
         return $.ajax(requestOptions);
@@ -329,19 +339,17 @@ function checkServiceLoadTimes(requestDuration) {
     if(requestDuration > INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD ||
         averageRequestsDuration > INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD) {
         displayUnobtrusiveWarning();
-        installationNoticeFlag = false;
     }
 }
 
 function displayUnobtrusiveWarning() {
     var messageDuration = 10000;
+    installationNotificationShown = true;
 
     $('#installationNotice').removeClass('hide').fadeIn('slow')
         .delay(messageDuration)
         .fadeOut('slow', hideUnobtrusiveWarning);
-    $('#installationNotice .fa-times').click(function () {
-        $('#installationNotice').fadeOut('fast', hideUnobtrusiveWarning);
-    });
+
     $('#installationNotice').mouseover(function () {
         $(this).stop(true);
     }).mouseout(function () {
@@ -352,7 +360,8 @@ function displayUnobtrusiveWarning() {
 }
 
 function hideUnobtrusiveWarning() {
-    $('#installationNotice').addClass('hide');
+    //$('#installationNotice').addClass('hide');
+    $('#installationNotice').hide();
 }
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
