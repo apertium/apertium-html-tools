@@ -945,8 +945,8 @@ function translationNotAvailableWebpage(data) {
     div.addClass('notAvailable text-danger');
     $('#translatedWebpage').replaceWith(div[0]);
     $('#translatedWebpage').append($('<div></div>').text(' '));
-    $('#translatedWebpage').append($('<div></div>').text(data.message));
-    $('#translatedWebpage').append($('<div></div>').text(data.explanation));
+    //$('#translatedWebpage').append($('<div></div>').text(data.message));
+    //$('#translatedWebpage').append($('<div></div>').text(data.explanation));
 }
 
 function muteLanguages() {
