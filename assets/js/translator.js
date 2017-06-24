@@ -242,6 +242,13 @@ if(modeEnabled('translation')) {
             populateTranslationList();
         });
 
+        $('input#webpage').keyup(function (ev) {
+            if(ev.keyCode === ENTER_KEY_CODE) {
+                translate();
+                return false;
+            }
+        });
+        
         $('button#translateWebpage').click(showTranslateWebpageInterface);
         $('button#cancelWebpageTranslate').click(hideTranslateWebpageInterface);
 
