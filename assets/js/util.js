@@ -173,8 +173,7 @@ $(document).ready(function () {
         return false;
     });
 
-    //$('#installationNotice').addClass('hide');
-    $('#installationNotice').hide();
+    $('#installationNotice').addClass('hide');
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
@@ -360,8 +359,7 @@ function displayUnobtrusiveWarning() {
 }
 
 function hideUnobtrusiveWarning() {
-    //$('#installationNotice').addClass('hide');
-    $('#installationNotice').hide();
+    $('#installationNotice').addClass('hide');
 }
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
