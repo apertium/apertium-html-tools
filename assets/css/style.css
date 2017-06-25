@@ -83,10 +83,8 @@ html[dir='rtl'] .clearButton {
 }
 
 #installationNotice {
-    border: 8px solid #fff;
-    display: none;
     font-size: 12px;
-    height: 85px;
+    height: 70px;
     margin: 8px;
     padding: 8px;
     position: fixed;
