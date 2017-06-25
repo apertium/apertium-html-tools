@@ -825,7 +825,11 @@ function handleTranslateWebpageSuccessResponse(data) {
 }
 
 function handleTranslateWebpageErrorResponse(jqXHR, textStatus, errorThrown) {
-    translationNotAvailableWebpage(jqXHR.responseJSON);
+    console.log('hfewf');
+    console.log(jqXHR);
+    console.log(textStatus);
+    console.log(errorThrown);
+    //translationNotAvailableWebpage(jqXHR.responseJSON);
 }
 
 
@@ -945,8 +949,8 @@ function translationNotAvailableWebpage(data) {
     div.addClass('notAvailable text-danger');
     $('#translatedWebpage').replaceWith(div[0]);
     $('#translatedWebpage').append($('<div></div>').text(' '));
-    //$('#translatedWebpage').append($('<div></div>').text(data.message));
-    //$('#translatedWebpage').append($('<div></div>').text(data.explanation));
+    $('#translatedWebpage').append($('<div></div>').text(data.message));
+    $('#translatedWebpage').append($('<div></div>').text(data.explanation));
 }
 
 function muteLanguages() {
