@@ -11,11 +11,11 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     APY_REQUEST_URL_THRESHOLD_LENGTH = 2000, // maintain 48 characters buffer for generated parameters
     INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 10,
-    INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD = 2000,
-    INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 1500;
+    INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD = 4000,
+    INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 3000;
 
-var apyRequestStartTime, installationNotificationShown = false, isCallApyCompleted,
-    lastNRequestsDuration = [], requestsMade = 0, cumulativeRequestsTime = 0;
+var apyRequestStartTime, installationNotificationShown = false, apyRequestTimeout,
+    lastNRequestsDuration = [], requestsMade = 0, cumulativeRequestsTime = 0, installationNotificationDuration = 10000;
 
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
@@ -52,8 +52,8 @@ function ajaxSend() {
 
 function ajaxComplete() {
     $('#loadingIndicator').hide();
-    if(installationNotificationShown === false) {
-        clearTimeout(isCallApyCompleted);
+    if(!installationNotificationShown) {
+        clearTimeout(apyRequestTimeout);
         checkServiceLoadTimes(Date.now() - apyRequestStartTime);
     }
 }
@@ -305,11 +305,11 @@ function callApy(options, endpoint) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
-    if(installationNotificationShown === false) {
+    if(!installationNotificationShown) {
         apyRequestStartTime = Date.now();
-        isCallApyCompleted = setTimeout(function () {
+        apyRequestTimeout = setTimeout(function () {
             displayUnobtrusiveWarning();
-            clearTimeout(isCallApyCompleted);
+            clearTimeout(apyRequestTimeout);
         }, INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD);
     }
 
@@ -342,18 +342,17 @@ function checkServiceLoadTimes(requestDuration) {
 }
 
 function displayUnobtrusiveWarning() {
-    var messageDuration = 10000;
     installationNotificationShown = true;
 
     $('#installationNotice').removeClass('hide').fadeIn('slow')
-        .delay(messageDuration)
+        .delay(installationNotificationDuration)
         .fadeOut('slow', hideUnobtrusiveWarning);
 
     $('#installationNotice').mouseover(function () {
         $(this).stop(true);
     }).mouseout(function () {
         $(this).animate()
-            .delay(messageDuration)
+            .delay(installationNotificationDuration)
             .fadeOut('slow', hideUnobtrusiveWarning);
     });
 }
