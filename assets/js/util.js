@@ -53,10 +53,8 @@ function ajaxSend() {
 
 function ajaxComplete() {
     $('#loadingIndicator').hide();
-    if(!installationNotificationShown) {
-        clearTimeout(apyRequestTimeout);
-        checkServiceLoadTimes(Date.now() - apyRequestStartTime);
-    }
+    clearTimeout(apyRequestTimeout);
+    checkServiceLoadTimes(Date.now() - apyRequestStartTime);
 }
 
 $(document).ajaxSend(ajaxSend);
@@ -306,13 +304,11 @@ function callApy(options, endpoint) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
-    if(!installationNotificationShown) {
-        apyRequestStartTime = Date.now();
-        apyRequestTimeout = setTimeout(function () {
-            displayUnobtrusiveWarning();
-            clearTimeout(apyRequestTimeout);
-        }, INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD);
-    }
+    apyRequestStartTime = Date.now();
+    apyRequestTimeout = setTimeout(function () {
+        displayInstallationNotification();
+        clearTimeout(apyRequestTimeout);
+    }, INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD);
 
     if(requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
         requestOptions.type = 'POST';
@@ -338,27 +334,30 @@ function checkServiceLoadTimes(requestDuration) {
 
     if(requestDuration > INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD ||
         averageRequestsDuration > INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD) {
-        displayUnobtrusiveWarning();
+        displayInstallationNotification();
     }
 }
 
-function displayUnobtrusiveWarning() {
+function displayInstallationNotification() {
+    if(installationNotificationShown) {
+        return;
+    }
     installationNotificationShown = true;
 
     $('#installationNotice').removeClass('hide').fadeIn('slow')
         .delay(INSTALLATION_NOTIFICATION_DURATION)
-        .fadeOut('slow', hideUnobtrusiveWarning);
+        .fadeOut('slow', hideInstallationNotification);
 
     $('#installationNotice').mouseover(function () {
         $(this).stop(true);
     }).mouseout(function () {
         $(this).animate()
             .delay(INSTALLATION_NOTIFICATION_DURATION)
-            .fadeOut('slow', hideUnobtrusiveWarning);
+            .fadeOut('slow', hideInstallationNotification);
     });
 }
 
-function hideUnobtrusiveWarning() {
+function hideInstallationNotification() {
     $('#installationNotice').addClass('hide');
 }
 
