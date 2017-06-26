@@ -12,10 +12,11 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     APY_REQUEST_URL_THRESHOLD_LENGTH = 2000, // maintain 48 characters buffer for generated parameters
     INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 10,
     INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD = 4000,
-    INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 3000;
+    INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 3000,
+    INSTALLATION_NOTIFICATION_DURATION = 10000;
 
 var apyRequestStartTime, installationNotificationShown = false, apyRequestTimeout,
-    lastNRequestsDuration = [], requestsMade = 0, cumulativeRequestsTime = 0, installationNotificationDuration = 10000;
+    lastNRequestsDuration = [], requestsMade = 0, cumulativeRequestsTime = 0;
 
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
@@ -345,14 +346,14 @@ function displayUnobtrusiveWarning() {
     installationNotificationShown = true;
 
     $('#installationNotice').removeClass('hide').fadeIn('slow')
-        .delay(installationNotificationDuration)
+        .delay(INSTALLATION_NOTIFICATION_DURATION)
         .fadeOut('slow', hideUnobtrusiveWarning);
 
     $('#installationNotice').mouseover(function () {
         $(this).stop(true);
     }).mouseout(function () {
         $(this).animate()
-            .delay(installationNotificationDuration)
+            .delay(INSTALLATION_NOTIFICATION_DURATION)
             .fadeOut('slow', hideUnobtrusiveWarning);
     });
 }
