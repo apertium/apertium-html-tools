@@ -9,7 +9,8 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
-    THRESHOLD_REQUEST_URL_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
+    THRESHOLD_REQUEST_URL_LENGTH = 2000, // maintain 48 characters buffer for generated parameters
+    debounceDuration = 250;
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -39,15 +40,14 @@ if (typeof Object.assign != 'function') {
 }
 /* eslint-enable */
 
-function debounce(func, delay) {
+function debounce(func) {
     var clock = null;
-    delay = delay || 250;
     return function () {
         var context = this, args = arguments;
         clearTimeout(clock);
         clock = setTimeout(function () {
             func.apply(context, args);
-        }, delay);
+        }, debounceDuration);
     };
 }
 
