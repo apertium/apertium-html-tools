@@ -186,12 +186,12 @@
                                   <div class="col-sm-6">
                                       <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
                                   </div>
-                                  <div class="col-sm-6">
+                                  <div class="col-sm-3">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
                                           <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>
                                       </button>
                                   </div>
-                                  <div class="col-sm-6 pull-right">
+                                  <div class="col-lg-3 col-md-6  pull-right">
                                       <div class="checkbox" id="translateOptions">
                                           <label class="pull-right">
                                               <input type="checkbox" id="markUnknown" checked>
@@ -352,7 +352,7 @@
 
         <div id="footer">
             <div class="navbar-bottom hidden-xs">
-                <div class="container">
+                <div class="container" id="footer-container">
                     <ul class="nav nav-pills pull-left" style="display: inline-block;">
                         <li><a data-toggle="modal" data-target="#aboutModal" data-keyboard="true"><i class="fa fa-question-circle"></i> <span data-text="About">About</span></a></li>
                         <li><a data-toggle="modal" data-target="#downloadModal" data-keyboard="true"><i class="fa fa-download"></i> <span data-text="Download">Download</span></a></li>
@@ -363,6 +363,11 @@
                         <span data-text="Notice_Mistake">Notice a mistake?</span>
                         <a data-toggle="modal" data-target="#aboutModal" data-text="Help_Improve" data-keyboard="true" style="cursor: pointer">Help us improve Apertium!</a>
                     </div>
+                    <a id="version" class="text-muted hidden-sm hidden-xs" href="https://github.com/goavki/apertium-html-tools" target="_blank">
+                        <small>
+@include_version@
+                        </small>
+                    </a>
                 </div>
             </div>
 

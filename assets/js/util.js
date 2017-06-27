@@ -9,8 +9,9 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
-    THRESHOLD_REQUEST_URL_LENGTH = 2000, // maintain 48 characters buffer for generated parameters
-    debounceDuration = 250;
+    APY_REQUEST_URL_THRESHOLD_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
+
+var debounceDuration = 250;
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -120,10 +121,10 @@ $(document).ready(function () {
         var mode = $(this).data('mode');
         $('.nav li').removeClass('active');
         $(this).parent('li').addClass('active');
-        $('.modeContainer:not(#' + mode + 'Container)').hide({
+        $('.modeContainer:not(#' + mode + 'Container)').stop().hide({
             queue: false
         });
-        $('#' + mode + 'Container').show({
+        $('#' + mode + 'Container').stop().show({
             queue: false
         });
         synchronizeTextareaHeights();
@@ -308,7 +309,7 @@ function callApy(options, endpoint) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
-    if(requestUrl.length > THRESHOLD_REQUEST_URL_LENGTH) {
+    if(requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
         requestOptions.type = 'POST';
         return $.ajax(requestOptions);
     }

@@ -10,14 +10,13 @@
             "es",
             "spa"
         ],
-        "completion": " 79%  31.04%",
+        "completion": " 81%  31.64%",
         "missing": [
             "Contact_Para",
             "Documentation_Para",
             "Download_Browser_Warning",
             "Downloads_Para",
             "Drop_Document",
-            "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",
             "Translate_Webpage",
@@ -33,6 +32,7 @@
     "Detect_Language": "Detectar idioma",
     "detected": "detectado",
     "Instant_Translation": "Traducción instantánea",
+    "Mark_Unknown_Words": "Marcar palabras desconocidas",
     "Translate_Document": "Traducir un documento",
     "Not_Available": "Traducción todavía no disponible!",
     "File_Too_Large": "¡El fichero es demasiado grande!",
