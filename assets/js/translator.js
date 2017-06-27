@@ -567,7 +567,7 @@ function populateTranslationList() {
 function getSrcNumCols(numSrcCols) {
     for(var srcColNum = 2; srcColNum <= numSrcCols; srcColNum++) {
         if($('#srcLangSelector').offset().left + (srcColNum * INDIVIDUAL_LIST_WIDTH) > $(window).width()) {
-            return srcColNum-1;
+            return srcColNum - 1;
         }
     }
     return numSrcCols;
@@ -577,7 +577,7 @@ function getDstNumCols(numDstCols) {
     var rightOffset = $(window).width() - ($('#dstLangSelector').offset().left + $('#dstLangSelector').outerWidth());
     for(var dstColNum = 2; dstColNum <= numDstCols; dstColNum++) {
         if(rightOffset + (dstColNum * INDIVIDUAL_LIST_WIDTH) > $(window).width()) {
-            return dstColNum-1;
+            return dstColNum - 1;
         }
     }
     return numDstCols;
