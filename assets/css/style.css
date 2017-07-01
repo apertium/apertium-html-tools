@@ -46,9 +46,9 @@ h2 {
 }
 
 #localeDropdown {
-    width: 120px;
     height: 300px;
     overflow-y: scroll;
+    width: 120px;
 }
 
 .nav-pills { /* sass-lint:disable-line class-name-format */

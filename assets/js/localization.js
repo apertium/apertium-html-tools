@@ -236,7 +236,7 @@ function getLocales() {
                         .prop('dir', rtlLanguages.indexOf(this[0]) !== -1 ? 'rtl' : 'ltr')
                         .css('padding-left', rtlLanguages.indexOf(this[0]) !== -1 ? '115px' : '5px')
                         .css('padding-right', rtlLanguages.indexOf(this[0]) !== -1 ? '5px' : '115px')
-                    );
+                    )
             );
         });
     }
