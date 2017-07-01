@@ -98,7 +98,7 @@
                     <li><a href="#translation" data-mode="translation" data-text="Translation" class="hide">Translation</a></li>
                     <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis" class="hide">Morphological analysis</a></li>
                     <li><a href="#generation" data-mode="generation" data-text="Morphological_Generation" class="hide">Morphological generation</a></li>
-                    <!-- <li><a href="#spellchecker" data-mode="spellchecker" data-text="Spell_Checker">Spell checker</a></li> -->
+                    <li><a href="#spellchecker" data-mode="spellchecker" data-text="Spell_Checker">Spell checker</a></li>
                     <li><a href="#sandbox" data-mode="sandbox" data-text="APY_Sandbox" class="hide">APY sandbox</a></li>
                   </ul>
               </div>
@@ -314,6 +314,41 @@
                       </fieldset>
                   </form>
                   <div id="morphGenOutput" class="outputContainer"></div>
+              </div>
+              <div class="modeContainer" id="spellcheckerContainer">
+                  <h2 class="visible-xs" data-text="Spell_Checker">Spell Checker</h2>
+                  <form class="form-horizontal" role="form" id="analysisForm">
+                      <fieldset>
+                          <legend data-text="Spell_Checker_Help"></legend>
+                          <div class="form-group">
+                              <label for="primarySpellcheckerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
+                              <div class="col-sm-3">
+                                  <select class="form-control spellcheckerMode" id="primarySpellcheckerMode" name="primarySpellcheckerMode" required>
+                                      <option> </option>
+                                  </select>
+                              </div>
+                              <div class="col-sm-4">
+                                  <select class="form-control spellcheckerMode" id="secondarySpellcheckerMode" name="secondarySpellcheckerMode" required>
+                                      <option> </option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="spellcheckerInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
+                              <div class="col-sm-10">
+                                  <div class="form-control" id="spellcheckerInput" contenteditable spellcheck="false"></div>
+                              </div>
+                          </div>
+                          <div class="col-sm-offset-2 col-sm-7">
+                              <button type="submit" class="btn btn-primary" id="check" data-text="Check">Check</button>
+                          </div>
+                          <div class="col-sm-3 checkbox">
+                              <label class="pull-right">
+                                  <input type="checkbox" id="instantChecking" checked> <span data-text="Instant_Checking">Instant checking</span>
+                              </label>
+                          </div>
+                      </fieldset>
+                  </form>
               </div>
               <div class="modeContainer" id="sandboxContainer">
                   <h2 class="visible-xs" data-text="APY_Sandbox">APY sandbox</h2>
