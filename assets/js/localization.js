@@ -76,6 +76,12 @@ $(document).ready(function () {
             console.warn('No config.LOCALES');
         }
         $('.localeSelect').val(locale);
+        if(languages[iso639Codes[locale]]) {
+            $('#localeName').text(languages[iso639Codes[locale]]);
+        }
+        else {
+            $('#localeName').text(languages[locale]);
+        }
         localizeEverything(localizedHTML);
         persistChoices('localization');
     });
@@ -212,12 +218,25 @@ function getLocales() {
             return a[1].toLowerCase().localeCompare(b[1].toLowerCase());
         });
         $('.localeSelect').empty();
+        $('#localeNames').empty();
         $.each(localePairs, function () {
             $('.localeSelect').append(
                 $('<option></option>')
                     .val(this[0])
                     .text(this[1])
                     .prop('dir', rtlLanguages.indexOf(this[0]) !== -1 ? 'rtl' : 'ltr')
+            );
+
+            $('#localeDropdown').append(
+                $('<li></li>')
+                    .append(
+                        $('<a>', { href: 'index.' + this[0] + '.html' })
+                            .val(this[0])
+                            .text(this[1])
+                            .prop('dir', rtlLanguages.indexOf(this[0]) !== -1 ? 'rtl' : 'ltr')
+                            .css('padding-left', rtlLanguages.indexOf(this[0]) !== -1 ? '115px' : '5px')
+                            .css('padding-right', rtlLanguages.indexOf(this[0]) !== -1 ? '5px' : '115px')
+                    )
             );
         });
     }

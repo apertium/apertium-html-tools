@@ -45,6 +45,12 @@ h2 {
     margin-top: 7px;
 }
 
+#localeDropdown {
+    width: 120px;
+    height: 300px;
+    overflow-y: scroll;
+}
+
 .nav-pills { /* sass-lint:disable-line class-name-format */
     cursor: pointer;
 }
