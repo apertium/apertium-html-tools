@@ -234,6 +234,12 @@
                                               <i class="fa fa-arrow-left"></i> <span data-text="Cancel">Cancel</span>
                                           </button>
                                       </div>
+                                      <div class="checkbox" id="translateDocOptions">
+                                          <label class="pull-right">
+                                              <input type="checkbox" id="markUnknownDoc" checked>
+                                              <span data-text="Mark_Unknown_Words">Mark unknown words</span>
+                                          </label>
+                                      </div>
                                   </div>
                                   <div class="col-sm-6">
                                       <div id="fileLoading" class="text-center" style="display: none; position: absolute; top: 50%; left: 50%;">
