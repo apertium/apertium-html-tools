@@ -825,10 +825,6 @@ function handleTranslateWebpageSuccessResponse(data) {
 }
 
 function handleTranslateWebpageErrorResponse(jqXHR, textStatus, errorThrown) {
-    console.log('hfewf');
-    console.log(jqXHR);
-    console.log(textStatus);
-    console.log(errorThrown);
     translationNotAvailableWebpage(jqXHR.responseJSON);
 }
 */
@@ -842,9 +838,10 @@ function translateWebpage() {
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
         sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
         $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
-        $.ajax({
+        $.jsonp({
             url: config.APY_URL + '/translatePage',
-            dataType: "json",
+            // type: "POST",
+            // dataType: 'jsonp',
             beforeSend: ajaxSend,
             complete: function () {
                 ajaxComplete();
@@ -878,11 +875,13 @@ function translateWebpage() {
                     });
                 }
                 else {
+                    console.log('fewfew');
                     translationNotAvailableWebpage(data);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown){
-                 translationNotAvailableWebpage(jqXHR.responseJSON);
+                console.log(jqXHR.responseJSON);
+                // translationNotAvailableWebpage(jqXHR.responseJSON);
             }
         });
     }
