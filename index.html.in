@@ -94,7 +94,7 @@
                       <div class="dropdown pull-right">
                           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span id="localeName"></span>&nbsp;&nbsp;<span class="caret"></span></button>
                           <ul class="dropdown-menu" id="localeDropdown"></ul>
-                      </div> 
+                      </div>
                   </div>
                   <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
                     <li><a href="#translation" data-mode="translation" data-text="Translation" class="hide">Translation</a></li>
