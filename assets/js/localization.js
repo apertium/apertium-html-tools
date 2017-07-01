@@ -230,13 +230,13 @@ function getLocales() {
             $('#localeDropdown').append(
                 $('<li></li>').append(
                     $('<a>', {
-                        href: 'index.' + this[0] + '.html' 
+                        href: 'index.' + this[0] + '.html'
                     })
                         .text(this[1])
                         .prop('dir', rtlLanguages.indexOf(this[0]) !== -1 ? 'rtl' : 'ltr')
                         .css('padding-left', rtlLanguages.indexOf(this[0]) !== -1 ? '115px' : '5px')
                         .css('padding-right', rtlLanguages.indexOf(this[0]) !== -1 ? '5px' : '115px')
-                    )
+                )
             );
         });
     }
