@@ -215,7 +215,7 @@ function getLocales() {
             return a[1].toLowerCase().localeCompare(b[1].toLowerCase());
         });
         $('.localeSelect').empty();
-        $('#localeNames').empty();
+        $('#localeDropdown').empty();
         $.each(localePairs, function () {
             $('.localeSelect').append(
                 $('<option></option>')
