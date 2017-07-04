@@ -838,10 +838,9 @@ function translateWebpage() {
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
         sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
         $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
-        $.jsonp({
+        $.ajax({
             url: config.APY_URL + '/translatePage',
-            // type: "POST",
-            // dataType: 'jsonp',
+            dataType: 'jsonp',
             beforeSend: ajaxSend,
             complete: function () {
                 ajaxComplete();
