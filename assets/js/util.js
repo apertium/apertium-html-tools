@@ -17,7 +17,7 @@ var INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 10,
     INSTALLATION_NOTIFICATION_DURATION = 10000;
 
 var apyRequestTimeout, apyRequestStartTime, installationNotificationShown = false,
-    lastNAPyRequestDurations = [], apyRequestCount = 0, cumulativeAPyRequestDuration = 0;
+    lastNAPyRequestDurations = [], cumulativeAPyRequestDuration = 0;
 
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
@@ -319,10 +319,8 @@ function callApy(options, endpoint) {
 }
 
 function recordAPyRequestCompletion(requestDuration) {
-    apyRequestCount++;
     cumulativeAPyRequestDuration += requestDuration;
-    if(apyRequestCount >= INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
-        apyRequestCount = INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH;
+    if(lastNAPyRequestDurations.length === INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
         cumulativeAPyRequestDuration -= lastNAPyRequestDurations[0];
         lastNAPyRequestDurations.shift();
         lastNAPyRequestDurations.push(requestDuration);
@@ -331,7 +329,7 @@ function recordAPyRequestCompletion(requestDuration) {
         lastNAPyRequestDurations.push(requestDuration);
     }
 
-    var averageRequestDuration = cumulativeAPyRequestDuration / apyRequestCount;
+    var averageRequestDuration = cumulativeAPyRequestDuration / lastNAPyRequestDurations.length;
 
     if(requestDuration > INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD ||
         averageRequestDuration > INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD) {

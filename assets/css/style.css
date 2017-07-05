@@ -84,7 +84,7 @@ html[dir='rtl'] .clearButton {
 
 #installationNotice {
     font-size: 12px;
-    height: 70px;
+    height: 80px;
     margin: 8px;
     padding: 8px;
     position: fixed;
@@ -100,7 +100,11 @@ html[dir='rtl'] .clearButton {
 
 #installationNoticeTitle {
     margin: 0;
-    padding: 0;
+    padding-bottom: 10px;
+}
+
+#installationNoticeMessage {
+    font-size: 12px;
 }
 
 /* Navbar */
