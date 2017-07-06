@@ -262,7 +262,7 @@ html[dir='rtl'] #srcLanguages {
     clear: both;
 }
 
-iframe.translatedWebpage {
+.translatedWebpage {
     border: 1px solid #ccc;
     border-radius: 4px;
     height: 700px;

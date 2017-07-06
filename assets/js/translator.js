@@ -248,7 +248,7 @@ if(modeEnabled('translation')) {
                 return false;
             }
         });
-        
+
         $('button#translateWebpage').click(showTranslateWebpageInterface);
         $('button#cancelWebpageTranslate').click(hideTranslateWebpageInterface);
 
@@ -744,7 +744,7 @@ function translateDoc() {
     }
 }
 
-window.onpopstate = function(event) {
+window.onpopstate = function () {
     // TODO: Could do the whole restoreChoices here? But would have to call the right translate() functions anyway
     if(getURLParam('qP').length > 0) {
         $('#webpage').val(decodeURIComponent(getURLParam('qP')));
@@ -810,11 +810,11 @@ function translateWebpage() {
                     var contents = $(iframe).contents();
                     contents.find('head')
                         .append($('<base>').attr('href', $('input#webpage').val()));
-                    $(iframe).load(function(){
+                    $(iframe).load(function () {
                         contents.find('a')
-                            .map(function(_i, a){
+                            .map(function (index, a) {
                                 var href = a.href;
-                                $(a).on('click', function() { window.parent.translateLink(href); });
+                                $(a).on('click', function () { window.parent.translateLink(href); });
                                 a.href = '#';
                                 a.target = '';
                             });
@@ -824,8 +824,7 @@ function translateWebpage() {
                     translationNotAvailableWebpage(data);
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log(jqXHR.responseJSON);
+            error: function (jqXHR, textStatus) {
                 translationNotAvailableWebpage(jqXHR.responseJSON);
             }
         });
