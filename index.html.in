@@ -180,14 +180,14 @@
                           <div class="form-group">
                               <div id="translateText">
                                   <div class="col-sm-6">
-                                      <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
+                                      <textarea class="form-control translateTextElements" id="originalText" rows="15" spellcheck="false"></textarea>
                                       <button class="btn clearButton"><i class="fa fa-times"></i></button>
                                   </div>
                                   <div class="col-sm-6">
-                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
+                                      <textarea class="form-control translateTextElements" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
                                   </div>
                                   <div class="col-sm-3">
-                                      <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
+                                      <button id="translateDoc" class="btn btn-default translateTextElements" style="margin-top: 1em;">
                                           <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>
                                       </button>
                                   </div>
@@ -197,11 +197,11 @@
                                               <input type="checkbox" id="markUnknown" checked>
                                               <span data-text="Mark_Unknown_Words">Mark unknown words</span>
                                           </label>
-                                          <label class="pull-right">
+                                          <label class="pull-right translateTextElements">
                                               <input type="checkbox" id="instantTranslation" checked>
                                               <span data-text="Instant_Translation">Instant translation</span>
                                           </label>
-                                          <label class="pull-right">
+                                          <label class="pull-right translateTextElements">
                                               <input type="checkbox" id="chainedTranslation" class="chaining">
                                               <span data-text="Multi_Step_Translation" class="chaining">
                                                   Multi-step translation (experimental)
@@ -233,12 +233,6 @@
                                           <button class="btn btn-sm btn-default pull-right" id="cancelDocTranslate">
                                               <i class="fa fa-arrow-left"></i> <span data-text="Cancel">Cancel</span>
                                           </button>
-                                      </div>
-                                      <div class="checkbox" id="translateDocOptions">
-                                          <label class="pull-right">
-                                              <input type="checkbox" id="markUnknownDoc" checked>
-                                              <span data-text="Mark_Unknown_Words">Mark unknown words</span>
-                                          </label>
                                       </div>
                                   </div>
                                   <div class="col-sm-6">
