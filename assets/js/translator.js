@@ -752,7 +752,7 @@ window.onpopstate = function () {
     }
 };
 
-function translateLink(href) { // eslint-disable no-unused-vars
+function translateLink(href) { // eslint-disable-line no-unused-vars
     $('#webpage').val(href);
     if(window.history) {
         // used by window.onpopstate:
@@ -812,7 +812,7 @@ function translateWebpage() {
                         .append($('<base>').attr('href', $('input#webpage').val()));
                     $(iframe).load(function () {
                         contents.find('a')
-                            .map(function (index, a) { // eslint-disable array-callback-return
+                            .map(function (index, a) { // eslint-disable-line array-callback-return
                                 var href = a.href;
                                 $(a).on('click', function () { window.parent.translateLink(href); });
                                 a.href = '#';
