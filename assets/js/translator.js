@@ -744,6 +744,14 @@ function translateDoc() {
     }
 }
 
+window.onpopstate = function(event) {
+    // TODO: Could do the whole restoreChoices here? But would have to call the right translate() functions anyway
+    if(getURLParam('qP').length > 0) {
+        $('#webpage').val(decodeURIComponent(getURLParam('qP')));
+        translateWebpage();
+    }
+};
+
 function translateLink(href) {
     $('#webpage').val(href);
     if(window.history) {
@@ -767,68 +775,6 @@ function cleanPage(html) {
         'console.log("document.write "+');
 }
 
-/*function translateWebpage() {
-    persistChoices('translator', true);
-    if(!$('div#translateWebpage').is(':visible')) {
-        showTranslateWebpageInterface($('#originalText').val().trim());
-    }
-
-    if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
-        sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
-        $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
-        callApy({
-            data: {
-                'langpair': curSrcLang + '|' + curDstLang,
-                'url': $('input#webpage').val()
-            },
-            success: handleTranslateWebpageSuccessResponse,
-            error: handleTranslateWebpageErrorResponse,
-            complete: function () {
-                ajaxComplete();
-                textTranslateRequest = undefined;
-                $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
-            }
-        }, '/translatePage');
-    }
-}
-
-function handleTranslateWebpageSuccessResponse(data) {
-    if(data.responseStatus === HTTP_OK_CODE) {
-        var iframe = $('<iframe id="translatedWebpage" class="translatedWebpage" frameborder="0"></iframe>')[0];
-        $('iframe#translatedWebpage').replaceWith(iframe);
-        iframe.contentWindow.document.open();
-        var translatedHTML = cleanPage(data.responseData.translatedText);
-        iframe.contentWindow.document.write(translatedHTML);
-        iframe.contentWindow.document.close();
-
-        var contents = $(iframe).contents();
-        contents
-            .find('head')
-            .append($('<base>').attr('href', $('input#webpage').val()));
-
-        $(iframe).load(function () {
-            contents
-                .find('a')
-                .map(function (index, a) {
-                    var href = a.href;
-                    $(a).on('click', function () {
-                        window.parent.translateLink(href);
-                    });
-                    a.href = '#';
-                    a.target = '';
-                });
-        });
-    }
-    else {
-        translationNotAvailableWebpage(data);
-    }
-}
-
-function handleTranslateWebpageErrorResponse(jqXHR, textStatus, errorThrown) {
-    translationNotAvailableWebpage(jqXHR.responseJSON);
-}
-*/
-
 function translateWebpage() {
     persistChoices('translator', true);
     if(!$('div#translateWebpage').is(':visible')) {
@@ -840,7 +786,7 @@ function translateWebpage() {
         $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
         $.ajax({
             url: config.APY_URL + '/translatePage',
-            dataType: 'jsonp',
+            dataType: 'json',
             beforeSend: ajaxSend,
             complete: function () {
                 ajaxComplete();
@@ -869,18 +815,18 @@ function translateWebpage() {
                             .map(function(_i, a){
                                 var href = a.href;
                                 $(a).on('click', function() { window.parent.translateLink(href); });
-                                a.href = "#";
+                                a.href = '#';
+                                a.target = '';
                             });
                     });
                 }
                 else {
-                    console.log('fewfew');
                     translationNotAvailableWebpage(data);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown){
                 console.log(jqXHR.responseJSON);
-                // translationNotAvailableWebpage(jqXHR.responseJSON);
+                translationNotAvailableWebpage(jqXHR.responseJSON);
             }
         });
     }
