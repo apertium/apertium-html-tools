@@ -51,6 +51,16 @@ h2 {
     width: 120px;
 }
 
+#localeDropdownTrigger {
+    color: black;
+    padding: 0;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    width: 120px;
+    border-radius: 3px;
+    background-color: #fff;
+}
+
 .nav-pills { /* sass-lint:disable-line class-name-format */
     cursor: pointer;
 }
