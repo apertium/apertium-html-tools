@@ -48,17 +48,22 @@ h2 {
 #localeDropdown {
     height: 300px;
     overflow-y: scroll;
-    width: 120px;
+    width: 100px;
 }
 
 #localeDropdownTrigger {
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 3px;
-    color: #000000;
+    color: #000;
     margin-top: 5px;
     padding: 0;
     width: 120px;
+}
+
+#localeDropdownCaret {
+    position: absolute;
+    top: 50%;
 }
 
 .nav-pills { /* sass-lint:disable-line class-name-format */
