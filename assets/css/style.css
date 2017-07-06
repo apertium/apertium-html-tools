@@ -52,13 +52,13 @@ h2 {
 }
 
 #localeDropdownTrigger {
-    color: black;
-    padding: 0;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    width: 120px;
-    border-radius: 3px;
     background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    color: #000000;
+    margin-top: 5px;
+    padding: 0;
+    width: 120px;
 }
 
 .nav-pills { /* sass-lint:disable-line class-name-format */
