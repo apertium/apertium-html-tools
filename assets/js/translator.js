@@ -562,7 +562,7 @@ function translate() {
     if($('div#translateText').is(':visible')) {
         translateText();
     }
-    else {
+    else if($('div#docTranslation').is(':visible')) {
         translateDoc();
     }
 }
