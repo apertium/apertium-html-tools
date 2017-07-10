@@ -343,7 +343,7 @@ function displayInstallationNotification() {
     }
     installationNotificationShown = true;
 
-    $('#installationNotice').removeClass('hide').fadeIn('slow')
+    $('#installationNotice').fadeIn('slow').removeClass('hide')
         .delay(INSTALLATION_NOTIFICATION_DURATION)
         .fadeOut('slow', hideInstallationNotification);
 
