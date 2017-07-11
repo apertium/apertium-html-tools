@@ -219,7 +219,7 @@ if(modeEnabled('translation')) {
         });
 
         $('button#translateDoc').click(function () {
-            $('.translateTextElements').fadeOut('fast', function () {
+            $('#markUnknownContainer, #translateOptionsContainer').siblings().fadeOut('fast', function () {
                 $('#fileInput').show();
                 $('div#fileName').hide();
                 $('div#docTranslation').fadeIn('fast');
@@ -233,7 +233,7 @@ if(modeEnabled('translation')) {
             $('div#docTranslation').fadeOut('fast', function () {
                 $('a#fileDownload').hide();
                 $('span#uploadError').hide();
-                $('.translateTextElements').fadeIn('fast', synchronizeTextareaHeights);
+                $('#markUnknownContainer, #translateOptionsContainer').siblings().fadeIn('fast', synchronizeTextareaHeights);
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
             });
@@ -559,7 +559,7 @@ function populateTranslationList() {
 }
 
 function translate() {
-    if($('.translateTextElements').is(':visible')) {
+    if($('#markUnknownContainer, #translateOptionsContainer').siblings().is(':visible')) {
         translateText();
     }
     else {
