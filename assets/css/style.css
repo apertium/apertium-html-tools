@@ -51,7 +51,7 @@ h2 {
     width: 100px;
 }
 
-#localeDropdownTrigger {
+#localeDropdownSelect {
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -59,6 +59,11 @@ h2 {
     margin-top: 5px;
     padding: 0;
     width: 120px;
+}
+
+#localeName {
+    padding-left: 7px;
+    padding-right: 7px;
 }
 
 #localeDropdownCaret {
