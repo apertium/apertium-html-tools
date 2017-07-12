@@ -97,7 +97,7 @@ function persistChoices(mode, updatePermalink) {
             urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
             qVal = $('#originalText').val();
         }
-        if(hash === '#webpageTranslation' && curSrcLang && curDstLang) {
+        else if(hash === '#webpageTranslation' && curSrcLang && curDstLang) {
             urlParams = [];
             urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
             qVal = $('#webpage').val();

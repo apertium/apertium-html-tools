@@ -744,20 +744,8 @@ function translateDoc() {
     }
 }
 
-window.onpopstate = function () {
-    // TODO: Could do the whole restoreChoices here? But would have to call the right translate() functions anyway
-    if(getURLParam('qP').length > 0) {
-        $('#webpage').val(decodeURIComponent(getURLParam('qP')));
-        translateWebpage();
-    }
-};
-
 function translateLink(href) { // eslint-disable-line no-unused-vars
     $('#webpage').val(href);
-    if(window.history) {
-        // used by window.onpopstate:
-        window.history.pushState({}, document.title, window.location.href);
-    }
     translateWebpage();
 }
 
@@ -765,12 +753,9 @@ function cleanPage(html) {
     // Pages like
     // eslint-disable-next-line max-len
     // http://www.lapinkansa.fi/sagat/romssa-sami-searvvi-jodiheaddji-daruiduhttinpolitihkka-vaikkuha-ain-olbmuid-guottuide-samiid-birra-15843633/
-    // insert noise using document.write that 1. makes things
-    // enormously slow, and 2. completely mess up styling so e.g. you
-    // have to scroll through a full screen of whitespace before
-    // reaching content. This might mess things up some places – needs
-    // testing – but on the other hand most uses of document.write are
-    // evil.
+    // insert noise using document.write that 1. makes things enormously slow, and 2. completely mess up styling so e.g. you
+    // have to scroll through a full screen of whitespace before reaching content. This might mess things up some places – needs
+    // testing – but on the other hand most uses of document.write are evil.
     return html.replace(/document[.]write[(]/g,
         'console.log("document.write "+');
 }
@@ -790,13 +775,12 @@ function translateWebpage() {
             beforeSend: ajaxSend,
             complete: function () {
                 ajaxComplete();
-                synchronizeTextareaHeights();
                 textTranslateRequest = undefined;
                 $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
             },
             data: {
                 'langpair': curSrcLang + '|' + curDstLang,
-                'markUnknown': 'no', // TODO: checkbox; also perhaps only remove the #-marks, not *
+                'markUnknown': 'no',
                 'url': $('input#webpage').val()
             },
             success: function (data) {
@@ -811,8 +795,15 @@ function translateWebpage() {
                     contents.find('head')
                         .append($('<base>').attr('href', $('input#webpage').val()));
                     $(iframe).load(function () {
+                        console.log(contents.find('a'));
+                        contents.find('a').forEach(function(elem, index) {
+                            console.log(elem);
+                        });
+                    for(var key in contents.find('a')) {
+                        console.log(key);
+                    }
                         contents.find('a')
-                            .map(function (index, a) { // eslint-disable-line array-callback-return
+                            .map(function (index, a) {
                                 var href = a.href;
                                 $(a).on('click', function () { window.parent.translateLink(href); });
                                 a.href = '#';
@@ -830,7 +821,6 @@ function translateWebpage() {
         });
     }
 }
-
 
 function showTranslateWebpageInterface(url) {
     $('#srcLangSelectors').css({
