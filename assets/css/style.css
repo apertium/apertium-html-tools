@@ -47,7 +47,7 @@ h2 {
 
 #localeDropdown {
     height: 300px;
-    min-width: 0 !important; /* eslint-disable-line no-important */ 
+    min-width: 0 !important; /* sass-lint:disable-line no-important */
     overflow-y: scroll;
     width: 130px;
 }
