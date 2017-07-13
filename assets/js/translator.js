@@ -16,7 +16,7 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, isURL, getURLParam */
+    callApy, isURL */
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
 /* global $bu_getBrowser */
 
@@ -799,7 +799,7 @@ function handleTranslateWebpageSuccessResponse(data) {
         contents.find('head')
             .append($('<base>').attr('href', $('input#webpage').val()));
         $(iframe).load(function () {
-            $.each(contents.find('a'), function(index, a) {
+            $.each(contents.find('a'), function (index, a) {
                 var href = a.href;
                 $(a).on('click', function () { window.parent.translateLink(href); });
                 a.href = '#';
@@ -990,4 +990,4 @@ function autoSelectDstLang() {
 /*:: import localizeInterface from "./localization.js" */
 /*:: import {readCache,cache} from "./cache.js" */
 /*:: import {config} from "./config.js" */
-/*:: import {isURL, getURLParam} from "./util.js" */
+/*:: import {isURL} from "./util.js" */
