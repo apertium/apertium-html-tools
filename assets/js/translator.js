@@ -13,7 +13,7 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4;
 
-var INDIVIDUAL_LIST_WIDTH = TRANSLATION_LIST_WIDTH / TRANSLATION_LIST_COLUMNS;
+var individualListWidth = TRANSLATION_LIST_WIDTH / TRANSLATION_LIST_COLUMNS;
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
@@ -463,8 +463,10 @@ function populateTranslationList() {
             ? Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS)
             : TRANSLATION_LIST_COLUMNS;
 
-    numSrcCols = getSrcNumCols(numSrcCols);
-    numDstCols = getDstNumCols(numDstCols);
+    var availableWidthForSrcLangs = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left;
+    numSrcCols = Math.floor(availableWidthForSrcLangs / individualListWidth);
+    var availableWidthForDstLangs = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth();
+    numDstCols = Math.floor(availableWidthForDstLangs / individualListWidth);
 
     var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
         dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
@@ -562,25 +564,6 @@ function populateTranslationList() {
             }
         });
     }
-}
-
-function getSrcNumCols(numSrcCols) {
-    for(var srcColNum = 2; srcColNum <= numSrcCols; srcColNum++) {
-        if($('#srcLangSelector').offset().left + (srcColNum * INDIVIDUAL_LIST_WIDTH) > $(window).width()) {
-            return srcColNum - 1;
-        }
-    }
-    return numSrcCols;
-}
-
-function getDstNumCols(numDstCols) {
-    var rightOffset = $(window).width() - ($('#dstLangSelector').offset().left + $('#dstLangSelector').outerWidth());
-    for(var dstColNum = 2; dstColNum <= numDstCols; dstColNum++) {
-        if(rightOffset + (dstColNum * INDIVIDUAL_LIST_WIDTH) > $(window).width()) {
-            return dstColNum - 1;
-        }
-    }
-    return numDstCols;
 }
 
 function translate() {
