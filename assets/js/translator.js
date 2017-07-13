@@ -769,57 +769,51 @@ function translateWebpage() {
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
         sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
         $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
-        $.ajax({
-            url: config.APY_URL + '/translatePage',
-            dataType: 'json',
-            beforeSend: ajaxSend,
-            complete: function () {
-                ajaxComplete();
-                textTranslateRequest = undefined;
-                $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
-            },
+        textTranslateRequest = callApy({
             data: {
                 'langpair': curSrcLang + '|' + curDstLang,
                 'markUnknown': 'no',
                 'url': $('input#webpage').val()
             },
-            success: function (data) {
-                if(data.responseStatus === HTTP_OK_CODE) {
-                    var iframe = $('<iframe id="translatedWebpage" class="translatedWebpage" frameborder="0"></iframe>')[0];
-                    $('#translatedWebpage').replaceWith(iframe);
-                    iframe.contentWindow.document.open();
-                    var html = cleanPage(data.responseData.translatedText);
-                    iframe.contentWindow.document.write(html);
-                    iframe.contentWindow.document.close();
-                    var contents = $(iframe).contents();
-                    contents.find('head')
-                        .append($('<base>').attr('href', $('input#webpage').val()));
-                    $(iframe).load(function () {
-                        console.log(contents.find('a'));
-                        contents.find('a').forEach(function(elem, index) {
-                            console.log(elem);
-                        });
-                    for(var key in contents.find('a')) {
-                        console.log(key);
-                    }
-                        contents.find('a')
-                            .map(function (index, a) {
-                                var href = a.href;
-                                $(a).on('click', function () { window.parent.translateLink(href); });
-                                a.href = '#';
-                                a.target = '';
-                            });
-                    });
-                }
-                else {
-                    translationNotAvailableWebpage(data);
-                }
-            },
-            error: function (jqXHR) {
-                translationNotAvailableWebpage(jqXHR.responseJSON);
+            dataType: 'json',
+            success: handleTranslateWebpageSuccessResponse,
+            error: handleTranslateWebpageErrorResponse,
+            complete: function () {
+                ajaxComplete();
+                textTranslateRequest = undefined;
+                $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
             }
+        }, '/translatePage');
+    }
+}
+
+function handleTranslateWebpageSuccessResponse(data) {
+    if(data.responseStatus === HTTP_OK_CODE) {
+        var iframe = $('<iframe id="translatedWebpage" class="translatedWebpage" frameborder="0"></iframe>')[0];
+        $('#translatedWebpage').replaceWith(iframe);
+        iframe.contentWindow.document.open();
+        var html = cleanPage(data.responseData.translatedText);
+        iframe.contentWindow.document.write(html);
+        iframe.contentWindow.document.close();
+        var contents = $(iframe).contents();
+        contents.find('head')
+            .append($('<base>').attr('href', $('input#webpage').val()));
+        $(iframe).load(function () {
+            $.each(contents.find('a'), function(index, a) {
+                var href = a.href;
+                $(a).on('click', function () { window.parent.translateLink(href); });
+                a.href = '#';
+                a.target = '';
+            });
         });
     }
+    else {
+        translationNotAvailableWebpage(data);
+    }
+}
+
+function handleTranslateWebpageErrorResponse(jqXHR) {
+    translationNotAvailableWebpage(jqXHR.responseJSON);
 }
 
 function showTranslateWebpageInterface(url) {

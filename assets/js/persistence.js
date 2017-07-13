@@ -7,7 +7,7 @@ var URL_PARAM_Q_LIMIT = 1300,
     DEFAULT_EXPIRY_HOURS = 24;
 
 var store = new Store(config.HTML_URL);
-
+var hash, hashURLMap = {};
 // eslint-disable-next-line id-blacklist
 function cache(name, value) {
     store.set(name, value);
@@ -80,8 +80,8 @@ function persistChoices(mode, updatePermalink) {
     }
 
     if(window.history.replaceState && parent.location.hash) {
-        var hash = parent.location.hash,
-            urlParams = [],
+        hash = parent.location.hash;
+        var urlParams = [],
             urlParamNames = ['dir', 'choice'];
 
         $.each(urlParamNames, function () {
@@ -114,10 +114,14 @@ function persistChoices(mode, updatePermalink) {
         }
 
         var qName = '';
-        if(hash === '#translation') { qName = ''; }
-        if(hash === '#webpageTranslation') { qName = 'P'; }
-        if(hash === '#analyzation') { qName = 'A'; }
-        if(hash === '#generation') { qName = 'G'; }
+
+        hashURLMap = {
+            '#translation': '',
+            '#webpageTranslation': 'P',
+            '#analyzation': 'A',
+            '#generation': 'G'
+        };
+        qName = hashURLMap[hash];
 
         if(updatePermalink) {
             if(qVal !== undefined && qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
