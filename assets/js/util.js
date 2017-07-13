@@ -317,7 +317,7 @@ function callApy(options, endpoint) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
-    if(requestUrl.length > THRESHOLD_REQUEST_URL_LENGTH) {
+    if(requestUrl.length > THRESHOLD_REQUEST_URL_LENGTH || endpoint === '/translatePage') {
         requestOptions.type = 'POST';
         return $.ajax(requestOptions);
     }
