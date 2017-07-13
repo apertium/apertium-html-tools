@@ -47,8 +47,8 @@ h2 {
 
 #localeDropdown {
     height: 300px;
+    min-width: 0 !important; /* eslint-disable-line no-important */ 
     overflow-y: scroll;
-    min-width: 0 !important;
     width: 130px;
 }
 
