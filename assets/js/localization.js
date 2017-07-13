@@ -84,10 +84,21 @@ $(document).ready(function () {
     $('.localeSelect').change(function () {
         locale = $(this).val();
         $('#localeName').text(pageLocales[locale]);
+        localizeCurrentInterface();
+    });
+
+    $('#localeDropdown li > a').click(function (e) {
+        locale = this.rel;
+        $('.localeSelect').val(locale);
+        $('#localeName').text(this.text);
+        localizeCurrentInterface();
+    });
+
+    function localizeCurrentInterface() {
         sendEvent('localization', 'localize', locale);
         localizeEverything(false);
         persistChoices('localization');
-    });
+    }
 
     function localizeEverything(stringsFresh) {
         localizeInterface();
@@ -116,9 +127,8 @@ $(document).ready(function () {
                 window.location.hash;
             window.history.replaceState({}, document.title, newURL);
         }
+        $('#localeDropdownCaret').css('left', rtlLanguages.indexOf(locale) !== -1 ? '5%' : '90%');
     }
-
-    $('#localeDropdownCaret').css('left', rtlLanguages.indexOf(locale) !== -1 ? '5%' : '90%');
 });
 
 function getLocale() {
@@ -228,12 +238,22 @@ function getLocales() {
             $('#localeDropdown').append(
                 $('<li></li>').append(
                     $('<a>', {
-                        href: 'index.' + this[0] + '.html'
+                        rel: this[0]
                     })
                         .text(this[1])
                         .prop('dir', rtlLanguages.indexOf(this[0]) !== -1 ? 'rtl' : 'ltr')
-                        .css('padding-left', rtlLanguages.indexOf(this[0]) !== -1 ? '115px' : '5px')
-                        .css('padding-right', rtlLanguages.indexOf(this[0]) !== -1 ? '5px' : '115px')
+                        .css('padding-left', rtlLanguages.indexOf(this[0]) !== -1 ? '105px' : '5px')
+                        .css('padding-right', rtlLanguages.indexOf(this[0]) !== -1 ? '5px' : '105px')
+                        .hover( 
+                            function () {
+                                $(this).css('background-color', '#446e9b')
+                                $(this).css('color', '#FFF')
+                            },
+                            function () {
+                                $(this).css('background-color', '#FFF')
+                                $(this).css('color', '#000')
+                            }
+                        )
                 )
             );
         });

@@ -48,7 +48,8 @@ h2 {
 #localeDropdown {
     height: 300px;
     overflow-y: scroll;
-    width: 100px;
+    min-width: 0 !important;
+    width: 130px;
 }
 
 #localeDropdownSelect {
@@ -58,7 +59,7 @@ h2 {
     color: #000;
     margin-top: 5px;
     padding: 0;
-    width: 120px;
+    width: 130px;
 }
 
 #localeName {
