@@ -42,13 +42,12 @@ if (typeof Object.assign != 'function') {
 
 function debounce(func, delay) { // eslint-disable-line no-unused-vars
     var clock = null;
-    delay = delay || DEFAULT_DEBOUNCE_DURATION;
     return function () {
         var context = this, args = arguments;
         clearTimeout(clock);
         clock = setTimeout(function () {
             func.apply(context, args);
-        }, delay);
+        }, delay || DEFAULT_DEBOUNCE_DURATION);
     };
 }
 
