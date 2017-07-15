@@ -40,14 +40,15 @@ if (typeof Object.assign != 'function') {
 }
 /* eslint-enable */
 
-function debounce(func) {
+function debounce(func, debounceDuration) { // eslint-disable-line no-unused-vars
     var clock = null;
+    debounceDuration = debounceDuration || DEFAULT_DEBOUNCE_DURATION;
     return function () {
         var context = this, args = arguments;
         clearTimeout(clock);
         clock = setTimeout(function () {
             func.apply(context, args);
-        }, DEFAULT_DEBOUNCE_DURATION);
+        }, debounceDuration);
     };
 }
 
