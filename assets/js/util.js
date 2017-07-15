@@ -132,10 +132,11 @@ $(document).ready(function () {
 
     resizeFooter();
     var debouncepopulateTranslationList = debounce(populateTranslationList);
+    var debounceresizeFooter = debounce(resizeFooter);
     $(window)
         .on('hashchange', persistChoices)
         .resize(function () {
-            resizeFooter();
+            debounceresizeFooter();
             debouncepopulateTranslationList();
         });
 
