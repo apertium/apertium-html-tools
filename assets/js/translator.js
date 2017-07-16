@@ -753,7 +753,7 @@ function detectLanguage() {
         textTranslateRequest.abort();
     }
 
-    return textTranslateRequest = callApy({
+    textTranslateRequest = callApy({
         data: {
             'q': originalText
         },
@@ -764,6 +764,8 @@ function detectLanguage() {
             textTranslateRequest = undefined;
         }
     }, '/identifyLang');
+
+    return textTranslateRequest;
 }
 
 function detectLanguageSuccessResponse(data) {
