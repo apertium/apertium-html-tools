@@ -52,8 +52,13 @@ h2 {
     width: 130px;
 }
 
-#localeDropdown li > a:hover,
 #localeDropdownSelect:hover  {
+    cursor: default;
+}
+
+#localeDropdown li > a:hover {
+    background-color: #446e9b;
+    color: #fff;
     cursor: default;
 }
 
