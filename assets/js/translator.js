@@ -73,7 +73,9 @@ if(modeEnabled('translation')) {
             refreshLangList(true);
             muteLanguages();
             localizeInterface();
-            translateText();
+            if(this.id !== 'detect') {
+                translateText();
+            }
 
             autoSelectDstLang();
         });
@@ -167,8 +169,9 @@ if(modeEnabled('translation')) {
         $('#detect').click(function () {
             $('.srcLang').removeClass('active');
             $(this).addClass('active');
-            detectLanguage();
-            translateText();
+            $.when(detectLanguage()).done(function () {
+                translateText();
+            });
         });
 
         $('.swapLangBtn').click(function () {
@@ -206,8 +209,9 @@ if(modeEnabled('translation')) {
         $('#srcLangSelect').change(function () {
             var selectValue = $(this).val();
             if(selectValue === 'detect') {
-                detectLanguage();
-                translateText();
+                $.when(detectLanguage()).done(function () {
+                    translateText();
+                });
             }
             else {
                 handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
@@ -749,50 +753,52 @@ function detectLanguage() {
         textTranslateRequest.abort();
     }
 
-    textTranslateRequest = $.jsonp({
-        url: config.APY_URL + '/identifyLang',
-        beforeSend: ajaxSend,
-        complete: function () {
-            ajaxComplete();
-            textTranslateRequest = undefined;
-        },
+    return textTranslateRequest = callApy({
         data: {
             'q': originalText
         },
-        success: function (data) {
-            var possibleLanguages = [];
-            for(var lang in data) {
-                possibleLanguages.push([lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang, data[lang]]);
-            }
-            possibleLanguages.sort(function (a, b) {
-                return b[1] - a[1];
-            });
-
-            var oldSrcLangs = recentSrcLangs;
-            recentSrcLangs = [];
-            for(var i = 0; i < possibleLanguages.length; i++) {
-                if(recentSrcLangs.length < TRANSLATION_LIST_BUTTONS && possibleLanguages[i][0] in pairs) {
-                    recentSrcLangs.push(possibleLanguages[i][0]);
-                }
-            }
-            recentSrcLangs = recentSrcLangs.concat(oldSrcLangs);
-            if(recentSrcLangs.length > TRANSLATION_LIST_BUTTONS) {
-                recentSrcLangs = recentSrcLangs.slice(0, TRANSLATION_LIST_BUTTONS);
-            }
-
-            curSrcLang = recentSrcLangs[0];
-            $('#srcLangSelect').val(curSrcLang);
-            muteLanguages();
-
-            $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
-            refreshLangList();
-            $('#detectedText').show();
-            $('#detectText').hide();
-        },
-        error: function () {
-            $('#srcLang1').click();
+        success: detectLanguageSuccessResponse,
+        error: detectLanguageErrorResponse,
+        complete: function () {
+            ajaxComplete();
+            textTranslateRequest = undefined;
         }
+    }, '/identifyLang');
+}
+
+function detectLanguageSuccessResponse(data) {
+    var possibleLanguages = [];
+    for(var lang in data) {
+        possibleLanguages.push([lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang, data[lang]]);
+    }
+    possibleLanguages.sort(function (a, b) {
+        return b[1] - a[1];
     });
+
+    var oldSrcLangs = recentSrcLangs;
+    recentSrcLangs = [];
+    for(var i = 0; i < possibleLanguages.length; i++) {
+        if(recentSrcLangs.length < TRANSLATION_LIST_BUTTONS && possibleLanguages[i][0] in pairs) {
+            recentSrcLangs.push(possibleLanguages[i][0]);
+        }
+    }
+    recentSrcLangs = recentSrcLangs.concat(oldSrcLangs);
+    if(recentSrcLangs.length > TRANSLATION_LIST_BUTTONS) {
+        recentSrcLangs = recentSrcLangs.slice(0, TRANSLATION_LIST_BUTTONS);
+    }
+
+    curSrcLang = recentSrcLangs[0];
+    $('#srcLangSelect').val(curSrcLang);
+    muteLanguages();
+
+    $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
+    refreshLangList();
+    $('#detectedText').show();
+    $('#detectText').hide();
+}
+
+function detectLanguageErrorResponse() {
+    $('#srcLang1').click();
 }
 
 function translationNotAvailable() {
