@@ -783,7 +783,7 @@ function translateWebpage() {
                 textTranslateRequest = undefined;
                 $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
             }
-        }, '/translatePage');
+        }, '/translatePage', true);
     }
 }
 

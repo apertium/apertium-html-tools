@@ -180,11 +180,11 @@ function restoreChoices(mode) {
             }
         }
 
-        if(getURLParam('q').length > 0) {
+        if(getURLParam('q' + hashURLMap[hash]).length > 0) {
             $('#originalText').val(decodeURIComponent(getURLParam('q')));
         }
 
-        if(getURLParam('qP').length > 0) {
+        if(getURLParam('q' + hashURLMap[hash]).length > 0) {
             $('#webpage').val(decodeURIComponent(getURLParam('qP')));
         }
 
@@ -218,7 +218,7 @@ function restoreChoices(mode) {
             }
         }
 
-        if(getURLParam('qA').length > 0) {
+        if(getURLParam('q' + hashURLMap[hash]).length > 0) {
             $('#morphAnalyzerInput').val(decodeURIComponent(getURLParam('qA')));
         }
     }
@@ -247,7 +247,7 @@ function restoreChoices(mode) {
             }
         }
 
-        if(getURLParam('qG').length > 0) {
+        if(getURLParam('q' + hashURLMap[hash]).length > 0) {
             $('#morphGeneratorInput').val(decodeURIComponent(getURLParam('qG')));
         }
     }
