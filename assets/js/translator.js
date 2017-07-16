@@ -169,7 +169,7 @@ if(modeEnabled('translation')) {
         $('#detect').click(function () {
             $('.srcLang').removeClass('active');
             $(this).addClass('active');
-            $.when(detectLanguage()).done(function (x) {
+            $.when(detectLanguage()).done(function () {
                 translateText();
             });
         });
