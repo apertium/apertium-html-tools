@@ -147,6 +147,9 @@ if(modeEnabled('translation')) {
             if($('div#translateText').is(':visible')) {
                 translateText();
             }
+            else if($('div#docTranslation').is(':visible')) {
+                translateDoc();
+            }
             persistChoices('translator');
         });
 
