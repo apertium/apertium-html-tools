@@ -233,11 +233,12 @@ function allowedLang(code) {
     }
 }
 
-function filterLangList(langs/*: Array<string>*/, filterFn/*: (lang: string) => bool*/) {
+function filterLangList(langs/*: Array<string>*/, _filterFn/*: (lang: string) => bool*/) {
     if(config.ALLOWED_LANGS === null && config.ALLOWED_VARIANTS === null) {
         return langs;
     }
     else {
+        var filterFn = _filterFn;
         if(!filterFn) {
             filterFn = function (code) {
                 return allowedLang(code) ||
@@ -250,8 +251,8 @@ function filterLangList(langs/*: Array<string>*/, filterFn/*: (lang: string) => 
 }
 
 function getURLParam(name) {
-    name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
-    var regexS = '[\\?&]' + name + '=([^&#]*)';
+    var escapedName = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+    var regexS = '[\\?&]' + escapedName + '=([^&#]*)';
     var regex = new RegExp(regexS);
     var results = regex.exec(window.location.href);
     return results === null ? '' : results[1];

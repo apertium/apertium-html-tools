@@ -429,8 +429,8 @@ function refreshLangList(resetDetect) {
         $('#detectedText').hide();
     }
 
-    function filterLangs(recentLangs, allLangs) {
-        recentLangs = recentLangs.filter(onlyUnique);
+    function filterLangs(allRecentLangs, allLangs) {
+        var recentLangs = allRecentLangs.filter(onlyUnique);
         if(recentLangs.length < TRANSLATION_LIST_BUTTONS) {
             for(var i = 0; i < allLangs.length; i++) {
                 if(recentLangs.length < TRANSLATION_LIST_BUTTONS && recentLangs.indexOf(allLangs[i]) === -1) {
