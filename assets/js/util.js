@@ -10,7 +10,7 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     APY_REQUEST_URL_THRESHOLD_LENGTH = 2000, // maintain 48 characters buffer for generated parameters
-    DEFAULT_DEBOUNCE_DURATION = 100;
+    DEFAULT_DEBOUNCE_DELAY = 100;
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -47,7 +47,7 @@ function debounce(func, delay) { // eslint-disable-line no-unused-vars
         clearTimeout(clock);
         clock = setTimeout(function () {
             func.apply(context, args);
-        }, delay || DEFAULT_DEBOUNCE_DURATION);
+        }, delay || DEFAULT_DEBOUNCE_DELAY);
     };
 }
 
@@ -135,8 +135,7 @@ $(document).ready(function () {
     $(window)
         .on('hashchange', persistChoices)
         .resize(function () {
-            debounceresizeFooter();
-            debouncepopulateTranslationList();
+
         });
 
     if(config.ALLOWED_LANGS) {
