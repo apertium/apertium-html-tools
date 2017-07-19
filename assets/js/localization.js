@@ -127,7 +127,7 @@ $(document).ready(function () {
                 window.location.hash;
             window.history.replaceState({}, document.title, newURL);
         }
-        $('#localeDropdownCaret').css('left', isRtlLanguage(locale) ? '5%' : '90%');
+        $('#localeDropdownCaret').css('left', rtlLanguages.indexOf(locale) !== -1 ? '5%' : '90%');
     }
 });
 
@@ -228,11 +228,12 @@ function getLocales() {
         $('.localeSelect').empty();
         $('#localeDropdown').empty();
         $.each(localePairs, function () {
+            var isRtlLanguage = (rtlLanguages.indexOf(this[0]) !== -1);
             $('.localeSelect').append(
                 $('<option></option>')
                     .val(this[0])
                     .text(this[1])
-                    .prop('dir', isRtlLanguage(this[0]) ? 'rtl' : 'ltr')
+                    .prop('dir', isRtlLanguage ? 'rtl' : 'ltr')
             );
 
             $('#localeDropdown').append(
@@ -241,10 +242,10 @@ function getLocales() {
                         'data-locale': this[0]
                     })
                         .text(this[1])
-                        .prop('dir', isRtlLanguage(this[0]) ? 'rtl' : 'ltr')
-                        .css('text-align', isRtlLanguage(this[0]) ? 'right' : 'left')
-                        .css('padding-left', isRtlLanguage(this[0]) ? '105px' : '5px')
-                        .css('padding-right', isRtlLanguage(this[0]) ? '5px' : '105px')
+                        .prop('dir', isRtlLanguage ? 'rtl' : 'ltr')
+                        .css('text-align', isRtlLanguage ? 'right' : 'left')
+                        .css('padding-left', isRtlLanguage ? '105px' : '5px')
+                        .css('padding-right', isRtlLanguage ? '5px' : '105px')
                 )
             );
         });
@@ -411,7 +412,7 @@ function localizeInterface() {
     });
 
     function direction(lang) {
-        return !isRtlLanguage(lang) ? 'ltr' : 'rtl';
+        return rtlLanguages.indexOf(lang) !== -1 ? 'rtl' : 'ltr';
     }
 
     $('link.rtlStylesheet').prop('disabled', direction(locale) === 'ltr');
@@ -437,10 +438,6 @@ function getLangByCode(code) {
     else {
         return code;
     }
-}
-
-function isRtlLanguage(lang) {
-    return (rtlLanguages.indexOf(lang) !== -1);
 }
 
 /*:: export {iso639CodesInverse, iso639Codes, localizeInterface} */
