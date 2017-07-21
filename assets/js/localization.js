@@ -412,7 +412,7 @@ function localizeInterface() {
     });
 
     function direction(lang) {
-        return rtlLanguages.indexOf(lang) !== -1 ? 'rtl' : 'ltr';
+        return rtlLanguages.indexOf(lang) === -1 ? 'ltr' : 'rtl';
     }
 
     $('link.rtlStylesheet').prop('disabled', direction(locale) === 'ltr');
