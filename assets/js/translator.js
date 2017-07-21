@@ -179,20 +179,20 @@ if(modeEnabled('translation')) {
             if(recentSrcLangs.indexOf(curSrcLang) !== -1) {
                 $('.srcLang').removeClass('active');
                 $('#srcLang' + (recentSrcLangs.indexOf(curSrcLang) + 1)).addClass('active');
-                $('#srcLangSelect').val(curSrcLang);
             }
             else {
                 recentSrcLangs[recentSrcLangs.indexOf(srcCode)] = curSrcLang;
             }
-
+            $('#srcLangSelect').val(curSrcLang);
+            
             if(recentDstLangs.indexOf(curDstLang) !== -1) {
                 $('.dstLang').removeClass('active');
                 $('#dstLang' + (recentDstLangs.indexOf(curDstLang) + 1)).addClass('active');
-                $('#dstLangSelect').val(curDstLang);
             }
             else {
                 recentDstLangs[recentDstLangs.indexOf(dstCode)] = curDstLang;
             }
+            $('#dstLangSelect').val(curDstLang);
 
             refreshLangList(true);
             muteLanguages();
