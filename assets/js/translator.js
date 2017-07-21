@@ -184,7 +184,7 @@ if(modeEnabled('translation')) {
                 recentSrcLangs[recentSrcLangs.indexOf(srcCode)] = curSrcLang;
             }
             $('#srcLangSelect').val(curSrcLang);
-            
+
             if(recentDstLangs.indexOf(curDstLang) !== -1) {
                 $('.dstLang').removeClass('active');
                 $('#dstLang' + (recentDstLangs.indexOf(curDstLang) + 1)).addClass('active');
