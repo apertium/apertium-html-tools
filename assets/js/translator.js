@@ -196,7 +196,8 @@ if(modeEnabled('translation')) {
 
             refreshLangList(true);
             muteLanguages();
-
+            autoSelectDstLang();
+            
             if($('.active > #detectedText')) {
                 $('.srcLang').removeClass('active');
                 $('#srcLang' + (recentSrcLangs.indexOf(curSrcLang) + 1)).addClass('active');
@@ -211,6 +212,7 @@ if(modeEnabled('translation')) {
             }
             else {
                 handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
+                autoSelectDstLang();
             }
         });
 
@@ -834,7 +836,7 @@ function autoSelectDstLang() {
         if(!newDstLang) {
             newDstLang = pairs[curSrcLang][0];
         }
-
+        $('#dstLangSelect').val(newDstLang).change();
         if(recentDstLangs.indexOf(newDstLang) === -1) {
             handleNewCurrentLang(newDstLang, recentDstLangs, 'dstLang');
         }
