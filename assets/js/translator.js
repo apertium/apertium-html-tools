@@ -66,18 +66,17 @@ if(modeEnabled('translation')) {
         });
 
         $('.srcLang').click(function () {
-            curSrcLang = $(this).attr('data-code');
-            $('.srcLang').removeClass('active');
-            $(this).addClass('active');
-            populateTranslationList();
-            refreshLangList(true);
-            muteLanguages();
-            localizeInterface();
             if(this.id !== 'detect') {
+                curSrcLang = $(this).attr('data-code');
+                $('.srcLang').removeClass('active');
+                $(this).addClass('active');
+                populateTranslationList();
+                refreshLangList(true);
+                muteLanguages();
+                localizeInterface();
                 translateText();
+                autoSelectDstLang();
             }
-
-            autoSelectDstLang();
         });
 
         $('.dstLang').click(function () {
@@ -169,9 +168,7 @@ if(modeEnabled('translation')) {
         $('#detect').click(function () {
             $('.srcLang').removeClass('active');
             $(this).addClass('active');
-            $.when(detectLanguage()).done(function () {
-                translateText();
-            });
+            $.when(detectLanguage()).done(translateText);
         });
 
         $('.swapLangBtn').click(function () {
@@ -209,9 +206,7 @@ if(modeEnabled('translation')) {
         $('#srcLangSelect').change(function () {
             var selectValue = $(this).val();
             if(selectValue === 'detect') {
-                $.when(detectLanguage()).done(function () {
-                    translateText();
-                });
+                $.when(detectLanguage()).done(translateText);
             }
             else {
                 handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
