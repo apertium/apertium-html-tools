@@ -135,7 +135,8 @@ $(document).ready(function () {
     $(window)
         .on('hashchange', persistChoices)
         .resize(function () {
-
+            debouncepopulateTranslationList();
+            debounceresizeFooter();
         });
 
     if(config.ALLOWED_LANGS) {
