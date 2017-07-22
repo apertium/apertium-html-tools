@@ -249,7 +249,7 @@ if(modeEnabled('translation')) {
             }
         });
 
-        $('button#translateWebpage').click(showTranslateWebpageInterface);
+        $('button#showTranslateWebpage').click(showTranslateWebpageInterface);
         $('button#cancelWebpageTranslate').click(hideTranslateWebpageInterface);
 
         $('input#fileInput').change(function () {

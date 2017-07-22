@@ -269,6 +269,20 @@ html[dir='rtl'] #srcLanguages {
     width: 100%;
 }
 
+#showTranslateWebpage {
+    margin-top: 1em;
+}
+
+#translateWebpage {
+    display: none; 
+    overflow: hidden;
+}
+
+#translateWebpage .input-group {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
 /* Analysis */
 
 .unit {

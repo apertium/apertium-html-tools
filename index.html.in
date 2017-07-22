@@ -193,7 +193,7 @@
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
                                           <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>
                                       </button>
-                                      <button id="translateWebpage" class="btn btn-default" style="margin-top: 1em;">
+                                      <button id="showTranslateWebpage" class="btn btn-default">
                                           <i class="fa fa-link"></i> <span data-text="Translate_Webpage">Translate a webpage</span>
                                       </button>
                                   </div>
@@ -254,9 +254,9 @@
                                       <p style="display:none" id="fileDownloadBrowserWarning" data-text="Download_Browser_Warning">Your browser might not handle downloads correctly. Either right-click and "Save As" that file-name or open this page in Firefox.</p>
                                   </div>
                               </div>
-                              <div id="translateWebpage" style="display: none; overflow: hidden;">
+                              <div id="translateWebpage">
                                   <div class="col-sm-12">
-                                      <div class="input-group" style="width: 100%; margin-bottom: 10px;">
+                                      <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-link"></i></span>
                                         <input type="url" id="webpage" placeholder="URL" class="form-control">
                                       </div>
