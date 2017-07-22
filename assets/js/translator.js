@@ -927,13 +927,12 @@ function translationNotAvailable() {
 
 function translationNotAvailableWebpage(data) {
     translationNotAvailable();
-    var div = $('<div id="translatedWebpage" class="translatedWebpage"></div>');
-    div.text(getDynamicLocalization('Not_Available'));
-    div.addClass('notAvailable text-danger');
+    var div = $('<div id="translatedWebpage" class="translatedWebpage notAvailable text-danger"></div>')
+                  .text(getDynamicLocalization('Not_Available'));
     $('#translatedWebpage').replaceWith(div[0]);
-    $('#translatedWebpage').append($('<div></div>').text(' '));
-    $('#translatedWebpage').append($('<div></div>').text(data.message));
-    $('#translatedWebpage').append($('<div></div>').text(data.explanation));
+    $('#translatedWebpage').append([$('<div></div>').text(' '),
+                                    $('<div></div>').text(data.message), 
+                                    $('<div></div>').text(data.explanation)]);
 }
 
 function muteLanguages() {
