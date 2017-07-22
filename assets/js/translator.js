@@ -197,7 +197,7 @@ if(modeEnabled('translation')) {
             refreshLangList(true);
             muteLanguages();
             autoSelectDstLang();
-            
+
             if($('.active > #detectedText')) {
                 $('.srcLang').removeClass('active');
                 $('#srcLang' + (recentSrcLangs.indexOf(curSrcLang) + 1)).addClass('active');
@@ -838,7 +838,7 @@ function autoSelectDstLang() {
         }
 
         $('#dstLangSelect').val(newDstLang).change();
-        
+
         if(recentDstLangs.indexOf(newDstLang) === -1) {
             handleNewCurrentLang(newDstLang, recentDstLangs, 'dstLang');
         }
