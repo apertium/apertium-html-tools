@@ -928,11 +928,11 @@ function translationNotAvailable() {
 function translationNotAvailableWebpage(data) {
     translationNotAvailable();
     var div = $('<div id="translatedWebpage" class="translatedWebpage notAvailable text-danger"></div>')
-                  .text(getDynamicLocalization('Not_Available'));
+        .text(getDynamicLocalization('Not_Available'));
     $('#translatedWebpage').replaceWith(div[0]);
     $('#translatedWebpage').append([$('<div></div>').text(' '),
-                                    $('<div></div>').text(data.message), 
-                                    $('<div></div>').text(data.explanation)]);
+        $('<div></div>').text(data.message),
+        $('<div></div>').text(data.explanation)]);
 }
 
 function muteLanguages() {
