@@ -48,7 +48,11 @@ $(document).ready(function () {
         iso639CodesInverse[language] = code;
     });
 
-    var possibleItems = {'translation': getPairs, 'generation': getGenerators, 'analyzation': getAnalyzers};
+    var possibleItems = {'translation': getPairs, 
+                         'generation': getGenerators, 
+                         'analyzation': getAnalyzers,
+                         'spellchecker': getSpellers
+                        };
     var deferredItems = [getLocale(), getLocales()];
     if(config.ENABLED_MODES === null) {
         $.each(possibleItems, function (mode, deferrer) {

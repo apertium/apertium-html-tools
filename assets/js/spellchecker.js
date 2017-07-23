@@ -137,7 +137,50 @@ function check() {
 }
 */
 
-//if(modeEnabled('spellchecker')) {
+var spellers = {};
+
+function getSpellers() {
+    var deferred = $.Deferred();
+
+   /* if(config.SPELLERS) {
+        generatorData = config.GENERATORS;
+        populateGeneratorList(generatorData);
+        deferred.resolve();
+    }
+    else {
+        var generators = readCache('generators', 'LIST_REQUEST');
+        if(generators) {
+            generatorData = generators;
+            populateGeneratorList(generators);
+            deferred.resolve();
+        }
+        else {*/
+            //console.warn('Spellers cache ' + (spellers === null ? 'stale' : 'miss') + ', retrieving from server');
+            $.jsonp({
+                url: config.APY_URL + '/list?q=spellers',
+                beforeSend: ajaxSend,
+                success: function (data) {
+                    /*generatorData = data;
+                    populateGeneratorList(generatorData);
+                    cache('generators', data);*/
+                    populatePrimarySpellcheckerList(data);
+                    console.log(data);
+                },
+                error: function () {
+                    console.error('Failed to get available spellers');
+                },
+                complete: function () {
+                    ajaxComplete();
+                    deferred.resolve();
+                }
+            });
+        //}
+    //}
+
+    return deferred.promise();
+}
+
+if(modeEnabled('spellchecker')) {
     $(document).ready(function() {
         restoreChoices('spellchecker');
 
@@ -216,7 +259,7 @@ function check() {
             // check();
         });
     });
-//}
+}
 
 function populateSecondarySpellcheckerList() {
     var group = analyzers[$('#primarySpellcheckerMode').val()];
@@ -236,6 +279,39 @@ function populateSecondarySpellcheckerList() {
     }
     else
         $('#secondarySpellcheckerMode').fadeOut('fast');
+}
+function populatePrimarySpellcheckerList(data) {
+    $('.spellcheckerMode').empty();
+
+    spellers = {};
+    for(var lang in data) {
+        var spellerLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
+        var group = spellers[spellerLang];
+        if(group) {
+            group.push(lang);
+        }
+        else {
+            spellers[spellerLang] = [lang];
+        }
+    }
+
+    var spellerArray = [];
+    $.each(spellers, function (spellerLang, lang) {
+        spellerArray.push([spellerLang, lang]);
+    });
+    spellerArray = filterLangList(spellerArray, function (speller) {
+        return allowedLang(speller[0]);
+    });
+    spellerArray.sort(function (a, b) {
+        return getLangByCode(a[0]).localeCompare(getLangByCode(b[0]));
+    });
+
+    for(var i = 0; i < spellerArray.length; i++) {
+        lang = spellerArray[i][0];
+        $('#primarySpellcheckerMode').append($('<option></option>').val(lang).text(getLangByCode(lang)));
+    }
+
+    restoreChoices('spellerchecker');
 }
 
 var dummy_words = ['hello', 'my', 'name', 'is', 'and', 'I', 'like', 'nothing', 'but', 'bacon'];
