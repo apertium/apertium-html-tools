@@ -756,8 +756,7 @@ function cleanPage(html) {
     // insert noise using document.write that 1. makes things enormously slow, and 2. completely mess up styling so e.g. you
     // have to scroll through a full screen of whitespace before reaching content. This might mess things up some places – needs
     // testing – but on the other hand most uses of document.write are evil.
-    return html.replace(/document[.]write[(]/g,
-        'console.log("document.write "+');
+    return html.replace(/document[.]write[(]/g, 'console.log("document.write "+');
 }
 
 function translateWebpage() {
