@@ -463,9 +463,9 @@ function populateTranslationList() {
 
     var columnWidth = TRANSLATION_LIST_WIDTH / TRANSLATION_LIST_COLUMNS;
     var availableWidthForSrcLangs = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left;
-    numSrcCols = Math.floor(availableWidthForSrcLangs / columnWidth);
+    numSrcCols = Math.min(Math.floor(availableWidthForSrcLangs / columnWidth), TRANSLATION_LIST_COLUMNS);
     var availableWidthForDstLangs = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth();
-    numDstCols = Math.floor(availableWidthForDstLangs / columnWidth);
+    numDstCols = Math.min(Math.floor(availableWidthForDstLangs / columnWidth), TRANSLATION_LIST_COLUMNS);
 
     var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
         dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
