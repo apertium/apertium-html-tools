@@ -130,14 +130,12 @@ $(document).ready(function () {
     });
 
     resizeFooter();
-    var debouncepopulateTranslationList = debounce(populateTranslationList);
-    var debounceresizeFooter = debounce(resizeFooter);
     $(window)
         .on('hashchange', persistChoices)
-        .resize(function () {
-            debouncepopulateTranslationList();
-            debounceresizeFooter();
-        });
+        .resize(debounce(function () {
+            populateTranslationList();
+            resizeFooter();
+        }));
 
     if(config.ALLOWED_LANGS) {
         var withIso = [];
