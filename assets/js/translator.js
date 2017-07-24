@@ -73,8 +73,8 @@ if(modeEnabled('translation')) {
             refreshLangList(true);
             muteLanguages();
             localizeInterface();
-            translateText();
             autoSelectDstLang();
+            translateText();
         });
 
         $('.dstLang').click(function () {
