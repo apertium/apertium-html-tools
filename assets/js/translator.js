@@ -65,18 +65,16 @@ if(modeEnabled('translation')) {
             handleNewCurrentLang(curDstLang, recentDstLangs, 'dstLang');
         });
 
-        $('.srcLang').click(function () {
-            if(this.id !== 'detect') {
-                curSrcLang = $(this).attr('data-code');
-                $('.srcLang').removeClass('active');
-                $(this).addClass('active');
-                populateTranslationList();
-                refreshLangList(true);
-                muteLanguages();
-                localizeInterface();
-                translateText();
-                autoSelectDstLang();
-            }
+        $('.srcLang:not(#detect)').click(function () {
+            curSrcLang = $(this).attr('data-code');
+            $('.srcLang').removeClass('active');
+            $(this).addClass('active');
+            populateTranslationList();
+            refreshLangList(true);
+            muteLanguages();
+            localizeInterface();
+            translateText();
+            autoSelectDstLang();
         });
 
         $('.dstLang').click(function () {
