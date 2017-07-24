@@ -11,7 +11,8 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
     TRANSLATION_LIST_WIDTH = 650,
     TRANSLATION_LIST_ROWS = 8,
-    TRANSLATION_LIST_COLUMNS = 4;
+    TRANSLATION_LIST_COLUMNS = 4,
+    TRANSLATION_LISTS_BUFFER = 50;
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
@@ -463,8 +464,10 @@ function populateTranslationList() {
 
     var columnWidth = TRANSLATION_LIST_WIDTH / TRANSLATION_LIST_COLUMNS;
     var availableWidthForSrcLangs = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left;
+    availableWidthForSrcLangs -= TRANSLATION_LISTS_BUFFER;
     numSrcCols = Math.min(Math.floor(availableWidthForSrcLangs / columnWidth), TRANSLATION_LIST_COLUMNS);
     var availableWidthForDstLangs = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth();
+    availableWidthForDstLangs -= TRANSLATION_LISTS_BUFFER;
     numDstCols = Math.min(Math.floor(availableWidthForDstLangs / columnWidth), TRANSLATION_LIST_COLUMNS);
 
     var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
