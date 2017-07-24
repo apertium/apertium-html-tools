@@ -8,7 +8,7 @@ var currentAnalyzerRequest;
 
 if(modeEnabled('analyzation')) {
     $(document).ready(function () {
-        $('#analyze').click(function () {
+        $('#analysisForm').submit(function () {
             analyze();
             persistChoices('analyzer', true);
         });
@@ -143,7 +143,7 @@ function populateSecondaryAnalyzerList() {
 }
 
 function analyze() {
-    if($('#primaryAnalyzerMode').val() === null || !$('#morphAnalyzerInput').val()) {
+    if($('#primaryAnalyzerMode').val() === null) {
         return;
     }
 
