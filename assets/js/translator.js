@@ -126,7 +126,7 @@ if(modeEnabled('translation')) {
 
             timer = setTimeout(function () {
                 if($('#instantTranslation').prop('checked')) {
-                    translateText();
+                    translate();
                 }
                 persistChoices('translator', true);
             }, timeout);
@@ -249,7 +249,9 @@ if(modeEnabled('translation')) {
             }
         });
 
-        $('button#showTranslateWebpage').click(showTranslateWebpageInterface);
+        $('button#showTranslateWebpage').click(function () {
+            showTranslateWebpageInterface();
+        });
         $('button#cancelWebpageTranslate').click(hideTranslateWebpageInterface);
 
         $('input#fileInput').change(function () {
@@ -828,7 +830,7 @@ function showTranslateWebpageInterface(url) {
         $('button#cancelWebpageTranslate').fadeIn('fast');
         $('div#translateWebpage').fadeIn('fast');
     });
-    if(url && typeof url === 'string') {
+    if(url) {
         $('input#webpage').val(url);
     }
     window.location.hash = 'webpageTranslation';
