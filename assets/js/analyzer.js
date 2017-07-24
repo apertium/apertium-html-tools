@@ -143,7 +143,7 @@ function populateSecondaryAnalyzerList() {
 }
 
 function analyze() {
-    if($('#primaryAnalyzerMode').val() === null || $('#morphAnalyzerInput').val() === '') {
+    if($('#primaryAnalyzerMode').val() === null || !$('#morphAnalyzerInput').val()) {
         return;
     }
 
