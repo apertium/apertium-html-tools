@@ -196,7 +196,6 @@ if(modeEnabled('translation')) {
 
             refreshLangList(true);
             muteLanguages();
-            autoSelectDstLang();
 
             if($('.active > #detectedText')) {
                 $('.srcLang').removeClass('active');
