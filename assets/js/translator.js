@@ -223,6 +223,8 @@ if(modeEnabled('translation')) {
                 $('#fileInput').show();
                 $('div#fileName').hide();
                 $('div#docTranslation').fadeIn('fast');
+                $('#detect').prop('disabled', true);
+                $('#srcLangSelect').children('option[value=' + 'detect' + ']').attr('disabled', true);
             });
             pairs = originalPairs;
             populateTranslationList();
@@ -236,6 +238,8 @@ if(modeEnabled('translation')) {
                 $('div#translateText').fadeIn('fast', synchronizeTextareaHeights);
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
+                $('#detect').prop('disabled', false);
+                $('#srcLangSelect').children('option[value=' + 'detect' + ']').attr('disabled', false);
             });
             updatePairList();
             populateTranslationList();
