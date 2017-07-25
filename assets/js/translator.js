@@ -833,6 +833,7 @@ function showTranslateWebpageInterface(url) {
         });
         $('button#cancelWebpageTranslate').fadeIn('fast');
         $('div#translateWebpage').fadeIn('fast');
+        $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
     });
     if(url) {
         $('input#webpage').val(url);
@@ -858,6 +859,7 @@ function hideTranslateWebpageInterface() {
         $('div#translateText').fadeIn('fast', function () {
             synchronizeTextareaHeights();
         });
+        $('#detect, #srcLangSelect option[value=detect]').prop('disabled', false);
     });
     window.location.hash = 'translation';
 }
