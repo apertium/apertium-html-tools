@@ -211,6 +211,7 @@ if(modeEnabled('translation')) {
             }
             else {
                 handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
+                autoSelectDstLang();
             }
         });
 
@@ -836,6 +837,8 @@ function autoSelectDstLang() {
         if(!newDstLang) {
             newDstLang = pairs[curSrcLang][0];
         }
+
+        $('#dstLangSelect').val(newDstLang).change();
 
         if(recentDstLangs.indexOf(newDstLang) === -1) {
             handleNewCurrentLang(newDstLang, recentDstLangs, 'dstLang');
