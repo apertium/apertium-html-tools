@@ -463,11 +463,9 @@ function populateTranslationList() {
             : TRANSLATION_LIST_COLUMNS;
 
     var columnWidth = TRANSLATION_LIST_WIDTH / TRANSLATION_LIST_COLUMNS;
-    var availableWidthForSrcLangs = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left;
-    availableWidthForSrcLangs = availableWidthForSrcLangs - TRANSLATION_LISTS_BUFFER;
+    var availableWidthForSrcLangs = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
     numSrcCols = Math.min(Math.floor(availableWidthForSrcLangs / columnWidth), TRANSLATION_LIST_COLUMNS);
-    var availableWidthForDstLangs = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth();
-    availableWidthForDstLangs = availableWidthForDstLangs - TRANSLATION_LISTS_BUFFER;
+    var availableWidthForDstLangs = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() - TRANSLATION_LISTS_BUFFER; // eslint-disable-line max-len
     numDstCols = Math.min(Math.floor(availableWidthForDstLangs / columnWidth), TRANSLATION_LIST_COLUMNS);
 
     var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
