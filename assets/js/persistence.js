@@ -4,10 +4,16 @@
 /* global srcLangs:true, dstLangs:true, recentSrcLangs: true, recentDstLangs:true, curSrcLang:true, curDstLang:true, locale:true */
 
 var URL_PARAM_Q_LIMIT = 1300,
-    DEFAULT_EXPIRY_HOURS = 24;
+    DEFAULT_EXPIRY_HOURS = 24,
+    HASH_URL_MAP = {
+        '#translation': 'q',
+        '#webpageTranslation': 'qP',
+        '#analyzation': 'qA',
+        '#generation': 'qG'
+    };
 
 var store = new Store(config.HTML_URL);
-var hash, hashURLMap = {};
+
 // eslint-disable-next-line id-blacklist
 function cache(name, value) {
     store.set(name, value);
@@ -80,9 +86,9 @@ function persistChoices(mode, updatePermalink) {
     }
 
     if(window.history.replaceState && parent.location.hash) {
-        hash = parent.location.hash;
-        var urlParams = [],
-            urlParamNames = ['dir', 'choice'];
+        var hash = parent.location.hash,
+        urlParams = [],
+        urlParamNames = ['dir', 'choice'];
 
         $.each(urlParamNames, function () {
             var urlParam = getURLParam(this);
@@ -113,23 +119,15 @@ function persistChoices(mode, updatePermalink) {
             qVal = $('#morphGeneratorInput').val();
         }
 
-        var qName = '';
-
-        hashURLMap = {
-            '#translation': '',
-            '#webpageTranslation': 'P',
-            '#analyzation': 'A',
-            '#generation': 'G'
-        };
-        qName = hashURLMap[hash];
-
+        var qName = HASH_URL_MAP[hash];
+ 
         if(updatePermalink) {
             if(qVal !== undefined && qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
-                urlParams.push('q' + qName + '=' + encodeURIComponent(qVal));
+                urlParams.push(qName + '=' + encodeURIComponent(qVal));
             }
         }
-        else if(getURLParam('q' + qName).length > 0) {
-            urlParams.push('q' + qName + '=' + getURLParam('q' + qName));
+        else if(getURLParam(qName).length > 0) {
+            urlParams.push(qName + '=' + getURLParam(qName));
         }
 
         var newURL = window.location.pathname + (urlParams.length > 0 ? '?' + urlParams.join('&') : '') + hash;
@@ -141,7 +139,7 @@ function restoreChoices(mode) {
     if(store.able() && getURLParam('reset').length > 0) {
         store.clear();
     }
-
+    var hash = parent.location.hash;
     if(mode === 'translator') {
         if(store.able()) {
             recentSrcLangs = store.get('recentSrcLangs', recentSrcLangs);
@@ -180,11 +178,11 @@ function restoreChoices(mode) {
             }
         }
 
-        if(getURLParam('q' + hashURLMap[hash]).length > 0) {
+        if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
             $('#originalText').val(decodeURIComponent(getURLParam('q')));
         }
 
-        if(getURLParam('q' + hashURLMap[hash]).length > 0) {
+        if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
             $('#webpage').val(decodeURIComponent(getURLParam('qP')));
         }
 
@@ -218,7 +216,7 @@ function restoreChoices(mode) {
             }
         }
 
-        if(getURLParam('q' + hashURLMap[hash]).length > 0) {
+        if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
             $('#morphAnalyzerInput').val(decodeURIComponent(getURLParam('qA')));
         }
     }
@@ -247,7 +245,7 @@ function restoreChoices(mode) {
             }
         }
 
-        if(getURLParam('q' + hashURLMap[hash]).length > 0) {
+        if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
             $('#morphGeneratorInput').val(decodeURIComponent(getURLParam('qG')));
         }
     }
