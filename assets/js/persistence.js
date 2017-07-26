@@ -87,8 +87,8 @@ function persistChoices(mode, updatePermalink) {
 
     if(window.history.replaceState && parent.location.hash) {
         var hash = parent.location.hash,
-        urlParams = [],
-        urlParamNames = ['dir', 'choice'];
+            urlParams = [],
+            urlParamNames = ['dir', 'choice'];
 
         $.each(urlParamNames, function () {
             var urlParam = getURLParam(this);
@@ -120,7 +120,7 @@ function persistChoices(mode, updatePermalink) {
         }
 
         var qName = HASH_URL_MAP[hash];
- 
+
         if(updatePermalink) {
             if(qVal !== undefined && qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
                 urlParams.push(qName + '=' + encodeURIComponent(qVal));
