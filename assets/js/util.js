@@ -293,7 +293,7 @@ function callApy(options, endpoint) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
-    if(requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
+    if(requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH || endpoint === '/speller') {
         requestOptions.type = 'POST';
         return $.ajax(requestOptions);
     }
