@@ -283,7 +283,7 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-function callApy(options, endpoint) {
+function callApy(options, endpoint, useAjax) {
     var requestOptions = Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
@@ -292,6 +292,10 @@ function callApy(options, endpoint) {
 
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
+
+    if(useAjax || false) {
+        return $.ajax(requestOptions);
+    }
 
     if(requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH || endpoint === '/speller') {
         requestOptions.type = 'POST';

@@ -180,89 +180,49 @@ function populatePrimarySpellcheckerList(data) {
     restoreChoices('spellerchecker');
 }
 
-//var dummy_words = ['hello', 'my', 'name', 'is', 'and', 'I', 'like', 'nothing', 'but', 'bacon'];
-
 function check() {
     $('#spellcheckerInput').addClass('spellcheckVisible');
-    // TODO send words to APY
-    //words = words.split(' ');
-
-    //for(var d in dummy_words)
-    //    dummy_words[d] = dummy_words[d].toLowerCase();
-
-    //$('#spellcheckerInput').html('');
-    /*for(var w in words) {
-        words[w] = words[w].replace(/\n/g, '<br>');
-        if(dummy_words.indexOf(words[w].toLowerCase()) == -1)
-            $('#spellcheckerInput').html($('#spellcheckerInput').html() + '<span class="spellError">' + words[w] + '</span>');
-        else
-            $('#spellcheckerInput').html($('#spellcheckerInput').html() + words[w]);
-
-        if(w != words.length - 1)
-            $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' ');
-    }*/
-
-    /*var content = '<div class="list-group">';
-    for(var w in dummy_words)
-        content += '<a href="#" class="list-group-item">' + dummy_words[w] + '</a>';
-    content += '</div>';
-    $('.spellError').each(function() {
-    $(this).popover({animation: false, placement: 'bottom', trigger: 'manual', html: true, content: content});
-    });*/
-    
-
     $('#spellcheckerInput').html($('#spellcheckerInput').html().replace(/\<br\>/g, '\n').replace(/&nbsp;/g, ' '));
     var words = $.trim($('#spellcheckerInput').text());
     var splitWords = words.split(' ');
     var content = {};
     $('#spellcheckerInput').html('');
-    console.log(words);
     currentSpellCheckerRequest = callApy({
         data: {
             'q': words,
-            'lang': 'hin'
+            'lang': $('#primarySpellcheckerMode').val()
         },
         success: function(data) {
-                var p = 0;
-                for(var j = 0; j < data.length; j++) {
-                
-                    if(data[j]['known'] === true) {
-                        $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' ' + splitWords[p]);
-                        p++;
-                        continue;
-                    }
-                    $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' <span class="spellError" id=' + splitWords[p] + '>' + splitWords[p] + '</span>');
-                    content[splitWords[p]] = '<div class="list-group">';
-                    for(var i=0; i<data[j]['sugg'].length; i++) {
-                        content[splitWords[p]] += '<a href="#" class="list-group-item">' + data[j]['sugg'][i][0] + '</a>';
-                        content[splitWords[p]] += '</div>';
-                    }
-                    $('.spellError').each(function() {
-                        var curId = this.id;
-                        console.log(curId);
-                        $(this).popover({animation: false, placement: 'bottom', trigger: 'manual', html: true, content: content[curId]});
-                    });
-                    p++;
+            var originalWordsIndex = 0;
+            for(var tokenIndex = 0; tokenIndex < data.length; tokenIndex++) {
+                if(data[tokenIndex]['known'] === true) {
+                    $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' ' + splitWords[originalWordsIndex]);
+                    originalWordsIndex++;
+                    continue;
                 }
-            
-            /*$('#spellcheckerInput').html('<span class="spellError">' + 'माय' + '</span>');
-            content = '<div class="list-group">';
-            for(var i=0; i<data[0]['sugg'].length; i++) {
-                content += '<a href="#" class="list-group-item">' + data[0]['sugg'][i][0] + '</a>';
-                content += '</div>';
+                $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' <span class="spellError" id=' + splitWords[originalWordsIndex] + '>' + splitWords[originalWordsIndex] + '</span>');
+                content[splitWords[originalWordsIndex]] = '<div class="list-group">';
+                for(var sugg = 0; sugg < data[tokenIndex]['sugg'].length; sugg++) {
+                    content[splitWords[originalWordsIndex]] += '<a href="#" class="list-group-item">' + data[tokenIndex]['sugg'][sugg][0] + '</a>';
+                    content[splitWords[originalWordsIndex]] += '</div>';
+                }
+                $('.spellError').each(function() {
+                    var currentTokenId = this.id;
+                    $(this).popover({animation: false, placement: 'bottom', trigger: 'manual', html: true, content: content[currentTokenId]});
+                });
+                originalWordsIndex++;
             }
-            $('.spellError').each(function() {
-                $(this).popover({animation: false, placement: 'bottom', trigger: 'manual', html: true, content: content});
-            });*/
         },
-        error: function(jqXHR) {
-            spellCheckerNotAvailable(jqXHR.responseJSON);
-        },
+        error: handleSpellCheckerErrorResponse,
         complete: function() {
             ajaxComplete();
             currentSpellCheckerRequest = undefined;
         }
-    }, '/speller');
+    }, '/speller', true);
+}
+
+function handleSpellCheckerErrorResponse(jqXHR) {
+    spellCheckerNotAvailable(jqXHR.responseJSON);
 }
 
 function spellCheckerNotAvailable(data) {
