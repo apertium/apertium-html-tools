@@ -55,7 +55,7 @@ if(modeEnabled('spellchecker')) {
             check();
         });
 
-        
+
         $('#spellcheckerInput').on('input propertychange', function () {
             if(timer && $('#instantChecking').prop('checked')) {
                 clearTimeout(timer);
@@ -75,6 +75,13 @@ if(modeEnabled('spellchecker')) {
 
         $('#secondarySpellcheckerMode').change(function () {
             persistChoices('spellchecker');
+        });
+
+        $('#spellCheckerInput').keydown(function (e) {
+            if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
+                e.preventDefault();
+                check();
+            }
         });
 
         $('#instantChecking').change(function () {
@@ -191,7 +198,8 @@ function populatePrimarySpellcheckerList(data) {
 
 function check() {
     $('#spellcheckerInput').addClass('spellcheckVisible');
-    $('#spellcheckerInput').html($('#spellcheckerInput').html().replace(/br/g, '\n').replace(/&nbsp;/g, ' '));
+    $('#spellcheckerInput').html($('#spellcheckerInput').html().replace(/br/g, '\n')
+        .replace(/&nbsp;/g, ' '));
     var words = $.trim($('#spellcheckerInput').text());
     var splitWords = words.split(' ');
     var content = {};
@@ -204,7 +212,7 @@ function check() {
         success: function (data) {
             var originalWordsIndex = 0;
             for(var tokenIndex = 0; tokenIndex < data.length; tokenIndex++) {
-                if(data[tokenIndex]['known'] === true) {
+                if(data[tokenIndex]['known'] === true) { // eslint-disable-line dot-notation
                     $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' ' + splitWords[originalWordsIndex]);
                     originalWordsIndex++;
                     continue;
@@ -212,9 +220,9 @@ function check() {
                 $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' <span class="spellError" id=' +
                     splitWords[originalWordsIndex] + '>' + splitWords[originalWordsIndex] + '</span>');
                 content[splitWords[originalWordsIndex]] = '<div class="list-group">';
-                for(var sugg = 0; sugg < data[tokenIndex]['sugg'].length; sugg++) {
+                for(var sugg = 0; sugg < data[tokenIndex]['sugg'].length; sugg++) { // eslint-disable-line dot-notation
                     content[splitWords[originalWordsIndex]] += '<a href="#" class="list-group-item">' +
-                        data[tokenIndex]['sugg'][sugg][0] + '</a>';
+                        data[tokenIndex]['sugg'][sugg][0] + '</a>'; // eslint-disable-line dot-notation
                     content[splitWords[originalWordsIndex]] += '</div>';
                 }
                 $('.spellError').each(function () {
