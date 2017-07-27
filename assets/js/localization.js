@@ -9,7 +9,9 @@ var localizedLanguageCodes = {}, localizedLanguageNames = {};
 
 /* global config, getPairs, getGenerators, getAnalyzers, persistChoices, getURLParam, cache, ajaxSend, ajaxComplete, sendEvent,
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
-    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
+    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique,
+    getSpellers
+*/
 
 var dynamicLocalizations = {
     'fallback': {
@@ -48,11 +50,12 @@ $(document).ready(function () {
         iso639CodesInverse[language] = code;
     });
 
-    var possibleItems = {'translation': getPairs, 
-                         'generation': getGenerators, 
-                         'analyzation': getAnalyzers,
-                         'spellchecker': getSpellers
-                        };
+    var possibleItems = {
+        'translation': getPairs,
+        'generation': getGenerators,
+        'analyzation': getAnalyzers,
+        'spellchecker': getSpellers
+    };
     var deferredItems = [getLocale(), getLocales()];
     if(config.ENABLED_MODES === null) {
         $.each(possibleItems, function (mode, deferrer) {

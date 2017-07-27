@@ -1,6 +1,7 @@
 var spellers = {}, spellerData = {};
 var currentSpellCheckerRequest;
 
+/* exported getSpellers */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
     localizeInterface, getLangByCode, sendEvent, restoreChoices, callApy */
 /* global ENTER_KEY_CODE */
@@ -30,7 +31,6 @@ function getSpellers() {
                     populatePrimarySpellcheckerList(spellerData);
                     cache('spellers', data);
                     populatePrimarySpellcheckerList(data);
-                    console.log(data);
                 },
                 error: function () {
                     console.error('Failed to get available spellers');
@@ -47,77 +47,77 @@ function getSpellers() {
 }
 
 if(modeEnabled('spellchecker')) {
-    $(document).ready(function() {
+    $(document).ready(function () {
         restoreChoices('spellchecker');
-
-        $('#check').click(function() {
+        var timer, timeout = 2000;
+        $('#check').click(function () {
             clearTimeout(timer);
             check();
         });
 
-        var timer, timeout = 2000;
-        $('#spellcheckerInput').on('input propertychange', function(e) {
-            if(timer && $('#instantChecking').prop('checked'))
+        
+        $('#spellcheckerInput').on('input propertychange', function () {
+            if(timer && $('#instantChecking').prop('checked')) {
                 clearTimeout(timer);
-
-            timer = setTimeout(function() {
+            }
+            timer = setTimeout(function () {
                 if($('#instantChecking').prop('checked')) {
                     check();
                 }
             }, timeout);
         });
 
-        $('#primarySpellcheckerMode').change(function() {
+        $('#primarySpellcheckerMode').change(function () {
             populateSecondarySpellcheckerList();
             localizeInterface();
             persistChoices('spellchecker');
         });
 
-        $('#secondarySpellcheckerMode').change(function() {
+        $('#secondarySpellcheckerMode').change(function () {
             persistChoices('spellchecker');
         });
 
-        $('#instantChecking').change(function() {
+        $('#instantChecking').change(function () {
             persistChoices('spellchecker');
         });
 
-        $('#spellcheckerInput').on('input propertychange', function() {
+        $('#spellcheckerInput').on('input propertychange', function () {
             $('#spellcheckerInput').removeClass('spellcheckVisible');
-            $('.spellError').each(function() {
+            $('.spellError').each(function () {
                 $(this).popover('hide');
             });
             persistChoices('spellchecker');
         });
 
-        $('#spellcheckerInput').submit(function() {
+        $('#spellcheckerInput').submit(function () {
             clearTimeout(timer);
             check();
         });
 
-        $(document).on('mouseover', '.spellcheckVisible .spellError', function() {
-            $('.spellError').each(function() {
+        $(document).on('mouseover', '.spellcheckVisible .spellError', function () {
+            $('.spellError').each(function () {
                 $(this).popover('hide');
             });
             $(this).popover('show');
         });
 
-        $(document).on('mouseleave', '.spellError', function() {
-            var e = $(this);
-            var t = setTimeout(function() {
-                e.popover('hide');
-            }, 400);
-            $(this).on('mouseover', function() {
-                clearTimeout(t);
+        $(document).on('mouseleave', '.spellError', function () {
+            var hidePopoverDuration = 400;
+            var hidePopoverTimer = setTimeout(function () {
+                $(this).popover('hide');
+            }, hidePopoverDuration);
+            $(this).on('mouseover', function () {
+                clearTimeout(hidePopoverTimer);
             });
-            $(document).on('mouseover', '.popover', function() {
-                clearTimeout(t);
+            $(document).on('mouseover', '.popover', function () {
+                clearTimeout(hidePopoverTimer);
             });
-            $(document).on('mouseleave', '.popover', function() {
-                e.popover('hide');
+            $(document).on('mouseleave', '.popover', function () {
+                $(this).popover('hide');
             });
         });
 
-        $(document).on('click', '.list-group-item', function() {
+        $(document).on('click', '.list-group-item', function () {
             var e = $(this).parents('.popover').prev();
             e.text($(this).text());
             e.removeClass('spellError');
@@ -132,19 +132,28 @@ function populateSecondarySpellcheckerList() {
     $('#secondarySpellcheckerMode').empty();
 
     if(group) {
-        if(group.length <= 1)
+        if(group.length <= 1) {
             $('#secondarySpellcheckerMode').fadeOut('fast');
-        else
+        }
+        else {
             $('#secondarySpellcheckerMode').fadeIn('fast');
+        }
 
         group.sort(function (a, b) {
-            var lang = group[i];
-            var langDisplay = lang.indexOf('-') !== -1 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1]) : getLangByCode(lang);
-            $('#secondarySpellcheckerMode').append($('<option></option>').val(lang).text(langDisplay));
+            return a.length - b.length;
         });
+
+        for(var i = 0; i < group.length; i++) {
+            var lang = group[i];
+            var langDisplay = lang.indexOf('-') !== -1
+                ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1])
+                : getLangByCode(lang);
+            $('#secondarySpellcheckerMode').append($('<option></option').val(lang).text(langDisplay));
+        }
     }
-    else
+    else {
         $('#secondarySpellcheckerMode').fadeOut('fast');
+    }
 }
 function populatePrimarySpellcheckerList(data) {
     $('.spellcheckerMode').empty();
@@ -182,7 +191,7 @@ function populatePrimarySpellcheckerList(data) {
 
 function check() {
     $('#spellcheckerInput').addClass('spellcheckVisible');
-    $('#spellcheckerInput').html($('#spellcheckerInput').html().replace(/\<br\>/g, '\n').replace(/&nbsp;/g, ' '));
+    $('#spellcheckerInput').html($('#spellcheckerInput').html().replace(/br/g, '\n').replace(/&nbsp;/g, ' '));
     var words = $.trim($('#spellcheckerInput').text());
     var splitWords = words.split(' ');
     var content = {};
@@ -192,7 +201,7 @@ function check() {
             'q': words,
             'lang': $('#primarySpellcheckerMode').val()
         },
-        success: function(data) {
+        success: function (data) {
             var originalWordsIndex = 0;
             for(var tokenIndex = 0; tokenIndex < data.length; tokenIndex++) {
                 if(data[tokenIndex]['known'] === true) {
@@ -200,21 +209,24 @@ function check() {
                     originalWordsIndex++;
                     continue;
                 }
-                $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' <span class="spellError" id=' + splitWords[originalWordsIndex] + '>' + splitWords[originalWordsIndex] + '</span>');
+                $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' <span class="spellError" id=' +
+                    splitWords[originalWordsIndex] + '>' + splitWords[originalWordsIndex] + '</span>');
                 content[splitWords[originalWordsIndex]] = '<div class="list-group">';
                 for(var sugg = 0; sugg < data[tokenIndex]['sugg'].length; sugg++) {
-                    content[splitWords[originalWordsIndex]] += '<a href="#" class="list-group-item">' + data[tokenIndex]['sugg'][sugg][0] + '</a>';
+                    content[splitWords[originalWordsIndex]] += '<a href="#" class="list-group-item">' +
+                        data[tokenIndex]['sugg'][sugg][0] + '</a>';
                     content[splitWords[originalWordsIndex]] += '</div>';
                 }
-                $('.spellError').each(function() {
+                $('.spellError').each(function () {
                     var currentTokenId = this.id;
-                    $(this).popover({animation: false, placement: 'bottom', trigger: 'manual', html: true, content: content[currentTokenId]});
+                    $(this).popover({animation: false, placement: 'bottom', trigger: 'manual', html: true,
+                        content: content[currentTokenId]});
                 });
                 originalWordsIndex++;
             }
         },
         error: handleSpellCheckerErrorResponse,
-        complete: function() {
+        complete: function () {
             ajaxComplete();
             currentSpellCheckerRequest = undefined;
         }
