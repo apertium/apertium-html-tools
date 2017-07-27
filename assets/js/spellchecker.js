@@ -3,7 +3,7 @@ var currentSpellCheckerRequest;
 
 /* exported getSpellers */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
-    localizeInterface, getLangByCode, sendEvent, restoreChoices, callApy */
+    localizeInterface, getLangByCode, restoreChoices, callApy */
 /* global ENTER_KEY_CODE */
 
 function getSpellers() {
