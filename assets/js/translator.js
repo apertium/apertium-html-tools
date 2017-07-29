@@ -11,7 +11,8 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
     TRANSLATION_LIST_WIDTH = 650,
     TRANSLATION_LIST_ROWS = 8,
-    TRANSLATION_LIST_COLUMNS = 4;
+    TRANSLATION_LIST_COLUMNS = 4,
+    TRANSLATION_LISTS_BUFFER = 50;
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
@@ -179,20 +180,20 @@ if(modeEnabled('translation')) {
             if(recentSrcLangs.indexOf(curSrcLang) !== -1) {
                 $('.srcLang').removeClass('active');
                 $('#srcLang' + (recentSrcLangs.indexOf(curSrcLang) + 1)).addClass('active');
-                $('#srcLangSelect').val(curSrcLang);
             }
             else {
                 recentSrcLangs[recentSrcLangs.indexOf(srcCode)] = curSrcLang;
             }
+            $('#srcLangSelect').val(curSrcLang);
 
             if(recentDstLangs.indexOf(curDstLang) !== -1) {
                 $('.dstLang').removeClass('active');
                 $('#dstLang' + (recentDstLangs.indexOf(curDstLang) + 1)).addClass('active');
-                $('#dstLangSelect').val(curDstLang);
             }
             else {
                 recentDstLangs[recentDstLangs.indexOf(dstCode)] = curDstLang;
             }
+            $('#dstLangSelect').val(curDstLang);
 
             refreshLangList(true);
             muteLanguages();
@@ -211,6 +212,7 @@ if(modeEnabled('translation')) {
             }
             else {
                 handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
+                autoSelectDstLang();
             }
         });
 
@@ -223,6 +225,7 @@ if(modeEnabled('translation')) {
                 $('#fileInput').show();
                 $('div#fileName').hide();
                 $('div#docTranslation').fadeIn('fast');
+                $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
             });
             pairs = originalPairs;
             populateTranslationList();
@@ -236,6 +239,7 @@ if(modeEnabled('translation')) {
                 $('div#translateText').fadeIn('fast', synchronizeTextareaHeights);
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
+                $('#detect, #srcLangSelect option[value=detect]').prop('disabled', false);
             });
             updatePairList();
             populateTranslationList();
@@ -429,8 +433,8 @@ function refreshLangList(resetDetect) {
         $('#detectedText').hide();
     }
 
-    function filterLangs(recentLangs, allLangs) {
-        recentLangs = recentLangs.filter(onlyUnique);
+    function filterLangs(allRecentLangs, allLangs) {
+        var recentLangs = allRecentLangs.filter(onlyUnique);
         if(recentLangs.length < TRANSLATION_LIST_BUTTONS) {
             for(var i = 0; i < allLangs.length; i++) {
                 if(recentLangs.length < TRANSLATION_LIST_BUTTONS && recentLangs.indexOf(allLangs[i]) === -1) {
@@ -460,6 +464,14 @@ function populateTranslationList() {
         numDstCols = Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS) < (TRANSLATION_LIST_COLUMNS + 1)
             ? Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS)
             : TRANSLATION_LIST_COLUMNS;
+
+    var columnWidth = TRANSLATION_LIST_WIDTH / TRANSLATION_LIST_COLUMNS;
+    var maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
+    numSrcCols = Math.min(Math.floor(maxSrcLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
+    var maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
+        TRANSLATION_LISTS_BUFFER;
+    numDstCols = Math.min(Math.floor(maxDstLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
+
     var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
         dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
 
@@ -562,7 +574,7 @@ function translate() {
     if($('div#translateText').is(':visible')) {
         translateText();
     }
-    else {
+    else if($('div#docTranslation').is(':visible')) {
         translateDoc();
     }
 }
@@ -834,6 +846,8 @@ function autoSelectDstLang() {
         if(!newDstLang) {
             newDstLang = pairs[curSrcLang][0];
         }
+
+        $('#dstLangSelect').val(newDstLang).change();
 
         if(recentDstLangs.indexOf(newDstLang) === -1) {
             handleNewCurrentLang(newDstLang, recentDstLangs, 'dstLang');

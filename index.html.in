@@ -134,7 +134,7 @@
                                               <span data-text="Detect_Language" id="detectText">Detect language</span>
                                               <span id="detectedText"></span>
                                           </button>
-                                          <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown">
+                                          <button type="button" id="srcLanguagesDropdownTrigger" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown">
                                               <span class="caret"></span>
                                               <span class="sr-only">Toggle Dropdown</span>
                                           </button>
@@ -158,7 +158,7 @@
                                       <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang2"></button>
                                       <div class="btn-group">
                                           <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang3"></button>
-                                          <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                          <button type="button" id="dstLanguagesDropdownTrigger" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                                               <span class="caret"></span>
                                               <span class="sr-only">Toggle Dropdown</span>
                                           </button>
