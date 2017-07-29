@@ -463,11 +463,11 @@ function populateTranslationList() {
             : TRANSLATION_LIST_COLUMNS;
 
     var columnWidth = TRANSLATION_LIST_WIDTH / TRANSLATION_LIST_COLUMNS;
-    var availableWidthForSrcLangs = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
-    numSrcCols = Math.min(Math.floor(availableWidthForSrcLangs / columnWidth), TRANSLATION_LIST_COLUMNS);
-    var availableWidthForDstLangs = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
+    var maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
+    numSrcCols = Math.min(Math.floor(maxSrcLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
+    var maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
         TRANSLATION_LISTS_BUFFER;
-    numDstCols = Math.min(Math.floor(availableWidthForDstLangs / columnWidth), TRANSLATION_LIST_COLUMNS);
+    numDstCols = Math.min(Math.floor(maxDstLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
 
     var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
         dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
