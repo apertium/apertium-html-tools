@@ -317,7 +317,7 @@ function callApy(options, endpoint, useAjax) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
-    if(useAjax || false) {
+    if(useAjax) {
         return $.ajax(requestOptions);
     }
 

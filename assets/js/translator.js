@@ -252,6 +252,7 @@ if(modeEnabled('translation')) {
         $('button#showTranslateWebpage').click(function () {
             showTranslateWebpageInterface();
         });
+        
         $('button#cancelWebpageTranslate').click(hideTranslateWebpageInterface);
 
         $('input#fileInput').change(function () {
@@ -946,7 +947,8 @@ function translationNotAvailableWebpage(data) {
     $('#translatedWebpage').append([
         $('<div></div>').text(' '),
         $('<div></div>').text(data.message),
-        $('<div></div>').text(data.explanation)]);
+        $('<div></div>').text(data.explanation)
+    ]);
 }
 
 function muteLanguages() {
