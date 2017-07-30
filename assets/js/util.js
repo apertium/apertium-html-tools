@@ -12,7 +12,7 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     APY_REQUEST_URL_THRESHOLD_LENGTH = 2000, // maintain 48 characters buffer for generated parameters
     DEFAULT_DEBOUNCE_DELAY = 100;
 
-var INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 10,
+var INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 5,
     INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD = 4000,
     INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 3000,
     INSTALLATION_NOTIFICATION_DURATION = 10000;
@@ -67,7 +67,7 @@ function ajaxSend() {
 function ajaxComplete() {
     $('#loadingIndicator').hide();
     clearTimeout(apyRequestTimeout);
-    recordAPyRequestCompletion(Date.now() - apyRequestStartTime);
+    handleAPyRequestCompletion(Date.now() - apyRequestStartTime);
 }
 
 $(document).ajaxSend(ajaxSend);
@@ -334,7 +334,7 @@ function callApy(options, endpoint) {
     return $.jsonp(requestOptions);
 }
 
-function recordAPyRequestCompletion(requestDuration) {
+function handleAPyRequestCompletion(requestDuration) {
     cumulativeAPyRequestDuration += requestDuration;
     if(lastNAPyRequestDurations.length === INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
         cumulativeAPyRequestDuration -= lastNAPyRequestDurations[0];
@@ -370,10 +370,10 @@ function displayInstallationNotification() {
             .delay(INSTALLATION_NOTIFICATION_DURATION)
             .fadeOut('slow', hideInstallationNotification);
     });
-}
 
-function hideInstallationNotification() {
-    $('#installationNotice').addClass('hide');
+    function hideInstallationNotification() {
+        $('#installationNotice').addClass('hide');
+    }
 }
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
