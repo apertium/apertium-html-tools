@@ -336,8 +336,8 @@ function handleAPyRequestCompletion(requestDuration) {
     var cumulativeAPyRequestDuration;
 
     if(lastNAPyRequestDurations.length === INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
-        cumulativeAPyRequestDuration = lastNAPyRequestDurations.reduce(function (sum, value) {
-            return sum + value;
+        cumulativeAPyRequestDuration = lastNAPyRequestDurations.reduce(function (total, currentValue) {
+            return total + currentValue;
         });
 
         lastNAPyRequestDurations.shift();
