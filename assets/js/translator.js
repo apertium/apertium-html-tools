@@ -252,7 +252,7 @@ if(modeEnabled('translation')) {
         $('button#showTranslateWebpage').click(function () {
             showTranslateWebpageInterface();
         });
-        
+
         $('button#cancelWebpageTranslate').click(hideTranslateWebpageInterface);
 
         $('input#fileInput').change(function () {
