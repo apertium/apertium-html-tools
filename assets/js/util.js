@@ -17,9 +17,7 @@ var INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 5,
     INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 3000,
     INSTALLATION_NOTIFICATION_DURATION = 10000;
 
-var apyRequestTimeout, apyRequestStartTime, installationNotificationShown = false,
-    lastNAPyRequestDurations = [], cumulativeAPyRequestDuration = 0;
-
+var apyRequestTimeout, apyRequestStartTime, installationNotificationShown = false, lastNAPyRequestDurations = [];
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -335,9 +333,13 @@ function callApy(options, endpoint) {
 }
 
 function handleAPyRequestCompletion(requestDuration) {
-    cumulativeAPyRequestDuration += requestDuration;
+    var cumulativeAPyRequestDuration;
+
     if(lastNAPyRequestDurations.length === INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
-        cumulativeAPyRequestDuration -= lastNAPyRequestDurations[0];
+        cumulativeAPyRequestDuration = lastNAPyRequestDurations.reduce(function (sum, value) {
+            return sum + value;
+        });
+
         lastNAPyRequestDurations.shift();
         lastNAPyRequestDurations.push(requestDuration);
     }
