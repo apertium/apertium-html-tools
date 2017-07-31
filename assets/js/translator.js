@@ -227,7 +227,7 @@ if(modeEnabled('translation')) {
                     $('div#fileName').hide();
                     $('div#docTranslation').fadeIn('fast');
                 });
-          
+
             pairs = originalPairs;
             populateTranslationList();
         });
