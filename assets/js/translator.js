@@ -852,7 +852,7 @@ function autoSelectDstLang() {
 
         $('#dstLangSelect').val(newDstLang).change();
         curDstLang = newDstLang;
-        
+
         if(recentDstLangs.indexOf(newDstLang) === -1) {
             handleNewCurrentLang(newDstLang, recentDstLangs, 'dstLang');
         }
