@@ -222,11 +222,12 @@ if(modeEnabled('translation')) {
         });
 
         $('button#translateDoc').click(function () {
-            $('#markUnknownContainer, #translateOptionsContainer').siblings().fadeOut('fast', function () {
-                $('#fileInput').show();
-                $('div#fileName').hide();
-                $('div#docTranslation').fadeIn('fast');
-            });
+            $('#translateText > *:not(#translateOptionsContainer), #translateOptions > *:not(#markUnknownContainer')
+                .fadeOut('fast', function () {
+                    $('#fileInput').show();
+                    $('div#fileName').hide();
+                    $('div#docTranslation').fadeIn('fast');
+                });
             pairs = originalPairs;
             populateTranslationList();
         });
@@ -236,7 +237,8 @@ if(modeEnabled('translation')) {
             $('div#docTranslation').fadeOut('fast', function () {
                 $('a#fileDownload').hide();
                 $('span#uploadError').hide();
-                $('#markUnknownContainer, #translateOptionsContainer').siblings().fadeIn('fast', synchronizeTextareaHeights);
+                $('#translateText > *:not(#translateOptionsContainer), #translateOptions > *:not(#markUnknownContainer')
+                    .fadeIn('fast', synchronizeTextareaHeights);
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
             });
@@ -562,7 +564,7 @@ function populateTranslationList() {
 }
 
 function translate() {
-    if($('#markUnknownContainer, #translateOptionsContainer').siblings().is(':visible')) {
+    if($('#translateText > *:not(#translateOptionsContainer), #translateOptions > *:not(#markUnknownContainer').is(':visible')) {
         translateText();
     }
     else {
