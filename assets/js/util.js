@@ -360,7 +360,7 @@ function displayInstallationNotification() {
         return;
     }
     installationNotificationShown = true;
-    
+
     $('#installationNotice').fadeIn('slow').removeClass('hide')
         .delay(INSTALLATION_NOTIFICATION_DURATION)
         .fadeOut('slow', hideInstallationNotification);
