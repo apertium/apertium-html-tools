@@ -1,7 +1,7 @@
 /* @flow */
 /* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy */
 /* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
-/* global config, persistChoices, iso639Codes, iso639CodesInverse */
+/* global config, persistChoices, iso639Codes, iso639CodesInverse, populateTranslationList */
 
 var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
@@ -9,7 +9,8 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
-    APY_REQUEST_URL_THRESHOLD_LENGTH = 2000; // maintain 48 characters buffer for generated parameters
+    APY_REQUEST_URL_THRESHOLD_LENGTH = 2000, // maintain 48 characters buffer for generated parameters
+    DEFAULT_DEBOUNCE_DELAY = 100;
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -38,6 +39,17 @@ if (typeof Object.assign != 'function') {
   };
 }
 /* eslint-enable */
+
+function debounce(func, delay) { // eslint-disable-line no-unused-vars
+    var clock = null;
+    return function () {
+        var context = this, args = arguments;
+        clearTimeout(clock);
+        clock = setTimeout(function () {
+            func.apply(context, args);
+        }, delay || DEFAULT_DEBOUNCE_DELAY);
+    };
+}
 
 function ajaxSend() {
     $('#loadingIndicator').show();
@@ -120,7 +132,10 @@ $(document).ready(function () {
     resizeFooter();
     $(window)
         .on('hashchange', persistChoices)
-        .resize(resizeFooter);
+        .resize(debounce(function () {
+            populateTranslationList();
+            resizeFooter();
+        }));
 
     if(config.ALLOWED_LANGS) {
         var withIso = [];
@@ -161,7 +176,6 @@ $(document).ready(function () {
         }, 'fast');
         return false;
     });
-
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
@@ -233,11 +247,12 @@ function allowedLang(code) {
     }
 }
 
-function filterLangList(langs/*: Array<string>*/, filterFn/*: (lang: string) => bool*/) {
+function filterLangList(langs/*: Array<string>*/, _filterFn/*: (lang: string) => bool*/) {
     if(config.ALLOWED_LANGS === null && config.ALLOWED_VARIANTS === null) {
         return langs;
     }
     else {
+        var filterFn = _filterFn;
         if(!filterFn) {
             filterFn = function (code) {
                 return allowedLang(code) ||
@@ -250,8 +265,8 @@ function filterLangList(langs/*: Array<string>*/, filterFn/*: (lang: string) => 
 }
 
 function getURLParam(name) {
-    name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
-    var regexS = '[\\?&]' + name + '=([^&#]*)';
+    var escapedName = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+    var regexS = '[\\?&]' + escapedName + '=([^&#]*)';
     var regex = new RegExp(regexS);
     var results = regex.exec(window.location.href);
     return results === null ? '' : results[1];
@@ -306,3 +321,4 @@ function callApy(options, endpoint) {
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
 /*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
+/*:: import {populateTranslationList} from "./translator.js" */

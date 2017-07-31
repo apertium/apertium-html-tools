@@ -8,7 +8,7 @@ var currentGeneratorRequest;
 
 if(modeEnabled('generation')) {
     $(document).ready(function () {
-        $('#generate').click(function () {
+        $('#generateForm').submit(function () {
             generate();
             persistChoices('generator', true);
         });

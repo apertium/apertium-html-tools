@@ -8,7 +8,7 @@ var currentAnalyzerRequest;
 
 if(modeEnabled('analyzation')) {
     $(document).ready(function () {
-        $('#analyze').click(function () {
+        $('#analysisForm').submit(function () {
             analyze();
             persistChoices('analyzer', true);
         });
