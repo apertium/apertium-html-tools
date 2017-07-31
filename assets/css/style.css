@@ -47,10 +47,10 @@ h2 {
 
 #localeDropdown {
     height: 300px;
+    margin-top: -1px;
     min-width: 0 !important; /* sass-lint:disable-line no-important */
     overflow-y: scroll;
     width: 131px;
-    margin-top: -1px;
 }
 
 #localeDropdownSelect:hover  {
