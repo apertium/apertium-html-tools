@@ -795,6 +795,7 @@ function detectLanguage() {
         }
 
         curSrcLang = recentSrcLangs[0];
+        autoSelectDstLang();
         $('#srcLangSelect').val(curSrcLang);
         muteLanguages();
 
@@ -850,12 +851,12 @@ function autoSelectDstLang() {
         }
 
         $('#dstLangSelect').val(newDstLang).change();
-
+        curDstLang = newDstLang;
+        
         if(recentDstLangs.indexOf(newDstLang) === -1) {
             handleNewCurrentLang(newDstLang, recentDstLangs, 'dstLang');
         }
         else {
-            curDstLang = newDstLang;
             $('.dstLang').removeClass('active');
             refreshLangList();
             $('.dstLang[data-code=' + curDstLang + ']').addClass('active');
