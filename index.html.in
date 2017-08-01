@@ -276,8 +276,10 @@
                                   <textarea class="form-control" rows="5" id="morphAnalyzerInput" name="morphAnalyzerInput" spellcheck="false" required></textarea>
                               </div>
                           </div>
-                          <div class="col-sm-offset-2 col-sm-10">
-                              <button type="submit" class="btn btn-primary" id="analyze" data-text="Analyze">Analyze</button>
+                          <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary" id="analyze" data-text="Analyze">Analyze</button>
+                            </div>
                           </div>
                       </fieldset>
                   </form>
@@ -308,8 +310,10 @@
                                   <textarea class="form-control" rows="5" id="morphGeneratorInput" name="morphGeneratorInput" spellcheck="false" required></textarea>
                               </div>
                           </div>
-                          <div class="col-sm-offset-2 col-sm-10">
-                              <button type="submit" class="btn btn-primary" id="generate" data-text="Generate">Generate</button>
+                          <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary" id="generate" data-text="Generate">Generate</button>
+                            </div>
                           </div>
                       </fieldset>
                   </form>
