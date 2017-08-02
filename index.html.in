@@ -337,9 +337,11 @@
                                   <div class="help-block">e.g. /perWord?lang=en-es&amp;modes=morph+translate+biltrans&amp;q=let+there+be+light</div>
                               </div>
                           </div>
-                          <div class="col-sm-offset-2 col-sm-10">
-                              <button type="submit" class="btn btn-primary" id="request" data-text="Request">Request</button>
-                              <code id="time" class="pull-right"></code>
+                          <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary" id="request" data-text="Request">Request</button>
+                                <code id="time" class="pull-right"></code>
+                            </div>
                           </div>
                       </fieldset>
                   </form>
