@@ -147,6 +147,9 @@ if(modeEnabled('translation')) {
             if($('div#translateText').is(':visible')) {
                 translateText();
             }
+            else if($('div#docTranslation').is(':visible')) {
+                translateDoc();
+            }
             persistChoices('translator');
         });
 
@@ -218,12 +221,13 @@ if(modeEnabled('translation')) {
         });
 
         $('button#translateDoc').click(function () {
-            $('div#translateText').fadeOut('fast', function () {
-                $('#fileInput').show();
-                $('div#fileName').hide();
-                $('div#docTranslation').fadeIn('fast');
-                $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
-            });
+            $('#translateText > *:not(#translateOptionsContainer), #translateOptions > *:not(#markUnknownContainer')
+                .fadeOut('fast', function () {
+                    $('#fileInput').show();
+                    $('div#fileName').hide();
+                    $('div#docTranslation').fadeIn('fast');
+                });
+
             pairs = originalPairs;
             populateTranslationList();
         });
@@ -233,7 +237,8 @@ if(modeEnabled('translation')) {
             $('div#docTranslation').fadeOut('fast', function () {
                 $('a#fileDownload').hide();
                 $('span#uploadError').hide();
-                $('div#translateText').fadeIn('fast', synchronizeTextareaHeights);
+                $('#translateText > *:not(#translateOptionsContainer), #translateOptions > *:not(#markUnknownContainer')
+                    .fadeIn('fast', synchronizeTextareaHeights);
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
                 $('#detect, #srcLangSelect option[value=detect]').prop('disabled', false);
@@ -568,7 +573,7 @@ function populateTranslationList() {
 }
 
 function translate() {
-    if($('div#translateText').is(':visible')) {
+    if($('#translateText > *:not(#translateOptionsContainer), #translateOptions > *:not(#markUnknownContainer').is(':visible')) {
         translateText();
     }
     else if($('div#docTranslation').is(':visible')) {
