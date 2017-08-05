@@ -12,6 +12,13 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     APY_REQUEST_URL_THRESHOLD_LENGTH = 2000, // maintain 48 characters buffer for generated parameters
     DEFAULT_DEBOUNCE_DELAY = 100;
 
+var INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 5,
+    INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD = 4000,
+    INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 3000,
+    INSTALLATION_NOTIFICATION_DURATION = 10000;
+
+var apyRequestTimeout, apyRequestStartTime, installationNotificationShown = false, lastNAPyRequestDurations = [];
+
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
 if (typeof Object.assign != 'function') {
@@ -57,6 +64,8 @@ function ajaxSend() {
 
 function ajaxComplete() {
     $('#loadingIndicator').hide();
+    clearTimeout(apyRequestTimeout);
+    handleAPyRequestCompletion(Date.now() - apyRequestStartTime);
 }
 
 $(document).ajaxSend(ajaxSend);
@@ -176,6 +185,8 @@ $(document).ready(function () {
         }, 'fast');
         return false;
     });
+
+    $('#installationNotice').addClass('hide');
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
@@ -308,11 +319,63 @@ function callApy(options, endpoint) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
+    apyRequestStartTime = Date.now();
+    apyRequestTimeout = setTimeout(function () {
+        displayInstallationNotification();
+        clearTimeout(apyRequestTimeout);
+    }, INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD);
+
     if(requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
         requestOptions.type = 'POST';
         return $.ajax(requestOptions);
     }
     return $.jsonp(requestOptions);
+}
+
+function handleAPyRequestCompletion(requestDuration) {
+    var cumulativeAPyRequestDuration;
+
+    if(lastNAPyRequestDurations.length === INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
+        cumulativeAPyRequestDuration = lastNAPyRequestDurations.reduce(function (totalDuration, duration) {
+            return totalDuration + duration;
+        });
+
+        lastNAPyRequestDurations.shift();
+        lastNAPyRequestDurations.push(requestDuration);
+    }
+    else {
+        lastNAPyRequestDurations.push(requestDuration);
+    }
+
+    var averageRequestDuration = cumulativeAPyRequestDuration / lastNAPyRequestDurations.length;
+
+    if(requestDuration > INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD ||
+        averageRequestDuration > INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD) {
+        displayInstallationNotification();
+    }
+}
+
+function displayInstallationNotification() {
+    if(installationNotificationShown) {
+        return;
+    }
+    installationNotificationShown = true;
+
+    $('#installationNotice').fadeIn('slow').removeClass('hide')
+        .delay(INSTALLATION_NOTIFICATION_DURATION)
+        .fadeOut('slow', hideInstallationNotification);
+
+    $('#installationNotice').mouseover(function () {
+        $(this).stop(true);
+    }).mouseout(function () {
+        $(this).animate()
+            .delay(INSTALLATION_NOTIFICATION_DURATION)
+            .fadeOut('slow', hideInstallationNotification);
+    });
+
+    function hideInstallationNotification() {
+        $('#installationNotice').addClass('hide');
+    }
 }
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,

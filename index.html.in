@@ -543,5 +543,10 @@
             <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" style="border: 0;" alt=""></p></noscript>
         </div>
         <button class="btn btn-default hidden-sm hidden-xs" id="backToTop"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+        <div id="installationNotice" class="hidden-xs hidden-sm alert alert-warning alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 id="installationNoticeTitle" data-text="Install_Apertium"></h4>
+          <p data-text="Install_Apertium_Para"></p>
+        </div>
     </body>
 </html>
