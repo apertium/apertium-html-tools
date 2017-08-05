@@ -8,8 +8,11 @@
             "de",
             "deu"
         ],
-        "completion": "100% 113.91%",
-        "missing": []
+        "completion": " 97% 109.09%",
+        "missing": [
+            "Install_Apertium",
+            "Install_Apertium_Para"
+        ]
     },
     "title": "Apertium | Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "tagline": "Eine freie/quelloffene Plattform für maschinelle Übersetzungen",

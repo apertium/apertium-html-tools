@@ -9,7 +9,7 @@
             "ky",
             "kir"
         ],
-        "completion": " 77%  29.33%",
+        "completion": " 75%  28.09%",
         "missing": [
             "Contact_Para",
             "Documentation_Para",
@@ -17,6 +17,8 @@
             "Downloads_Para",
             "Drop_Document",
             "Format_Not_Supported",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",

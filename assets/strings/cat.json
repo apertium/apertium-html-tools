@@ -9,10 +9,12 @@
             "ca",
             "cat"
         ],
-        "completion": " 87%  93.00%",
+        "completion": " 84%  89.06%",
         "missing": [
             "Download_Browser_Warning",
             "Drop_Document",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",

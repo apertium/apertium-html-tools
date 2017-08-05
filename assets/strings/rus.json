@@ -11,9 +11,11 @@
             "ru",
             "rus"
         ],
-        "completion": " 91%  86.02%",
+        "completion": " 88%  82.38%",
         "missing": [
             "Download_Browser_Warning",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",

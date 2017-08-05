@@ -10,13 +10,15 @@
             "es",
             "spa"
         ],
-        "completion": " 81%  31.64%",
+        "completion": " 78%  30.30%",
         "missing": [
             "Contact_Para",
             "Documentation_Para",
             "Download_Browser_Warning",
             "Downloads_Para",
             "Drop_Document",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Multi_Step_Translation",
             "Supported_Formats",
             "Translate_Webpage",
