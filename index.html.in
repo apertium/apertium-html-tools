@@ -509,7 +509,7 @@
 
         <div id="reportErrorSuccess" class="collapse alert alert-success fade" style="top:40%;left:2%;right:2%;position:fixed">
           <a href="#reportErrorSuccess" class="close" data-toggle="collapse">&times;</a>
-          <p data-text="Report_Error_Success">Sent!</p>
+          <p data-text="Report_Error_Success">Sent! Thanks for your suggestion, we'll try to fix it as soon as we can.</p>
         </div>
 
         <div id="reportErrorFailure" class="collapse alert alert-warning fade" style="top:40%;left:2%;right:2%;position:fixed">
