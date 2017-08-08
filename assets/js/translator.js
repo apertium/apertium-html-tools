@@ -1,4 +1,5 @@
 /* @flow */
+/* global $, skewer, config */
 
 var pairs = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs = [], dstLangs = [];
@@ -151,6 +152,9 @@ if(modeEnabled('translation')) {
         $('#originalText').submit(function () {
             translateText();
         });
+
+        $('#translatedText').bind('mousedown', onTranslatedPreSelection);
+        $('#translatedText').bind('mouseup', onTranslatedSelection);
 
         $('.clearButton').click(function () {
             $('#originalText').val('');
@@ -1003,6 +1007,130 @@ function autoSelectDstLang() {
             translateText();
         }
     }
+}
+
+function onReportErrorSubmit(e) {
+    $.ajax({
+        url: config.APY_URL + '/reportError',
+        dataType: "json",
+        beforeSend: ajaxSend,
+        complete: function () {
+            ajaxComplete();
+            $("#translatedText").popover('destroy');
+        },
+        data: {
+            'langpair': curSrcLang + '|' + curDstLang,
+            'markUnknown': $('#markUnknown').prop('checked') ? 'yes' : 'no',
+            'originalText': $('#originalText').val(),
+            'translatedText': $('#translatedText').text(),
+            // Need .popover since we don't want the contents of the popover "template":
+            'selectedText': $('.popover .reportErrorText').text(),
+            'userText': $('.popover .reportErrorUserText').val()
+        },
+        success: function (data) {
+            $('#reportErrorSuccess').addClass("in").show().css('height', 'auto');
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            $('#reportErrorFailure').addClass("in").show().css('height', 'auto');
+            var msg = textStatus + ": " + errorThrown;
+            for(var k in jqXHR.responseJSON) {
+                if(jqXHR.responseJSON.hasOwnProperty(k)) {
+                    msg += "\n" + k + ": " + jqXHR.responseJSON[k];
+                }
+            }
+            $('#reportErrorFailureMsg').text(msg);
+            $('#reportErrorFailureMsg').css("white-space", "pre-wrap");
+            console.warn(jqXHR, textStatus, errorThrown);
+        }
+    });
+};
+
+function onTranslatedPreSelection(e) {
+    $("#translatedText").popover('destroy');
+}
+
+function placePopover(selNode, selOffset, popover) {
+    if(!popover) {
+        console.warn("Popover not found!");
+        return;
+    }
+    var pop = $(popover.$tip);
+    if(!selNode) {
+        console.warn("Selection anchor not found!");
+        return;
+    }
+    // Place popover as close as possible to selection without going off-screen:
+    var range = document.createRange();
+    range.selectNodeContents(selNode);
+    // Pick the first char of the selection:
+    if(selOffset < selNode.textContent.length) {
+        // Add 1 to avoid selecting end of previous line at line-breaks
+        selOffset += 1;
+    }
+    range.setStart(selNode, selOffset);
+    range.setEnd(selNode, selOffset);
+    var rect = range.getBoundingClientRect(),
+        scrollTop = document.documentElement.scrollTop || document.body.scrollTop,
+        scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+    var left = rect.left + scrollLeft - 20,
+        top = rect.top + scrollTop - pop.outerHeight(true) - 20;
+    if(left + pop.outerWidth(true) > $(window).width()) {
+        left = $(window).width() - pop.outerWidth(true);
+    }
+    if(top < 0) {
+        top = rect.top + scrollTop + rect.height + 20;
+        pop.removeClass("top").addClass("bottom");
+    }
+    else {
+        pop.removeClass("bottom").addClass("top");
+    }
+    skewer.log({ left: left, top: top });
+    pop.offset({ left: left, top: top });
+}
+
+function showReportError(e) {
+    var popover = e.data.popover;
+    popover.options.title = function () { return $("#reportErrorTitle").text(); };
+    popover.options.content = function () { return $("#reportErrorContent").html(); };
+    popover.setContent();
+    popover.$tip.find('.popover-title').show();
+    $('.reportErrorSubmit').click(onReportErrorSubmit);
+    placePopover(e.data.selNode, e.data.selOffset, popover);
+}
+
+function onTranslatedSelection(_e) {
+    var selection;
+    if (window.getSelection) {
+        selection = window.getSelection();
+    }
+    else if (document.selection) {
+        selection = document.selection.createRange();
+    }
+    else {
+        console.warn("No selection API, can't report errors");
+        return;
+    }
+    var txt = selection.toString();
+    if(txt === '') {
+        return;
+    }
+    $('.reportErrorText').text(txt);
+    $('.reportErrorUserText').text(txt);
+    $("#translatedText").popover({
+        html: true,
+        content: function () { return $("#reportErrorShow").html(); },
+        placement:"top"
+    }).popover('show');
+    var popover = $('#translatedText').data('bs.popover');
+    // Since selection object is mutable (changes on link click), we
+    // store the values we need for placePopover:
+    var selNode = selection.anchorNode,
+        selOffset = selection.anchorOffset;
+    $('.reportErrorShowLink').click({ selNode: selection.anchorNode,
+                                      selOffset: selection.anchorOffset,
+                                      popover: popover},
+                                    showReportError);
+    placePopover(selNode, selOffset, popover);
 }
 
 /*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode} from "./util.js" */
