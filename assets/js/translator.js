@@ -1050,6 +1050,10 @@ function onTranslatedPreSelection(e) {
 }
 
 function placePopover(selNode, selOffset, popover) {
+    if(!$('#translatedText')[0].contains(selNode)) {
+        console.warn("Selection reached outside of translatedText, not changing placement");
+        return;
+    }
     if(!popover) {
         console.warn("Popover not found!");
         return;
