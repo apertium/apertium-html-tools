@@ -501,7 +501,7 @@
         <div class="hide" id="reportErrorContent" tabindex="-1">
           <blockquote class="reportErrorText"> </blockquote>
           <p data-text="Report_Error_Implore">Send us a better translation:</p>
-          <textarea class="reportErrorUserText" rows="1"></textarea>
+          <textarea class="reportErrorUserText" rows="3"></textarea>
           <div class="text-center" style="padding-top: 1em">
             <button type="submit" class="btn btn-primary reportErrorSubmit" data-text="Submit">Submit</button>
           </div>
