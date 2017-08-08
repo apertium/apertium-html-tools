@@ -1084,7 +1084,6 @@ function placePopover(selNode, selOffset, popover) {
     else {
         pop.removeClass("bottom").addClass("top");
     }
-    skewer.log({ left: left, top: top });
     pop.offset({ left: left, top: top });
 }
 
