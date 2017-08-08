@@ -15,3 +15,69 @@ p.tagline {
     background-color: #272b30;
     color: #fff;
 }
+
+.popover blockquote {
+    font-size: 100%;
+}
+/* Copy back some popover styles from non-yeti: */
+.popover, .popover-title {
+    background-color: #fff;
+    color: #000;
+}
+.popover.bottom .arrow {
+    top: -11px;
+    left: 50%;
+    margin-left: -11px;
+    border-bottom-color: #999999;
+    border-bottom-color: rgba(0, 0, 0, 0.25);
+    border-top-width: 0;
+}
+.popover.top .arrow {
+    bottom: -11px;
+    left: 50%;
+    margin-left: -11px;
+    border-top-color: #999999;
+    border-top-color: rgba(0, 0, 0, 0.25);
+    border-bottom-width: 0;
+}
+.popover .arrow {
+    border-width: 11px;
+        border-top-width: 11px;
+}
+.popover .arrow, .popover .arrow::after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+        border-bottom-color: transparent;
+    border-style: solid;
+}
+.popover.bottom .arrow::after {
+    top: 1px;
+    margin-left: -10px;
+    border-bottom-color: #ffffff;
+    border-top-width: 0;
+    content: " ";
+}
+.popover.top .arrow::after {
+    bottom: 1px;
+    margin-left: -10px;
+    border-top-color: #ffffff;
+    border-bottom-width: 0;
+    content: " ";
+}
+.popover .arrow::after {
+    border-width: 10px;
+        border-top-width: 10px;
+    content: "";
+}
+.popover .arrow, .popover .arrow::after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+        border-bottom-color: transparent;
+    border-style: solid;
+}
