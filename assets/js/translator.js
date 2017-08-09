@@ -768,7 +768,9 @@ function downloadBrowserWarn() {
 
 window.onpopstate = function(event) {
     // TODO: Could do the whole restoreChoices here? But would have to call the right translate() functions anyway
-    if(getURLParam('qP').length > 0) {
+    // Note: onpopstate is triggered by changes to hash, check both qP
+    // and hash, o/w this gets called by hideTranslateWebpageInterface
+    if(showingWebpageTranslation() && getURLParam('qP').length > 0) {
         $('#webpage').val(decodeURIComponent(getURLParam('qP')));
         translateWebpage();
     }
@@ -854,6 +856,9 @@ function translateWebpage() {
 }
 
 function hideTranslateWebpageInterface() {
+    $('#originalText').val("");
+    window.location.href = window.location.href.replace(/\?qP=[^&]*&?/,"?").replace(/&qP=[^&]*/,""); // hacky! TODO: a real function to set url params
+    window.location.hash = '';
     $('input#webpage').attr({
         'required': false,
         'novalidate': true
@@ -864,7 +869,6 @@ function hideTranslateWebpageInterface() {
             synchronizeTextareaHeights();
         });
     });
-    window.location.hash = 'translation';
     $('.ap-content').addClass('container').removeClass('container-fluid');
     $('.ap-header-nav').show();
     $('#footer').show();
