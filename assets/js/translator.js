@@ -1102,6 +1102,8 @@ function showReportError(e) {
 }
 
 function onTranslatedSelection(_e) {
+    $('.tooltip').hide();
+    $('.popover').hide();
     var selection;
     if (window.getSelection) {
         selection = window.getSelection();
