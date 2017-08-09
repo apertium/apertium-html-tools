@@ -153,8 +153,9 @@ if(modeEnabled('translation')) {
             translateText();
         });
 
-        $('#translatedText').bind('mousedown', onTranslatedPreSelection);
-        $('#translatedText').bind('mouseup', onTranslatedSelection);
+        $('#translatedText')
+            .bind('mousedown', onTranslatedPreSelection)
+            .bind('mouseup', onTranslatedSelection);
 
         $('.clearButton').click(function () {
             $('#originalText').val('');
@@ -841,6 +842,9 @@ function translateWebpage() {
                                 a.href = "#";
                                 a.target = "";
                             });
+                        $('#translatedWebpage').contents().find('body')
+                            .bind('mousedown', onTranslatedPreSelection)
+                            .bind('mouseup', onTranslatedSelection);
                     });
                 }
                 else {
@@ -1014,23 +1018,26 @@ function autoSelectDstLang() {
 }
 
 function onReportErrorSubmit(e) {
+    var data = {
+        langpair: curSrcLang + '|' + curDstLang,
+        markUnknown: $('#markUnknown').prop('checked') ? 'yes' : 'no',
+        // Need .popover since we don't want the contents of the popover "template":
+        selectedText: e.data.popover.$tip.find('.reportErrorText').text(),
+        userText: e.data.popover.$tip.find('.reportErrorUserText').val(),
+        url: showingWebpageTranslation() ? $('input#webpage').val() : "",
+        // TODO: Find context around selected words instead of just giving up on urls:
+        originalText: showingWebpageTranslation() ? "" : $('#originalText').val(),
+        translatedText: showingWebpageTranslation() ? "" : $('#translatedText').text()
+    };
     $.ajax({
         url: config.APY_URL + '/reportError',
         dataType: "json",
         beforeSend: ajaxSend,
         complete: function () {
             ajaxComplete();
-            $("#translatedText").popover('destroy');
+            $("#contentForms").popover('destroy');
         },
-        data: {
-            'langpair': curSrcLang + '|' + curDstLang,
-            'markUnknown': $('#markUnknown').prop('checked') ? 'yes' : 'no',
-            'originalText': $('#originalText').val(),
-            'translatedText': $('#translatedText').text(),
-            // Need .popover since we don't want the contents of the popover "template":
-            'selectedText': $('.popover .reportErrorText').text(),
-            'userText': $('.popover .reportErrorUserText').val()
-        },
+        data: data,
         success: function (data) {
             $('#reportErrorSuccess').addClass("in").show().css('height', 'auto');
         },
@@ -1050,12 +1057,12 @@ function onReportErrorSubmit(e) {
 };
 
 function onTranslatedPreSelection(e) {
-    $("#translatedText").popover('destroy');
+    $("#contentForms").popover('destroy');
 }
 
 function placePopover(selNode, selOffset, popover) {
-    if(!$('#translatedText')[0].contains(selNode)) {
-        console.warn("Selection reached outside of translatedText, not changing placement");
+    if(document === selNode.ownerDocument && !popover.$element[0].contains(selNode)) {
+        console.warn("Selection reached outside of popover owner element, not changing placement");
         return;
     }
     if(!popover) {
@@ -1082,6 +1089,9 @@ function placePopover(selNode, selOffset, popover) {
         scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
     var left = rect.left + scrollLeft - 20,
         top = rect.top + scrollTop - pop.outerHeight(true) - 20;
+    if(selNode.ownerDocument === $('#translatedWebpage').contents()[0]) {
+        top += $('#translatedWebpage').offset().top;
+    }
     if(left + pop.outerWidth(true) > $(window).width()) {
         left = $(window).width() - pop.outerWidth(true);
     }
@@ -1101,19 +1111,22 @@ function showReportError(e) {
     popover.options.content = function () { return $("#reportErrorContent").html(); };
     popover.setContent();
     popover.$tip.find('.popover-title').show();
-    $('.reportErrorSubmit').click(onReportErrorSubmit);
+    popover.$tip.find('.reportErrorSubmit').click({ popover: popover },
+                                                  onReportErrorSubmit);
     placePopover(e.data.selNode, e.data.selOffset, popover);
 }
 
-function onTranslatedSelection(_e) {
+function onTranslatedSelection(ev) {
+    var doc = ev.target.ownerDocument; // if we're in an iframe
+    console.log(ev, doc);
     $('.tooltip').hide();
     $('.popover').hide();
     var selection;
-    if (window.getSelection) {
-        selection = window.getSelection();
+    if (doc.defaultView.getSelection) {
+        selection = doc.defaultView.getSelection();
     }
-    else if (document.selection) {
-        selection = document.selection.createRange();
+    else if (doc.selection) {
+        selection = doc.selection.createRange();
     }
     else {
         console.warn("No selection API, can't report errors");
@@ -1125,12 +1138,14 @@ function onTranslatedSelection(_e) {
     }
     $('.reportErrorText').text(txt);
     $('.reportErrorUserText').text(txt);
-    $("#translatedText").popover({
+    // If we're in an iframe, we still have to put the popover on the
+    // main document, since the iframe doesn't have our stylesheet
+    $('#contentForms').popover({
         html: true,
         content: function () { return $("#reportErrorShow").html(); },
         placement:"top"
     }).popover('show');
-    var popover = $('#translatedText').data('bs.popover');
+    var popover = $('#contentForms').data('bs.popover');
     // Since selection object is mutable (changes on link click), we
     // store the values we need for placePopover:
     var selNode = selection.anchorNode,

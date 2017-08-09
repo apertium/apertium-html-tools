@@ -183,7 +183,7 @@
                                   <button type="button" id="translate" class="btn btn-primary btn-sm pull-right translateBtn" data-text="Translate">Translate</button>
                               </div>
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" id="contentForms">
                               <div id="translateText">
                                   <div class="col-sm-6">
                                       <textarea data-textattr="placeholder" data-text="Translate_Input_Placeholder" placeholder="Write/paste text or a website address here to get it translated (or drag a document file onto the page)" class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
