@@ -221,7 +221,7 @@ if(modeEnabled('translation')) {
                     $('#fileInput').show();
                     $('div#fileName').hide();
                     $('div#docTranslation').fadeIn('fast');
-                    $('#markUnknownContainer').css('margin-top', $('#translatedText').height());
+                    $('#markUnknownContainer').css('margin-top', '200px');
                     $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
                 });
             pairs = originalPairs;
