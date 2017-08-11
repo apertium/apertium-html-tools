@@ -850,7 +850,6 @@ function autoSelectDstLang() {
             newDstLang = pairs[curSrcLang][0];
         }
 
-        $('#dstLangSelect').val(newDstLang).change();
         curDstLang = newDstLang;
 
         if(recentDstLangs.indexOf(newDstLang) === -1) {
@@ -864,6 +863,8 @@ function autoSelectDstLang() {
             localizeInterface();
             translateText();
         }
+
+        $('#dstLangSelect').val(newDstLang).change();
     }
 }
 
