@@ -376,7 +376,7 @@ body {
     text-decoration: none;
 }
 
-@media(device-width: 768px) and (device-height: 1024px){
+@media(device-width: 768px) and (device-height: 1024px) {
     ::-webkit-scrollbar {
         -webkit-appearance: none;
         width: 7px;
