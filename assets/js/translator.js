@@ -917,6 +917,6 @@ function dictionaryLookup() {
 /*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode,
     callApy} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
-/*:: import localizeInterface from "./localization.js" */
+/*:: import {localizeInterface, dynamicLocalizations} from "./localization.js" */
 /*:: import {readCache,cache} from "./cache.js" */
 /*:: import {config} from "./config.js" */
