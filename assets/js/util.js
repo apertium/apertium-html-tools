@@ -309,12 +309,16 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-function callApy(options, endpoint) {
+function callApy(options, endpoint, useAjax) {
     var requestOptions = Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
     }, options);
+
+    if(useAjax) {
+        return $.ajax(requestOptions);
+    }
 
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
@@ -351,6 +355,7 @@ function handleAPyRequestCompletion(requestDuration) {
 
     if(requestDuration > INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD ||
         averageRequestDuration > INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD) {
+                console.log('hello');
         displayInstallationNotification();
     }
 }

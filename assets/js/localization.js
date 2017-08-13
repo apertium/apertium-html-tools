@@ -18,7 +18,28 @@ var dynamicLocalizations = {
         'File_Too_Large': 'File is too large!',
         'Format_Not_Supported': 'Format not supported!',
         'Download_File': 'Download {{fileName}}'
-    }
+    },
+    'n': 'Noun',
+    'vblex': 'Verb',
+    'vbmod': 'Modal verb',
+    'vbser': 'Verb "to be"',
+    'vbhaver': 'Verb "to have"',
+    'vaux': 'Auxilliary verb',
+    'adj': 'Adjective',
+    'post': 'Postposition',
+    'adv': 'Adverb',
+    'preadv': 'Pre-adverb',
+    'postadv': 'Post-adverb',
+    'mod': 'Modal word',
+    'det': 'Determiner',
+    'prn': 'Pronoun',
+    'pr': 'Preposition',
+    'num': 'Numeral',
+    'np': 'Proper noun',
+    'ij': 'Interjection',
+    'cnjcoo': 'Co-ordinating conjunction',
+    'cnjsub': 'Sub-ordinating conjunction',
+    'cnjadv': 'Conjunctive adverb'
 };
 
 function getDynamicLocalization(stringKey) {
@@ -366,6 +387,8 @@ function localizeStrings(stringsFresh) {
                 getDynamicLocalization('Download_File').replace('{{fileName}}', $('a#fileDownload').attr('download'))
             );
         }
+
+        dictionaryLookup();
     }
 }
 

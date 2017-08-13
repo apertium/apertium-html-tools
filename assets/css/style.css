@@ -283,6 +283,28 @@ html[dir='rtl'] #srcLanguages {
     clear: both;
 }
 
+/* Dictionary Lookup */
+
+#dictionaryLookup {
+    margin-top: 1em;
+}
+
+#dictTranslation {
+    color: #737373;
+}
+
+#currentWordForLookup {
+    color: black;
+}
+
+#dynamicLocalization {
+    color: #737373;
+}
+
+#dictionaryTranslationContents {
+    list-style-type: none; 
+}
+
 /* Analysis */
 
 .unit {
