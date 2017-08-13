@@ -9,7 +9,8 @@ var localizedLanguageCodes = {}, localizedLanguageNames = {};
 
 /* global config, getPairs, getGenerators, getAnalyzers, persistChoices, getURLParam, cache, ajaxSend, ajaxComplete, sendEvent,
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
-    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
+    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique,
+    dictionaryLookup */
 
 var dynamicLocalizations = {
     'fallback': {

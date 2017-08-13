@@ -294,7 +294,7 @@ html[dir='rtl'] #srcLanguages {
 }
 
 #currentWordForLookup {
-    color: black;
+    color: #000000;
 }
 
 #dynamicLocalization {
@@ -302,7 +302,7 @@ html[dir='rtl'] #srcLanguages {
 }
 
 #dictionaryTranslationContents {
-    list-style-type: none; 
+    list-style-type: none;
 }
 
 /* Analysis */

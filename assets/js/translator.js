@@ -875,9 +875,10 @@ function autoSelectDstLang() {
 
 function dictionaryLookup() {
     if(modeEnabled('lookup')) {
-        $('#dictionaryLookupResult').empty();        
-        var wordToLookup = $('#originalText').val().trim().split(' ');
-        if (wordToLookup.length <= 3 && wordToLookup[0] != '') {
+        $('#dictionaryLookupResult').empty();
+        var wordToLookup = $('#originalText').val().trim()
+            .split(' ');
+        if(wordToLookup.length <= 3 && wordToLookup[0] !== '') {
             currentLookupRequest = callApy({
                 data: {
                     'langpair': curSrcLang + '|' + curDstLang,
@@ -885,7 +886,7 @@ function dictionaryLookup() {
                 },
                 success: handleDictionaryLookupSuccessResponse,
                 error: handleDictionaryLookupErrorResponse,
-                complete: function() {
+                complete: function () {
                     ajaxComplete();
                     currentLookupRequest = undefined;
                 }
@@ -896,18 +897,18 @@ function dictionaryLookup() {
     function handleDictionaryLookupSuccessResponse(data) {
         $('#dictionaryLookup').removeClass('hide');
         $('#currentWordForLookup').html($('#originalText').val());
-        for (var key in data) {
+        for(var analysisType in data) {
             var values = '<ul id="dictionaryTranslationContents">';
-            for (var translationContent = 0; translationContent < data[key].length; translationContent++) {
-                values += '<li>' + data[key][translationContent].replace('#', '') + '</li>';
+            for(var translationContent = 0; translationContent < data[analysisType].length; translationContent++) {
+                values += '<li>' + data[analysisType][translationContent].replace('#', '') + '</li>';
             }
             values += '</ul>';
             $('#dictionaryLookupResult').html($('#dictionaryLookupResult').html() +
-                '<span data-text="' + key +'"id="dynamicLocalization">' + dynamicLocalizations[key] + '</span>' + values);             
+                '<span id="dynamicLocalization">' + dynamicLocalizations[analysisType] + '</span>' + values);
         }
     }
 
-    function handleDictionaryLookupErrorResponse(jqXHR) {
+    function handleDictionaryLookupErrorResponse() {
         $('#dictionaryLookup').addClass('hide');
     }
 

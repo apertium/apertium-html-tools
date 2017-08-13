@@ -355,7 +355,6 @@ function handleAPyRequestCompletion(requestDuration) {
 
     if(requestDuration > INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD ||
         averageRequestDuration > INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD) {
-                console.log('hello');
         displayInstallationNotification();
     }
 }
