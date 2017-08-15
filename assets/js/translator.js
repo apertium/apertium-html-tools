@@ -5,7 +5,7 @@ var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
-var textTranslateRequest;
+var textTranslateRequest, currentLookupRequest;
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
@@ -16,7 +16,8 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
-    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes, callApy */
+    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
+    callApy, dictionaryLookup, dynamicLocalizations, apyRequestTimeout */
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
 /* global $bu_getBrowser */
 
@@ -222,6 +223,7 @@ if(modeEnabled('translation')) {
                 $('#fileInput').show();
                 $('div#fileName').hide();
                 $('div#docTranslation').fadeIn('fast');
+                $('#dictionaryLookup').hide();
                 $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
             });
             pairs = originalPairs;
@@ -236,6 +238,7 @@ if(modeEnabled('translation')) {
                 $('div#translateText').fadeIn('fast', synchronizeTextareaHeights);
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
+                $('#dictionaryLookup').show();
                 $('#detect, #srcLangSelect option[value=detect]').prop('disabled', false);
             });
             updatePairList();
@@ -582,7 +585,9 @@ function translateText() {
             sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
             if(textTranslateRequest) {
                 textTranslateRequest.abort();
+                clearTimeout(apyRequestTimeout);
             }
+
             var endpoint, request;
             if($('input#chainedTranslation').prop('checked') && config.TRANSLATION_CHAINING) {
                 endpoint = '/translateChain';
@@ -601,6 +606,7 @@ function translateText() {
                 complete: function () {
                     ajaxComplete();
                     textTranslateRequest = undefined;
+                    dictionaryLookup();
                 }
             }, endpoint);
         }
@@ -868,9 +874,54 @@ function autoSelectDstLang() {
     }
 }
 
+function dictionaryLookup() {
+    if(modeEnabled('lookup')) {
+        if(currentLookupRequest) {
+            currentLookupRequest.abort();
+        }
+
+        $('#dictionaryLookupResult').empty();
+        var wordToLookup = $('#originalText').val().trim()
+            .split(' ');
+        if(wordToLookup.length <= 3 && wordToLookup[0] !== '') {
+            currentLookupRequest = callApy({
+                data: {
+                    'langpair': curSrcLang + '|' + curDstLang,
+                    'q': $('#originalText').val()
+                },
+                success: handleDictionaryLookupSuccessResponse,
+                error: handleDictionaryLookupErrorResponse,
+                complete: function () {
+                    ajaxComplete();
+                    currentLookupRequest = undefined;
+                }
+            }, '/dictionaryLookup');
+        }
+    }
+
+    function handleDictionaryLookupSuccessResponse(data) {
+        $('#dictionaryLookup').removeClass('hide');
+        $('#currentWordForLookup').html($('#originalText').val());
+        for(var analysisType in data) {
+            var values = '<ul id="dictionaryTranslationContents">';
+            for(var translationContent = 0; translationContent < data[analysisType].length; translationContent++) {
+                values += '<li>' + data[analysisType][translationContent].replace('#', '') + '</li>';
+            }
+            values += '</ul>';
+            $('#dictionaryLookupResult').html($('#dictionaryLookupResult').html() +
+                '<span id="dynamicLocalization">' + dynamicLocalizations[analysisType] + '</span>' + values);
+        }
+    }
+
+    function handleDictionaryLookupErrorResponse() {
+        $('#dictionaryLookup').addClass('hide');
+    }
+
+}
+
 /*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode,
-    callApy} from "./util.js" */
+    callApy, apyRequestTimeout} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
-/*:: import localizeInterface from "./localization.js" */
+/*:: import {localizeInterface, dynamicLocalizations} from "./localization.js" */
 /*:: import {readCache,cache} from "./cache.js" */
 /*:: import {config} from "./config.js" */
