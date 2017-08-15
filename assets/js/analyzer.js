@@ -3,7 +3,7 @@ var currentAnalyzerRequest;
 
 /* exported getAnalyzers */
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
-    cache, getLangByCode, filterLangList, allowedLang, sendEvent, callApy */
+    cache, getLangByCode, filterLangList, allowedLang, sendEvent, callApy, apyRequestTimeout */
 /* global ENTER_KEY_CODE */
 
 if(modeEnabled('analyzation')) {
@@ -156,6 +156,7 @@ function analyze() {
 
     if(currentAnalyzerRequest) {
         currentAnalyzerRequest.abort();
+        clearTimeout(apyRequestTimeout);
     }
 
     currentAnalyzerRequest = callApy({
