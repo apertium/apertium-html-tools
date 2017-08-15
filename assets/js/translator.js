@@ -17,7 +17,7 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, dictionaryLookup, dynamicLocalizations */
+    callApy, dictionaryLookup, dynamicLocalizations, apyRequestTimeout */
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
 /* global $bu_getBrowser */
 
@@ -920,7 +920,7 @@ function dictionaryLookup() {
 }
 
 /*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode,
-    callApy} from "./util.js" */
+    callApy, apyRequestTimeout} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
 /*:: import {localizeInterface, dynamicLocalizations} from "./localization.js" */
 /*:: import {readCache,cache} from "./cache.js" */
