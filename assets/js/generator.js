@@ -3,7 +3,7 @@ var currentGeneratorRequest;
 
 /* exported getGenerators */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
-    localizeInterface, getLangByCode, sendEvent, restoreChoices, callApy */
+    localizeInterface, getLangByCode, sendEvent, restoreChoices, callApy, apyRequestTimeout */
 /* global ENTER_KEY_CODE */
 
 if(modeEnabled('generation')) {
@@ -156,6 +156,7 @@ function generate() {
 
     if(currentGeneratorRequest) {
         currentGeneratorRequest.abort();
+        clearTimeout(apyRequestTimeout);
     }
 
     currentGeneratorRequest = callApy({
