@@ -5,8 +5,6 @@ var currentSandboxRequest;
 
 if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
     $(document).ready(function () {
-        $('#apyEndPoint').html(config.APY_URL);
-
         $('#sandboxForm').submit(function () {
             request();
         });

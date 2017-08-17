@@ -324,7 +324,7 @@
                   <form class="form-horizontal" role="form" id="sandboxForm">
                       <fieldset>
                           <legend>
-                              <span data-text="APy_Sandbox_Help"></span><span id="apyEndPoint"></span>
+                              <span data-text="APy_Sandbox_Help">
                               <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right">
                                   <abbr title="Apertium API in Python">APy</abbr>
                                   <i class="fa fa-question-circle"></i>
