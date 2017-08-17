@@ -26,7 +26,9 @@ if(modeEnabled('generation')) {
         $('#morphGeneratorInput').keydown(function (e) {
             if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
-                generate();
+                if($('#morphGeneratorInput').val().trim() !== '') {
+                    generate();
+                }
             }
         });
 

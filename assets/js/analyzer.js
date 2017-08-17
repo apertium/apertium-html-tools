@@ -26,7 +26,9 @@ if(modeEnabled('analyzation')) {
         $('#morphAnalyzerInput').keydown(function (e) {
             if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
-                analyze();
+                if($('#morphAnalyzerInput').val().trim() !== '') {
+                    analyze();
+                }
             }
         });
 
