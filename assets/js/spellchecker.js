@@ -50,7 +50,7 @@ if(modeEnabled('spellchecker')) {
     $(document).ready(function () {
         restoreChoices('spellchecker');
         var timer, timeout = 2000;
-        $('#check').click(function () {
+        $('#spellChekerForm').submit(function () {
             clearTimeout(timer);
             check();
         });
@@ -197,6 +197,9 @@ function populatePrimarySpellcheckerList(data) {
 }
 
 function check() {
+    if(currentSpellCheckerRequest) {
+        currentSpellCheckerRequest.abort();
+    }
     $('#spellcheckerInput').addClass('spellcheckVisible');
     $('#spellcheckerInput').html($('#spellcheckerInput').html().replace(/br/g, '\n')
         .replace(/&nbsp;/g, ' '));
