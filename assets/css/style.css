@@ -289,6 +289,36 @@ html[dir='rtl'] #srcLanguages {
     margin-left: 30px;
 }
 
+/* SpellCheker */
+
+#spellcheckerInput {
+    display: block;
+    height: 131px;
+    overflow: auto;
+    resize: both;
+}
+
+.spellcheckVisible .spellError {
+    border-bottom: 1px solid #f00;
+}
+
+.popover-content { /* sass-lint:disable-line class-name-format */
+    max-height: 190px;
+    overflow: auto;
+    padding: 0;
+    width: 110%;
+}
+
+.list-group { /* sass-lint:disable-line class-name-format */
+    margin-bottom: 0;
+}
+
+.list-group-item { /* sass-lint:disable-line class-name-format */
+    border: 0;
+    cursor: pointer;
+    padding: 4px 10px;
+}
+
 /* No JS Banner */
 #noscript {
     position: fixed;
