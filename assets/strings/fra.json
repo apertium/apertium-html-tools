@@ -9,7 +9,7 @@
             "fr",
             "fra"
         ],
-        "completion": " 75%  91.05%",
+        "completion": " 73%  87.19%",
         "missing": [
             "Cancel",
             "Download_Browser_Warning",
@@ -17,6 +17,8 @@
             "Drop_Document",
             "File_Too_Large",
             "Format_Not_Supported",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Not_Found_Error",

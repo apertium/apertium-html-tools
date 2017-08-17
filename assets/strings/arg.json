@@ -7,9 +7,11 @@
         "locale": [
             "arg"
         ],
-        "completion": " 91%  97.33%",
+        "completion": " 88%  93.21%",
         "missing": [
             "Download_Browser_Warning",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",

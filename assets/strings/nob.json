@@ -8,9 +8,11 @@
             "nb",
             "nob"
         ],
-        "completion": " 91%  93.81%",
+        "completion": " 88%  89.83%",
         "missing": [
             "Drop_Document",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Translate_Webpage",

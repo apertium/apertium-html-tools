@@ -8,9 +8,11 @@
             "nn",
             "nno"
         ],
-        "completion": " 89%  85.01%",
+        "completion": " 86%  81.41%",
         "missing": [
             "Download_Browser_Warning",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",

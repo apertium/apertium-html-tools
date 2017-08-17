@@ -9,7 +9,7 @@
             "tt",
             "tat"
         ],
-        "completion": " 64%  17.44%",
+        "completion": " 62%  16.70%",
         "missing": [
             "Apertium_Downloads",
             "Cancel",
@@ -22,6 +22,8 @@
             "Enable_JS_Warning",
             "File_Too_Large",
             "Format_Not_Supported",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Not_Found_Error",

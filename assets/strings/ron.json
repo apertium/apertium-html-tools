@@ -8,7 +8,7 @@
             "ro",
             "ron"
         ],
-        "completion": " 47%  15.31%",
+        "completion": " 45%  14.66%",
         "missing": [
             "About",
             "About_Apertium",
@@ -28,6 +28,8 @@
             "Enable_JS_Warning",
             "File_Too_Large",
             "Format_Not_Supported",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Instant_Translation",
             "Maintainer",
             "Mark_Unknown_Words",

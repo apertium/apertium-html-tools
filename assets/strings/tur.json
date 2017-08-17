@@ -8,9 +8,11 @@
             "tr",
             "tur"
         ],
-        "completion": " 91%  88.67%",
+        "completion": " 88%  84.91%",
         "missing": [
             "Download_Browser_Warning",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",

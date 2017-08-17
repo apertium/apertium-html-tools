@@ -8,9 +8,11 @@
             "uz",
             "uzb"
         ],
-        "completion": " 91%  96.25%",
+        "completion": " 88%  92.18%",
         "missing": [
             "Download_Browser_Warning",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",

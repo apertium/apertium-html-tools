@@ -5,10 +5,12 @@
         "locale": [
             "tha"
         ],
-        "completion": " 87%  79.11%",
+        "completion": " 84%  75.76%",
         "missing": [
             "Download_Browser_Warning",
             "Drop_Document",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",

@@ -5,7 +5,7 @@ var currentSandboxRequest;
 
 if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
     $(document).ready(function () {
-        $('#request').click(function () {
+        $('#sandboxForm').submit(function () {
             request();
         });
 
