@@ -322,7 +322,7 @@ function callApy(options, endpoint, useAjax) {
     if(useAjax) {
         return $.ajax(requestOptions);
     }
-  
+
     apyRequestStartTime = Date.now();
     apyRequestTimeout = setTimeout(function () {
         displayInstallationNotification();
