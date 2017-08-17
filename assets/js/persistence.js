@@ -261,8 +261,6 @@ function restoreChoices(mode) {
             }
             if(store.has('spellcheckerInput')) {
                 $('#spellcheckerInput').text(store.get('spellcheckerInput'));
-            }
-            if(store.has('spellcheckerInput')) {
                 $('#instantChecking').prop('checked', store.get('instantChecking', true));
             }
         }
