@@ -144,7 +144,7 @@ function populateSecondaryGeneratorList() {
 
 function generate() {
     var morphGeneratorInput = $('#morphGeneratorInput').val();
-    
+
     if($('#primaryGeneratorMode').val() === null || morphGeneratorInput.trim() === '') {
         return;
     }
