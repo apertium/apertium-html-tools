@@ -26,9 +26,7 @@ if(modeEnabled('analyzation')) {
         $('#morphAnalyzerInput').keydown(function (e) {
             if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
-                if($('#morphAnalyzerInput').val().trim() !== '') {
-                    analyze();
-                }
+                analyze();
             }
         });
 
@@ -145,7 +143,9 @@ function populateSecondaryAnalyzerList() {
 }
 
 function analyze() {
-    if($('#primaryAnalyzerMode').val() === null) {
+    var morphAnalyzerInput = $('#morphAnalyzerInput').val();
+
+    if($('#primaryAnalyzerMode').val() === null || morphAnalyzerInput.trim() === '') {
         return;
     }
 
@@ -164,7 +164,7 @@ function analyze() {
     currentAnalyzerRequest = callApy({
         data: {
             'lang': analyzerMode,
-            'q': $('#morphAnalyzerInput').val()
+            'q': morphAnalyzerInput
         },
         success: handleAnalyzeSuccessResponse,
         error: handleAnalyzeErrorResponse,

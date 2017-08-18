@@ -26,9 +26,7 @@ if(modeEnabled('generation')) {
         $('#morphGeneratorInput').keydown(function (e) {
             if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
-                if($('#morphGeneratorInput').val().trim() !== '') {
-                    generate();
-                }
+                generate();
             }
         });
 
@@ -145,7 +143,9 @@ function populateSecondaryGeneratorList() {
 }
 
 function generate() {
-    if($('#primaryGeneratorMode').val() === null) {
+    var morphGeneratorInput = $('#morphGeneratorInput').val();
+    
+    if($('#primaryGeneratorMode').val() === null || morphGeneratorInput.trim() === '') {
         return;
     }
 
@@ -164,7 +164,7 @@ function generate() {
     currentGeneratorRequest = callApy({
         data: {
             'lang': generatorMode,
-            'q': $('#morphGeneratorInput').val()
+            'q': morphGeneratorInput
         },
         success: handleGenerateSuccessResponse,
         error: handleGenerateErrorResponse,

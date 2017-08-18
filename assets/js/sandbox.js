@@ -12,9 +12,7 @@ if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox')
         $('#sandboxInput').keydown(function (e) {
             if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
-                if($('#sandboxInput').val().trim() !== '') {
-                    request();
-                }
+                request();
             }
         });
 
@@ -27,13 +25,18 @@ if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox')
 }
 
 function request() {
+    var sandboxInput = $('#sandboxInput').val();
+    if(sandboxInput.trim() === '') {
+        return;
+    }
+
     $('#sandboxOutput').addClass('blurred');
     var startTime = new Date().getTime();
     if(currentSandboxRequest) {
         currentSandboxRequest.abort();
     }
     currentSandboxRequest = $.jsonp({
-        url: config.APY_URL + $('#sandboxInput').val(),
+        url: config.APY_URL + sandboxInput,
         beforeSend: ajaxSend,
         success: function (data) {
             $('#sandboxOutput').text(JSON.stringify(data, undefined, 3)).removeClass('blurred');
