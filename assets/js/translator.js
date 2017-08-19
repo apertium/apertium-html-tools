@@ -89,7 +89,7 @@ if(modeEnabled('translation')) {
             translateText();
         });
 
-        $('button#translate').click(function () {
+        $('.translateBtn').click(function () {
             translate();
             persistChoices('translator', true);
         });
