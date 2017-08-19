@@ -11,9 +11,9 @@
         ],
         "completion": " 45%   4.28%",
         "missing": [
-            "APY_Request",
-            "APY_Sandbox",
-            "APY_Sandbox_Help",
+            "APy_Request",
+            "APy_Sandbox",
+            "APy_Sandbox_Help",
             "Apertium_Downloads",
             "Cancel",
             "Contact_Para",

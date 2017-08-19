@@ -99,7 +99,7 @@
                     <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis" class="hide">Morphological analysis</a></li>
                     <li><a href="#generation" data-mode="generation" data-text="Morphological_Generation" class="hide">Morphological generation</a></li>
                     <!-- <li><a href="#spellchecker" data-mode="spellchecker" data-text="Spell_Checker">Spell checker</a></li> -->
-                    <li><a href="#sandbox" data-mode="sandbox" data-text="APY_Sandbox" class="hide">APY sandbox</a></li>
+                    <li><a href="#sandbox" data-mode="sandbox" data-text="APy_Sandbox" class="hide">APy sandbox</a></li>
                   </ul>
               </div>
           </nav>
@@ -320,18 +320,18 @@
                   <div id="morphGenOutput" class="outputContainer"></div>
               </div>
               <div class="modeContainer" id="sandboxContainer">
-                  <h2 class="visible-xs" data-text="APY_Sandbox">APY sandbox</h2>
+                  <h2 class="visible-xs" data-text="APy_Sandbox">APy sandbox</h2>
                   <form class="form-horizontal" role="form" id="sandboxForm">
                       <fieldset>
                           <legend>
-                              <span data-text="APY_Sandbox_Help"></span>
+                              <span data-text="APy_Sandbox_Help">
                               <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right">
-                                  <abbr title="Apertium API in Python">APY</abbr>
+                                  <abbr title="Apertium API in Python">APy</abbr>
                                   <i class="fa fa-question-circle"></i>
                               </a>
                           </legend>
                           <div class="form-group">
-                              <label for="sandboxInput" class="col-sm-2 control-label" data-text="APY_Request">APY Request</label>
+                              <label for="sandboxInput" class="col-sm-2 control-label" data-text="APy_Request">APy Request</label>
                               <div class="col-sm-10">
                                   <textarea class="form-control" rows="3" id="sandboxInput" name="sandboxInput" spellcheck="false" required></textarea>
                                   <div class="help-block">e.g. /perWord?lang=en-es&amp;modes=morph+translate+biltrans&amp;q=let+there+be+light</div>
