@@ -143,7 +143,9 @@ function populateSecondaryAnalyzerList() {
 }
 
 function analyze() {
-    if($('#primaryAnalyzerMode').val() === null) {
+    var input = $('#morphAnalyzerInput').val();
+
+    if($('#primaryAnalyzerMode').val() === null || input.trim() === '') {
         return;
     }
 
@@ -162,7 +164,7 @@ function analyze() {
     currentAnalyzerRequest = callApy({
         data: {
             'lang': analyzerMode,
-            'q': $('#morphAnalyzerInput').val()
+            'q': input
         },
         success: handleAnalyzeSuccessResponse,
         error: handleAnalyzeErrorResponse,

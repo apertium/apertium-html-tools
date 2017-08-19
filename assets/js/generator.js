@@ -143,7 +143,9 @@ function populateSecondaryGeneratorList() {
 }
 
 function generate() {
-    if($('#primaryGeneratorMode').val() === null) {
+    var input = $('#morphGeneratorInput').val();
+
+    if($('#primaryGeneratorMode').val() === null || input.trim() === '') {
         return;
     }
 
@@ -162,7 +164,7 @@ function generate() {
     currentGeneratorRequest = callApy({
         data: {
             'lang': generatorMode,
-            'q': $('#morphGeneratorInput').val()
+            'q': input
         },
         success: handleGenerateSuccessResponse,
         error: handleGenerateErrorResponse,

@@ -25,13 +25,18 @@ if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox')
 }
 
 function request() {
+    var input = $('#sandboxInput').val();
+    if(input.trim() === '') {
+        return;
+    }
+
     $('#sandboxOutput').addClass('blurred');
     var startTime = new Date().getTime();
     if(currentSandboxRequest) {
         currentSandboxRequest.abort();
     }
     currentSandboxRequest = $.jsonp({
-        url: config.APY_URL + $('#sandboxInput').val(),
+        url: config.APY_URL + input,
         beforeSend: ajaxSend,
         success: function (data) {
             $('#sandboxOutput').text(JSON.stringify(data, undefined, 3)).removeClass('blurred');
