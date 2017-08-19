@@ -25,8 +25,8 @@ if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox')
 }
 
 function request() {
-    var sandboxInput = $('#sandboxInput').val();
-    if(sandboxInput.trim() === '') {
+    var input = $('#sandboxInput').val();
+    if(input.trim() === '') {
         return;
     }
 
@@ -36,7 +36,7 @@ function request() {
         currentSandboxRequest.abort();
     }
     currentSandboxRequest = $.jsonp({
-        url: config.APY_URL + sandboxInput,
+        url: config.APY_URL + input,
         beforeSend: ajaxSend,
         success: function (data) {
             $('#sandboxOutput').text(JSON.stringify(data, undefined, 3)).removeClass('blurred');
