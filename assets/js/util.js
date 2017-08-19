@@ -65,7 +65,10 @@ function ajaxSend() {
 function ajaxComplete() {
     $('#loadingIndicator').hide();
     clearTimeout(apyRequestTimeout);
-    handleAPyRequestCompletion(Date.now() - apyRequestStartTime);
+    if(apyRequestStartTime) {
+        handleAPyRequestCompletion(Date.now() - apyRequestStartTime);
+        apyRequestStartTime = undefined;
+    }
 }
 
 $(document).ajaxSend(ajaxSend);
