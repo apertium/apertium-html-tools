@@ -332,14 +332,12 @@ function callApy(options, endpoint, useAjax) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
-    if(useAjax) {
+    requestOptions.type = requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH ? 'POST' : 'GET';
+    
+    if(useAjax || requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
         return $.ajax(requestOptions);
     }
 
-    if(requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
-        requestOptions.type = 'POST';
-        return $.ajax(requestOptions);
-    }
     return $.jsonp(requestOptions);
 }
 
