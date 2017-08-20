@@ -1,5 +1,5 @@
 /* @flow */
-/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy, isURL */
+/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy, apyRequestTimeout, isURL */
 /* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
 /* global config, persistChoices, iso639Codes, iso639CodesInverse, populateTranslationList, showTranslateWebpageInterface */
 
@@ -11,6 +11,13 @@ var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
     BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     APY_REQUEST_URL_THRESHOLD_LENGTH = 2000, // maintain 48 characters buffer for generated parameters
     DEFAULT_DEBOUNCE_DELAY = 100;
+
+var INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 5,
+    INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD = 4000,
+    INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 3000,
+    INSTALLATION_NOTIFICATION_DURATION = 10000;
+
+var apyRequestTimeout, apyRequestStartTime, installationNotificationShown = false, lastNAPyRequestDurations = [];
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -57,6 +64,11 @@ function ajaxSend() {
 
 function ajaxComplete() {
     $('#loadingIndicator').hide();
+    clearTimeout(apyRequestTimeout);
+    if(apyRequestStartTime) {
+        handleAPyRequestCompletion(Date.now() - apyRequestStartTime);
+        apyRequestStartTime = undefined;
+    }
 }
 
 $(document).ajaxSend(ajaxSend);
@@ -192,6 +204,8 @@ $(document).ready(function () {
         }, 'fast');
         return false;
     });
+
+    $('#installationNotice').addClass('hide');
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
@@ -333,6 +347,12 @@ function callApy(options, endpoint, useAjax) {
         window.location.pathname + '?' + $.param(requestOptions.data);
 
     requestOptions.type = requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH ? 'POST' : 'GET';
+
+    apyRequestStartTime = Date.now();
+    apyRequestTimeout = setTimeout(function () {
+        displayInstallationNotification();
+        clearTimeout(apyRequestTimeout);
+    }, INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD);
     
     if(useAjax || requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
         return $.ajax(requestOptions);
@@ -341,9 +361,54 @@ function callApy(options, endpoint, useAjax) {
     return $.jsonp(requestOptions);
 }
 
-/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy, isURL
-    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE} */
+function handleAPyRequestCompletion(requestDuration) {
+    var cumulativeAPyRequestDuration;
 
+    if(lastNAPyRequestDurations.length === INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
+        cumulativeAPyRequestDuration = lastNAPyRequestDurations.reduce(function (totalDuration, duration) {
+            return totalDuration + duration;
+        });
+
+        lastNAPyRequestDurations.shift();
+        lastNAPyRequestDurations.push(requestDuration);
+    }
+    else {
+        lastNAPyRequestDurations.push(requestDuration);
+    }
+
+    var averageRequestDuration = cumulativeAPyRequestDuration / lastNAPyRequestDurations.length;
+
+    if(requestDuration > INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD ||
+        averageRequestDuration > INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD) {
+        displayInstallationNotification();
+    }
+}
+
+function displayInstallationNotification() {
+    if(installationNotificationShown) {
+        return;
+    }
+    installationNotificationShown = true;
+
+    $('#installationNotice').fadeIn('slow').removeClass('hide')
+        .delay(INSTALLATION_NOTIFICATION_DURATION)
+        .fadeOut('slow', hideInstallationNotification);
+
+    $('#installationNotice').mouseover(function () {
+        $(this).stop(true);
+    }).mouseout(function () {
+        $(this).animate()
+            .delay(INSTALLATION_NOTIFICATION_DURATION)
+            .fadeOut('slow', hideInstallationNotification);
+    });
+
+    function hideInstallationNotification() {
+        $('#installationNotice').addClass('hide');
+    }
+}
+
+/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
+    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE, apyRequestTimeout} */
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
 /*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */

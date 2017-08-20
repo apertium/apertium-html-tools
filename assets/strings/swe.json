@@ -7,9 +7,11 @@
         "locale": [
             "swe"
         ],
-        "completion": " 91%  90.51%",
+        "completion": " 88%  86.68%",
         "missing": [
             "Download_Browser_Warning",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",
@@ -39,9 +41,9 @@
     "Morphological_Generation_Help": "Välj ett språk och generera böjda former från din text med hjälp av Apertiums morfologiska generatorer.",
     "Generate": "Generera",
     "Spell_Checker": "Stavningskontroll",
-    "APY_Sandbox": "APY sandlåda",
-    "APY_Sandbox_Help": "Sänd en godtycklig begäran",
-    "APY_Request": "APY Förfråga",
+    "APy_Sandbox": "APy sandlåda",
+    "APy_Sandbox_Help": "Sänd en godtycklig begäran",
+    "APy_Request": "APy Förfråga",
     "Request": "Förfrågan",
     "Language": "Språk",
     "Input_Text": "Inmatad text",
