@@ -241,11 +241,6 @@ function getLocales() {
                         .data('locale', this[0])
                         .text(this[1])
                         .prop('dir', isRtlLanguage ? 'rtl' : 'ltr')
-                        .css({
-                            'text-align': isRtlLanguage ? 'right' : 'left',
-                            'padding-left', isRtlLanguage ? '105px' : '5px',
-                            'padding-right', isRtlLanguage ? '5px' : '105px'
-                        })
                 )
             ).data(this[0], this[1]);
         });
