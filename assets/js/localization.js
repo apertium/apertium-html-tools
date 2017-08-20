@@ -229,7 +229,7 @@ function getLocales() {
         $.each(localePairs, function () {
             var isRtlLanguage = (rtlLanguages.indexOf(this[0]) !== -1);
             $('.localeSelect').append(
-                $('<option></option>')
+                $('<option>')
                     .val(this[0])
                     .text(this[1])
                     .prop('dir', isRtlLanguage ? 'rtl' : 'ltr')
@@ -237,9 +237,8 @@ function getLocales() {
 
             $('#localeDropdown').append(
                 $('<li></li>').append(
-                    $('<a>', {
-                        'data-locale': this[0]
-                    })
+                    $('<a>')
+                        .data('locale', this[0])
                         .text(this[1])
                         .prop('dir', isRtlLanguage ? 'rtl' : 'ltr')
                         .css('text-align', isRtlLanguage ? 'right' : 'left')
