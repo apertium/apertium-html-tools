@@ -353,7 +353,7 @@ function callApy(options, endpoint, useAjax) {
         displayInstallationNotification();
         clearTimeout(apyRequestTimeout);
     }, INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD);
-    
+
     if(useAjax || requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
         return $.ajax(requestOptions);
     }
