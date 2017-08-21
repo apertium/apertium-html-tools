@@ -12,7 +12,8 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_WIDTH = 650,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4,
-    TRANSLATION_LISTS_BUFFER = 50;
+    TRANSLATION_LISTS_BUFFER = 50,
+    WEBPAGE_TRANSLATION_BUFFER = 300;
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
@@ -126,12 +127,18 @@ if(modeEnabled('translation')) {
 
             timer = setTimeout(function () {
                 if($('#instantTranslation').prop('checked')) {
-                    translate();
+                    translateText();
                 }
                 persistChoices('translator', true);
             }, timeout);
 
             synchronizeTextareaHeights();
+
+            if(isURL($('#originalText').val())) {
+                setTimeout(function () {
+                    translateWebpage();
+                }, WEBPAGE_TRANSLATION_BUFFER);
+            }
         });
 
         $(window).resize(synchronizeTextareaHeights);
@@ -782,6 +789,7 @@ function translateWebpage() {
         sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
         if(textTranslateRequest) {
             textTranslateRequest.abort();
+            clearTimeout(apyRequestTimeout);
         }
         $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
         textTranslateRequest = callApy({
@@ -957,15 +965,17 @@ function translationNotAvailableWebpage(data) {
     if(!data) {
         return;
     }
+    
     translationNotAvailable();
     var div = $('<div id="translatedWebpage" class="translatedWebpage notAvailable text-danger"></div>')
+        .css({
+            'padding-top': '20px', 
+            'padding-left': '20px'
+        })
         .text(getDynamicLocalization('Not_Available'));
+
     $('#translatedWebpage').replaceWith(div[0]);
-    $('#translatedWebpage').append([
-        $('<div></div>').text(' '),
-        $('<div></div>').text(data.message),
-        $('<div></div>').text(data.explanation)
-    ]);
+    console.log(data.message + '\n' + data.explanation);
 }
 
 function muteLanguages() {
