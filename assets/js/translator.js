@@ -965,17 +965,17 @@ function translationNotAvailableWebpage(data) {
     if(!data) {
         return;
     }
-    
+
     translationNotAvailable();
     var div = $('<div id="translatedWebpage" class="translatedWebpage notAvailable text-danger"></div>')
         .css({
-            'padding-top': '20px', 
+            'padding-top': '20px',
             'padding-left': '20px'
         })
         .text(getDynamicLocalization('Not_Available'));
 
     $('#translatedWebpage').replaceWith(div[0]);
-    console.log(data.message + '\n' + data.explanation);
+    console.warn(data.message + '\n' + data.explanation);
 }
 
 function muteLanguages() {
