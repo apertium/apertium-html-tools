@@ -75,6 +75,17 @@ h2 {
     cursor: default;
 }
 
+#localeDropdown::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+
+#localeDropdown::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 4px;
+}
+
 #localeDropdownSelect {
     background-color: #fff;
     border: 1px solid #ccc;
@@ -386,18 +397,6 @@ body {
 
 #version:hover, #version:active, #version:focus {
     text-decoration: none;
-}
-
-@media(device-width: 768px) and (device-height: 1024px) {
-    #localeDropdown::-webkit-scrollbar {
-        -webkit-appearance: none;
-        width: 7px;
-    }
-    #localeDropdown::-webkit-scrollbar-thumb {
-        -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-        background-color: rgba(0, 0, 0, .5);
-        border-radius: 4px;
-    }
 }
 
 /* RTL Stuff */
