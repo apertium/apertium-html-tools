@@ -863,22 +863,23 @@ function hideTranslateWebpageInterface() {
     if(textTranslateRequest) {
         textTranslateRequest.abort();
     }
-
-    $('#srcLangSelectors').css({
-        'padding-left': '0px',
-        'width': 'calc(100% - 34px)'
-    });
     $('input#webpage').attr({
         'required': false,
         'novalidate': true
     });
     $('div#translateWebpage').fadeOut('fast', function () {
-        $('button#cancelWebpageTranslate').fadeOut('fast');
+        $('button#cancelWebpageTranslate').fadeOut('fast', function () {
+            $('#srcLangSelectors').css({
+                'padding-left': '0px',
+                'width': 'calc(100% - 34px)'
+            });
+        });
         $('div#translateText').fadeIn('fast', function () {
             synchronizeTextareaHeights();
         });
         $('#detect, #srcLangSelect option[value=detect]').prop('disabled', false);
     });
+
     window.location.hash = 'translation';
 }
 
