@@ -261,7 +261,7 @@ if(modeEnabled('translation')) {
             showTranslateWebpageInterface();
         });
 
-        $('button#cancelWebpageTranslate').click(hideTranslateWebpageInterface);
+        $('button#cancelTranslateWebpage').click(hideTranslateWebpageInterface);
 
         $('input#fileInput').change(function () {
             $('div#fileUploadProgress').parent().fadeOut('fast', function () {
@@ -845,7 +845,7 @@ function showTranslateWebpageInterface(url) {
             'required': true,
             'novalidate': false
         });
-        $('button#cancelWebpageTranslate').fadeIn('fast');
+        $('button#cancelTranslateWebpage').fadeIn('fast');
         $('div#translateWebpage').fadeIn('fast');
         $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
     });
@@ -864,7 +864,7 @@ function hideTranslateWebpageInterface() {
         'novalidate': true
     });
     $('div#translateWebpage').fadeOut('fast', function () {
-        $('button#cancelWebpageTranslate').fadeOut('fast', function () {
+        $('button#cancelTranslateWebpage').fadeOut('fast', function () {
             $('#srcLangSelectors').removeClass('srcLangSelectorsWebpageTranslation').addClass('srcLangSelectors');
         });
         $('div#translateText').fadeIn('fast', function () {
