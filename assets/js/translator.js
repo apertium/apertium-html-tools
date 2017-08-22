@@ -12,10 +12,7 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_WIDTH = 650,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4,
-    TRANSLATION_LISTS_BUFFER = 50,
-    TYPED_WEBPAGE_TRANSLATION_DELAY = 500,
-    timeoutPunct = 1000,
-    timeoutOther = 3000;
+    TRANSLATION_LISTS_BUFFER = 50;
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
@@ -807,9 +804,9 @@ function handleTranslateWebpageSuccessResponse(data) {
         $(iframe).load(function () {
             $.each(contents.find('a'), function (index, a) {
                 var href = a.href;
-                $(a).on('click', function () { 
+                $(a).on('click', function () {
                     $('#webpage').val(href);
-                    translateWebpage();        
+                    translateWebpage();
                 });
                 a.href = '#';
                 a.target = '';
@@ -963,7 +960,7 @@ function webpageTranslationNotAvailable(data) {
         .text(getDynamicLocalization('Not_Available'));
 
     $('#translatedWebpage').replaceWith(div[0]);
-    console.warn('Webpage translation failed', data.message, data.explanation)
+    console.warn('Webpage translation failed', data.message, data.explanation);
 }
 
 function muteLanguages() {

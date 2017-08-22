@@ -305,8 +305,8 @@ html[dir='rtl'] #srcLanguages {
 }
 
 #translatedWebpage {
-    padding-top: 10px;
     padding-left: 10px;
+    padding-top: 10px;
 }
 
 #translateWebpage .input-group { /* sass-lint:disable-line class-name-format */
