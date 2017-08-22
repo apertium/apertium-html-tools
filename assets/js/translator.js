@@ -13,7 +13,9 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4,
     TRANSLATION_LISTS_BUFFER = 50,
-    TYPED_WEBPAGE_TRANSLATION_DELAY = 500;
+    TYPED_WEBPAGE_TRANSLATION_DELAY = 500,
+    TIMEOUT_PUNCT = 1000,
+    TIMEOUT_OTHER = 3000;
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
@@ -105,8 +107,8 @@ if(modeEnabled('translation')) {
 
         var timer,
             // eslint-disable-next-line no-magic-numbers
-            lastPunct = false, punct = [46, 33, 58, 63, 47, 45, 190, 171, 49],
-            timeoutPunct = 1000, timeoutOther = 3000;
+            lastPunct = false, punct = [46, 33, 58, 63, 47, 45, 190, 171, 49];
+
         $('#originalText').on('keyup paste', function (event) {
             if(lastPunct && (event.keyCode === SPACE_KEY_CODE || event.keyCode === ENTER_KEY_CODE)) {
                 // Don't override the short timeout for simple space-after-punctuation
@@ -119,7 +121,7 @@ if(modeEnabled('translation')) {
 
             var timeout;
             if(punct.indexOf(event.keyCode) !== -1) {
-                timeout = timeoutPunct;
+                timeout = TIMEOUT_PUNCT;
                 lastPunct = true;
             }
             else if(isURL($('#originalText').val())) {
@@ -127,7 +129,7 @@ if(modeEnabled('translation')) {
                 lastPunct = false;
             }
             else {
-                timeout = timeoutOther;
+                timeout = TIMEOUT_OTHER;
                 lastPunct = false;
             }
 
@@ -961,7 +963,7 @@ function webpageTranslationNotAvailable(data) {
     }
 
     translationNotAvailable();
-    var div = $('<div id="translatedWebpage" class="translatedWebpage notAvailable text-danger"></div>')
+    var div = $('<div id="translatedWebpageOnError" class="translatedWebpage notAvailable text-danger"></div>')
         .text(getDynamicLocalization('Not_Available'));
 
     $('#translatedWebpage').replaceWith(div[0]);

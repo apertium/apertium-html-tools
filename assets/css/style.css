@@ -304,7 +304,7 @@ html[dir='rtl'] #srcLanguages {
     overflow: hidden;
 }
 
-#translatedWebpage {
+#translatedWebpageOnError {
     padding-left: 10px;
     padding-top: 10px;
 }
