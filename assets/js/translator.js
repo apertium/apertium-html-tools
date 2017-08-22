@@ -12,7 +12,8 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_WIDTH = 650,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4,
-    TRANSLATION_LISTS_BUFFER = 50;
+    TRANSLATION_LISTS_BUFFER = 50,
+    TYPED_WEBPAGE_TRANSLATION_DELAY = 500;
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
@@ -120,6 +121,10 @@ if(modeEnabled('translation')) {
             if(punct.indexOf(event.keyCode) !== -1) {
                 timeout = timeoutPunct;
                 lastPunct = true;
+            }
+            else if(isURL($('#originalText').val())) {
+                timeout = TYPED_WEBPAGE_TRANSLATION_DELAY;
+                lastPunct = false;
             }
             else {
                 timeout = timeoutOther;
