@@ -260,8 +260,13 @@ html[dir='rtl'] #srcLanguages {
     }
 }
 
-#srcLangSelectors {
+.srcLangSelectors {
     width: calc(100% - 34px);
+}
+
+.srcLangSelectorsWebpageTranslation {
+    padding-left: 5px;
+    width: calc(87% - 34px);
 }
 
 @media(min-width: 768px) {
@@ -297,6 +302,11 @@ html[dir='rtl'] #srcLanguages {
 #translateWebpage {
     display: none;
     overflow: hidden;
+}
+
+#translatedWebpage {
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
 #translateWebpage .input-group { /* sass-lint:disable-line class-name-format */

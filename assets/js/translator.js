@@ -13,7 +13,9 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4,
     TRANSLATION_LISTS_BUFFER = 50,
-    WEBPAGE_TRANSLATION_BUFFER = 300;
+    TYPED_WEBPAGE_TRANSLATION_DELAY = 500,
+    timeoutPunct = 1000,
+    timeoutOther = 3000;
 
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
@@ -55,6 +57,8 @@ if(modeEnabled('translation')) {
             updatePairList();
             populateTranslationList();
         }
+
+        $('#srcLangSelectors').addClass('srcLangSelectors');
 
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
             curSrcLang = $(this).attr('data-code');
@@ -127,18 +131,12 @@ if(modeEnabled('translation')) {
 
             timer = setTimeout(function () {
                 if($('#instantTranslation').prop('checked')) {
-                    translateText();
+                    translate();
                 }
                 persistChoices('translator', true);
             }, timeout);
 
             synchronizeTextareaHeights();
-
-            if(isURL($('#originalText').val())) {
-                setTimeout(function () {
-                    translateWebpage();
-                }, WEBPAGE_TRANSLATION_BUFFER);
-            }
         });
 
         $(window).resize(synchronizeTextareaHeights);
@@ -764,21 +762,6 @@ function translateDoc() {
     }
 }
 
-function translateLink(href) { // eslint-disable-line no-unused-vars
-    $('#webpage').val(href);
-    translateWebpage();
-}
-
-function cleanPage(html) {
-    // Pages like
-    // eslint-disable-next-line max-len
-    // http://www.lapinkansa.fi/sagat/romssa-sami-searvvi-jodiheaddji-daruiduhttinpolitihkka-vaikkuha-ain-olbmuid-guottuide-samiid-birra-15843633/
-    // insert noise using document.write that 1. makes things enormously slow, and 2. completely mess up styling so e.g. you
-    // have to scroll through a full screen of whitespace before reaching content. This might mess things up some places – needs
-    // testing – but on the other hand most uses of document.write are evil.
-    return html.replace(/document[.]write[(]/g, 'console.log("document.write "+');
-}
-
 function translateWebpage() {
     persistChoices('translator', true);
     if(!$('div#translateWebpage').is(':visible')) {
@@ -824,26 +807,37 @@ function handleTranslateWebpageSuccessResponse(data) {
         $(iframe).load(function () {
             $.each(contents.find('a'), function (index, a) {
                 var href = a.href;
-                $(a).on('click', function () { window.parent.translateLink(href); });
+                $(a).on('click', function () { 
+                    $('#webpage').val(href);
+                    translateWebpage();        
+                });
                 a.href = '#';
                 a.target = '';
             });
         });
     }
     else {
-        translationNotAvailableWebpage(data);
+        webpageTranslationNotAvailable(data);
+    }
+
+    function cleanPage(html) {
+        // Pages like
+        // eslint-disable-next-line max-len
+        // http://www.lapinkansa.fi/sagat/romssa-sami-searvvi-jodiheaddji-daruiduhttinpolitihkka-vaikkuha-ain-olbmuid-guottuide-samiid-birra-15843633/
+        // insert noise using document.write that 1. makes things enormously slow, and 2. completely mess up styling so e.g. you
+        // have to scroll through a full screen of whitespace before reaching content. This might mess things up some places – needs
+        // testing – but on the other hand most uses of document.write are evil.
+        return html.replace(/document[.]write[(]/g, 'console.log("document.write "+');
     }
 }
 
 function handleTranslateWebpageErrorResponse(jqXHR) {
-    translationNotAvailableWebpage(jqXHR.responseJSON);
+    webpageTranslationNotAvailable(jqXHR.responseJSON);
 }
 
 function showTranslateWebpageInterface(url) {
-    $('#srcLangSelectors').css({
-        'padding-left': '5px',
-        'width': 'calc(87% - 34px)'
-    });
+    $('#srcLangSelectors').removeClass('srcLangSelectors').addClass('srcLangSelectorsWebpageTranslation');
+
     $('div#translateText').fadeOut('fast', function () {
         $('input#webpage').attr({
             'required': true,
@@ -869,10 +863,7 @@ function hideTranslateWebpageInterface() {
     });
     $('div#translateWebpage').fadeOut('fast', function () {
         $('button#cancelWebpageTranslate').fadeOut('fast', function () {
-            $('#srcLangSelectors').css({
-                'padding-left': '0px',
-                'width': 'calc(100% - 34px)'
-            });
+            $('#srcLangSelectors').removeClass('srcLangSelectorsWebpageTranslation').addClass('srcLangSelectors');
         });
         $('div#translateText').fadeIn('fast', function () {
             synchronizeTextareaHeights();
@@ -962,21 +953,17 @@ function translationNotAvailable() {
         .addClass('notAvailable text-danger');
 }
 
-function translationNotAvailableWebpage(data) {
+function webpageTranslationNotAvailable(data) {
     if(!data) {
         return;
     }
 
     translationNotAvailable();
     var div = $('<div id="translatedWebpage" class="translatedWebpage notAvailable text-danger"></div>')
-        .css({
-            'padding-top': '20px',
-            'padding-left': '20px'
-        })
         .text(getDynamicLocalization('Not_Available'));
 
     $('#translatedWebpage').replaceWith(div[0]);
-    console.warn(data.message + '\n' + data.explanation);
+    console.warn('Webpage translation failed', data.message, data.explanation)
 }
 
 function muteLanguages() {
