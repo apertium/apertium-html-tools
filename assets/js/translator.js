@@ -804,7 +804,7 @@ function translateDoc() {
 function translateWebpage() {
     function webpageTranslationNotAvailable(data) {
         $('#translatedWebpage').replaceWith(
-            $('<div id="translatedWebpageOnError" class="translatedWebpage notAvailable text-danger"></div>')
+            $('<div id="translatedWebpage" class="notAvailable text-danger"></div>')
                 .text(getDynamicLocalization('Not_Available'))
         );
 
@@ -815,7 +815,7 @@ function translateWebpage() {
 
     function handleTranslateWebpageSuccessResponse(data) {
         if(data.responseStatus === HTTP_OK_CODE) {
-            var iframe = $('<iframe id="translatedWebpage" class="translatedWebpage" frameborder="0"></iframe>')[0];
+            var iframe = $('<iframe id="translatedWebpage" frameborder="0"></iframe>')[0];
             $('#translatedWebpage').replaceWith(iframe);
             iframe.contentWindow.document.open();
             var html = cleanPage(data.responseData.translatedText);

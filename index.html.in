@@ -262,7 +262,6 @@
                                       </div>
                                       <iframe
                                           id="translatedWebpage"
-                                          class="translatedWebpage"
                                           src="about:blank"
                                           frameBorder="0">
                                       </iframe>
