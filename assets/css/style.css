@@ -221,7 +221,6 @@ html[dir='rtl'] .languageName {
 }
 
 html[dir='ltr'] #srcLanguages {
-    left: 80%;
     min-width: 500px;
     right: auto;
 }
@@ -241,7 +240,6 @@ html[dir='rtl'] #dstLanguages {
 html[dir='rtl'] #srcLanguages {
     left: auto;
     min-width: 500px;
-    right: 80%;
 }
 
 .disabledLang {

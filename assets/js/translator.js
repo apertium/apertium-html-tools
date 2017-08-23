@@ -161,6 +161,10 @@ if(modeEnabled('translation')) {
         });
 
         $('#originalText').on('input propertychange', function () {
+            var disableDetect = this.value === '';
+            $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', disableDetect);
+            $('#detect').toggleClass('disabledLang', disableDetect);
+
             persistChoices('translator');
         });
 
@@ -232,7 +236,8 @@ if(modeEnabled('translation')) {
                 $('#fileInput').show();
                 $('div#fileName').hide();
                 $('div#docTranslation').fadeIn('fast');
-                $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
+                $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', true);
+                $('#detect').addClass('disabledLang');
             });
             pairs = originalPairs;
             populateTranslationList();
@@ -246,7 +251,8 @@ if(modeEnabled('translation')) {
                 $('div#translateText').fadeIn('fast', synchronizeTextareaHeights);
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
-                $('#detect, #srcLangSelect option[value=detect]').prop('disabled', false);
+                $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
+                $('#detect').removeClass('disabledLang');
             });
             updatePairList();
             populateTranslationList();
@@ -890,9 +896,6 @@ function downloadBrowserWarn() {
 
 function detectLanguage() {
     var originalText = $('#originalText').val();
-    if(originalText.length === 0) {
-        return;
-    }
 
     if(textTranslateRequest) {
         textTranslateRequest.abort();
@@ -1000,7 +1003,7 @@ function autoSelectDstLang() {
             }
         }
         if(!newDstLang) {
-            newDstLang = pairs[curSrcLang][0];
+            newDstLang = filterLangList(pairs[curSrcLang])[0];
         }
 
         curDstLang = newDstLang;
