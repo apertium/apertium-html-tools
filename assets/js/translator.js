@@ -33,14 +33,38 @@ if(modeEnabled('translation')) {
             pairs = $('input#chainedTranslation').prop('checked') ? chainedPairs : originalPairs;
         }
 
-        function setupWebpageTranslation() {
-            $('input#webpage').keyup(function (ev) {
-                if(ev.keyCode === ENTER_KEY_CODE) {
-                    translate();
-                    return false;
+        function setupTextTranslation() {
+            synchronizeTextareaHeights();
+
+            $('#markUnknown').change(function () {
+                if($('div#translateText').is(':visible')) {
+                    translateText();
                 }
+                persistChoices('translator');
             });
 
+            $('.clearButton').click(function () {
+                $('#originalText, #translatedText').val('');
+                $('#originalText').focus();
+                synchronizeTextareaHeights();
+            });
+
+            $(window).resize(synchronizeTextareaHeights);
+
+            $('#originalText').blur(function () {
+                persistChoices('translator', true);
+            });
+
+            $('#originalText').on('input propertychange', function () {
+                var disableDetect = this.value === '';
+                $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', disableDetect);
+                $('#detect').toggleClass('disabledLang', disableDetect);
+
+                persistChoices('translator');
+            });
+        }
+
+        function setupWebpageTranslation() {
             $('button#showTranslateWebpage').click(function () {
                 showTranslateWebpageInterface();
             });
@@ -259,8 +283,6 @@ if(modeEnabled('translation')) {
             return targets;
         }
 
-        synchronizeTextareaHeights();
-
         if(config.TRANSLATION_CHAINING) {
             $('.chaining').show();
             $.each(pairs, function (srcLang, _dstLangs) {
@@ -271,6 +293,11 @@ if(modeEnabled('translation')) {
         }
 
         $('.translateBtn').click(function () {
+            translate();
+            persistChoices('translator', true);
+        });
+
+        $('#translationForm').submit(function () {
             translate();
             persistChoices('translator', true);
         });
@@ -316,42 +343,12 @@ if(modeEnabled('translation')) {
             synchronizeTextareaHeights();
         });
 
-        $(window).resize(synchronizeTextareaHeights);
-
-        $('#originalText').blur(function () {
-            persistChoices('translator', true);
-        });
-
         $('#instantTranslation').change(function () {
             persistChoices('translator');
         });
 
-        $('#markUnknown').change(function () {
-            if($('div#translateText').is(':visible')) {
-                translateText();
-            }
-            persistChoices('translator');
-        });
-
-        $('#originalText').on('input propertychange', function () {
-            var disableDetect = this.value === '';
-            $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', disableDetect);
-            $('#detect').toggleClass('disabledLang', disableDetect);
-
-            persistChoices('translator');
-        });
-
-        $('#originalText').submit(function () {
-            translateText();
-        });
-
-        $('.clearButton').click(function () {
-            $('#originalText, #translatedText').val('');
-            $('#originalText').focus();
-            synchronizeTextareaHeights();
-        });
-
         setupLanguageSelectors();
+        setupTextTranslation();
         setupWebpageTranslation();
         setupDocTranslation();
     });
@@ -823,9 +820,10 @@ function translateWebpage() {
             var html = cleanPage(data.responseData.translatedText);
             iframe.contentWindow.document.write(html);
             iframe.contentWindow.document.close();
+
             var contents = $(iframe).contents();
-            contents.find('head')
-                .append($('<base>').attr('href', $('input#webpage').val()));
+            contents.find('head').append($('<base>').attr('href', $('input#webpage').val()));
+
             $(iframe).load(function () {
                 $.each(contents.find('a'), function (index, a) {
                     var href = a.href;
