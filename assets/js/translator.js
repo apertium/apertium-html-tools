@@ -65,6 +65,10 @@ if(modeEnabled('translation')) {
         }
 
         function setupWebpageTranslation() {
+            if(window.location.href.indexOf('&qP=') != -1) {
+                translateWebpage();
+            }
+
             $('button#showTranslateWebpage').click(function () {
                 showTranslateWebpageInterface();
             });
@@ -297,10 +301,11 @@ if(modeEnabled('translation')) {
             persistChoices('translator', true);
         });
 
-        $('#translationForm').submit(function () {
+        /*$('#translationForm').submit(function () {
+            console.log('called');
             translate();
             persistChoices('translator', true);
-        });
+        });*/
 
         $('input#chainedTranslation').change(function () {
             updatePairList();
