@@ -301,11 +301,12 @@ if(modeEnabled('translation')) {
             persistChoices('translator', true);
         });
 
-        /*$('#translationForm').submit(function () {
-            console.log('called');
+        $('#translationForm').submit(function (ev) {
+            /*console.log('called');
             translate();
-            persistChoices('translator', true);
-        });*/
+            persistChoices('translator', true);*/
+            return false;
+        });
 
         $('input#chainedTranslation').change(function () {
             updatePairList();
