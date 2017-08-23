@@ -76,6 +76,7 @@ if(modeEnabled('translation')) {
             $('button#cancelTranslateWebpage').click(function () {
                 if(translateRequest) {
                     translateRequest.abort();
+                    clearTimeout(apyRequestTimeout);
                 }
 
                 $('input#webpage').attr({
@@ -95,6 +96,13 @@ if(modeEnabled('translation')) {
                 });
 
                 window.location.hash = 'translation';
+            });
+
+            $('input#webpage').keyup(function (ev) {
+                if(ev.keyCode === ENTER_KEY_CODE) {
+                    translate();
+                    return false;
+                }
             });
         }
 
@@ -299,13 +307,6 @@ if(modeEnabled('translation')) {
         $('.translateBtn').click(function () {
             translate();
             persistChoices('translator', true);
-        });
-
-        $('#translationForm').submit(function (ev) {
-            /*console.log('called');
-            translate();
-            persistChoices('translator', true);*/
-            return false;
         });
 
         $('input#chainedTranslation').change(function () {
