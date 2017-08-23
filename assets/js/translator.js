@@ -650,10 +650,12 @@ function translateText() {
     if($('div#translateText').is(':visible')) {
         if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
             sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
+
             if(translateRequest) {
                 translateRequest.abort();
                 clearTimeout(apyRequestTimeout);
             }
+
             var endpoint, request;
             if($('input#chainedTranslation').prop('checked') && config.TRANSLATION_CHAINING) {
                 endpoint = '/translateChain';
@@ -663,6 +665,7 @@ function translateText() {
                 endpoint = '/translate';
                 request = {'langpair': curSrcLang + '|' + curDstLang};
             }
+
             request.q = $('#originalText').val(); // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             translateRequest = callApy({
