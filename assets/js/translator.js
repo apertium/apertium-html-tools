@@ -81,7 +81,7 @@ if(modeEnabled('translation')) {
             muteLanguages();
             localizeInterface();
             autoSelectDstLang();
-            translateText();
+            translate();
         });
 
         $('.dstLang').click(function () {
@@ -91,7 +91,7 @@ if(modeEnabled('translation')) {
             refreshLangList();
             muteLanguages();
             localizeInterface();
-            translateText();
+            translate();
         });
 
         $('.translateBtn').click(function () {
@@ -414,7 +414,7 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect, noTransl
     muteLanguages();
     localizeInterface();
     if(!noTranslate) {
-        translateText();
+        translate();
     }
 }
 
