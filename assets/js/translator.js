@@ -5,7 +5,7 @@ var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
-var textTranslateRequest;
+var translateRequest;
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
@@ -70,8 +70,8 @@ if(modeEnabled('translation')) {
             });
 
             $('button#cancelTranslateWebpage').click(function () {
-                if(textTranslateRequest) {
-                    textTranslateRequest.abort();
+                if(translateRequest) {
+                    translateRequest.abort();
                 }
 
                 $('input#webpage').attr({
@@ -650,8 +650,8 @@ function translateText() {
     if($('div#translateText').is(':visible')) {
         if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
             sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
-            if(textTranslateRequest) {
-                textTranslateRequest.abort();
+            if(translateRequest) {
+                translateRequest.abort();
                 clearTimeout(apyRequestTimeout);
             }
             var endpoint, request;
@@ -665,13 +665,13 @@ function translateText() {
             }
             request.q = $('#originalText').val(); // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
-            textTranslateRequest = callApy({
+            translateRequest = callApy({
                 data: request,
                 success: handleTranslateSuccessResponse,
                 error: translationNotAvailable,
                 complete: function () {
                     ajaxComplete();
-                    textTranslateRequest = undefined;
+                    translateRequest = undefined;
                 }
             }, endpoint);
         }
@@ -864,13 +864,13 @@ function translateWebpage() {
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
         sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
 
-        if(textTranslateRequest) {
-            textTranslateRequest.abort();
+        if(translateRequest) {
+            translateRequest.abort();
             clearTimeout(apyRequestTimeout);
         }
 
         $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
-        textTranslateRequest = callApy({
+        translateRequest = callApy({
             data: {
                 'langpair': curSrcLang + '|' + curDstLang,
                 'markUnknown': 'no',
@@ -881,7 +881,7 @@ function translateWebpage() {
             error: handleTranslateWebpageErrorResponse,
             complete: function () {
                 ajaxComplete();
-                textTranslateRequest = undefined;
+                translateRequest = undefined;
                 $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
             }
         }, '/translatePage', true);
@@ -922,12 +922,12 @@ function downloadBrowserWarn() {
 function detectLanguage() {
     var originalText = $('#originalText').val();
 
-    if(textTranslateRequest) {
-        textTranslateRequest.abort();
+    if(translateRequest) {
+        translateRequest.abort();
         clearTimeout(apyRequestTimeout);
     }
 
-    textTranslateRequest = callApy({
+    translateRequest = callApy({
         data: {
             'q': originalText
         },
@@ -935,11 +935,11 @@ function detectLanguage() {
         error: handleDetectLanguageErrorResponse,
         complete: function () {
             ajaxComplete();
-            textTranslateRequest = undefined;
+            translateRequest = undefined;
         }
     }, '/identifyLang');
 
-    return textTranslateRequest;
+    return translateRequest;
 
     function handleDetectLanguageSuccessResponse(data) {
         var possibleLanguages = [];
