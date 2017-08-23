@@ -814,18 +814,28 @@ function translateWebpage() {
     }
 
     function handleTranslateWebpageSuccessResponse(data) {
-        if(data.responseStatus === HTTP_OK_CODE) {
+        function cleanPage(html) {
+            // Pages like https://goo.gl/PiZyW3 insert noise using document.write that
+            // 1. makes things enormously slow, and 2. completely mess up styling so e.g. you
+            // have to scroll through a full screen of whitespace before reaching content.
+            // This might mess things up some places – needs testing – but on the other hand
+            // most uses of document.write are evil.
+            return html.replace(/document[.]write[(]/g, 'console.log("document.write "+');
+        }
+
+        var translatedHtml = data.responseData.translatedText;
+
+        if(data.responseStatus === HTTP_OK_CODE && translatedHtml) {
             var iframe = $('<iframe id="translatedWebpage" frameborder="0"></iframe>')[0];
             $('#translatedWebpage').replaceWith(iframe);
             iframe.contentWindow.document.open();
-            var html = cleanPage(data.responseData.translatedText);
-            iframe.contentWindow.document.write(html);
+            iframe.contentWindow.document.write(cleanPage(translatedHtml));
             iframe.contentWindow.document.close();
 
-            var contents = $(iframe).contents();
-            contents.find('head').append($('<base>').attr('href', $('input#webpage').val()));
-
             $(iframe).load(function () {
+                var contents = $(iframe).contents();
+                contents.find('head').append($('<base>').attr('href', $('input#webpage').val()));
+
                 $.each(contents.find('a'), function (index, a) {
                     var href = a.href;
                     $(a).on('click', function () {
@@ -835,20 +845,14 @@ function translateWebpage() {
                     a.href = '#';
                     a.target = '';
                 });
+
+                if(!contents.find('body').text().trim()) {
+                    webpageTranslationNotAvailable();
+                }
             });
         }
         else {
             webpageTranslationNotAvailable(data);
-        }
-
-        function cleanPage(html) {
-            // Pages like
-            // eslint-disable-next-line max-len
-            // http://www.lapinkansa.fi/sagat/romssa-sami-searvvi-jodiheaddji-daruiduhttinpolitihkka-vaikkuha-ain-olbmuid-guottuide-samiid-birra-15843633/
-            // insert noise using document.write that 1. makes things enormously slow, and 2. completely mess up styling so e.g. you
-            // have to scroll through a full screen of whitespace before reaching content. This might mess things up some places – needs
-            // testing – but on the other hand most uses of document.write are evil.
-            return html.replace(/document[.]write[(]/g, 'console.log("document.write "+');
         }
     }
 
