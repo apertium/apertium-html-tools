@@ -156,8 +156,8 @@
                                   <div class="btn-group" id="dstLangSelectors">
                                       <button type="button" class="btn btn-default btn-sm dstLang active" id="dstLang1"></button>
                                       <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang2"></button>
+                                      <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang3"></button>
                                       <div class="btn-group">
-                                          <button type="button" class="btn btn-default btn-sm dstLang" id="dstLang3"></button>
                                           <button type="button" id="dstLanguagesDropdownTrigger" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                                               <span class="caret"></span>
                                               <span class="sr-only">Toggle Dropdown</span>
