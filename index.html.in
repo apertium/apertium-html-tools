@@ -178,46 +178,6 @@
                               </div>
                           </div>
                           <div class="form-group">
-                              <div id="translateText">
-                                  <div class="col-sm-6">
-                                      <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
-                                      <button class="btn clearButton"><i class="fa fa-times"></i></button>
-                                  </div>
-                                  <div class="col-sm-6">
-                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
-                                  </div>
-                                  <div class="col-sm-3">
-                                      <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
-                                          <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>
-                                      </button>
-                                  </div>
-                                  <div class="col-lg-3 col-md-6  pull-right">
-                                      <div class="checkbox" id="translateOptions">
-                                          <label class="pull-right">
-                                              <input type="checkbox" id="markUnknown" checked>
-                                              <span data-text="Mark_Unknown_Words">Mark unknown words</span>
-                                          </label>
-                                          <label class="pull-right">
-                                              <input type="checkbox" id="instantTranslation" checked>
-                                              <span data-text="Instant_Translation">Instant translation</span>
-                                          </label>
-                                          <label class="pull-right">
-                                              <input type="checkbox" id="chainedTranslation" class="chaining">
-                                              <span data-text="Multi_Step_Translation" class="chaining">
-                                                  Multi-step translation (experimental)
-                                              </span>
-                                          </label>
-                                        </div>
-                                  </div>
-                              </div>
-
-                              <div class="modal-backdrop" id="fileDropBackdrop" style="display: none; z-index: 1000;">
-                                <div class="well well-lg" style="text-align: center; position: absolute; top: 35%; left: 35%;">
-                                    <h1 style="font-weight: bold;" data-text="Drop_Document">Drop your document</h1>
-                                </div>
-                                <div class="modal-backdrop" id="fileDropMask" style="opacity: 0; z-index: 10000;"></div>
-                              </div>
-
                               <div id="docTranslation" style="display: none;">
                                   <div class="col-sm-6">
                                       <div class="well well-lg">
@@ -247,6 +207,45 @@
                                       </h1>
                                       <p style="display:none" id="fileDownloadBrowserWarning" data-text="Download_Browser_Warning">Your browser might not handle downloads correctly. Either right-click and "Save As" that file-name or open this page in Firefox.</p>
                                   </div>
+                              </div>
+                              <div id="translateText">
+                                  <div class="col-sm-6">
+                                      <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
+                                      <button class="btn clearButton"><i class="fa fa-times"></i></button>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
+                                  </div>
+                                  <div class="col-sm-3">
+                                      <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
+                                          <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>
+                                      </button>
+                                  </div>
+                                  <div class="col-lg-3 col-md-6  pull-right" id="translateOptionsContainer">
+                                      <div class="checkbox" id="translateOptions">
+                                          <label class="pull-right" id="markUnknownContainer">
+                                              <input type="checkbox" id="markUnknown" checked>
+                                              <span data-text="Mark_Unknown_Words">Mark unknown words</span>
+                                          </label>
+                                          <label class="pull-right">
+                                              <input type="checkbox" id="instantTranslation" checked>
+                                              <span data-text="Instant_Translation">Instant translation</span>
+                                          </label>
+                                          <label class="pull-right">
+                                              <input type="checkbox" id="chainedTranslation" class="chaining">
+                                              <span data-text="Multi_Step_Translation" class="chaining">
+                                                  Multi-step translation (experimental)
+                                              </span>
+                                          </label>
+                                        </div>
+                                  </div>
+                              </div>
+
+                              <div class="modal-backdrop" id="fileDropBackdrop" style="display: none; z-index: 1000;">
+                                <div class="well well-lg" style="text-align: center; position: absolute; top: 35%; left: 35%;">
+                                    <h1 style="font-weight: bold;" data-text="Drop_Document">Drop your document</h1>
+                                </div>
+                                <div class="modal-backdrop" id="fileDropMask" style="opacity: 0; z-index: 10000;"></div>
                               </div>
                           </div>
                       </fieldset>
