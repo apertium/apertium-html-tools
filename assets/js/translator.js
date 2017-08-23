@@ -803,16 +803,14 @@ function translateDoc() {
 
 function translateWebpage() {
     function webpageTranslationNotAvailable(data) {
-        if(!data) {
-            return;
+        $('#translatedWebpage').replaceWith(
+            $('<div id="translatedWebpageOnError" class="translatedWebpage notAvailable text-danger"></div>')
+                .text(getDynamicLocalization('Not_Available'))
+        );
+
+        if(data) {
+            console.warn('Webpage translation failed', data.message, data.explanation);
         }
-
-        translationNotAvailable();
-        var div = $('<div id="translatedWebpageOnError" class="translatedWebpage notAvailable text-danger"></div>')
-            .text(getDynamicLocalization('Not_Available'));
-
-        $('#translatedWebpage').replaceWith(div[0]);
-        console.warn('Webpage translation failed', data.message, data.explanation);
     }
 
     function handleTranslateWebpageSuccessResponse(data) {
@@ -864,6 +862,13 @@ function translateWebpage() {
         showTranslateWebpageInterface($('#originalText').val().trim());
     }
 
+    var url = $('input#webpage').val();
+
+    if(!isURL(url)) {
+        webpageTranslationNotAvailable();
+        return;
+    }
+
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
         sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
 
@@ -877,7 +882,7 @@ function translateWebpage() {
             data: {
                 'langpair': curSrcLang + '|' + curDstLang,
                 'markUnknown': 'no',
-                'url': $('input#webpage').val()
+                'url': url
             },
             dataType: 'json',
             success: handleTranslateWebpageSuccessResponse,
