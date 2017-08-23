@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+
+      # Install development dependencies
+      - run: sudo apt-get install python3 python3-pip
+      - run: sudo npm install -g jsonlint eslint htmlhint sass-lint
+      - run: sudo pip3 install flake8
+
+      # Run tests
+      - run: find assets/strings -type f -name '*.json' -exec jsonlint -q '{}' +
+      - run: eslint --config assets/js/.eslintrc.json assets/js/*.js
+      - run: htmlhint --config .htmlhintrc.json *.html
+      - run: sass-lint --config assets/css/.sass-lint.yml --verbose --no-exit --max-warnings 0
+      - run: flake8 --config tools/.flake8.ini *.py **/**.py **/**/*.py
+
+      # Build project
+      - run: cp config.conf.example config.conf
+      - run: make -j8
+      - store_artifacts:
+          path: build/
