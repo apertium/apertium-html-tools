@@ -1,7 +1,7 @@
 Apertium Html-tools
 ====================
 
-[![Build Status](https://travis-ci.org/goavki/apertium-html-tools.svg?branch=master)](https://travis-ci.org/goavki/apertium-html-tools)
+[![CircleCI](https://circleci.com/gh/goavki/apertium-html-tools.svg?style=svg)](https://circleci.com/gh/goavki/apertium-html-tools)
 
 [Apertium Html-tools](http://wiki.apertium.org/wiki/Apertium-html-tools) is a web application
 providing a fully localised interface for text/document translation, analysis, and generation
@@ -43,3 +43,10 @@ Any changes to the local version of Html-tools will trigger a `make`.
     docker-compose up
 
 For production usage, remember to enable gzip compression in your server.
+
+Contributing
+------------
+
+[CircleCI](https://circleci.com/) runs tests and generates build artifacts including
+a live copy of Html-tools using `config.conf.example`.
+

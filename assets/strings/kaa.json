@@ -7,10 +7,12 @@
         "locale": [
             "kaa"
         ],
-        "completion": " 87%  91.43%",
+        "completion": " 84%  87.56%",
         "missing": [
             "Download_Browser_Warning",
             "Drop_Document",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",
@@ -39,9 +41,9 @@
     "Morphological_Generation_Help": "Rejimdi tan'lap, Apertiumnın' morfologiyalıq generatorları ko'meginde betki formalardı sintezlen'.",
     "Generate": "Sintezlew",
     "Spell_Checker": "Orfografiya teksergish",
-    "APY_Sandbox": "APY qumyashik",
-    "APY_Sandbox_Help": "APYge soraw qoyıw",
-    "APY_Request": "APYden soraw",
+    "APy_Sandbox": "APy qumyashik",
+    "APy_Sandbox_Help": "APyge soraw qoyıw",
+    "APy_Request": "APyden soraw",
     "Request": "Soraw",
     "Language": "Til",
     "Input_Text": "Kiris tekst",

@@ -82,6 +82,27 @@ html[dir='rtl'] .clearButton {
     opacity: 1;
 }
 
+#installationNotice {
+    font-size: inherit;
+    height: 105px;
+    margin: 8px;
+    padding: 8px;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    width: 360px;
+    z-index: 9999999;
+}
+
+#installationNotice .fa-times:hover { /* sass-lint:disable-line class-name-format */
+    cursor: pointer;
+}
+
+#installationNoticeTitle {
+    margin: 0;
+    padding-bottom: 10px;
+}
+
 /* Navbar */
 
 .apertiumBox {
@@ -200,7 +221,6 @@ html[dir='rtl'] .languageName {
 }
 
 html[dir='ltr'] #srcLanguages {
-    left: 80%;
     min-width: 500px;
     right: auto;
 }
@@ -220,7 +240,6 @@ html[dir='rtl'] #dstLanguages {
 html[dir='rtl'] #srcLanguages {
     left: auto;
     min-width: 500px;
-    right: 80%;
 }
 
 .disabledLang {
