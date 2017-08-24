@@ -108,7 +108,7 @@
               <div id="loadingIndicator"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
               <div class="modeContainer" id="translationContainer">
                   <h2 class="visible-xs" data-text="Translation">Translation</h2>
-                  <form class="form-horizontal" role="form" id="translationForm">
+                  <form class="form-horizontal" role="form">
                       <fieldset>
                           <legend data-text="Translation_Help"></legend>
                           <div class="form-group visible-xs">
@@ -125,6 +125,9 @@
                           </div>
                           <div class="form-group hidden-xs">
                               <div class="col-sm-6">
+                                  <button type="button" class="btn btn-sm btn-default pull-left" id="cancelTranslateWebpage" style="display: none;">
+                                      <i class="fa fa-arrow-left"></i> <span data-text="Cancel">Cancel</span>
+                                  </button>
                                   <div class="btn-group" id="srcLangSelectors">
                                       <button type="button" class="btn btn-default btn-sm srcLang active" id="srcLang1"></button>
                                       <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang2"></button>
@@ -186,9 +189,12 @@
                                   <div class="col-sm-6">
                                       <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
                                   </div>
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
                                           <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>
+                                      </button>
+                                      <button id="showTranslateWebpage" class="btn btn-default">
+                                          <i class="fa fa-link"></i> <span data-text="Translate_Webpage">Translate a webpage</span>
                                       </button>
                                   </div>
                                   <div class="col-lg-3 col-md-6  pull-right">
@@ -246,6 +252,19 @@
                                           </a>
                                       </h1>
                                       <p style="display:none" id="fileDownloadBrowserWarning" data-text="Download_Browser_Warning">Your browser might not handle downloads correctly. Either right-click and "Save As" that file-name or open this page in Firefox.</p>
+                                  </div>
+                              </div>
+                              <div id="translateWebpage">
+                                  <div class="col-sm-12">
+                                      <div class="input-group">
+                                          <span class="input-group-addon"><i class="fa fa-link"></i></span>
+                                          <input type="url" id="webpage" placeholder="URL" class="form-control">
+                                      </div>
+                                      <iframe
+                                          id="translatedWebpage"
+                                          src="about:blank"
+                                          frameBorder="0">
+                                      </iframe>
                                   </div>
                               </div>
                           </div>

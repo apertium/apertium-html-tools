@@ -1,7 +1,7 @@
 /* @flow */
-/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy, apyRequestTimeout */
+/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy, apyRequestTimeout, isURL */
 /* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
-/* global config, persistChoices, iso639Codes, iso639CodesInverse, populateTranslationList */
+/* global config, persistChoices, iso639Codes, iso639CodesInverse, populateTranslationList, showTranslateWebpageInterface */
 
 var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
@@ -115,6 +115,22 @@ $(document).ready(function () {
 
     try {
         if(!hash || !$(hash + 'Container')) {
+            hash = '#' + config.DEFAULT_MODE;
+            parent.location.hash = hash;
+        }
+    }
+    catch(e) {
+        console.error('Invalid hash: ' + e);
+        hash = '#' + config.DEFAULT_MODE;
+        parent.location.hash = hash;
+    }
+
+    try {
+        if(hash === '#webpageTranslation') {
+            hash = '#translation';
+            showTranslateWebpageInterface();
+        }
+        else if(!hash || !$(hash + 'Container').length) {
             hash = '#' + config.DEFAULT_MODE;
             parent.location.hash = hash;
         }
@@ -286,6 +302,14 @@ function getURLParam(name) {
     return results === null ? '' : results[1];
 }
 
+/* eslint-disable */
+// From: http://stackoverflow.com/a/19696443/1266600 (source: AOSP)
+function isURL(text) {
+    var re = /^((?:(http|https):\/\/(?:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,64}(?:\:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,25})?\@)?)?((?:(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}\.)+(?:(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])|(?:biz|b[abdefghijmnorstvwyz])|(?:cat|com|coop|c[acdfghiklmnoruvxyz])|d[ejkmoz]|(?:edu|e[cegrstu])|f[ijkmor]|(?:gov|g[abdefghilmnpqrstuwy])|h[kmnrtu]|(?:info|int|i[delmnoqrst])|(?:jobs|j[emop])|k[eghimnrwyz]|l[abcikrstuvy]|(?:mil|mobi|museum|m[acdghklmnopqrstuvwxyz])|(?:name|net|n[acefgilopruz])|(?:org|om)|(?:pro|p[aefghklmnrstwy])|qa|r[eouw]|s[abcdeghijklmnortuvyz]|(?:tel|travel|t[cdfghjklmnoprtvwz])|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]))|(?:(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])))(?:\:\d{1,5})?)(\/(?:(?:[a-zA-Z0-9\;\/\?\:\@\&\=\#\~\-\.\+\!\*\'\(\)\,\_])|(?:\%[a-fA-F0-9]{2}))*)?(?:\s*$)/i;
+    return text.search(re) === 0;
+}
+/* eslint-enable */
+
 // eslint-disable-next-line id-blacklist
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
@@ -312,7 +336,7 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-function callApy(options, endpoint) {
+function callApy(options, endpoint, useAjax) {
     var requestOptions = Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
@@ -322,16 +346,18 @@ function callApy(options, endpoint) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
+    requestOptions.type = requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH ? 'POST' : 'GET';
+
     apyRequestStartTime = Date.now();
     apyRequestTimeout = setTimeout(function () {
         displayInstallationNotification();
         clearTimeout(apyRequestTimeout);
     }, INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD);
 
-    if(requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
-        requestOptions.type = 'POST';
+    if(useAjax || requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
         return $.ajax(requestOptions);
     }
+
     return $.jsonp(requestOptions);
 }
 
@@ -383,8 +409,7 @@ function displayInstallationNotification() {
 
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
     SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE, apyRequestTimeout} */
-
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
 /*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
-/*:: import {populateTranslationList} from "./translator.js" */
+/*:: import {populateTranslationList, showTranslateWebpageInterface} from "./translator.js" */
