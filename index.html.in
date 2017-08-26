@@ -95,7 +95,7 @@
                       <select class="localeSelect pull-right"><option> </option></select>
                   </div>
                   <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
-                    <li><a href="#translation" data-mode="translation" data-text="Translation" class="hide">Translation</a></li>
+                    <li><a href="#translation" id="translationTarget" data-mode="translation" data-text="Translation" class="hide">Translation</a></li>
                     <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis" class="hide">Morphological analysis</a></li>
                     <li><a href="#generation" data-mode="generation" data-text="Morphological_Generation" class="hide">Morphological generation</a></li>
                     <!-- <li><a href="#spellchecker" data-mode="spellchecker" data-text="Spell_Checker">Spell checker</a></li> -->
@@ -108,7 +108,7 @@
               <div id="loadingIndicator"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
               <div class="modeContainer" id="translationContainer">
                   <h2 class="visible-xs" data-text="Translation">Translation</h2>
-                  <form class="form-horizontal" role="form">
+                  <form class="form-horizontal" role="form" id="translationForm">
                       <fieldset>
                           <legend data-text="Translation_Help"></legend>
                           <div class="form-group visible-xs">

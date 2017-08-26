@@ -65,12 +65,8 @@ if(modeEnabled('translation')) {
         }
 
         function setupWebpageTranslation() {
-            if(window.location.href.indexOf('&qP=') != -1) {
-                translateWebpage();
-            }
-
             $('button#showTranslateWebpage').click(function () {
-                showTranslateWebpageInterface();
+                showTranslateWebpageInterface($('#originalText').val().trim());
             });
 
             $('button#cancelTranslateWebpage').click(function () {
@@ -95,6 +91,7 @@ if(modeEnabled('translation')) {
                     $('#detect').removeClass('disabledLang');
                 });
 
+                $('#translationTarget').attr('href', '#translation');
                 window.location.hash = 'translation';
             });
 
@@ -399,7 +396,7 @@ function getPairs() {
         if(!pairData) {
             populateTranslationList();
             restoreChoices('translator');
-            translate();
+            translate(true);
             return;
         }
         $.each(pairData, function (i, pair) {
@@ -432,7 +429,7 @@ function getPairs() {
 
         populateTranslationList();
         restoreChoices('translator');
-        translate();
+        translate(true);
     }
 
     return deferred.promise();
@@ -631,19 +628,19 @@ function populateTranslationList() {
     }
 }
 
-function translate() {
+function translate(ignoreIfEmpty) {
     if($('div#translateWebpage').is(':visible') || isURL($('#originalText').val())) {
         translateWebpage();
     }
     else if($('div#translateText').is(':visible')) {
-        translateText();
+        translateText(ignoreIfEmpty);
     }
     else if($('div#docTranslation').is(':visible')) {
         translateDoc();
     }
 }
 
-function translateText() {
+function translateText(ignoreIfEmpty) {
     function handleTranslateSuccessResponse(data) {
         if(data.responseStatus === HTTP_OK_CODE) {
             $('#translatedText').val(data.responseData.translatedText);
@@ -654,9 +651,15 @@ function translateText() {
         }
     }
 
+    var originalText = $('#originalText').val();
+
+    if(!originalText && ignoreIfEmpty) {
+        return;
+    }
+
     if($('div#translateText').is(':visible')) {
         if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
-            sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
+            sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, originalText.length);
 
             if(translateRequest) {
                 translateRequest.abort();
@@ -673,7 +676,7 @@ function translateText() {
                 request = {'langpair': curSrcLang + '|' + curDstLang};
             }
 
-            request.q = $('#originalText').val(); // eslint-disable-line id-length
+            request.q = originalText; // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             translateRequest = callApy({
                 data: request,
@@ -919,13 +922,15 @@ function showTranslateWebpageInterface(url) {
         $('div#translateWebpage').fadeIn('fast');
         $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
         $('#detect').addClass('disabledLang');
+
+        if(url) {
+            $('input#webpage').val(url);
+        }
+
+        $('#translationTarget').attr('href', '#webpageTranslation');
+        window.location.hash = 'webpageTranslation';
+        translateWebpage();
     });
-
-    if(url) {
-        $('input#webpage').val(url);
-    }
-
-    window.location.hash = 'webpageTranslation';
 }
 
 function downloadBrowserWarn() {
