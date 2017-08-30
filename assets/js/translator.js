@@ -36,6 +36,8 @@ if(modeEnabled('translation')) {
         function setupTextTranslation() {
             synchronizeTextareaHeights();
 
+            $('#srcLangSelectors').addClass('col-sm-10 srcLangSelectors');
+
             $('#markUnknown').change(function () {
                 if($('div#translateText').is(':visible')) {
                     translateText();
@@ -82,7 +84,8 @@ if(modeEnabled('translation')) {
 
                 $('div#translateWebpage').fadeOut('fast', function () {
                     $('button#cancelTranslateWebpage').fadeOut('fast', function () {
-                        $('#srcLangSelectors').removeClass('srcLangSelectorsWebpageTranslation').addClass('srcLangSelectors');
+                        $('#srcLangSelectors').removeClass('srcLangSelectorsWebpageTranslation col-sm-8')
+                            .addClass('srcLangSelectors col-sm-10');
                     });
                     $('div#translateText').fadeIn('fast', function () {
                         synchronizeTextareaHeights();
@@ -915,7 +918,8 @@ function translateWebpage(ignoreIfEmpty) {
 }
 
 function showTranslateWebpageInterface(url, ignoreIfEmpty) {
-    $('#srcLangSelectors').removeClass('srcLangSelectors').addClass('srcLangSelectorsWebpageTranslation');
+    $('#srcLangSelectors').removeClass('srcLangSelectors col-sm-10')
+        .addClass('srcLangSelectorsWebpageTranslation col-sm-8');
 
     $('div#translateText').fadeOut('fast', function () {
         $('input#webpage').attr({
