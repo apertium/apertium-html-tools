@@ -258,7 +258,7 @@
                                   <div class="col-sm-12">
                                       <div class="input-group">
                                           <span class="input-group-addon"><i class="fa fa-link"></i></span>
-                                          <input type="url" id="webpage" placeholder="URL" class="form-control">
+                                          <input id="webpage" placeholder="URL" class="form-control">
                                       </div>
                                       <iframe
                                           id="translatedWebpage"

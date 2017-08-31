@@ -96,7 +96,7 @@ if(modeEnabled('translation')) {
             }).removeClass('cancelTranslateWebpage');
 
             $('input#webpage').keyup(function (ev) {
-                if(ev.keyCode === ENTER_KEY_CODE) {
+                if(ev.keyCode === ENTER_KEY_CODE && isURL($('input#webpage').val())) {
                     translate();
                     return false;
                 }
@@ -138,47 +138,48 @@ if(modeEnabled('translation')) {
                 $('a#fileDownload').fadeOut('fast');
             });
 
-            $('body').on('dragover', function (ev) {
-                ev.preventDefault();
-                return false;
-            });
-            $('body').on('dragenter', function (ev) {
-                ev.preventDefault();
-                if(!$('div#fileDropBackdrop:visible').length) {
-                    $('div#fileDropBackdrop').fadeTo('fast', 0.5);
-                    $('div#fileDropMask').on('drop', function (ev) {
-                        ev.preventDefault();
-                        droppedFile = ev.originalEvent.dataTransfer.files[0];
+            $('body')
+                .on('dragover', function (ev) {
+                    ev.preventDefault();
+                    return false;
+                })
+                .on('dragenter', function (ev) {
+                    ev.preventDefault();
+                    if(!$('div#fileDropBackdrop:visible').length) {
+                        $('div#fileDropBackdrop').fadeTo('fast', 0.5);
+                        $('div#fileDropMask').on('drop', function (ev) {
+                            ev.preventDefault();
+                            droppedFile = ev.originalEvent.dataTransfer.files[0];
 
-                        $('#fileDropBackdrop').fadeOut();
-                        if(!$('div#docTranslation').is(':visible')) {
-                            $('div#translateText').fadeOut('fast', function () {
-                                $('input#fileInput').hide();
-                                $('div#docTranslation').fadeIn('fast');
+                            $('#fileDropBackdrop').fadeOut();
+                            if(!$('div#docTranslation').is(':visible')) {
+                                $('div#translateText').fadeOut('fast', function () {
+                                    $('input#fileInput').hide();
+                                    $('div#docTranslation').fadeIn('fast');
 
-                                if(droppedFile) {
-                                    $('div#fileName').show().text(droppedFile.name);
-                                    translateDoc();
-                                }
-                            });
-                        }
-                        else {
-                            $('input#fileInput').fadeOut('fast', function () {
-                                if(droppedFile) {
-                                    $('div#fileName').show().text(droppedFile.name);
-                                    translateDoc();
-                                }
-                            });
-                        }
+                                    if(droppedFile) {
+                                        $('div#fileName').show().text(droppedFile.name);
+                                        translateDoc();
+                                    }
+                                });
+                            }
+                            else {
+                                $('input#fileInput').fadeOut('fast', function () {
+                                    if(droppedFile) {
+                                        $('div#fileName').show().text(droppedFile.name);
+                                        translateDoc();
+                                    }
+                                });
+                            }
 
-                        return false;
-                    });
-                    $('div#fileDropMask').on('dragleave', function () {
-                        $('div#fileDropBackdrop').fadeOut();
-                    });
-                }
-                return false;
-            });
+                            return false;
+                        });
+                        $('div#fileDropMask').on('dragleave', function () {
+                            $('div#fileDropBackdrop').fadeOut();
+                        });
+                    }
+                    return false;
+                });
         }
 
         function setupLanguageSelectors() {
