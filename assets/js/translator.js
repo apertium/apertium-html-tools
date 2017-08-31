@@ -35,7 +35,7 @@ if(modeEnabled('translation')) {
 
         function setupTextTranslation() {
             synchronizeTextareaHeights();
-            
+
             $('#markUnknown').change(function () {
                 if($('div#translateText').is(':visible')) {
                     translateText();
@@ -913,7 +913,6 @@ function translateWebpage(ignoreIfEmpty) {
 }
 
 function showTranslateWebpageInterface(url, ignoreIfEmpty) {
-    console.log(3);
     $('#srcLangSelectors').removeClass('col-sm-11').addClass('col-sm-9');
 
     $('div#translateText').fadeOut('fast', function () {
