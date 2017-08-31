@@ -128,7 +128,7 @@
                                   <button type="button" class="btn btn-sm btn-default pull-left" id="cancelTranslateWebpage" style="display: none;">
                                       <i class="fa fa-arrow-left"></i> <span data-text="Cancel">Cancel</span>
                                   </button>
-                                  <div class="btn-group" id="srcLangSelectors">
+                                  <div class="btn-group col-sm-11" id="srcLangSelectors">
                                       <button type="button" class="btn btn-default btn-sm srcLang active" id="srcLang1"></button>
                                       <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang2"></button>
                                       <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang3"></button>

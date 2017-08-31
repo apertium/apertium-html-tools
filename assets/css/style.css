@@ -258,12 +258,8 @@ html[dir='rtl'] #srcLanguages {
     }
 }
 
-.srcLangSelectors {
+#srcLangSelectors {
    padding-left: 0;
-}
-
-.srcLangSelectorsWebpageTranslation {
-    padding-left: 5px;
 }
 
 @media(min-width: 768px) {
@@ -309,6 +305,10 @@ html[dir='rtl'] #srcLanguages {
 #translateWebpage .input-group { /* sass-lint:disable-line class-name-format */
     margin-bottom: 10px;
     width: 100%;
+}
+
+.cancelTranslateWebpage {
+    margin-right: 5px;
 }
 
 /* Analysis */

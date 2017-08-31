@@ -35,9 +35,7 @@ if(modeEnabled('translation')) {
 
         function setupTextTranslation() {
             synchronizeTextareaHeights();
-
-            $('#srcLangSelectors').addClass('col-sm-10 srcLangSelectors');
-
+            
             $('#markUnknown').change(function () {
                 if($('div#translateText').is(':visible')) {
                     translateText();
@@ -84,8 +82,7 @@ if(modeEnabled('translation')) {
 
                 $('div#translateWebpage').fadeOut('fast', function () {
                     $('button#cancelTranslateWebpage').fadeOut('fast', function () {
-                        $('#srcLangSelectors').removeClass('srcLangSelectorsWebpageTranslation col-sm-8')
-                            .addClass('srcLangSelectors col-sm-10');
+                        $('#srcLangSelectors').removeClass('col-sm-9').addClass('col-sm-11');
                     });
                     $('div#translateText').fadeIn('fast', function () {
                         synchronizeTextareaHeights();
@@ -96,7 +93,7 @@ if(modeEnabled('translation')) {
 
                 $('#translationTarget').attr('href', '#translation');
                 window.location.hash = 'translation';
-            });
+            }).removeClass('cancelTranslateWebpage');
 
             $('input#webpage').keyup(function (ev) {
                 if(ev.keyCode === ENTER_KEY_CODE) {
@@ -231,8 +228,6 @@ if(modeEnabled('translation')) {
             $('#dstLangSelect').change(function () {
                 handleNewCurrentLang(curDstLang = $(this).val(), recentDstLangs, 'dstLang', true);
             });
-
-            $('#srcLangSelectors').addClass('srcLangSelectors');
 
             $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
                 curSrcLang = $(this).attr('data-code');
@@ -918,15 +913,15 @@ function translateWebpage(ignoreIfEmpty) {
 }
 
 function showTranslateWebpageInterface(url, ignoreIfEmpty) {
-    $('#srcLangSelectors').removeClass('srcLangSelectors col-sm-10')
-        .addClass('srcLangSelectorsWebpageTranslation col-sm-8');
+    console.log(3);
+    $('#srcLangSelectors').removeClass('col-sm-11').addClass('col-sm-9');
 
     $('div#translateText').fadeOut('fast', function () {
         $('input#webpage').attr({
             'required': true,
             'novalidate': false
         });
-        $('button#cancelTranslateWebpage').fadeIn('fast');
+        $('button#cancelTranslateWebpage').fadeIn('fast').addClass('cancelTranslateWebpage');
         $('div#translateWebpage').fadeIn('fast');
         $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
         $('#detect').addClass('disabledLang');
