@@ -66,12 +66,13 @@ if(modeEnabled('translation')) {
 
         function setupWebpageTranslation() {
             $('button#showTranslateWebpage').click(function () {
-                showTranslateWebpageInterface();
+                showTranslateWebpageInterface($('#originalText').val().trim(), true);
             });
 
             $('button#cancelTranslateWebpage').click(function () {
                 if(translateRequest) {
                     translateRequest.abort();
+                    clearTimeout(apyRequestTimeout);
                 }
 
                 $('input#webpage').attr({
@@ -81,7 +82,7 @@ if(modeEnabled('translation')) {
 
                 $('div#translateWebpage').fadeOut('fast', function () {
                     $('button#cancelTranslateWebpage').fadeOut('fast', function () {
-                        $('#srcLangSelectors').removeClass('srcLangSelectorsWebpageTranslation').addClass('srcLangSelectors');
+                        $('#srcLangSelectors').removeClass('col-sm-9').addClass('col-sm-11');
                     });
                     $('div#translateText').fadeIn('fast', function () {
                         synchronizeTextareaHeights();
@@ -90,7 +91,15 @@ if(modeEnabled('translation')) {
                     $('#detect').removeClass('disabledLang');
                 });
 
+                $('#translationTarget').attr('href', '#translation');
                 window.location.hash = 'translation';
+            }).removeClass('cancelTranslateWebpage');
+
+            $('input#webpage').keyup(function (ev) {
+                if(ev.keyCode === ENTER_KEY_CODE) {
+                    translate();
+                    return false;
+                }
             });
         }
 
@@ -220,8 +229,6 @@ if(modeEnabled('translation')) {
                 handleNewCurrentLang(curDstLang = $(this).val(), recentDstLangs, 'dstLang', true);
             });
 
-            $('#srcLangSelectors').addClass('srcLangSelectors');
-
             $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
                 curSrcLang = $(this).attr('data-code');
                 handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
@@ -293,11 +300,6 @@ if(modeEnabled('translation')) {
         }
 
         $('.translateBtn').click(function () {
-            translate();
-            persistChoices('translator', true);
-        });
-
-        $('#translationForm').submit(function () {
             translate();
             persistChoices('translator', true);
         });
@@ -392,7 +394,7 @@ function getPairs() {
         if(!pairData) {
             populateTranslationList();
             restoreChoices('translator');
-            translate();
+            translate(true);
             return;
         }
         $.each(pairData, function (i, pair) {
@@ -425,7 +427,7 @@ function getPairs() {
 
         populateTranslationList();
         restoreChoices('translator');
-        translate();
+        translate(true);
     }
 
     return deferred.promise();
@@ -624,19 +626,19 @@ function populateTranslationList() {
     }
 }
 
-function translate() {
+function translate(ignoreIfEmpty) {
     if($('div#translateWebpage').is(':visible') || isURL($('#originalText').val())) {
-        translateWebpage();
+        translateWebpage(ignoreIfEmpty);
     }
     else if($('div#translateText').is(':visible')) {
-        translateText();
+        translateText(ignoreIfEmpty);
     }
     else if($('div#docTranslation').is(':visible')) {
         translateDoc();
     }
 }
 
-function translateText() {
+function translateText(ignoreIfEmpty) {
     function handleTranslateSuccessResponse(data) {
         if(data.responseStatus === HTTP_OK_CODE) {
             $('#translatedText').val(data.responseData.translatedText);
@@ -647,9 +649,15 @@ function translateText() {
         }
     }
 
+    var originalText = $('#originalText').val();
+
+    if(!originalText && ignoreIfEmpty) {
+        return;
+    }
+
     if($('div#translateText').is(':visible')) {
         if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
-            sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
+            sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, originalText.length);
 
             if(translateRequest) {
                 translateRequest.abort();
@@ -666,7 +674,7 @@ function translateText() {
                 request = {'langpair': curSrcLang + '|' + curDstLang};
             }
 
-            request.q = $('#originalText').val(); // eslint-disable-line id-length
+            request.q = originalText; // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             translateRequest = callApy({
                 data: request,
@@ -801,7 +809,7 @@ function translateDoc() {
     }
 }
 
-function translateWebpage() {
+function translateWebpage(ignoreIfEmpty) {
     function webpageTranslationNotAvailable(data) {
         $('#translatedWebpage').replaceWith(
             $('<div id="translatedWebpage" class="notAvailable text-danger"></div>')
@@ -868,6 +876,10 @@ function translateWebpage() {
 
     var url = $('input#webpage').val();
 
+    if(!url && ignoreIfEmpty) {
+        return;
+    }
+
     if(!isURL(url)) {
         webpageTranslationNotAvailable();
         return;
@@ -900,25 +912,27 @@ function translateWebpage() {
     }
 }
 
-function showTranslateWebpageInterface(url) {
-    $('#srcLangSelectors').removeClass('srcLangSelectors').addClass('srcLangSelectorsWebpageTranslation');
+function showTranslateWebpageInterface(url, ignoreIfEmpty) {
+    $('#srcLangSelectors').removeClass('col-sm-11').addClass('col-sm-9');
 
     $('div#translateText').fadeOut('fast', function () {
         $('input#webpage').attr({
             'required': true,
             'novalidate': false
         });
-        $('button#cancelTranslateWebpage').fadeIn('fast');
+        $('button#cancelTranslateWebpage').fadeIn('fast').addClass('cancelTranslateWebpage');
         $('div#translateWebpage').fadeIn('fast');
         $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
         $('#detect').addClass('disabledLang');
+
+        if(url) {
+            $('input#webpage').val(url);
+        }
+
+        $('#translationTarget').attr('href', '#webpageTranslation');
+        window.location.hash = 'webpageTranslation';
+        translateWebpage(ignoreIfEmpty);
     });
-
-    if(url) {
-        $('input#webpage').val(url);
-    }
-
-    window.location.hash = 'webpageTranslation';
 }
 
 function downloadBrowserWarn() {

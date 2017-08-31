@@ -95,7 +95,7 @@
                       <select class="localeSelect pull-right"><option> </option></select>
                   </div>
                   <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
-                    <li><a href="#translation" data-mode="translation" data-text="Translation" class="hide">Translation</a></li>
+                    <li><a href="#translation" id="translationTarget" data-mode="translation" data-text="Translation" class="hide">Translation</a></li>
                     <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis" class="hide">Morphological analysis</a></li>
                     <li><a href="#generation" data-mode="generation" data-text="Morphological_Generation" class="hide">Morphological generation</a></li>
                     <!-- <li><a href="#spellchecker" data-mode="spellchecker" data-text="Spell_Checker">Spell checker</a></li> -->
@@ -128,7 +128,7 @@
                                   <button type="button" class="btn btn-sm btn-default pull-left" id="cancelTranslateWebpage" style="display: none;">
                                       <i class="fa fa-arrow-left"></i> <span data-text="Cancel">Cancel</span>
                                   </button>
-                                  <div class="btn-group" id="srcLangSelectors">
+                                  <div class="btn-group col-sm-11" id="srcLangSelectors">
                                       <button type="button" class="btn btn-default btn-sm srcLang active" id="srcLang1"></button>
                                       <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang2"></button>
                                       <button type="button" class="btn btn-default btn-sm srcLang" id="srcLang3"></button>
