@@ -20,6 +20,8 @@ jobs:
 
       # Build project
       - run: cp config.conf.example config.conf
-      - run: make -j8
+      - run: make -j8 || true
+      
+      # Save a live version
       - store_artifacts:
           path: build/
