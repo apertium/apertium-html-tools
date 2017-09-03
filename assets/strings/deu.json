@@ -8,8 +8,11 @@
             "de",
             "deu"
         ],
-        "completion": "100% 113.91%",
-        "missing": []
+        "completion": " 97% 109.09%",
+        "missing": [
+            "Install_Apertium",
+            "Install_Apertium_Para"
+        ]
     },
     "title": "Apertium | Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "tagline": "Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
@@ -39,9 +42,9 @@
     "Morphological_Generation_Help": "Wählen Sie eine Sprache und erzeugen Sie aus Ihrem Text flektierte Formen mit Apertiums morphologischen Generatoren.",
     "Generate": "Erzeugen",
     "Spell_Checker": "Rechtschreibprüfung",
-    "APY_Sandbox": "APY-Sandkasten",
-    "APY_Sandbox_Help": "Senden Sie beliebige Anfragen",
-    "APY_Request": "APY-Anfrage",
+    "APy_Sandbox": "APy-Sandkasten",
+    "APy_Sandbox_Help": "Senden Sie beliebige Anfragen",
+    "APy_Request": "APy-Anfrage",
     "Request": "Anfrage",
     "Language": "Sprache",
     "Input_Text": "Eingabetext",

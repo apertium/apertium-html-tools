@@ -3,12 +3,12 @@ var currentAnalyzerRequest;
 
 /* exported getAnalyzers */
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
-    cache, getLangByCode, filterLangList, allowedLang, sendEvent, callApy */
+    cache, getLangByCode, filterLangList, allowedLang, sendEvent, callApy, apyRequestTimeout */
 /* global ENTER_KEY_CODE */
 
 if(modeEnabled('analyzation')) {
     $(document).ready(function () {
-        $('#analyze').click(function () {
+        $('#analysisForm').submit(function () {
             analyze();
             persistChoices('analyzer', true);
         });
@@ -143,7 +143,9 @@ function populateSecondaryAnalyzerList() {
 }
 
 function analyze() {
-    if($('#primaryAnalyzerMode').val() === null) {
+    var input = $('#morphAnalyzerInput').val();
+
+    if($('#primaryAnalyzerMode').val() === null || input.trim() === '') {
         return;
     }
 
@@ -156,12 +158,13 @@ function analyze() {
 
     if(currentAnalyzerRequest) {
         currentAnalyzerRequest.abort();
+        clearTimeout(apyRequestTimeout);
     }
 
     currentAnalyzerRequest = callApy({
         data: {
             'lang': analyzerMode,
-            'q': $('#morphAnalyzerInput').val()
+            'q': input
         },
         success: handleAnalyzeSuccessResponse,
         error: handleAnalyzeErrorResponse,

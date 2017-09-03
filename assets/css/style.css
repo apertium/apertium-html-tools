@@ -143,6 +143,27 @@ html[dir='rtl'] .clearButton {
     opacity: 1;
 }
 
+#installationNotice {
+    font-size: inherit;
+    height: 105px;
+    margin: 8px;
+    padding: 8px;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    width: 360px;
+    z-index: 9999999;
+}
+
+#installationNotice .fa-times:hover { /* sass-lint:disable-line class-name-format */
+    cursor: pointer;
+}
+
+#installationNoticeTitle {
+    margin: 0;
+    padding-bottom: 10px;
+}
+
 /* Navbar */
 
 .apertiumBox {
@@ -261,7 +282,6 @@ html[dir='rtl'] .languageName {
 }
 
 html[dir='ltr'] #srcLanguages {
-    left: 80%;
     min-width: 500px;
     right: auto;
 }
@@ -281,7 +301,6 @@ html[dir='rtl'] #dstLanguages {
 html[dir='rtl'] #srcLanguages {
     left: auto;
     min-width: 500px;
-    right: 80%;
 }
 
 .disabledLang {
@@ -301,7 +320,7 @@ html[dir='rtl'] #srcLanguages {
 }
 
 #srcLangSelectors {
-    width: calc(100% - 34px);
+   padding-left: 0;
 }
 
 @media(min-width: 768px) {
@@ -321,6 +340,36 @@ html[dir='rtl'] #srcLanguages {
 
 #translateOptions label {
     clear: both;
+}
+
+#translatedWebpage {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 700px;
+    width: 100%;
+}
+
+#translatedWebpage.notAvailable {
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+#showTranslateWebpage {
+    margin-top: 1em;
+}
+
+#translateWebpage {
+    display: none;
+    overflow: hidden;
+}
+
+#translateWebpage .input-group { /* sass-lint:disable-line class-name-format */
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.cancelTranslateWebpage {
+    margin-right: 5px;
 }
 
 /* Analysis */

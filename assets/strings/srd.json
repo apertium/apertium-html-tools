@@ -5,9 +5,11 @@
         "locale": [
             "srd"
         ],
-        "completion": " 93%  95.58%",
+        "completion": " 89%  91.53%",
         "missing": [
             "Download_Browser_Warning",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Multi_Step_Translation",
             "Supported_Formats",
             "Translate_Webpage"
@@ -37,9 +39,9 @@
     "Morphological_Generation_Help": "Sèbera una limba e genera formas superfitziales de su testu tuo cun sos generadores morfològicos de Apertium!",
     "Generate": "Gènera",
     "Spell_Checker": "Curretore ortogràficu",
-    "APY_Sandbox": "APY sandbox",
-    "APY_Sandbox_Help": "Imbia una rechesta cale si siat",
-    "APY_Request": "Rechesta de APY",
+    "APy_Sandbox": "APy sandbox",
+    "APy_Sandbox_Help": "Imbia una rechesta cale si siat",
+    "APy_Request": "Rechesta de APy",
     "Request": "Rechesta",
     "Language": "Limba",
     "Input_Text": "Testu de intrada",

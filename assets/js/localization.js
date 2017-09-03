@@ -343,8 +343,8 @@ function localizeStrings(stringsFresh) {
                 url: './strings/' + locale + '.json',
                 type: 'GET',
                 dataType: 'text',
-                success: function (data) {
-                    data = JSON.parse(data.replace(/[\n\t\r]/g, ''));
+                success: function (response) {
+                    var data = JSON.parse(response.replace(/[\n\t\r]/g, ''));
                     handleLocalizations(locale, data);
                     localizeLanguageNames(data['@langNames']);
                     cache(locale + '_localizations', data);
@@ -413,8 +413,8 @@ function localizeInterface() {
     $('link.rtlStylesheet').prop('disabled', direction(locale) === 'ltr');
 }
 
-function getLangByCode(code) {
-    code = code ? code.trim() : code;
+function getLangByCode(dirtyCode) {
+    var code = dirtyCode ? dirtyCode.trim() : dirtyCode;
     if(localizedLanguageNames[code]) {
         return localizedLanguageNames[code];
     }
