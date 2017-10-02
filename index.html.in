@@ -198,7 +198,7 @@
                                           <i class="fa fa-file-text"></i> <span data-text="Translate_Document">Translate a document</span>
                                       </button>
                                       <button data-toggle="modal" data-target="#chooseModal" data-keyboard="true" id="chooseChain" class="btn btn-default" style="margin-top: 1em">
-                                          <span data-text="Choose_Chain">Choose a translation chain</span>
+                                          <span data-text="Choose_Chain">Change current translation chain</span>
                                       </button>
                                   </div>
                                   <div class="col-sm-6 pull-right">

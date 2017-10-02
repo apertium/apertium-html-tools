@@ -80,6 +80,7 @@ if(modeEnabled('translation')) {
             refreshChainGraph();
             muteLanguages();
             localizeInterface();
+            refreshChosenPath();
             translateText();
 
             autoSelectDstLang();
@@ -93,6 +94,7 @@ if(modeEnabled('translation')) {
             refreshChainGraph();
             muteLanguages();
             localizeInterface();
+            refreshChosenPath();
             translateText();
         });
 
@@ -101,6 +103,7 @@ if(modeEnabled('translation')) {
             persistChoices('translator', true);
         });
 
+        $('#chooseChain').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
         $('input#chainedTranslation').change(function () {
             updatePairList();
             populateTranslationList();
@@ -177,6 +180,7 @@ if(modeEnabled('translation')) {
             $('.srcLang').removeClass('active');
             $(this).addClass('active');
             detectLanguage();
+            refreshChosenPath();
             translateText();
         });
 
@@ -216,6 +220,7 @@ if(modeEnabled('translation')) {
             var selectValue = $(this).val();
             if(selectValue === 'detect') {
                 detectLanguage();
+                refreshChosenPath();
                 translateText();
             }
             else {
@@ -310,8 +315,9 @@ function initChainGraph() {
         .attr('width', width.toString() + 'px')
         .attr('height', height.toString() + 'px');
     choose.append('br');
-    choose.append('b').text('Valid Paths:');
-    choose.append('div').attr('id', 'validPaths');
+    choose.append('div').attr('id', 'validPaths')
+        .append('b').text('Valid Paths:')
+        .append('br');
 
     /* eslint-disable no-magic-numbers */
     svg.append('svg:defs').append('svg:marker')
@@ -382,12 +388,14 @@ function paths(src, trgt, curPath, seens) {
 
 function displayPaths(paths) {
     var graph = {};
+    var arrows = {};
     var nodes = [];
     var ids = [];
     var source = paths[0][0];
     var target = paths[0][paths[0].length - 1];
     var i = 0;
     for(i = 0; i < paths.length; i++) {
+        var oldLang = undefined;
         for(var j = 0; j < paths[i].length; j++) {
             var lang = paths[i][j];
             if(ids.indexOf(lang) === -1) {
@@ -396,37 +404,31 @@ function displayPaths(paths) {
                 else nodes.push({'id': lang});
                 ids.push(lang);
             }
+            if(oldLang !== undefined) {
+                if(arrows[oldLang] === undefined) {
+                    arrows[oldLang] = [];
+                }
+                if(arrows[oldLang].indexOf(lang) === -1) {
+                    arrows[oldLang].push(lang);
+                }
+            }
+            oldLang = lang;
         }
     }
 
-    function backForth(src, trgt) {
-        return (((src in originalPairs) ? (originalPairs[src].indexOf(trgt) !== -1) : true) &&
-                ((trgt in originalPairs) ? (originalPairs[trgt].indexOf(src) !== -1) : true));
-    }
-
-    graph.nodes = nodes;
-    graph.links = rawPairs.slice();
-    var bfs = [];
-    i = 0;
-    while(i < graph.links.length) {
-        var src = graph.links[i].sourceLanguage;
-        var trgt = graph.links[i].targetLanguage;
-        if((ids.indexOf(src) !== -1) && (ids.indexOf(trgt) !== -1)) {
-            if(backForth(src, trgt)) {
-                if((bfs.indexOf(src + trgt) === -1) && (bfs.indexOf(trgt + src) === -1)) {
-                    bfs.push(src + trgt);
-                    graph.links[i] = {'source': src, 'target': trgt, 'right': true, 'left': true};
-                    i++;
-                }
-                else graph.links.splice(i, 1);
+    graph.nodes = nodes
+    graph.links = [];
+    Object.keys(arrows).forEach(function(src) {
+        arrows[src].forEach(function(trgt) {
+            if(arrows[trgt] && arrows[trgt].indexOf(src) !== -1) {
+                graph.links.push({'source': src, 'target': trgt, 'right': true, 'left': true});
+                arrows[trgt].splice(arrows[trgt].indexOf(src), 1);
             }
             else {
-                graph.links[i] = {'source': src, 'target': trgt, 'right': true};
-                i++;
+                graph.links.push({'source': src, 'target': trgt, 'right': true});
             }
-        }
-        else graph.links.splice(i, 1);
-    }
+        });
+    });
 
     var link = svg.append('g')
         .attr('class', 'links')
@@ -506,10 +508,42 @@ function displayPaths(paths) {
     }
 }
 
+function refreshChosenPath() {
+    chosenPath = [curSrcLang, curDstLang];
+    if($('input#chainedTranslation').prop('checked')) {
+        $.jsonp({
+            url: config.APY_URL + '/translateChain?langpairs=' + curSrcLang + '|' + curDstLang,
+            beforeSend: ajaxSend,
+            success: function (data) {
+                chosenPath = data.responseData.translationChain;
+                var i = 0;
+                for(i = 0; i < chosenPath.length - 1; i++) {
+                    d3.select('#' + chosenPath[i] + '-' + chosenPath[i + 1]).classed('all_path', true);
+                    d3.select('#' + chosenPath[i + 1] + '-' + chosenPath[i]).classed('all_path', true);
+                }
+                d3.select('#validPaths')
+                    .append('a')
+                    .attr('data-dismiss', 'modal')
+                    .text(chosenPath.join(' → ') + ' (default)');
+                d3.select('#validPaths').append('br');
+            },
+            error: function () {
+                console.error('Failed to get translation path');
+                translationNotAvailable();
+            },
+            complete: function () {
+                ajaxComplete();
+            }
+        });
+    }
+}
+
 function refreshChainGraph() {
     d3.selectAll('svg > g').remove();
     d3.selectAll('#validPaths > a').remove();
-    chosenPath = [curSrcLang, curDstLang];
+    d3.selectAll('#validPaths > br').remove();
+
+
     var tmpSeens = {};
     tmpSeens[curSrcLang] = [];
     curPaths = paths(curSrcLang, curDstLang, [curSrcLang], tmpSeens);
@@ -546,6 +580,7 @@ function nodeClicked() {
     d3.selectAll('path').classed('some_path', false);
     d3.selectAll('path').classed('all_path', false);
     d3.selectAll('#validPaths > a').remove();
+    d3.selectAll('#validPaths > br').remove();
 
     var highPaths = [];
     curPaths.forEach(function (d) {
@@ -578,6 +613,7 @@ function nodeClicked() {
                     .on('click', function (a, b, validPath) {
                         chosenPath = validPath[0].text.split(' → ');
                     });
+                d3.select('#validPaths').append('br');
             }
         }
     });
@@ -630,6 +666,7 @@ function getPairs() {
         if(!pairData) {
             populateTranslationList();
             restoreChoices('translator');
+            refreshChosenPath();
             translate();
             return;
         }
@@ -663,6 +700,7 @@ function getPairs() {
 
         populateTranslationList();
         restoreChoices('translator');
+        refreshChosenPath();
         translate();
     }
 
@@ -690,6 +728,7 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect, noTransl
     muteLanguages();
     localizeInterface();
     if(!noTranslate) {
+        refreshChosenPath();
         translateText();
     }
 }
@@ -865,7 +904,10 @@ function translate() {
 
 function translateText() {
     if($('div#translateText').is(':visible')) {
-        if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+        if((!$('input#chainedTranslation').prop('checked')) && (pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) === -1)) {
+            translationNotAvailable();
+        }
+        else {
             sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
             if(textTranslateRequest) {
                 textTranslateRequest.abort();
@@ -900,9 +942,6 @@ function translateText() {
                 },
                 error: translationNotAvailable
             });
-        }
-        else {
-            translationNotAvailable();
         }
     }
 }
@@ -1136,6 +1175,7 @@ function autoSelectDstLang() {
             $('.dstLang[data-code=' + curDstLang + ']').addClass('active');
             muteLanguages();
             localizeInterface();
+            refreshChosenPath();
             translateText();
         }
     }

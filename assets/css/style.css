@@ -370,3 +370,9 @@ html[dir=rtl] .pull-left:not(#rtlChecker) {
     user-select: none;
     pointer-events: none;
 }
+
+#validPaths {
+    position: absolute;
+    top: 10px;
+    font-size: 12pt;
+}
