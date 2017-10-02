@@ -1,6 +1,6 @@
 /* @flow */
 
-var pairs = {}, chainedPairs = {}, originalPairs = pairs, rawPairs;
+var pairs = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
@@ -316,8 +316,9 @@ function initChainGraph() {
         .attr('height', height.toString() + 'px');
     choose.append('br');
     choose.append('div').attr('id', 'validPaths')
-        .append('b').text('Valid Paths:')
-        .append('br');
+        .append('b')
+            .text('Valid Paths:')
+            .append('br');
 
     /* eslint-disable no-magic-numbers */
     svg.append('svg:defs').append('svg:marker')
@@ -416,10 +417,10 @@ function displayPaths(paths) {
         }
     }
 
-    graph.nodes = nodes
+    graph.nodes = nodes;
     graph.links = [];
-    Object.keys(arrows).forEach(function(src) {
-        arrows[src].forEach(function(trgt) {
+    Object.keys(arrows).forEach(function (src) {
+        arrows[src].forEach(function (trgt) {
             if(arrows[trgt] && arrows[trgt].indexOf(src) !== -1) {
                 graph.links.push({'source': src, 'target': trgt, 'right': true, 'left': true});
                 arrows[trgt].splice(arrows[trgt].indexOf(src), 1);
@@ -662,7 +663,6 @@ function getPairs() {
     }
 
     function handlePairs(pairData) {
-        rawPairs = pairData;
         if(!pairData) {
             populateTranslationList();
             restoreChoices('translator');
