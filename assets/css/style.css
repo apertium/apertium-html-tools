@@ -376,3 +376,7 @@ html[dir=rtl] .pull-left:not(#rtlChecker) {
     top: 10px;
     font-size: 12pt;
 }
+
+#validPaths > a {
+    cursor: pointer;
+}
