@@ -5,10 +5,12 @@
         "locale": [
             "tha"
         ],
-        "completion": " 87%  79.18%",
+        "completion": " 84%  75.76%",
         "missing": [
             "Download_Browser_Warning",
             "Drop_Document",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
             "Supported_Formats",
@@ -37,9 +39,9 @@
     "Morphological_Generation_Help": "เลือกภาษาหนึ่งภาษาและสร้างรูปคำจากข้อความของคุณโดยใช้ตัวสร้างทางวจีวิภาคของอาเปอร์เทียม",
     "Generate": "สร้าง",
     "Spell_Checker": "ตรวจสอบการสะกด",
-    "APY_Sandbox": "กล่องทรายเอพีวาย",
-    "APY_Sandbox_Help": "ส่งคำขอกำหนดเอง",
-    "APY_Request": "คำขอของเอพีวาย",
+    "APy_Sandbox": "กล่องทรายเอพีวาย",
+    "APy_Sandbox_Help": "ส่งคำขอกำหนดเอง",
+    "APy_Request": "คำขอของเอพีวาย",
     "Request": "คำขอ",
     "Language": "ภาษา",
     "Input_Text": "ข้อความนำเข้า",

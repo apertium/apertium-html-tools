@@ -5,7 +5,7 @@
         "locale": [
             "eus"
         ],
-        "completion": " 52%  19.43%",
+        "completion": " 50%  18.59%",
         "missing": [
             "About",
             "About_Apertium",
@@ -23,6 +23,8 @@
             "Enable_JS_Warning",
             "File_Too_Large",
             "Format_Not_Supported",
+            "Install_Apertium",
+            "Install_Apertium_Para",
             "Instant_Translation",
             "Mark_Unknown_Words",
             "Multi_Step_Translation",
@@ -49,9 +51,9 @@
     "Morphological_Generation_Help": "Aukera ezazu hizkuntza bat eta azal formak sor itzazu Apertium-en sortzaile morfologikoen bidez.",
     "Generate": "Sorkuntza",
     "Spell_Checker": "Zuzentzaile ortografikoa",
-    "APY_Sandbox": "APY Sandbox",
-    "APY_Sandbox_Help": "Eskaera arbitrarioak bidali",
-    "APY_Request": "APY Eskaera",
+    "APy_Sandbox": "APy Sandbox",
+    "APy_Sandbox_Help": "Eskaera arbitrarioak bidali",
+    "APy_Request": "APy Eskaera",
     "Request": "Eskaera",
     "Language": "Hizkuntza",
     "Input_Text": "Sarrera testua",

@@ -11,9 +11,8 @@ var localizedLanguageCodes = {}, localizedLanguageNames = {};
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
     populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
 
-var DEFAULT_LOCALE = 'eng';
 var dynamicLocalizations = {
-    'eng': {
+    'fallback': {
         'Not_Available': 'Translation not yet available!',
         'detected': 'detected',
         'File_Too_Large': 'File is too large!',
@@ -29,7 +28,7 @@ function getDynamicLocalization(stringKey) {
         return globalLocale;
     }
     else {
-        return dynamicLocalizations[DEFAULT_LOCALE][stringKey];
+        return dynamicLocalizations.fallback[stringKey];
     }
 }
 
@@ -157,8 +156,8 @@ function getLocale() {
                     }
                 },
                 error: function () {
-                    console.error('Failed to determine locale,  defaulting to eng');
-                    locale = 'eng';
+                    console.error('Failed to determine locale,  defaulting to ' + config.DEFAULT_LOCALE);
+                    locale = config.DEFAULT_LOCALE;
                 },
                 complete: function () {
                     ajaxComplete();
@@ -320,8 +319,8 @@ function localizeStrings(stringsFresh) {
                 url: './strings/' + locale + '.json',
                 type: 'GET',
                 dataType: 'text',
-                success: function (data) {
-                    data = JSON.parse(data.replace(/[\n\t\r]/g, ''));
+                success: function (response) {
+                    var data = JSON.parse(response.replace(/[\n\t\r]/g, ''));
                     handleLocalizations(locale, data);
                     localizeLanguageNames(data['@langNames']);
                     cache(locale + '_localizations', data);
@@ -390,8 +389,8 @@ function localizeInterface() {
     $('link.rtlStylesheet').prop('disabled', direction(locale) === 'ltr');
 }
 
-function getLangByCode(code) {
-    code = code ? code.trim() : code;
+function getLangByCode(dirtyCode) {
+    var code = dirtyCode ? dirtyCode.trim() : dirtyCode;
     if(localizedLanguageNames[code]) {
         return localizedLanguageNames[code];
     }

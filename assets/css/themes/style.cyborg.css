@@ -10,6 +10,6 @@
     background-color: #2a9fd6;
 }
 
-textarea#translatedText:not(.text-danger) {
+#translatedText:not(.text-danger) {
     color: #fff;
 }

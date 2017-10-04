@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import argparse
 import json
@@ -15,6 +15,7 @@ def dumpJSON(f, data):
 
 def loadJSON(f):
     return json.loads(f.read(), object_pairs_hook=OrderedDict)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Manipulate localisation files', formatter_class=argparse.RawTextHelpFormatter)

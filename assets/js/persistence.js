@@ -4,7 +4,13 @@
 /* global srcLangs:true, dstLangs:true, recentSrcLangs: true, recentDstLangs:true, curSrcLang:true, curDstLang:true, locale:true */
 
 var URL_PARAM_Q_LIMIT = 1300,
-    DEFAULT_EXPIRY_HOURS = 24;
+    DEFAULT_EXPIRY_HOURS = 24,
+    HASH_URL_MAP = {
+        '#translation': 'q',
+        '#webpageTranslation': 'qP',
+        '#analyzation': 'qA',
+        '#generation': 'qG'
+    };
 
 var store = new Store(config.HTML_URL);
 
@@ -43,6 +49,7 @@ function persistChoices(mode, updatePermalink) {
                 'curSrcChoice': $('.srcLang.active').prop('id'),
                 'curDstChoice': $('.dstLang.active').prop('id'),
                 'translationInput': $('#originalText').val(),
+                'webpageInput': $('#webpage').val(),
                 'instantTranslation': $('#instantTranslation').prop('checked'),
                 'markUnknown': $('#markUnknown').prop('checked'),
                 'chainedTranslation': $('#chainedTranslation').prop('checked')
@@ -96,6 +103,11 @@ function persistChoices(mode, updatePermalink) {
             urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
             qVal = $('#originalText').val();
         }
+        else if(hash === '#webpageTranslation' && curSrcLang && curDstLang) {
+            urlParams = [];
+            urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
+            qVal = $('#webpage').val();
+        }
         else if(hash === '#analyzation' && $('#secondaryAnalyzerMode').val()) {
             urlParams = [];
             urlParams.push('choice=' + encodeURIComponent($('#secondaryAnalyzerMode').val()));
@@ -107,18 +119,15 @@ function persistChoices(mode, updatePermalink) {
             qVal = $('#morphGeneratorInput').val();
         }
 
-        var qName = '';
-        if(hash === '#translation') { qName = ''; }
-        if(hash === '#analyzation') { qName = 'A'; }
-        if(hash === '#generation') { qName = 'G'; }
+        var qName = HASH_URL_MAP[hash];
 
         if(updatePermalink) {
             if(qVal !== undefined && qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
-                urlParams.push('q' + qName + '=' + encodeURIComponent(qVal));
+                urlParams.push(qName + '=' + encodeURIComponent(qVal));
             }
         }
-        else if(getURLParam('q' + qName).length > 0) {
-            urlParams.push('q' + qName + '=' + getURLParam('q' + qName));
+        else if(getURLParam(qName).length > 0) {
+            urlParams.push(qName + '=' + getURLParam(qName));
         }
 
         var newURL = window.location.pathname + (urlParams.length > 0 ? '?' + urlParams.join('&') : '') + hash;
@@ -130,7 +139,7 @@ function restoreChoices(mode) {
     if(store.able() && getURLParam('reset').length > 0) {
         store.clear();
     }
-
+    var hash = parent.location.hash;
     if(mode === 'translator') {
         if(store.able()) {
             recentSrcLangs = store.get('recentSrcLangs', recentSrcLangs);
@@ -151,6 +160,8 @@ function restoreChoices(mode) {
                 $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
                 $('#' + store.get('curDstChoice', 'dstLang1')).addClass('active');
             }
+
+            $('#webpage').val(store.get('webpageInput', ''));
             $('#originalText').val(store.get('translationInput', ''));
             $('#instantTranslation').prop('checked', store.get('instantTranslation', true));
             $('#markUnknown').prop('checked', store.get('markUnknown', false));
@@ -167,8 +178,12 @@ function restoreChoices(mode) {
             }
         }
 
-        if(getURLParam('q').length > 0) {
+        if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
             $('#originalText').val(decodeURIComponent(getURLParam('q')));
+        }
+
+        if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
+            $('#webpage').val(decodeURIComponent(getURLParam('qP')));
         }
 
         refreshLangList();
@@ -201,7 +216,7 @@ function restoreChoices(mode) {
             }
         }
 
-        if(getURLParam('qA').length > 0) {
+        if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
             $('#morphAnalyzerInput').val(decodeURIComponent(getURLParam('qA')));
         }
     }
@@ -230,7 +245,7 @@ function restoreChoices(mode) {
             }
         }
 
-        if(getURLParam('qG').length > 0) {
+        if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
             $('#morphGeneratorInput').val(decodeURIComponent(getURLParam('qG')));
         }
     }

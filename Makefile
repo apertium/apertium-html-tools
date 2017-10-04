@@ -1,6 +1,6 @@
 all: check-deps prod
 
-debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js build/js/d3.v4.min.js build/sitemap.xml build/strings/locales.json build/index.eng.html build/strings/eng.json images
+debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js build/js/d3.v4.min.js build/sitemap.xml build/strings/locales.json build/index.$(DEFAULT_LOCALE).html build/strings/$(DEFAULT_LOCALE).json images
 
 prod: js css html fonts build/sitemap.xml build/strings/locales.json localhtml images
 
@@ -46,6 +46,7 @@ JSFILES= \
 	assets/js/sandbox.js
 
 CONFIG ?= config.conf
+DEFAULT_LOCALE ?= $(shell ./tools/read-conf.py -c $(CONFIG) get DEFAULT_LOCALE)
 
 build/js/config.js: $(CONFIG) tools/read-conf.py build/js/.d
 	./tools/read-conf.py -c $< js > $@
@@ -117,7 +118,10 @@ build/.PIWIK_SITEID: $(CONFIG) tools/read-conf.py build/.d
 	./tools/read-conf.py -c $< get PIWIK_SITEID > $@
 
 build/index.localiseme.html: index.html.in build/prod-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID
-	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
+	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' \
+		-e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" \
+		-e "s%@include_version@%$(shell git describe --tags --always || '')%" \
+		$< > $@
 
 
 ## HTML localisation
@@ -132,7 +136,7 @@ build/l10n-rel.html: assets/strings/locales.json isobork build/.d
 build/index.%.html: build/strings/%.json build/index.localiseme.html $(CONFIG) tools/read-conf.py tools/localise-html.py
 	./tools/localise-html.py -c $(CONFIG) build/index.localiseme.html $< $@
 
-build/index.html: build/index.eng.html
+build/index.html: build/index.$(DEFAULT_LOCALE).html
 	cp $^ $@
 
 build/not-found.html: build/index.html not-found.html
