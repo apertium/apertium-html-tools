@@ -810,6 +810,7 @@ function translateWebpage() {
     // (they can click the link back to the main site to change
     // languages etc., which is unlikely in giellatekno …)
     $('#webpageTranslationLangSelectors').hide();
+    $('#webpageOrigLink').attr('href', $('input#webpage').val());
 
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
         sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);

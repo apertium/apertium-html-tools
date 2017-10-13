@@ -253,7 +253,9 @@ function synchronizeTextareaHeights() {
 
     if($('div#translateWebpage').is(':visible')) {
         var bottomOfButtons = Math.max(5, $('div#webpageTranslationControls')[0].offsetHeight);
-        $('iframe.translatedWebpage').css('top', bottomOfButtons + 'px');
+        $('iframe.translatedWebpage').css('top', 0 + 'px');
+        $('#translateWebpage').css('top', bottomOfButtons + 'px');
+        $('#translateWebpage > div').css('top', bottomOfButtons + 'px');
     }
 }
 

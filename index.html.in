@@ -187,6 +187,7 @@
                               <div class="input-group col-sm-10" style="float:left">
                                 <span class="input-group-addon"><i class="fa fa-link"></i></span>
                                 <input type="url" id="webpage" placeholder="URL" class="form-control"/>
+                                <span class="input-group-addon"><a id="webpageOrigLink">originalside</a> </span>
                               </div>
                               <div class="col-sm-2" style="z-index: 9999; font-size: 90%; font-style: italic;">
                                 Maskinoversatt av <a href="http://jorgal.uit.no/index.sme.html?dir=sme-nob&amp;q=čále#translation">Giellatekno</a>
