@@ -873,6 +873,7 @@ function hideTranslateWebpageInterface() {
             synchronizeTextareaHeights();
         });
     });
+    $('#webpageTranslationUrl').hide();
     $('.ap-content').addClass('container').removeClass('container-fluid');
     $('.ap-header-nav').show();
     $('#footer').show();
@@ -891,6 +892,7 @@ function showTranslateWebpageInterface(url) {
         $('button#cancelWebpageTranslate').fadeIn('fast');
         $('div#translateWebpage').fadeIn('fast');
     });
+    $('#webpageTranslationUrl').show();
     if(url && typeof url === 'string') {
         $('input#webpage').val(url);
     }
@@ -898,6 +900,12 @@ function showTranslateWebpageInterface(url) {
     $('.ap-content').addClass('container-fluid').removeClass('container');
     $('.ap-header-nav').hide();
     $('#footer').hide();
+    if(getURLParam('embed').length > 0) {
+        $('#webpageTranslationLangSelectors').hide();
+    }
+    else {
+        $('#webpageTranslationLangSelectors').show();
+    }
     synchronizeTextareaHeights();
 }
 

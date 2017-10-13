@@ -100,7 +100,7 @@ $(document).ready(function () {
         if(window.history.replaceState && !pathname.endsWith('/index.debug.html')) {
             var urlParams = [],
                 // TODO: Shouldn't this list be in persistence.js, and this function renamed "removeUrlparamsThatWeDontRecognize"?
-                urlParamNames = ['dir', 'choice', 'q', 'qA', 'qG', 'qP'];
+                urlParamNames = ['dir', 'choice', 'q', 'qA', 'qG', 'qP', 'embed'];
             $.each(urlParamNames, function () {
                 var urlParam = getURLParam(this);
                 if(urlParam) {

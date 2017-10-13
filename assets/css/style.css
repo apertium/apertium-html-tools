@@ -291,15 +291,15 @@ button.swapLangBtn {
 
 #translateWebpage > div {
     position: absolute;
-    top: 45px;                 /* set by js synchronizeTextareaHeights */
-    bottom: 45px;
+    top: 0px;
+    bottom: 0px;
 }
 iframe.translatedWebpage {
     height: 100%;
     width: 100%;
     left: 0px;
-    top: 45px;                 /* set by js synchronizeTextareaHeights */
-    bottom: 45px;
+    top: 0px;                 /* set by js synchronizeTextareaHeights */
+    bottom: 0px;
     position: absolute;
     border-top: 1px solid grey;
 }
