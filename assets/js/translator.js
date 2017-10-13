@@ -573,7 +573,8 @@ function populateTranslationList() {
 }
 
 function translate() {
-    if(showingWebpageTranslation() || isURL($('#originalText').val().trim())) {
+    if(showingWebpageTranslation() ||
+       ($('#originalText').is(':visible') && isURL($('#originalText').val().trim()))) {
         translateWebpage();
     }
     else if($('div#translateText').is(':visible')) {
@@ -803,7 +804,12 @@ function translateWebpage() {
     persistChoices('translator', true);
     if(!showingWebpageTranslation()) {
         showTranslateWebpageInterface($('#originalText').val().trim());
+        $('#originalText').val("");
     }
+    // Now that the user has entered an URL, we don't need the top row
+    // (they can click the link back to the main site to change
+    // languages etc., which is unlikely in giellatekno …)
+    $('#webpageTranslationLangSelectors').hide();
 
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
         sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
@@ -902,9 +908,6 @@ function showTranslateWebpageInterface(url) {
     $('#footer').hide();
     if(getURLParam('embed').length > 0) {
         $('#webpageTranslationLangSelectors').hide();
-    }
-    else {
-        $('#webpageTranslationLangSelectors').show();
     }
     synchronizeTextareaHeights();
 }
