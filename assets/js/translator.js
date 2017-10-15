@@ -452,6 +452,7 @@ function paths(src, trgt, curPath, seens) {
                 rets.push(newPath.concat(seens[lang][j]));
             }
         }
+        // eslint-disable-line no-param-reassign
         seens = oldSeens;
     }
     return rets;
