@@ -904,17 +904,35 @@ function populateTranslationList() {
         }
     }
 
+    var dstLangsSorted = [];
+    var directHead = 0;
+    var multiHead = 0;
+    $.each(dstLangs, function (i, lang) {
+        if(originalPairs[curSrcLang].indexOf(lang) === -1) {
+            if(pairs[curSrcLang].indexOf(lang) === -1) {
+                dstLangsSorted.push(lang);
+            }
+            else {
+                dstLangsSorted.splice(multiHead, 0, lang);
+                multiHead++;
+            }
+        }
+        else {
+            dstLangsSorted.splice(directHead, 0, lang);
+            directHead++;
+            multiHead++;
+        }
+    });
     for(i = 0; i < numDstCols; i++) {
-        var numDstLang = Math.ceil(dstLangs.length / numDstCols) * i;
+        var numDstLang = Math.ceil(dstLangsSorted.length / numDstCols) * i;
         for(j = numDstLang; j < numDstLang + dstLangsPerCol; j++) {
-            if(numDstLang < dstLangs.length) {
-                langCode = dstLangs[j], langName = getLangByCode(langCode);
-                var multi = (originalPairs[curSrcLang].indexOf(langCode) === -1) && (pairs[curSrcLang].indexOf(langCode) !== -1);
+            if(numDstLang < dstLangsSorted.length) {
+                langCode = dstLangsSorted[j], langName = getLangByCode(langCode);
                 $('#dstLanguages .languageCol:eq(' + i + ')')
                     .append(
                         $('<div class="languageName"></div>')
                             .attr('data-code', langCode)
-                            .text(multi ? langName + ' (+)' : langName)
+                            .text(((j >= directHead) && (j < multiHead)) ? langName + ' (+)' : langName)
                     );
             }
         }
