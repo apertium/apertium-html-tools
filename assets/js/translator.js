@@ -908,11 +908,12 @@ function populateTranslationList() {
         for(j = numDstLang; j < numDstLang + dstLangsPerCol; j++) {
             if(numDstLang < dstLangs.length) {
                 langCode = dstLangs[j], langName = getLangByCode(langCode);
+                var multi = (originalPairs[curSrcLang].indexOf(langCode) === -1) && (pairs[curSrcLang].indexOf(langCode) !== -1);
                 $('#dstLanguages .languageCol:eq(' + i + ')')
                     .append(
                         $('<div class="languageName"></div>')
                             .attr('data-code', langCode)
-                            .text(langName)
+                            .text(multi ? langName + ' (+)' : langName)
                     );
             }
         }
