@@ -3,6 +3,9 @@
 		"browser": true,
 		"jquery": true
 	},
+	"globals": {
+		"d3": false
+	},
 	"extends": "eslint:recommended",
 	"rules": {
 		"array-bracket-spacing": "error",
@@ -11,7 +14,6 @@
 		"camelcase": "error",
 		"comma-dangle": "error",
 		"comma-spacing": "error",
-		"curly": "error",
 		"eol-last": "error",
 		"key-spacing": "error",
 		"linebreak-style": "error",
@@ -44,6 +46,7 @@
 		"space-in-parens": "error",
 		"space-infix-ops": "error",
 		"yoda": "error",
+		"curly": ["error", "multi-line"],
 		"eqeqeq": ["error", "smart"],
 		"func-style": ["error", "declaration"],
 		"indent": ["error", 4],
@@ -121,12 +124,13 @@
 		"id-blacklist": ["error", "value", "val", "key"],
 		"id-length": [
 			"error", {
-				"min": 4,
+				"min": 3,
 				"exceptions": [
 					"i", "j", "k",
-					"e", "ev", "xhr", "url", "URL",
+					"e", "ev",
 					"a", "b",
-					"tr", "div"
+					"tr",
+					"d", "x", "y", "cx", "cy", "fx", "fy"
 				]
 			}
 		],
