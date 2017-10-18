@@ -897,7 +897,9 @@ function showTranslateWebpageInterface(url) {
             'novalidate': false
         });
         $('button#cancelWebpageTranslate').fadeIn('fast');
-        $('div#translateWebpage').fadeIn('fast');
+        $('div#translateWebpage').fadeIn('fast', function () {
+            synchronizeTextareaHeights();
+        });
     });
     $('#webpageTranslationUrl').show();
     if(url && typeof url === 'string') {
@@ -910,7 +912,6 @@ function showTranslateWebpageInterface(url) {
     if(getURLParam('embed').length > 0) {
         $('#webpageTranslationLangSelectors').hide();
     }
-    synchronizeTextareaHeights();
 }
 
 function detectLanguage() {
