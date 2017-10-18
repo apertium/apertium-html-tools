@@ -874,16 +874,16 @@ function hideTranslateWebpageInterface() {
         'required': false,
         'novalidate': true
     });
+    $('#webpageTranslationUrl').hide();
+    $('.ap-content').addClass('container').removeClass('container-fluid');
+    $('.ap-header-nav').show();
+    $('#footer').show();
     $('div#translateWebpage').fadeOut('fast', function () {
         $('button#cancelWebpageTranslate').fadeOut('fast');
         $('div#translateText').fadeIn('fast', function () {
             synchronizeTextareaHeights();
         });
     });
-    $('#webpageTranslationUrl').hide();
-    $('.ap-content').addClass('container').removeClass('container-fluid');
-    $('.ap-header-nav').show();
-    $('#footer').show();
 }
 
 function showingWebpageTranslation() {
@@ -891,16 +891,6 @@ function showingWebpageTranslation() {
 }
 
 function showTranslateWebpageInterface(url) {
-    $('div#translateText').fadeOut('fast', function () {
-        $('input#webpage').attr({
-            'required': true,
-            'novalidate': false
-        });
-        $('button#cancelWebpageTranslate').fadeIn('fast');
-        $('div#translateWebpage').fadeIn('fast', function () {
-            synchronizeTextareaHeights();
-        });
-    });
     $('#webpageTranslationUrl').show();
     if(url && typeof url === 'string') {
         $('input#webpage').val(url);
@@ -912,6 +902,16 @@ function showTranslateWebpageInterface(url) {
     if(getURLParam('embed').length > 0) {
         $('#webpageTranslationLangSelectors').hide();
     }
+    $('div#translateText').fadeOut('fast', function () {
+        $('input#webpage').attr({
+            'required': true,
+            'novalidate': false
+        });
+        $('button#cancelWebpageTranslate').fadeIn('fast');
+        $('div#translateWebpage').fadeIn('fast', function () {
+            synchronizeTextareaHeights();
+        });
+    });
 }
 
 function detectLanguage() {
