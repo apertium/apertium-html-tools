@@ -811,6 +811,7 @@ function translateWebpage() {
     // languages etc., which is unlikely in giellatekno …)
     $('#webpageTranslationLangSelectors').hide();
     $('#webpageOrigLink').attr('href', $('input#webpage').val());
+    synchronizeTextareaHeights();
 
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
         sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
