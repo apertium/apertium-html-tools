@@ -230,6 +230,14 @@ server:
 	exo-open "http://localhost:8082"
 	( cd build && python3 -m http.server 8082 )
 
+reload-firefox:
+	curwin=$$(xdotool getactivewindow); \
+		xdotool search --onlyvisible --class Firefox windowfocus key --window %@ ctrl+r; \
+		xdotool windowfocus "$${curwin}"
+
+watch:
+	git ls-files | entr -rc sh -c 'make -j32 && (sleep 1; make reload-firefox)& (cd build/; python -m SimpleHTTPServer 8000)'
+
 
 ### Clean ###
 clean:
