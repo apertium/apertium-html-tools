@@ -361,13 +361,13 @@ function getShortestChainedPaths() {
         var langs = filterLangList(srcLangs.concat(dstLangs).filter(onlyUnique));
         var dists = {};
         dists[src] = 0;
-        dists["dummy"] = Number.MAX_SAFE_INTEGER;
+        dists.dummy = Number.MAX_SAFE_INTEGER;
         var prevs = {};
 
-        while (langs.length > 0) {
-            var mini = "dummy";
+        while(langs.length > 0) {
+            var mini = 'dummy';
             $.each(langs, function (i, lang) {
-                if((dists[lang] != undefined) && (dists[lang] < dists[mini])) {
+                if((dists[lang] !== undefined) && (dists[lang] < dists[mini])) {
                     mini = lang;
                 }
             });
@@ -375,14 +375,15 @@ function getShortestChainedPaths() {
             if(pairs[mini]) {
                 $.each(pairs[mini], function (i, trgt) {
                     if(langs.indexOf(trgt) !== -1) {
-                        if(dists[mini] == undefined) {
+                        var newdist;
+                        if(dists[mini] === undefined) {
                             dists[mini] = Number.MAX_SAFE_INTEGER;
-                            var newdist = Number.MAX_SAFE_INTEGER;
+                            newdist = Number.MAX_SAFE_INTEGER;
                         }
                         else {
-                            var newdist = dists[mini] + weights[mini][trgt];
+                            newdist = dists[mini] + weights[mini][trgt];
                         }
-                        if ((dists[trgt] == undefined) || (dists[mini] + weights[mini][trgt] < dists[trgt])) {
+                        if((dists[trgt] === undefined) || (dists[mini] + weights[mini][trgt] < dists[trgt])) {
                             dists[trgt] = newdist;
                             prevs[trgt] = mini;
                         }
@@ -395,12 +396,12 @@ function getShortestChainedPaths() {
         $.each(Object.keys(prevs), function (i, trgt) {
             var prev = trgt;
             var path = [trgt];
-            while (prevs[prev]) {
+            while(prevs[prev]) {
                 prev = prevs[prev];
                 path.push(prev);
             }
             path = Array.reverse(path);
-            paths[src][trgt] = {"path": path, "weight": getWeight(path)};
+            paths[src][trgt] = {'path': path, 'weight': getWeight(path)};
         });
     });
     return paths;
@@ -458,7 +459,7 @@ function boundary(dist, max) {
     return max - nodeSize;
 }
 
-function paths(src, trgt, curPath, seens) {
+function getAllPaths(src, trgt, curPath, seens) {
     if(!originalPairs[src]) return [];
     var rets = [];
     var i, j;
@@ -468,9 +469,9 @@ function paths(src, trgt, curPath, seens) {
         newPath.push(lang);
         var oldSeens = $.extend(true, {}, seens);
         if(lang === trgt) rets.push(newPath);
-        else if(seens[lang] == undefined) {
+        else if(seens[lang] === undefined) {
             seens[lang] = [];
-            var recurse = paths(lang, trgt, newPath, seens);
+            var recurse = getAllPaths(lang, trgt, newPath, seens);
             for(j = 0; j < recurse.length; j++) {
                 rets.push(recurse[j]);
                 seens[lang].push(recurse[j].slice(recurse[j].indexOf(lang)));
@@ -488,9 +489,8 @@ function paths(src, trgt, curPath, seens) {
 }
 
 function getWeight(path) {
-    var i;
     var weight = 0;
-    for (var i = 0; i < path.length - 1; i++) {
+    for(var i = 0; i < path.length - 1; i++) {
         weight += weights[path[i]][path[i + 1]];
     }
     return weight;
@@ -640,7 +640,7 @@ function refreshChainGraph() {
 
         var tmpSeens = {};
         tmpSeens[curSrcLang] = [];
-        curPaths = paths(curSrcLang, curDstLang, [curSrcLang], tmpSeens);
+        curPaths = getAllPaths(curSrcLang, curDstLang, [curSrcLang], tmpSeens);
         displayPaths(curPaths);
         simulation.alpha(1).restart();
         d3.select('.endpoint').dispatch('click');
@@ -965,8 +965,10 @@ function populateTranslationList() {
                     .append(
                         $('<div class="languageName"></div>')
                             .attr('data-code', langCode)
-                            .attr('title', ((j >= directHead) && (j < multiHead)) ? chainedPaths[curSrcLang][langCode].path.join(' → ') : langCode)
-                            .text(((j >= directHead) && (j < multiHead)) ? langName + ' (' + chainedPaths[curSrcLang][langCode].weight + ')' : langName)
+                            .attr('title', ((j >= directHead) && (j < multiHead)) ?
+                                chainedPaths[curSrcLang][langCode].path.join(' → ') : langCode)
+                            .text(((j >= directHead) && (j < multiHead)) ?
+                                langName + ' (' + chainedPaths[curSrcLang][langCode].weight + ')' : langName)
                     );
             }
         }
