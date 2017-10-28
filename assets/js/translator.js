@@ -965,10 +965,10 @@ function populateTranslationList() {
                     .append(
                         $('<div class="languageName"></div>')
                             .attr('data-code', langCode)
-                            .attr('title', ((j >= directHead) && (j < multiHead)) ?
-                                chainedPaths[curSrcLang][langCode].path.join(' → ') : langCode)
-                            .text(((j >= directHead) && (j < multiHead)) ?
-                                langName + ' (' + chainedPaths[curSrcLang][langCode].weight + ')' : langName)
+                            .attr('title', ((j >= directHead) && (j < multiHead))
+                                ? chainedPaths[curSrcLang][langCode].path.join(' → ') : langCode)
+                            .text(((j >= directHead) && (j < multiHead))
+                                ? langName + ' (' + chainedPaths[curSrcLang][langCode].weight + ')' : langName)
                     );
             }
         }
