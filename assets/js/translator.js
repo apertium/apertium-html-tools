@@ -628,7 +628,7 @@ function refreshChosenPath() {
     d3.select('#validPaths')
         .append('a')
         .attr('data-dismiss', 'modal')
-        .text(chosenPath.join(' → ') + ' (default) (' + chainedPaths[curSrcLang][curDstLang].weight + ')');
+        .text(chosenPath.join(' → ') + ' (default) (-' + chainedPaths[curSrcLang][curDstLang].weight + ')');
     d3.select('#validPaths').append('br');
 }
 
@@ -704,7 +704,7 @@ function nodeClicked() {
                 d3.select('#validPaths')
                     .append('a')
                     .attr('data-dismiss', 'modal')
-                    .text(d.path.join(' → ') + ' (' + getWeight(path) + ')')
+                    .text(d.path.join(' → ') + ' (-' + getWeight(path) + ')')
                     .on('click', function (a, b, validPath) {
                         chosenPath = validPath[0].text.slice(0, validPath[0].text.lastIndexOf('(') - 1).split(' → ');
                         translate(true);
@@ -968,7 +968,7 @@ function populateTranslationList() {
                             .attr('title', ((j >= directHead) && (j < multiHead))
                                 ? chainedPaths[curSrcLang][langCode].path.join(' → ') : langCode)
                             .text(((j >= directHead) && (j < multiHead))
-                                ? langName + ' (' + chainedPaths[curSrcLang][langCode].weight + ')' : langName)
+                                ? langName + ' (-' + chainedPaths[curSrcLang][langCode].weight + ')' : langName)
                     );
             }
         }
