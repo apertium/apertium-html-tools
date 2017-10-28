@@ -1,6 +1,6 @@
 /* @flow */
 
-var pairs = {}, chainedPairs = {}, originalPairs = pairs;
+var pairs = {}, chainedPairs = {}, originalPairs = pairs, chainedPaths = {}, weights = {};
 var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
@@ -288,34 +288,11 @@ if(modeEnabled('translation')) {
             });
         }
 
-        function getChainedDstLangs(srcLang) {
-            var targets = [];
-            var targetsSeen = {};
-            targetsSeen[srcLang] = true;
-            var targetLists = [pairs[srcLang]];
-
-            while(targetLists.length > 0) {
-                $.each(targetLists.pop(), function (i, trgt) {
-                    if(!targetsSeen[trgt]) {
-                        targets.push(trgt);
-                        if(pairs[trgt]) {
-                            targetLists.push(pairs[trgt]);
-                        }
-                        targetsSeen[trgt] = true;
-                    }
-                });
-            }
-
-            return targets;
-        }
-
         if(config.TRANSLATION_CHAINING) {
             $('.chaining').show();
-            $.each(pairs, function (srcLang, _dstLangs) {
-                chainedPairs[srcLang] = getChainedDstLangs(srcLang);
+            $.each(srcLangs, function (i, srcLang) {
+                chainedPairs[srcLang] = Object.keys(chainedPaths[srcLang]);
             });
-            updatePairList();
-            populateTranslationList();
         }
 
         $('.translateBtn').click(function () {
@@ -376,6 +353,58 @@ if(modeEnabled('translation')) {
         setupDocTranslation();
         initChainGraph();
     });
+}
+
+function getShortestChainedPaths() {
+    var paths = {};
+    $.each(srcLangs, function (i, src) {
+        var langs = filterLangList(srcLangs.concat(dstLangs).filter(onlyUnique));
+        var dists = {};
+        dists[src] = 0;
+        dists["dummy"] = Number.MAX_SAFE_INTEGER;
+        var prevs = {};
+
+        while (langs.length > 0) {
+            var mini = "dummy";
+            $.each(langs, function (i, lang) {
+                if((dists[lang] != undefined) && (dists[lang] < dists[mini])) {
+                    mini = lang;
+                }
+            });
+            langs.splice(langs.indexOf(mini), 1);
+            if(pairs[mini]) {
+                $.each(pairs[mini], function (i, trgt) {
+                    if(langs.indexOf(trgt) !== -1) {
+                        if(dists[mini] == undefined) {
+                            dists[mini] = Number.MAX_SAFE_INTEGER;
+                            var newdist = Number.MAX_SAFE_INTEGER;
+                        }
+                        else {
+                            var newdist = dists[mini] + weights[mini][trgt];
+                        }
+                        if ((dists[trgt] == undefined) || (dists[mini] + weights[mini][trgt] < dists[trgt])) {
+                            dists[trgt] = newdist;
+                            prevs[trgt] = mini;
+                        }
+                    }
+                });
+            }
+        }
+
+        paths[src] = {};
+        $.each(Object.keys(prevs), function (i, trgt) {
+            var prev = trgt;
+            var path = [trgt];
+            while (prevs[prev]) {
+                prev = prevs[prev];
+                path.push(prev);
+            }
+            path = Array.reverse(path);
+            paths[src][trgt] = {"path": path, "weight": getWeight(path)};
+        });
+    });
+    return paths;
+    // chainedPaths[src][dst] = [{path: [a, b, c], weight: 2}, {path: [a, d, e, c], weight: 3}]
 }
 
 function initChainGraph() {
@@ -439,7 +468,7 @@ function paths(src, trgt, curPath, seens) {
         newPath.push(lang);
         var oldSeens = $.extend(true, {}, seens);
         if(lang === trgt) rets.push(newPath);
-        else if(!(lang in seens)) {
+        else if(seens[lang] == undefined) {
             seens[lang] = [];
             var recurse = paths(lang, trgt, newPath, seens);
             for(j = 0; j < recurse.length; j++) {
@@ -456,6 +485,15 @@ function paths(src, trgt, curPath, seens) {
         seens = oldSeens;
     }
     return rets;
+}
+
+function getWeight(path) {
+    var i;
+    var weight = 0;
+    for (var i = 0; i < path.length - 1; i++) {
+        weight += weights[path[i]][path[i + 1]];
+    }
+    return weight;
 }
 
 function displayPaths(paths) {
@@ -581,33 +619,17 @@ function displayPaths(paths) {
 }
 
 function refreshChosenPath() {
-    chosenPath = [curSrcLang, curDstLang];
-    if($('input#chainedTranslation').prop('checked')) {
-        $.jsonp({
-            url: config.APY_URL + '/translateChain?langpairs=' + curSrcLang + '|' + curDstLang,
-            beforeSend: ajaxSend,
-            success: function (data) {
-                chosenPath = data.responseData.translationChain;
-                var i = 0;
-                for(i = 0; i < chosenPath.length - 1; i++) {
-                    d3.select('#' + chosenPath[i] + '-' + chosenPath[i + 1]).classed('all_path', true);
-                    d3.select('#' + chosenPath[i + 1] + '-' + chosenPath[i]).classed('all_path', true);
-                }
-                d3.select('#validPaths')
-                    .append('a')
-                    .attr('data-dismiss', 'modal')
-                    .text(chosenPath.join(' → ') + ' (default)');
-                d3.select('#validPaths').append('br');
-            },
-            error: function () {
-                console.error('Failed to get translation path');
-                translationNotAvailable();
-            },
-            complete: function () {
-                ajaxComplete();
-            }
-        });
+    chosenPath = chainedPaths[curSrcLang][curDstLang].path;
+    var i = 0;
+    for(i = 0; i < chosenPath.length - 1; i++) {
+        d3.select('#' + chosenPath[i] + '-' + chosenPath[i + 1]).classed('all_path', true);
+        d3.select('#' + chosenPath[i + 1] + '-' + chosenPath[i]).classed('all_path', true);
     }
+    d3.select('#validPaths')
+        .append('a')
+        .attr('data-dismiss', 'modal')
+        .text(chosenPath.join(' → ') + ' (default) (' + chainedPaths[curSrcLang][curDstLang].weight + ')');
+    d3.select('#validPaths').append('br');
 }
 
 function refreshChainGraph() {
@@ -682,9 +704,9 @@ function nodeClicked() {
                 d3.select('#validPaths')
                     .append('a')
                     .attr('data-dismiss', 'modal')
-                    .text(d.path.join(' → '))
+                    .text(d.path.join(' → ') + ' (' + getWeight(path) + ')')
                     .on('click', function (a, b, validPath) {
-                        chosenPath = validPath[0].text.split(' → ');
+                        chosenPath = validPath[0].text.slice(0, validPath[0].text.lastIndexOf('(') - 1).split(' → ');
                         translate(true);
                     });
                 d3.select('#validPaths').append('br');
@@ -717,7 +739,7 @@ function getPairs() {
         else {
             console.warn('Translation pairs cache ' + (pairs === null ? 'stale' : 'miss') + ', retrieving from server');
             $.jsonp({
-                url: config.APY_URL + '/list?q=pairs',
+                url: config.APY_URL + '/list?q=pairs&weights=yes',
                 beforeSend: ajaxSend,
                 success: function (data) {
                     handlePairs(data.responseData);
@@ -739,6 +761,7 @@ function getPairs() {
         if(!pairData) {
             populateTranslationList();
             restoreChoices('translator');
+            chainedPaths = getShortestChainedPaths();
             refreshChosenPath();
             translate(true);
             return;
@@ -749,6 +772,15 @@ function getPairs() {
             }
             srcLangs.push(pair.sourceLanguage);
             dstLangs.push(pair.targetLanguage);
+            if(!weights[pair.sourceLanguage]) {
+                weights[pair.sourceLanguage] = {};
+            }
+            if(pair.weight) {
+                weights[pair.sourceLanguage][pair.targetLanguage] = pair.weight;
+            }
+            else {
+                weights[pair.sourceLanguage][pair.targetLanguage] = 1;
+            }
 
             if(pairs[pair.sourceLanguage]) {
                 pairs[pair.sourceLanguage].push(pair.targetLanguage);
@@ -773,6 +805,7 @@ function getPairs() {
 
         populateTranslationList();
         restoreChoices('translator');
+        chainedPaths = getShortestChainedPaths();
         refreshChosenPath();
         translate(true);
     }
@@ -932,7 +965,8 @@ function populateTranslationList() {
                     .append(
                         $('<div class="languageName"></div>')
                             .attr('data-code', langCode)
-                            .text(((j >= directHead) && (j < multiHead)) ? langName + ' (+)' : langName)
+                            .attr('title', ((j >= directHead) && (j < multiHead)) ? chainedPaths[curSrcLang][langCode].path.join(' → ') : langCode)
+                            .text(((j >= directHead) && (j < multiHead)) ? langName + ' (' + chainedPaths[curSrcLang][langCode].weight + ')' : langName)
                     );
             }
         }
