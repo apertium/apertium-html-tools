@@ -417,8 +417,8 @@ function initChainGraph() {
     choose.append('br');
     choose.append('div').attr('id', 'validPaths')
         .append('b')
-            .text('Valid Paths:')
-            .append('br');
+        .text('Valid Paths:')
+        .append('br');
 
     /* eslint-disable no-magic-numbers */
     svg.append('svg:defs').append('svg:marker')
@@ -428,7 +428,7 @@ function initChainGraph() {
         .attr('markerWidth', 3)
         .attr('markerHeight', 3)
         .attr('orient', 'auto')
-      .append('svg:path')
+        .append('svg:path')
         .attr('d', 'M0,-5L10,0L0,5')
         .attr('fill', '#999');
 
@@ -439,7 +439,7 @@ function initChainGraph() {
         .attr('markerWidth', 3)
         .attr('markerHeight', 3)
         .attr('orient', 'auto')
-      .append('svg:path')
+        .append('svg:path')
         .attr('d', 'M10,-5L0,0L10,5')
         .attr('fill', '#999');
 
@@ -467,23 +467,21 @@ function getAllPaths(src, trgt, curPath, seens) {
         var lang = originalPairs[src][i];
         var newPath = curPath.slice();
         newPath.push(lang);
-        var oldSeens = $.extend(true, {}, seens);
+        var newSeens = $.extend(true, {}, seens);
         if(lang === trgt) rets.push(newPath);
-        else if(seens[lang] === undefined) {
-            seens[lang] = [];
-            var recurse = getAllPaths(lang, trgt, newPath, seens);
+        else if(newSeens[lang] === undefined) {
+            newSeens[lang] = [];
+            var recurse = getAllPaths(lang, trgt, newPath, newSeens);
             for(j = 0; j < recurse.length; j++) {
                 rets.push(recurse[j]);
-                seens[lang].push(recurse[j].slice(recurse[j].indexOf(lang)));
+                newSeens[lang].push(recurse[j].slice(recurse[j].indexOf(lang)));
             }
         }
         else {
-            for(j = 0; j < seens[lang].length; j++) {
-                rets.push(newPath.concat(seens[lang][j]));
+            for(j = 0; j < newSeens[lang].length; j++) {
+                rets.push(newPath.concat(newSeens[lang][j]));
             }
         }
-        // eslint-disable-line no-param-reassign
-        seens = oldSeens;
     }
     return rets;
 }
@@ -542,22 +540,22 @@ function displayPaths(paths) {
 
     var link = svg.append('g')
         .attr('class', 'links')
-      .selectAll('path')
-      .data(graph.links)
-      .enter()
-      .append('path')
-      .style('marker-start', function (d) { return d.left ? 'url(#start-arrow)' : ''; })
-      .style('marker-end', function (d) { return d.right ? 'url(#end-arrow)' : ''; })
-      .attr('id', function (d) { return d.source + '-' + d.target; })
-      .classed('some_path', false)
-      .classed('all_path', false);
+        .selectAll('path')
+        .data(graph.links)
+        .enter()
+        .append('path')
+        .style('marker-start', function (d) { return d.left ? 'url(#start-arrow)' : ''; })
+        .style('marker-end', function (d) { return d.right ? 'url(#end-arrow)' : ''; })
+        .attr('id', function (d) { return d.source + '-' + d.target; })
+        .classed('some_path', false)
+        .classed('all_path', false);
 
     var node = svg.append('g')
         .attr('class', 'nodes')
-      .selectAll('g')
-      .data(graph.nodes)
-      .enter()
-      .append('g');
+        .selectAll('g')
+        .data(graph.nodes)
+        .enter()
+        .append('g');
 
     var circ = node.append('circle');
     circ
@@ -570,7 +568,7 @@ function displayPaths(paths) {
             .on('end', dragEnded))
         .on('click', nodeClicked)
         .append('title')
-            .text(function (d) { return d.id; });
+        .text(function (d) { return d.id; });
     node
         .append('text')
         .attr('class', 'langs')
@@ -692,9 +690,7 @@ function nodeClicked() {
             highWeights[d.path.join(' ')] = getWeight(d.path);
         }
     });
-    highPaths.sort(function (path1, path2) {
-        return highWeights[path1.join(' ')] - highWeights[path2.join(' ')];
-    });
+    highPaths.sort(function (path1, path2) { return highWeights[path1.join(' ')] - highWeights[path2.join(' ')]; });
     highPaths.forEach(function (d) {
         var i;
         var path = d.path;
