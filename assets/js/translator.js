@@ -686,6 +686,15 @@ function nodeClicked() {
         }
         highPaths.push({'path': d, 'some': some, 'all': all});
     });
+    var highWeights = {};
+    highPaths.forEach(function (d) {
+        if(d.all) {
+            highWeights[d.path.join(' ')] = getWeight(d.path);
+        }
+    });
+    highPaths.sort(function (path1, path2) {
+        return highWeights[path1.join(' ')] - highWeights[path2.join(' ')];
+    });
     highPaths.forEach(function (d) {
         var i;
         var path = d.path;
@@ -700,11 +709,11 @@ function nodeClicked() {
                 d3.select('#' + path[i] + '-' + path[i + 1]).classed('all_path', d.all);
                 d3.select('#' + path[i + 1] + '-' + path[i]).classed('all_path', d.all);
             }
-            if(d.path.length > d3.selectAll('.selected').size() - 1) {
+            if(path.length > d3.selectAll('.selected').size() - 1) {
                 d3.select('#validPaths')
                     .append('a')
                     .attr('data-dismiss', 'modal')
-                    .text(d.path.join(' → ') + ' (-' + getWeight(path) + ')')
+                    .text(path.join(' → ') + ' (-' + highWeights[path.join(' ')] + ')')
                     .on('click', function (a, b, validPath) {
                         chosenPath = validPath[0].text.slice(0, validPath[0].text.lastIndexOf('(') - 1).split(' → ');
                         translate(true);
