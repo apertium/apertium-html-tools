@@ -690,7 +690,9 @@ function nodeClicked() {
             highWeights[d.path.join(' ')] = getWeight(d.path);
         }
     });
-    highPaths.sort(function (path1, path2) { return highWeights[path1.join(' ')] - highWeights[path2.join(' ')]; });
+    highPaths.sort(function (path1, path2) {
+        return highWeights[path1.path.join(' ')] - highWeights[path2.path.join(' ')];
+    });
     highPaths.forEach(function (d) {
         var i;
         var path = d.path;
