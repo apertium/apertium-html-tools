@@ -436,7 +436,6 @@ html[dir='rtl'] .pull-left:not(#rtlChecker) { /* sass-lint:disable-line class-na
 }
 
 .langs {
-    -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -webkit-touch-callout: none;
