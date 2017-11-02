@@ -14,7 +14,7 @@ ENABLED_MODES = translation
 DEFAULT_MODE = translation
 
 # Whether or not to enable chained translations
-TRANSLATION_CHAINING = False
+TRANSLATION_CHAINING = True
 
 SHOW_NAVBAR = False
 
