@@ -339,11 +339,12 @@ if(modeEnabled('translation')) {
             persistChoices('translator');
         });
 
+        initChainGraph();
+        refreshChosenPath();
         setupLanguageSelectors();
         setupTextTranslation();
         setupWebpageTranslation();
         setupDocTranslation();
-        initChainGraph();
     });
 }
 
@@ -621,8 +622,8 @@ function refreshChosenPath() {
     chosenPath = chainedPaths[curSrcLang][curDstLang].path;
     var i = 0;
     for(i = 0; i < chosenPath.length - 1; i++) {
-        d3.select('#' + chosenPath[i] + '-' + chosenPath[i + 1]).classed('all_path', true);
-        d3.select('#' + chosenPath[i + 1] + '-' + chosenPath[i]).classed('all_path', true);
+        d3.select('#' + chosenPath[i] + '-' + chosenPath[i + 1]).classed('allPath', true);
+        d3.select('#' + chosenPath[i + 1] + '-' + chosenPath[i]).classed('allPath', true);
     }
     d3.select('#validPaths')
         .append('a')
