@@ -219,8 +219,8 @@ if(modeEnabled('translation')) {
 
                 refreshLangList(true);
                 muteLanguages();
-                refreshChosenPath();
                 refreshChainGraph();
+                refreshChosenPath();
 
                 if($('.active > #detectedText')) {
                     $('.srcLang').removeClass('active');
@@ -236,30 +236,30 @@ if(modeEnabled('translation')) {
                 else {
                     handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
                     autoSelectDstLang();
-                    refreshChosenPath();
                     refreshChainGraph();
+                    refreshChosenPath();
                 }
             });
 
             $('#dstLangSelect').change(function () {
                 handleNewCurrentLang(curDstLang = $(this).val(), recentDstLangs, 'dstLang', true);
-                refreshChosenPath();
                 refreshChainGraph();
+                refreshChosenPath();
             });
 
             $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
                 curSrcLang = $(this).attr('data-code');
                 handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
                 autoSelectDstLang();
-                refreshChosenPath();
                 refreshChainGraph();
+                refreshChosenPath();
             });
 
             $('#dstLanguages').on('click', '.languageName:not(.text-muted)', function () {
                 curDstLang = $(this).attr('data-code');
                 handleNewCurrentLang(curDstLang, recentDstLangs, 'dstLang');
-                refreshChosenPath();
                 refreshChainGraph();
+                refreshChosenPath();
             });
 
             $('.srcLang:not(#detect)').click(function () {
@@ -1405,8 +1405,8 @@ function detectLanguage() {
         $('#detectedText').show();
         $('#detectText').hide();
 
-        refreshChosenPath();
         refreshChainGraph();
+        refreshChosenPath();
     }
 
     function handleDetectLanguageErrorResponse() {
