@@ -970,12 +970,12 @@ function populateTranslationList() {
                             .attr('data-code', langCode)
                             .text(((j >= directHead) && (j < multiHead))
                                 ? langName + ' (-' + chainedPaths[curSrcLang][langCode].weight + ')' : langName)
-                            .append(
-                                $('<div class="languageNameTooltip"></div>')
-                                    .text(((j >= directHead) && (j < multiHead))
-                                        ? chainedPaths[curSrcLang][langCode].path.join(' → ')
-                                        : curSrcLang + ' → ' + langCode)
-                            )
+                            .attr('data-toggle', 'tooltip')
+                            .attr('data-placement', 'bottom')
+                            .attr('data-container', '#dstLanguages')
+                            .attr('title', ((j >= directHead) && (j < multiHead))
+                                ? chainedPaths[curSrcLang][langCode].path.join(' → ')
+                                : curSrcLang + ' → ' + langCode)
                     );
             }
         }
@@ -1430,6 +1430,8 @@ function muteLanguages() {
             $(this).addClass('text-muted');
         }
     });
+    $('.languageName[data-toggle="tooltip"]').tooltip();
+    $('.languageName.text-muted[data-toggle="tooltip"]').tooltip('destroy');
     $.each($('.dstLang'), function () {
         if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(this).attr('data-code')) === -1) {
             $(this).addClass('disabledLang').prop('disabled', true);

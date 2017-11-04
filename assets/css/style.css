@@ -221,36 +221,12 @@ html[dir='rtl'] .languageName {
     cursor: pointer;
 }
 
-.languageNameTooltip {
-    background-color: #555;
-    border-radius: 6px;
-    color: #fff;
-    left: 0%;
-    opacity: 0;
-    padding: 2px 5px;
-    position: absolute;
-    text-align: center;
-    top: 125%;
-    transition: opacity .4s;
-    visibility: hidden;
-    width: auto;
-    z-index: 1;
+#dstLanguages .tooltip.bottom {
+    padding-top: 4px;
 }
 
-.languageName .languageNameTooltip::after {
-    border-color: transparent transparent #000;
-    border-style: solid;
-    border-width: 5px;
-    bottom: 100%;
-    content: '';
-    left: 50%;
-    margin-left: -5px;
-    position: absolute;
-}
-
-.languageName:hover:not(.text-muted) .languageNameTooltip {
-    opacity: 1;
-    visibility: visible;
+#dstLanguages .tooltip.bottom > .tooltip.arrow {
+    border-bottom: 6px solid #000;
 }
 
 html[dir='ltr'] #srcLanguages {
