@@ -222,35 +222,35 @@ html[dir='rtl'] .languageName {
 }
 
 .languageNameTooltip {
-    visibility: hidden;
-    width: auto;
     background-color: #555;
-    color: #fff;
-    text-align: center;
     border-radius: 6px;
-    padding: 2px 5px;
-    position: absolute;
-    z-index: 1;
-    top: 125%;
+    color: #fff;
     left: 0%;
     opacity: 0;
-    transition: opacity .3s;
+    padding: 2px 5px;
+    position: absolute;
+    text-align: center;
+    top: 125%;
+    transition: opacity .4s;
+    visibility: hidden;
+    width: auto;
+    z-index: 1;
 }
 
 .languageName .languageNameTooltip::after {
-   content: "";
-   position: absolute;
-   bottom: 100%;
-   left: 50%;
-   margin-left: -5px;
-   border-width: 5px;
-   border-style: solid;
-   border-color: transparent transparent black transparent;
+    border-color: transparent transparent #000;
+    border-style: solid;
+    border-width: 5px;
+    bottom: 100%;
+    content: '';
+    left: 50%;
+    margin-left: -5px;
+    position: absolute;
 }
 
 .languageName:hover:not(.text-muted) .languageNameTooltip {
-    visibility: visible;
     opacity: 1;
+    visibility: visible;
 }
 
 html[dir='ltr'] #srcLanguages {
