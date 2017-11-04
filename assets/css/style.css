@@ -221,6 +221,38 @@ html[dir='rtl'] .languageName {
     cursor: pointer;
 }
 
+.languageNameTooltip {
+    visibility: hidden;
+    width: auto;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 2px 5px;
+    position: absolute;
+    z-index: 1;
+    top: 125%;
+    left: 0%;
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.languageName .languageNameTooltip::after {
+   content: "";
+   position: absolute;
+   bottom: 100%;
+   left: 50%;
+   margin-left: -5px;
+   border-width: 5px;
+   border-style: solid;
+   border-color: transparent transparent black transparent;
+}
+
+.languageName:hover:not(.text-muted) .languageNameTooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
 html[dir='ltr'] #srcLanguages {
     min-width: 500px;
     right: auto;

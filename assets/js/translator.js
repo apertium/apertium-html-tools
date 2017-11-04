@@ -33,9 +33,17 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
-        function updatePairList() {
-            pairs = $('input#chainedTranslation').prop('checked') ? chainedPairs : originalPairs;
+        if(config.TRANSLATION_CHAINING) {
+            $('.chaining').show();
         }
+
+        $('#chooseChain').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
+        $('input#chainedTranslation').change(function () {
+            updatePairList();
+            populateTranslationList();
+            persistChoices('translator');
+            $('#chooseChain').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
+        });
 
         function setupTextTranslation() {
             synchronizeTextareaHeights();
@@ -131,7 +139,6 @@ if(modeEnabled('translation')) {
                     $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
                     $('#detect').removeClass('disabledLang');
                 });
-                updatePairList();
                 populateTranslationList();
             });
 
@@ -288,24 +295,9 @@ if(modeEnabled('translation')) {
             });
         }
 
-        if(config.TRANSLATION_CHAINING) {
-            $('.chaining').show();
-            $.each(srcLangs, function (i, srcLang) {
-                chainedPairs[srcLang] = Object.keys(chainedPaths[srcLang]);
-            });
-        }
-
         $('.translateBtn').click(function () {
             translate();
             persistChoices('translator', true);
-        });
-
-        $('#chooseChain').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
-        $('input#chainedTranslation').change(function () {
-            updatePairList();
-            populateTranslationList();
-            persistChoices('translator');
-            $('#chooseChain').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
         });
 
         var timer, lastPunct = false;
@@ -355,6 +347,10 @@ if(modeEnabled('translation')) {
     });
 }
 
+function updatePairList() {
+    pairs = $('input#chainedTranslation').prop('checked') ? chainedPairs : originalPairs;
+}
+
 function getShortestChainedPaths() {
     var paths = {};
     $.each(srcLangs, function (i, src) {
@@ -400,10 +396,15 @@ function getShortestChainedPaths() {
                 prev = prevs[prev];
                 path.push(prev);
             }
-            path = Array.reverse(path);
+            path.reverse();
             paths[src][trgt] = {'path': path, 'weight': getWeight(path)};
         });
     });
+
+    $.each(srcLangs, function (i, src) {
+        chainedPairs[src] = Object.keys(paths[src]);
+    });
+
     return paths;
     // chainedPaths[src][dst] = [{path: [a, b, c], weight: 2}, {path: [a, d, e, c], weight: 3}]
 }
@@ -758,9 +759,10 @@ function getPairs() {
 
     function handlePairs(pairData) {
         if(!pairData) {
-            populateTranslationList();
             restoreChoices('translator');
             chainedPaths = getShortestChainedPaths();
+            updatePairList();
+            populateTranslationList();
             refreshChosenPath();
             translate(true);
             return;
@@ -802,9 +804,10 @@ function getPairs() {
             recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
         }
 
-        populateTranslationList();
         restoreChoices('translator');
         chainedPaths = getShortestChainedPaths();
+        updatePairList();
+        populateTranslationList();
         refreshChosenPath();
         translate(true);
     }
@@ -964,10 +967,14 @@ function populateTranslationList() {
                     .append(
                         $('<div class="languageName"></div>')
                             .attr('data-code', langCode)
-                            .attr('title', ((j >= directHead) && (j < multiHead))
-                                ? chainedPaths[curSrcLang][langCode].path.join(' → ') : langCode)
                             .text(((j >= directHead) && (j < multiHead))
                                 ? langName + ' (-' + chainedPaths[curSrcLang][langCode].weight + ')' : langName)
+                            .append(
+                                $('<div class="languageNameTooltip"></div>')
+                                    .text(((j >= directHead) && (j < multiHead))
+                                        ? chainedPaths[curSrcLang][langCode].path.join(' → ')
+                                        : curSrcLang + ' → ' + langCode)
+                            )
                     );
             }
         }
