@@ -410,12 +410,12 @@ html[dir='rtl'] .pull-left:not(#rtlChecker) { /* sass-lint:disable-line class-na
 
 .links path {
     stroke: #999;
-    stroke-opacity: .6;
+    stroke-opacity: .3;
     stroke-width: 4px;
 }
 
 .links .somePath {
-    stroke: #3dd;
+    stroke-opacity: .7;
 }
 
 .links .allPath {
