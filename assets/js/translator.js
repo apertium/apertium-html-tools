@@ -1,6 +1,6 @@
 /* @flow */
 
-var pairs = {}, chainedPairs = {}, originalPairs = pairs;
+var pairs = {}, chainedPairs = {}, originalPairs = pairs, chainedPaths = {}, weights = {};
 var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
@@ -33,9 +33,17 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
-        function updatePairList() {
-            pairs = $('input#chainedTranslation').prop('checked') ? chainedPairs : originalPairs;
+        if(config.TRANSLATION_CHAINING) {
+            $('.chaining').show();
         }
+
+        $('#chooseChain').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
+        $('input#chainedTranslation').change(function () {
+            updatePairList();
+            populateTranslationList();
+            persistChoices('translator');
+            $('#chooseChain').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
+        });
 
         function setupTextTranslation() {
             synchronizeTextareaHeights();
@@ -131,7 +139,6 @@ if(modeEnabled('translation')) {
                     $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
                     $('#detect').removeClass('disabledLang');
                 });
-                updatePairList();
                 populateTranslationList();
             });
 
@@ -212,8 +219,8 @@ if(modeEnabled('translation')) {
 
                 refreshLangList(true);
                 muteLanguages();
-                refreshChosenPath();
                 refreshChainGraph();
+                refreshChosenPath();
 
                 if($('.active > #detectedText')) {
                     $('.srcLang').removeClass('active');
@@ -229,30 +236,30 @@ if(modeEnabled('translation')) {
                 else {
                     handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
                     autoSelectDstLang();
-                    refreshChosenPath();
                     refreshChainGraph();
+                    refreshChosenPath();
                 }
             });
 
             $('#dstLangSelect').change(function () {
                 handleNewCurrentLang(curDstLang = $(this).val(), recentDstLangs, 'dstLang', true);
-                refreshChosenPath();
                 refreshChainGraph();
+                refreshChosenPath();
             });
 
             $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
                 curSrcLang = $(this).attr('data-code');
                 handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
                 autoSelectDstLang();
-                refreshChosenPath();
                 refreshChainGraph();
+                refreshChosenPath();
             });
 
             $('#dstLanguages').on('click', '.languageName:not(.text-muted)', function () {
                 curDstLang = $(this).attr('data-code');
                 handleNewCurrentLang(curDstLang, recentDstLangs, 'dstLang');
-                refreshChosenPath();
                 refreshChainGraph();
+                refreshChosenPath();
             });
 
             $('.srcLang:not(#detect)').click(function () {
@@ -288,47 +295,9 @@ if(modeEnabled('translation')) {
             });
         }
 
-        function getChainedDstLangs(srcLang) {
-            var targets = [];
-            var targetsSeen = {};
-            targetsSeen[srcLang] = true;
-            var targetLists = [pairs[srcLang]];
-
-            while(targetLists.length > 0) {
-                $.each(targetLists.pop(), function (i, trgt) {
-                    if(!targetsSeen[trgt]) {
-                        targets.push(trgt);
-                        if(pairs[trgt]) {
-                            targetLists.push(pairs[trgt]);
-                        }
-                        targetsSeen[trgt] = true;
-                    }
-                });
-            }
-
-            return targets;
-        }
-
-        if(config.TRANSLATION_CHAINING) {
-            $('.chaining').show();
-            $.each(pairs, function (srcLang, _dstLangs) {
-                chainedPairs[srcLang] = getChainedDstLangs(srcLang);
-            });
-            updatePairList();
-            populateTranslationList();
-        }
-
         $('.translateBtn').click(function () {
             translate();
             persistChoices('translator', true);
-        });
-
-        $('#chooseChain').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
-        $('input#chainedTranslation').change(function () {
-            updatePairList();
-            populateTranslationList();
-            persistChoices('translator');
-            $('#chooseChain').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
         });
 
         var timer, lastPunct = false;
@@ -370,12 +339,75 @@ if(modeEnabled('translation')) {
             persistChoices('translator');
         });
 
+        initChainGraph();
+        refreshChosenPath();
         setupLanguageSelectors();
         setupTextTranslation();
         setupWebpageTranslation();
         setupDocTranslation();
-        initChainGraph();
     });
+}
+
+function updatePairList() {
+    pairs = $('input#chainedTranslation').prop('checked') ? chainedPairs : originalPairs;
+}
+
+function getShortestChainedPaths() {
+    var paths = {};
+    $.each(srcLangs, function (i, src) {
+        var langs = filterLangList(srcLangs.concat(dstLangs).filter(onlyUnique));
+        var dists = {};
+        dists[src] = 0;
+        dists.dummy = Number.MAX_SAFE_INTEGER;
+        var prevs = {};
+
+        while(langs.length > 0) {
+            var mini = 'dummy';
+            $.each(langs, function (i, lang) {
+                if((dists[lang] !== undefined) && (dists[lang] < dists[mini])) {
+                    mini = lang;
+                }
+            });
+            langs.splice(langs.indexOf(mini), 1);
+            if(pairs[mini]) {
+                $.each(pairs[mini], function (i, trgt) {
+                    if(langs.indexOf(trgt) !== -1) {
+                        var newdist;
+                        if(dists[mini] === undefined) {
+                            dists[mini] = Number.MAX_SAFE_INTEGER;
+                            newdist = Number.MAX_SAFE_INTEGER;
+                        }
+                        else {
+                            newdist = dists[mini] + weights[mini][trgt];
+                        }
+                        if((dists[trgt] === undefined) || (dists[mini] + weights[mini][trgt] < dists[trgt])) {
+                            dists[trgt] = newdist;
+                            prevs[trgt] = mini;
+                        }
+                    }
+                });
+            }
+        }
+
+        paths[src] = {};
+        $.each(Object.keys(prevs), function (i, trgt) {
+            var prev = trgt;
+            var path = [trgt];
+            while(prevs[prev]) {
+                prev = prevs[prev];
+                path.push(prev);
+            }
+            path.reverse();
+            paths[src][trgt] = {'path': path, 'weight': getWeight(path)};
+        });
+    });
+
+    $.each(srcLangs, function (i, src) {
+        chainedPairs[src] = Object.keys(paths[src]);
+    });
+
+    return paths;
+    // chainedPaths[src][dst] = [{path: [a, b, c], weight: 2}, {path: [a, d, e, c], weight: 3}]
 }
 
 function initChainGraph() {
@@ -387,8 +419,8 @@ function initChainGraph() {
     choose.append('br');
     choose.append('div').attr('id', 'validPaths')
         .append('b')
-            .text('Valid Paths:')
-            .append('br');
+        .text('Valid Paths:')
+        .append('br');
 
     /* eslint-disable no-magic-numbers */
     svg.append('svg:defs').append('svg:marker')
@@ -398,7 +430,7 @@ function initChainGraph() {
         .attr('markerWidth', 3)
         .attr('markerHeight', 3)
         .attr('orient', 'auto')
-      .append('svg:path')
+        .append('svg:path')
         .attr('d', 'M0,-5L10,0L0,5')
         .attr('fill', '#999');
 
@@ -409,7 +441,7 @@ function initChainGraph() {
         .attr('markerWidth', 3)
         .attr('markerHeight', 3)
         .attr('orient', 'auto')
-      .append('svg:path')
+        .append('svg:path')
         .attr('d', 'M10,-5L0,0L10,5')
         .attr('fill', '#999');
 
@@ -429,7 +461,7 @@ function boundary(dist, max) {
     return max - nodeSize;
 }
 
-function paths(src, trgt, curPath, seens) {
+function getAllPaths(src, trgt, curPath, seens) {
     if(!originalPairs[src]) return [];
     var rets = [];
     var i, j;
@@ -437,24 +469,31 @@ function paths(src, trgt, curPath, seens) {
         var lang = originalPairs[src][i];
         var newPath = curPath.slice();
         newPath.push(lang);
-        var oldSeens = $.extend(true, {}, seens);
+        var newSeens = $.extend(true, {}, seens);
         if(lang === trgt) rets.push(newPath);
-        else if(!(lang in seens)) {
-            seens[lang] = [];
-            var recurse = paths(lang, trgt, newPath, seens);
+        else if(newSeens[lang] === undefined) {
+            newSeens[lang] = [];
+            var recurse = getAllPaths(lang, trgt, newPath, newSeens);
             for(j = 0; j < recurse.length; j++) {
                 rets.push(recurse[j]);
-                seens[lang].push(recurse[j].slice(recurse[j].indexOf(lang)));
+                newSeens[lang].push(recurse[j].slice(recurse[j].indexOf(lang)));
             }
         }
         else {
-            for(j = 0; j < seens[lang].length; j++) {
-                rets.push(newPath.concat(seens[lang][j]));
+            for(j = 0; j < newSeens[lang].length; j++) {
+                rets.push(newPath.concat(newSeens[lang][j]));
             }
         }
-        seens = oldSeens;
     }
     return rets;
+}
+
+function getWeight(path) {
+    var weight = 0;
+    for(var i = 0; i < path.length - 1; i++) {
+        weight += weights[path[i]][path[i + 1]];
+    }
+    return weight;
 }
 
 function displayPaths(paths) {
@@ -503,22 +542,22 @@ function displayPaths(paths) {
 
     var link = svg.append('g')
         .attr('class', 'links')
-      .selectAll('path')
-      .data(graph.links)
-      .enter()
-      .append('path')
-      .style('marker-start', function (d) { return d.left ? 'url(#start-arrow)' : ''; })
-      .style('marker-end', function (d) { return d.right ? 'url(#end-arrow)' : ''; })
-      .attr('id', function (d) { return d.source + '-' + d.target; })
-      .classed('some_path', false)
-      .classed('all_path', false);
+        .selectAll('path')
+        .data(graph.links)
+        .enter()
+        .append('path')
+        .style('marker-start', function (d) { return d.left ? 'url(#start-arrow)' : ''; })
+        .style('marker-end', function (d) { return d.right ? 'url(#end-arrow)' : ''; })
+        .attr('id', function (d) { return d.source + '-' + d.target; })
+        .classed('somePath', false)
+        .classed('allPath', false);
 
     var node = svg.append('g')
         .attr('class', 'nodes')
-      .selectAll('g')
-      .data(graph.nodes)
-      .enter()
-      .append('g');
+        .selectAll('g')
+        .data(graph.nodes)
+        .enter()
+        .append('g');
 
     var circ = node.append('circle');
     circ
@@ -531,7 +570,7 @@ function displayPaths(paths) {
             .on('end', dragEnded))
         .on('click', nodeClicked)
         .append('title')
-            .text(function (d) { return d.id; });
+        .text(function (d) { return d.id; });
     node
         .append('text')
         .attr('class', 'langs')
@@ -580,33 +619,17 @@ function displayPaths(paths) {
 }
 
 function refreshChosenPath() {
-    chosenPath = [curSrcLang, curDstLang];
-    if($('input#chainedTranslation').prop('checked')) {
-        $.jsonp({
-            url: config.APY_URL + '/translateChain?langpairs=' + curSrcLang + '|' + curDstLang,
-            beforeSend: ajaxSend,
-            success: function (data) {
-                chosenPath = data.responseData.translationChain;
-                var i = 0;
-                for(i = 0; i < chosenPath.length - 1; i++) {
-                    d3.select('#' + chosenPath[i] + '-' + chosenPath[i + 1]).classed('all_path', true);
-                    d3.select('#' + chosenPath[i + 1] + '-' + chosenPath[i]).classed('all_path', true);
-                }
-                d3.select('#validPaths')
-                    .append('a')
-                    .attr('data-dismiss', 'modal')
-                    .text(chosenPath.join(' → ') + ' (default)');
-                d3.select('#validPaths').append('br');
-            },
-            error: function () {
-                console.error('Failed to get translation path');
-                translationNotAvailable();
-            },
-            complete: function () {
-                ajaxComplete();
-            }
-        });
+    chosenPath = chainedPaths[curSrcLang][curDstLang].path;
+    var i = 0;
+    for(i = 0; i < chosenPath.length - 1; i++) {
+        d3.select('#' + chosenPath[i] + '-' + chosenPath[i + 1]).classed('allPath', true);
+        d3.select('#' + chosenPath[i + 1] + '-' + chosenPath[i]).classed('allPath', true);
     }
+    d3.select('#validPaths')
+        .append('a')
+        .attr('data-dismiss', 'modal')
+        .text(chosenPath.join(' → ') + ' (default) (-' + chainedPaths[curSrcLang][curDstLang].weight + ')');
+    d3.select('#validPaths').append('br');
 }
 
 function refreshChainGraph() {
@@ -617,7 +640,7 @@ function refreshChainGraph() {
 
         var tmpSeens = {};
         tmpSeens[curSrcLang] = [];
-        curPaths = paths(curSrcLang, curDstLang, [curSrcLang], tmpSeens);
+        curPaths = getAllPaths(curSrcLang, curDstLang, [curSrcLang], tmpSeens);
         displayPaths(curPaths);
         simulation.alpha(1).restart();
         d3.select('.endpoint').dispatch('click');
@@ -649,8 +672,8 @@ function dragEnded(d) {
 function nodeClicked() {
     var curSel = !d3.select(this).classed('selected');
     d3.select(this).classed('selected', curSel);
-    d3.selectAll('path').classed('some_path', false);
-    d3.selectAll('path').classed('all_path', false);
+    d3.selectAll('path').classed('somePath', false);
+    d3.selectAll('path').classed('allPath', false);
     d3.selectAll('#validPaths > a').remove();
     d3.selectAll('#validPaths > br').remove();
 
@@ -663,27 +686,36 @@ function nodeClicked() {
         }
         highPaths.push({'path': d, 'some': some, 'all': all});
     });
+    var highWeights = {};
+    highPaths.forEach(function (d) {
+        if(d.all) {
+            highWeights[d.path.join(' ')] = getWeight(d.path);
+        }
+    });
+    highPaths.sort(function (path1, path2) {
+        return highWeights[path1.path.join(' ')] - highWeights[path2.path.join(' ')];
+    });
     highPaths.forEach(function (d) {
         var i;
         var path = d.path;
         if(d.some) {
             for(i = 0; i < path.length - 1; i++) {
-                d3.select('#' + path[i] + '-' + path[i + 1]).classed('some_path', d.some);
-                d3.select('#' + path[i + 1] + '-' + path[i]).classed('some_path', d.some);
+                d3.select('#' + path[i] + '-' + path[i + 1]).classed('somePath', d.some);
+                d3.select('#' + path[i + 1] + '-' + path[i]).classed('somePath', d.some);
             }
         }
         if(d.all) {
             for(i = 0; i < path.length - 1; i++) {
-                d3.select('#' + path[i] + '-' + path[i + 1]).classed('all_path', d.all);
-                d3.select('#' + path[i + 1] + '-' + path[i]).classed('all_path', d.all);
+                d3.select('#' + path[i] + '-' + path[i + 1]).classed('allPath', d.all);
+                d3.select('#' + path[i + 1] + '-' + path[i]).classed('allPath', d.all);
             }
-            if(d.path.length > d3.selectAll('.selected').size() - 1) {
+            if(path.length > d3.selectAll('.selected').size() - 1) {
                 d3.select('#validPaths')
                     .append('a')
                     .attr('data-dismiss', 'modal')
-                    .text(d.path.join(' → '))
+                    .text(path.join(' → ') + ' (-' + highWeights[path.join(' ')] + ')')
                     .on('click', function (a, b, validPath) {
-                        chosenPath = validPath[0].text.split(' → ');
+                        chosenPath = validPath[0].text.slice(0, validPath[0].text.lastIndexOf('(') - 1).split(' → ');
                         translate(true);
                     });
                 d3.select('#validPaths').append('br');
@@ -691,14 +723,6 @@ function nodeClicked() {
         }
     });
 }
-
-/*
-function onClear(d) {
-    d3.selectAll('circle').classed('selected', false);
-    d3.selectAll('path').classed('some_path', false);
-    d3.selectAll('path').classed('all_path', false);
-}
-*/
 
 function getPairs() {
     var deferred = $.Deferred();
@@ -716,7 +740,7 @@ function getPairs() {
         else {
             console.warn('Translation pairs cache ' + (pairs === null ? 'stale' : 'miss') + ', retrieving from server');
             $.jsonp({
-                url: config.APY_URL + '/list?q=pairs',
+                url: config.APY_URL + '/list?q=pairs&weights=yes',
                 beforeSend: ajaxSend,
                 success: function (data) {
                     handlePairs(data.responseData);
@@ -736,8 +760,10 @@ function getPairs() {
 
     function handlePairs(pairData) {
         if(!pairData) {
-            populateTranslationList();
             restoreChoices('translator');
+            chainedPaths = getShortestChainedPaths();
+            updatePairList();
+            populateTranslationList();
             refreshChosenPath();
             translate(true);
             return;
@@ -748,6 +774,15 @@ function getPairs() {
             }
             srcLangs.push(pair.sourceLanguage);
             dstLangs.push(pair.targetLanguage);
+            if(!weights[pair.sourceLanguage]) {
+                weights[pair.sourceLanguage] = {};
+            }
+            if(pair.weight) {
+                weights[pair.sourceLanguage][pair.targetLanguage] = pair.weight;
+            }
+            else {
+                weights[pair.sourceLanguage][pair.targetLanguage] = 1;
+            }
 
             if(pairs[pair.sourceLanguage]) {
                 pairs[pair.sourceLanguage].push(pair.targetLanguage);
@@ -770,8 +805,10 @@ function getPairs() {
             recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
         }
 
-        populateTranslationList();
         restoreChoices('translator');
+        chainedPaths = getShortestChainedPaths();
+        updatePairList();
+        populateTranslationList();
         refreshChosenPath();
         translate(true);
     }
@@ -903,16 +940,42 @@ function populateTranslationList() {
         }
     }
 
+    var dstLangsSorted = [];
+    var directHead = 0;
+    var multiHead = 0;
+    $.each(dstLangs, function (i, lang) {
+        if(originalPairs[curSrcLang].indexOf(lang) === -1) {
+            if(pairs[curSrcLang].indexOf(lang) === -1) {
+                dstLangsSorted.push(lang);
+            }
+            else {
+                dstLangsSorted.splice(multiHead, 0, lang);
+                multiHead++;
+            }
+        }
+        else {
+            dstLangsSorted.splice(directHead, 0, lang);
+            directHead++;
+            multiHead++;
+        }
+    });
     for(i = 0; i < numDstCols; i++) {
-        var numDstLang = Math.ceil(dstLangs.length / numDstCols) * i;
+        var numDstLang = Math.ceil(dstLangsSorted.length / numDstCols) * i;
         for(j = numDstLang; j < numDstLang + dstLangsPerCol; j++) {
-            if(numDstLang < dstLangs.length) {
-                langCode = dstLangs[j], langName = getLangByCode(langCode);
+            if(numDstLang < dstLangsSorted.length) {
+                langCode = dstLangsSorted[j], langName = getLangByCode(langCode);
                 $('#dstLanguages .languageCol:eq(' + i + ')')
                     .append(
                         $('<div class="languageName"></div>')
                             .attr('data-code', langCode)
-                            .text(langName)
+                            .text(((j >= directHead) && (j < multiHead))
+                                ? langName + ' (-' + chainedPaths[curSrcLang][langCode].weight + ')' : langName)
+                            .attr('data-toggle', 'tooltip')
+                            .attr('data-placement', 'bottom')
+                            .attr('data-container', '#dstLanguages')
+                            .attr('title', ((j >= directHead) && (j < multiHead))
+                                ? chainedPaths[curSrcLang][langCode].path.join(' → ')
+                                : curSrcLang + ' → ' + langCode)
                     );
             }
         }
@@ -1342,8 +1405,8 @@ function detectLanguage() {
         $('#detectedText').show();
         $('#detectText').hide();
 
-        refreshChosenPath();
         refreshChainGraph();
+        refreshChosenPath();
     }
 
     function handleDetectLanguageErrorResponse() {
@@ -1367,6 +1430,8 @@ function muteLanguages() {
             $(this).addClass('text-muted');
         }
     });
+    $('.languageName[data-toggle="tooltip"]').tooltip();
+    $('.languageName.text-muted[data-toggle="tooltip"]').tooltip('destroy');
     $.each($('.dstLang'), function () {
         if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(this).attr('data-code')) === -1) {
             $(this).addClass('disabledLang').prop('disabled', true);

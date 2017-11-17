@@ -21,7 +21,7 @@
     "detected": "detected",
     "Instant_Translation": "Instant translation",
     "Mark_Unknown_Words": "Mark unknown words",
-    "Multi_Step_Translation": "<a href='https://en.wikipedia.org/wiki/Pivot_language' target='_blank'>Multi-step translation</a> (experimental)",
+    "Multi_Step_Translation": "<a href='https://en.wikipedia.org/wiki/Pivot_language' target='_blank'>Multi-step translation</a> (experimental, marked with +)",
     "Translate_Document": "Translate a document",
     "Drop_Document": "Drop a document",
     "Not_Available": "Translation not yet available!",

@@ -221,6 +221,14 @@ html[dir='rtl'] .languageName {
     cursor: pointer;
 }
 
+#dstLanguages .tooltip.bottom {
+    padding-top: 4px;
+}
+
+#dstLanguages .tooltip.bottom > .tooltip.arrow {
+    border-bottom: 6px solid #000;
+}
+
 html[dir='ltr'] #srcLanguages {
     min-width: 500px;
     right: auto;
@@ -402,17 +410,17 @@ html[dir='rtl'] .pull-left:not(#rtlChecker) { /* sass-lint:disable-line class-na
 
 .links path {
     stroke: #999;
-    stroke-opacity: 0.6;
+    stroke-opacity: .3;
     stroke-width: 4px;
 }
 
-.links path.some_path {
-    stroke: #3dd;
+.links .somePath {
+    stroke-opacity: .7;
 }
 
-.links path.all_path {
+.links .allPath {
     stroke: #0c1;
-    stroke-opacity: 0.8;
+    stroke-opacity: .8;
     stroke-width: 5px;
 }
 
@@ -422,35 +430,34 @@ html[dir='rtl'] .pull-left:not(#rtlChecker) { /* sass-lint:disable-line class-na
     stroke-width: 2px;
 }
 
-.nodes circle.dragging {
+.nodes .dragging {
     fill: #ccc;
 }
 
-.nodes circle.selected {
+.nodes .selected {
     fill: #aff;
 }
 
-.nodes circle.endpoint, .nodes circle.endpoint.selected, .nodes circle.endpoint.neighbor {
+.nodes .endpoint, .nodes .endpoint.selected, .nodes .endpoint.neighbor {
     fill: #ff0;
     stroke-width: 3px;
 }
 
 .langs {
-    text-anchor: middle;
-    font-size: 10pt;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    font-size: 10pt;
     pointer-events: none;
+    text-anchor: middle;
+    user-select: none;
 }
 
 #validPaths {
+    font-size: 12pt;
     position: absolute;
     top: 10px;
-    font-size: 12pt;
 }
 
 #validPaths > a {
