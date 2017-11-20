@@ -516,10 +516,14 @@ function displayPaths(paths) {
         for(var j = 0; j < paths[i].length; j++) {
             var lang = paths[i][j];
             if(ids.indexOf(lang) === -1) {
-                if(lang === source) nodes.push({'id': lang, 'fx': CHAIN_SRC_NODE_X * CHAIN_CHOOSER_WIDTH,
-                    'fy': CHAIN_SRC_NODE_Y * CHAIN_CHOOSER_HEIGHT});
-                else if(lang === target) nodes.push({'id': lang, 'fx': CHAIN_DST_NODE_X * CHAIN_CHOOSER_WIDTH,
-                    'fy': CHAIN_DST_NODE_Y * CHAIN_CHOOSER_HEIGHT});
+                if(lang === source) {
+                    nodes.push({'id': lang, 'fx': CHAIN_SRC_NODE_X * CHAIN_CHOOSER_WIDTH,
+                        'fy': CHAIN_SRC_NODE_Y * CHAIN_CHOOSER_HEIGHT});
+                }
+                else if(lang === target) {
+                    nodes.push({'id': lang, 'fx': CHAIN_DST_NODE_X * CHAIN_CHOOSER_WIDTH,
+                        'fy': CHAIN_DST_NODE_Y * CHAIN_CHOOSER_HEIGHT});
+                }
                 else nodes.push({'id': lang});
                 ids.push(lang);
             }
