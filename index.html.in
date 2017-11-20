@@ -204,7 +204,7 @@
                                           <i class="fa fa-link"></i> <span data-text="Translate_Webpage">Translate a webpage</span>
                                       </button>
                                       <button data-toggle="modal" data-target="#chooseModal" data-keyboard="true" id="chooseChain" class="btn btn-default chaining" style="margin-top: 1em">
-                                          <span data-text="Choose_Chain" class="chaining">Change current translation chain</span>
+                                          <span data-text="Choose_Chain">Change current translation chain</span>
                                       </button>
                                   </div>
                                   <div class="col-lg-3 col-md-6  pull-right">

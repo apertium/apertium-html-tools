@@ -406,7 +406,7 @@ html[dir='rtl'] .pull-left:not(#rtlChecker) { /* sass-lint:disable-line class-na
     float: right !important; /* sass-lint:disable-line no-important */
 }
 
-/* D3 path chooser stuff */
+/* translation path chooser stuff */
 
 .links path {
     stroke: #999;
