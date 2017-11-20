@@ -220,7 +220,7 @@
                                           <label class="pull-right">
                                               <input type="checkbox" id="chainedTranslation" class="chaining">
                                               <span data-text="Multi_Step_Translation" class="chaining">
-                                                  <a href='https://en.wikipedia.org/wiki/Pivot_language' target='_blank'>Multi-step</a> translation (<a href='http://wiki.apertium.org/wiki/Weights'>experimental!</a>)
+                                                  Multi-step translation (experimental!))
                                               </span>
                                           </label>
                                         </div>
@@ -421,6 +421,9 @@
                     </div>
                     <div class="modal-body" id="selectModalBody">
                         <span data-text="Select_Chain_Explanation">Build a translation path in the graph below by clicking on the desired intermediate languages. When one or more valid paths are formed, select one from the 'Valid Paths' below.</span>
+                        <div id="validPaths">
+                            <span data-text="Valid_Paths">Valid Paths:</span>
+                        </div>
                     </div>
                 </div>
             </div>

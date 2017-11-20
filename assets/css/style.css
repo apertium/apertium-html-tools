@@ -456,8 +456,7 @@ html[dir='rtl'] .pull-left:not(#rtlChecker) { /* sass-lint:disable-line class-na
 
 #validPaths {
     font-size: 12pt;
-    position: absolute;
-    top: 10px;
+    margin-top: 10px;
 }
 
 #validPaths > a {

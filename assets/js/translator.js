@@ -419,11 +419,6 @@ function setupChainGraph() {
         .append('svg')
         .attr('width', CHAIN_SELECTER_WIDTH.toString() + 'px')
         .attr('height', CHAIN_SELECTER_HEIGHT.toString() + 'px');
-    select.append('br');
-    select.append('div').attr('id', 'validPaths')
-        .append('b')
-        .text('Valid Paths:')
-        .append('br');
 
     /* eslint-disable no-magic-numbers */
     svg.append('svg:defs').append('svg:marker')

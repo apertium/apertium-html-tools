@@ -24,6 +24,7 @@
     "Multi_Step_Translation": "<a href='https://en.wikipedia.org/wiki/Pivot_language' target='_blank'>Multi-step</a> translation (<a href='http://wiki.apertium.org/wiki/Weights'>experimental!</a>)",
     "Select_Chain": "Change current translation chain",
     "Select_Chain_Explanation": "Build a translation path in the graph below by clicking on the desired intermediate languages. When one or more valid paths are formed, select one from the 'Valid Paths' below.",
+    "Valid_Paths": "<b>Valid Paths:</b><br>",
     "Translate_Document": "Translate a document",
     "Drop_Document": "Drop a document",
     "Not_Available": "Translation not yet available!",
