@@ -205,7 +205,7 @@
                                       </button>
                                       <br>
                                       <div class="chaining" id="selectPath">
-                                          <div class="selected-path">
+                                          <div class="selectedPathBox">
                                               <span data-text="Selected_Path">Current translation path: </span>
                                               <span id="selectedPath"></span>
                                           </div>
