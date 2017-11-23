@@ -457,10 +457,10 @@ html[dir='rtl'] .pull-left:not(#rtlChecker) { /* sass-lint:disable-line class-na
 .selectedPathBox {
     display: inline-block;
     font-size: 14px;
-    margin-bottom: 0em;
+    margin-bottom: 0;
     margin-top: 1em;
     padding: 8px 12px;
-    padding-left: 0px;
+    padding-left: 0;
     vertical-align: middle;
 }
 
