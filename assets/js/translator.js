@@ -45,12 +45,13 @@ if(modeEnabled('translation')) {
             $('.chaining').show();
         }
 
-        $('#selectChain').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
+        $('#selectPath').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
         $('input#chainedTranslation').change(function () {
             updatePairList();
             populateTranslationList();
             persistChoices('translator');
-            $('#selectChain').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
+            refreshChainGraphAndSelectedPath();
+            $('#selectPath').toggleClass('hide', !$('#chainedTranslation').prop('checked'));
         });
 
         function setupTextTranslation() {
@@ -643,8 +644,9 @@ function refreshSelectedPath() {
         d3.select('#validPaths')
             .append('a')
             .attr('data-dismiss', 'modal')
-            .text(selectedPath.join(' → ') + ' (default) (-' + chainedPaths[curSrcLang][curDstLang].weight + ')');
+            .text(selectedPath.join(' → ') + ' (default) (' + chainedPaths[curSrcLang][curDstLang].weight + ')');
         d3.select('#validPaths').append('br');
+        $('#selectedPath').text(selectedPath.join(' → '));
     }
 }
 
@@ -729,9 +731,10 @@ function nodeClicked() {
                 d3.select('#validPaths')
                     .append('a')
                     .attr('data-dismiss', 'modal')
-                    .text(path.join(' → ') + ' (-' + highWeights[path.join(' ')] + ')')
+                    .text(path.join(' → ') + ' (' + highWeights[path.join(' ')] + ')')
                     .on('click', function (a, b, validPath) {
                         selectedPath = validPath[0].text.slice(0, validPath[0].text.lastIndexOf('(') - 1).split(' → ');
+                        $('#selectedPath').text(selectedPath.join(' → '));
                         translate(true);
                     });
                 d3.select('#validPaths').append('br');
@@ -985,7 +988,7 @@ function populateTranslationList() {
                         $('<div class="languageName"></div>')
                             .attr('data-code', langCode)
                             .text(((j >= directHead) && (j < multiHead))
-                                ? langName + ' (-' + chainedPaths[curSrcLang][langCode].weight + ')' : langName)
+                                ? langName + ' (' + chainedPaths[curSrcLang][langCode].weight + ')' : langName)
                             .attr('data-toggle', 'tooltip')
                             .attr('data-placement', 'bottom')
                             .attr('data-container', '#dstLanguages')
