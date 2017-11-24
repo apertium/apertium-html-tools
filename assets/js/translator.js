@@ -375,19 +375,19 @@ function getShortestChainedPaths() {
             });
             langs.splice(langs.indexOf(mini), 1);
             if(pairs[mini]) {
-                $.each(pairs[mini], function (i, trgt) {
-                    if(langs.indexOf(trgt) !== -1) {
+                $.each(pairs[mini], function (i, dst) {
+                    if(langs.indexOf(dst) !== -1) {
                         var newdist;
                         if(dists[mini] === undefined) {
                             dists[mini] = Number.MAX_SAFE_INTEGER;
                             newdist = Number.MAX_SAFE_INTEGER;
                         }
                         else {
-                            newdist = dists[mini] + weights[mini][trgt];
+                            newdist = dists[mini] + weights[mini][dst];
                         }
-                        if((dists[trgt] === undefined) || (dists[mini] + weights[mini][trgt] < dists[trgt])) {
-                            dists[trgt] = newdist;
-                            prevs[trgt] = mini;
+                        if((dists[dst] === undefined) || (dists[mini] + weights[mini][dst] < dists[dst])) {
+                            dists[dst] = newdist;
+                            prevs[dst] = mini;
                         }
                     }
                 });
@@ -395,15 +395,15 @@ function getShortestChainedPaths() {
         }
 
         paths[src] = {};
-        $.each(Object.keys(prevs), function (i, trgt) {
-            var prev = trgt;
-            var path = [trgt];
+        $.each(Object.keys(prevs), function (i, dst) {
+            var prev = dst;
+            var path = [dst];
             while(prevs[prev]) {
                 prev = prevs[prev];
                 path.push(prev);
             }
             path.reverse();
-            paths[src][trgt] = {'path': path, 'weight': getWeight(path)};
+            paths[src][dst] = {'path': path, 'weight': getWeight(path)};
         });
     });
 
@@ -460,10 +460,10 @@ function boundary(dist, max) {
     return max - CHAIN_NODE_SIZE;
 }
 
-function getAllPaths(src, trgt, curPath, seens) {
+function getAllPaths(src, dst, curPath, seens) {
     // Finds all possible chained translation paths between a given source and
-    // target language. Returns a list of the form
-    // [[src, a, trgt], [src, b, c, trgt]]
+    // destination language. Returns a list of the form
+    // [[src, a, dst], [src, b, c, dst]]
 
     if(!originalPairs[src]) return [];
     var rets = [];
@@ -473,10 +473,10 @@ function getAllPaths(src, trgt, curPath, seens) {
         var newPath = curPath.slice();
         newPath.push(lang);
         var newSeens = $.extend(true, {}, seens);
-        if(lang === trgt) rets.push(newPath);
+        if(lang === dst) rets.push(newPath);
         else if(newSeens[lang] === undefined) {
             newSeens[lang] = [];
-            var recurse = getAllPaths(lang, trgt, newPath, newSeens);
+            var recurse = getAllPaths(lang, dst, newPath, newSeens);
             for(j = 0; j < recurse.length; j++) {
                 rets.push(recurse[j]);
                 newSeens[lang].push(recurse[j].slice(recurse[j].indexOf(lang)));
@@ -505,7 +505,7 @@ function displayPaths(paths) {
     var nodes = [];
     var ids = [];
     var source = paths[0][0];
-    var target = paths[0][paths[0].length - 1];
+    var destination = paths[0][paths[0].length - 1];
     var i = 0;
     for(i = 0; i < paths.length; i++) {
         var oldLang = undefined;
@@ -516,7 +516,7 @@ function displayPaths(paths) {
                     nodes.push({'id': lang, 'fx': CHAIN_SRC_NODE_X * CHAIN_SELECTER_WIDTH,
                         'fy': CHAIN_SRC_NODE_Y * CHAIN_SELECTER_HEIGHT});
                 }
-                else if(lang === target) {
+                else if(lang === destination) {
                     nodes.push({'id': lang, 'fx': CHAIN_DST_NODE_X * CHAIN_SELECTER_WIDTH,
                         'fy': CHAIN_DST_NODE_Y * CHAIN_SELECTER_HEIGHT});
                 }
@@ -538,13 +538,13 @@ function displayPaths(paths) {
     graph.nodes = nodes;
     graph.links = [];
     Object.keys(arrows).forEach(function (src) {
-        arrows[src].forEach(function (trgt) {
-            if(arrows[trgt] && arrows[trgt].indexOf(src) !== -1) {
-                graph.links.push({'source': src, 'target': trgt, 'right': true, 'left': true});
-                arrows[trgt].splice(arrows[trgt].indexOf(src), 1);
+        arrows[src].forEach(function (dst) {
+            if(arrows[dst] && arrows[dst].indexOf(src) !== -1) {
+                graph.links.push({'source': src, 'target': dst, 'right': true, 'left': true});
+                arrows[dst].splice(arrows[dst].indexOf(src), 1);
             }
             else {
-                graph.links.push({'source': src, 'target': trgt, 'right': true});
+                graph.links.push({'source': src, 'target': dst, 'right': true});
             }
         });
     });
@@ -572,7 +572,7 @@ function displayPaths(paths) {
     circ
         .attr('r', CHAIN_NODE_SIZE)
         .attr('id', function (d) { return d.id; })
-        .classed('endpoint', function (d) { return (d.id === source || d.id === target); })
+        .classed('endpoint', function (d) { return (d.id === source || d.id === destination); })
         .call(d3.drag()
             .on('start', dragStarted)
             .on('drag', dragged)
@@ -609,20 +609,20 @@ function displayPaths(paths) {
         link.attr('d', function (d) {
             var srcx = boundary(d.source.x, CHAIN_SELECTER_WIDTH),
                 srcy = boundary(d.source.y, CHAIN_SELECTER_HEIGHT),
-                trgtx = boundary(d.target.x, CHAIN_SELECTER_WIDTH),
-                trgty = boundary(d.target.y, CHAIN_SELECTER_HEIGHT);
-            var deltaX = trgtx - srcx,
-                deltaY = trgty - srcy,
+                dstx = boundary(d.target.x, CHAIN_SELECTER_WIDTH),
+                dsty = boundary(d.target.y, CHAIN_SELECTER_HEIGHT);
+            var deltaX = dstx - srcx,
+                deltaY = dsty - srcy,
                 dist = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY)),
                 normX = deltaX / dist,
                 normY = deltaY / dist,
                 sourcePadding = CHAIN_NODE_SIZE * CHAIN_LINK_PADDING,
-                targetPadding = CHAIN_NODE_SIZE * CHAIN_LINK_PADDING,
+                destinationPadding = CHAIN_NODE_SIZE * CHAIN_LINK_PADDING,
                 sourceX = srcx + (sourcePadding * normX),
                 sourceY = srcy + (sourcePadding * normY),
-                targetX = trgtx - (targetPadding * normX),
-                targetY = trgty - (targetPadding * normY);
-            return 'M' + sourceX + ',' + sourceY + 'L' + targetX + ',' + targetY;
+                destinationX = dstx - (destinationPadding * normX),
+                destinationY = dsty - (destinationPadding * normY);
+            return 'M' + sourceX + ',' + sourceY + 'L' + destinationX + ',' + destinationY;
         });
     }
 }
