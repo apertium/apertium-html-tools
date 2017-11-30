@@ -74,7 +74,7 @@
 
         <div id="wrap">
           <nav class="navbar navbar-default" role="navigation">
-              <div class="container posRelative">
+              <div class="container position-relative">
                   <div class="navbar-header">
                       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                           <span class="sr-only">Toggle navigation</span>
@@ -89,7 +89,7 @@
                       </div>
                       <p data-text="tagline" class="tagline"></p>
                   </div>
-                  <div id="localeSelectDiv" class="pull-right hidden-xs">
+                  <div id="localeSelectContainer" class="pull-right hidden-xs">
                       <!-- <i class="icon-globe localeGlobe pull-right"></i> -->
                       <i class="fa fa-globe fa-2x fa-inverse pull-right localeGlobe" id="localeGlobeIcon"></i>
                       <select class="localeSelect pull-right"><option> </option></select>
@@ -125,7 +125,7 @@
                           </div>
                           <div class="form-group hidden-xs">
                               <div class="col-sm-6">
-                                  <button type="button" class="btn btn-sm btn-default pull-left" id="cancelTranslateWebpage">
+                                  <button type="button" class="btn btn-sm btn-default pull-left hide">
                                       <i class="fa fa-arrow-left"></i> <span data-text="Cancel">Cancel</span>
                                   </button>
                                   <div class="btn-group col-sm-11" id="srcLangSelectors">
@@ -368,7 +368,7 @@
               </div>
               <div class="visible-xs">
                   <select class="localeSelect pull-left"><option> </option></select>
-                  <i class="fa fa-globe fa-2x pull-left localeGlobe" id="localeGlobeIconXs"></i>
+                  <i class="fa fa-globe fa-2x pull-left localeGlobe" id="localeGlobeIconXS"></i>
                   <!-- <i class="fa fa-globe localeGlobe pull-left"></i> -->
               </div>
           </div>
@@ -386,7 +386,7 @@
                     </ul>
                     <div class="pull-right well well-sm helpMessage">
                         <span data-text="Notice_Mistake">Notice a mistake?</span>
-                        <a data-toggle="modal" data-target="#aboutModal" data-text="Help_Improve" data-keyboard="true" class="pointerCursor">Help us improve Apertium!</a>
+                        <a data-toggle="modal" data-target="#aboutModal" data-text="Help_Improve" data-keyboard="true" class="helpMessage">Help us improve Apertium!</a>
                     </div>
                     <a id="version" class="text-muted hidden-sm hidden-xs" href="https://github.com/goavki/apertium-html-tools" target="_blank">
                         <small>
@@ -396,7 +396,7 @@
                 </div>
             </div>
 
-            <div class="pull-right well well-sm visible-xs helpMessage" id="helpMessage">
+            <div class="pull-right well well-sm visible-xs helpMessage" id="helpMessageXS">
                 <span data-text="Notice_Mistake">Notice a mistake?</span>
                 <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve" data-keyboard="true">Help us improve Apertium!</a>
             </div>
@@ -416,10 +416,10 @@
                         <div class="row lead">
                             <div class="col-md-6">
                                 <div class="center-block">
-                                    <a href="https://developers.google.com/open-source/soc/" target="_blank" class="nodecoration">
+                                    <a href="https://developers.google.com/open-source/soc/" target="_blank" class="no-decoration">
                                         <img alt="Google Summer of Code" data-src="https://summerofcode.withgoogle.com/static/img/summer-of-code-logo.svg" id="gsocImg">
                                     </a>
-                                    <a href="https://developers.google.com/open-source/gci/" target="_blank" class="nodecoration">
+                                    <a href="https://developers.google.com/open-source/gci/" target="_blank" class="no-decoration">
                                         <img alt="Google Code-In" data-src="https://developers.google.com/open-source/gci/images/logo-icon.png" id="gciImg">
                                     </a>
                                 </div>
@@ -549,7 +549,7 @@
 
                         <div class="center-block" id="apertiumImgContainer">
                             <a href="http://www.apertium.org/" target="_blank">
-                                <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" id="apertiumImg">
+                                <img alt="Apertium" data-src="./img/Apertium.png" class="center-block">
                             </a>
                         </div>
                     </div>
@@ -559,7 +559,7 @@
 
         <div id="noscript">
             <div class="lead text-warning well well-sm" data-text="Enable_JS_Warning"></div>
-            <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" class="noborder" alt=""></p></noscript>
+            <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" class="border-0" alt=""></p></noscript>
         </div>
         <button class="btn btn-default hidden-sm hidden-xs" id="backToTop"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
         <div id="installationNotice" class="hidden-xs hidden-sm alert alert-warning alert-dismissible">
