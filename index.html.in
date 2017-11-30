@@ -218,20 +218,20 @@
                               </div>
 
                               <div class="modal-backdrop" id="fileDropBackdrop">
-                                <div class="well well-lg" id="modalWell">
-                                    <h1 id="dropDocHeader" data-text="Drop_Document">Drop your document</h1>
+                                <div class="well well-lg">
+                                    <h1 data-text="Drop_Document">Drop your document</h1>
                                 </div>
                                 <div class="modal-backdrop" id="fileDropMask"></div>
                               </div>
 
-                              <div id="docTranslation" class="noDisplay">
+                              <div id="docTranslation" class="hide">
                                   <div class="col-sm-6">
                                       <div class="well well-lg">
                                           <input type="file" id="fileInput" accept="text/plain,text/html,text/rtf,application/rtf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.oasis.opendocument.text,application/x-latex,application/x-tex">
-                                          <div class="lead" id="fileName" class="noDisplay"></div>
+                                          <div class="lead" id="fileName" class="hide"></div>
                                           <div id="uploadContainer">
-                                              <span id="uploadError" class="text-danger lead noDisplay"></span>
-                                              <div class="progress progress-striped active noDisplay" id="uploadProgress">
+                                              <span id="uploadError" class="text-danger lead hide"></span>
+                                              <div class="progress progress-striped active hide" id="uploadProgress">
                                                   <div id="fileUploadProgress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                               </div>
                                           </div>
@@ -242,16 +242,16 @@
                                       </div>
                                   </div>
                                   <div class="col-sm-6">
-                                      <div id="fileLoading" class="text-center noDisplay">
+                                      <div id="fileLoading" class="text-center hide">
                                           <i class="fa fa-spinner fa-spin fa-4x"></i>
                                       </div>
                                       <h1>
-                                          <a id="fileDownload" href="#" class="text-center lead noDisplay">
+                                          <a id="fileDownload" href="#" class="text-center lead hide">
                                               <i class="fa fa-download"></i>
                                               <span id="fileDownloadText"></span>
                                           </a>
                                       </h1>
-                                      <p class="noDisplay" id="fileDownloadBrowserWarning" data-text="Download_Browser_Warning">Your browser might not handle downloads correctly. Either right-click and "Save As" that file-name or open this page in Firefox.</p>
+                                      <p class="hide" id="fileDownloadBrowserWarning" data-text="Download_Browser_Warning">Your browser might not handle downloads correctly. Either right-click and "Save As" that file-name or open this page in Firefox.</p>
                                   </div>
                               </div>
                               <div id="translateWebpage">
@@ -468,13 +468,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="display-inline halfEmMargin">
+                            <div class="display-inline licenseCol">
                                 <a href="http://creativecommons.org/licenses/by-sa/3.0/">
                                     <img alt="Creative Commons licence" data-src="./img/cc-by-sa-3.0-88x31.png">
                                 </a>
                             </div>
 
-                            <div class="display-inline halfEmMargin">
+                            <div class="display-inline licenseCol">
                                 <a href="https://www.gnu.org/licenses/gpl.html">
                                     <img alt="GNU GPL License" data-src="./img/gplv3-88x31.png">
                                 </a>

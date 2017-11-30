@@ -137,14 +137,14 @@ html[dir='rtl'] .clearButton {
     z-index: 1000;
 }
 
-#modalWell {
+#fileDropBackdrop .well {
     left: 35%;
     position: absolute;
     text-align: center;
     top: 35%;
 }
 
-.dropDocHeader {
+#fileDropBackdrop h1 {
     font-weight: bold;
 }
 
@@ -153,7 +153,7 @@ html[dir='rtl'] .clearButton {
     z-index: 10000;
 }
 
-.noDisplay {
+.hide {
     display: none;
 }
 
@@ -223,7 +223,7 @@ html[dir='rtl'] .clearButton {
     padding-left: .5em;
 }
 
-.halfEmMargin {
+.licenseCol {
     margin: 0 .5em;
 }
 
@@ -275,7 +275,7 @@ html[dir='rtl'] .clearButton {
     top: .7em;
 }
 
-.apertiumSubLogo+.apertiumLogo {
+.apertiumSubLogo + .apertiumLogo {
     top: .5em;
     z-index: 1;
 }
@@ -333,7 +333,6 @@ html[dir='rtl'] .apertiumLogo {
         padding-right: 5px;
     }
 }
-
 
 /* Translation */
 
@@ -406,9 +405,11 @@ html[dir='rtl'] #srcLanguages {
         position: absolute;
         top: 0;
     }
+
     html[dir='ltr'] .swapLangBtn {
         right: 15px;
     }
+
     html[dir='rtl'] .swapLangBtn {
         left: 15px;
     }
@@ -471,7 +472,7 @@ html[dir='rtl'] #srcLanguages {
     margin-top: 4em;
 }
 
-body>.container {
+body > .container {
     margin-top: 4em;
 }
 
@@ -493,7 +494,7 @@ body {
 }
 
 #push {
-    height: 60px;  /* Set the fixed height of the footer */
+    height: 60px; /* Set the fixed height of the footer */
 }
 
 #footer {
