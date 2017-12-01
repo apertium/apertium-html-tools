@@ -103,6 +103,123 @@ html[dir='rtl'] .clearButton {
     padding-bottom: 10px;
 }
 
+#apertiumLogo {
+    margin-bottom: -.25em;
+}
+
+#localeSelectContainer {
+    width: 35%;
+}
+
+#localeGlobeIcon {
+    padding: 5px 5px 0 0;
+}
+
+#srcLangSelect,
+#dstLangSelect {
+    display: inline-block !important; /* sass-lint:disable-line no-important */
+}
+
+#fileDropBackdrop {
+    display: none;
+    z-index: 1000;
+}
+
+#fileDropBackdrop .well {
+    left: 35%;
+    position: absolute;
+    text-align: center;
+    top: 35%;
+}
+
+#fileDropBackdrop h1 {
+    font-weight: bold;
+}
+
+#fileDropMask {
+    opacity: 0;
+    z-index: 10000;
+}
+
+.hide {
+    display: none;
+}
+
+#uploadProgress {
+    margin-bottom: 0;
+}
+
+#uploadContainer {
+    margin-top: 1em;
+    min-height: 50px;
+}
+
+#fileLoading {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+}
+
+#fileUploadProgress {
+    width: 0%;
+}
+
+#morphAnalyzerOutput {
+    border-spacing: 0;
+}
+
+#localeGlobeIconXS {
+    padding: 5px 0 0 5px;
+}
+
+.display-inline { /* sass-lint:disable-line class-name-format */
+    display: inline-block !important; /* sass-lint:disable-line no-important */
+}
+
+#helpMessageXS {
+    margin-top: 10px;
+}
+
+#maintainer {
+    padding-bottom: 2em;
+}
+
+#byteMarkImg {
+    margin-top: .5em;
+    width: 100%;
+}
+
+#sourceForgeImg {
+    margin-top: .25em;
+    width: 100%;
+}
+
+.helpMessage {
+    cursor: pointer;
+}
+
+#gsocImg {
+    height: 2.5em;
+}
+
+#gciImg {
+    height: 2.5em;
+    padding-left: .5em;
+}
+
+.licenseCol {
+    margin: 0 .5em;
+}
+
+#apertiumImgContainer {
+    margin-bottom: 1.5em;
+}
+
+#apertiumImgContainer img{
+    height: 5em;
+    max-width: 100%;
+}
+
 /* Navbar */
 
 .apertiumBox {
@@ -259,7 +376,7 @@ html[dir='rtl'] #srcLanguages {
 }
 
 #srcLangSelectors {
-   padding-left: 0;
+    padding-left: 0;
 }
 
 @media(min-width: 768px) {
@@ -311,6 +428,10 @@ html[dir='rtl'] #srcLanguages {
     margin-right: 5px;
 }
 
+#translateDoc {
+    margin-top: 1em;
+}
+
 /* Analysis */
 
 .unit {
@@ -318,6 +439,7 @@ html[dir='rtl'] #srcLanguages {
 }
 
 /* No JS Banner */
+
 #noscript {
     position: fixed;
     right: 0;
@@ -342,7 +464,9 @@ body {
     height: 100%; /* The html and body elements cannot have any padding or margin. */
 }
 
+
 /* Wrapper for page content to push down footer */
+
 #wrap {
     height: auto !important; /* sass-lint:disable-line no-important */
     margin: 0 auto -60px; /* Negative indent footer by it's height */
@@ -357,7 +481,9 @@ body {
     height: auto;
 }
 
+
 /* Lastly, apply responsive CSS fixes as necessary */
+
 @media(max-width: 767px) {
     #footer {
         margin-left: -20px;
@@ -383,7 +509,9 @@ body {
     top: 40px;
 }
 
-#version:hover, #version:active, #version:focus {
+#version:hover,
+#version:active,
+#version:focus {
     text-decoration: none;
 }
 
