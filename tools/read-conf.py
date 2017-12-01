@@ -7,12 +7,28 @@ import re
 import sys
 
 
-def getlist(conf_section, key, fallback=None):
-    string = conf_section.get(key, fallback=fallback)
-    if string:
-        return re.split(r"[, ]+", string)
-    else:
-        return fallback
+def get_value(conf_APY, key, dtype, fallback=None):
+    return {
+        'string': get_string,
+        'list': get_list,
+        'bool': get_bool,
+        'int': get_int
+    }[dtype](conf_APY, key, fallback)
+
+def get_string(conf_APY, key, fallback=None):
+    return conf_APY.get(key, fallback=fallback)
+
+def get_list(conf_APY, key, fallback=None):
+    string = get_string(conf_APY, key, fallback)
+    return None if string is None else re.split(r"[, ]+", string)
+
+def get_bool(conf_APY, key, fallback=None):
+    fallback = False if fallback is None else bool(fallback)
+    return conf_APY.getboolean(key, fallback=fallback)
+
+def get_int(conf_APY, key, fallback=None):
+    fallback = 0 if fallback is None else int(fallback)
+    return conf_APY.getint(key, fallback=fallback)
 
 def check_config(conf, result):
     # Some error checking:
@@ -32,32 +48,6 @@ def load_conf(filename):
         conf.read_file(f)
     conf_APY = conf['APY']
     result = {
-        'HTML_URL'                       : conf_APY.get('HTML_URL', fallback="http://www.apertium.org"),
-        'APY_URL'                        : conf_APY.get('APY_URL', fallback="http://apy.projectjj.com"),
-
-        'SUBTITLE'                       : conf_APY.get('SUBTITLE', fallback=None),
-        'SUBTITLE_COLOR'                 : conf_APY.get('SUBTITLE_COLOR', fallback=None),
-
-        'ALLOWED_LANGS'                  : getlist(conf_APY, 'ALLOWED_LANGS', fallback=None),
-        'ALLOWED_VARIANTS'               : getlist(conf_APY, 'ALLOWED_VARIANTS', fallback=None),
-        'ALLOWED_PAIRS'                  : getlist(conf_APY, 'ALLOWED_PAIRS', fallback=None),
-
-        'ENABLED_MODES'                  : getlist(conf_APY, 'ENABLED_MODES', fallback=["translation"]),
-        'DEFAULT_MODE'                   : conf_APY.get('DEFAULT_MODE', fallback="translation"),
-        'TRANSLATION_CHAINING'           : conf_APY.getboolean('TRANSLATION_CHAINING', fallback=False),
-
-        'DEFAULT_LOCALE'                 : conf_APY.get('DEFAULT_LOCALE', fallback="eng"),
-
-        'SHOW_NAVBAR'                    : conf_APY.getboolean('SHOW_NAVBAR', fallback=False),
-
-        'PIWIK_SITEID'                   : conf_APY.get('PIWIK_SITEID', fallback=None),
-        'PIWIK_URL'                      : conf_APY.get('PIWIK_URL', fallback=None),
-
-        'LIST_REQUEST_CACHE_EXPIRY'      : conf_APY.getint('LIST_REQUEST_CACHE_EXPIRY', fallback=24),
-        'LANGUAGE_NAME_CACHE_EXPIRY'     : conf_APY.getint('LANGUAGE_NAME_CACHE_EXPIRY', fallback=24),
-        'LOCALIZATION_CACHE_EXPIRY'      : conf_APY.getint('LOCALIZATION_CACHE_EXPIRY', fallback=24),
-        'AVAILABLE_LOCALES_CACHE_EXPIRY' : conf_APY.getint('AVAILABLE_LOCALES_CACHE_EXPIRY', fallback=24),
-
         'REPLACEMENTS'                   : {k: v for k, v in conf['REPLACEMENTS'].items()},
         # These are filled at various places by javascript:
         'LANGNAMES': None,
@@ -67,6 +57,27 @@ def load_conf(filename):
         'ANALYZERS': None,
         'TAGGERS': None
     }
+
+    with open('tools/conf-fields.txt', 'r') as fields:
+        lines = fields.readlines()
+        lines = [line.strip() for line in lines]
+
+        for line in lines:
+            if len(line) == 0:
+                continue
+
+            parts = line.split('|', 2)
+            parts = [part.strip() for part in parts]
+
+            key = parts[0]
+            dtype = parts[1]
+
+            if len(parts) == 3:
+                fallback = parts[2]
+                result[key] = get_value(conf_APY, key, dtype, fallback)
+            else:
+                result[key] = get_value(conf_APY, key, dtype)
+
     check_config(conf, result)
     return result
 
