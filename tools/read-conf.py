@@ -69,7 +69,7 @@ def load_dtypes():
     return dtypes
 
 def load_conf(filename, filename_custom):
-    conf = configparser.ConfigParser()
+    conf = configparser.ConfigParser(allow_no_value=True)
     conf.optionxform = str
 
     with open(filename, 'r') as f:
