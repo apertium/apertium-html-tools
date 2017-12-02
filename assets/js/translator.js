@@ -6,6 +6,7 @@ var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var translateRequest;
+var recaptchaRenderCallback;
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
@@ -31,7 +32,7 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         synchronizeTextareaHeights();
-        var recaptchaRenderCallback = function () {
+        recaptchaRenderCallback = function () {
             grecaptcha.render('suggestRecaptcha', {
                 'sitekey': config.SUGGESTIONS.recaptcha_site_key
             });
