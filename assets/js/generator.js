@@ -2,10 +2,13 @@ var generators = {}, generatorData = {};
 var currentGeneratorRequest;
 
 /* exported getGenerators */
+/* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
+    localizeInterface, getLangByCode, sendEvent, restoreChoices, callApy, apyRequestTimeout */
+/* global ENTER_KEY_CODE */
 
 if(modeEnabled('generation')) {
     $(document).ready(function () {
-        $('#generate').click(function () {
+        $('#generateForm').submit(function () {
             generate();
             persistChoices('generator', true);
         });
@@ -140,6 +143,12 @@ function populateSecondaryGeneratorList() {
 }
 
 function generate() {
+    var input = $('#morphGeneratorInput').val();
+
+    if($('#primaryGeneratorMode').val() === null || input.trim() === '') {
+        return;
+    }
+
     var generatorMode = generators[$('#primaryGeneratorMode').val()].length > 1
         ? $('#secondaryGeneratorMode').val()
         : generators[$('#primaryGeneratorMode').val()][0];
@@ -149,33 +158,36 @@ function generate() {
 
     if(currentGeneratorRequest) {
         currentGeneratorRequest.abort();
+        clearTimeout(apyRequestTimeout);
     }
 
-    currentGeneratorRequest = $.jsonp({
-        url: config.APY_URL + '/generate',
-        beforeSend: ajaxSend,
+    currentGeneratorRequest = callApy({
+        data: {
+            'lang': generatorMode,
+            'q': input
+        },
+        success: handleGenerateSuccessResponse,
+        error: handleGenerateErrorResponse,
         complete: function () {
             ajaxComplete();
             currentGeneratorRequest = undefined;
-        },
-        data: {
-            'lang': generatorMode,
-            'q': $('#morphGeneratorInput').val()
-        },
-        success: function (data) {
-            $('#morphGenOutput').empty();
-            for(var i = 0; i < data.length; i++) {
-                var div = $('<div data-toggle="tooltip" data-placement="auto" data-html="true"></div>');
-                var strong = $('<strong></strong>').text(data[i][1].trim());
-                var span = $('<span></span>').html('&nbsp;&nbsp;&#8620;&nbsp;&nbsp;' + data[i][0]);
-                div.append(strong).append(span);
-                $('#morphGenOutput').append(div);
-            }
-            $('#morphGenOutput').removeClass('blurred');
-        },
-        error: function (xOptions, error) {
-            $('#morphGenOutput').text(error);
-            $('#morphGenOutput').removeClass('blurred');
         }
-    });
+    }, '/generate');
+}
+
+function handleGenerateSuccessResponse(data) {
+    $('#morphGenOutput').empty();
+    for(var i = 0; i < data.length; i++) {
+        var div = $('<div data-toggle="tooltip" data-placement="auto" data-html="true"></div>');
+        var strong = $('<strong></strong>').text(data[i][1].trim());
+        var span = $('<span></span>').html('&nbsp;&nbsp;&#8620;&nbsp;&nbsp;' + data[i][0]);
+        div.append(strong).append(span);
+        $('#morphGenOutput').append(div);
+    }
+    $('#morphGenOutput').removeClass('blurred');
+}
+
+function handleGenerateErrorResponse(xOptions, error) {
+    $('#morphGenOutput').text(error);
+    $('#morphGenOutput').removeClass('blurred');
 }

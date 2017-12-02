@@ -8,16 +8,34 @@ var localizeReacaptchaAlternativeLanguages = {'zh': 'zh-TW', 'hrv': 'hr', 'srp':
 /* eslint-enable max-len */
 var languagesInverse = {}, iso639CodesInverse = {};
 var localizedLanguageCodes = {}, localizedLanguageNames = {};
+
+/* global config, getPairs, getGenerators, getAnalyzers, persistChoices, getURLParam, cache, ajaxSend, ajaxComplete, sendEvent,
+    srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
+    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
+
 var dynamicLocalizations = {
-    'Not_Available': 'Translation not yet available!',
-    'detected': 'detected',
-    'File_Too_Large': 'File is too large!',
-    'Format_Not_Supported': 'Format not supported!',
-    'Download_File': 'Download {{fileName}}',
+    'fallback': {
+        'Not_Available': 'Translation not yet available!',
+        'detected': 'detected',
+        'File_Too_Large': 'File is too large!',
+        'Format_Not_Supported': 'Format not supported!',
+        'Download_File': 'Download {{fileName}}'
+    },
     'Suggest_Sentence': 'How would you suggest we translate {{targetWordCode}}?',
     'Suggest_Title': 'Improve Apertium\'s translation',
     'Suggest_Placeholder': 'New word'
 };
+
+function getDynamicLocalization(stringKey) {
+    var globalLocale = dynamicLocalizations[locale] &&
+        dynamicLocalizations[locale][stringKey];
+    if(globalLocale && !(globalLocale.match('%%UNAVAILABLE%%'))) {
+        return globalLocale;
+    }
+    else {
+        return dynamicLocalizations.fallback[stringKey];
+    }
+}
 
 var localizedHTML = false;
 
@@ -53,6 +71,17 @@ $(document).ready(function () {
     }
 
     $.when.apply($, deferredItems).then(function () {
+        if(config.LOCALES) {
+            if(!config.LOCALES.hasOwnProperty(locale)) { // in case of bad caching
+                for(var k in config.LOCALES) { // just pick one that exists
+                    locale = k;
+                    break;
+                }
+            }
+        }
+        else {
+            console.warn('No config.LOCALES');
+        }
         $('.localeSelect').val(locale);
         localizeEverything(localizedHTML);
         persistChoices('localization');
@@ -78,13 +107,15 @@ $(document).ready(function () {
         localizeInterface();
         localizeStrings(stringsFresh);
         if($('#translatedText').hasClass('notAvailable')) {
-            $('#translatedText').text(dynamicLocalizations['Not_Available']);
+            $('#translatedText').text(getDynamicLocalization('Not_Available'));
         }
 
         var pathname = window.location.pathname;
 
         if(window.history.replaceState && !pathname.endsWith('/index.debug.html')) {
-            var urlParams = [], urlParamNames = ['dir', 'choice', 'q', 'qA', 'qG'];
+            var urlParams = [],
+                // TODO: Shouldn't this list be in persistence.js, and this function renamed "removeUrlparamsThatWeDontRecognize"?
+                urlParamNames = ['dir', 'choice', 'q', 'qA', 'qG', 'qP'];
             $.each(urlParamNames, function () {
                 var urlParam = getURLParam(this);
                 if(urlParam) {
@@ -126,7 +157,7 @@ function getLocale() {
                 beforeSend: ajaxSend,
                 success: function (data) {
                     for(var i = 0; i < data.length; i++) {
-                        localeGuess = data[i];
+                        var localeGuess = data[i];
                         if(localeGuess.indexOf('-') !== -1) {
                             localeGuess = localeGuess.split('-')[0];
                         }
@@ -141,8 +172,8 @@ function getLocale() {
                     }
                 },
                 error: function () {
-                    console.error('Failed to determine locale, defaulting to eng');
-                    locale = 'eng';
+                    console.error('Failed to determine locale,  defaulting to ' + config.DEFAULT_LOCALE);
+                    locale = config.DEFAULT_LOCALE;
                 },
                 complete: function () {
                     ajaxComplete();
@@ -233,9 +264,11 @@ function generateLanguageList() {
 }
 
 function localizeLanguageNames(localizedNamesFromJSON) {
-    if(config.LANGNAMES[locale]) {
-        handleLocalizedNames(config.LANGNAMES[locale]);
-        cache(locale + '_names', config.LANGNAMES[locale]);
+    var localizedNames;
+    if(config.LANGNAMES && locale in config.LANGNAMES) {
+        localizedNames = config.LANGNAMES[locale];
+        handleLocalizedNames(localizedNames);
+        cache(locale + '_names', localizedNames);
     }
     else if(localizedNamesFromJSON) {
         handleLocalizedNames(localizedNamesFromJSON);
@@ -244,7 +277,7 @@ function localizeLanguageNames(localizedNamesFromJSON) {
     else {
         var languages = generateLanguageList();
 
-        var localizedNames = readCache(locale + '_names', 'LANGUAGE_NAME');
+        localizedNames = readCache(locale + '_names', 'LANGUAGE_NAME');
         if(localizedNames) {
             handleLocalizedNames(localizedNames);
             cache(locale + '_names', localizedNames);
@@ -293,7 +326,7 @@ function localizeStrings(stringsFresh) {
     else {
         var localizations = readCache(locale + '_localizations', 'LOCALIZATION');
         if(localizations) {
-            handleLocalizations(localizations);
+            handleLocalizations(locale, localizations);
             localizeLanguageNames(localizations['@langNames']);
         }
         else {
@@ -302,9 +335,9 @@ function localizeStrings(stringsFresh) {
                 url: './strings/' + locale + '.json',
                 type: 'GET',
                 dataType: 'text',
-                success: function (data) {
-                    data = JSON.parse(data.replace(/[\n\t\r]/g, ''));
-                    handleLocalizations(data);
+                success: function (response) {
+                    var data = JSON.parse(response.replace(/[\n\t\r]/g, ''));
+                    handleLocalizations(locale, data);
                     localizeLanguageNames(data['@langNames']);
                     cache(locale + '_localizations', data);
                 },
@@ -315,7 +348,7 @@ function localizeStrings(stringsFresh) {
         }
     }
 
-    function handleLocalizations(localizations) {
+    function handleLocalizations(locale, localizations) {
         for(var textId in localizations) {
             if(textId.charAt(0) !== '@') {
                 var text = localizations[textId];
@@ -325,14 +358,14 @@ function localizeStrings(stringsFresh) {
                     }
                 });
                 try {
-                    if(text.lastIndexOf('%%UNAVAILABLE%%') !== 0) {
+                    if(!text.match('%%UNAVAILABLE%%')) {
                         var elem = $('[data-text=' + textId + ']');
-                    }
-                    if(elem.attr('data-textattr')) {
-                        elem.attr(elem.attr('data-textattr'), text);
-                    }
-                    else {
-                        elem.html(text);
+                        if(elem.attr('data-textattr')) {
+                            elem.attr(elem.attr('data-textattr'), text);
+                        }
+                        else {
+                            elem.html(text);
+                        }
                     }
                 }
                 catch(e) {
@@ -342,17 +375,13 @@ function localizeStrings(stringsFresh) {
             }
         }
 
-        if(localizations['Download_File'] && $('#fileDownloadText').text().length) {
+        dynamicLocalizations[locale] = localizations;
+
+        if($('#fileDownloadText').text().length) {
             $('span#fileDownloadText').text(
-                localizations['Download_File'].replace('{{fileName}}', $('a#fileDownload').attr('download'))
+                getDynamicLocalization('Download_File').replace('{{fileName}}', $('a#fileDownload').attr('download'))
             );
         }
-
-        $.each(dynamicLocalizations, function (name) {
-            if(localizations[name] && localizations[name].lastIndexOf('%%UNAVAILABLE%%') !== 0) {
-                dynamicLocalizations[name] = localizations[name];
-            }
-        });
     }
 }
 
@@ -376,8 +405,8 @@ function localizeInterface() {
     $('link.rtlStylesheet').prop('disabled', direction(locale) === 'ltr');
 }
 
-function getLangByCode(code) {
-    code = code ? code.trim() : code;
+function getLangByCode(dirtyCode) {
+    var code = dirtyCode ? dirtyCode.trim() : dirtyCode;
     if(localizedLanguageNames[code]) {
         return localizedLanguageNames[code];
     }
@@ -415,3 +444,7 @@ function getRecaptchaSrc(locale2) {
     }
     return newSrc;
 }
+/*:: export {iso639CodesInverse, iso639Codes, localizeInterface} */
+
+/*:: import {persistChoices} from "./persistence.js" */
+/*:: import {config} from "./config.js" */

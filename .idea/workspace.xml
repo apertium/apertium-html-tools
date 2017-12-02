@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ea61c1f7-707b-4a6c-8c62-8da2d2ac76af" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/.circleci/config.yml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.flowconfig" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.htmlhintrc.json" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/apertium-html-tools.iml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/COPYING" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/assets/css/.sass-lint.yml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/assets/js/.dir-locals.el" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/assets/js/flow.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/assets/js/store.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/assets/js/strict.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/assets/strings/README.md" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/assets/strings/srd.json" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/docker-compose.yml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/docker/Dockerfile" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/docker/apy.Dockerfile" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/docker/nginx.conf" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/interfaces/jquery.js.flow" />
+      <change beforePath="$PROJECT_DIR$/.flake8.ini" afterPath="$PROJECT_DIR$/tools/.flake8.ini" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change beforePath="$PROJECT_DIR$/.hound.yml" afterPath="$PROJECT_DIR$/.hound.yml" />
+      <change beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
+      <change beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change beforePath="$PROJECT_DIR$/assets/css/style.css" afterPath="$PROJECT_DIR$/assets/css/style.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.cerulean.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.cerulean.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.cosmo.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.cosmo.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.cyborg.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.cyborg.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.darkly.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.darkly.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.journal.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.journal.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.lumen.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.lumen.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.paper.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.paper.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.readable.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.readable.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.sandstone.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.sandstone.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.simplex.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.simplex.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.slate.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.slate.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.spacelab.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.spacelab.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.superhero.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.superhero.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.united.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.united.css" />
+      <change beforePath="$PROJECT_DIR$/assets/css/themes/style.yeti.css" afterPath="$PROJECT_DIR$/assets/css/themes/style.yeti.css" />
+      <change beforePath="$PROJECT_DIR$/assets/js/.eslintrc.json" afterPath="$PROJECT_DIR$/assets/js/.eslintrc.json" />
+      <change beforePath="$PROJECT_DIR$/assets/js/analyzer.js" afterPath="$PROJECT_DIR$/assets/js/analyzer.js" />
+      <change beforePath="$PROJECT_DIR$/assets/js/caching.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/assets/js/compat.js" afterPath="$PROJECT_DIR$/assets/js/compat.js" />
+      <change beforePath="$PROJECT_DIR$/assets/js/generator.js" afterPath="$PROJECT_DIR$/assets/js/generator.js" />
+      <change beforePath="$PROJECT_DIR$/assets/js/jquery.jsonp-2.4.0.min.js" afterPath="$PROJECT_DIR$/assets/js/jquery.jsonp-2.4.0.min.js" />
+      <change beforePath="$PROJECT_DIR$/assets/js/localization.js" afterPath="$PROJECT_DIR$/assets/js/localization.js" />
+      <change beforePath="$PROJECT_DIR$/assets/js/persistence.js" afterPath="$PROJECT_DIR$/assets/js/persistence.js" />
+      <change beforePath="$PROJECT_DIR$/assets/js/sandbox.js" afterPath="$PROJECT_DIR$/assets/js/sandbox.js" />
+      <change beforePath="$PROJECT_DIR$/assets/js/translator.js" afterPath="$PROJECT_DIR$/assets/js/translator.js" />
+      <change beforePath="$PROJECT_DIR$/assets/js/util.js" afterPath="$PROJECT_DIR$/assets/js/util.js" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/arg.json" afterPath="$PROJECT_DIR$/assets/strings/arg.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/ava.json" afterPath="$PROJECT_DIR$/assets/strings/ava.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/cat.json" afterPath="$PROJECT_DIR$/assets/strings/cat.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/deu.json" afterPath="$PROJECT_DIR$/assets/strings/deu.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/eng.json" afterPath="$PROJECT_DIR$/assets/strings/eng.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/eus.json" afterPath="$PROJECT_DIR$/assets/strings/eus.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/fin.json" afterPath="$PROJECT_DIR$/assets/strings/fin.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/fra.json" afterPath="$PROJECT_DIR$/assets/strings/fra.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/heb.json" afterPath="$PROJECT_DIR$/assets/strings/heb.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/kaa.json" afterPath="$PROJECT_DIR$/assets/strings/kaa.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/kaz.json" afterPath="$PROJECT_DIR$/assets/strings/kaz.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/kir.json" afterPath="$PROJECT_DIR$/assets/strings/kir.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/locales.json" afterPath="$PROJECT_DIR$/assets/strings/locales.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/localisation-tools.py" afterPath="$PROJECT_DIR$/assets/strings/localisation-tools.py" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/nno.json" afterPath="$PROJECT_DIR$/assets/strings/nno.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/nob.json" afterPath="$PROJECT_DIR$/assets/strings/nob.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/oci.json" afterPath="$PROJECT_DIR$/assets/strings/oci.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/por.json" afterPath="$PROJECT_DIR$/assets/strings/por.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/progresstable.sh" afterPath="$PROJECT_DIR$/assets/strings/progresstable.sh" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/ron.json" afterPath="$PROJECT_DIR$/assets/strings/ron.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/rus.json" afterPath="$PROJECT_DIR$/assets/strings/rus.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/sme.json" afterPath="$PROJECT_DIR$/assets/strings/sme.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/spa.json" afterPath="$PROJECT_DIR$/assets/strings/spa.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/swe.json" afterPath="$PROJECT_DIR$/assets/strings/swe.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/tat.json" afterPath="$PROJECT_DIR$/assets/strings/tat.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/tha.json" afterPath="$PROJECT_DIR$/assets/strings/tha.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/tur.json" afterPath="$PROJECT_DIR$/assets/strings/tur.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/uig.json" afterPath="$PROJECT_DIR$/assets/strings/uig.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/uzb.json" afterPath="$PROJECT_DIR$/assets/strings/uzb.json" />
+      <change beforePath="$PROJECT_DIR$/assets/strings/zho.json" afterPath="$PROJECT_DIR$/assets/strings/zho.json" />
+      <change beforePath="$PROJECT_DIR$/config.conf.example" afterPath="$PROJECT_DIR$/config.conf.example" />
+      <change beforePath="$PROJECT_DIR$/debug-head.html" afterPath="$PROJECT_DIR$/debug-head.html" />
+      <change beforePath="$PROJECT_DIR$/index.html.in" afterPath="$PROJECT_DIR$/index.html.in" />
+      <change beforePath="$PROJECT_DIR$/localise-html.py" afterPath="$PROJECT_DIR$/tools/localise-html.py" />
+      <change beforePath="$PROJECT_DIR$/minify-json.py" afterPath="$PROJECT_DIR$/tools/minify-json.py" />
+      <change beforePath="$PROJECT_DIR$/read-conf.py" afterPath="$PROJECT_DIR$/tools/read-conf.py" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/build/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="21" column="17" lean-forward="true" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
+              <folding>
+                <marker date="1512239090388" expanded="true" signature="5015:5091" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="min.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build/js/min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="65" column="22" lean-forward="true" selection-start-line="65" selection-start-column="22" selection-end-line="65" selection-end-column="22" />
+              <folding>
+                <marker date="1512239089708" expanded="true" signature="90758:90773" ph="..." />
+                <marker date="1512239089708" expanded="true" signature="91550:91565" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="260" />
+    <option name="y" value="20" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="apertium-html-tools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="apertium-html-tools" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="apertium-html-tools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="apertium-html-tools" type="462c0819:PsiDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="" />
+    <property name="last_opened_file_path" value="$USER_HOME$/apertium-original" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.selected.package.standard" value="" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/apertium-html-tools/build/index.html" />
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ea61c1f7-707b-4a6c-8c62-8da2d2ac76af" name="Default" comment="" />
+      <created>1512238921353</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1512238921353</updated>
+      <workItem from="1512238923561" duration="528000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="528000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="260" y="20" width="1400" height="1000" extended-state="1" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39955106" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/build/js/min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="65" column="22" lean-forward="true" selection-start-line="65" selection-start-column="22" selection-end-line="65" selection-end-column="22" />
+          <folding>
+            <marker date="1512239089708" expanded="true" signature="90758:90773" ph="..." />
+            <marker date="1512239089708" expanded="true" signature="91550:91565" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="17" lean-forward="true" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
+          <folding>
+            <marker date="1512239090388" expanded="true" signature="5015:5091" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

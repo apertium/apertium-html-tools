@@ -6,19 +6,17 @@
     color: #777;
 }
 
-p.tagline {
+.tagline {
     color: #333;
     font-weight: normal;
-    margin: 5px 0px 5px;
-}
+    margin: 5px 0;
 }
 
 .languageName:hover:not(.text-muted) {
-    color: white;
-    background-color: #158CBA;
+    background-color: #158cba;
+    color: #fff;
 }
 
 .apertiumBox {
     background-image: url('../img/Apertium_box_small.png');
 }
-

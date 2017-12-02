@@ -1,21 +1,20 @@
 .apertiumLogo {
-    color: whitesmoke;
+    color: #f5f5f5;
 }
 
 .clearButton {
-    border: none;
+    border: 0;
 }
 
 .languageName:not(.text-muted) {
-    color: white;
+    color: #fff;
 }
 
 .localeGlobe {
-    color: #C8C8C8;
+    color: #c8c8c8;
 }
 
 .languageName:hover:not(.text-muted) {
-    color: white;
-    background-color: #272B30;
+    background-color: #272b30;
+    color: #fff;
 }
-

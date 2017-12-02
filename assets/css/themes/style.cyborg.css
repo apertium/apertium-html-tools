@@ -3,14 +3,13 @@
 }
 
 .languageName:not(.text-muted) {
-    color: white;
+    color: #fff;
 }
 
 .languageName:hover:not(.text-muted) {
-    background-color: #2A9FD6;
+    background-color: #2a9fd6;
 }
 
-textarea#translatedText:not(.text-danger) {
-    color: white;
+#translatedText:not(.text-danger) {
+    color: #fff;
 }
-
