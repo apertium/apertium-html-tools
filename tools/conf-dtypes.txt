@@ -28,3 +28,15 @@ available_locales_cache_expiry | int
 
 [REPLACEMENTS]
 maintainer | string
+
+[TRANSLATOR]
+upload_file_size_limit | int
+translation_list_buttons | int
+translation_list_width | int
+translation_list_rows | int
+translation_list_columns | int
+translation_lists_buffer | int
+
+instant_translation_url_delay | int
+instant_translation_punctuation_delay | int
+instant_translation_delay | int

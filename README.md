@@ -24,8 +24,7 @@ Setup
 -------
 
 1. Copy `config.conf.example` to `config.conf` and edit it.
-2. Copy `config-custom.conf.example` to `config-custom.conf` and edit it.
-3. Then type `make`.
+2. Then type `make`.
 
 Running
 ----------
@@ -49,5 +48,5 @@ Contributing
 ------------
 
 [CircleCI](https://circleci.com/) runs tests and generates build artifacts including
-a live copy of Html-tools using `config.conf.example` and `config-custom.conf.example`.
+a live copy of Html-tools using `config.conf.example` and `config-custom.conf`.
 
