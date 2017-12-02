@@ -4,11 +4,11 @@
 /* global srcLangs:true, dstLangs:true, recentSrcLangs: true, recentDstLangs:true, curSrcLang:true, curDstLang:true, locale:true */
 
 var HASH_URL_MAP = {
-        '#translation': 'q',
-        '#webpageTranslation': 'qP',
-        '#analyzation': 'qA',
-        '#generation': 'qG'
-    };
+    '#translation': 'q',
+    '#webpageTranslation': 'qP',
+    '#analyzation': 'qA',
+    '#generation': 'qG'
+};
 
 var store = new Store(config.HTML_URL);
 
