@@ -7,28 +7,27 @@ import re
 import sys
 
 
-def get_value(conf_APY, key, dtype, fallback=None):
+def get_value(conf, key, dtype):
     return {
         'string': get_string,
         'list': get_list,
         'bool': get_bool,
         'int': get_int
-    }[dtype](conf_APY, key, fallback)
+    }[dtype](conf, key)
 
-def get_string(conf_APY, key, fallback=None):
-    return conf_APY.get(key, fallback=fallback)
+def get_string(conf, key):
+    return conf.get(key)
 
-def get_list(conf_APY, key, fallback=None):
-    string = get_string(conf_APY, key, fallback)
+def get_list(conf, key):
+    string = get_string(conf, key)
     return None if string is None else re.split(r"[, ]+", string)
 
-def get_bool(conf_APY, key, fallback=None):
-    fallback = False if fallback is None else bool(fallback)
-    return conf_APY.getboolean(key, fallback=fallback)
+def get_bool(conf, key):
+    return conf.getboolean(key)
 
-def get_int(conf_APY, key, fallback=None):
-    fallback = 0 if fallback is None else int(fallback)
-    return conf_APY.getint(key, fallback=fallback)
+def get_int(conf, key):
+    return conf.getint(key)
+
 
 def check_config(conf, result):
     # Some error checking:
@@ -42,13 +41,41 @@ def check_config(conf, result):
 
     return True
 
-def load_conf(filename):
+def load_dtypes():
+    dtypes = {}
+
+    with open('tools/conf-dtypes.txt', 'r') as fields:
+        lines = fields.readlines()
+        lines = [line.strip() for line in lines]
+
+        section = None
+
+        for line in lines:
+            if len(line) == 0:
+                continue
+
+            parts = line.split('|')
+            parts = [part.strip() for part in parts]
+
+            if len(parts) == 1:
+                section = parts[0][1:-1]
+                dtypes[section] = {}
+            elif len(parts) == 2:
+                key = parts[0]
+                dtype = parts[1]
+                dtypes[section][key] = dtype
+
+    return dtypes
+
+def load_conf(filename, filename_custom):
     conf = configparser.ConfigParser()
+
     with open(filename, 'r') as f:
         conf.read_file(f)
-    conf_APY = conf['APY']
+    with open(filename_custom, 'r') as f:
+        conf.read_file(f)
+
     result = {
-        'REPLACEMENTS'                   : {k: v for k, v in conf['REPLACEMENTS'].items()},
         # These are filled at various places by javascript:
         'LANGNAMES': None,
         'LOCALES': None,
@@ -58,25 +85,11 @@ def load_conf(filename):
         'TAGGERS': None
     }
 
-    with open('tools/conf-fields.txt', 'r') as fields:
-        lines = fields.readlines()
-        lines = [line.strip() for line in lines]
+    dtypes = load_dtypes()
 
-        for line in lines:
-            if len(line) == 0:
-                continue
-
-            parts = line.split('|', 2)
-            parts = [part.strip() for part in parts]
-
-            key = parts[0]
-            dtype = parts[1]
-
-            if len(parts) == 3:
-                fallback = parts[2]
-                result[key] = get_value(conf_APY, key, dtype, fallback)
-            else:
-                result[key] = get_value(conf_APY, key, dtype)
+    for section in conf.sections():
+        for key, raw_value in conf.items(section):
+            result[key] = get_value(conf[section], key, dtypes[section][key])
 
     check_config(conf, result)
     return result
@@ -95,6 +108,7 @@ def print_keyval(result, args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Load config, print stuff')
     parser.add_argument('-c', '--config', default='config.conf', help='Config file name (default: config.conf)')
+    parser.add_argument('-C', '--custom', default='config-custom.conf', help='Config customization file name (default: config-custom.conf)')
     subparsers = parser.add_subparsers(help='Available actions:')
 
     parser_json = subparsers.add_parser('json', help='Print config as json')
@@ -109,10 +123,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    # result = load_conf(args.config)
-    # args.func(result, args)
     if 'func' in args:
-        result = load_conf(args.config)
+        result = load_conf(args.config, args.custom)
         args.func(result, args)
     else:
         # TODO: isn't there some built-in argparse way of saying we

@@ -1,0 +1,30 @@
+[APY]
+html_url | string
+apy_url | string
+
+subtitle | string
+subtitle_color | string
+
+allowed_langs | list
+allowed_variants | list
+allowed_pairs | list
+
+enabled_modes | list
+default_mode | string
+
+translation_chaining | bool
+
+default_locale | string
+
+show_navbar | bool
+
+piwik_siteid | string
+piwik_url | string
+
+list_request_cache_expiry | int
+language_name_cache_expiry | int
+localization_cache_expiry | int
+available_locales_cache_expiry | int
+
+[REPLACEMENTS]
+maintainer | string

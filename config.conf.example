@@ -16,6 +16,8 @@ DEFAULT_MODE = translation
 # Whether or not to enable chained translations
 TRANSLATION_CHAINING = False
 
+DEFAULT_LOCALE = eng
+
 SHOW_NAVBAR = False
 
 #PIWIK_SITEID = 1
