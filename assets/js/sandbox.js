@@ -1,7 +1,6 @@
 var currentSandboxRequest;
 
 /* global config, ajaxSend, ajaxComplete, persistChoices, restoreChoices */
-/* global ENTER_KEY_CODE */
 
 if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
     $(document).ready(function () {
@@ -10,7 +9,7 @@ if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox')
         });
 
         $('#sandboxInput').keydown(function (e) {
-            if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
+            if(e.keyCode === config.ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
                 request();
             }

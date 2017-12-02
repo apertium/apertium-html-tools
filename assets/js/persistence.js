@@ -3,9 +3,7 @@
     populateSecondaryGeneratorList, isSubset, handleNewCurrentLang */
 /* global srcLangs:true, dstLangs:true, recentSrcLangs: true, recentDstLangs:true, curSrcLang:true, curDstLang:true, locale:true */
 
-var URL_PARAM_Q_LIMIT = 1300,
-    DEFAULT_EXPIRY_HOURS = 24,
-    HASH_URL_MAP = {
+var HASH_URL_MAP = {
         '#translation': 'q',
         '#webpageTranslation': 'qP',
         '#analyzation': 'qA',
@@ -26,7 +24,7 @@ function readCache(name, type) {
     if(storedValue && timestamp) {
         var expiryHours = config[type.toUpperCase() + '_CACHE_EXPIRY'];
         if(expiryHours === undefined) {
-            expiryHours = DEFAULT_EXPIRY_HOURS;
+            expiryHours = config.DEFAULT_EXPIRY_HOURS;
         }
         var MS_IN_HOUR = 3600000,
             expiryTime = timestamp + (expiryHours * MS_IN_HOUR);
@@ -122,7 +120,7 @@ function persistChoices(mode, updatePermalink) {
         var qName = HASH_URL_MAP[hash];
 
         if(updatePermalink) {
-            if(qVal !== undefined && qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
+            if(qVal !== undefined && qVal.length > 0 && qVal.length < config.URL_PARAM_Q_LIMIT) {
                 urlParams.push(qName + '=' + encodeURIComponent(qVal));
             }
         }

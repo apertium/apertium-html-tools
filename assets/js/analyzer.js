@@ -4,7 +4,6 @@ var currentAnalyzerRequest;
 /* exported getAnalyzers */
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
     cache, getLangByCode, filterLangList, allowedLang, sendEvent, callApy, apyRequestTimeout */
-/* global ENTER_KEY_CODE */
 
 if(modeEnabled('analyzation')) {
     $(document).ready(function () {
@@ -24,7 +23,7 @@ if(modeEnabled('analyzation')) {
         });
 
         $('#morphAnalyzerInput').keydown(function (e) {
-            if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
+            if(e.keyCode === config.ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
                 analyze();
             }

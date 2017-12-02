@@ -32,7 +32,7 @@ def get_int(conf, key):
 def check_config(conf, result):
     # Some error checking:
     for section in conf.sections():
-        if section not in ['APY', 'REPLACEMENTS', 'TRANSLATOR']:
+        if section not in ['APY', 'PERSISTENCE', 'REPLACEMENTS', 'TRANSLATOR', 'UTIL']:
             raise configparser.Error("\nUnknown section [%s]" % (section,))
 
     # TODO: either remove or check for all sections

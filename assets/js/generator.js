@@ -4,7 +4,6 @@ var currentGeneratorRequest;
 /* exported getGenerators */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
     localizeInterface, getLangByCode, sendEvent, restoreChoices, callApy, apyRequestTimeout */
-/* global ENTER_KEY_CODE */
 
 if(modeEnabled('generation')) {
     $(document).ready(function () {
@@ -24,7 +23,7 @@ if(modeEnabled('generation')) {
         });
 
         $('#morphGeneratorInput').keydown(function (e) {
-            if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
+            if(e.keyCode === config.ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
                 generate();
             }
