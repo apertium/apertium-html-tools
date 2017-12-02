@@ -20,6 +20,7 @@ jobs:
 
       # Build project
       - run: cp config.conf.example config.conf
+      - run: cp config-custom.conf.example config-custom.conf
       - run: make -j8 || true
       
       # Save a live version

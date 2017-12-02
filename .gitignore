@@ -4,6 +4,7 @@ __pycache__/
 # Build
 build/
 config.conf
+config-custom.conf
 assets/js/config.js
 
 # System
