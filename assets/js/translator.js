@@ -1,30 +1,44 @@
-var pairs = {};
+/* @flow */
+
+var pairs = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs = [], dstLangs = [];
 var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
-var textTranslateRequest;
+var translateRequest;
 
-var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
-    UPLOAD_FILE_SIZE_LIMIT = 32E6,
+var UPLOAD_FILE_SIZE_LIMIT = 32E6,
+    TRANSLATION_LIST_BUTTONS = 3,
     TRANSLATION_LIST_WIDTH = 650,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4,
-    SUGGESTION_DESTROY_TIMEOUT = 3000;
+    SUGGESTION_DESTROY_TIMEOUT = 3000,
+    TRANSLATION_LISTS_BUFFER = 50;
+
+var INSTANT_TRANSLATION_URL_DELAY = 500,
+    INSTANT_TRANSLATION_PUNCTUATION_DELAY = 1000,
+    INSTANT_TRANSLATION_DELAY = 3000;
+
+var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-disable-line no-magic-numbers
 
 /* exported getPairs */
+/* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
+    getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
+    callApy, apyRequestTimeout, isURL */
+/* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
+/* global $bu_getBrowser */
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         synchronizeTextareaHeights();
-        recaptchaRenderCallback = function () {
+        var recaptchaRenderCallback = function () {
             grecaptcha.render('suggestRecaptcha', {
                 'sitekey': config.SUGGESTIONS.recaptcha_site_key
             });
         };
 
         var locale2 = iso639Codes[$('.localeSelect').val()];
-        newSrc = getRecaptchaSrc(locale2);
+        var newSrc = getRecaptchaSrc(locale2);
         $.getScript(newSrc);
 
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
@@ -33,180 +47,280 @@ if(modeEnabled('translation')) {
 
             autoSelectDstLang();
         });
+        function updatePairList() {
+            pairs = $('input#chainedTranslation').prop('checked') ? chainedPairs : originalPairs;
+        }
 
-        $('#dstLanguages').on('click', '.languageName:not(.text-muted)', function () {
-            curDstLang = $(this).attr('data-code');
-            handleNewCurrentLang(curDstLang, recentDstLangs, 'dstLang');
-        });
+        function setupTextTranslation() {
+            synchronizeTextareaHeights();
 
-        $('.srcLang').click(function () {
-            curSrcLang = $(this).attr('data-code');
-            $('.srcLang').removeClass('active');
-            $(this).addClass('active');
-            populateTranslationList();
-            refreshLangList(true);
-            muteLanguages();
-            localizeInterface();
-            translateText();
-
-            autoSelectDstLang();
-        });
-
-        $('.dstLang').click(function () {
-            curDstLang = $(this).attr('data-code');
-            $('.dstLang').removeClass('active');
-            $(this).addClass('active');
-            refreshLangList();
-            muteLanguages();
-            localizeInterface();
-            translateText();
-        });
-
-        $('button#translate').click(function () {
-            translate();
-            persistChoices('translator', true);
-        });
-
-        var timer,
-            // eslint-disable-next-line no-magic-numbers
-            lastPunct = false, punct = [46, 33, 58, 63, 47, 45, 190, 171, 49],
-            timeoutPunct = 1000, timeoutOther = 3000;
-        $('#originalText').on('keyup paste', function (event) {
-            if(lastPunct && (event.keyCode === SPACE_KEY_CODE || event.keyCode === ENTER_KEY_CODE)) {
-                // Don't override the short timeout for simple space-after-punctuation
-                return;
-            }
-
-            if(timer && $('#instantTranslation').prop('checked')) {
-                clearTimeout(timer);
-            }
-
-            var timeout;
-            if(punct.indexOf(event.keyCode) !== -1) {
-                timeout = timeoutPunct;
-                lastPunct = true;
-            }
-            else {
-                timeout = timeoutOther;
-                lastPunct = false;
-            }
-
-            timer = setTimeout(function () {
-                if($('#instantTranslation').prop('checked')) {
+            $('#markUnknown').change(function () {
+                if($('div#translateText').is(':visible')) {
                     translateText();
                 }
+                persistChoices('translator');
+            });
+
+            $('.clearButton').click(function () {
+                $('#originalText, #translatedText').val('');
+                $('#originalText').focus();
+                synchronizeTextareaHeights();
+            });
+
+            $(window).resize(synchronizeTextareaHeights);
+
+            $('#originalText').blur(function () {
                 persistChoices('translator', true);
-            }, timeout);
+            });
 
-            synchronizeTextareaHeights();
-        });
+            $('#originalText').on('input propertychange', function () {
+                var disableDetect = this.value === '';
+                $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', disableDetect);
+                $('#detect').toggleClass('disabledLang', disableDetect);
 
-        $(window).resize(synchronizeTextareaHeights);
+                persistChoices('translator');
+            });
+        }
 
-        $('#originalText').blur(function () {
-            persistChoices('translator', true);
-        });
+        function setupWebpageTranslation() {
+            $('button#showTranslateWebpage').click(function () {
+                showTranslateWebpageInterface($('#originalText').val().trim(), true);
+            });
 
-        $('#instantTranslation').change(function () {
-            persistChoices('translator');
-        });
+            $('button#cancelTranslateWebpage').click(function () {
+                if(translateRequest) {
+                    translateRequest.abort();
+                    clearTimeout(apyRequestTimeout);
+                }
 
-        $('#markUnknown').change(function () {
-            translate();
-        });
+                $('input#webpage').attr({
+                    'required': false,
+                    'novalidate': true
+                });
 
-        $('#originalText').on('input propertychange', function () {
-            persistChoices('translator');
-        });
+                $('div#translateWebpage').fadeOut('fast', function () {
+                    $('button#cancelTranslateWebpage').fadeOut('fast', function () {
+                        $('#srcLangSelectors').removeClass('col-sm-9').addClass('col-sm-11');
+                    });
+                    $('div#translateText').fadeIn('fast', function () {
+                        synchronizeTextareaHeights();
+                    });
+                    $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
+                    $('#detect').removeClass('disabledLang');
+                });
 
-        $('#originalText').submit(function () {
-            translateText();
-        });
+                $('#translationTarget').attr('href', '#translation');
+                window.location.hash = 'translation';
+            }).removeClass('cancelTranslateWebpage');
 
-        $('.clearButton').click(function () {
-            $('#originalText, #translatedText').val('');
-            $('#originalText').focus();
-            synchronizeTextareaHeights();
-        });
+            $('input#webpage').keyup(function (ev) {
+                if(ev.keyCode === ENTER_KEY_CODE && isURL($('input#webpage').val())) {
+                    translate();
+                    return false;
+                }
+            });
+        }
 
-        $('#detect').click(function () {
-            $('.srcLang').removeClass('active');
-            $(this).addClass('active');
-            detectLanguage();
-            translateText();
-        });
+        function setupDocTranslation() {
+            $('button#translateDoc').click(function () {
+                $('div#translateText').fadeOut('fast', function () {
+                    $('#fileInput').show();
+                    $('div#fileName').hide();
+                    $('div#docTranslation').fadeIn('fast');
+                    $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', true);
+                    $('#detect').addClass('disabledLang');
+                });
+                pairs = originalPairs;
+                populateTranslationList();
+            });
 
-        $('.swapLangBtn').click(function () {
-            var srcCode = $('.srcLang.active').attr('data-code'), dstCode = $('.dstLang.active').attr('data-code');
-            curSrcLang = dstCode;
-            curDstLang = srcCode;
+            $('button#cancelDocTranslate').click(function () {
+                droppedFile = undefined;
+                $('div#docTranslation').fadeOut('fast', function () {
+                    $('a#fileDownload').hide();
+                    $('span#uploadError').hide();
+                    $('div#translateText').fadeIn('fast', synchronizeTextareaHeights);
+                    $('input#fileInput').wrap('<form>').closest('form')[0].reset();
+                    $('input#fileInput').unwrap();
+                    $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
+                    $('#detect').removeClass('disabledLang');
+                });
+                updatePairList();
+                populateTranslationList();
+            });
 
-            if(recentSrcLangs.indexOf(curSrcLang) !== -1) {
-                $('.srcLang').removeClass('active');
-                $('#srcLang' + (recentSrcLangs.indexOf(curSrcLang) + 1)).addClass('active');
+            $('input#fileInput').change(function () {
+                $('div#fileUploadProgress').parent().fadeOut('fast', function () {
+                    $('span#uploadError').fadeOut('fast');
+                });
+                $('a#fileDownload').fadeOut('fast');
+            });
+
+            $('body')
+                .on('dragover', function (ev) {
+                    ev.preventDefault();
+                    return false;
+                })
+                .on('dragenter', function (ev) {
+                    ev.preventDefault();
+                    if(!$('div#fileDropBackdrop:visible').length) {
+                        $('div#fileDropBackdrop').fadeTo('fast', 0.5);
+                        $('div#fileDropMask').on('drop', function (ev) {
+                            ev.preventDefault();
+                            droppedFile = ev.originalEvent.dataTransfer.files[0];
+
+                            $('#fileDropBackdrop').fadeOut();
+                            if(!$('div#docTranslation').is(':visible')) {
+                                $('div#translateText').fadeOut('fast', function () {
+                                    $('input#fileInput').hide();
+                                    $('div#docTranslation').fadeIn('fast');
+
+                                    if(droppedFile) {
+                                        $('div#fileName').show().text(droppedFile.name);
+                                        translateDoc();
+                                    }
+                                });
+                            }
+                            else {
+                                $('input#fileInput').fadeOut('fast', function () {
+                                    if(droppedFile) {
+                                        $('div#fileName').show().text(droppedFile.name);
+                                        translateDoc();
+                                    }
+                                });
+                            }
+
+                            return false;
+                        });
+                        $('div#fileDropMask').on('dragleave', function () {
+                            $('div#fileDropBackdrop').fadeOut();
+                        });
+                    }
+                    return false;
+                });
+        }
+
+        function setupLanguageSelectors() {
+            $('.swapLangBtn').click(function () {
+                var srcCode = $('.srcLang.active').attr('data-code'), dstCode = $('.dstLang.active').attr('data-code');
+                curSrcLang = dstCode;
+                curDstLang = srcCode;
+
+                if(recentSrcLangs.indexOf(curSrcLang) !== -1) {
+                    $('.srcLang').removeClass('active');
+                    $('#srcLang' + (recentSrcLangs.indexOf(curSrcLang) + 1)).addClass('active');
+                }
+                else {
+                    recentSrcLangs[recentSrcLangs.indexOf(srcCode)] = curSrcLang;
+                }
                 $('#srcLangSelect').val(curSrcLang);
-            }
-            else {
-                recentSrcLangs[recentSrcLangs.indexOf(srcCode)] = curSrcLang;
-            }
 
-            if(recentDstLangs.indexOf(curDstLang) !== -1) {
-                $('.dstLang').removeClass('active');
-                $('#dstLang' + (recentDstLangs.indexOf(curDstLang) + 1)).addClass('active');
+                if(recentDstLangs.indexOf(curDstLang) !== -1) {
+                    $('.dstLang').removeClass('active');
+                    $('#dstLang' + (recentDstLangs.indexOf(curDstLang) + 1)).addClass('active');
+                }
+                else {
+                    recentDstLangs[recentDstLangs.indexOf(dstCode)] = curDstLang;
+                }
                 $('#dstLangSelect').val(curDstLang);
-            }
-            else {
-                recentDstLangs[recentDstLangs.indexOf(dstCode)] = curDstLang;
-            }
 
-            refreshLangList(true);
-            muteLanguages();
+                refreshLangList(true);
+                muteLanguages();
 
-            if($('.active > #detectedText')) {
+                if($('.active > #detectedText')) {
+                    $('.srcLang').removeClass('active');
+                    $('#srcLang' + (recentSrcLangs.indexOf(curSrcLang) + 1)).addClass('active');
+                }
+            });
+
+            $('#srcLangSelect').change(function () {
+                var selectValue = $(this).val();
+                if(selectValue === 'detect') {
+                    $.when(detectLanguage()).done(translateText);
+                }
+                else {
+                    handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
+                    autoSelectDstLang();
+                }
+            });
+
+            $('#dstLangSelect').change(function () {
+                handleNewCurrentLang(curDstLang = $(this).val(), recentDstLangs, 'dstLang', true);
+            });
+
+            $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
+                curSrcLang = $(this).attr('data-code');
+                handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
+                autoSelectDstLang();
+            });
+
+            $('#dstLanguages').on('click', '.languageName:not(.text-muted)', function () {
+                curDstLang = $(this).attr('data-code');
+                handleNewCurrentLang(curDstLang, recentDstLangs, 'dstLang');
+            });
+
+            $('.srcLang:not(#detect)').click(function () {
+                curSrcLang = $(this).attr('data-code');
                 $('.srcLang').removeClass('active');
-                $('#srcLang' + (recentSrcLangs.indexOf(curSrcLang) + 1)).addClass('active');
-            }
-        });
-
-        $('#srcLangSelect').change(function () {
-            var selectValue = $(this).val();
-            if(selectValue === 'detect') {
-                detectLanguage();
-                translateText();
-            }
-            else {
-                handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
-            }
-        });
-
-        $('#dstLangSelect').change(function () {
-            handleNewCurrentLang(curDstLang = $(this).val(), recentDstLangs, 'dstLang', true);
-        });
-
-        $('button#translateDoc').click(function () {
-            $('div#translateText').fadeOut('fast', function () {
-                $('#fileInput').show();
-                $('div#fileName').hide();
-                $('div#docTranslation').fadeIn('fast');
+                $(this).addClass('active');
+                populateTranslationList();
+                refreshLangList(true);
+                muteLanguages();
+                localizeInterface();
+                autoSelectDstLang();
+                translate();
             });
-        });
 
-        $('button#cancelDocTranslate').click(function () {
-            droppedFile = undefined;
-            $('div#docTranslation').fadeOut('fast', function () {
-                $('a#fileDownload').hide();
-                $('span#uploadError').hide();
-                $('div#translateText').fadeIn('fast');
-                $('input#fileInput').wrap('<form>').closest('form')[0].reset();
-                $('input#fileInput').unwrap();
+            $('.dstLang').click(function () {
+                curDstLang = $(this).attr('data-code');
+                $('.dstLang').removeClass('active');
+                $(this).addClass('active');
+                refreshLangList();
+                muteLanguages();
+                localizeInterface();
+                translate();
             });
-        });
 
-        $('input#fileInput').change(function () {
-            $('div#fileUploadProgress').parent().fadeOut('fast', function () {
-                $('span#uploadError').fadeOut('fast');
+            $('#detect').click(function () {
+                $('.srcLang').removeClass('active');
+                $(this).addClass('active');
+                $.when(detectLanguage()).done(translateText);
             });
-            $('a#fileDownload').fadeOut('fast');
+        }
+
+        function getChainedDstLangs(srcLang) {
+            var targets = [];
+            var targetsSeen = {};
+            targetsSeen[srcLang] = true;
+            var targetLists = [pairs[srcLang]];
+
+            while(targetLists.length > 0) {
+                $.each(targetLists.pop(), function (i, trgt) {
+                    if(!targetsSeen[trgt]) {
+                        targets.push(trgt);
+                        if(pairs[trgt]) {
+                            targetLists.push(pairs[trgt]);
+                        }
+                        targetsSeen[trgt] = true;
+                    }
+                });
+            }
+
+            return targets;
+        }
+
+        if(config.TRANSLATION_CHAINING) {
+            $('.chaining').show();
+            $.each(pairs, function (srcLang, _dstLangs) {
+                chainedPairs[srcLang] = getChainedDstLangs(srcLang);
+            });
+            updatePairList();
+            populateTranslationList();
+        }
+
+        $('.translateBtn').click(function () {
+            translate();
+            persistChoices('translator', true);
         });
 
         $('#translatedText').css('height', $('#originalText').css('height'));
@@ -292,50 +406,62 @@ if(modeEnabled('translation')) {
             ev.preventDefault();
             return false;
         });
-        $('body').on('dragenter', function (ev) {
-            ev.preventDefault();
-            if(!$('div#fileDropBackdrop:visible').length) {
-                $('div#fileDropBackdrop').fadeTo('fast', 0.5);
-                $('div#fileDropMask').on('drop', function (ev) {
-                    ev.preventDefault();
-                    droppedFile = ev.originalEvent.dataTransfer.files[0];
-
-                    $('#fileDropBackdrop').fadeOut();
-                    if(!$('div#docTranslation').is(':visible')) {
-                        $('div#translateText').fadeOut('fast', function () {
-                            $('input#fileInput').hide();
-                            $('div#docTranslation').fadeIn('fast');
-
-                            if(droppedFile) {
-                                $('div#fileName').show().text(droppedFile.name);
-                                translateDoc();
-                            }
-                        });
-                    }
-                    else {
-                        $('input#fileInput').fadeOut('fast', function () {
-                            if(droppedFile) {
-                                $('div#fileName').show().text(droppedFile.name);
-                                translateDoc();
-                            }
-                        });
-                    }
-
-                    return false;
-                });
-                $('div#fileDropMask').on('dragleave', function () {
-                    $('div#fileDropBackdrop').fadeOut();
-                });
-            }
-            return false;
+        $('input#chainedTranslation').change(function () {
+            updatePairList();
+            populateTranslationList();
+            persistChoices('translator');
         });
+
+        var timer, lastPunct = false;
+        $('#originalText').on('keyup paste', function (event) {
+            if(lastPunct && (event.keyCode === SPACE_KEY_CODE || event.keyCode === ENTER_KEY_CODE)) {
+                // Don't override the short timeout for simple space-after-punctuation
+                return;
+            }
+
+            if(timer && $('#instantTranslation').prop('checked')) {
+                clearTimeout(timer);
+            }
+
+            var timeout;
+            if(PUNCTUATION_KEY_CODES.indexOf(event.keyCode) !== -1) {
+                timeout = INSTANT_TRANSLATION_PUNCTUATION_DELAY;
+                lastPunct = true;
+            }
+            else if(isURL($('#originalText').val())) {
+                timeout = INSTANT_TRANSLATION_URL_DELAY;
+                lastPunct = false;
+            }
+            else {
+                timeout = INSTANT_TRANSLATION_DELAY;
+                lastPunct = false;
+            }
+
+            timer = setTimeout(function () {
+                if($('#instantTranslation').prop('checked')) {
+                    translate();
+                }
+                persistChoices('translator', true);
+            }, timeout);
+
+            synchronizeTextareaHeights();
+        });
+
+        $('#instantTranslation').change(function () {
+            persistChoices('translator');
+        });
+
+        setupLanguageSelectors();
+        setupTextTranslation();
+        setupWebpageTranslation();
+        setupDocTranslation();
     });
 }
 
 function getPairs() {
     var deferred = $.Deferred();
 
-    if(config.PAIRS) {
+    if(config.PAIRS && 'responseData' in config.PAIRS) {
         handlePairs(config.PAIRS.responseData);
         deferred.resolve();
     }
@@ -367,7 +493,16 @@ function getPairs() {
     }
 
     function handlePairs(pairData) {
+        if(!pairData) {
+            populateTranslationList();
+            restoreChoices('translator');
+            translate(true);
+            return;
+        }
         $.each(pairData, function (i, pair) {
+            if(config.ALLOWED_PAIRS && config.ALLOWED_PAIRS.indexOf(pair.sourceLanguage + '-' + pair.targetLanguage) === -1) {
+                return;
+            }
             srcLangs.push(pair.sourceLanguage);
             dstLangs.push(pair.targetLanguage);
 
@@ -381,21 +516,26 @@ function getPairs() {
         srcLangs = filterLangList(srcLangs.filter(onlyUnique));
         dstLangs = filterLangList(dstLangs.filter(onlyUnique));
 
-        curSrcLang = srcLangs[0];
-        curDstLang = dstLangs[0];
-        for(var i = 0; i < 3; i++) {
+        for(var k in pairs) {
+            // Default for new users is first available pair; TODO something smart based on browser lang setting
+            curSrcLang = k;
+            curDstLang = pairs[k][0];
+            break;
+        }
+        for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
             recentSrcLangs.push(i < srcLangs.length ? srcLangs[i] : undefined);
             recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
         }
 
         populateTranslationList();
         restoreChoices('translator');
+        translate(true);
     }
 
     return deferred.promise();
 }
 
-function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
+function handleNewCurrentLang(lang, recentLangs, langType, resetDetect, noTranslate) {
     $('.' + langType).removeClass('active');
     if(recentLangs.indexOf(lang) === -1) {
         recentLangs.unshift(lang);
@@ -415,29 +555,39 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect) {
     populateTranslationList();
     muteLanguages();
     localizeInterface();
-    translateText();
+    if(!noTranslate) {
+        translate();
+    }
 }
 
 function refreshLangList(resetDetect) {
-    recentSrcLangs = filterLangList(recentSrcLangs, srcLangs);
-    recentDstLangs = filterLangList(recentDstLangs, dstLangs);
+    recentSrcLangs = filterLangs(recentSrcLangs, srcLangs);
+    recentDstLangs = filterLangs(recentDstLangs, dstLangs);
 
     persistChoices('translator');
 
-    for(var i = 0; i < 3; i++) {
+    for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
+        var srcBtn = $('#srcLang' + (i + 1));
+        var dstBtn = $('#dstLang' + (i + 1));
         if(i < recentSrcLangs.length && recentSrcLangs[i]) {
-            $('#srcLang' + (i + 1)).attr('data-code', recentSrcLangs[i]).text(getLangByCode(recentSrcLangs[i]));
+            srcBtn.show().attr('data-code', recentSrcLangs[i]).text(getLangByCode(recentSrcLangs[i]));
+        }
+        else {
+            srcBtn.hide();
         }
         if(i < recentDstLangs.length && recentDstLangs[i]) {
-            $('#dstLang' + (i + 1)).attr('data-code', recentDstLangs[i]).text(getLangByCode(recentDstLangs[i]));
+            dstBtn.show().attr('data-code', recentDstLangs[i]).text(getLangByCode(recentDstLangs[i]));
+        }
+        else {
+            dstBtn.hide();
         }
     }
 
     if($('#detectedText').parent('.srcLang').attr('data-code')) {
-        $('#detectedText')
-            .text(getLangByCode($('#detectedText')
-            .parent('.srcLang')
-            .attr('data-code')) + ' - ' + dynamicLocalizations['detected']);
+        $('#detectedText').text(
+            getLangByCode($('#detectedText').parent('.srcLang').attr('data-code')) +
+            ' - ' + getDynamicLocalization('detected')
+        );
     }
 
     if(resetDetect) {
@@ -445,17 +595,17 @@ function refreshLangList(resetDetect) {
         $('#detectedText').hide();
     }
 
-    function filterLangList(recentLangs, allLangs) {
-        recentLangs = recentLangs.filter(onlyUnique);
-        if(recentLangs.length < 3) {
+    function filterLangs(allRecentLangs, allLangs) {
+        var recentLangs = allRecentLangs.filter(onlyUnique);
+        if(recentLangs.length < TRANSLATION_LIST_BUTTONS) {
             for(var i = 0; i < allLangs.length; i++) {
-                if(recentLangs.length < 3 && recentLangs.indexOf(allLangs[i]) === -1) {
+                if(recentLangs.length < TRANSLATION_LIST_BUTTONS && recentLangs.indexOf(allLangs[i]) === -1) {
                     recentLangs.push(allLangs[i]);
                 }
             }
         }
-        if(recentLangs.length > 3) {
-            recentLangs = recentLangs.slice(0, 3);
+        if(recentLangs.length > TRANSLATION_LIST_BUTTONS) {
+            recentLangs = recentLangs.slice(0, TRANSLATION_LIST_BUTTONS);
         }
         return recentLangs;
     }
@@ -472,6 +622,14 @@ function populateTranslationList() {
         numDstCols = Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS) < (TRANSLATION_LIST_COLUMNS + 1)
             ? Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS)
             : TRANSLATION_LIST_COLUMNS;
+
+    var columnWidth = TRANSLATION_LIST_WIDTH / TRANSLATION_LIST_COLUMNS;
+    var maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
+    numSrcCols = Math.min(Math.floor(maxSrcLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
+    var maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
+        TRANSLATION_LISTS_BUFFER;
+    numDstCols = Math.min(Math.floor(maxDstLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
+
     var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
         dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
 
@@ -491,9 +649,11 @@ function populateTranslationList() {
             if(numSrcLang < srcLangs.length) {
                 var langCode = srcLangs[j], langName = getLangByCode(langCode);
                 $('#srcLanguages .languageCol:eq(' + i + ')')
-                    .append($('<div class="languageName"></div>')
-                    .attr('data-code', langCode)
-                    .text(langName));
+                    .append(
+                        $('<div class="languageName"></div>')
+                            .attr('data-code', langCode)
+                            .text(langName)
+                    );
             }
         }
     }
@@ -504,9 +664,11 @@ function populateTranslationList() {
             if(numDstLang < dstLangs.length) {
                 langCode = dstLangs[j], langName = getLangByCode(langCode);
                 $('#dstLanguages .languageCol:eq(' + i + ')')
-                    .append($('<div class="languageName"></div>')
-                    .attr('data-code', langCode)
-                    .text(langName));
+                    .append(
+                        $('<div class="languageName"></div>')
+                            .attr('data-code', langCode)
+                            .text(langName)
+                    );
             }
         }
     }
@@ -524,11 +686,23 @@ function populateTranslationList() {
 
     muteLanguages();
 
+    if(srcLangs.length === 1) {
+        $('#srcLangSelectors div.btn-group').hide();
+    }
+    if(dstLangs.length === 1) {
+        $('#dstLangSelectors div.btn-group').hide();
+    }
+
     function sortTranslationList() {
-        var sortLocale = locale in iso639Codes ? iso639Codes[locale] : locale;
+        var sortLocale = (locale && locale in iso639Codes) ? iso639Codes[locale] : locale;
 
         srcLangs = srcLangs.sort(function (a, b) {
-            return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+            try {
+                return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+            }
+            catch(e) {
+                return getLangByCode(a).localeCompare(getLangByCode(b));
+            }
         });
 
         dstLangs = dstLangs.sort(function (a, b) {
@@ -536,7 +710,13 @@ function populateTranslationList() {
                 bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
 
             if((aPossible && bPossible) || (!aPossible && !bPossible)) {
-                return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+                try {
+                    return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+                }
+                catch(e) {
+                    return getLangByCode(a).localeCompare(getLangByCode(b));
+                }
+
             }
             else if(aPossible && !bPossible) {
                 return -1;
@@ -548,28 +728,63 @@ function populateTranslationList() {
     }
 }
 
-function translate() {
-    if($('div#translateText').is(':visible')) {
-        translateText();
+function translate(ignoreIfEmpty) {
+    if($('div#translateWebpage').is(':visible') || isURL($('#originalText').val())) {
+        translateWebpage(ignoreIfEmpty);
     }
-    else {
+    else if($('div#translateText').is(':visible')) {
+        translateText(ignoreIfEmpty);
+    }
+    else if($('div#docTranslation').is(':visible')) {
         translateDoc();
     }
 }
 
-function translateText() {
+function translateText(ignoreIfEmpty) {
+    function handleTranslateSuccessResponse(data) {
+        if(data.responseStatus === HTTP_OK_CODE) {
+            $('#translatedText').val(data.responseData.translatedText);
+            $('#translatedText').removeClass('notAvailable text-danger');
+        }
+        else {
+            translationNotAvailable();
+        }
+    }
+
+    var originalText = $('#originalText').val();
+
+    if(!originalText && ignoreIfEmpty) {
+        return;
+    }
+
     if($('div#translateText').is(':visible')) {
         if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
-            sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
-            if(textTranslateRequest) {
-                textTranslateRequest.abort();
+            sendEvent('translator', 'translate', curSrcLang + '-' + curDstLang, originalText.length);
+
+            if(translateRequest) {
+                translateRequest.abort();
+                clearTimeout(apyRequestTimeout);
             }
-            textTranslateRequest = $.jsonp({
-                url: config.APY_URL + '/translate',
-                beforeSend: ajaxSend,
+
+            var endpoint, request;
+            if($('input#chainedTranslation').prop('checked') && config.TRANSLATION_CHAINING) {
+                endpoint = '/translateChain';
+                request = {'langpairs': curSrcLang + '|' + curDstLang};
+            }
+            else {
+                endpoint = '/translate';
+                request = {'langpair': curSrcLang + '|' + curDstLang};
+            }
+
+            request.q = originalText; // eslint-disable-line id-length
+            request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
+            translateRequest = callApy({
+                data: request,
+                success: handleTranslateSuccessResponse,
+                error: translationNotAvailable,
                 complete: function () {
                     ajaxComplete();
-                    textTranslateRequest = undefined;
+                    translateRequest = undefined;
                 },
                 data: {
                     'langpair': curSrcLang + '|' + curDstLang,
@@ -628,7 +843,7 @@ function translateText() {
                     }
                 },
                 error: translationNotAvailable
-            });
+            }, endpoint);
         }
         else {
             translationNotAvailable();
@@ -637,24 +852,21 @@ function translateText() {
 }
 
 function translateDoc() {
-    var validPair = pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1,
-        validFile = droppedFile !== undefined || $('input#fileInput')[0].files.length === 1;
-    if(validPair && validFile) {
-        var file;
-        if(droppedFile === undefined) {
-            if($('input#fileInput')[0].files.length !== 0 && $('input#fileInput')[0].files[0].length !== 0) {
-                file = $('input#fileInput')[0].files[0];
-            }
-        }
-        else {
-            file = droppedFile;
-        }
+    var validPair = pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1;
 
+    var file = droppedFile ? droppedFile : undefined;
+    if($('input#fileInput')[0].files.length > 0 && $('input#fileInput')[0].files[0].length !== 0) {
+        file = $('input#fileInput')[0].files[0];
+    }
+
+    if(validPair && file) {
         if(file.size > UPLOAD_FILE_SIZE_LIMIT) {
-            docTranslateError(dynamicLocalizations['File_Too_Large'], 'File_Too_Large');
+            docTranslateError(getDynamicLocalization('File_Too_Large'), 'File_Too_Large');
         }
         else {
+            // Keep in sync with accept attribute of input#fileInput:
             var allowedMimeTypes = [
+                '', // epiphany-browser gives this instead of a real MIME type
                 'text/plain', 'text/html',
                 'text/rtf', 'application/rtf',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -677,56 +889,67 @@ function translateDoc() {
                 if(xhr.upload) {
                     xhr.upload.onprogress = updateProgressBar;
                 }
+                var fileName = file.name;
                 xhr.onreadystatechange = function () {
                     if(this.readyState === XHR_LOADING) {
                         $('div#fileLoading').fadeIn('fast');
                         $('div#fileUploadProgress').parent().fadeIn('fast', function () {
-                            updateProgressBar({'loaded': 1, 'total': 1});
+                            updateProgressBar({'loaded': 1, 'total': 1, 'position': undefined, 'totalSize': undefined});
                         });
                     }
                     else if(this.readyState === XHR_DONE && xhr.status === HTTP_OK_CODE) {
+                        downloadBrowserWarn();
                         $('div#fileUploadProgress').parent().fadeOut('fast');
                         $('div#fileLoading').fadeOut('fast', function () {
                             var URL = window.URL || window.webkitURL;
                             $('a#fileDownload')
                                 .attr('href', URL.createObjectURL(xhr.response))
-                                .attr('download', file.name)
+                                .attr('download', fileName)
                                 .fadeIn('fast');
-                            $('span#fileDownloadText').text(dynamicLocalizations['Download_File'].replace('{{fileName}}', file.name));
+                            $('span#fileDownloadText').text(getDynamicLocalization('Download_File').replace('{{fileName}}', fileName));
                             $('button#translate').prop('disabled', false);
                             $('input#fileInput').prop('disabled', false);
                         });
                     }
                     else if(this.status >= HTTP_BAD_REQUEST_CODE) {
-                        docTranslateError(dynamicLocalizations['Not_Available']);
+                        docTranslateError(getDynamicLocalization('Not_Available'));
                     }
                 };
                 xhr.onerror = function () {
-                    docTranslateError(dynamicLocalizations['Not_Available']);
+                    docTranslateError(getDynamicLocalization('Not_Available'));
                 };
 
-                updateProgressBar({'loaded': 0, 'total': 1});
+                updateProgressBar({'loaded': 0, 'total': 1, 'position': undefined, 'totalSize': undefined});
                 $('div#fileUploadProgress').parent().fadeIn('fast');
                 xhr.open('post', config.APY_URL + '/translateDoc', true);
                 xhr.responseType = 'blob';
                 var fileData = new FormData();
                 fileData.append('langpair', curSrcLang + '|' + curDstLang);
+                fileData.append('markUnknown', $('#markUnknown').prop('checked') ? 'yes' : 'no');
                 fileData.append('file', file);
                 xhr.send(fileData);
                 sendEvent('translator', 'translateDoc', curSrcLang + '-' + curDstLang, file.size);
             }
             else {
-                docTranslateError(dynamicLocalizations['Format_Not_Supported'], 'Format_Not_Supported');
+                console.warn('Browser gave MIME type as', file.type);
+                docTranslateError(getDynamicLocalization('Format_Not_Supported'), 'Format_Not_Supported');
             }
         }
     }
     else {
-        docTranslateError(dynamicLocalizations['Not_Available']);
+        docTranslateError(getDynamicLocalization('Not_Available'));
     }
 
     function updateProgressBar(ev) {
-        var done = ev.loaded || ev.position, total = ev.total || ev.totalSize;
-        var percentDone = Math.floor(done / total * 1000) / 10;
+        var progress = 0.0;
+        if(ev instanceof ProgressEvent) {
+            progress = ev.loaded / ev.total;
+        }
+        else {
+            console.warn('Strange event type given to updateProgressBar:');
+            console.warn(ev);
+        }
+        var percentDone = Math.floor(progress * 1000) / 10;
         $('div#fileUploadProgress').attr('aria-valuenow', percentDone).css('width', percentDone + '%');
     }
 
@@ -745,60 +968,206 @@ function translateDoc() {
     }
 }
 
-function detectLanguage() {
-    if(textTranslateRequest) {
-        textTranslateRequest.abort();
+function translateWebpage(ignoreIfEmpty) {
+    function webpageTranslationNotAvailable(data) {
+        $('#translatedWebpage').replaceWith(
+            $('<div id="translatedWebpage" class="notAvailable text-danger"></div>')
+                .text(getDynamicLocalization('Not_Available'))
+        );
+
+        if(data) {
+            console.warn('Webpage translation failed', data.message, data.explanation);
+        }
     }
 
-    textTranslateRequest = $.jsonp({
-        url: config.APY_URL + '/identifyLang',
-        beforeSend: ajaxSend,
-        complete: function () {
-            ajaxComplete();
-            textTranslateRequest = undefined;
-        },
-        data: {
-            'q': $('#originalText').val()
-        },
-        success: function (data) {
-            var possibleLanguages = [];
-            for(var lang in data) {
-                possibleLanguages.push([lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang, data[lang]]);
-            }
-            possibleLanguages.sort(function (a, b) {
-                return b[1] - a[1];
-            });
-
-            oldSrcLangs = recentSrcLangs;
-            recentSrcLangs = [];
-            for(var i = 0; i < possibleLanguages.length; i++) {
-                if(recentSrcLangs.length < 3 && possibleLanguages[i][0] in pairs) {
-                    recentSrcLangs.push(possibleLanguages[i][0]);
-                }
-            }
-            recentSrcLangs = recentSrcLangs.concat(oldSrcLangs);
-            if(recentSrcLangs.length > 3) {
-                recentSrcLangs = recentSrcLangs.slice(0, 3);
-            }
-
-            curSrcLang = recentSrcLangs[0];
-            $('#srcLangSelect').val(curSrcLang);
-            muteLanguages();
-
-            $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
-            refreshLangList();
-            $('#detectedText').show();
-            $('#detectText').hide();
-        },
-        error: function () {
-            $('#srcLang1').click();
+    function handleTranslateWebpageSuccessResponse(data) {
+        function cleanPage(html) {
+            // Pages like https://goo.gl/PiZyW3 insert noise using document.write that
+            // 1. makes things enormously slow, and 2. completely mess up styling so e.g. you
+            // have to scroll through a full screen of whitespace before reaching content.
+            // This might mess things up some places – needs testing – but on the other hand
+            // most uses of document.write are evil.
+            return html.replace(/document[.]write[(]/g, 'console.log("document.write "+');
         }
+
+        var translatedHtml = data.responseData.translatedText;
+
+        if(data.responseStatus === HTTP_OK_CODE && translatedHtml) {
+            var iframe = $('<iframe id="translatedWebpage" frameborder="0"></iframe>')[0];
+            $('#translatedWebpage').replaceWith(iframe);
+            iframe.contentWindow.document.open();
+            iframe.contentWindow.document.write(cleanPage(translatedHtml));
+            iframe.contentWindow.document.close();
+
+            $(iframe).load(function () {
+                var contents = $(iframe).contents();
+                contents.find('head').append($('<base>').attr('href', $('input#webpage').val()));
+
+                $.each(contents.find('a'), function (index, a) {
+                    var href = a.href;
+                    $(a).on('click', function () {
+                        $('#webpage').val(href);
+                        translateWebpage();
+                    });
+                    a.href = '#';
+                    a.target = '';
+                });
+
+                if(!contents.find('body').text().trim()) {
+                    webpageTranslationNotAvailable();
+                }
+            });
+        }
+        else {
+            webpageTranslationNotAvailable(data);
+        }
+    }
+
+    function handleTranslateWebpageErrorResponse(jqXHR) {
+        webpageTranslationNotAvailable(jqXHR.responseJSON);
+    }
+
+    persistChoices('translator', true);
+
+    if(!$('div#translateWebpage').is(':visible')) {
+        showTranslateWebpageInterface($('#originalText').val().trim());
+    }
+
+    var url = $('input#webpage').val();
+
+    if(!url && ignoreIfEmpty) {
+        return;
+    }
+
+    if(!isURL(url)) {
+        webpageTranslationNotAvailable();
+        return;
+    }
+
+    if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1) {
+        sendEvent('translator', 'translateWebpage', curSrcLang + '-' + curDstLang);
+
+        if(translateRequest) {
+            translateRequest.abort();
+            clearTimeout(apyRequestTimeout);
+        }
+
+        $('iframe#translatedWebpage').animate({'opacity': 0.75}, 'fast');
+        translateRequest = callApy({
+            data: {
+                'langpair': curSrcLang + '|' + curDstLang,
+                'markUnknown': 'no',
+                'url': url
+            },
+            dataType: 'json',
+            success: handleTranslateWebpageSuccessResponse,
+            error: handleTranslateWebpageErrorResponse,
+            complete: function () {
+                ajaxComplete();
+                translateRequest = undefined;
+                $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
+            }
+        }, '/translatePage', true);
+    }
+}
+
+function showTranslateWebpageInterface(url, ignoreIfEmpty) {
+    $('#srcLangSelectors').removeClass('col-sm-11').addClass('col-sm-9');
+
+    $('div#translateText').fadeOut('fast', function () {
+        $('input#webpage').attr({
+            'required': true,
+            'novalidate': false
+        });
+        $('button#cancelTranslateWebpage').fadeIn('fast').addClass('cancelTranslateWebpage');
+        $('div#translateWebpage').fadeIn('fast');
+        $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
+        $('#detect').addClass('disabledLang');
+
+        if(url) {
+            $('input#webpage').val(url);
+        }
+
+        $('#translationTarget').attr('href', '#webpageTranslation');
+        window.location.hash = 'webpageTranslation';
+        translateWebpage(ignoreIfEmpty);
     });
 }
 
+function downloadBrowserWarn() {
+    if(typeof $bu_getBrowser == 'function') { // eslint-disable-line camelcase
+        var detected = $bu_getBrowser();
+        // Show the warning for (what bu calls) "niche" browsers and Safari, but not Chromium:
+        if(detected.n.match(/^[xs]/) && !(navigator.userAgent.match(/Chromium/))) {
+            $('#fileDownloadBrowserWarning').show();
+        }
+    }
+}
+
+function detectLanguage() {
+    var originalText = $('#originalText').val();
+
+    if(translateRequest) {
+        translateRequest.abort();
+        clearTimeout(apyRequestTimeout);
+    }
+
+    translateRequest = callApy({
+        data: {
+            'q': originalText
+        },
+        success: handleDetectLanguageSuccessResponse,
+        error: handleDetectLanguageErrorResponse,
+        complete: function () {
+            ajaxComplete();
+            translateRequest = undefined;
+        }
+    }, '/identifyLang');
+
+    return translateRequest;
+
+    function handleDetectLanguageSuccessResponse(data) {
+        var possibleLanguages = [];
+        for(var lang in data) {
+            possibleLanguages.push([lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang, data[lang]]);
+        }
+        possibleLanguages.sort(function (a, b) {
+            return b[1] - a[1];
+        });
+
+        var oldSrcLangs = recentSrcLangs;
+        recentSrcLangs = [];
+        for(var i = 0; i < possibleLanguages.length; i++) {
+            if(recentSrcLangs.length < TRANSLATION_LIST_BUTTONS && possibleLanguages[i][0] in pairs) {
+                recentSrcLangs.push(possibleLanguages[i][0]);
+            }
+        }
+        recentSrcLangs = recentSrcLangs.concat(oldSrcLangs);
+        if(recentSrcLangs.length > TRANSLATION_LIST_BUTTONS) {
+            recentSrcLangs = recentSrcLangs.slice(0, TRANSLATION_LIST_BUTTONS);
+        }
+
+        curSrcLang = recentSrcLangs[0];
+        autoSelectDstLang();
+        $('#srcLangSelect').val(curSrcLang);
+        muteLanguages();
+
+        $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
+        refreshLangList();
+        $('#detectedText').show();
+        $('#detectText').hide();
+    }
+
+    function handleDetectLanguageErrorResponse() {
+        $('#srcLang1').click();
+    }
+}
+
 function translationNotAvailable() {
-    $('#translatedText').text(dynamicLocalizations['Not_Available']);
-    $('#translatedText').addClass('notAvailable text-danger');
+    $('#translatedText')
+        .val(getDynamicLocalization('Not_Available'))
+        .text(getDynamicLocalization('Not_Available'))
+        .addClass('notAvailable text-danger');
 }
 
 function muteLanguages() {
@@ -831,14 +1200,15 @@ function autoSelectDstLang() {
             }
         }
         if(!newDstLang) {
-            newDstLang = pairs[curSrcLang][0];
+            newDstLang = filterLangList(pairs[curSrcLang])[0];
         }
+
+        curDstLang = newDstLang;
 
         if(recentDstLangs.indexOf(newDstLang) === -1) {
             handleNewCurrentLang(newDstLang, recentDstLangs, 'dstLang');
         }
         else {
-            curDstLang = newDstLang;
             $('.dstLang').removeClass('active');
             refreshLangList();
             $('.dstLang[data-code=' + curDstLang + ']').addClass('active');
@@ -846,19 +1216,15 @@ function autoSelectDstLang() {
             localizeInterface();
             translateText();
         }
+
+        $('#dstLangSelect').val(newDstLang).change();
     }
 }
 
-function synchronizeTextareaHeights() {
-    if($(window).width() < TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH) {
-        return;
-    }
-
-    $('#originalText').css({
-        'overflow-y': 'hidden',
-        'height': 'auto'
-    });
-    var originalTextScrollHeight = $('#originalText')[0].scrollHeight;
-    $('#originalText').css('height', originalTextScrollHeight + 'px');
-    $('#translatedText').css('height', originalTextScrollHeight + 'px');
-}
+/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode,
+    callApy, apyRequestTimeout} from "./util.js" */
+/*:: import {persistChoices, restoreChoices} from "./persistence.js" */
+/*:: import localizeInterface from "./localization.js" */
+/*:: import {readCache,cache} from "./cache.js" */
+/*:: import {config} from "./config.js" */
+/*:: import {isURL} from "./util.js" */

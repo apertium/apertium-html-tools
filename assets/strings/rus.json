@@ -11,8 +11,16 @@
             "ru",
             "rus"
         ],
-        "completion": "100%  97.53%",
-        "missing": []
+        "completion": " 88%  82.38%",
+        "missing": [
+            "Download_Browser_Warning",
+            "Install_Apertium",
+            "Install_Apertium_Para",
+            "Mark_Unknown_Words",
+            "Multi_Step_Translation",
+            "Supported_Formats",
+            "Translate_Webpage"
+        ]
     },
     "title": "Апертиум | Открытая платформа машинного перевода",
     "tagline": "Открытая платформа машинного перевода",
@@ -37,9 +45,9 @@
     "Morphological_Generation_Help": "Выберите режим и синтезируйте поверхностные формы с помощью морфологических анализаторов Апертиум.",
     "Generate": "Синтезировать",
     "Spell_Checker": "Проверка правописания",
-    "APY_Sandbox": "APY Песочница",
-    "APY_Sandbox_Help": "Отправить любые запросы",
-    "APY_Request": "Запрос APY",
+    "APy_Sandbox": "APy Песочница",
+    "APy_Sandbox_Help": "Отправить любые запросы",
+    "APy_Request": "Запрос APy",
     "Request": "Запросить",
     "Language": "Язык",
     "Input_Text": "Вводимый текст",

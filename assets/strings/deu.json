@@ -3,30 +3,37 @@
         "authors": [
             "roybaer"
         ],
-        "last-updated": "2014-12-03",
+        "last-updated": "2016-03-28",
         "locale": [
             "de",
             "deu"
         ],
-        "completion": " 98% 109.57%",
+        "completion": " 97% 109.09%",
         "missing": [
-            "description"
+            "Install_Apertium",
+            "Install_Apertium_Para"
         ]
     },
     "title": "Apertium | Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "tagline": "Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
+    "description": "Apertium ist eine Plattform für regelbasierte maschinelle Übersetzungen. Es ist freie Software und wurde unter den Bedingungen der GNU General Public License veröffentlicht.",
     "Translation": "Übersetzung",
     "Translation_Help": "Wählen Sie zwei Sprachen und übersetzen Sie Ihren Text mit Apertiums Übersetzungsplattform!",
     "Translate": "Übersetzen",
     "Detect_Language": "Sprache erkennen",
     "detected": "erkannt",
     "Instant_Translation": "Sofort übersetzen",
+    "Mark_Unknown_Words": "Unbekannte Wörter markieren",
+    "Multi_Step_Translation": "<a href='https://en.wikipedia.org/wiki/Pivot_language' target='_blank'>Mehrstufige Übersetzung</a> (experimentell)",
     "Translate_Document": "Ein Dokument übersetzen",
     "Drop_Document": "Legen Sie hier Ihr Dokument ab",
     "Not_Available": "Übersetzung noch nicht verfügbar!",
     "File_Too_Large": "Die Datei ist zu groß!",
     "Cancel": "Abbrechen",
     "Format_Not_Supported": "Format wird nicht unterstützt!",
+    "Translate_Webpage": "Eine Webseite übersetzen",
+    "Supported_Formats": "Unterstützte Formate: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 und neuer). <br/><i>.doc-Dateien von Word 97 und PDFs werden nicht unterstützt.</i>",
+    "Download_Browser_Warning": "Ihr Browser lädt Dateien möglicherweise nicht korrekt herunter. Speichern Sie den Link entweder per Rechtsklick unter dem richtigen Dateinamen oder öffnen Sie diese Seite in <a href=\"https://www.mozilla.org/firefox/\">Firefox</a>.",
     "Download_File": "{{fileName}} herunterladen",
     "Morphological_Analysis": "Morphologische Analyse",
     "Morphological_Analysis_Help": "Wählen Sie eine Sprache und analysieren Sie Ihren Text mit Apertiums morphologischen Analysierern.",
@@ -35,9 +42,9 @@
     "Morphological_Generation_Help": "Wählen Sie eine Sprache und erzeugen Sie aus Ihrem Text flektierte Formen mit Apertiums morphologischen Generatoren.",
     "Generate": "Erzeugen",
     "Spell_Checker": "Rechtschreibprüfung",
-    "APY_Sandbox": "APY-Sandkasten",
-    "APY_Sandbox_Help": "Senden Sie beliebige Anfragen",
-    "APY_Request": "APY-Anfrage",
+    "APy_Sandbox": "APy-Sandkasten",
+    "APy_Sandbox_Help": "Senden Sie beliebige Anfragen",
+    "APy_Request": "APy-Anfrage",
     "Request": "Anfrage",
     "Language": "Sprache",
     "Input_Text": "Eingabetext",

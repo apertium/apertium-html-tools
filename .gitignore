@@ -1,5 +1,14 @@
+# Python
 __pycache__/
+
+# Build
 build/
 config.conf
 assets/js/config.js
 
+# System
+.DS_Store
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db

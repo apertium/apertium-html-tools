@@ -1,21 +1,20 @@
 .localeGlobe {
-    color: black;
+    color: #000;
 }
 
 .apertiumLogo {
-    color: gray;
+    color: #808080;
 }
 
-p.tagline {
-    color: black;
+.tagline {
+    color: #000;
 }
 
 .languageName:hover:not(.text-muted) {
-    color: white;
-    background-color: #EB6864;
+    background-color: #eb6864;
+    color: #fff;
 }
 
 .apertiumBox {
     background-image: url('../img/Apertium_box_small.png');
 }
-
