@@ -1,42 +1,39 @@
 [APY]
-html_url | string
-apy_url | string
+HTML_URL | string
+APY_URL | string
 
-subtitle | string
-subtitle_color | string
+SUBTITLE | string
+SUBTITLE_COLOR | string
 
-allowed_langs | list
-allowed_variants | list
-allowed_pairs | list
+ALLOWED_LANGS | list
+ALLOWED_VARIANTS | list
+ALLOWED_PAIRS | list
 
-enabled_modes | list
-default_mode | string
+ENABLED_MODES | list
+DEFAULT_MODE | string
 
-translation_chaining | bool
+TRANSLATION_CHAINING | bool
 
-default_locale | string
+DEFAULT_LOCALE | string
 
-show_navbar | bool
+SHOW_NAVBAR | bool
 
-piwik_siteid | string
-piwik_url | string
+PIWIK_SITEID | string
+PIWIK_URL | string
 
-list_request_cache_expiry | int
-language_name_cache_expiry | int
-localization_cache_expiry | int
-available_locales_cache_expiry | int
-
-[REPLACEMENTS]
-maintainer | string
+LIST_REQUEST_CACHE_EXPIRY | int
+LANGUAGE_NAME_CACHE_EXPIRY | int
+LOCALIZATION_CACHE_EXPIRY | int
+AVAILABLE_LOCALES_CACHE_EXPIRY | int
 
 [TRANSLATOR]
-upload_file_size_limit | int
-translation_list_buttons | int
-translation_list_width | int
-translation_list_rows | int
-translation_list_columns | int
-translation_lists_buffer | int
+UPLOAD_FILE_SIZE_LIMIT | int
+TRANSLATION_LIST_BUTTONS | int
+TRANSLATION_LIST_WIDTH | int
+TRANSLATION_LIST_ROWS | int
+TRANSLATION_LIST_COLUMNS | int
+TRANSLATION_LISTS_BUFFER | int
 
-instant_translation_url_delay | int
-instant_translation_punctuation_delay | int
-instant_translation_delay | int
+INSTANT_TRANSLATION_URL_DELAY | int
+INSTANT_TRANSLATION_PUNCTUATION_DELAY | int
+INSTANT_TRANSLATION_DELAY | int

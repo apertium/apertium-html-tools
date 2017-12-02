@@ -32,9 +32,10 @@ def get_int(conf, key):
 def check_config(conf, result):
     # Some error checking:
     for section in conf.sections():
-        if section not in ['APY', 'REPLACEMENTS']:
+        if section not in ['APY', 'REPLACEMENTS', 'TRANSLATOR']:
             raise configparser.Error("\nUnknown section [%s]" % (section,))
 
+    # TODO: either remove or check for all sections
     apy_diff = set(k.lower() for k in conf['APY'].keys()) - set(k.lower() for k in result.keys())
     if apy_diff:
         raise configparser.Error("\nUnknown key(s) in section [APY]: %s" % (apy_diff,))
@@ -69,6 +70,7 @@ def load_dtypes():
 
 def load_conf(filename, filename_custom):
     conf = configparser.ConfigParser()
+    conf.optionxform = str
 
     with open(filename, 'r') as f:
         conf.read_file(f)
@@ -76,6 +78,7 @@ def load_conf(filename, filename_custom):
         conf.read_file(f)
 
     result = {
+        'REPLACEMENTS'                   : {k: v for k, v in conf['REPLACEMENTS'].items()},
         # These are filled at various places by javascript:
         'LANGNAMES': None,
         'LOCALES': None,
@@ -88,7 +91,10 @@ def load_conf(filename, filename_custom):
     dtypes = load_dtypes()
 
     for section in conf.sections():
-        for key, raw_value in conf.items(section):
+        if section == 'REPLACEMENTS':
+            continue
+
+        for key, value in conf.items(section):
             result[key] = get_value(conf[section], key, dtypes[section][key])
 
     check_config(conf, result)
