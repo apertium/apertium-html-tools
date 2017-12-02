@@ -2,12 +2,13 @@
 HTML_URL = https://www.apertium.org
 APY_URL = https://www.apertium.org/apy
 
-SUBTITLE =
-SUBTITLE_COLOR =
+SUBTITLE
+SUBTITLE_COLOR
 
 # Set ALLOWED_* and ENABLED_* configuration parameters to undefined for all (no filtering)
-ALLOWED_LANGS =
+ALLOWED_LANGS
 ALLOWED_VARIANTS = BR, aran, valencia
+ALLOWED_PAIRS
 
 # Available modes are currently 'translation', 'analyzation', 'generation', 'sandbox'
 ENABLED_MODES = translation
@@ -20,8 +21,8 @@ DEFAULT_LOCALE = eng
 
 SHOW_NAVBAR = False
 
-PIWIK_SITEID =
-PIWIK_URL =
+PIWIK_SITEID
+PIWIK_URL
 
 # Expiry times are in hours (set them to 0 for no caching)
 LIST_REQUEST_CACHE_EXPIRY = 24
