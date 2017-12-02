@@ -29,8 +29,8 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
 /* global $bu_getBrowser */
 
-$(document).ready(function(){
-  $.getScript("https://www.google.com/recaptcha/api.js");
+$(document).ready(function() {
+    $.getScript("https://www.google.com/recaptcha/api.js");
 });
 
 if(modeEnabled('translation')) {
@@ -387,10 +387,10 @@ if(modeEnabled('translation')) {
                     $('#wordSuggestModal').modal('hide');
                 },
                 error: function (data) {
-                    var data = $.parseJSON(data.responseText);
+                    var data1 = $.parseJSON(data.responseText);
                     $('#suggestedWordInput').tooltip('destroy');
                     $('#suggestedWordInput').tooltip({
-                        'title': (data.explanation ? data.explanation : 'An error occurred'),
+                        'title': (data1.explanation ? data1.explanation : 'An error occurred'),
                         'trigger': 'manual',
                         'placement': 'bottom'
                     });
@@ -804,11 +804,11 @@ function translateText(ignoreIfEmpty) {
 
                         if(config.SUGGESTIONS.enabled) {
                             var localizedTitle = getDynamicLocalization('Suggest_Title');
-                            var placeholder =getDynamicLocalization('Suggest_Placeholder');
+                            var placeholder = getDynamicLocalization('Suggest_Placeholder');
                             $('#suggestedWordInput').attr('placeholder', placeholder);
                             $('#translatedText').html(
                                 $('#translatedText').html().replace(/(^|\W|\d)(\*|@|#)(\w+)/g,
-                                  '$1<span class="wordSuggestPopover text-danger" title="' +
+                                    '$1<span class="wordSuggestPopover text-danger" title="' +
                                 localizedTitle + '" style="cursor: pointer">$3</span>')
                             );
                         }
@@ -836,7 +836,7 @@ function translateText(ignoreIfEmpty) {
 
                             $('#suggestSentenceContainer').html(getDynamicLocalization('Suggest_Sentence').replace('{{targetWordCode}}',
                                 '<code><span id="suggestionTargetWord"></span></code>')
-                              );
+                            );
                             $('#suggestionTargetWord').html($(this).text().replace(/(\*|@|#)/g, ''));
 
                             $('#wordSuggestModal').modal();
@@ -845,7 +845,7 @@ function translateText(ignoreIfEmpty) {
                     else {
                         translationNotAvailable();
                     }
-                },
+                }
             }, endpoint);
         }
         else {
