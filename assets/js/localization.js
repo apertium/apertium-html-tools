@@ -12,18 +12,18 @@ var localizedLanguageCodes = {}, localizedLanguageNames = {};
 /* global config, getPairs, getGenerators, getAnalyzers, persistChoices, getURLParam, cache, ajaxSend, ajaxComplete, sendEvent,
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
     populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
-
+var newSrc;
 var dynamicLocalizations = {
     'fallback': {
         'Not_Available': 'Translation not yet available!',
         'detected': 'detected',
         'File_Too_Large': 'File is too large!',
         'Format_Not_Supported': 'Format not supported!',
-        'Download_File': 'Download {{fileName}}'
-    },
-    'Suggest_Sentence': 'How would you suggest we translate {{targetWordCode}}?',
-    'Suggest_Title': 'Improve Apertium\'s translation',
-    'Suggest_Placeholder': 'New word'
+        'Download_File': 'Download {{fileName}}',
+        'Suggest_Sentence': 'How would you suggest we translate {{targetWordCode}}?',
+        'Suggest_Title': 'Improve Apertium\'s translation',
+        'Suggest_Placeholder': 'New word'
+    }
 };
 
 function getDynamicLocalization(stringKey) {
@@ -45,6 +45,24 @@ var recaptchaScriptSrc = 'https://www.google.com/recaptcha/api.js?onload=recaptc
 
 if(!config.LANGNAMES) {
     config.LANGNAMES = {};
+}
+
+function getRecaptchaSrc(locale2) {
+    newSrc = recaptchaScriptSrc + 'en';
+    var backoff = true;
+
+    for(var i = 0; i < localizeRecaptchaLanguages.length; i++) {
+        if(locale2 === localizeRecaptchaLanguages[i]) {
+            newSrc = recaptchaScriptSrc + locale2;
+            backoff = false;
+            break;
+        }
+    }
+
+    if(backoff) {
+        newSrc = recaptchaScriptSrc + localizeReacaptchaAlternativeLanguages[locale2];
+    }
+    return newSrc;
 }
 
 $(document).ready(function () {
@@ -98,7 +116,7 @@ $(document).ready(function () {
         $('#suggestRecaptcha').empty();
         $.getScript(newSrc);
 
-        var placeholder = dynamicLocalizations['Suggest_Placeholder'];
+        var placeholder = dynamicLocalizations.fallback['Suggest_Placeholder'];
         $('#suggestedWordInput').removeAttr('placeholder');
         $('#suggestedWordInput').attr('placeholder', placeholder);
     });
@@ -427,23 +445,6 @@ function getLangByCode(dirtyCode) {
     }
 }
 
-function getRecaptchaSrc(locale2) {
-    var newSrc = recaptchaScriptSrc + 'en';
-    var backoff = true;
-
-    for(var i = 0; i < localizeRecaptchaLanguages.length; i++) {
-        if(locale2 === localizeRecaptchaLanguages[i]) {
-            newSrc = recaptchaScriptSrc + locale2;
-            backoff = false;
-            break;
-        }
-    }
-
-    if(backoff) {
-        newSrc = recaptchaScriptSrc + localizeReacaptchaAlternativeLanguages[locale2];
-    }
-    return newSrc;
-}
 /*:: export {iso639CodesInverse, iso639Codes, localizeInterface} */
 
 /*:: import {persistChoices} from "./persistence.js" */

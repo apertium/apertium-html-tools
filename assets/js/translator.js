@@ -25,9 +25,13 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, apyRequestTimeout, isURL */
+    callApy, apyRequestTimeout, isURL, getRecaptchaSrc */
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
 /* global $bu_getBrowser */
+
+$(document).ready(function(){
+  $.getScript("https://www.google.com/recaptcha/api.js");
+});
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
@@ -358,7 +362,7 @@ if(modeEnabled('translation')) {
             $('#wordGettingSuggested').text(fromWord);
 
             var targetIndex = splitText.indexOf(hashedWord);
-            var wrapLength = parseInt(config.SUGGESTIONS.context_size);
+            var wrapLength = parseInt(config.SUGGESTIONS.context_size, 10);
             var begin = (targetIndex > wrapLength) ? (targetIndex - wrapLength) : 0;
             var ending = (splitText.length - targetIndex - 1 > wrapLength) ? (targetIndex + wrapLength + 1) : splitText.length;
             var context = splitText.slice(begin, ending).join(' ').replace(hashedWord, fromWord);
@@ -383,7 +387,7 @@ if(modeEnabled('translation')) {
                     $('#wordSuggestModal').modal('hide');
                 },
                 error: function (data) {
-                    data = $.parseJSON(data.responseText);
+                    var data = $.parseJSON(data.responseText);
                     $('#suggestedWordInput').tooltip('destroy');
                     $('#suggestedWordInput').tooltip({
                         'title': (data.explanation ? data.explanation : 'An error occurred'),
@@ -780,7 +784,6 @@ function translateText(ignoreIfEmpty) {
             request.q = originalText; // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             translateRequest = callApy({
-                data: request,
                 success: handleTranslateSuccessResponse,
                 error: translationNotAvailable,
                 complete: function () {
@@ -800,12 +803,12 @@ function translateText(ignoreIfEmpty) {
                         $('#translatedText').attr('pristineText', data.responseData.translatedText);
 
                         if(config.SUGGESTIONS.enabled) {
-                            var localizedTitle = dynamicLocalizations['Suggest_Title'];
-                            var placeholder = dynamicLocalizations['Suggest_Placeholder'];
+                            var localizedTitle = getDynamicLocalization('Suggest_Title');
+                            var placeholder =getDynamicLocalization('Suggest_Placeholder');
                             $('#suggestedWordInput').attr('placeholder', placeholder);
                             $('#translatedText').html(
                                 $('#translatedText').html().replace(/(^|\W|\d)(\*|@|#)(\w+)/g,
-                                '$1<span class="wordSuggestPopover text-danger" title="' +
+                                  '$1<span class="wordSuggestPopover text-danger" title="' +
                                 localizedTitle + '" style="cursor: pointer">$3</span>')
                             );
                         }
@@ -831,9 +834,9 @@ function translateText(ignoreIfEmpty) {
                                 $('#suggestedWordInput').val('');
                             });
 
-                            $('#suggestSentenceContainer').html(dynamicLocalizations['Suggest_Sentence'].replace('{{targetWordCode}}',
+                            $('#suggestSentenceContainer').html(getDynamicLocalization('Suggest_Sentence').replace('{{targetWordCode}}',
                                 '<code><span id="suggestionTargetWord"></span></code>')
-                                );
+                              );
                             $('#suggestionTargetWord').html($(this).text().replace(/(\*|@|#)/g, ''));
 
                             $('#wordSuggestModal').modal();
@@ -843,7 +846,6 @@ function translateText(ignoreIfEmpty) {
                         translationNotAvailable();
                     }
                 },
-                error: translationNotAvailable
             }, endpoint);
         }
         else {
