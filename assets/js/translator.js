@@ -743,11 +743,20 @@ function translateDoc() {
                         downloadBrowserWarn();
                         $('div#fileUploadProgress').parent().fadeOut('fast');
                         $('div#fileLoading').fadeOut('fast', function () {
-                            var URL = window.URL || window.webkitURL;
-                            $('a#fileDownload')
-                                .attr('href', URL.createObjectURL(xhr.response))
-                                .attr('download', fileName)
-                                .fadeIn('fast');
+                            if(typeof window.navigator.msSaveBlob !== 'undefined') {
+                                $('a#fileDownload')
+                                    .click(function () {
+                                        window.navigator.msSaveBlob(xhr.response, fileName);
+                                    })
+                                    .fadeIn('fast');
+                            }
+                            else {
+                                var URL = window.URL || window.webkitURL;
+                                $('a#fileDownload')
+                                    .attr('href', URL.createObjectURL(xhr.response))
+                                    .attr('download', fileName)
+                                    .fadeIn('fast');
+                            }
                             $('span#fileDownloadText').text(getDynamicLocalization('Download_File').replace('{{fileName}}', fileName));
                             $('button#translate').prop('disabled', false);
                             $('input#fileInput').prop('disabled', false);
