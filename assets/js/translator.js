@@ -7,7 +7,7 @@ var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var translateRequest;
 var grecaptcha;
-var recaptchaRenderCallback; // eslint-disable-line no-use-before-define
+var recaptchaRenderCallback; // eslint-disable-line no-unused-vars
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
@@ -37,7 +37,7 @@ if(modeEnabled('translation')) {
         $.getScript(newSrc);
 
         synchronizeTextareaHeights();
-        recaptchaRenderCallback = function () {
+        recaptchaRenderCallback = function () {   // eslint-disable-line no-unused-vars
             grecaptcha.render('suggestRecaptcha', {
                 'sitekey': config.SUGGESTIONS.recaptcha_site_key
             });
