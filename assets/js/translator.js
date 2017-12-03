@@ -7,10 +7,13 @@ var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var translateRequest;
 
+var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-disable-line no-magic-numbers
+
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
     callApy, apyRequestTimeout, isURL */
+/* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
 /* global $bu_getBrowser */
 
 if(modeEnabled('translation')) {
@@ -82,7 +85,7 @@ if(modeEnabled('translation')) {
             }).removeClass('cancelTranslateWebpage');
 
             $('input#webpage').keyup(function (ev) {
-                if(ev.keyCode === config.ENTER_KEY_CODE && isURL($('input#webpage').val())) {
+                if(ev.keyCode === ENTER_KEY_CODE && isURL($('input#webpage').val())) {
                     translate();
                     return false;
                 }
@@ -299,7 +302,7 @@ if(modeEnabled('translation')) {
 
         var timer, lastPunct = false;
         $('#originalText').on('keyup paste', function (event) {
-            if(lastPunct && (event.keyCode === config.SPACE_KEY_CODE || event.keyCode === config.ENTER_KEY_CODE)) {
+            if(lastPunct && (event.keyCode === SPACE_KEY_CODE || event.keyCode === ENTER_KEY_CODE)) {
                 // Don't override the short timeout for simple space-after-punctuation
                 return;
             }
@@ -309,7 +312,7 @@ if(modeEnabled('translation')) {
             }
 
             var timeout;
-            if(config.PUNCTUATION_KEY_CODES.indexOf(event.keyCode) !== -1) {
+            if(PUNCTUATION_KEY_CODES.indexOf(event.keyCode) !== -1) {
                 timeout = config.INSTANT_TRANSLATION_PUNCTUATION_DELAY;
                 lastPunct = true;
             }
@@ -627,7 +630,7 @@ function translate(ignoreIfEmpty) {
 
 function translateText(ignoreIfEmpty) {
     function handleTranslateSuccessResponse(data) {
-        if(data.responseStatus === config.HTTP_OK_CODE) {
+        if(data.responseStatus === HTTP_OK_CODE) {
             $('#translatedText').val(data.responseData.translatedText);
             $('#translatedText').removeClass('notAvailable text-danger');
         }
@@ -719,13 +722,13 @@ function translateDoc() {
                 }
                 var fileName = file.name;
                 xhr.onreadystatechange = function () {
-                    if(this.readyState === config.XHR_LOADING) {
+                    if(this.readyState === XHR_LOADING) {
                         $('div#fileLoading').fadeIn('fast');
                         $('div#fileUploadProgress').parent().fadeIn('fast', function () {
                             updateProgressBar({'loaded': 1, 'total': 1, 'position': undefined, 'totalSize': undefined});
                         });
                     }
-                    else if(this.readyState === config.XHR_DONE && xhr.status === config.HTTP_OK_CODE) {
+                    else if(this.readyState === XHR_DONE && xhr.status === HTTP_OK_CODE) {
                         downloadBrowserWarn();
                         $('div#fileUploadProgress').parent().fadeOut('fast');
                         $('div#fileLoading').fadeOut('fast', function () {
@@ -748,7 +751,7 @@ function translateDoc() {
                             $('input#fileInput').prop('disabled', false);
                         });
                     }
-                    else if(this.status >= config.HTTP_BAD_REQUEST_CODE) {
+                    else if(this.status >= HTTP_BAD_REQUEST_CODE) {
                         docTranslateError(getDynamicLocalization('Not_Available'));
                     }
                 };
@@ -829,7 +832,7 @@ function translateWebpage(ignoreIfEmpty) {
 
         var translatedHtml = data.responseData.translatedText;
 
-        if(data.responseStatus === config.HTTP_OK_CODE && translatedHtml) {
+        if(data.responseStatus === HTTP_OK_CODE && translatedHtml) {
             var iframe = $('<iframe id="translatedWebpage" frameborder="0"></iframe>')[0];
             $('#translatedWebpage').replaceWith(iframe);
             iframe.contentWindow.document.open();

@@ -3,12 +3,13 @@
     populateSecondaryGeneratorList, isSubset, handleNewCurrentLang */
 /* global srcLangs:true, dstLangs:true, recentSrcLangs: true, recentDstLangs:true, curSrcLang:true, curDstLang:true, locale:true */
 
-var HASH_URL_MAP = {
-    '#translation': 'q',
-    '#webpageTranslation': 'qP',
-    '#analyzation': 'qA',
-    '#generation': 'qG'
-};
+var URL_PARAM_Q_LIMIT = 1300,
+    HASH_URL_MAP = {
+        '#translation': 'q',
+        '#webpageTranslation': 'qP',
+        '#analyzation': 'qA',
+        '#generation': 'qG'
+    };
 
 var store = new Store(config.HTML_URL);
 
@@ -120,7 +121,7 @@ function persistChoices(mode, updatePermalink) {
         var qName = HASH_URL_MAP[hash];
 
         if(updatePermalink) {
-            if(qVal !== undefined && qVal.length > 0 && qVal.length < config.URL_PARAM_Q_LIMIT) {
+            if(qVal !== undefined && qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
                 urlParams.push(qName + '=' + encodeURIComponent(qVal));
             }
         }

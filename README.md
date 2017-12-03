@@ -24,7 +24,7 @@ Setup
 -------
 
 1. Copy `config.conf.example` to `config.conf` and edit it.
-2. Then type `make`.
+1. Then type `make`.
 
 Running
 ----------

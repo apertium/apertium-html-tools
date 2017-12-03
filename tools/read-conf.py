@@ -67,8 +67,7 @@ def load_dtypes():
                 section = parts[0][1:-1]
                 dtypes[section] = {}
             elif len(parts) == 2:
-                key = parts[0]
-                dtype = parts[1]
+                key, dtype = parts
                 dtypes[section][key] = dtype
 
     return dtypes
