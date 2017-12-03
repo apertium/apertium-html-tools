@@ -7,8 +7,6 @@ var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var translateRequest;
 
-var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-disable-line no-magic-numbers
-
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
@@ -311,7 +309,7 @@ if(modeEnabled('translation')) {
             }
 
             var timeout;
-            if(PUNCTUATION_KEY_CODES.indexOf(event.keyCode) !== -1) {
+            if(config.PUNCTUATION_KEY_CODES.indexOf(event.keyCode) !== -1) {
                 timeout = config.INSTANT_TRANSLATION_PUNCTUATION_DELAY;
                 lastPunct = true;
             }

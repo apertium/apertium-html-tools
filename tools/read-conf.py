@@ -10,15 +10,16 @@ import sys
 def get_value(conf, key, dtype):
     return {
         'string': get_string,
-        'list': get_list,
+        'string[]': get_string_array,
         'bool': get_bool,
-        'int': get_int
+        'int': get_int,
+        'int[]': get_int_array
     }[dtype](conf, key)
 
 def get_string(conf, key):
     return conf.get(key)
 
-def get_list(conf, key):
+def get_string_array(conf, key):
     string = get_string(conf, key)
     return None if string is None else re.split(r"[, ]+", string)
 
@@ -27,6 +28,10 @@ def get_bool(conf, key):
 
 def get_int(conf, key):
     return conf.getint(key)
+
+def get_int_array(conf, key):
+    array = get_string_array(conf, key)
+    return [int(x) for x in array]
 
 
 def check_config(conf, result):
@@ -68,11 +73,11 @@ def load_dtypes():
 
     return dtypes
 
-def load_conf(filename, filename_custom):
+def load_conf(filename_config, filename_custom):
     conf = configparser.ConfigParser(allow_no_value=True)
     conf.optionxform = str
 
-    with open(filename, 'r') as f:
+    with open(filename_config, 'r') as f:
         conf.read_file(f)
     with open(filename_custom, 'r') as f:
         conf.read_file(f)
@@ -114,7 +119,7 @@ def print_keyval(result, args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Load config, print stuff')
     parser.add_argument('-c', '--config', default='config.conf', help='Config file name (default: config.conf)')
-    parser.add_argument('-C', '--custom', default='config-custom.conf', help='Config customization file name (default: config-custom.conf)')
+    parser.add_argument('-C', '--custom', default='custom.conf', help='Customization file name (default: custom.conf)')
     subparsers = parser.add_subparsers(help='Available actions:')
 
     parser_json = subparsers.add_parser('json', help='Print config as json')

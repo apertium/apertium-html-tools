@@ -48,5 +48,5 @@ Contributing
 ------------
 
 [CircleCI](https://circleci.com/) runs tests and generates build artifacts including
-a live copy of Html-tools using `config.conf.example` and `config-custom.conf`.
+a live copy of Html-tools using `config.conf.example` and `custom.conf`.
 
