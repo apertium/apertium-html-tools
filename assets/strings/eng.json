@@ -30,7 +30,7 @@
     "Format_Not_Supported": "Format not supported",
     "Translate_Webpage": "Translate a webpage",
     "Supported_Formats": "Supported formats: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 and newer). <br/><i>Word 97 .doc files and pdf's are not supported.</i>",
-    "Download_Browser_Warning": "Your browser does not handle downloads correctly so downloaded file will save as \"Unknown\", you might want to rename it. Alternatively you can open this page in a browser that handles downloads properly, such as <a href=\"https://www.mozilla.org/firefox/\">Firefox</a>.",
+    "Download_Browser_Warning": "Your browser might not handle downloads correctly. Either right-click and save the link with the correct filename or open this page in <a href=\"https://www.mozilla.org/firefox/\">Firefox</a>.",
     "Download_File": "Download {{fileName}}",
     "Morphological_Analysis": "Morphological analysis",
     "Morphological_Analysis_Help": "Choose a language and analyse your text using Apertium's morphological analysers.",

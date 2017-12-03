@@ -251,7 +251,7 @@
                                               <span id="fileDownloadText"></span>
                                           </a>
                                       </h1>
-                                      <p style="display:none" id="fileDownloadBrowserWarning" data-text="Download_Browser_Warning">Your browser does not handle downloads correctly so downloaded file will save as "Unknown", you might want to rename it. Alternatively you can open this page in a browser that handles downloads properly, such as Firefox.</p>
+                                      <p style="display:none" id="fileDownloadBrowserWarning" data-text="Download_Browser_Warning">Your browser might not handle downloads correctly. Either right-click and "Save As" that file-name or open this page in Firefox.</p>
                                   </div>
                               </div>
                               <div id="translateWebpage">
