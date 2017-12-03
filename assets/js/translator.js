@@ -750,6 +750,18 @@ function translateDoc() {
                                     })
                                     .fadeIn('fast');
                             }
+                            else if(/^((?!chrome|android).)*safari/i.test(window.navigator.userAgent)) {
+                                var reader = new FileReader();
+                                reader.onload = function () {
+                                    $('a#fileDownload')
+                                        .click(function () {
+                                            window.location.href = reader.result.replace(/^data:[^;]*;/, 'data:attachment/file;');
+                                        })
+                                        .fadeIn('fast');
+                                    $('#fileDownloadBrowserWarning').show();
+                                };
+                                reader.readAsDataURL(xhr.response);
+                            }
                             else {
                                 var URL = window.URL || window.webkitURL;
                                 $('a#fileDownload')
