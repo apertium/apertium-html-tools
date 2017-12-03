@@ -744,12 +744,14 @@ function translateDoc() {
                         $('div#fileUploadProgress').parent().fadeOut('fast');
                         $('div#fileLoading').fadeOut('fast', function () {
                             if(typeof window.navigator.msSaveBlob !== 'undefined') {
+                                // IE file download workaround
                                 $('a#fileDownload')
                                     .click(function () {
                                         window.navigator.msSaveBlob(xhr.response, fileName);
                                     });
                             }
                             else if(/^((?!chrome|android).)*safari/i.test(window.navigator.userAgent)) {
+                                // Safari file download workaround
                                 var reader = new FileReader();
                                 reader.onload = function () {
                                     $('a#fileDownload')
@@ -761,6 +763,7 @@ function translateDoc() {
                                 reader.readAsDataURL(xhr.response);
                             }
                             else {
+                                // File download for modern browsers
                                 var URL = window.URL || window.webkitURL;
                                 $('a#fileDownload')
                                     .attr('href', URL.createObjectURL(xhr.response))
