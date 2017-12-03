@@ -747,8 +747,7 @@ function translateDoc() {
                                 $('a#fileDownload')
                                     .click(function () {
                                         window.navigator.msSaveBlob(xhr.response, fileName);
-                                    })
-                                    .fadeIn('fast');
+                                    });
                             }
                             else if(/^((?!chrome|android).)*safari/i.test(window.navigator.userAgent)) {
                                 var reader = new FileReader();
@@ -756,8 +755,7 @@ function translateDoc() {
                                     $('a#fileDownload')
                                         .click(function () {
                                             window.location.href = reader.result.replace(/^data:[^;]*;/, 'data:attachment/file;');
-                                        })
-                                        .fadeIn('fast');
+                                        });
                                     $('#fileDownloadBrowserWarning').show();
                                 };
                                 reader.readAsDataURL(xhr.response);
@@ -766,9 +764,9 @@ function translateDoc() {
                                 var URL = window.URL || window.webkitURL;
                                 $('a#fileDownload')
                                     .attr('href', URL.createObjectURL(xhr.response))
-                                    .attr('download', fileName)
-                                    .fadeIn('fast');
+                                    .attr('download', fileName);
                             }
+                            $('a#fileDownload').fadeIn('fast');
                             $('span#fileDownloadText').text(getDynamicLocalization('Download_File').replace('{{fileName}}', fileName));
                             $('button#translate').prop('disabled', false);
                             $('input#fileInput').prop('disabled', false);
