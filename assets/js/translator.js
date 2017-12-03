@@ -762,14 +762,12 @@ function translateDoc() {
                                 };
                                 reader.readAsDataURL(xhr.response);
                             }
-                            else {
-                                // File download for modern browsers
-                                var URL = window.URL || window.webkitURL;
-                                $('a#fileDownload')
-                                    .attr('href', URL.createObjectURL(xhr.response))
-                                    .attr('download', fileName);
-                            }
-                            $('a#fileDownload').fadeIn('fast');
+                            // File download for modern browsers and right-click to save
+                            var URL = window.URL || window.webkitURL;
+                            $('a#fileDownload')
+                                .attr('href', URL.createObjectURL(xhr.response))
+                                .attr('download', fileName)
+                                .fadeIn('fast');
                             $('span#fileDownloadText').text(getDynamicLocalization('Download_File').replace('{{fileName}}', fileName));
                             $('button#translate').prop('disabled', false);
                             $('input#fileInput').prop('disabled', false);
