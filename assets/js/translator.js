@@ -743,16 +743,6 @@ function translate(ignoreIfEmpty) {
 }
 
 function translateText(ignoreIfEmpty) {
-    function handleTranslateSuccessResponse(data) {
-        if(data.responseStatus === HTTP_OK_CODE) {
-            $('#translatedText').val(data.responseData.translatedText);
-            $('#translatedText').removeClass('notAvailable text-danger');
-        }
-        else {
-            translationNotAvailable();
-        }
-    }
-
     var originalText = $('#originalText').val();
 
     if(!originalText && ignoreIfEmpty) {
