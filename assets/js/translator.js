@@ -6,6 +6,7 @@ var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var translateRequest;
+var grecaptcha;
 var recaptchaRenderCallback;
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
@@ -29,22 +30,18 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
 /* global $bu_getBrowser */
 
-$(document).ready(function() {
-    $.getScript("https://www.google.com/recaptcha/api.js");
-});
-
 if(modeEnabled('translation')) {
     $(document).ready(function () {
+        var locale2 = iso639Codes[$('.localeSelect').val()];
+        var newSrc = getRecaptchaSrc(locale2);
+        $.getScript(newSrc);
+
         synchronizeTextareaHeights();
         recaptchaRenderCallback = function () {
             grecaptcha.render('suggestRecaptcha', {
                 'sitekey': config.SUGGESTIONS.recaptcha_site_key
             });
         };
-
-        var locale2 = iso639Codes[$('.localeSelect').val()];
-        var newSrc = getRecaptchaSrc(locale2);
-        $.getScript(newSrc);
 
         $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
             curSrcLang = $(this).attr('data-code');
@@ -821,7 +818,7 @@ function translateText(ignoreIfEmpty) {
 
                             $('#translatedTextClone').html(
                                 $('#translatedTextClone').html().replace(/(^|\W|\d)(\*|@|#)(\w+)/g,
-                                '$1<span class="wordSuggestPopoverInline text-danger" title="' +
+                                    '$1<span class="wordSuggestPopoverInline text-danger" title="' +
                                 localizedTitle + '" style="cursor: pointer">$3</span>')
                             );
 

@@ -12,3 +12,6 @@ assets/js/config.js
 .Trashes
 Thumbs.db
 ehthumbs.db
+
+#Idea
+.idea/
