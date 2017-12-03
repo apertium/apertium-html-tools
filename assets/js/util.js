@@ -407,13 +407,6 @@ function displayInstallationNotification() {
     }
 }
 
-/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
-    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE, apyRequestTimeout} */
-/*:: import {config} from "./config.js" */
-/*:: import {persistChoices} from "./persistence.js" */
-/*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
-/*:: import {populateTranslationList, showTranslateWebpageInterface} from "./translator.js" */
-
 /* eslint-disable */
 String.prototype.hashCode = function () {
     var hash = 0;
@@ -429,3 +422,10 @@ String.prototype.hashCode = function () {
     return hash;
 }
 /* eslint-enable */
+
+/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
+    SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE, apyRequestTimeout} */
+/*:: import {config} from "./config.js" */
+/*:: import {persistChoices} from "./persistence.js" */
+/*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
+/*:: import {populateTranslationList, showTranslateWebpageInterface} from "./translator.js" */
