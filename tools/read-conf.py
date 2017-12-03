@@ -7,15 +7,6 @@ import re
 import sys
 
 
-def get_value(conf, key, dtype):
-    return {
-        'string': get_string,
-        'string[]': get_string_array,
-        'bool': get_bool,
-        'int': get_int,
-        'int[]': get_int_array
-    }[dtype](conf, key)
-
 def get_string(conf, key):
     return conf.get(key)
 
@@ -31,7 +22,65 @@ def get_int(conf, key):
 
 def get_int_array(conf, key):
     array = get_string_array(conf, key)
-    return [int(x) for x in array]
+    return None if array is None else [int(x) for x in array]
+
+
+dtypes = {
+    # section APY
+    "HTML_URL": get_string,
+    "APY_URL": get_string,
+
+    "SUBTITLE": get_string,
+    "SUBTITLE_COLOR": get_string,
+
+    "ALLOWED_LANGS": get_string_array,
+    "ALLOWED_VARIANTS": get_string_array,
+    "ALLOWED_PAIRS": get_string_array,
+
+    "ENABLED_MODES": get_string_array,
+    "DEFAULT_MODE": get_string,
+
+    "TRANSLATION_CHAINING": get_bool,
+
+    "DEFAULT_LOCALE": get_string,
+
+    "SHOW_NAVBAR": get_string,
+
+    "PIWIK_SITEID": get_string,
+    "PIWIK_URL": get_string,
+
+    "LIST_REQUEST_CACHE_EXPIRY": get_int,
+    "LANGUAGE_NAME_CACHE_EXPIRY": get_int,
+    "LOCALIZATION_CACHE_EXPIRY": get_int,
+    "AVAILABLE_LOCALES_CACHE_EXPIRY": get_int,
+
+    # section PERSISTENCE
+    "DEFAULT_EXPIRY_HOURS": get_int,
+
+    # section TRANSLATOR
+    "UPLOAD_FILE_SIZE_LIMIT": get_int,
+
+    "TRANSLATION_LIST_BUTTONS": get_int,
+    "TRANSLATION_LIST_WIDTH": get_int,
+    "TRANSLATION_LIST_ROWS": get_int,
+    "TRANSLATION_LIST_COLUMNS": get_int,
+    "TRANSLATION_LISTS_BUFFER": get_int,
+
+    "INSTANT_TRANSLATION_URL_DELAY": get_int,
+    "INSTANT_TRANSLATION_PUNCTUATION_DELAY": get_int,
+    "INSTANT_TRANSLATION_DELAY": get_int,
+
+    # section UTIL
+    "TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH": get_int,
+    "BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT": get_int,
+    "APY_REQUEST_URL_THRESHOLD_LENGTH": get_int,
+    "DEFAULT_DEBOUNCE_DELAY": get_int,
+
+    "INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH": get_int,
+    "INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD": get_int,
+    "INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD": get_int,
+    "INSTALLATION_NOTIFICATION_DURATION": get_int,
+}
 
 
 def check_config(conf, result):
@@ -46,31 +95,6 @@ def check_config(conf, result):
         raise configparser.Error("\nUnknown key(s) in section [APY]: %s" % (apy_diff,))
 
     return True
-
-def load_dtypes():
-    dtypes = {}
-
-    with open('tools/conf-dtypes.txt', 'r') as fields:
-        lines = fields.readlines()
-        lines = [line.strip() for line in lines]
-
-        section = None
-
-        for line in lines:
-            if len(line) == 0:
-                continue
-
-            parts = line.split('|')
-            parts = [part.strip() for part in parts]
-
-            if len(parts) == 1:
-                section = parts[0][1:-1]
-                dtypes[section] = {}
-            elif len(parts) == 2:
-                key, dtype = parts
-                dtypes[section][key] = dtype
-
-    return dtypes
 
 def load_conf(filename_config, filename_custom):
     conf = configparser.ConfigParser(allow_no_value=True)
@@ -92,14 +116,12 @@ def load_conf(filename_config, filename_custom):
         'TAGGERS': None
     }
 
-    dtypes = load_dtypes()
-
     for section in conf.sections():
         if section == 'REPLACEMENTS':
             continue
 
         for key, value in conf.items(section):
-            result[key] = get_value(conf[section], key, dtypes[section][key])
+            result[key] = dtypes[key](conf[section], key)
 
     check_config(conf, result)
     return result
