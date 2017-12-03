@@ -37,7 +37,7 @@ if(modeEnabled('translation')) {
         $.getScript(newSrc);
 
         synchronizeTextareaHeights();
-        recaptchaRenderCallback = function () {   // eslint-disable-line no-unused-vars
+        recaptchaRenderCallback = function () { // eslint-disable-line no-unused-vars
             grecaptcha.render('suggestRecaptcha', {
                 'sitekey': config.SUGGESTIONS.recaptcha_site_key
             });
