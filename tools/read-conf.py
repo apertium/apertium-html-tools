@@ -7,6 +7,10 @@ import re
 import sys
 
 
+def pad_tupel(tupel, length):
+    return (tupel[i] if i < len(tupel) else None for i in range(length))
+
+
 def get_string(conf, key, fallback=None):
     return conf.get(key, fallback=fallback)
 
@@ -127,7 +131,7 @@ def load_conf(filename_config, filename_custom):
 
     for section_name, section_desc in constants.items():
         for constant_name, constant_desc in section_desc.items():
-            dtype, fallback, *_ = (*constant_desc, None)
+            dtype, fallback = pad_tupel(constant_desc, 2)
             result[constant_name] = dtype(conf[section_name], constant_name, fallback)
 
     check_config(conf, result)
