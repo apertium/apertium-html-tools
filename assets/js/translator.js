@@ -749,9 +749,8 @@ function translateDoc() {
                                         window.navigator.msSaveBlob(xhr.response, fileName);
                                     });
                             }
-                            else if(/.*(?!chrome|android).*(version\/[^10,11]|Mobile).*safari/i.test(window.navigator.userAgent) &&
+                            else if(/.*(?!chrome|android).*(version\/\d\.|Mobile).*safari/i.test(window.navigator.userAgent) &&
                                 !/chrome/i.test(window.navigator.userAgent)) {
-                                // When a new version of Safari comes out ^^ need to update
                                 // Safari <9 + Mobile file download workaround
                                 var reader = new FileReader();
                                 reader.onload = function () {
