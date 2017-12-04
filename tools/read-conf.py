@@ -29,64 +29,64 @@ def get_int_array(conf, key, fallback=None):
 constants = {
     # section name
     'APY': {
-        # CONSTANT_NAME: [parser]
-        # CONSTANT_NAME: [parser, fallback]
-        'HTML_URL': [get_string, "http://www.apertium.org"],
-        'APY_URL': [get_string, "http://apy.projectjj.com"],
+        # CONSTANT_NAME: (parser,)
+        # CONSTANT_NAME: (parser, fallback)
+        'HTML_URL': (get_string, "http://www.apertium.org"),
+        'APY_URL': (get_string, "http://apy.projectjj.com"),
 
-        'SUBTITLE': [get_string],
-        'SUBTITLE_COLOR': [get_string],
+        'SUBTITLE': (get_string,),
+        'SUBTITLE_COLOR': (get_string,),
 
-        'ALLOWED_LANGS': [get_string_array],
-        'ALLOWED_VARIANTS': [get_string_array],
-        'ALLOWED_PAIRS': [get_string_array],
+        'ALLOWED_LANGS': (get_string_array,),
+        'ALLOWED_VARIANTS': (get_string_array,),
+        'ALLOWED_PAIRS': (get_string_array,),
 
-        'ENABLED_MODES': [get_string_array, ["translation"]],
-        'DEFAULT_MODE': [get_string, "translation"],
+        'ENABLED_MODES': (get_string_array, ["translation"]),
+        'DEFAULT_MODE': (get_string, "translation"),
 
-        'TRANSLATION_CHAINING': [get_bool, False],
+        'TRANSLATION_CHAINING': (get_bool, False),
 
-        'DEFAULT_LOCALE': [get_string, "eng"],
+        'DEFAULT_LOCALE': (get_string, "eng"),
 
-        'SHOW_NAVBAR': [get_string, False],
+        'SHOW_NAVBAR': (get_string, False),
 
-        'PIWIK_SITEID': [get_string],
-        'PIWIK_URL': [get_string],
+        'PIWIK_SITEID': (get_string,),
+        'PIWIK_URL': (get_string,),
 
-        'LIST_REQUEST_CACHE_EXPIRY': [get_int, 24],
-        'LANGUAGE_NAME_CACHE_EXPIRY': [get_int, 24],
-        'LOCALIZATION_CACHE_EXPIRY': [get_int, 24],
-        'AVAILABLE_LOCALES_CACHE_EXPIRY': [get_int, 24],
+        'LIST_REQUEST_CACHE_EXPIRY': (get_int, 24),
+        'LANGUAGE_NAME_CACHE_EXPIRY': (get_int, 24),
+        'LOCALIZATION_CACHE_EXPIRY': (get_int, 24),
+        'AVAILABLE_LOCALES_CACHE_EXPIRY': (get_int, 24),
     },
 
     'PERSISTENCE': {
-        'DEFAULT_EXPIRY_HOURS': [get_int],
+        'DEFAULT_EXPIRY_HOURS': (get_int,),
     },
 
     'TRANSLATOR': {
-        'UPLOAD_FILE_SIZE_LIMIT': [get_int],
+        'UPLOAD_FILE_SIZE_LIMIT': (get_int,),
 
-        'TRANSLATION_LIST_BUTTONS': [get_int],
-        'TRANSLATION_LIST_WIDTH': [get_int],
-        'TRANSLATION_LIST_ROWS': [get_int],
-        'TRANSLATION_LIST_COLUMNS': [get_int],
-        'TRANSLATION_LISTS_BUFFER': [get_int],
+        'TRANSLATION_LIST_BUTTONS': (get_int,),
+        'TRANSLATION_LIST_WIDTH': (get_int,),
+        'TRANSLATION_LIST_ROWS': (get_int,),
+        'TRANSLATION_LIST_COLUMNS': (get_int,),
+        'TRANSLATION_LISTS_BUFFER': (get_int,),
 
-        'INSTANT_TRANSLATION_URL_DELAY': [get_int],
-        'INSTANT_TRANSLATION_PUNCTUATION_DELAY': [get_int],
-        'INSTANT_TRANSLATION_DELAY': [get_int],
+        'INSTANT_TRANSLATION_URL_DELAY': (get_int,),
+        'INSTANT_TRANSLATION_PUNCTUATION_DELAY': (get_int,),
+        'INSTANT_TRANSLATION_DELAY': (get_int,),
     },
 
     'UTIL': {
-        'TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH': [get_int],
-        'BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT': [get_int],
-        'APY_REQUEST_URL_THRESHOLD_LENGTH': [get_int],
-        'DEFAULT_DEBOUNCE_DELAY': [get_int],
+        'TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH': (get_int,),
+        'BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT': (get_int,),
+        'APY_REQUEST_URL_THRESHOLD_LENGTH': (get_int,),
+        'DEFAULT_DEBOUNCE_DELAY': (get_int,),
 
-        'INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH': [get_int],
-        'INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD': [get_int],
-        'INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD': [get_int],
-        'INSTALLATION_NOTIFICATION_DURATION': [get_int],
+        'INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH': (get_int,),
+        'INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD': (get_int,),
+        'INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD': (get_int,),
+        'INSTALLATION_NOTIFICATION_DURATION': (get_int,),
     },
 }
 
@@ -101,7 +101,7 @@ def check_config(conf, result):
 
         for constant, _ in conf.items(section):
             if constant not in constants[section].keys():
-                raise configparser.Error("\nUnknown key in section [%s]: %s" % (section, constant,))
+                raise configparser.Error("\nUnknown key in section [%s]: %s" % (section, constant))
 
     return True
 
@@ -127,8 +127,7 @@ def load_conf(filename_config, filename_custom):
 
     for section_name, section_desc in constants.items():
         for constant_name, constant_desc in section_desc.items():
-            dtype = constant_desc[0]
-            fallback = constant_desc[1] if len(constant_desc) == 2 else None
+            dtype, fallback, *_ = (*constant_desc, None)
             result[constant_name] = dtype(conf[section_name], constant_name, fallback)
 
     check_config(conf, result)
