@@ -7,92 +7,101 @@ import re
 import sys
 
 
-def get_string(conf, key):
-    return conf.get(key)
+def get_string(conf, key, fallback=None):
+    return conf.get(key, fallback=fallback)
 
-def get_string_array(conf, key):
+def get_string_array(conf, key, fallback=None):
     string = get_string(conf, key)
-    return None if string is None else re.split(r"[, ]+", string)
+    return fallback if string is None else re.split(r'[, ]+', string)
 
-def get_bool(conf, key):
-    return conf.getboolean(key)
+def get_bool(conf, key, fallback=None):
+    return conf.getboolean(key, fallback=fallback)
 
-def get_int(conf, key):
-    return conf.getint(key)
+def get_int(conf, key, fallback=None):
+    return conf.getint(key, fallback=fallback)
 
-def get_int_array(conf, key):
+def get_int_array(conf, key, fallback=None):
     array = get_string_array(conf, key)
-    return None if array is None else [int(x) for x in array]
+    return fallback if array is None else [int(x) for x in array]
 
 
-dtypes = {
-    # section APY
-    "HTML_URL": get_string,
-    "APY_URL": get_string,
+# Constant descriptors
+constants = {
+    # section name
+    'APY': {
+        # CONSTANT_NAME: [parser]
+        # CONSTANT_NAME: [parser, fallback]
+        'HTML_URL': [get_string, "http://www.apertium.org"],
+        'APY_URL': [get_string, "http://apy.projectjj.com"],
 
-    "SUBTITLE": get_string,
-    "SUBTITLE_COLOR": get_string,
+        'SUBTITLE': [get_string],
+        'SUBTITLE_COLOR': [get_string],
 
-    "ALLOWED_LANGS": get_string_array,
-    "ALLOWED_VARIANTS": get_string_array,
-    "ALLOWED_PAIRS": get_string_array,
+        'ALLOWED_LANGS': [get_string_array],
+        'ALLOWED_VARIANTS': [get_string_array],
+        'ALLOWED_PAIRS': [get_string_array],
 
-    "ENABLED_MODES": get_string_array,
-    "DEFAULT_MODE": get_string,
+        'ENABLED_MODES': [get_string_array, ["translation"]],
+        'DEFAULT_MODE': [get_string, "translation"],
 
-    "TRANSLATION_CHAINING": get_bool,
+        'TRANSLATION_CHAINING': [get_bool, False],
 
-    "DEFAULT_LOCALE": get_string,
+        'DEFAULT_LOCALE': [get_string, "eng"],
 
-    "SHOW_NAVBAR": get_string,
+        'SHOW_NAVBAR': [get_string, False],
 
-    "PIWIK_SITEID": get_string,
-    "PIWIK_URL": get_string,
+        'PIWIK_SITEID': [get_string],
+        'PIWIK_URL': [get_string],
 
-    "LIST_REQUEST_CACHE_EXPIRY": get_int,
-    "LANGUAGE_NAME_CACHE_EXPIRY": get_int,
-    "LOCALIZATION_CACHE_EXPIRY": get_int,
-    "AVAILABLE_LOCALES_CACHE_EXPIRY": get_int,
+        'LIST_REQUEST_CACHE_EXPIRY': [get_int, 24],
+        'LANGUAGE_NAME_CACHE_EXPIRY': [get_int, 24],
+        'LOCALIZATION_CACHE_EXPIRY': [get_int, 24],
+        'AVAILABLE_LOCALES_CACHE_EXPIRY': [get_int, 24],
+    },
 
-    # section PERSISTENCE
-    "DEFAULT_EXPIRY_HOURS": get_int,
+    'PERSISTENCE': {
+        'DEFAULT_EXPIRY_HOURS': [get_int],
+    },
 
-    # section TRANSLATOR
-    "UPLOAD_FILE_SIZE_LIMIT": get_int,
+    'TRANSLATOR': {
+        'UPLOAD_FILE_SIZE_LIMIT': [get_int],
 
-    "TRANSLATION_LIST_BUTTONS": get_int,
-    "TRANSLATION_LIST_WIDTH": get_int,
-    "TRANSLATION_LIST_ROWS": get_int,
-    "TRANSLATION_LIST_COLUMNS": get_int,
-    "TRANSLATION_LISTS_BUFFER": get_int,
+        'TRANSLATION_LIST_BUTTONS': [get_int],
+        'TRANSLATION_LIST_WIDTH': [get_int],
+        'TRANSLATION_LIST_ROWS': [get_int],
+        'TRANSLATION_LIST_COLUMNS': [get_int],
+        'TRANSLATION_LISTS_BUFFER': [get_int],
 
-    "INSTANT_TRANSLATION_URL_DELAY": get_int,
-    "INSTANT_TRANSLATION_PUNCTUATION_DELAY": get_int,
-    "INSTANT_TRANSLATION_DELAY": get_int,
+        'INSTANT_TRANSLATION_URL_DELAY': [get_int],
+        'INSTANT_TRANSLATION_PUNCTUATION_DELAY': [get_int],
+        'INSTANT_TRANSLATION_DELAY': [get_int],
+    },
 
-    # section UTIL
-    "TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH": get_int,
-    "BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT": get_int,
-    "APY_REQUEST_URL_THRESHOLD_LENGTH": get_int,
-    "DEFAULT_DEBOUNCE_DELAY": get_int,
+    'UTIL': {
+        'TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH': [get_int],
+        'BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT': [get_int],
+        'APY_REQUEST_URL_THRESHOLD_LENGTH': [get_int],
+        'DEFAULT_DEBOUNCE_DELAY': [get_int],
 
-    "INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH": get_int,
-    "INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD": get_int,
-    "INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD": get_int,
-    "INSTALLATION_NOTIFICATION_DURATION": get_int,
+        'INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH': [get_int],
+        'INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD': [get_int],
+        'INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD': [get_int],
+        'INSTALLATION_NOTIFICATION_DURATION': [get_int],
+    },
 }
 
-
+# Some error checking
 def check_config(conf, result):
-    # Some error checking:
     for section in conf.sections():
-        if section not in ['APY', 'PERSISTENCE', 'REPLACEMENTS', 'TRANSLATOR', 'UTIL']:
+        if section == 'REPLACEMENTS':
+            continue
+
+        if section not in constants.keys():
             raise configparser.Error("\nUnknown section [%s]" % (section,))
 
-    # TODO: either remove or check for all sections
-    apy_diff = set(k.lower() for k in conf['APY'].keys()) - set(k.lower() for k in result.keys())
-    if apy_diff:
-        raise configparser.Error("\nUnknown key(s) in section [APY]: %s" % (apy_diff,))
+        for constant, _ in conf.items(section):
+            if constant not in constants[section].keys():
+                raise configparser.Error("\nUnknown key in section [%s]: %s" % (section, constant,))
 
     return True
 
@@ -106,7 +115,7 @@ def load_conf(filename_config, filename_custom):
         conf.read_file(f)
 
     result = {
-        'REPLACEMENTS'                   : {k: v for k, v in conf['REPLACEMENTS'].items()},
+        'REPLACEMENTS': {k: v for k, v in conf['REPLACEMENTS'].items()},
         # These are filled at various places by javascript:
         'LANGNAMES': None,
         'LOCALES': None,
@@ -116,12 +125,11 @@ def load_conf(filename_config, filename_custom):
         'TAGGERS': None
     }
 
-    for section in conf.sections():
-        if section == 'REPLACEMENTS':
-            continue
-
-        for key, value in conf.items(section):
-            result[key] = dtypes[key](conf[section], key)
+    for section_name, section_desc in constants.items():
+        for constant_name, constant_desc in section_desc.items():
+            dtype = constant_desc[0]
+            fallback = constant_desc[1] if len(constant_desc) == 2 else None
+            result[constant_name] = dtype(conf[section_name], constant_name, fallback)
 
     check_config(conf, result)
     return result
