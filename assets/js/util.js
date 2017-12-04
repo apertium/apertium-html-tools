@@ -407,6 +407,22 @@ function displayInstallationNotification() {
     }
 }
 
+/* eslint-disable */
+String.prototype.hashCode = function () {
+    var hash = 0;
+    var leftShift = 5;
+    if(this.length === 0) {
+        return hash;
+    }
+    for(i = 0; i < this.length; i++) {
+        char = this.charCodeAt(i);
+        hash = ((hash << leftShift) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+}
+/* eslint-enable */
+
 /*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
     SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE, apyRequestTimeout} */
 /*:: import {config} from "./config.js" */

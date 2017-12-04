@@ -6,12 +6,15 @@ var curSrcLang, curDstLang;
 var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var translateRequest;
+var grecaptcha;
+var recaptchaRenderCallback; // eslint-disable-line no-unused-vars
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
     TRANSLATION_LIST_WIDTH = 650,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4,
+    SUGGESTION_DESTROY_TIMEOUT = 3000,
     TRANSLATION_LISTS_BUFFER = 50;
 
 var INSTANT_TRANSLATION_URL_DELAY = 500,
@@ -23,12 +26,29 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 /* exported getPairs */
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, apyRequestTimeout, isURL */
+    callApy, apyRequestTimeout, isURL, getRecaptchaSrc */
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
 /* global $bu_getBrowser */
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
+        var locale2 = iso639Codes[$('.localeSelect').val()];
+        var newSrc = getRecaptchaSrc(locale2);
+        $.getScript(newSrc);
+
+        synchronizeTextareaHeights();
+        recaptchaRenderCallback = function () { // eslint-disable-line no-unused-vars
+            grecaptcha.render('suggestRecaptcha', {
+                'sitekey': config.SUGGESTIONS.recaptcha_site_key
+            });
+        };
+
+        $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
+            curSrcLang = $(this).attr('data-code');
+            handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
+
+            autoSelectDstLang();
+        });
         function updatePairList() {
             pairs = $('input#chainedTranslation').prop('checked') ? chainedPairs : originalPairs;
         }
@@ -305,6 +325,89 @@ if(modeEnabled('translation')) {
             persistChoices('translator', true);
         });
 
+        $('#translatedText').css('height', $('#originalText').css('height'));
+        $('#suggestCloseBtn').click(function () {
+            $('#suggestedWordInput').val('');
+            grecaptcha.reset();
+        });
+        $('#suggestBtn').click(function () {
+            var fromWord = $('#suggestionTargetWord').html();
+            var toWord = $('#suggestedWordInput').val();
+            var recaptchaResponse = grecaptcha.getResponse();
+
+            if(toWord.length === 0) {
+                $('#suggestedWordInput').tooltip('destroy');
+                $('#suggestedWordInput').tooltip({
+                    'title': 'Suggestion cannot be empty.',
+                    'trigger': 'manual',
+                    'placement': 'bottom'
+                });
+                $('#suggestedWordInput').tooltip('show');
+                setTimeout(function () {
+                    $('#suggestedWordInput').tooltip('destroy');
+                }, SUGGESTION_DESTROY_TIMEOUT);
+
+                return;
+            }
+
+            // Obtaining context, (± config.SUGGESTIONS.context_size) words
+            // fallback to complete text if this fails.
+            var hashedWord = fromWord.hashCode() + fromWord + fromWord.hashCode();
+            $('#wordGettingSuggested').text(hashedWord);
+
+            var splitText = $('#translatedText').text().split(' ');
+            $('#wordGettingSuggested').text(fromWord);
+
+            var targetIndex = splitText.indexOf(hashedWord);
+            var wrapLength = parseInt(config.SUGGESTIONS.context_size, 10);
+            var begin = (targetIndex > wrapLength) ? (targetIndex - wrapLength) : 0;
+            var ending = (splitText.length - targetIndex - 1 > wrapLength) ? (targetIndex + wrapLength + 1) : splitText.length;
+            var context = splitText.slice(begin, ending).join(' ').replace(hashedWord, fromWord);
+            if(!context) {
+                context = $('#translatedText').attr('pristineText');
+            }
+
+            $.ajax({
+                url: config.APY_URL + '/suggest',
+                type: 'POST',
+                beforeSend: ajaxSend,
+                data: {
+                    'langpair': curSrcLang + '|' + curDstLang,
+                    'word': fromWord,
+                    'newWord': toWord,
+                    'context': context,
+                    'g-recaptcha-response': recaptchaResponse
+                },
+                success: function () {
+                    $('#suggestedWordInput').tooltip('destroy');
+                    $('#suggestedWordInput').val('');
+                    $('#wordSuggestModal').modal('hide');
+                },
+                error: function (data) {
+                    var data1 = $.parseJSON(data.responseText);
+                    $('#suggestedWordInput').tooltip('destroy');
+                    $('#suggestedWordInput').tooltip({
+                        'title': (data1.explanation ? data1.explanation : 'An error occurred'),
+                        'trigger': 'manual',
+                        'placement': 'bottom'
+                    });
+                    $('#suggestedWordInput').tooltip('show');
+                    setTimeout(function () {
+                        $('#suggestedWordInput').tooltip('hide');
+                        $('#suggestedWordInput').tooltip('destroy');
+                    }, SUGGESTION_DESTROY_TIMEOUT);
+                },
+                complete: function () {
+                    ajaxComplete;
+                    grecaptcha.reset();
+                }
+            });
+        });
+
+        $('body').on('dragover', function (ev) {
+            ev.preventDefault();
+            return false;
+        });
         $('input#chainedTranslation').change(function () {
             updatePairList();
             populateTranslationList();
@@ -640,16 +743,6 @@ function translate(ignoreIfEmpty) {
 }
 
 function translateText(ignoreIfEmpty) {
-    function handleTranslateSuccessResponse(data) {
-        if(data.responseStatus === HTTP_OK_CODE) {
-            $('#translatedText').val(data.responseData.translatedText);
-            $('#translatedText').removeClass('notAvailable text-danger');
-        }
-        else {
-            translationNotAvailable();
-        }
-    }
-
     var originalText = $('#originalText').val();
 
     if(!originalText && ignoreIfEmpty) {
@@ -678,12 +771,66 @@ function translateText(ignoreIfEmpty) {
             request.q = originalText; // eslint-disable-line id-length
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             translateRequest = callApy({
-                data: request,
-                success: handleTranslateSuccessResponse,
                 error: translationNotAvailable,
                 complete: function () {
                     ajaxComplete();
                     translateRequest = undefined;
+                },
+                data: {
+                    'langpair': curSrcLang + '|' + curDstLang,
+                    'q': $('#originalText').val(),
+                    'markUnknown': $('#markUnknown').prop('checked') ? 'yes' : 'no'
+                },
+                success: function (data) {
+                    if(data.responseStatus === HTTP_OK_CODE) {
+                        $('#translatedText').html(data.responseData.translatedText);
+                        $('#translatedText').removeClass('notAvailable text-danger');
+
+                        $('#translatedText').attr('pristineText', data.responseData.translatedText);
+
+                        if(config.SUGGESTIONS.enabled) {
+                            var localizedTitle = getDynamicLocalization('Suggest_Title');
+                            var placeholder = getDynamicLocalization('Suggest_Placeholder');
+                            $('#suggestedWordInput').attr('placeholder', placeholder);
+                            $('#translatedText').html(
+                                $('#translatedText').html().replace(/(^|\W|\d)(\*|@|#)(\w+)/g,
+                                    '$1<span class="wordSuggestPopover text-danger" title="' +
+                                localizedTitle + '" style="cursor: pointer">$3</span>')
+                            );
+                        }
+
+                        $('#translatedTextClone').html($('#translatedText').attr('pristineText'));
+                        $('.wordSuggestPopover').click(function () {
+                            $('.wordSuggestPopover').removeAttr('id');
+                            $('.wordSuggestPopoverInline').removeAttr('id');
+                            $(this).attr('id', 'wordGettingSuggested');
+
+                            $('#translatedTextClone').html(
+                                $('#translatedTextClone').html().replace(/(^|\W|\d)(\*|@|#)(\w+)/g,
+                                    '$1<span class="wordSuggestPopoverInline text-danger" title="' +
+                                localizedTitle + '" style="cursor: pointer">$3</span>')
+                            );
+
+                            $('.wordSuggestPopoverInline').click(function () {
+                                $('.wordSuggestPopover').removeAttr('id');
+                                $('.wordSuggestPopoverInline').removeAttr('id');
+                                $(this).attr('id', 'wordGettingSuggested');
+
+                                $('#suggestionTargetWord').html($(this).text().replace(/(\*|@|#)/g, ''));
+                                $('#suggestedWordInput').val('');
+                            });
+
+                            $('#suggestSentenceContainer').html(getDynamicLocalization('Suggest_Sentence').replace('{{targetWordCode}}',
+                                '<code><span id="suggestionTargetWord"></span></code>')
+                            );
+                            $('#suggestionTargetWord').html($(this).text().replace(/(\*|@|#)/g, ''));
+
+                            $('#wordSuggestModal').modal();
+                        });
+                    }
+                    else {
+                        translationNotAvailable();
+                    }
                 }
             }, endpoint);
         }
