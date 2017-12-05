@@ -740,7 +740,6 @@ function translateDoc() {
                         });
                     }
                     else if(this.readyState === XHR_DONE && xhr.status === HTTP_OK_CODE) {
-                        downloadBrowserWarn();
                         $('div#fileUploadProgress').parent().fadeOut('fast');
                         $('div#fileLoading').fadeOut('fast', function () {
                             if(typeof window.navigator.msSaveBlob !== 'undefined') {
@@ -760,7 +759,6 @@ function translateDoc() {
                                         .click(function () {
                                             window.location.href = reader.result.replace(/^data:[^;]*;/, 'data:attachment/file;');
                                         });
-                                    $('#fileDownloadBrowserWarning').show();
                                 };
                                 reader.readAsDataURL(xhr.response);
                             }
@@ -956,16 +954,6 @@ function showTranslateWebpageInterface(url, ignoreIfEmpty) {
         window.location.hash = 'webpageTranslation';
         translateWebpage(ignoreIfEmpty);
     });
-}
-
-function downloadBrowserWarn() {
-    if(typeof $bu_getBrowser == 'function') { // eslint-disable-line camelcase
-        var detected = $bu_getBrowser();
-        // Show the warning for (what bu calls) "niche" browsers and Safari, but not Chromium:
-        if(detected.n.match(/^[xs]/) && !(navigator.userAgent.match(/Chromium/))) {
-            $('#fileDownloadBrowserWarning').show();
-        }
-    }
 }
 
 function detectLanguage() {

@@ -33,7 +33,6 @@
     "Cancel": "Avbryt",
     "Format_Not_Supported": "Det formatet er ikke støttet!",
     "Supported_Formats": "Støttede format: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 og nyere). <br/><i>Word 97 .doc-filer og pdf-er støttes ikke.</i>",
-    "Download_Browser_Warning": "Nettleseren din støtter kanskje ikke nedlastinger korrekt. Enten høyreklikk og lagre lenken med korrekt filnavn, eller åpne denne siden i <a href=\"https://www.mozilla.org/firefox/\">Firefox</a>.",
     "Download_File": "Last ned {{fileName}}",
     "Morphological_Analysis": "Morfologisk analyse",
     "Morphological_Analysis_Help": "Velg et språk og analyser teksten din med de morfologiske analysatorene til Apertium.",
