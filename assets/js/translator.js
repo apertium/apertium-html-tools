@@ -7,17 +7,6 @@ var recentSrcLangs = [], recentDstLangs = [];
 var droppedFile;
 var translateRequest;
 
-var UPLOAD_FILE_SIZE_LIMIT = 32E6,
-    TRANSLATION_LIST_BUTTONS = 3,
-    TRANSLATION_LIST_WIDTH = 650,
-    TRANSLATION_LIST_ROWS = 8,
-    TRANSLATION_LIST_COLUMNS = 4,
-    TRANSLATION_LISTS_BUFFER = 50;
-
-var INSTANT_TRANSLATION_URL_DELAY = 500,
-    INSTANT_TRANSLATION_PUNCTUATION_DELAY = 1000,
-    INSTANT_TRANSLATION_DELAY = 3000;
-
 var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-disable-line no-magic-numbers
 
 /* exported getPairs */
@@ -324,15 +313,15 @@ if(modeEnabled('translation')) {
 
             var timeout;
             if(PUNCTUATION_KEY_CODES.indexOf(event.keyCode) !== -1) {
-                timeout = INSTANT_TRANSLATION_PUNCTUATION_DELAY;
+                timeout = config.INSTANT_TRANSLATION_PUNCTUATION_DELAY;
                 lastPunct = true;
             }
             else if(isURL($('#originalText').val())) {
-                timeout = INSTANT_TRANSLATION_URL_DELAY;
+                timeout = config.INSTANT_TRANSLATION_URL_DELAY;
                 lastPunct = false;
             }
             else {
-                timeout = INSTANT_TRANSLATION_DELAY;
+                timeout = config.INSTANT_TRANSLATION_DELAY;
                 lastPunct = false;
             }
 
@@ -421,7 +410,7 @@ function getPairs() {
             curDstLang = pairs[k][0];
             break;
         }
-        for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
+        for(var i = 0; i < config.TRANSLATION_LIST_BUTTONS; i++) {
             recentSrcLangs.push(i < srcLangs.length ? srcLangs[i] : undefined);
             recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
         }
@@ -465,7 +454,7 @@ function refreshLangList(resetDetect) {
 
     persistChoices('translator');
 
-    for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
+    for(var i = 0; i < config.TRANSLATION_LIST_BUTTONS; i++) {
         var srcBtn = $('#srcLang' + (i + 1));
         var dstBtn = $('#dstLang' + (i + 1));
         if(i < recentSrcLangs.length && recentSrcLangs[i]) {
@@ -496,15 +485,15 @@ function refreshLangList(resetDetect) {
 
     function filterLangs(allRecentLangs, allLangs) {
         var recentLangs = allRecentLangs.filter(onlyUnique);
-        if(recentLangs.length < TRANSLATION_LIST_BUTTONS) {
+        if(recentLangs.length < config.TRANSLATION_LIST_BUTTONS) {
             for(var i = 0; i < allLangs.length; i++) {
-                if(recentLangs.length < TRANSLATION_LIST_BUTTONS && recentLangs.indexOf(allLangs[i]) === -1) {
+                if(recentLangs.length < config.TRANSLATION_LIST_BUTTONS && recentLangs.indexOf(allLangs[i]) === -1) {
                     recentLangs.push(allLangs[i]);
                 }
             }
         }
-        if(recentLangs.length > TRANSLATION_LIST_BUTTONS) {
-            recentLangs = recentLangs.slice(0, TRANSLATION_LIST_BUTTONS);
+        if(recentLangs.length > config.TRANSLATION_LIST_BUTTONS) {
+            recentLangs = recentLangs.slice(0, config.TRANSLATION_LIST_BUTTONS);
         }
         return recentLangs;
     }
@@ -515,30 +504,30 @@ function populateTranslationList() {
     $('.languageName').remove();
     $('.languageCol').show().removeClass('col-sm-3 col-sm-4 col-sm-6 col-sm-12');
 
-    var numSrcCols = Math.ceil(srcLangs.length / TRANSLATION_LIST_ROWS) < (TRANSLATION_LIST_COLUMNS + 1)
-            ? Math.ceil(srcLangs.length / TRANSLATION_LIST_ROWS)
-            : TRANSLATION_LIST_COLUMNS,
-        numDstCols = Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS) < (TRANSLATION_LIST_COLUMNS + 1)
-            ? Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS)
-            : TRANSLATION_LIST_COLUMNS;
+    var numSrcCols = Math.ceil(srcLangs.length / config.TRANSLATION_LIST_ROWS) < (config.TRANSLATION_LIST_COLUMNS + 1)
+            ? Math.ceil(srcLangs.length / config.TRANSLATION_LIST_ROWS)
+            : config.TRANSLATION_LIST_COLUMNS,
+        numDstCols = Math.ceil(dstLangs.length / config.TRANSLATION_LIST_ROWS) < (config.TRANSLATION_LIST_COLUMNS + 1)
+            ? Math.ceil(dstLangs.length / config.TRANSLATION_LIST_ROWS)
+            : config.TRANSLATION_LIST_COLUMNS;
 
-    var columnWidth = TRANSLATION_LIST_WIDTH / TRANSLATION_LIST_COLUMNS;
-    var maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
-    numSrcCols = Math.min(Math.floor(maxSrcLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
+    var columnWidth = config.TRANSLATION_LIST_WIDTH / config.TRANSLATION_LIST_COLUMNS;
+    var maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - config.TRANSLATION_LISTS_BUFFER;
+    numSrcCols = Math.min(Math.floor(maxSrcLangsWidth / columnWidth), config.TRANSLATION_LIST_COLUMNS);
     var maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
-        TRANSLATION_LISTS_BUFFER;
-    numDstCols = Math.min(Math.floor(maxDstLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
+        config.TRANSLATION_LISTS_BUFFER;
+    numDstCols = Math.min(Math.floor(maxDstLangsWidth / columnWidth), config.TRANSLATION_LIST_COLUMNS);
 
     var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
         dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
 
     var BOOTSTRAP_MAX_COLUMNS = 12;
 
-    $('#srcLanguages').css('min-width', Math.floor(TRANSLATION_LIST_WIDTH * (numSrcCols / TRANSLATION_LIST_COLUMNS)) + 'px');
+    $('#srcLanguages').css('min-width', Math.floor(config.TRANSLATION_LIST_WIDTH * (numSrcCols / config.TRANSLATION_LIST_COLUMNS)) + 'px');
     $('#srcLanguages .languageCol').addClass('col-sm-' + (BOOTSTRAP_MAX_COLUMNS / numSrcCols));
     $('#srcLanguages .languageCol:gt(' + (numSrcCols - 1) + ')').hide();
 
-    $('#dstLanguages').css('min-width', Math.floor(TRANSLATION_LIST_WIDTH * (numDstCols / TRANSLATION_LIST_COLUMNS)) + 'px');
+    $('#dstLanguages').css('min-width', Math.floor(config.TRANSLATION_LIST_WIDTH * (numDstCols / config.TRANSLATION_LIST_COLUMNS)) + 'px');
     $('#dstLanguages .languageCol').addClass('col-sm-' + (BOOTSTRAP_MAX_COLUMNS / numDstCols));
     $('#dstLanguages .languageCol:gt(' + (numDstCols - 1) + ')').hide();
 
@@ -702,7 +691,7 @@ function translateDoc() {
     }
 
     if(validPair && file) {
-        if(file.size > UPLOAD_FILE_SIZE_LIMIT) {
+        if(file.size > config.UPLOAD_FILE_SIZE_LIMIT) {
             docTranslateError(getDynamicLocalization('File_Too_Large'), 'File_Too_Large');
         }
         else {
@@ -989,13 +978,13 @@ function detectLanguage() {
         var oldSrcLangs = recentSrcLangs;
         recentSrcLangs = [];
         for(var i = 0; i < possibleLanguages.length; i++) {
-            if(recentSrcLangs.length < TRANSLATION_LIST_BUTTONS && possibleLanguages[i][0] in pairs) {
+            if(recentSrcLangs.length < config.TRANSLATION_LIST_BUTTONS && possibleLanguages[i][0] in pairs) {
                 recentSrcLangs.push(possibleLanguages[i][0]);
             }
         }
         recentSrcLangs = recentSrcLangs.concat(oldSrcLangs);
-        if(recentSrcLangs.length > TRANSLATION_LIST_BUTTONS) {
-            recentSrcLangs = recentSrcLangs.slice(0, TRANSLATION_LIST_BUTTONS);
+        if(recentSrcLangs.length > config.TRANSLATION_LIST_BUTTONS) {
+            recentSrcLangs = recentSrcLangs.slice(0, config.TRANSLATION_LIST_BUTTONS);
         }
 
         curSrcLang = recentSrcLangs[0];

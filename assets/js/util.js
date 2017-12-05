@@ -7,16 +7,6 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
     XHR_LOADING = 3, XHR_DONE = 4;
 
-var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
-    BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
-    APY_REQUEST_URL_THRESHOLD_LENGTH = 2000, // maintain 48 characters buffer for generated parameters
-    DEFAULT_DEBOUNCE_DELAY = 100;
-
-var INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 5,
-    INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD = 4000,
-    INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 3000,
-    INSTALLATION_NOTIFICATION_DURATION = 10000;
-
 var apyRequestTimeout, apyRequestStartTime, installationNotificationShown = false, lastNAPyRequestDurations = [];
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
@@ -54,7 +44,7 @@ function debounce(func, delay) { // eslint-disable-line no-unused-vars
         clearTimeout(clock);
         clock = setTimeout(function () {
             func.apply(context, args);
-        }, delay || DEFAULT_DEBOUNCE_DELAY);
+        }, delay || config.DEFAULT_DEBOUNCE_DELAY);
     };
 }
 
@@ -195,7 +185,7 @@ $(document).ready(function () {
 
     $('#backToTop').addClass('hide');
     $(window).scroll(function () {
-        $('#backToTop').toggleClass('hide', $(window).scrollTop() < BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT);
+        $('#backToTop').toggleClass('hide', $(window).scrollTop() < config.BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT);
     });
 
     $('#backToTop').click(function () {
@@ -323,7 +313,7 @@ function isSubset(subset, superset) {
 }
 
 function synchronizeTextareaHeights() {
-    if($(window).width() < TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH) {
+    if($(window).width() < config.TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH) {
         return;
     }
 
@@ -346,15 +336,15 @@ function callApy(options, endpoint, useAjax) {
     var requestUrl = window.location.protocol + window.location.hostname +
         window.location.pathname + '?' + $.param(requestOptions.data);
 
-    requestOptions.type = requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH ? 'POST' : 'GET';
+    requestOptions.type = requestUrl.length > config.APY_REQUEST_URL_THRESHOLD_LENGTH ? 'POST' : 'GET';
 
     apyRequestStartTime = Date.now();
     apyRequestTimeout = setTimeout(function () {
         displayInstallationNotification();
         clearTimeout(apyRequestTimeout);
-    }, INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD);
+    }, config.INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD);
 
-    if(useAjax || requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
+    if(useAjax || requestUrl.length > config.APY_REQUEST_URL_THRESHOLD_LENGTH) {
         return $.ajax(requestOptions);
     }
 
@@ -364,7 +354,7 @@ function callApy(options, endpoint, useAjax) {
 function handleAPyRequestCompletion(requestDuration) {
     var cumulativeAPyRequestDuration;
 
-    if(lastNAPyRequestDurations.length === INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
+    if(lastNAPyRequestDurations.length === config.INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
         cumulativeAPyRequestDuration = lastNAPyRequestDurations.reduce(function (totalDuration, duration) {
             return totalDuration + duration;
         });
@@ -378,8 +368,8 @@ function handleAPyRequestCompletion(requestDuration) {
 
     var averageRequestDuration = cumulativeAPyRequestDuration / lastNAPyRequestDurations.length;
 
-    if(requestDuration > INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD ||
-        averageRequestDuration > INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD) {
+    if(requestDuration > config.INSTALLATION_NOTIFICATION_INDIVIDUAL_DURATION_THRESHOLD ||
+        averageRequestDuration > config.INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD) {
         displayInstallationNotification();
     }
 }
@@ -391,14 +381,14 @@ function displayInstallationNotification() {
     installationNotificationShown = true;
 
     $('#installationNotice').fadeIn('slow').removeClass('hide')
-        .delay(INSTALLATION_NOTIFICATION_DURATION)
+        .delay(config.INSTALLATION_NOTIFICATION_DURATION)
         .fadeOut('slow', hideInstallationNotification);
 
     $('#installationNotice').mouseover(function () {
         $(this).stop(true);
     }).mouseout(function () {
         $(this).animate()
-            .delay(INSTALLATION_NOTIFICATION_DURATION)
+            .delay(config.INSTALLATION_NOTIFICATION_DURATION)
             .fadeOut('slow', hideInstallationNotification);
     });
 
