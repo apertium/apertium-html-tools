@@ -8,10 +8,9 @@
             "ug",
             "uig"
         ],
-        "completion": " 73%  77.95%",
+        "completion": " 75%  81.65%",
         "missing": [
             "Cancel",
-            "Download_File",
             "Drop_Document",
             "File_Too_Large",
             "Format_Not_Supported",

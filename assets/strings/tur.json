@@ -8,7 +8,7 @@
             "tr",
             "tur"
         ],
-        "completion": " 88%  84.91%",
+        "completion": " 89%  88.54%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -33,7 +33,6 @@
     "File_Too_Large": "Dosya çok büyük!",
     "Cancel": "İptal",
     "Format_Not_Supported": "Format desteklenmiyor!",
-    "Download_File": "İndir {{fileName}}",
     "Morphological_Analysis": "Morfolojik çözümleme",
     "Morphological_Analysis_Help": "Bir dil seçip Apertium morfolojik çözümleme araçlarıyla analiz et.",
     "Analyze": "Çözümle",

@@ -8,7 +8,7 @@
             "de",
             "deu"
         ],
-        "completion": " 97% 109.09%",
+        "completion": " 97% 108.53%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para"
@@ -33,7 +33,6 @@
     "Format_Not_Supported": "Format wird nicht unterstützt!",
     "Translate_Webpage": "Eine Webseite übersetzen",
     "Supported_Formats": "Unterstützte Formate: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 und neuer). <br/><i>.doc-Dateien von Word 97 und PDFs werden nicht unterstützt.</i>",
-    "Download_File": "{{fileName}} herunterladen",
     "Morphological_Analysis": "Morphologische Analyse",
     "Morphological_Analysis_Help": "Wählen Sie eine Sprache und analysieren Sie Ihren Text mit Apertiums morphologischen Analysierern.",
     "Analyze": "Analysieren",

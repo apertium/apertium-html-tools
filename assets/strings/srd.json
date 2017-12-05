@@ -5,7 +5,7 @@
         "locale": [
             "srd"
         ],
-        "completion": " 89%  91.53%",
+        "completion": " 91%  95.38%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -30,7 +30,6 @@
     "File_Too_Large": "S'archìviu est tropu mannu!",
     "Cancel": "Cantzella",
     "Format_Not_Supported": "Su formadu no est suportadu!",
-    "Download_File": "Iscàrriga {{fileName}}",
     "Morphological_Analysis": "Anàlisi morfològica",
     "Morphological_Analysis_Help": "Sèbera una limba e analiza testos cun sos analizadores morfològicos de Apertium!",
     "Analyze": "Analiza",

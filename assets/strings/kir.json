@@ -9,7 +9,7 @@
             "ky",
             "kir"
         ],
-        "completion": " 75%  28.09%",
+        "completion": " 75%  28.73%",
         "missing": [
             "Contact_Para",
             "Documentation_Para",
@@ -38,7 +38,6 @@
     "Not_Available": "Котормо даяр эмес",
     "File_Too_Large": "Файлдын көлөмү лимиттен ашып кетти!",
     "Cancel": "Артка кайтуу",
-    "Download_File": "{{fileName}} файлын жүктөп алуу",
     "Morphological_Analysis": "Морфологиялык талдоо",
     "Morphological_Analysis_Help": "Тилди тандап, Апертиум морфологиялык талдагычтары менен текстиңизди талдоо",
     "Analyze": "Талдоо",

@@ -9,7 +9,7 @@
             "ca",
             "cat"
         ],
-        "completion": " 84%  89.06%",
+        "completion": " 85%  92.89%",
         "missing": [
             "Drop_Document",
             "Install_Apertium",
@@ -34,7 +34,6 @@
     "File_Too_Large": "El fitxer és massa gran!",
     "Cancel": "Cancel·la",
     "Format_Not_Supported": "No es reconeix el format del document!",
-    "Download_File": "Baixa {{fileName}}",
     "Morphological_Analysis": "Anàlisi morfològica",
     "Morphological_Analysis_Help": "Trieu una llengua i analitzeu text amb els analitzadors morfològics d'Apertium.",
     "Analyze": "Analitza",

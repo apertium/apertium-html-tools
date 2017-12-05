@@ -9,10 +9,9 @@
             "fr",
             "fra"
         ],
-        "completion": " 73%  87.19%",
+        "completion": " 75%  91.33%",
         "missing": [
             "Cancel",
-            "Download_File",
             "Drop_Document",
             "File_Too_Large",
             "Format_Not_Supported",

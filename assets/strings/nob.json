@@ -8,7 +8,7 @@
             "nb",
             "nob"
         ],
-        "completion": " 88%  89.83%",
+        "completion": " 87%  89.28%",
         "missing": [
             "Drop_Document",
             "Install_Apertium",
@@ -33,7 +33,6 @@
     "Cancel": "Avbryt",
     "Format_Not_Supported": "Det formatet er ikke støttet!",
     "Supported_Formats": "Støttede format: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 og nyere). <br/><i>Word 97 .doc-filer og pdf-er støttes ikke.</i>",
-    "Download_File": "Last ned {{fileName}}",
     "Morphological_Analysis": "Morfologisk analyse",
     "Morphological_Analysis_Help": "Velg et språk og analyser teksten din med de morfologiske analysatorene til Apertium.",
     "Analyze": "Analyser",

@@ -7,7 +7,7 @@
         "locale": [
             "swe"
         ],
-        "completion": " 88%  86.68%",
+        "completion": " 89%  90.30%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -32,7 +32,6 @@
     "File_Too_Large": "Filen är för stor!",
     "Cancel": "Avbryt",
     "Format_Not_Supported": "Formatet stöds inte!",
-    "Download_File": "Ladda ned {{fileName}}",
     "Morphological_Analysis": "Morfologisk analys",
     "Morphological_Analysis_Help": "Välj ett språk och analysera din text med hjälp av Apertiums morfologiska analyserare.",
     "Analyze": "Analys",

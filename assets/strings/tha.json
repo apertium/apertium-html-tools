@@ -5,7 +5,7 @@
         "locale": [
             "tha"
         ],
-        "completion": " 84%  75.76%",
+        "completion": " 85%  78.91%",
         "missing": [
             "Drop_Document",
             "Install_Apertium",
@@ -30,7 +30,6 @@
     "File_Too_Large": "ไฟล์ใหญ่เกินไป",
     "Cancel": "ยกเลิก",
     "Format_Not_Supported": "รูปแบบยังไม่ถูกรองรับ",
-    "Download_File": "ดาวโหลด {{fileName}}",
     "Morphological_Analysis": "การวิเคราะห์วจีวิภาค",
     "Morphological_Analysis_Help": "เลือกภาษาหนึ่งภาษาและวิเคราะห์ข้อความของคุณโดยใช้ตัววิเคราะห์ทางวจีวิภาคของอาเปอร์เทียม",
     "Analyze": "วิเคราะห์",

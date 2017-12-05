@@ -8,7 +8,7 @@
             "uz",
             "uzb"
         ],
-        "completion": " 88%  92.18%",
+        "completion": " 89%  95.95%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -33,7 +33,6 @@
     "File_Too_Large": "Fayl juda katta!",
     "Cancel": "Bekor qilish",
     "Format_Not_Supported": "Format qo‘llanilmaydi!",
-    "Download_File": "{{fileName}}ni yuklab olish",
     "Morphological_Analysis": "Morfologik tahlil",
     "Morphological_Analysis_Help": "Tilni tanlang va matningizni Apertiumning morfologik tahlilchilari orqali tahlil qiling.",
     "Analyze": "Tahlil qilish",

@@ -10,7 +10,7 @@
             "es",
             "spa"
         ],
-        "completion": " 78%  30.30%",
+        "completion": " 79%  31.25%",
         "missing": [
             "Contact_Para",
             "Documentation_Para",
@@ -39,7 +39,6 @@
     "File_Too_Large": "¡El fichero es demasiado grande!",
     "Cancel": "Cancelar",
     "Format_Not_Supported": "Formato desconocido!",
-    "Download_File": "Descargar {{fileName}}",
     "Morphological_Analysis": "Análisis morfológico",
     "Morphological_Analysis_Help": "Elige un idioma y analiza textos con los analizadores morfológicos de Apertium.",
     "Analyze": "Analizar",

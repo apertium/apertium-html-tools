@@ -7,7 +7,7 @@
         "locale": [
             "arg"
         ],
-        "completion": " 88%  93.21%",
+        "completion": " 89%  97.21%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -32,7 +32,6 @@
     "File_Too_Large": "Lo fichero ye masiau gran",
     "Cancel": "Cancelar",
     "Format_Not_Supported": "No se reconoix lo formato d'o documento!",
-    "Download_File": "Baixar {{fileName}}",
     "Morphological_Analysis": "Analisi morfolochica",
     "Morphological_Analysis_Help": "Trigue una luenga y analise texto con os analisadors morfolochicos d'Apertium.",
     "Analyze": "Analisar",

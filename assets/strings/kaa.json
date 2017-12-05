@@ -7,7 +7,7 @@
         "locale": [
             "kaa"
         ],
-        "completion": " 84%  87.56%",
+        "completion": " 85%  91.20%",
         "missing": [
             "Drop_Document",
             "Install_Apertium",
@@ -32,7 +32,6 @@
     "File_Too_Large": "Fayl ko'lemi ju'da' u'lken!",
     "Cancel": "Biykar etiw",
     "Format_Not_Supported": "Format tuwra kelmeydi!",
-    "Download_File": "{{fileName}} di ju'klew",
     "Morphological_Analysis": "Morfologiyalıq analiz",
     "Morphological_Analysis_Help": "Tildi tan'lap, tekstin'izdi Apertiumnın' morfologiyalıq analizatorları ko'meginde analiz qılın'.",
     "Analyze": "Tan'law",

@@ -11,7 +11,7 @@
             "ru",
             "rus"
         ],
-        "completion": " 88%  82.38%",
+        "completion": " 89%  85.84%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -36,7 +36,6 @@
     "File_Too_Large": "Файл слишком большой!",
     "Cancel": "Отмена",
     "Format_Not_Supported": "Формат не поддерживается!",
-    "Download_File": "Скачать {{fileName}}",
     "Morphological_Analysis": "Морфологический анализ",
     "Morphological_Analysis_Help": "Выберите режим и анализируйте текст с помощью морфологических анализаторов Апертиум.",
     "Analyze": "Анализировать",

@@ -8,7 +8,7 @@
             "nn",
             "nno"
         ],
-        "completion": " 86%  81.41%",
+        "completion": " 87%  84.80%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -33,7 +33,6 @@
     "File_Too_Large": "Fila er for stor!",
     "Cancel": "Avbryt",
     "Format_Not_Supported": "Det formatet er ikkje støtta!",
-    "Download_File": "Last ned {{fileName}}",
     "Morphological_Analysis": "Morfologisk analyse",
     "Morphological_Analysis_Help": "Vel eit språk og analyser teksten din med dei morfologiske analysatorane til Apertium.",
     "Analyze": "Analyser",
