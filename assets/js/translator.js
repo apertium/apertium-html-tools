@@ -25,7 +25,6 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
     callApy, apyRequestTimeout, isURL */
 /* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
-/* global $bu_getBrowser */
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
@@ -740,23 +739,36 @@ function translateDoc() {
                         });
                     }
                     else if(this.readyState === XHR_DONE && xhr.status === HTTP_OK_CODE) {
-                        downloadBrowserWarn();
                         $('div#fileUploadProgress').parent().fadeOut('fast');
                         $('div#fileLoading').fadeOut('fast', function () {
                             if(typeof window.navigator.msSaveBlob !== 'undefined') {
+                                // IE file download workaround
                                 $('a#fileDownload')
                                     .click(function () {
                                         window.navigator.msSaveBlob(xhr.response, fileName);
-                                    })
-                                    .fadeIn('fast');
+                                    });
                             }
-                            else {
-                                var URL = window.URL || window.webkitURL;
-                                $('a#fileDownload')
-                                    .attr('href', URL.createObjectURL(xhr.response))
-                                    .attr('download', fileName)
-                                    .fadeIn('fast');
+                            else if(/.*(?!chrome|android).*(version\/\d\.|Mobile).*safari/i.test(window.navigator.userAgent) &&
+                                !/chrome/i.test(window.navigator.userAgent)) {
+                                /* Safari <9 + Mobile file download workaround
+                                 * Tests User Agent against a regexp to detect if the user is on older or mobile version of
+                                 * Safari and then runs another test to eliminate Chrome, which also include Safari in UA.
+                                 */
+                                var reader = new FileReader();
+                                reader.onload = function () {
+                                    $('a#fileDownload')
+                                        .click(function () {
+                                            window.location.href = reader.result.replace(/^data:[^;]*;/, 'data:attachment/file;');
+                                        });
+                                };
+                                reader.readAsDataURL(xhr.response);
                             }
+                            // File download for modern browsers and right-click to save
+                            var URL = window.URL || window.webkitURL;
+                            $('a#fileDownload')
+                                .attr('href', URL.createObjectURL(xhr.response))
+                                .attr('download', fileName)
+                                .fadeIn('fast');
                             $('span#fileDownloadText').text(getDynamicLocalization('Download_File').replace('{{fileName}}', fileName));
                             $('button#translate').prop('disabled', false);
                             $('input#fileInput').prop('disabled', false);
@@ -943,16 +955,6 @@ function showTranslateWebpageInterface(url, ignoreIfEmpty) {
         window.location.hash = 'webpageTranslation';
         translateWebpage(ignoreIfEmpty);
     });
-}
-
-function downloadBrowserWarn() {
-    if(typeof $bu_getBrowser == 'function') { // eslint-disable-line camelcase
-        var detected = $bu_getBrowser();
-        // Show the warning for (what bu calls) "niche" browsers and Safari, but not Chromium:
-        if(detected.n.match(/^[xs]/) && !(navigator.userAgent.match(/Chromium/))) {
-            $('#fileDownloadBrowserWarning').show();
-        }
-    }
 }
 
 function detectLanguage() {
