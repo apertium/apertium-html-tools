@@ -750,7 +750,10 @@ function translateDoc() {
                             }
                             else if(/.*(?!chrome|android).*(version\/\d\.|Mobile).*safari/i.test(window.navigator.userAgent) &&
                                 !/chrome/i.test(window.navigator.userAgent)) {
-                                // Safari <9 + Mobile file download workaround
+                                /* Safari <9 + Mobile file download workaround
+                                 * Tests User Agent against a regexp to detect if the user is on older or mobile version of
+                                 * Safari and then runs another test to eliminate Chrome, which also include Safari in UA.
+                                 */
                                 var reader = new FileReader();
                                 reader.onload = function () {
                                     $('a#fileDownload')
