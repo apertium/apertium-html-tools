@@ -43,7 +43,8 @@ JSFILES= \
 	assets/js/translator.js \
 	assets/js/analyzer.js \
 	assets/js/generator.js \
-	assets/js/sandbox.js
+	assets/js/sandbox.js \
+    assets/js/sw.js
 
 CONFIG ?= config.conf
 DEFAULT_LOCALE ?= $(shell ./tools/read-conf.py -c $(CONFIG) get DEFAULT_LOCALE)
@@ -99,6 +100,9 @@ build/js/bootstrap.min.js: build/js/.d
 build/js/%.js: assets/js/%.js build/js/.d
 	cp $< $@
 
+### MANIFEST ###
+build/manifest.json: assets/manifest.json build/.d
+	cp $< $@
 
 ### HTML ###
 build/index.debug.html: index.html.in debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json $(CONFIG) tools/read-conf.py tools/localise-html.py build/.d

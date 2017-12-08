@@ -2,6 +2,7 @@
 
 <html>
     <head>
+        <meta name="theme-color" content="#2196F3"/>
         <title data-text="title"></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,17 +11,17 @@
         <link rel="shortcut icon" href="./img/favicon.ico">
 
         <!-- <link type="text/css" rel="stylesheet" href="./css/icon-globe.css"> -->
-        <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu"> <!-- Selectivzr bug requires this being in <link> rather than @import -->
+        <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu"> <!-- Selectivzr bug requires this being in <link> rather than @import -->
 
-        <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" integrity="sha384-6ePHh72Rl3hKio4HiJ841psfsRJveeS+aLoaEf3BWfS+gTF0XdAqku2ka8VddikM" crossorigin="anonymous"></script>
+        <link type="text/css" rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" integrity="sha384-6ePHh72Rl3hKio4HiJ841psfsRJveeS+aLoaEf3BWfS+gTF0XdAqku2ka8VddikM" crossorigin="anonymous"></script>
         <script type="text/javascript">
             if(!window.jQuery) {
                 document.write('<script src="./js/jquery.min.js"><\/script>');
                 console.warn('jQuery from CDN not available - reverting to local copy');
             }
         </script>
-        <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script type="text/javascript">
             if(!(typeof $().modal == 'function')) {
                 document.write('<script src="./js/bootstrap.min.js"><\/script>');
@@ -30,7 +31,7 @@
 
         <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
 @include_head@
-        <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.2.0-rc2/css/bootstrap-rtl.min.css" class="rtlStylesheet"> <!-- Positioned to override styles in bootstrap.css -->
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.2.0-rc2/css/bootstrap-rtl.min.css" class="rtlStylesheet"> <!-- Positioned to override styles in bootstrap.css -->
 
         <!--[if lt IE 9]>
             <script src="//cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js"></script>
@@ -44,7 +45,7 @@
                 try { if ($buoop.ol) $buoop.ol(); } catch (e) {}
                 var e = document.createElement("script");
                 e.setAttribute("type", "text/javascript");
-                e.setAttribute("src", "//browser-update.org/update.js");
+                e.setAttribute("src", "https://browser-update.org/update.js");
                 document.body.appendChild(e);
             };
         </script>
@@ -54,6 +55,7 @@
                 button#translateDoc { display: none; }
             </style>
         <![endif]-->
+        <link rel="manifest" href="/manifest.json">
     </head>
     <body>
         <span class="fa hide" id="faChecker"></span>
@@ -566,5 +568,12 @@
           <h4 id="installationNoticeTitle" data-text="Install_Apertium"></h4>
           <p data-text="Install_Apertium_Para"></p>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/js/sw.js')
+                    .then(function() { console.log("Service Worker Registered"); });
+}
+        </script>
     </body>
 </html>
