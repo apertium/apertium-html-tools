@@ -568,12 +568,5 @@
           <h4 id="installationNoticeTitle" data-text="Install_Apertium"></h4>
           <p data-text="Install_Apertium_Para"></p>
         </div>
-        <script>
-            if('serviceWorker' in navigator) {
-                navigator.serviceWorker
-                    .register('/js/sw.js')
-                    .then(function() { console.log("Service Worker Registered"); });
-}
-        </script>
     </body>
 </html>
