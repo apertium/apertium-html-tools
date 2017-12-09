@@ -44,7 +44,6 @@ JSFILES= \
 	assets/js/analyzer.js \
 	assets/js/generator.js \
 	assets/js/sandbox.js \
-    assets/js/sw.js
 
 CONFIG ?= config.conf
 DEFAULT_LOCALE ?= $(shell ./tools/read-conf.py -c $(CONFIG) get DEFAULT_LOCALE)
@@ -241,3 +240,4 @@ server:
 ### Clean ###
 clean:
 	rm -rf build/
+    
