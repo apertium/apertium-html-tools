@@ -115,11 +115,11 @@
                           <legend data-text="Translation_Help"></legend>
                           <div class="form-group visible-xs">
                               <div class="col-sm-12">
-                                  <select class="langSelect" id="srcLangSelect" style="display: inline-block !important">
+                                  <select class="langSelect" id="srcLangSelect" style="display: inline-block !important" aria-label="selectLang">
                                       <option data-text="Detect_Language" value="detect">Detect language</option>
                                   </select>
-                                  <button type="button" class="btn btn-default btn-xs swapLangBtn"><i class="fa fa-exchange"></i></button>
-                                  <select class="langSelect" id="dstLangSelect" style="display: inline-block !important">
+                                  <button type="button" class="btn btn-default btn-xs swapLangBtn" aria-label="swapLang"><i class="fa fa-exchange"></i></button>
+                                  <select class="langSelect" id="dstLangSelect" style="display: inline-block !important" aria-label="selectLang">
                                       <option> </option>
                                   </select>
                                   <button type="button" class="btn btn-primary btn-xs pull-right translateBtn" data-text="Translate">Translate</button>
@@ -185,11 +185,11 @@
                           <div class="form-group">
                               <div id="translateText">
                                   <div class="col-sm-6">
-                                      <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
-                                      <button class="btn clearButton"><i class="fa fa-times"></i></button>
+                                      <textarea class="form-control" id="originalText" rows="15" spellcheck="false" aria-label="originalText"></textarea>
+                                      <button class="btn clearButton" aria-label="clear"><i class="fa fa-times"></i></button>
                                   </div>
                                   <div class="col-sm-6">
-                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" readonly></textarea>
+                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" aria-label="translatedText" readonly></textarea>
                                   </div>
                                   <div class="col-sm-6">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
@@ -345,7 +345,7 @@
                       <fieldset>
                           <legend>
                               <span data-text="APy_Sandbox_Help">
-                              <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right">
+                              <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right" rel="noopener">
                                   <abbr title="Apertium API in Python">APy</abbr>
                                   <i class="fa fa-question-circle"></i>
                               </a>
@@ -368,7 +368,7 @@
                   <pre id="sandboxOutput" class="outputContainer small"></pre>
               </div>
               <div class="visible-xs">
-                  <select class="localeSelect pull-left"><option> </option></select>
+                  <select class="localeSelect pull-left" aria-label="pull"><option> </option></select>
                   <i class="fa fa-globe fa-2x pull-left localeGlobe" style="padding: 5px 0px 0px 5px"></i>
                   <!-- <i class="fa fa-globe localeGlobe pull-left"></i> -->
               </div>
@@ -389,7 +389,7 @@
                         <span data-text="Notice_Mistake">Notice a mistake?</span>
                         <a data-toggle="modal" data-target="#aboutModal" data-text="Help_Improve" data-keyboard="true" style="cursor: pointer">Help us improve Apertium!</a>
                     </div>
-                    <a id="version" class="text-muted hidden-sm hidden-xs" href="https://github.com/goavki/apertium-html-tools" target="_blank">
+                    <a id="version" class="text-muted hidden-sm hidden-xs" href="https://github.com/goavki/apertium-html-tools" target="_blank" rel="noopener">
                         <small>
 @include_version@
                         </small>
@@ -417,22 +417,22 @@
                         <div class="row lead">
                             <div class="col-md-6">
                                 <div class="center-block">
-                                    <a href="https://developers.google.com/open-source/soc/" target="_blank" style="text-decoration: none">
+                                    <a href="https://developers.google.com/open-source/soc/" target="_blank" style="text-decoration: none" rel="noopener">
                                         <img alt="Google Summer of Code" data-src="https://summerofcode.withgoogle.com/static/img/summer-of-code-logo.svg" style="height: 2.5em;">
                                     </a>
-                                    <a href="https://developers.google.com/open-source/gci/" target="_blank" style="text-decoration: none">
+                                    <a href="https://developers.google.com/open-source/gci/" target="_blank" style="text-decoration: none" rel="noopener">
                                         <img alt="Google Code-In" data-src="https://developers.google.com/open-source/gci/images/logo-icon.png" style="height: 2.5em; padding-left: .5em;">
                                     </a>
                                 </div>
                             </div>
 
                             <div class="col-md-3 text-center">
-                                <a href="http://www.bytemark.co.uk/" target="_blank">
+                                <a href="http://www.bytemark.co.uk/" target="_blank" rel="noopener">
                                     <img alt="Bytemark" data-src="./img/logo_bytemark.gif" style="width: 100%; margin-top: .5em">
                                 </a>
                             </div>
                             <div class="col-md-3 text-center">
-                                <a href="http://www.sourceforge.net" target="_blank">
+                                <a href="http://www.sourceforge.net" target="_blank" rel="noopener">
                                     <img alt="Sourceforge" data-src="./img/sourceforge.png" style="width: 100%; margin-top: .25em">
                                 </a>
                             </div>
@@ -440,12 +440,12 @@
 
                         <div class="row lead">
                             <div class="col-md-6 text-center">
-                                <a href="http://www.minetur.gob.es/" target="_blank">
+                                <a href="http://www.minetur.gob.es/" target="_blank" rel="noopener">
                                     <img alt="Ministry of Industry, Energy and Tourism" data-src="./img/logomitc120.jpg">
                                 </a>
                             </div>
                             <div class="col-md-6 text-center">
-                                <a href="http://www.ua.es/" target="_blank">
+                                <a href="http://www.ua.es/" target="_blank" rel="noopener">
                                     <img alt="Universidad de Alicante" data-src="./img/logouapp.gif">
                                 </a>
                             </div>
@@ -453,17 +453,17 @@
 
                         <div class="row">
                             <div class="col-md-4 text-center">
-                                <a href="http://www.prompsit.com/" target="_blank">
+                                <a href="http://www.prompsit.com/" target="_blank" rel="noopener">
                                     <img alt="Prompsit Language Engineering S.L." data-src="./img/prompsit150x52.png">
                                 </a>
                             </div>
                             <div class="col-md-4 text-center">
-                                <a href="http://www10.gencat.net" target="_blank">
+                                <a href="http://www10.gencat.net" target="_blank" rel="noopener">
                                     <img alt="Generalitat de Catalunya" data-src="./img/stsi.gif">
                                 </a>
                             </div>
                             <div class="col-md-4 text-center">
-                                <a href="http://www.mae.ro/" target="_blank">
+                                <a href="http://www.mae.ro/" target="_blank" rel="noopener">
                                     <img alt="ROMÂNIA  Ministerul Afacerilor Externe" data-src="./img/logo_mae_ro_75pc.jpg">
                                 </a>
                             </div>
@@ -549,7 +549,7 @@
                         <p data-text="Contact_Us"></p>
 
                         <div class="center-block" style="margin-bottom: 1.5em;">
-                            <a href="http://www.apertium.org/" target="_blank">
+                            <a href="http://www.apertium.org/" target="_blank" rel="noopener">
                                 <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" style="height: 5em; max-width: 100%;">
                             </a>
                         </div>

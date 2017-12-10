@@ -43,7 +43,7 @@ JSFILES= \
 	assets/js/translator.js \
 	assets/js/analyzer.js \
 	assets/js/generator.js \
-	assets/js/sandbox.js \
+	assets/js/sandbox.js
 
 CONFIG ?= config.conf
 DEFAULT_LOCALE ?= $(shell ./tools/read-conf.py -c $(CONFIG) get DEFAULT_LOCALE)
