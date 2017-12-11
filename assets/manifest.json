@@ -1,0 +1,20 @@
+{
+  "short_name": "Apertium",
+  "name": "Apertium",
+  "icons": [
+    {
+      "src": "/img/apertium_icon_small.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/apertium_icon_large.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }      
+  ],
+  "start_url": "/",
+  "background_color": "#2196F3",
+  "theme_color": "#2196F3",
+  "display": "standalone"
+}
