@@ -10,6 +10,7 @@ css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.mi
 debugcss: build/css/bootstrap.css build/css/style.css
 html: build/index.html build/index.debug.html build/not-found.html
 fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf build/fonts/fontawesome-webfont.svg build/fonts/fontawesome-webfont.eot
+json: build/manifest.json
 
 check-deps:
 	@if ! command -V curl >/dev/null; then echo; echo "You need to install curl"; echo; false; fi
@@ -102,7 +103,7 @@ build/js/%.js: assets/js/%.js build/js/.d
 ### MANIFEST ###
 build/manifest.json: assets/manifest.json build/.d
 	cp $< $@
-
+    
 ### HTML ###
 build/index.debug.html: index.html.in debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json $(CONFIG) tools/read-conf.py tools/localise-html.py build/.d
 	sed -e '/@include_head@/r debug-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@

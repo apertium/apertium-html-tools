@@ -55,7 +55,7 @@
                 button#translateDoc { display: none; }
             </style>
         <![endif]-->
-        <link rel="manifest" href="/manifest.json">
+        <link rel="manifest" href="./manifest.json">
     </head>
     <body>
         <span class="fa hide" id="faChecker"></span>
@@ -368,7 +368,7 @@
                   <pre id="sandboxOutput" class="outputContainer small"></pre>
               </div>
               <div class="visible-xs">
-                  <select class="localeSelect pull-left" aria-label="Select Page Language"><option> </option></select>
+                  <select class="localeSelect pull-left" aria-label="Select Language"><option> </option></select>
                   <i class="fa fa-globe fa-2x pull-left localeGlobe" style="padding: 5px 0px 0px 5px"></i>
                   <!-- <i class="fa fa-globe localeGlobe pull-left"></i> -->
               </div>
