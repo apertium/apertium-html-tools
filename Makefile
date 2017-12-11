@@ -2,7 +2,7 @@ all: check-deps prod
 
 debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js build/sitemap.xml build/strings/locales.json build/index.$(DEFAULT_LOCALE).html build/strings/$(DEFAULT_LOCALE).json images
 
-prod: js css html fonts build/sitemap.xml build/strings/locales.json localhtml images
+prod: js css html fonts build/sitemap.xml build/manifest.json build/strings/locales.json localhtml images
 
 js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js debugjs
 debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/store.js build/js/persistence.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
@@ -10,7 +10,6 @@ css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.mi
 debugcss: build/css/bootstrap.css build/css/style.css
 html: build/index.html build/index.debug.html build/not-found.html
 fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf build/fonts/fontawesome-webfont.svg build/fonts/fontawesome-webfont.eot
-json: build/manifest.json
 
 check-deps:
 	@if ! command -V curl >/dev/null; then echo; echo "You need to install curl"; echo; false; fi
