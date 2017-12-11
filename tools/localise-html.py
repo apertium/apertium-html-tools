@@ -47,7 +47,7 @@ class DataTextHTMLParser(HTMLParser):
             """This is where html's dir attribute is set to ltr or rtl"""
             if tag == "html":
                 text = self.get_starttag_text()
-                self.p('<html dir="%s"' % ('rtl' if self.localename in rtl_languages else 'ltr') + text[text.index('html') + 4:])
+                self.p('<html dir="%s" lang="%s"' % ('rtl' if self.localename in rtl_languages else 'ltr', self.alpha2name) + '" ' + text[text.index('html') + 4:])
             else:
                 self.p(self.get_starttag_text())
         else:
@@ -105,6 +105,7 @@ def run(html_path, json_path, out_path, conf_path, fallback_path):
         parser = DataTextHTMLParser()
     parser.locale = json.loads("".join(open(json_path).readlines()))
     parser.localename = path.basename(json_path).replace('.json', '')
+    parser.alpha2name = parser.locale["alpha2"]
     parser.fallback_locale = json.loads("".join(open(fallback_path).readlines()))
     parser.replacements = read_conf.load_conf(conf_path)['REPLACEMENTS']
     parser.feed("".join(open(html_path).readlines()))

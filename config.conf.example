@@ -29,4 +29,4 @@ AVAILABLE_LOCALES_CACHE_EXPIRY = 24
 
 # Localisation replacement strings, see assets/strings/*.json for usage:
 [REPLACEMENTS]
-maintainer = <a href='http://wiki.apertium.org/wiki/Apertium' target='_blank'>Apertium</a>
+maintainer = <a href='http://wiki.apertium.org/wiki/Apertium' target='_blank' rel='noopener'>Apertium</a>
