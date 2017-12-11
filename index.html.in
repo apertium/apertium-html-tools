@@ -115,11 +115,11 @@
                           <legend data-text="Translation_Help"></legend>
                           <div class="form-group visible-xs">
                               <div class="col-sm-12">
-                                  <select class="langSelect" id="srcLangSelect" style="display: inline-block !important" aria-label="selectLang">
+                                  <select class="langSelect" id="srcLangSelect" style="display: inline-block !important" aria-label="Select Original Language">
                                       <option data-text="Detect_Language" value="detect">Detect language</option>
                                   </select>
-                                  <button type="button" class="btn btn-default btn-xs swapLangBtn" aria-label="swapLang"><i class="fa fa-exchange"></i></button>
-                                  <select class="langSelect" id="dstLangSelect" style="display: inline-block !important" aria-label="selectLang">
+                                  <button type="button" class="btn btn-default btn-xs swapLangBtn" aria-label="Swap Languages"><i class="fa fa-exchange"></i></button>
+                                  <select class="langSelect" id="dstLangSelect" style="display: inline-block !important" aria-label="Select New Language">
                                       <option> </option>
                                   </select>
                                   <button type="button" class="btn btn-primary btn-xs pull-right translateBtn" data-text="Translate">Translate</button>
@@ -185,11 +185,11 @@
                           <div class="form-group">
                               <div id="translateText">
                                   <div class="col-sm-6">
-                                      <textarea class="form-control" id="originalText" rows="15" spellcheck="false" aria-label="originalText"></textarea>
-                                      <button class="btn clearButton" aria-label="clear"><i class="fa fa-times"></i></button>
+                                      <textarea class="form-control" id="originalText" rows="15" spellcheck="false" aria-label="Original Text"></textarea>
+                                      <button class="btn clearButton" aria-label="Clear Text"><i class="fa fa-times"></i></button>
                                   </div>
                                   <div class="col-sm-6">
-                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" aria-label="translatedText" readonly></textarea>
+                                      <textarea class="form-control" id="translatedText" rows="15" spellcheck="false" aria-label="Translated Text" readonly></textarea>
                                   </div>
                                   <div class="col-sm-6">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
@@ -368,7 +368,7 @@
                   <pre id="sandboxOutput" class="outputContainer small"></pre>
               </div>
               <div class="visible-xs">
-                  <select class="localeSelect pull-left" aria-label="pull"><option> </option></select>
+                  <select class="localeSelect pull-left" aria-label="Select Page Language"><option> </option></select>
                   <i class="fa fa-globe fa-2x pull-left localeGlobe" style="padding: 5px 0px 0px 5px"></i>
                   <!-- <i class="fa fa-globe localeGlobe pull-left"></i> -->
               </div>

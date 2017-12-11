@@ -57,7 +57,7 @@
     "Contact_Us": "Por favor ponte en contacto con nosotros si encuentras un error en la página, si hay un proyecto que crees que nos podría interesar o si te interesaría colaborar con nosotros.",
     "Maintainer": "Esta página está gestionado por {{maintainer}}.",
     "About_Title": "Sobre Apertium",
-    "Enable_JS_Warning": "La web sólo funciona si tienes habilitado JavaScript, si no puedes <a href='http://www.enable-javascript.com/' target='_blank'>habilitar JavaSCript</a>, puedes utilizar los traductores de Apertium a <a href='http://traductor.prompsit.com' target='_blank'>Prompsit</a>.",
+    "Enable_JS_Warning": "La web sólo funciona si tienes habilitado JavaScript, si no puedes <a href='http://www.enable-javascript.com/' target='_blank' rel='noopener'>habilitar JavaSCript</a>, puedes utilizar los traductores de Apertium a <a href='http://traductor.prompsit.com' target='_blank' rel='noopener'>Prompsit</a>.",
     "Not_Found_Error": "<b>404 Error:</b> Lo sentimos, ¡esta página ya no existe!",
     "About": "Acerca de",
     "Download": "Descargas",
