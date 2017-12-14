@@ -45,6 +45,67 @@ h2 {
     margin-top: 7px;
 }
 
+#localeDropdown {
+    height: 300px;
+    margin-top: -1px;
+    min-width: 0 !important; /* sass-lint:disable-line no-important */
+    overflow-y: scroll;
+    width: 131px;
+}
+
+#localeDropdown li > a[dir='rtl'] {
+    padding-left: 105px;
+    padding-right: 5px;
+    text-align: right;
+}
+
+#localeDropdown li > a[dir='ltr'] {
+    padding-left: 5px;
+    padding-right: 105px;
+    text-align: left;
+}
+
+#localeDropdownSelect:hover  {
+    cursor: default;
+}
+
+#localeDropdown li > a:hover {
+    background-color: #446e9b;
+    color: #fff;
+    cursor: default;
+}
+
+#localeDropdown::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+
+#localeDropdown::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 4px;
+}
+
+#localeDropdownSelect {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    color: #000;
+    margin-top: 5px;
+    padding: 0;
+    width: 130px;
+}
+
+#localeName {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+#localeDropdownCaret {
+    position: absolute;
+    top: 50%;
+}
+
 .nav-pills { /* sass-lint:disable-line class-name-format */
     cursor: pointer;
 }

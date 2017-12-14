@@ -76,16 +76,29 @@ $(document).ready(function () {
             console.warn('No config.LOCALES');
         }
         $('.localeSelect').val(locale);
+        $('#localeName').text($('#localeDropdown').data(locale));
         localizeEverything(localizedHTML);
         persistChoices('localization');
     });
 
     $('.localeSelect').change(function () {
         locale = $(this).val();
+        $('#localeName').text($('#localeDropdown').data(locale));
+        localizeCurrentInterface();
+    });
+
+    $('#localeDropdown li > a').click(function () {
+        locale = $(this).data('locale');
+        $('.localeSelect').val(locale);
+        $('#localeName').text(this.text);
+        localizeCurrentInterface();
+    });
+
+    function localizeCurrentInterface() {
         sendEvent('localization', 'localize', locale);
         localizeEverything(false);
         persistChoices('localization');
-    });
+    }
 
     function localizeEverything(stringsFresh) {
         localizeInterface();
@@ -114,6 +127,7 @@ $(document).ready(function () {
                 window.location.hash;
             window.history.replaceState({}, document.title, newURL);
         }
+        $('#localeDropdownCaret').css('left', rtlLanguages.indexOf(locale) !== -1 ? '5%' : '90%');
     }
 });
 
@@ -169,7 +183,6 @@ function getLocale() {
             deferred.resolve();
         }
     }
-
     return deferred.promise();
 }
 
@@ -212,13 +225,24 @@ function getLocales() {
             return a[1].toLowerCase().localeCompare(b[1].toLowerCase());
         });
         $('.localeSelect').empty();
+        $('#localeDropdown').empty();
         $.each(localePairs, function () {
+            var isRtlLanguage = (rtlLanguages.indexOf(this[0]) !== -1);
             $('.localeSelect').append(
-                $('<option></option>')
+                $('<option>')
                     .val(this[0])
                     .text(this[1])
-                    .prop('dir', rtlLanguages.indexOf(this[0]) !== -1 ? 'rtl' : 'ltr')
+                    .prop('dir', isRtlLanguage ? 'rtl' : 'ltr')
             );
+
+            $('#localeDropdown').append(
+                $('<li></li>').append(
+                    $('<a>')
+                        .data('locale', this[0])
+                        .text(this[1])
+                        .prop('dir', isRtlLanguage ? 'rtl' : 'ltr')
+                )
+            ).data(this[0], this[1]);
         });
     }
 
