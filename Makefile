@@ -229,8 +229,10 @@ images: $(IMAGES_BUILD)
 
 ### Typechecking ###
 # grab the bin from https://github.com/facebook/flow/releases
-flow: build/js/all.js
-	grep -Ev '/\*:: *(ex|im)port ' $< | flow check-contents
+flow: $(JSFILES)
+	for file in $<; do \
+		< $$file flow check-contents; \
+	done
 
 ### Test server ###
 server:
