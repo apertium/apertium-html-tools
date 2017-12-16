@@ -1,3 +1,7 @@
+// @flow
+
+/* exported _paq */
+
 /* global config, persistChoices, iso639Codes, iso639CodesInverse, populateTranslationList, showTranslateWebpageInterface */
 /* global ajaxSend, ajaxComplete, debounce, resizeFooter, synchronizeTextareaHeights */
 
@@ -29,13 +33,13 @@ $(document).ready(function () {
     }
 
     if(config.SHOW_NAVBAR) {
-        if(config.ENABLED_MODES === null) {
-            $('.nav a').removeClass('hide');
-        }
-        else {
+        if(config.ENABLED_MODES) {
             $.each(config.ENABLED_MODES, function () {
                 $('.nav a[data-mode=' + this + ']').removeClass('hide');
             });
+        }
+        else {
+            $('.nav a').removeClass('hide');
         }
     }
     else {
@@ -43,7 +47,7 @@ $(document).ready(function () {
         $('.navbar-default .nav').hide();
     }
 
-    var hash = parent.location.hash;
+    var hash /*: string */ = parent.location.hash;
 
     try {
         if(!hash || !$(hash + 'Container')) {
@@ -91,7 +95,9 @@ $(document).ready(function () {
 
     resizeFooter();
     $(window)
-        .on('hashchange', persistChoices)
+        .on('hashchange', function () {
+            persistChoices();
+        })
         .resize(debounce(function () {
             populateTranslationList();
             resizeFooter();
@@ -110,7 +116,7 @@ $(document).ready(function () {
         Array.prototype.push.apply(config.ALLOWED_LANGS, withIso);
     }
 
-    $('form').submit(function () {
+    $('form').submit(function () /*: boolean */ {
         return false;
     });
 
@@ -130,7 +136,7 @@ $(document).ready(function () {
         $('#backToTop').toggleClass('hide', $(window).scrollTop() < BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT);
     });
 
-    $('#backToTop').click(function () {
+    $('#backToTop').click(function () /*: boolean */ {
         $('html, body').animate({
             scrollTop: 0
         }, 'fast');
@@ -141,7 +147,7 @@ $(document).ready(function () {
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
-    var url = config.PIWIK_URL;
+    var url /*: string */ = config.PIWIK_URL;
     if(document.location.protocol === 'https:') {
         url = url.replace(/^(http(s)?)?:/, 'https:');
     }
@@ -174,7 +180,7 @@ if(config.PIWIK_SITEID && config.PIWIK_URL) {
 }
 
 /*:: export {_paq} */
-/*:: import {config} from "./config.js" */
+
 /*:: import {persistChoices} from "./persistence.js" */
 /*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
 /*:: import {populateTranslationList, showTranslateWebpageInterface} from "./translator.js" */

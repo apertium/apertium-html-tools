@@ -1,15 +1,17 @@
+// @flow
+
 var currentSandboxRequest;
 
 /* global config, ajaxSend, ajaxComplete, persistChoices, restoreChoices */
 /* global ENTER_KEY_CODE */
 
-if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
+if(!config.ENABLED_MODES || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
     $(document).ready(function () {
         $('#sandboxForm').submit(function () {
             request();
         });
 
-        $('#sandboxInput').keydown(function (e) {
+        $('#sandboxInput').keydown(function (e /*: JQueryKeyEventObject */) {
             if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
                 request();
@@ -31,7 +33,7 @@ function request() {
     }
 
     $('#sandboxOutput').addClass('blurred');
-    var startTime = new Date().getTime();
+    var startTime /*: number */ = new Date().getTime();
     if(currentSandboxRequest) {
         currentSandboxRequest.abort();
     }
@@ -47,7 +49,12 @@ function request() {
         complete: function () {
             ajaxComplete();
             $('#time').text(new Date().getTime() - startTime + ' ms');
-            currentSandboxRequest = undefined;
+            currentSandboxRequest = null;
         }
     });
 }
+
+/*:: import {ajaxSend, ajaxComplete} from "./util.js" */
+/*:: import {ENTER_KEY_CODE} from "./util.js" */
+/*:: import {persistChoices, restoreChoices} from "./persistence.js" */
+/*:: import {locale} from "./localization.js" */
