@@ -1,3 +1,6 @@
+CONFIG ?= config.conf
+DEFAULT_LOCALE ?= $(shell ./tools/read-conf.py -c $(CONFIG) get DEFAULT_LOCALE)
+
 all: check-deps prod
 
 debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js build/sitemap.xml build/strings/locales.json build/index.$(DEFAULT_LOCALE).html build/strings/$(DEFAULT_LOCALE).json images
@@ -44,9 +47,6 @@ JSFILES= \
 	assets/js/analyzer.js \
 	assets/js/generator.js \
 	assets/js/sandbox.js
-
-CONFIG ?= config.conf
-DEFAULT_LOCALE ?= $(shell ./tools/read-conf.py -c $(CONFIG) get DEFAULT_LOCALE)
 
 build/js/config.js: $(CONFIG) tools/read-conf.py build/js/.d
 	./tools/read-conf.py -c $< js > $@
@@ -102,7 +102,7 @@ build/js/%.js: assets/js/%.js build/js/.d
 ### MANIFEST ###
 build/manifest.json: assets/manifest.json build/.d
 	cp $< $@
-    
+
 ### HTML ###
 build/index.debug.html: index.html.in debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json $(CONFIG) tools/read-conf.py tools/localise-html.py build/.d
 	sed -e '/@include_head@/r debug-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
@@ -240,4 +240,3 @@ server:
 ### Clean ###
 clean:
 	rm -rf build/
-    
