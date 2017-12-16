@@ -5,7 +5,7 @@ debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/
 prod: js css html fonts build/sitemap.xml build/manifest.json build/strings/locales.json localhtml images
 
 js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js debugjs
-debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/store.js build/js/persistence.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
+debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/init.js build/js/store.js build/js/persistence.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
 css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css debugcss
 debugcss: build/css/bootstrap.css build/css/style.css
 html: build/index.html build/index.debug.html build/not-found.html
@@ -31,12 +31,12 @@ check-deps:
 ### JS ###
 JSFILES= \
 	assets/js/strict.js \
-	assets/js/flow.js \
 	assets/js/jquery.jsonp-2.4.0.min.js \
 	build/js/config.js \
 	build/js/locales.js \
 	build/js/listrequests.js \
 	assets/js/util.js \
+	assets/js/init.js \
 	assets/js/store.js \
 	assets/js/persistence.js \
 	assets/js/localization.js \
@@ -102,7 +102,7 @@ build/js/%.js: assets/js/%.js build/js/.d
 ### MANIFEST ###
 build/manifest.json: assets/manifest.json build/.d
 	cp $< $@
-    
+
 ### HTML ###
 build/index.debug.html: index.html.in debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json $(CONFIG) tools/read-conf.py tools/localise-html.py build/.d
 	sed -e '/@include_head@/r debug-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
@@ -226,10 +226,6 @@ build/img/%: assets/img/%
 
 images: $(IMAGES_BUILD)
 
-### Typechecking ###
-# grab the bin from https://github.com/facebook/flow/releases
-flow: build/js/all.js
-	grep -Ev '/\*:: *(ex|im)port ' $< | flow check-contents
 
 ### Test server ###
 server:
@@ -240,4 +236,4 @@ server:
 ### Clean ###
 clean:
 	rm -rf build/
-    
+

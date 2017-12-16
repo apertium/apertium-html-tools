@@ -240,3 +240,9 @@ function formatUnit(unit) {
 function handleAnalyzeErrorResponse(xOptions, error) {
     $('#morphAnalyzerOutput').text(error).removeClass('blurred');
 }
+
+/*:: import {config} from "./config.js" */
+/*:: import {modeEnabled, ajaxSend, ajaxComplete, filterLangList, allowedLang, sendEvent, callApy, apyRequestTimeout} from "./util.js" */
+/*:: import {ENTER_KEY_CODE} from "./util.js" */
+/*:: import {localizeInterface, getLangByCode} from "./localization.js" */
+/*:: import {persistChoices, restoreChoices, readCache, cache} from "./persistence.js" */
