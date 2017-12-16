@@ -1,6 +1,7 @@
-/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy, apyRequestTimeout, isURL */
-/* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
 /* global config, persistChoices, iso639Codes, iso639CodesInverse, populateTranslationList, showTranslateWebpageInterface */
+/* global ajaxSend, ajaxComplete, debounce, resizeFooter, synchronizeTextareaHeights */
+
+var BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300;
 
 $(document).ajaxSend(ajaxSend);
 $(document).ajaxComplete(ajaxComplete);
@@ -172,7 +173,9 @@ if(config.PIWIK_SITEID && config.PIWIK_URL) {
     /* eslint-enable */
 }
 
+/*:: export {_paq} */
 /*:: import {config} from "./config.js" */
 /*:: import {persistChoices} from "./persistence.js" */
 /*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
 /*:: import {populateTranslationList, showTranslateWebpageInterface} from "./translator.js" */
+/*:: import {ajaxSend, ajaxComplete, debounce, resizeFooter, synchronizeTextareaHeights} from "./util.js" */

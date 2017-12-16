@@ -1,14 +1,14 @@
 /* @flow */
-/* exported sendEvent, modeEnabled, filterLangList, getURLParam, onlyUnique, isSubset, safeRetrieve, callApy, apyRequestTimeout, isURL */
+/* exported debounce, ajaxComplete, sendEvent, modeEnabled, resizeFooter, filterLangList, getURLParam, onlyUnique, isSubset */
+/* exported synchronizeTextareaHeights, callApy, apyRequestTimeout, isURL */
 /* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */
-/* global config, persistChoices, iso639Codes, iso639CodesInverse, populateTranslationList, showTranslateWebpageInterface */
+/* global _paq, config */
 
 var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
     XHR_LOADING = 3, XHR_DONE = 4;
 
 var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
-    BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT = 300,
     APY_REQUEST_URL_THRESHOLD_LENGTH = 2000, // maintain 48 characters buffer for generated parameters
     DEFAULT_DEBOUNCE_DELAY = 100;
 
@@ -237,9 +237,7 @@ function displayInstallationNotification() {
     }
 }
 
-/*:: export {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
+/*:: export {debounce, synchronizeTextareaHeights, modeEnabled, resizeFooter, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
     SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE, apyRequestTimeout} */
+/*:: import {_paq} from "./init.js" */
 /*:: import {config} from "./config.js" */
-/*:: import {persistChoices} from "./persistence.js" */
-/*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
-/*:: import {populateTranslationList, showTranslateWebpageInterface} from "./translator.js" */
