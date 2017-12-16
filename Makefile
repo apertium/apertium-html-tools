@@ -5,7 +5,7 @@ debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/
 prod: js css html fonts build/sitemap.xml build/manifest.json build/strings/locales.json localhtml images
 
 js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js debugjs
-debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/store.js build/js/persistence.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
+debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/init.js build/js/store.js build/js/persistence.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
 css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css debugcss
 debugcss: build/css/bootstrap.css build/css/style.css
 html: build/index.html build/index.debug.html build/not-found.html
@@ -37,6 +37,7 @@ JSFILES= \
 	build/js/locales.js \
 	build/js/listrequests.js \
 	assets/js/util.js \
+	assets/js/init.js \
 	assets/js/store.js \
 	assets/js/persistence.js \
 	assets/js/localization.js \
@@ -240,4 +241,4 @@ server:
 ### Clean ###
 clean:
 	rm -rf build/
-    
+
