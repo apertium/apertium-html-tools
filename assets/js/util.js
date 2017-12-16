@@ -1,4 +1,5 @@
-/* @flow */
+// @flow
+
 /* exported debounce, ajaxComplete, sendEvent, modeEnabled, resizeFooter, filterLangList, getURLParam, onlyUnique, isSubset */
 /* exported synchronizeTextareaHeights, callApy, apyRequestTimeout, isURL */
 /* exported SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE */

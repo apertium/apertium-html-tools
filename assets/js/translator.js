@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 var pairs = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs = [], dstLangs = [];
