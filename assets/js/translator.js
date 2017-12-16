@@ -1086,5 +1086,4 @@ function autoSelectDstLang() {
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
 /*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes} from "./localization.js" */
 /*:: import {readCache, cache} from "./persistence.js" */
-/*:: import {config} from "./config.js" */
 /*:: import {isURL} from "./util.js" */

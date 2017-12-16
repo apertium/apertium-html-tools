@@ -31,7 +31,6 @@ check-deps:
 ### JS ###
 JSFILES= \
 	assets/js/strict.js \
-	assets/js/flow.js \
 	assets/js/jquery.jsonp-2.4.0.min.js \
 	build/js/config.js \
 	build/js/locales.js \
@@ -103,7 +102,7 @@ build/js/%.js: assets/js/%.js build/js/.d
 ### MANIFEST ###
 build/manifest.json: assets/manifest.json build/.d
 	cp $< $@
-    
+
 ### HTML ###
 build/index.debug.html: index.html.in debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json $(CONFIG) tools/read-conf.py tools/localise-html.py build/.d
 	sed -e '/@include_head@/r debug-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@

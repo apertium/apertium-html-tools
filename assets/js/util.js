@@ -242,4 +242,3 @@ function displayInstallationNotification() {
 /*:: export {debounce, synchronizeTextareaHeights, modeEnabled, resizeFooter, ajaxSend, ajaxComplete, filterLangList, onlyUnique, callApy,
     SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE, XHR_LOADING, XHR_DONE, apyRequestTimeout, isURL, sendEvent} */
 /*:: import {_paq} from "./init.js" */
-/*:: import {config} from "./config.js" */
