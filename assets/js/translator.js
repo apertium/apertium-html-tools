@@ -2,8 +2,8 @@
 
 var pairs = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs = [], dstLangs = [];
-var curSrcLang, curDstLang;
-var recentSrcLangs = [], recentDstLangs = [];
+var curSrcLang/*: string */, curDstLang/*: string */;
+var recentSrcLangs /*: string[] */ = [], recentDstLangs /*: string[] */ = [];
 var droppedFile;
 var translateRequest;
 
@@ -421,7 +421,9 @@ function getPairs() {
             break;
         }
         for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
+            // $FlowFixMe
             recentSrcLangs.push(i < srcLangs.length ? srcLangs[i] : undefined);
+            // $FlowFixMe
             recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
         }
 
@@ -674,7 +676,9 @@ function translateText(ignoreIfEmpty) {
                 request = {'langpair': curSrcLang + '|' + curDstLang};
             }
 
+            // $FlowFixMe
             request.q = originalText; // eslint-disable-line id-length
+            // $FlowFixMe
             request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             translateRequest = callApy({
                 data: request,
@@ -725,6 +729,7 @@ function translateDoc() {
                 $('input#fileInput').prop('disabled', true);
                 $('button#translate').prop('disabled', true);
 
+                // $FlowFixMe
                 var xhr = new XMLHttpRequest({mozSystem: true});
                 xhr.addEventListener('progress', updateProgressBar, false);
                 if(xhr.upload) {
@@ -758,6 +763,7 @@ function translateDoc() {
                                 reader.onload = function () {
                                     $('a#fileDownload')
                                         .click(function () {
+                                            // $FlowFixMe
                                             window.location.href = reader.result.replace(/^data:[^;]*;/, 'data:attachment/file;');
                                         });
                                 };
@@ -803,7 +809,7 @@ function translateDoc() {
         docTranslateError(getDynamicLocalization('Not_Available'));
     }
 
-    function updateProgressBar(ev) {
+    function updateProgressBar(ev /*: ProgressEvent | any */) {
         var progress = 0.0;
         if(ev instanceof ProgressEvent) {
             progress = ev.loaded / ev.total;
@@ -934,7 +940,7 @@ function translateWebpage(ignoreIfEmpty) {
     }
 }
 
-function showTranslateWebpageInterface(url, ignoreIfEmpty) {
+function showTranslateWebpageInterface(url /*: ?string */, ignoreIfEmpty /*: ?boolean */) {
     $('#srcLangSelectors').removeClass('col-sm-11').addClass('col-sm-9');
 
     $('div#translateText').fadeOut('fast', function () {

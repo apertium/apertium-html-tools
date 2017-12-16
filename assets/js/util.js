@@ -22,6 +22,7 @@ var apyRequestTimeout, apyRequestStartTime, installationNotificationShown = fals
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
 if (typeof Object.assign != 'function') {
+  // $FlowFixMe
   Object.assign = function(target, varArgs) { // .length of function is 2
     'use strict';
     if (target == null) { // TypeError if undefined or null
@@ -47,7 +48,7 @@ if (typeof Object.assign != 'function') {
 }
 /* eslint-enable */
 
-function debounce(func, delay) { // eslint-disable-line no-unused-vars
+function debounce(func /*: any */, delay /*: number */) { // eslint-disable-line no-unused-vars
     var clock = null;
     return function () {
         var context = this, args = arguments;
@@ -72,7 +73,7 @@ function ajaxComplete() {
 }
 
 /* eslint-disable id-blacklist */
-function sendEvent(category, action, label, value) {
+function sendEvent(category /*: string */, action /*: string */, label /*: ?string */, value /*: any */) {
     if(config.PIWIK_SITEID && config.PIWIK_URL && _paq) {
         var args = [category, action];
         if(label !== undefined && value !== undefined) {
@@ -87,7 +88,7 @@ function sendEvent(category, action, label, value) {
 }
 /* eslint-enable id-blacklist */
 
-function modeEnabled(mode/*: string*/) {
+function modeEnabled(mode /*: string*/) {
     return config.ENABLED_MODES === null || config.ENABLED_MODES.indexOf(mode) !== -1;
 }
 
@@ -107,7 +108,7 @@ function allowedLang(code) {
     }
 }
 
-function filterLangList(langs/*: Array<string>*/, _filterFn/*: (lang: string) => bool*/) {
+function filterLangList(langs /*: Array<string>*/, _filterFn /*: ?(lang: string) => bool*/) {
     if(config.ALLOWED_LANGS === null && config.ALLOWED_VARIANTS === null) {
         return langs;
     }
@@ -134,18 +135,18 @@ function getURLParam(name) {
 
 /* eslint-disable */
 // From: http://stackoverflow.com/a/19696443/1266600 (source: AOSP)
-function isURL(text) {
+function isURL(text /*: string */) {
     var re = /^((?:(http|https):\/\/(?:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,64}(?:\:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,25})?\@)?)?((?:(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}\.)+(?:(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])|(?:biz|b[abdefghijmnorstvwyz])|(?:cat|com|coop|c[acdfghiklmnoruvxyz])|d[ejkmoz]|(?:edu|e[cegrstu])|f[ijkmor]|(?:gov|g[abdefghilmnpqrstuwy])|h[kmnrtu]|(?:info|int|i[delmnoqrst])|(?:jobs|j[emop])|k[eghimnrwyz]|l[abcikrstuvy]|(?:mil|mobi|museum|m[acdghklmnopqrstuvwxyz])|(?:name|net|n[acefgilopruz])|(?:org|om)|(?:pro|p[aefghklmnrstwy])|qa|r[eouw]|s[abcdeghijklmnortuvyz]|(?:tel|travel|t[cdfghjklmnoprtvwz])|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]))|(?:(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])))(?:\:\d{1,5})?)(\/(?:(?:[a-zA-Z0-9\;\/\?\:\@\&\=\#\~\-\.\+\!\*\'\(\)\,\_])|(?:\%[a-fA-F0-9]{2}))*)?(?:\s*$)/i;
     return text.search(re) === 0;
 }
 /* eslint-enable */
 
 // eslint-disable-next-line id-blacklist
-function onlyUnique(value, index, self) {
+function onlyUnique(value /*: any */, index /*: any */, self /*: any */) {
     return self.indexOf(value) === index;
 }
 
-function isSubset(subset, superset) {
+function isSubset/*:: <T> */(subset /*: T[] */, superset /*: T[] */) {
     // eslint-disable-next-line id-blacklist, id-length
     return subset.every(function (val) {
         return superset.indexOf(val) >= 0;
@@ -166,7 +167,7 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-function callApy(options, endpoint, useAjax) {
+function callApy(options /*: any */, endpoint /*: any */, useAjax /*: any */) {
     var requestOptions = Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
@@ -192,7 +193,7 @@ function callApy(options, endpoint, useAjax) {
 }
 
 function handleAPyRequestCompletion(requestDuration) {
-    var cumulativeAPyRequestDuration;
+    var cumulativeAPyRequestDuration = 0;
 
     if(lastNAPyRequestDurations.length === INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
         cumulativeAPyRequestDuration = lastNAPyRequestDurations.reduce(function (totalDuration, duration) {
