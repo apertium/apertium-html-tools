@@ -1,9 +1,10 @@
 [ignore]
-build/
+.*/build/.*
 
 [include]
 
 [libs]
 interfaces/
+flow-typed
 
 [options]
