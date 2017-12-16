@@ -1,3 +1,6 @@
+CONFIG ?= config.conf
+DEFAULT_LOCALE ?= $(shell ./tools/read-conf.py -c $(CONFIG) get DEFAULT_LOCALE)
+
 all: check-deps prod
 
 debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js build/sitemap.xml build/strings/locales.json build/index.$(DEFAULT_LOCALE).html build/strings/$(DEFAULT_LOCALE).json images
@@ -44,9 +47,6 @@ JSFILES= \
 	assets/js/analyzer.js \
 	assets/js/generator.js \
 	assets/js/sandbox.js
-
-CONFIG ?= config.conf
-DEFAULT_LOCALE ?= $(shell ./tools/read-conf.py -c $(CONFIG) get DEFAULT_LOCALE)
 
 build/js/config.js: $(CONFIG) tools/read-conf.py build/js/.d
 	./tools/read-conf.py -c $< js > $@
