@@ -24,7 +24,7 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
     callApy, apyRequestTimeout, isURL */
-/* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
+/* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_BAD_REQUEST_CODE */
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
@@ -1074,10 +1074,11 @@ function autoSelectDstLang() {
     }
 }
 
-/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode,
-    callApy, apyRequestTimeout} from "./util.js" */
+/*:: export {populateTranslationList, showTranslateWebpageInterface} */
+/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, sendEvent, callApy,
+    apyRequestTimeout, SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_BAD_REQUEST_CODE} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
-/*:: import localizeInterface from "./localization.js" */
-/*:: import {readCache,cache} from "./cache.js" */
+/*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes} from "./localization.js" */
+/*:: import {readCache, cache} from "./persistence.js" */
 /*:: import {config} from "./config.js" */
 /*:: import {isURL} from "./util.js" */
