@@ -1,1 +1,3 @@
+// @flow
+
 'use strict';
