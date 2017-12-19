@@ -12,7 +12,7 @@ var Store = function (prefix /*: string */) /*: void */ {
     this.prefix = prefix;
 };
 
-Store.prototype.get = function /*:: <T> */ (key /*: string */, fallback /*: ?T */) /*: T|any */ {
+Store.prototype.get = function /*:: <T> */ (key /*: string */, fallback /*: T */) /*: T */ {
     if(fallback === undefined) {
         console.warn('Store.get with undefined fallback! Key:', key);
     }
@@ -20,13 +20,9 @@ Store.prototype.get = function /*:: <T> */ (key /*: string */, fallback /*: ?T *
         return fallback;
     }
 
-    var fromStorage = window.localStorage[this.prefix + key];
-    if(fromStorage === undefined) {
+    var fromStorage /*: string */ = window.localStorage[this.prefix + key];
+    if(fromStorage === undefined || fromStorage === 'undefined') {
         return fallback;
-    }
-    else if(fromStorage === 'undefined') {
-        // JSON.parse(JSON.stringify(undefined)) fails – manually "parse" if so:
-        return undefined;
     }
     else {
         try {
@@ -48,7 +44,7 @@ Store.prototype.set = function /*:: <T> */ (key /*: string */, value /*: T */) /
     }
 };
 
-Store.prototype.clear = function () /*: void*/ {
+Store.prototype.clear = function () /*: void */ {
     if(this.able()) {
         for(var key in window.localStorage) {
             if(key.startsWith(this.prefix)) {
@@ -59,8 +55,7 @@ Store.prototype.clear = function () /*: void*/ {
 };
 
 Store.prototype.has = function (key /*: string */) /*: boolean */ {
-    return this.able() &&
-        (this.prefix + key) in window.localStorage;
+    return this.able() && (this.prefix + key) in window.localStorage;
 };
 
 Store.prototype.able = function () /*: boolean */ {

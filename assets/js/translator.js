@@ -537,7 +537,7 @@ function populateTranslationList() {
         : TRANSLATION_LIST_COLUMNS;
 
     var columnWidth = TRANSLATION_LIST_WIDTH / TRANSLATION_LIST_COLUMNS;
-    var maxSrcLangsWidth /*: number */ = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
+    var maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
     numSrcCols = Math.min(Math.floor(maxSrcLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
     var maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
         TRANSLATION_LISTS_BUFFER;
@@ -560,8 +560,8 @@ function populateTranslationList() {
         var numSrcLang = Math.ceil(srcLangs.length / numSrcCols) * i;
         for(var j = numSrcLang; j < numSrcLang + srcLangsPerCol; j++) {
             if(numSrcLang < srcLangs.length) {
-                var langCode /*: string */ = srcLangs[j];
-                var langName /*: string */ = getLangByCode(langCode);
+                var langCode = srcLangs[j];
+                var langName = getLangByCode(langCode);
                 $('#srcLanguages .languageCol:eq(' + i + ')')
                     .append(
                         $('<div class="languageName"></div>')
@@ -621,8 +621,8 @@ function populateTranslationList() {
         });
 
         dstLangs = dstLangs.sort(function (a, b) {
-            var aPossible /*: boolean */ = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1;
-            var bPossible /*: boolean */ = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
+            var aPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1;
+            var bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
 
             if(aPossible === bPossible) {
                 try {
@@ -781,7 +781,7 @@ function translateDoc() {
                                     $('a#fileDownload')
                                         .click(function () {
                                             // Flow infers incorrect type ArrayBuffer
-                                            var result /*: string*/ = (reader.result /*: any */);
+                                            var result /*: string */ = (reader.result /*: any */);
                                             window.location.href = result.replace(/^data:[^;]*;/, 'data:attachment/file;');
                                         });
                                 };
@@ -836,7 +836,7 @@ function translateDoc() {
             console.warn('Strange event type given to updateProgressBar:');
             console.warn(ev);
         }
-        var percentDone /*: number */ = Math.floor(progress * 1000) / 10;
+        var percentDone = Math.floor(progress * 1000) / 10;
         $('div#fileUploadProgress').attr('aria-valuenow', percentDone).css('width', percentDone + '%');
     }
 
@@ -1008,7 +1008,7 @@ function detectLanguage() {
         for(var lang in data) {
             possibleLanguages.push([lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang, data[lang]]);
         }
-        possibleLanguages.sort(function (a /*: string[] */, b /*: string[] */) /*: number */ {
+        possibleLanguages.sort(function (a, b) {
             return parseInt(b[1], 10) - parseInt(a[1], 10);
         });
 
