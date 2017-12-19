@@ -91,8 +91,8 @@ function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
 
     if(window.history.replaceState && parent.location.hash) {
         var hash /*: string */ = parent.location.hash,
-            urlParams /*: Array<string> */ = [],
-            urlParamNames /* Array<string> */ = ['dir', 'choice'];
+            urlParams /*: string[] */ = [],
+            urlParamNames /* string[] */ = ['dir', 'choice'];
 
         $.each(urlParamNames, function () {
             var urlParam = getURLParam(this);

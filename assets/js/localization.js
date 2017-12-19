@@ -208,7 +208,7 @@ function getLocales() {
     }
 
     function handleLocales(locales) {
-        var localePairs /*: Array<Array<string>> */ = [];
+        var localePairs /*: string[][] */ = [];
         for(var code in locales) {
             localePairs.push([code, locales[code]]);
         }
@@ -229,7 +229,7 @@ function getLocales() {
     return deferred.promise();
 }
 
-function generateLanguageList() /*: Array<string> */ {
+function generateLanguageList() /*: string[] */ {
     var languages = [];
     $.each(srcLangs.concat(dstLangs), function () {
         languages.push(this);
@@ -263,7 +263,7 @@ function localizeLanguageNames(localizedNamesFromJSON) {
         cache(locale + '_names', localizedNamesFromJSON);
     }
     else {
-        var languages /*: Array<string> */ = generateLanguageList();
+        var languages /*: string[] */ = generateLanguageList();
 
         localizedNames = readCache(locale + '_names', 'LANGUAGE_NAME');
         if(localizedNames) {

@@ -85,7 +85,7 @@ function getGenerators() /*: JQueryPromise<any> */ {
 function populateGeneratorList(data /*: Object */) {
     $('.generatorMode').empty();
 
-    generators = ({} /*: {[string]: Array<string>} */);
+    generators = ({} /*: {[string]: string[]} */);
     for(var lang in data) {
         var generatorLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
         var group = generators[generatorLang];
@@ -97,11 +97,11 @@ function populateGeneratorList(data /*: Object */) {
         }
     }
 
-    var generatorArray /*: Array<Array<string>> */ = [];
+    var generatorArray /*: string[][] */ = [];
     $.each(generators, function (generatorLang /*: string */, lang /*: string */) {
         generatorArray.push([generatorLang, lang]);
     });
-    generatorArray = filterLangPairList(generatorArray, function (generator /*: Array<string> */) {
+    generatorArray = filterLangPairList(generatorArray, function (generator /*: string[] */) {
         return allowedLang(generator[0]);
     });
     generatorArray.sort(function (a, b) {

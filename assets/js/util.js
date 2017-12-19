@@ -111,7 +111,7 @@ function allowedLang(code /*: string */) /*: boolean */ {
     }
 }
 
-function filterLangList(langs /*: Array<string> */, _filterFn /*: ?(lang: string) => boolean */) /*: Array<string> */ {
+function filterLangList(langs /*: string[] */, _filterFn /*: ?(lang: string) => boolean */) /*: string[] */ {
     if(config.ALLOWED_LANGS || config.ALLOWED_VARIANTS) {
         var filterFn = _filterFn;
         if(!filterFn) {
@@ -128,7 +128,7 @@ function filterLangList(langs /*: Array<string> */, _filterFn /*: ?(lang: string
     }
 }
 
-function filterLangPairList(langs /*: Array<Array<string>>*/, filterFn /*: Array<string> => boolean */) /*: Array<Array<string>> */ {
+function filterLangPairList(langs /*: string[][] */, filterFn /*: string[] => boolean */) /*: string[][] */ {
     if(config.ALLOWED_LANGS || config.ALLOWED_VARIANTS) {
         return langs.filter(filterFn);
     }
@@ -141,7 +141,7 @@ function getURLParam(name /*: string */) /*: string */ {
     var escapedName /*: string */ = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
     var regexS /*: string */ = '[\\?&]' + escapedName + '=([^&#]*)';
     var regex = new RegExp(regexS);
-    var results /*: ?Array<string> */ = regex.exec(window.location.href);
+    var results /*: ?string[] */ = regex.exec(window.location.href);
     return results ? results[1] : '';
 }
 

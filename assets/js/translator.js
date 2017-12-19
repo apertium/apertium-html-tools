@@ -1,9 +1,9 @@
 // @flow
 
 var pairs = {}, chainedPairs = {}, originalPairs = pairs;
-var srcLangs /*: Array<string> */ = [], dstLangs /*: Array<string> */ = [];
+var srcLangs /*: string[] */ = [], dstLangs /*: string[] */ = [];
 var curSrcLang /*: string */, curDstLang/*: string */;
-var recentSrcLangs /*: Array<string> */ = [], recentDstLangs /*: Array<string> */ = [];
+var recentSrcLangs /*: string[] */ = [], recentDstLangs /*: string[] */ = [];
 var droppedFile/*: ?File */;
 var translateRequest;
 
@@ -445,7 +445,7 @@ function getPairs() /*: JQueryPromise<any> */ {
     return deferred.promise();
 }
 
-function handleNewCurrentLang(lang /*: string */, recentLangs /*: Array<string> */, langType /*: string */,
+function handleNewCurrentLang(lang /*: string */, recentLangs /*: string[] */, langType /*: string */,
     resetDetect /*: ?boolean */, noTranslate /*: ?boolean */) {
     $('.' + langType).removeClass('active');
     if(recentLangs.indexOf(lang) === -1) {
@@ -506,7 +506,7 @@ function refreshLangList(resetDetect /*: ?boolean */) {
         $('#detectedText').hide();
     }
 
-    function filterLangs(allRecentLangs /*: Array<string> */, allLangs /*: Array<string> */) /*: Array<string> */ {
+    function filterLangs(allRecentLangs /*: string[] */, allLangs /*: string[] */) /*: string[] */ {
         var recentLangs = allRecentLangs.filter(onlyUnique);
         if(recentLangs.length < TRANSLATION_LIST_BUTTONS) {
             for(var i = 0; i < allLangs.length; i++) {
@@ -1006,15 +1006,15 @@ function detectLanguage() {
     return translateRequest;
 
     function handleDetectLanguageSuccessResponse(data) {
-        var possibleLanguages /*: Array<Array<string>> */ = [];
+        var possibleLanguages /*: string[][] */ = [];
         for(var lang in data) {
             possibleLanguages.push([lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang, data[lang]]);
         }
-        possibleLanguages.sort(function (a /*: Array<string> */, b /*: Array<string> */) /*: number */ {
+        possibleLanguages.sort(function (a /*: string[] */, b /*: string[] */) /*: number */ {
             return parseInt(b[1], 10) - parseInt(a[1], 10);
         });
 
-        var oldSrcLangs /*: Array<string> */ = recentSrcLangs;
+        var oldSrcLangs /*: string[] */ = recentSrcLangs;
         recentSrcLangs = [];
         for(var i = 0; i < possibleLanguages.length; i++) {
             if(recentSrcLangs.length < TRANSLATION_LIST_BUTTONS && possibleLanguages[i][0] in pairs) {
@@ -1110,12 +1110,12 @@ function setCurDstLang(lang /*: string */) {
     return lang;
 }
 
-function setRecentSrcLangs(langs /*: Array<string> */) {
+function setRecentSrcLangs(langs /*: string[] */) {
     recentSrcLangs = langs;
     return langs;
 }
 
-function setRecentDstLangs(langs /*: Array<string> */) {
+function setRecentDstLangs(langs /*: string[] */) {
     recentDstLangs = langs;
     return langs;
 }

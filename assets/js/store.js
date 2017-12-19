@@ -67,7 +67,7 @@ Store.prototype.able = function () /*: boolean */ {
     try {
         return !!(window.localStorage);
     }
-    catch(e /*: Exception */) {
+    catch(e) {
         if(e.name === 'SecurityError') {
             // Firefox and Chrome disable LocalStorage simultaneously with cookies and
             // throw a SecurityError on an attempt to use it.

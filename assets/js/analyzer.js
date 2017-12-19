@@ -85,7 +85,7 @@ function getAnalyzers() /*: JQueryPromise<any> */ {
 function populateAnalyzerList(data /*: Object */) {
     $('.analyzerMode').empty();
 
-    analyzers = ({} /*: {[string]: Array<string> } */);
+    analyzers = ({} /*: {[string]: string[] } */);
     for(var lang in data) {
         var analyzerLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
         var group = analyzers[analyzerLang];
@@ -97,7 +97,7 @@ function populateAnalyzerList(data /*: Object */) {
         }
     }
 
-    var analyzersArray /*: Array<Array<string>> */ = [];
+    var analyzersArray /*: string[][] */ = [];
     $.each(analyzers, function (analyzerLang /*: string */, lang /*: string */) {
         analyzersArray.push([analyzerLang, lang]);
     });
@@ -117,7 +117,7 @@ function populateAnalyzerList(data /*: Object */) {
 }
 
 function populateSecondaryAnalyzerList() {
-    var group /*: Array<string> */ = analyzers[$('#primaryAnalyzerMode').val()];
+    var group /*: string[] */ = analyzers[$('#primaryAnalyzerMode').val()];
     $('#secondaryAnalyzerMode').empty();
 
     if(group) {
@@ -230,8 +230,8 @@ function handleAnalyzeSuccessResponse(data /*: string[][] */) {
 }
 
 function formatUnit(unit /*: string */) {
-    var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags /*: Array<string> */ = [];
-    var tagMatch /*: ?Array<string> */ = tagRegex.exec(unit);
+    var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags /*: string[] */ = [];
+    var tagMatch /*: ?string[] */ = tagRegex.exec(unit);
     while(tagMatch) {
         tags.push(tagMatch[1]);
         tagMatch = tagRegex.exec(unit);
