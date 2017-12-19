@@ -42,7 +42,7 @@ Store.prototype.get = function /*:: <T> */ (key /*: string */, fallback /*: ?T *
     }
 };
 
-Store.prototype.set = function /*:: <T> */ (key /*: string */, value /*: T */) /*: void*/ {
+Store.prototype.set = function /*:: <T> */ (key /*: string */, value /*: T */) /*: void */ {
     if(this.able()) {
         window.localStorage[this.prefix + key] = JSON.stringify(value);
     }
@@ -67,7 +67,7 @@ Store.prototype.able = function () /*: boolean */ {
     try {
         return !!(window.localStorage);
     }
-    catch(e) {
+    catch(e /*: Exception */) {
         if(e.name === 'SecurityError') {
             // Firefox and Chrome disable LocalStorage simultaneously with cookies and
             // throw a SecurityError on an attempt to use it.

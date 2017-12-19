@@ -58,7 +58,7 @@ if(modeEnabled('translation')) {
             });
 
             $('#originalText').on('input propertychange', function () {
-                var disableDetect /*: boolean */ = this.value === '';
+                var disableDetect = this.value === '';
                 $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', disableDetect);
                 $('#detect').toggleClass('disabledLang', disableDetect);
 
@@ -97,7 +97,7 @@ if(modeEnabled('translation')) {
                 window.location.hash = 'translation';
             }).removeClass('cancelTranslateWebpage');
 
-            $('input#webpage').keyup(function (ev /*: JQueryKeyEventObject */) /*: ?boolean */ {
+            $('input#webpage').keyup(function (ev /*: JQueryKeyEventObject */) {
                 if(ev.keyCode === ENTER_KEY_CODE && isURL($('input#webpage').val())) {
                     translate();
                     return false;
@@ -143,20 +143,20 @@ if(modeEnabled('translation')) {
             });
 
             $('body')
-                .on('dragover', function (ev /*: JQueryEventObject */) /*: boolean */ {
+                .on('dragover', function (ev /*: JQueryEventObject */) {
                     ev.preventDefault();
                     return false;
                 })
-                .on('dragenter', function (ev /*: JQueryEventObject */) /*: boolean */ {
+                .on('dragenter', function (ev /*: JQueryEventObject */) {
                     ev.preventDefault();
                     if(!$('div#fileDropBackdrop:visible').length) {
                         $('div#fileDropBackdrop').fadeTo('fast', 0.5);
-                        $('div#fileDropMask').on('drop', function (ev /*: JQueryEventObject */) /*: boolean */ {
+                        $('div#fileDropMask').on('drop', function (ev /*: JQueryEventObject */) {
                             ev.preventDefault();
-                            // Flow can only infer type Event
-                            var originalEvent /*: DragEvent */ = (ev.originalEvent/*: any */);
+                            // jQuery bindings can only infer type Event
+                            var originalEvent /*: DragEvent */ = (ev.originalEvent /*: any */);
                             // Assume non-null value
-                            var dataTransfer /*: DataTransfer */ = (originalEvent.dataTransfer/*: any */);
+                            var dataTransfer /*: DataTransfer */ = (originalEvent.dataTransfer /*: any */);
                             droppedFile = dataTransfer.files[0];
 
                             $('#fileDropBackdrop').fadeOut();
@@ -321,8 +321,7 @@ if(modeEnabled('translation')) {
         });
 
         var timer, lastPunct = false;
-        $('#originalText').on('keyup paste', function (ev /*: JQueryEventObject */) {
-            var event /*: JQueryKeyEventObject */ = (ev /*: any */);
+        $('#originalText').on('keyup paste', function (event /*: JQueryEventObject */) {
             if(lastPunct && (event.keyCode === SPACE_KEY_CODE || event.keyCode === ENTER_KEY_CODE)) {
                 // Don't override the short timeout for simple space-after-punctuation
                 return;

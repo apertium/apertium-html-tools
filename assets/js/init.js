@@ -117,7 +117,7 @@ $(document).ready(function () {
         Array.prototype.push.apply(config.ALLOWED_LANGS, withIso);
     }
 
-    $('form').submit(function () /*: boolean */ {
+    $('form').submit(function () {
         return false;
     });
 
@@ -137,7 +137,7 @@ $(document).ready(function () {
         $('#backToTop').toggleClass('hide', $(window).scrollTop() < BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT);
     });
 
-    $('#backToTop').click(function () /*: boolean */ {
+    $('#backToTop').click(function () {
         $('html, body').animate({
             scrollTop: 0
         }, 'fast');
