@@ -150,7 +150,7 @@ function restoreChoices(mode /*: string */) {
             setRecentDstLangs(store.get('recentDstLangs', recentDstLangs));
             setCurSrcLang(store.get('curSrcLang', curSrcLang));
             setCurDstLang(store.get('curDstLang', curDstLang));
-            if(store.has('recentSrcLangs') && isSubset(recentSrcLangs, srcLangs)) {
+            if(store.has('recentSrcLangs') && isSubset(recentSrcLangs, srcLangs) && curSrcLang) {
                 $('.srcLang').removeClass('active');
                 $('#srcLangSelect option[value=' + curSrcLang + ']').prop('selected', true);
                 $('#' + store.get('curSrcChoice', 'srcLang1')).addClass('active');
@@ -159,7 +159,7 @@ function restoreChoices(mode /*: string */) {
                     $('#detectText').hide();
                 }
             }
-            if(store.has('recentDstLangs') && isSubset(recentDstLangs, dstLangs)) {
+            if(store.has('recentDstLangs') && isSubset(recentDstLangs, dstLangs) && curDstLang) {
                 $('.dstLang').removeClass('active');
                 $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
                 $('#' + store.get('curDstChoice', 'dstLang1')).addClass('active');
