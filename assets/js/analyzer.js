@@ -178,7 +178,7 @@ function analyze() {
     }, '/analyze');
 }
 
-function handleAnalyzeSuccessResponse(data) {
+function handleAnalyzeSuccessResponse(data /*: string[][] */) {
     var regex = /([^<]*)((<[^>]+>)*)/g;
     $('#morphAnalyzerOutput').empty();
     for(var i = 0; i < data.length; i++) {
@@ -188,7 +188,7 @@ function handleAnalyzeSuccessResponse(data) {
         leftTD.append(strong).append(arrow);
 
         var rightTD = $('<td class="text-left"></td>');
-        var splitUnit /*: Array<string> */ = data[i][0].split('/');
+        var splitUnit = data[i][0].split('/');
 
         if(splitUnit[1][0] === '*') {
             rightTD.addClass('text-danger');
@@ -229,7 +229,7 @@ function handleAnalyzeSuccessResponse(data) {
     }
 }
 
-function formatUnit(unit /*: string */) /*: string */ {
+function formatUnit(unit /*: string */) {
     var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags /*: Array<string> */ = [];
     var tagMatch /*: ?Array<string> */ = tagRegex.exec(unit);
     while(tagMatch) {

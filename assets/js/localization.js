@@ -121,8 +121,8 @@ $(document).ready(function () {
     }
 });
 
-function getLocale() /*: JQueryPromise<any> */ {
-    var deferred = $.Deferred();
+function getLocale() {
+    var deferred /*: JQueryDeferred<any> */ = $.Deferred();
 
     restoreChoices('localization');
 
@@ -177,8 +177,8 @@ function getLocale() /*: JQueryPromise<any> */ {
     return deferred.promise();
 }
 
-function getLocales() /*: JQueryPromise<any> */ {
-    var deferred = $.Deferred();
+function getLocales() {
+    var deferred /*: JQueryDeferred<any> */ = $.Deferred();
     if(config.LOCALES) {
         handleLocales(config.LOCALES);
         deferred.resolve();
@@ -415,9 +415,9 @@ function getLangByCode(dirtyCode /*: string */) /*: string */ {
     }
 }
 
-function setLocale(newValue /*: string */) /*: string */ {
-    locale = newValue;
-    return newValue;
+function setLocale(newLocale /*: string */) {
+    locale = newLocale;
+    return newLocale;
 }
 
 /*:: export {getLangByCode, getDynamicLocalization, iso639Codes, iso639CodesInverse, locale, localizeInterface, setLocale} */
