@@ -252,7 +252,7 @@ function generateLanguageList() /*: string[] */ {
 }
 
 function localizeLanguageNames(localizedNamesFromJSON) {
-    var localizedNames/*: ?Object */;
+    var localizedNames/*: ?{} */;
     if(config.LANGNAMES && locale in config.LANGNAMES) {
         localizedNames = config.LANGNAMES[locale];
         handleLocalizedNames(localizedNames);

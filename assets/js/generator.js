@@ -82,7 +82,7 @@ function getGenerators() /*: JQueryPromise<any> */ {
     return deferred.promise();
 }
 
-function populateGeneratorList(data /*: Object */) {
+function populateGeneratorList(data /*: {} */) {
     $('.generatorMode').empty();
 
     generators = ({} /*: {[string]: string[]} */);

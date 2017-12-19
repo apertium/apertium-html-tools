@@ -82,7 +82,7 @@ function getAnalyzers() /*: JQueryPromise<any> */ {
     return deferred.promise();
 }
 
-function populateAnalyzerList(data /*: Object */) {
+function populateAnalyzerList(data /*: {} */) {
     $('.analyzerMode').empty();
 
     analyzers = ({} /*: {[string]: string[] } */);
