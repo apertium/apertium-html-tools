@@ -386,7 +386,7 @@ function localizeInterface() {
         $(selector).attr('dir', direction(lang));
     });
 
-    function direction(lang /*: string */) /*: string */ {
+    function direction(lang /*: string */) /*: 'ltr' | 'rtl' */ {
         return rtlLanguages.indexOf(lang) === -1 ? 'ltr' : 'rtl';
     }
 
