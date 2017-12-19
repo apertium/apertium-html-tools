@@ -1,6 +1,6 @@
 // @flow
 
-var generators = {}, generatorData = {};
+var generators = ({} /*: {[string]: string[]} */), generatorData = {};
 var currentGeneratorRequest;
 
 /* exported generatorData, generators, getGenerators, populateGeneratorList, populateSecondaryGeneratorList */
@@ -85,7 +85,7 @@ function getGenerators() /*: JQueryPromise<any> */ {
 function populateGeneratorList(data /*: {} */) {
     $('.generatorMode').empty();
 
-    generators = ({} /*: {[string]: string[]} */);
+    generators = {};
     for(var lang in data) {
         var generatorLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
         var group = generators[generatorLang];
@@ -146,13 +146,13 @@ function populateSecondaryGeneratorList() {
 }
 
 function generate() {
-    var input = $('#morphGeneratorInput').val();
+    var input /*: string */ = $('#morphGeneratorInput').val();
 
     if(!$('#primaryGeneratorMode').val() || input.trim() === '') {
         return;
     }
 
-    var generatorMode = generators[$('#primaryGeneratorMode').val()].length > 1
+    var generatorMode /*: string */ = generators[$('#primaryGeneratorMode').val()].length > 1
         ? $('#secondaryGeneratorMode').val()
         : generators[$('#primaryGeneratorMode').val()][0];
     sendEvent('generator', 'generate', generatorMode, $('#morphGeneratorInput').val().length);

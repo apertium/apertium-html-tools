@@ -96,7 +96,7 @@ $(document).ready(function () {
     resizeFooter();
     $(window)
         .on('hashchange', function () {
-            var mode = parent.location.hash.substring(1);
+            var mode /*: string */ = parent.location.hash.substring(1);
             persistChoices(mode);
         })
         .resize(debounce(function () {

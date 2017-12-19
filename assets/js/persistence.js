@@ -29,7 +29,7 @@ function readCache(name /*: string */, type /*: string */) /*: ?any */ {
     var storedValue = store.get(name, null);
     if(storedValue && timestamp) {
         var expiryHours = config[type.toUpperCase() + '_CACHE_EXPIRY'];
-        if(expiryHours === undefined) {
+        if(typeof expiryHours !== 'number') {
             expiryHours = DEFAULT_EXPIRY_HOURS;
         }
         var MS_IN_HOUR = 3600000,
@@ -148,9 +148,8 @@ function restoreChoices(mode /*: string */) {
         if(store.able()) {
             setRecentSrcLangs(store.get('recentSrcLangs', recentSrcLangs));
             setRecentDstLangs(store.get('recentDstLangs', recentDstLangs));
-            setCurSrcLang(store.get('curSrcLang', curSrcLang));
-            setCurDstLang(store.get('curDstLang', curDstLang));
             if(store.has('recentSrcLangs') && isSubset(recentSrcLangs, srcLangs) && curSrcLang) {
+                setCurSrcLang(store.get('curSrcLang', curSrcLang));
                 $('.srcLang').removeClass('active');
                 $('#srcLangSelect option[value=' + curSrcLang + ']').prop('selected', true);
                 $('#' + store.get('curSrcChoice', 'srcLang1')).addClass('active');
@@ -160,6 +159,7 @@ function restoreChoices(mode /*: string */) {
                 }
             }
             if(store.has('recentDstLangs') && isSubset(recentDstLangs, dstLangs) && curDstLang) {
+                setCurDstLang(store.get('curDstLang', curDstLang));
                 $('.dstLang').removeClass('active');
                 $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
                 $('#' + store.get('curDstChoice', 'dstLang1')).addClass('active');
