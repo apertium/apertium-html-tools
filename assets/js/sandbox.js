@@ -27,13 +27,13 @@ if(!config.ENABLED_MODES || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
 }
 
 function request() {
-    var input = $('#sandboxInput').val();
+    var input /*: string */ = $('#sandboxInput').val();
     if(input.trim() === '') {
         return;
     }
 
     $('#sandboxOutput').addClass('blurred');
-    var startTime /*: number */ = new Date().getTime();
+    var startTime = new Date().getTime();
     if(currentSandboxRequest) {
         currentSandboxRequest.abort();
     }
