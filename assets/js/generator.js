@@ -85,10 +85,10 @@ function getGenerators() /*: JQueryPromise<any> */ {
 function populateGeneratorList(data /*: Object */) {
     $('.generatorMode').empty();
 
-    generators = {};
+    generators = ({} /*: {[string]: Array<string>} */);
     for(var lang in data) {
-        var generatorLang /*: string */ = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
-        var group /*: Array<string> */ = generators[generatorLang];
+        var generatorLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
+        var group = generators[generatorLang];
         if(group) {
             group.push(lang);
         }
@@ -101,10 +101,10 @@ function populateGeneratorList(data /*: Object */) {
     $.each(generators, function (generatorLang /*: string */, lang /*: string */) {
         generatorArray.push([generatorLang, lang]);
     });
-    generatorArray = filterLangPairList(generatorArray, function (generator /*: Array<string> */) /*: boolean */ {
+    generatorArray = filterLangPairList(generatorArray, function (generator /*: Array<string> */) {
         return allowedLang(generator[0]);
     });
-    generatorArray.sort(function (a /*: Array<string> */, b /*: Array<string> */) /*: number */ {
+    generatorArray.sort(function (a, b) {
         return getLangByCode(a[0]).localeCompare(getLangByCode(b[0]));
     });
 
@@ -117,7 +117,7 @@ function populateGeneratorList(data /*: Object */) {
 }
 
 function populateSecondaryGeneratorList() {
-    var group /*: Array<string> */ = generators[$('#primaryGeneratorMode').val()];
+    var group = generators[$('#primaryGeneratorMode').val()];
     $('#secondaryGeneratorMode').empty();
 
     if(group) {
@@ -128,12 +128,12 @@ function populateSecondaryGeneratorList() {
             $('#secondaryGeneratorMode').fadeIn('fast');
         }
 
-        group.sort(function (a /*: string */, b /*: string */) /*: number */ {
+        group.sort(function (a, b) {
             return a.length - b.length;
         });
 
         for(var i = 0; i < group.length; i++) {
-            var lang /*: string */ = group[i];
+            var lang = group[i];
             var langDisplay = lang.indexOf('-') !== -1
                 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1])
                 : getLangByCode(lang);

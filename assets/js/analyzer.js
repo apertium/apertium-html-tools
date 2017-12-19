@@ -85,10 +85,10 @@ function getAnalyzers() /*: JQueryPromise<any> */ {
 function populateAnalyzerList(data /*: Object */) {
     $('.analyzerMode').empty();
 
-    analyzers = {};
+    analyzers = ({} /*: {[string]: Array<string> } */);
     for(var lang in data) {
-        var analyzerLang /*: string */ = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
-        var group /*: Array<string> */ = analyzers[analyzerLang];
+        var analyzerLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
+        var group = analyzers[analyzerLang];
         if(group) {
             group.push(lang);
         }
@@ -101,10 +101,10 @@ function populateAnalyzerList(data /*: Object */) {
     $.each(analyzers, function (analyzerLang /*: string */, lang /*: string */) {
         analyzersArray.push([analyzerLang, lang]);
     });
-    analyzersArray = filterLangPairList(analyzersArray, function (analyzer /*: Array<string> */) /*: boolean */ {
+    analyzersArray = filterLangPairList(analyzersArray, function (analyzer) {
         return allowedLang(analyzer[0]);
     });
-    analyzersArray.sort(function (a /*: Array<string> */, b /*: Array<string> */) /*: number */ {
+    analyzersArray.sort(function (a, b) {
         return getLangByCode(a[0]).localeCompare(getLangByCode(b[0]));
     });
 
@@ -236,7 +236,7 @@ function formatUnit(unit /*: string */) /*: string */ {
         tags.push(tagMatch[1]);
         tagMatch = tagRegex.exec(unit);
     }
-    var tagStartLoc /*: number */ = unit.indexOf('<');
+    var tagStartLoc = unit.indexOf('<');
     return unit.substring(0, tagStartLoc !== -1 ? tagStartLoc : unit.length) +
         (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
 }
