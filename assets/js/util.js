@@ -91,7 +91,7 @@ function sendEvent(category /*: string */, action /*: string */, label /*: ?stri
 }
 /* eslint-enable id-blacklist */
 
-function modeEnabled(mode /*: string*/) /*: boolean */ {
+function modeEnabled(mode /*: string*/) {
     return !config.ENABLED_MODES || config.ENABLED_MODES.indexOf(mode) !== -1;
 }
 
@@ -101,7 +101,7 @@ function resizeFooter() {
     $('#wrap').css('margin-bottom', -footerHeight);
 }
 
-function allowedLang(code /*: string */) /*: boolean */ {
+function allowedLang(code /*: string */) {
     if(code.indexOf('_') === -1) {
         return !config.ALLOWED_LANGS || config.ALLOWED_LANGS.indexOf(code) !== -1;
     }
@@ -111,7 +111,7 @@ function allowedLang(code /*: string */) /*: boolean */ {
     }
 }
 
-function filterLangList(langs /*: string[] */, _filterFn /*: ?(lang: string) => boolean */) /*: string[] */ {
+function filterLangList(langs /*: string[] */, _filterFn /*: ?(lang: string) => boolean */) {
     if(config.ALLOWED_LANGS || config.ALLOWED_VARIANTS) {
         var filterFn = _filterFn;
         if(!filterFn) {
@@ -128,7 +128,7 @@ function filterLangList(langs /*: string[] */, _filterFn /*: ?(lang: string) => 
     }
 }
 
-function filterLangPairList(langs /*: string[][] */, filterFn /*: string[] => boolean */) /*: string[][] */ {
+function filterLangPairList(langs /*: string[][] */, filterFn /*: string[] => boolean */) {
     if(config.ALLOWED_LANGS || config.ALLOWED_VARIANTS) {
         return langs.filter(filterFn);
     }
@@ -137,7 +137,7 @@ function filterLangPairList(langs /*: string[][] */, filterFn /*: string[] => bo
     }
 }
 
-function getURLParam(name /*: string */) /*: string */ {
+function getURLParam(name /*: string */) {
     var escapedName /*: string */ = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
     var regexS /*: string */ = '[\\?&]' + escapedName + '=([^&#]*)';
     var regex = new RegExp(regexS);
@@ -154,13 +154,13 @@ function isURL(text /*: string */) /*: boolean */ {
 /* eslint-enable */
 
 // eslint-disable-next-line id-blacklist
-function onlyUnique(value /*: any */, index /*: number */, self /*: any */) /*: boolean */ {
+function onlyUnique(value /*: any */, index /*: number */, self /*: any */) {
     return self.indexOf(value) === index;
 }
 
-function isSubset/*:: <T> */(subset /*: T[] */, superset /*: T[] */) /*: boolean */ {
+function isSubset/*:: <T> */(subset /*: T[] */, superset /*: T[] */) {
     // eslint-disable-next-line id-blacklist, id-length
-    return subset.every(function (val /*: T */) /*: boolean */ {
+    return subset.every(function (val /*: T */) {
         return superset.indexOf(val) >= 0;
     });
 }
@@ -204,12 +204,12 @@ function callApy(options /*: any */, endpoint /*: any */, useAjax /*: any */) {
     return $.jsonp(requestOptions);
 }
 
-function handleAPyRequestCompletion(requestDuration /*: number */) {
+function handleAPyRequestCompletion(requestDuration) {
     var cumulativeAPyRequestDuration = 0;
 
     if(lastNAPyRequestDurations.length === INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH) {
         cumulativeAPyRequestDuration = lastNAPyRequestDurations.reduce(
-            function (totalDuration /*: number */, duration /*: number */) /*: number */ {
+            function (totalDuration, duration) {
                 return totalDuration + duration;
             });
 
