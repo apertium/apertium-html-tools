@@ -1,0 +1,10 @@
+{
+  "excludeGlob": [
+    "assets/js/compat.js",
+    "assets/js/jquery.jsonp-2.4.0.min.js"
+  ],
+  "includeGlob": [
+    "assets/js/*.js"
+  ],
+  "threshold": 80
+}
