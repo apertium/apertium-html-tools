@@ -321,7 +321,9 @@ if(modeEnabled('translation')) {
         });
 
         var timer, lastPunct = false;
-        $('#originalText').on('keyup paste', function (event /*: JQueryEventObject */) {
+        $('#originalText').on('keyup paste', function (ev /*: JQueryEventObject */) {
+            var event /*: JQueryKeyEventObject */ = (ev /*: any */);
+
             if(lastPunct && (event.keyCode === SPACE_KEY_CODE || event.keyCode === ENTER_KEY_CODE)) {
                 // Don't override the short timeout for simple space-after-punctuation
                 return;
