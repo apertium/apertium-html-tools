@@ -147,7 +147,7 @@ $(document).ready(function () {
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
-    var url /*: string */ = config.PIWIK_URL;
+    var url = config.PIWIK_URL;
     if(document.location.protocol === 'https:') {
         url = url.replace(/^(http(s)?)?:/, 'https:');
     }

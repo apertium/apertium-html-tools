@@ -126,7 +126,7 @@ function getLocale() /*: JQueryPromise<any> */ {
 
     restoreChoices('localization');
 
-    var localeParam /*: string */ = getURLParam('lang').replace('/', '');
+    var localeParam = getURLParam('lang').replace('/', '');
     localeParam = iso639CodesInverse[localeParam] ? iso639CodesInverse[localeParam] : localeParam;
     if(localeParam) {
         locale = localeParam;
@@ -212,7 +212,7 @@ function getLocales() /*: JQueryPromise<any> */ {
         for(var code in locales) {
             localePairs.push([code, locales[code]]);
         }
-        localePairs = localePairs.sort(function (a /*: Array<string> */, b /*: Array<string> */) /*: number */ {
+        localePairs = localePairs.sort(function (a, b) {
             return a[1].toLowerCase().localeCompare(b[1].toLowerCase());
         });
         $('.localeSelect').empty();

@@ -152,7 +152,7 @@ function analyze() {
         return;
     }
 
-    var analyzerMode /*: string */ = analyzers[$('#primaryAnalyzerMode').val()].length > 1
+    var analyzerMode = analyzers[$('#primaryAnalyzerMode').val()].length > 1
         ? $('#secondaryAnalyzerMode').val()
         : analyzers[$('#primaryAnalyzerMode').val()][0];
     sendEvent('analyzer', 'analyze', analyzerMode, $('#morphAnalyzerInput').val().length);
