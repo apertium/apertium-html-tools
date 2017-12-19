@@ -128,12 +128,12 @@ function populateSecondaryAnalyzerList() {
             $('#secondaryAnalyzerMode').fadeIn('fast');
         }
 
-        group.sort(function (a /*: string */, b /*: string */) /*: number */ {
+        group.sort(function (a, b) {
             return a.length - b.length;
         });
 
         for(var i = 0; i < group.length; i++) {
-            var lang /*: string */ = group[i];
+            var lang = group[i];
             var langDisplay = lang.indexOf('-') !== -1
                 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1])
                 : getLangByCode(lang);
@@ -179,7 +179,7 @@ function analyze() {
 }
 
 function handleAnalyzeSuccessResponse(data) {
-    var regex /*: RegExp */ = /([^<]*)((<[^>]+>)*)/g;
+    var regex = /([^<]*)((<[^>]+>)*)/g;
     $('#morphAnalyzerOutput').empty();
     for(var i = 0; i < data.length; i++) {
         var leftTD = $('<td class="text-right"></td>');
@@ -199,8 +199,8 @@ function handleAnalyzeSuccessResponse(data) {
 
         var joinedMorphemes = {};
         for(var j = 1; j < splitUnit.length; j++) {
-            var unit /*: string */ = splitUnit[j];
-            var matches /*: ?Array<string> */ = unit.match(regex);
+            var unit = splitUnit[j];
+            var matches = unit.match(regex);
 
             if(matches && matches.length > 2) {
                 for(var k = 1; k < matches.length - 1; k++) {
@@ -230,7 +230,7 @@ function handleAnalyzeSuccessResponse(data) {
 }
 
 function formatUnit(unit /*: string */) /*: string */ {
-    var tagRegex /*: RegExp */ = /<([^>]+)>/g, arrow /*: string */ = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags /*: Array<string> */ = [];
+    var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags /*: Array<string> */ = [];
     var tagMatch /*: ?Array<string> */ = tagRegex.exec(unit);
     while(tagMatch) {
         tags.push(tagMatch[1]);
