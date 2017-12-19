@@ -26,9 +26,7 @@ if(modeEnabled('analyzation')) {
             persistChoices('analyzer');
         });
 
-        $('#morphAnalyzerInput').keydown(function (ev /*: JQueryKeyEventObject */) {
-            var event /*: JQueryKeyEventObject */ = (ev /*: any */);
-
+        $('#morphAnalyzerInput').keydown(function (event /*: JQueryKeyEventObject */) {
             if(event.keyCode === ENTER_KEY_CODE && !event.shiftKey) {
                 event.preventDefault();
                 analyze();
