@@ -124,8 +124,7 @@ if(modeEnabled('translation')) {
                     $('a#fileDownload').hide();
                     $('span#uploadError').hide();
                     $('div#translateText').fadeIn('fast', synchronizeTextareaHeights);
-                    // Flow can only infer type HTMLElement
-                    var form /*: HTMLFormElement */ = ($('input#fileInput').wrap('<form>').closest('form')[0]/*: any */);
+                    var form /*: HTMLFormElement */ = ($('input#fileInput').wrap('<form>').closest('form')[0] /*: any */);
                     form.reset();
                     $('input#fileInput').unwrap();
                     $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
@@ -153,7 +152,6 @@ if(modeEnabled('translation')) {
                         $('div#fileDropBackdrop').fadeTo('fast', 0.5);
                         $('div#fileDropMask').on('drop', function (ev /*: JQueryEventObject */) {
                             ev.preventDefault();
-                            // jQuery bindings can only infer type Event
                             var originalEvent /*: DragEvent */ = (ev.originalEvent /*: any */);
                             // Assume non-null value
                             var dataTransfer /*: DataTransfer */ = (originalEvent.dataTransfer /*: any */);
@@ -192,8 +190,8 @@ if(modeEnabled('translation')) {
 
         function setupLanguageSelectors() {
             $('.swapLangBtn').click(function () {
-                var srcCode /*: string */ = $('.srcLang.active').attr('data-code');
-                var dstCode /*: string */ = $('.dstLang.active').attr('data-code');
+                var srcCode = $('.srcLang.active').attr('data-code');
+                var dstCode = $('.dstLang.active').attr('data-code');
                 curSrcLang = dstCode;
                 curDstLang = srcCode;
 
@@ -433,10 +431,12 @@ function getPairs() /*: JQueryPromise<any> */ {
             break;
         }
         for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
-            // $FlowFixMe
-            recentSrcLangs.push(i < srcLangs.length ? srcLangs[i] : undefined);
-            // $FlowFixMe
-            recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
+            if(i < srcLangs.length) {
+                recentSrcLangs.push(srcLangs[i]);
+            }
+            if(i < dstLangs.length) {
+                recentDstLangs.push(dstLangs[i]);
+            }
         }
 
         populateTranslationList();
@@ -714,11 +714,8 @@ function translateText(ignoreIfEmpty) {
 
 function translateDoc() {
     var validPair = pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1;
-
     var file = droppedFile ? droppedFile : null;
-
-    // Flow can only infer type HTMLElement
-    var fileInput /*: HTMLInputElement */ = ($('input#fileInput')[0]/*: any */);
+    var fileInput /*: HTMLInputElement */ = ($('input#fileInput')[0] /*: any */);
 
     if(fileInput.files.length > 0 && fileInput.files[0].length !== 0) {
         file = fileInput.files[0];
@@ -883,8 +880,7 @@ function translateWebpage(ignoreIfEmpty /*: ?boolean */) {
         var translatedHtml /*: string */ = data.responseData.translatedText;
 
         if(data.responseStatus === HTTP_OK_CODE && translatedHtml) {
-            // Flow can only infer type HTMLElement
-            var iframe /*: HTMLIFrameElement */ = ($('<iframe id="translatedWebpage" frameborder="0"></iframe>')[0]/*: any */);
+            var iframe /*: HTMLIFrameElement */ = ($('<iframe id="translatedWebpage" frameborder="0"></iframe>')[0] /*: any */);
             $('#translatedWebpage').replaceWith(iframe);
             iframe.contentWindow.document.open();
             iframe.contentWindow.document.write(cleanPage(translatedHtml));
