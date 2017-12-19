@@ -96,7 +96,8 @@ $(document).ready(function () {
     resizeFooter();
     $(window)
         .on('hashchange', function () {
-            persistChoices();
+            var mode = parent.location.hash.substring(1);
+            persistChoices(mode);
         })
         .resize(debounce(function () {
             populateTranslationList();
