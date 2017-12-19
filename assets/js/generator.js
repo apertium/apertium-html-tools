@@ -5,7 +5,7 @@ var currentGeneratorRequest;
 
 /* exported generatorData, generators, getGenerators, populateGeneratorList, populateSecondaryGeneratorList */
 
-/* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangLists, allowedLang, analyzers, cache,
+/* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangPairList, allowedLang, analyzers, cache,
     localizeInterface, getLangByCode, sendEvent, restoreChoices, callApy, apyRequestTimeout */
 /* global ENTER_KEY_CODE */
 
@@ -101,7 +101,7 @@ function populateGeneratorList(data /*: Object */) {
     $.each(generators, function (generatorLang /*: string */, lang /*: string */) {
         generatorArray.push([generatorLang, lang]);
     });
-    generatorArray = filterLangLists(generatorArray, function (generator /*: Array<string> */) /*: boolean */ {
+    generatorArray = filterLangPairList(generatorArray, function (generator /*: Array<string> */) /*: boolean */ {
         return allowedLang(generator[0]);
     });
     generatorArray.sort(function (a /*: Array<string> */, b /*: Array<string> */) /*: number */ {
@@ -197,7 +197,7 @@ function handleGenerateErrorResponse(xOptions, error) {
 
 /*:: export {generatorData, generators, getGenerators, populateGeneratorList, populateSecondaryGeneratorList} */
 
-/*:: import {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, ENTER_KEY_CODE, filterLangLists, modeEnabled,
+/*:: import {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, ENTER_KEY_CODE, filterLangPairList, modeEnabled,
     sendEvent} from "./util.js" */
 /*:: import {cache, persistChoices, readCache, restoreChoices} from "./persistence.js" */
 /*:: import {getLangByCode, localizeInterface} from "./localization.js" */

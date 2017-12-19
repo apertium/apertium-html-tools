@@ -6,7 +6,7 @@ var currentAnalyzerRequest;
 /* exported analyzerData, analyzers, getAnalyzers, populateAnalyzerList, populateSecondaryAnalyzerList */
 
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
-    cache, getLangByCode, filterLangLists, allowedLang, sendEvent, callApy, apyRequestTimeout */
+    cache, getLangByCode, filterLangPairList, allowedLang, sendEvent, callApy, apyRequestTimeout */
 /* global ENTER_KEY_CODE */
 
 if(modeEnabled('analyzation')) {
@@ -101,7 +101,7 @@ function populateAnalyzerList(data /*: Object */) {
     $.each(analyzers, function (analyzerLang /*: string */, lang /*: string */) {
         analyzersArray.push([analyzerLang, lang]);
     });
-    analyzersArray = filterLangLists(analyzersArray, function (analyzer /*: Array<string> */) /*: boolean */ {
+    analyzersArray = filterLangPairList(analyzersArray, function (analyzer /*: Array<string> */) /*: boolean */ {
         return allowedLang(analyzer[0]);
     });
     analyzersArray.sort(function (a /*: Array<string> */, b /*: Array<string> */) /*: number */ {
@@ -247,7 +247,8 @@ function handleAnalyzeErrorResponse(xOptions, error /*: string */) {
 
 /*:: export {analyzerData, analyzers, getAnalyzers, populateAnalyzerList, populateSecondaryAnalyzerList} */
 
-/*:: import {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, filterLangLists, modeEnabled, sendEvent} from "./util.js" */
+/*:: import {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, filterLangPairList,
+    modeEnabled, sendEvent} from "./util.js" */
 /*:: import {ENTER_KEY_CODE} from "./util.js" */
 /*:: import {getLangByCode, localizeInterface} from "./localization.js" */
 /*:: import {cache, persistChoices, readCache, restoreChoices} from "./persistence.js" */

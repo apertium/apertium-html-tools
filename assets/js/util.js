@@ -1,6 +1,6 @@
 // @flow
 
-/* exported ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, debounce, filterLangList, filterLangLists, getURLParam,
+/* exported ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, debounce, filterLangList, filterLangPairList, getURLParam,
     isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights */
 /* exported ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
@@ -128,7 +128,7 @@ function filterLangList(langs /*: Array<string> */, _filterFn /*: ?(lang: string
     }
 }
 
-function filterLangLists(langs /*: Array<Array<string>>*/, filterFn /*: (langs: Array<string>) => boolean */) /*: Array<Array<string>> */ {
+function filterLangPairList(langs /*: Array<Array<string>>*/, filterFn /*: Array<string> => boolean */) /*: Array<Array<string>> */ {
     if(config.ALLOWED_LANGS || config.ALLOWED_VARIANTS) {
         return langs.filter(filterFn);
     }
@@ -250,7 +250,7 @@ function displayInstallationNotification() {
     }
 }
 
-/*:: export {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, debounce, filterLangList, filterLangLists, getURLParam,
+/*:: export {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, debounce, filterLangList, filterLangPairList, getURLParam,
     isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights} */
 /*:: export {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} */
 
