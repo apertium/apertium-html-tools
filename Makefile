@@ -179,6 +179,8 @@ $(THEMES): % : all build/css/bootstrap.%.css build/css/.d
 
 theme = $(filter $(THEMES), $(MAKECMDGOALS))
 
+CSSFILES := assets/css/analysis.css assets/css/footer.css assets/css/general.css assets/css/navbar.css assets/css/nojs.css assets/css/rtl.css assets/css/translation.css
+
 build/css/bootstrap.%.css: build/css/.d
 	curl -Ss 'http://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/$*/bootstrap.min.css' -o $@
 
@@ -188,7 +190,7 @@ build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/b
 build/css/min.css: build/css/all.css
 	cp $< $@
 
-build/css/style.css: assets/css/style.css $(if $(theme), assets/css/themes/style.$(theme).css, ) build/css/.d
+build/css/style.css: $(CSSFILES) $(if $(theme), assets/css/themes/style.$(theme).css, ) build/css/.d
 	cat $^ > $@
 
 build/css/font-awesome.min.css: build/css/.d
