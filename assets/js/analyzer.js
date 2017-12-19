@@ -97,7 +97,7 @@ function populateAnalyzerList(data /*: {} */) {
         }
     }
 
-    var analyzersArray /*: string[][] */ = [];
+    var analyzersArray /*: [string, string][] */ = [];
     $.each(analyzers, function (analyzerLang /*: string */, lang /*: string */) {
         analyzersArray.push([analyzerLang, lang]);
     });

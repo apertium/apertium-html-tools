@@ -128,12 +128,12 @@ function filterLangList(langs /*: string[] */, _filterFn /*: ?(lang: string) => 
     }
 }
 
-function filterLangPairList(langs /*: string[][] */, filterFn /*: string[] => boolean */) {
+function filterLangPairList(langPairs /*: [string, string][] */, filterFn /*: [string, string] => boolean */) {
     if(config.ALLOWED_LANGS || config.ALLOWED_VARIANTS) {
-        return langs.filter(filterFn);
+        return langPairs.filter(filterFn);
     }
     else {
-        return langs;
+        return langPairs;
     }
 }
 

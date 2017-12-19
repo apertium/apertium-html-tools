@@ -97,11 +97,11 @@ function populateGeneratorList(data /*: {} */) {
         }
     }
 
-    var generatorArray /*: string[][] */ = [];
+    var generatorArray /*: [string, string][] */ = [];
     $.each(generators, function (generatorLang /*: string */, lang /*: string */) {
         generatorArray.push([generatorLang, lang]);
     });
-    generatorArray = filterLangPairList(generatorArray, function (generator /*: string[] */) {
+    generatorArray = filterLangPairList(generatorArray, function (generator /*: [string, string] */) {
         return allowedLang(generator[0]);
     });
     generatorArray.sort(function (a, b) {

@@ -17,7 +17,7 @@ jobs:
       - run: htmlhint --config .htmlhintrc.json *.html
       - run: sass-lint --config assets/css/.sass-lint.yml --verbose --no-exit --max-warnings 0
       - run: flake8 --config tools/.flake8.ini *.py **/**.py **/**/*.py
-      - run: ( cd assets/js && flow-coverage-report -i "*.js" -x "compat.js" -x "jquery.jsonp-2.4.0.min.js" )
+      - run: flow-coverage-report --config flow-coverage.json
       - run: flow check
 
       # Build project
