@@ -1,3 +1,7 @@
+// @flow
+
+/* exported _paq */
+
 /* global config, persistChoices, iso639Codes, iso639CodesInverse, populateTranslationList, showTranslateWebpageInterface */
 /* global ajaxSend, ajaxComplete, debounce, resizeFooter, synchronizeTextareaHeights */
 
@@ -17,11 +21,13 @@ $(document).ready(function () {
     $('body > .container').css('margin-top', '0px');
 
     if(config.SUBTITLE) {
+        var subtitle = config.SUBTITLE,
+            subtitleColor = config.SUBTITLE_COLOR;
         $('.apertiumSubLogo')
-            .text(config.SUBTITLE)
+            .text(subtitle)
             .show();
-        if(config.SUBTITLE_COLOR) {
-            $('.apertiumSubLogo').css('color', config.SUBTITLE_COLOR);
+        if(subtitleColor) {
+            $('.apertiumSubLogo').css('color', subtitleColor);
         }
     }
     else {
@@ -29,13 +35,13 @@ $(document).ready(function () {
     }
 
     if(config.SHOW_NAVBAR) {
-        if(config.ENABLED_MODES === null) {
-            $('.nav a').removeClass('hide');
-        }
-        else {
+        if(config.ENABLED_MODES) {
             $.each(config.ENABLED_MODES, function () {
                 $('.nav a[data-mode=' + this + ']').removeClass('hide');
             });
+        }
+        else {
+            $('.nav a').removeClass('hide');
         }
     }
     else {
@@ -43,7 +49,7 @@ $(document).ready(function () {
         $('.navbar-default .nav').hide();
     }
 
-    var hash = parent.location.hash;
+    var hash /*: string */ = parent.location.hash;
 
     try {
         if(!hash || !$(hash + 'Container')) {
@@ -91,7 +97,10 @@ $(document).ready(function () {
 
     resizeFooter();
     $(window)
-        .on('hashchange', persistChoices)
+        .on('hashchange', function () {
+            var mode /*: string */ = parent.location.hash.substring(1);
+            persistChoices(mode);
+        })
         .resize(debounce(function () {
             populateTranslationList();
             resizeFooter();
@@ -174,7 +183,7 @@ if(config.PIWIK_SITEID && config.PIWIK_URL) {
 }
 
 /*:: export {_paq} */
-/*:: import {config} from "./config.js" */
+
 /*:: import {persistChoices} from "./persistence.js" */
 /*:: import {iso639Codes, iso639CodesInverse} from "./localization.js" */
 /*:: import {populateTranslationList, showTranslateWebpageInterface} from "./translator.js" */

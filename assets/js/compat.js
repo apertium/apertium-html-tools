@@ -102,7 +102,7 @@ if (!Object.keys) {
 
 // From: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf
 if (!Array.prototype.lastIndexOf) {
-  Array.prototype.lastIndexOf = function(searchElement /*, fromIndex*/) {
+  Array.prototype.lastIndexOf = function(searchElement /*, fromIndex */) {
     'use strict';
 
     if (this === void 0 || this === null) {

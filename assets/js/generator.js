@@ -1,8 +1,11 @@
-var generators = {}, generatorData = {};
+// @flow
+
+var generators = ({} /*: {[string]: string[]} */), generatorData = {};
 var currentGeneratorRequest;
 
-/* exported getGenerators */
-/* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
+/* exported generatorData, generators, getGenerators, populateGeneratorList, populateSecondaryGeneratorList */
+
+/* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangPairList, allowedLang, analyzers, cache,
     localizeInterface, getLangByCode, sendEvent, restoreChoices, callApy, apyRequestTimeout */
 /* global ENTER_KEY_CODE */
 
@@ -23,7 +26,7 @@ if(modeEnabled('generation')) {
             persistChoices('generator');
         });
 
-        $('#morphGeneratorInput').keydown(function (e) {
+        $('#morphGeneratorInput').keydown(function (e /*: JQueryKeyEventObject */) {
             if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
                 generate();
@@ -40,7 +43,7 @@ if(modeEnabled('generation')) {
     });
 }
 
-function getGenerators() {
+function getGenerators() /*: JQueryPromise<any> */ {
     var deferred = $.Deferred();
 
     if(config.GENERATORS) {
@@ -56,7 +59,7 @@ function getGenerators() {
             deferred.resolve();
         }
         else {
-            console.warn('Generators cache ' + (analyzers === null ? 'stale' : 'miss') + ', retrieving from server');
+            console.warn('Generators cache ' + (analyzers ? 'miss' : 'stale') + ', retrieving from server');
             $.jsonp({
                 url: config.APY_URL + '/list?q=generators',
                 beforeSend: ajaxSend,
@@ -79,7 +82,7 @@ function getGenerators() {
     return deferred.promise();
 }
 
-function populateGeneratorList(data) {
+function populateGeneratorList(data /*: {} */) {
     $('.generatorMode').empty();
 
     generators = {};
@@ -94,11 +97,11 @@ function populateGeneratorList(data) {
         }
     }
 
-    var generatorArray = [];
-    $.each(generators, function (generatorLang, lang) {
+    var generatorArray /*: [string, string][] */ = [];
+    $.each(generators, function (generatorLang /*: string */, lang /*: string */) {
         generatorArray.push([generatorLang, lang]);
     });
-    generatorArray = filterLangList(generatorArray, function (generator) {
+    generatorArray = filterLangPairList(generatorArray, function (generator /*: [string, string] */) {
         return allowedLang(generator[0]);
     });
     generatorArray.sort(function (a, b) {
@@ -143,13 +146,13 @@ function populateSecondaryGeneratorList() {
 }
 
 function generate() {
-    var input = $('#morphGeneratorInput').val();
+    var input /*: string */ = $('#morphGeneratorInput').val();
 
-    if($('#primaryGeneratorMode').val() === null || input.trim() === '') {
+    if(!$('#primaryGeneratorMode').val() || input.trim() === '') {
         return;
     }
 
-    var generatorMode = generators[$('#primaryGeneratorMode').val()].length > 1
+    var generatorMode /*: string */ = generators[$('#primaryGeneratorMode').val()].length > 1
         ? $('#secondaryGeneratorMode').val()
         : generators[$('#primaryGeneratorMode').val()][0];
     sendEvent('generator', 'generate', generatorMode, $('#morphGeneratorInput').val().length);
@@ -170,7 +173,7 @@ function generate() {
         error: handleGenerateErrorResponse,
         complete: function () {
             ajaxComplete();
-            currentGeneratorRequest = undefined;
+            currentGeneratorRequest = null;
         }
     }, '/generate');
 }
@@ -191,3 +194,12 @@ function handleGenerateErrorResponse(xOptions, error) {
     $('#morphGenOutput').text(error);
     $('#morphGenOutput').removeClass('blurred');
 }
+
+/*:: export {generatorData, generators, getGenerators, populateGeneratorList, populateSecondaryGeneratorList} */
+
+/*:: import {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, ENTER_KEY_CODE, filterLangPairList, modeEnabled,
+    sendEvent} from "./util.js" */
+/*:: import {cache, persistChoices, readCache, restoreChoices} from "./persistence.js" */
+/*:: import {getLangByCode, localizeInterface} from "./localization.js" */
+/*:: import {getPairs} from "./translator.js" */
+/*:: import {analyzers} from "./analyzer.js" */
