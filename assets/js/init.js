@@ -21,11 +21,13 @@ $(document).ready(function () {
     $('body > .container').css('margin-top', '0px');
 
     if(config.SUBTITLE) {
+        var subtitle = config.SUBTITLE,
+            subtitleColor = config.SUBTITLE_COLOR;
         $('.apertiumSubLogo')
-            .text(config.SUBTITLE)
+            .text(subtitle)
             .show();
-        if(config.SUBTITLE_COLOR) {
-            $('.apertiumSubLogo').css('color', config.SUBTITLE_COLOR);
+        if(subtitleColor) {
+            $('.apertiumSubLogo').css('color', subtitleColor);
         }
     }
     else {
