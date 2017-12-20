@@ -7,5 +7,5 @@
   "includeGlob": [
     "assets/js/*.js"
   ],
-  "threshold": 80
+  "threshold": 90
 }

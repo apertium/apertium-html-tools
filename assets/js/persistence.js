@@ -146,22 +146,35 @@ function restoreChoices(mode /*: string */) {
     var hash /*: string */ = parent.location.hash;
     if(mode === 'translator') {
         if(store.able()) {
-            setRecentSrcLangs(store.get('recentSrcLangs', recentSrcLangs));
-            setRecentDstLangs(store.get('recentDstLangs', recentDstLangs));
-            if(store.has('recentSrcLangs') && isSubset(recentSrcLangs, srcLangs) && curSrcLang) {
-                setCurSrcLang(store.get('curSrcLang', curSrcLang));
+            var storedRecentSrcLangs /* ?string[] */ = store.get('recentSrcLangs');
+            if(storedRecentSrcLangs && isSubset(storedRecentSrcLangs, srcLangs)) {
+                setRecentSrcLangs(storedRecentSrcLangs);
                 $('.srcLang').removeClass('active');
-                $('#srcLangSelect option[value=' + curSrcLang + ']').prop('selected', true);
-                $('#' + store.get('curSrcChoice', 'srcLang1')).addClass('active');
-                if(store.get('curSrcChoice', 'srcLang1') === 'detect') {
-                    $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
+            }
+
+            var storedCurSrcLang /*: ?string */ = store.get('curSrcLang');
+            if(storedCurSrcLang) {
+                setCurSrcLang(storedCurSrcLang);
+                $('#srcLangSelect option[value=' + storedCurSrcLang + ']').prop('selected', true);
+
+                var storedCurSrcChoice = store.get('curSrcChoice', 'srcLang1');
+                $('#' + storedCurSrcChoice).addClass('active');
+                if(storedCurSrcChoice === 'detect') {
+                    $('#detectedText').parent('.srcLang').attr('data-code', storedCurSrcLang);
                     $('#detectText').hide();
                 }
             }
-            if(store.has('recentDstLangs') && isSubset(recentDstLangs, dstLangs) && curDstLang) {
-                setCurDstLang(store.get('curDstLang', curDstLang));
+
+            var storedRecentDstLangs /* ?string[] */ = store.get('recentDstLangs');
+            if(storedRecentDstLangs && isSubset(storedRecentDstLangs, dstLangs)) {
+                setRecentDstLangs(storedRecentDstLangs);
                 $('.dstLang').removeClass('active');
-                $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
+            }
+
+            var storedCurDstLang /*: ?string */ = store.get('curDstLang');
+            if(storedCurDstLang) {
+                setCurDstLang(storedCurDstLang);
+                $('#dstLangSelect option[value=' + storedCurDstLang + ']').prop('selected', true);
                 $('#' + store.get('curDstChoice', 'dstLang1')).addClass('active');
             }
 
@@ -173,7 +186,7 @@ function restoreChoices(mode /*: string */) {
         }
 
         if(getURLParam('dir')) {
-            var pair = getURLParam('dir').split('-');
+            var pair /*: string[] */ = getURLParam('dir').split('-');
             pair[0] = iso639CodesInverse[pair[0]] ? iso639CodesInverse[pair[0]] : pair[0];
             pair[1] = iso639CodesInverse[pair[1]] ? iso639CodesInverse[pair[1]] : pair[1];
             if(pairs[pair[0]] && pairs[pair[0]].indexOf(pair[1]) !== -1) {

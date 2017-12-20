@@ -26,9 +26,9 @@ if(modeEnabled('analyzation')) {
             persistChoices('analyzer');
         });
 
-        $('#morphAnalyzerInput').keydown(function (event /*: JQueryKeyEventObject */) {
-            if(event.keyCode === ENTER_KEY_CODE && !event.shiftKey) {
-                event.preventDefault();
+        $('#morphAnalyzerInput').keydown(function (e /*: JQueryKeyEventObject */) {
+            if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
+                e.preventDefault();
                 analyze();
             }
         });

@@ -1,6 +1,6 @@
 // @flow
 
-var pairs = {}, chainedPairs = {}, originalPairs = pairs;
+var pairs /*: {[string]: string[]} */ = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs /*: string[] */ = [], dstLangs /*: string[] */ = [];
 var curSrcLang /*: string */, curDstLang/*: string */;
 var recentSrcLangs /*: string[] */ = [], recentDstLangs /*: string[] */ = [];
@@ -284,7 +284,7 @@ if(modeEnabled('translation')) {
             var targetLists = [pairs[srcLang]];
 
             while(targetLists.length > 0) {
-                $.each(targetLists.pop(), function (i, trgt) {
+                $.each(targetLists.pop(), function (i /*: number */, trgt) {
                     if(!targetsSeen[trgt]) {
                         targets.push(trgt);
                         if(pairs[trgt]) {
@@ -300,7 +300,7 @@ if(modeEnabled('translation')) {
 
         if(config.TRANSLATION_CHAINING) {
             $('.chaining').show();
-            $.each(pairs, function (srcLang, _dstLangs) {
+            $.each(pairs, function (srcLang /*: string */, _dstLangs) {
                 chainedPairs[srcLang] = getChainedDstLangs(srcLang);
             });
             updatePairList();
