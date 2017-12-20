@@ -88,3 +88,22 @@ html[dir='rtl'] .apertiumLogo {
         padding-right: 5px;
     }
 }
+
+.localeGlobe {
+    color: #fff;
+    font-size: 1.8em;
+    padding: 0 5px 0 0;
+}
+
+.localeSelect {
+    font-size: 14px;
+    height: 25px;
+    margin-bottom: 6px;
+    margin-top: 7px;
+}
+
+/* No JS Banner */
+
+.navbar {
+    margin-top: 4em;
+}

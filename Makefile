@@ -173,13 +173,18 @@ build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.HTML_URL
 
 ### CSS ###
 
+CSSFILES= \
+	assets/css/analysis.css \
+	assets/css/footer.css \
+	assets/css/general.css \
+	assets/css/navbar.css \
+	assets/css/translation.css
+
 THEMES= cerulean cosmo cyborg darkly journal lumen paper readable sandstone simplex slate spacelab superhero united yeti
 
 $(THEMES): % : all build/css/bootstrap.%.css build/css/.d
 
 theme = $(filter $(THEMES), $(MAKECMDGOALS))
-
-CSSFILES := assets/css/analysis.css assets/css/footer.css assets/css/general.css assets/css/navbar.css assets/css/nojs.css assets/css/rtl.css assets/css/translation.css
 
 build/css/bootstrap.%.css: build/css/.d
 	curl -Ss 'http://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/$*/bootstrap.min.css' -o $@

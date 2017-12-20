@@ -26,23 +26,6 @@ h2 {
     z-index: 10000;
 }
 
-.chaining {
-    display: none;
-}
-
-.localeGlobe {
-    color: #fff;
-    font-size: 1.8em;
-    padding: 0 5px 0 0;
-}
-
-.localeSelect {
-    font-size: 14px;
-    height: 25px;
-    margin-bottom: 6px;
-    margin-top: 7px;
-}
-
 .nav-pills { /* sass-lint:disable-line class-name-format */
     cursor: pointer;
 }
@@ -99,4 +82,29 @@ html[dir='rtl'] .clearButton {
 #installationNoticeTitle {
     margin: 0;
     padding-bottom: 10px;
+}
+
+/* No JS Banner */
+
+#noscript {
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 5px;
+    width: 100%;
+    z-index: 10000000000000;
+}
+
+body > .container {
+    margin-top: 4em;
+}
+
+/*RTL stuff*/
+
+html[dir='rtl'] .pull-right:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
+    float: left !important; /* sass-lint:disable-line no-important */
+}
+
+html[dir='rtl'] .pull-left:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
+    float: right !important; /* sass-lint:disable-line no-important */
 }

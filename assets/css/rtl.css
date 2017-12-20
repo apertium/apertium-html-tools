@@ -1,7 +1,0 @@
-html[dir='rtl'] .pull-right:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
-    float: left !important; /* sass-lint:disable-line no-important */
-}
-
-html[dir='rtl'] .pull-left:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
-    float: right !important; /* sass-lint:disable-line no-important */
-}
