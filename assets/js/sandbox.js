@@ -40,13 +40,13 @@ function request() {
     currentSandboxRequest = $.jsonp({
         url: config.APY_URL + input,
         beforeSend: ajaxSend,
-        success: function (data) {
+        success: function (data, _textStatus, _jqXHR) {
             $('#sandboxOutput').text(JSON.stringify(data, undefined, 3)).removeClass('blurred');
         },
-        error: function (xOptions, error) {
-            $('#sandboxOutput').text(error).removeClass('blurred');
+        error: function (xOptions, errorThrown) {
+            $('#sandboxOutput').text(errorThrown).removeClass('blurred');
         },
-        complete: function () {
+        complete: function (_xOptions, _errorThrown) {
             ajaxComplete();
             $('#time').text(new Date().getTime() - startTime + ' ms');
             currentSandboxRequest = null;

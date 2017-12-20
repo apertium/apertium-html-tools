@@ -641,8 +641,12 @@ declare class JQueryEasingFunctions {
  * Static members of jQuery (those on $ and jQuery themselves)
  */
 declare class JQueryStatic {
-  /* stub */
-  jsonp: any;
+  /* somewhat of a stub */
+  jsonp(settings: {
+    success?: (data: any, textStatus: string, xOptions: {}) => any;
+    error?: (xOptions: {}, completionType: | 'error' | 'timeout') => any;
+    complete?: (xOptions: {}, completionType: 'success' | 'error' | 'timeout') => any;
+  }): JQueryXHR;
 
   cookie(key: string, value?: any): string;
   /**

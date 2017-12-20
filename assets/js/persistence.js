@@ -19,14 +19,14 @@ var URL_PARAM_Q_LIMIT = 1300,
 var store = new Store(config.HTML_URL);
 
 // eslint-disable-next-line id-blacklist
-function cache(name /*: string */, value /*: any */) {
+function cache/*:: <T> */(name /*: string */, value /*: T */) {
     store.set(name, value);
     store.set(name + '_timestamp', Date.now());
 }
 
 function readCache(name /*: string */, type /*: string */) /*: ?any */ {
     var timestamp = store.get(name + '_timestamp', 0);
-    var storedValue = store.get(name, null);
+    var storedValue /*: ?number */ = store.get(name, null);
     if(storedValue && timestamp) {
         var expiryHours = config[type.toUpperCase() + '_CACHE_EXPIRY'];
         if(typeof expiryHours !== 'number') {

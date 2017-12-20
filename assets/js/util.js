@@ -26,7 +26,7 @@ var installationNotificationShown = false, lastNAPyRequestDurations = [];
 /* eslint-disable */
 if (typeof Object.assign != 'function') {
   // $FlowFixMe
-  Object.assign = function(target, varArgs) { // .length of function is 2
+  Object.assign = function(target /*: ?{} */, varArgs /*: {}[] */) { // .length of function is 2
     'use strict';
     if (!target) { // TypeError if undefined or null
       throw new TypeError('Cannot convert undefined or null to object');
@@ -35,7 +35,7 @@ if (typeof Object.assign != 'function') {
     var to = Object(target);
 
     for (var index = 1; index < arguments.length; index++) {
-      var nextSource = arguments[index];
+      var nextSource /*: ?{} */ = arguments[index];
 
       if (nextSource) { // Skip over if undefined or null
         for (var nextKey in nextSource) {
@@ -76,7 +76,7 @@ function ajaxComplete() {
 }
 
 /* eslint-disable id-blacklist */
-function sendEvent(category /*: string */, action /*: string */, label /*: ?string */, value /*: any */) {
+function sendEvent/*:: <T> */(category /*: string */, action /*: string */, label /*: ?string */, value /*: T */) {
     if(config.PIWIK_SITEID && config.PIWIK_URL && _paq) {
         var args = [category, action];
         if(label && value) {
@@ -154,7 +154,7 @@ function isURL(text /*: string */) {
 /* eslint-enable */
 
 // eslint-disable-next-line id-blacklist
-function onlyUnique(value /*: any */, index /*: number */, self /*: any */) {
+function onlyUnique/*:: <T> */(value /*: T */, index /*: number */, self /*: T[] */) {
     return self.indexOf(value) === index;
 }
 
@@ -179,8 +179,8 @@ function synchronizeTextareaHeights() {
     $('#translatedText').css('height', originalTextScrollHeight + 'px');
 }
 
-function callApy(options /*: any */, endpoint /*: any */, useAjax /*: any */) {
-    var requestOptions = Object.assign({
+function callApy(options /*: {} */, endpoint /*: string */, useAjax /*: ?boolean */) {
+    var requestOptions /*: any */ = Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8'

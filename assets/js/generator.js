@@ -63,15 +63,15 @@ function getGenerators() /*: JQueryPromise<any> */ {
             $.jsonp({
                 url: config.APY_URL + '/list?q=generators',
                 beforeSend: ajaxSend,
-                success: function (data) {
+                success: function (data, _textStatus, _xOptions) {
                     generatorData = data;
                     populateGeneratorList(generatorData);
                     cache('generators', data);
                 },
-                error: function () {
-                    console.error('Failed to get available generators');
+                error: function (_xOptions, errorThrown) {
+                    console.error('Failed to get available generators: ' + errorThrown);
                 },
-                complete: function () {
+                complete: function (_xOptions, _errorThrown) {
                     ajaxComplete();
                     deferred.resolve();
                 }

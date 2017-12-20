@@ -20,7 +20,7 @@ Store.prototype.get = function /*:: <T> */ (key /*: string */, fallback /*: T */
         return fallback;
     }
 
-    var fromStorage /*: string */ = window.localStorage[this.prefix + key];
+    var fromStorage /*: string */ = window.localStorage[(this.prefix /*: string */) + key];
     if(fromStorage === undefined || fromStorage === 'undefined') {
         return fallback;
     }
@@ -40,14 +40,14 @@ Store.prototype.get = function /*:: <T> */ (key /*: string */, fallback /*: T */
 
 Store.prototype.set = function /*:: <T> */ (key /*: string */, value /*: T */) /*: void */ {
     if(this.able()) {
-        window.localStorage[this.prefix + key] = JSON.stringify(value);
+        window.localStorage[(this.prefix /*: string */) + key] = JSON.stringify(value);
     }
 };
 
 Store.prototype.clear = function () /*: void */ {
     if(this.able()) {
         for(var key in window.localStorage) {
-            if(key.startsWith(this.prefix)) {
+            if(key.startsWith((this.prefix /*: string */))) {
                 window.localStorage.removeItem(key);
             }
         }
@@ -55,12 +55,12 @@ Store.prototype.clear = function () /*: void */ {
 };
 
 Store.prototype.has = function (key /*: string */) /*: boolean */ {
-    return this.able() && (this.prefix + key) in window.localStorage;
+    return this.able() && ((this.prefix /*: string */) + key) in window.localStorage;
 };
 
 Store.prototype.able = function () /*: boolean */ {
     try {
-        return !!(window.localStorage);
+        return Boolean(window.localStorage);
     }
     catch(e) {
         if(e.name === 'SecurityError') {

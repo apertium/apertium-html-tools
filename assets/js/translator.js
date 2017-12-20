@@ -384,15 +384,15 @@ function getPairs() /*: JQueryPromise<any> */ {
             $.jsonp({
                 url: config.APY_URL + '/list?q=pairs',
                 beforeSend: ajaxSend,
-                success: function (data) {
+                success: function (data, _textStatus, _xOptions) {
                     handlePairs(data.responseData);
                     cache('pairs', data.responseData);
                 },
-                error: function () {
-                    console.error('Failed to get available translation language pairs');
+                error: function (_xOptions, errorThrown) {
+                    console.error('Failed to get available translation language pairs: ' + errorThrown);
                     translationNotAvailable();
                 },
-                complete: function () {
+                complete: function (_xOptions, _errorThrown) {
                     ajaxComplete();
                     deferred.resolve();
                 }

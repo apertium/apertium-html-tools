@@ -15,7 +15,7 @@ var localizedLanguageCodes /*: {[string]: string} */ = {}, localizedLanguageName
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
     populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
 
-var dynamicLocalizations = {
+var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
     'fallback': {
         'Not_Available': 'Translation not yet available!',
         'detected': 'detected',
@@ -133,7 +133,7 @@ function getLocale() {
         deferred.resolve();
     }
     else {
-        var pathParts = window.location.pathname.split('.');
+        var pathParts /*: string[] */ = window.location.pathname.split('.');
         if(pathParts.length === 3 && pathParts[1] !== 'debug') {
             locale = pathParts[1];
             localizedHTML = true;
@@ -143,7 +143,7 @@ function getLocale() {
             $.jsonp({
                 url: config.APY_URL + '/getLocale',
                 beforeSend: ajaxSend,
-                success: function (data, _textStatus /*: string */, _jqXHR /*: JQueryXHR */) {
+                success: function (data /*: string[] */, _textStatus, _xOptions) {
                     for(var i = 0; i < data.length; i++) {
                         var localeGuess = data[i];
                         if(localeGuess.indexOf('-') !== -1) {
@@ -159,11 +159,11 @@ function getLocale() {
                         }
                     }
                 },
-                error: function () {
+                error: function (_xOptions, _errorThrown) {
                     console.error('Failed to determine locale,  defaulting to ' + config.DEFAULT_LOCALE);
                     locale = config.DEFAULT_LOCALE;
                 },
-                complete: function () {
+                complete: function (_xOptions, _errorThrown) {
                     ajaxComplete();
                     deferred.resolve();
                 }
@@ -194,13 +194,13 @@ function getLocales() {
             $.ajax({
                 url: './strings/locales.json',
                 type: 'GET',
-                success: function (data, _textStatus /*: string */, _jqXHR /*: JQueryXHR */) {
+                success: function (data, _textStatus, _jqXHR) {
                     handleLocales(data);
                     cache('locales', data);
                     deferred.resolve();
                 },
-                error: function (jqXHR, textStatus /*: string */, errorThrow) {
-                    console.error('Failed to fetch available locales: ' + errorThrow);
+                error: function (jqXHR, textStatus, error) {
+                    console.error('Failed to fetch available locales: ' + error);
                     deferred.resolve();
                 }
             });
@@ -208,7 +208,7 @@ function getLocales() {
     }
 
     function handleLocales(locales) {
-        var localePairs /*: string[][] */ = [];
+        var localePairs /*: [string, string][] */ = [];
         for(var code in locales) {
             localePairs.push([code, locales[code]]);
         }
@@ -216,11 +216,11 @@ function getLocales() {
             return a[1].toLowerCase().localeCompare(b[1].toLowerCase());
         });
         $('.localeSelect').empty();
-        $.each(localePairs, function () {
+        $.each(localePairs, function (code /*: string */, name /*: string */) {
             $('.localeSelect').append(
                 $('<option></option>')
-                    .val(this[0])
-                    .text(this[1])
+                    .val(code)
+                    .text(name)
                     .prop('dir', rtlLanguages.indexOf(this[0]) !== -1 ? 'rtl' : 'ltr')
             );
         });
@@ -276,11 +276,11 @@ function localizeLanguageNames(localizedNamesFromJSON) {
                 url: config.APY_URL + '/listLanguageNames?locale=' + locale + '&languages=' + languages.join('+'),
                 beforeSend: ajaxSend,
                 complete: ajaxComplete,
-                success: function (data, _textStatus /*: string */, _jqXHR /*: JQueryXHR */) {
+                success: function (data, _textStatus, _xOptions) {
                     handleLocalizedNames(data);
                     cache(locale + '_names', data);
                 },
-                error: function () {
+                error: function (_xOptions, _error) {
                     localizedLanguageNames = {};
                 }
             });
@@ -323,13 +323,13 @@ function localizeStrings(stringsFresh /*: boolean */) {
                 url: './strings/' + locale + '.json',
                 type: 'GET',
                 dataType: 'text',
-                success: function (response, _textStatus /*: string */, _jqXHR /*: JQueryXHR */) {
+                success: function (response, _textStatus, _jqXHR /*: JQueryXHR */) {
                     var data = JSON.parse(response.replace(/[\n\t\r]/g, ''));
                     handleLocalizations(locale, data);
                     localizeLanguageNames(data['@langNames']);
                     cache(locale + '_localizations', data);
                 },
-                error: function (jqXHR, textStatus /*: string */, errorThrow) {
+                error: function (jqXHR, textStatus, errorThrow) {
                     console.error('Failed to fetch localized strings for ' + locale + ': ' + errorThrow);
                 }
             });

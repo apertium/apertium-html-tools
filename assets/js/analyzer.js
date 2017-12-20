@@ -63,7 +63,7 @@ function getAnalyzers() /*: JQueryPromise<any> */ {
             $.jsonp({
                 url: config.APY_URL + '/list?q=analyzers',
                 beforeSend: ajaxSend,
-                success: function (data) {
+                success: function (data, _textStatus, _xOptions) {
                     analyzerData = data;
                     populateAnalyzerList(analyzerData);
                     cache('analyzers', data);
