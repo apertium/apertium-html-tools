@@ -13,7 +13,8 @@ var localizedLanguageCodes /*: {[string]: string} */ = {}, localizedLanguageName
 
 /* global config, getPairs, getGenerators, getAnalyzers, persistChoices, getURLParam, cache, ajaxSend, ajaxComplete, sendEvent,
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
-    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
+    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique,
+    dictionaryLookup */
 
 var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
     'fallback': {
@@ -22,7 +23,28 @@ var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
         'File_Too_Large': 'File is too large!',
         'Format_Not_Supported': 'Format not supported!',
         'Download_File': 'Download {{fileName}}'
-    }
+    },
+    'n': 'Noun',
+    'vblex': 'Verb',
+    'vbmod': 'Modal verb',
+    'vbser': 'Verb "to be"',
+    'vbhaver': 'Verb "to have"',
+    'vaux': 'Auxilliary verb',
+    'adj': 'Adjective',
+    'post': 'Postposition',
+    'adv': 'Adverb',
+    'preadv': 'Pre-adverb',
+    'postadv': 'Post-adverb',
+    'mod': 'Modal word',
+    'det': 'Determiner',
+    'prn': 'Pronoun',
+    'pr': 'Preposition',
+    'num': 'Numeral',
+    'np': 'Proper noun',
+    'ij': 'Interjection',
+    'cnjcoo': 'Co-ordinating conjunction',
+    'cnjsub': 'Sub-ordinating conjunction',
+    'cnjadv': 'Conjunctive adverb'
 };
 
 function getDynamicLocalization(stringKey /*: string */) /*: string */ {
@@ -370,6 +392,8 @@ function localizeStrings(stringsFresh /*: boolean */) {
                 getDynamicLocalization('Download_File').replace('{{fileName}}', $('a#fileDownload').attr('download'))
             );
         }
+
+        dictionaryLookup();
     }
 }
 
@@ -420,10 +444,12 @@ function setLocale(newLocale /*: string */) {
     return newLocale;
 }
 
-/*:: export {getLangByCode, getDynamicLocalization, iso639Codes, iso639CodesInverse, locale, localizeInterface, setLocale} */
+/*:: export {getLangByCode, getDynamicLocalization, iso639Codes, iso639CodesInverse, locale, localizeInterface, setLocale,
+    dynamicLocalizations} */
 
 /*:: import {curDstLang, curSrcLang, dstLangs, getPairs, populateTranslationList, refreshLangList, srcLangs} from "./translator.js" */
 /*:: import {ajaxSend, ajaxComplete, getURLParam, modeEnabled, onlyUnique, sendEvent} from "./util.js" */
 /*:: import {generatorData, generators, getGenerators, populateGeneratorList} from "./generator.js" */
 /*:: import {analyzerData, analyzers, getAnalyzers, populateAnalyzerList} from "./analyzer.js" */
 /*:: import {cache, persistChoices, readCache, restoreChoices} from "./persistence.js" */
+/*:: import {dictionaryLookup} from "./translator.js" */
