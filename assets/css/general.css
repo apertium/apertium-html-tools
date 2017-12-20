@@ -1,0 +1,110 @@
+h2 {
+    margin-top: 0;
+}
+
+.modeContainer {
+    display: none;
+}
+
+.outputContainer {
+    margin: 5em 0;
+}
+
+.blurred {
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -webkit-transition: all 1s ease;
+    opacity: .5;
+    transition: all 1s ease;
+}
+
+#loadingIndicator {
+    display: none;
+    left: 48%;
+    position: absolute;
+    top: 45%;
+    z-index: 10000;
+}
+
+.nav-pills { /* sass-lint:disable-line class-name-format */
+    cursor: pointer;
+}
+
+.clearButton {
+    background-color: rgba(0, 0, 0, 0);
+    padding: 0 3px;
+    position: absolute;
+    top: 3px;
+}
+
+.clearButton:hover,
+.clearButton:focus {
+    background-color: #eee;
+    color: #000;
+}
+
+html[dir='ltr'] .clearButton {
+    right: 18px;
+}
+
+html[dir='rtl'] .clearButton {
+    left: 18px;
+}
+
+#backToTop {
+    bottom: 20px;
+    opacity: .5;
+    position: fixed;
+    right: 20px;
+    z-index: 999;
+}
+
+#backToTop:hover {
+    opacity: 1;
+}
+
+#installationNotice {
+    font-size: inherit;
+    height: 105px;
+    margin: 8px;
+    padding: 8px;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    width: 360px;
+    z-index: 9999999;
+}
+
+#installationNotice .fa-times:hover { /* sass-lint:disable-line class-name-format */
+    cursor: pointer;
+}
+
+#installationNoticeTitle {
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+/* No JS Banner */
+
+#noscript {
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 5px;
+    width: 100%;
+    z-index: 10000000000000;
+}
+
+body > .container {
+    margin-top: 4em;
+}
+
+/*RTL stuff*/
+
+html[dir='rtl'] .pull-right:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
+    float: left !important; /* sass-lint:disable-line no-important */
+}
+
+html[dir='rtl'] .pull-left:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
+    float: right !important; /* sass-lint:disable-line no-important */
+}

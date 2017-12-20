@@ -173,6 +173,13 @@ build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.HTML_URL
 
 ### CSS ###
 
+CSSFILES= \
+	assets/css/analysis.css \
+	assets/css/footer.css \
+	assets/css/general.css \
+	assets/css/navbar.css \
+	assets/css/translation.css
+
 THEMES= cerulean cosmo cyborg darkly journal lumen paper readable sandstone simplex slate spacelab superhero united yeti
 
 $(THEMES): % : all build/css/bootstrap.%.css build/css/.d
@@ -188,7 +195,7 @@ build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/b
 build/css/min.css: build/css/all.css
 	cp $< $@
 
-build/css/style.css: assets/css/style.css $(if $(theme), assets/css/themes/style.$(theme).css, ) build/css/.d
+build/css/style.css: $(CSSFILES) $(if $(theme), assets/css/themes/style.$(theme).css, ) build/css/.d
 	cat $^ > $@
 
 build/css/font-awesome.min.css: build/css/.d
