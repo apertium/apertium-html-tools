@@ -827,15 +827,8 @@ function translateDoc() {
         docTranslateError(getDynamicLocalization('Not_Available'), 'Not_Available');
     }
 
-    function updateProgressBar(ev /*: ProgressEvent | any */) {
-        var progress = 0.0;
-        if(ev instanceof ProgressEvent) {
-            progress = ev.loaded / ev.total;
-        }
-        else {
-            console.warn('Strange event type given to updateProgressBar:');
-            console.warn(ev);
-        }
+    function updateProgressBar(ev /*: ProgressEvent | {'total': number, 'loaded': number} */) {
+        var progress = ev.loaded / ev.total;
         var percentDone = Math.floor(progress * 1000) / 10;
         $('div#fileUploadProgress').attr('aria-valuenow', percentDone).css('width', percentDone + '%');
     }
