@@ -26,9 +26,22 @@ h2 {
     z-index: 10000;
 }
 
-.nav-pills { /* sass-lint:disable-line class-name-format */
-    cursor: pointer;
+/* Locale selection */
+
+.localeGlobe {
+    color: #fff;
+    font-size: 1.8em;
+    padding: 0 5px 0 0;
 }
+
+.localeSelect {
+    font-size: 14px;
+    height: 25px;
+    margin-bottom: 6px;
+    margin-top: 7px;
+}
+
+/* Clear button */
 
 .clearButton {
     background-color: rgba(0, 0, 0, 0);
@@ -51,6 +64,8 @@ html[dir='rtl'] .clearButton {
     left: 18px;
 }
 
+/* Back to top button */
+
 #backToTop {
     bottom: 20px;
     opacity: .5;
@@ -62,6 +77,8 @@ html[dir='rtl'] .clearButton {
 #backToTop:hover {
     opacity: 1;
 }
+
+/* Installation notice */
 
 #installationNotice {
     font-size: inherit;
@@ -84,7 +101,7 @@ html[dir='rtl'] .clearButton {
     padding-bottom: 10px;
 }
 
-/* No JS Banner */
+/* No JS banner */
 
 #noscript {
     position: fixed;
@@ -99,7 +116,7 @@ body > .container {
     margin-top: 4em;
 }
 
-/*RTL stuff*/
+/* RTL checking */
 
 html[dir='rtl'] .pull-right:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
     float: left !important; /* sass-lint:disable-line no-important */

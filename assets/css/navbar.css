@@ -89,21 +89,10 @@ html[dir='rtl'] .apertiumLogo {
     }
 }
 
-.localeGlobe {
-    color: #fff;
-    font-size: 1.8em;
-    padding: 0 5px 0 0;
-}
-
-.localeSelect {
-    font-size: 14px;
-    height: 25px;
-    margin-bottom: 6px;
-    margin-top: 7px;
-}
-
-/* No JS Banner */
-
 .navbar {
     margin-top: 4em;
+}
+
+.nav-pills { /* sass-lint:disable-line class-name-format */
+    cursor: pointer;
 }
