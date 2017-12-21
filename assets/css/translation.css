@@ -87,17 +87,17 @@ html[dir='rtl'] #srcLanguages {
     margin-top: 1em;
 }
 
-#dictTranslation {
+#dictionaryTranslation {
     color: #737373;
     display: block;
     padding-bottom: 20px;
 }
 
-#currentWordForLookup {
+#dictionaryTranslatedWord {
     color: #000;
 }
 
-#dictDLHeaders {
+#dictionaryHeaders {
     color: #737373;
 }
 

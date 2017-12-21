@@ -270,7 +270,7 @@
                               </div>
                           </div>
                           <div id="dictionaryLookup" class="col-sm-6 hide pull-right">
-                              <span data-text="Dictionary_translations" id="dictTranslation">Dictionary translations of input:</span>
+                              <span data-text="Dictionary_Translations" id="dictionaryTranslation"></span>
                               <div id="dictionaryLookupResult"></div>
                           </div>
                       </fieldset>

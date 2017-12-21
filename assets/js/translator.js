@@ -1122,52 +1122,46 @@ function dictionaryLookup() {
 
         $('#dictionaryLookupResult').empty();
         var wordToLookup = $('#originalText').val().trim().split(' '); // eslint-disable-line newline-per-chained-call
-        if(wordToLookup.length <= 3 && wordToLookup[0] !== '') {
+        if(wordToLookup.length <= 3) {
             currentLookupRequest = callApy({
                 data: {
                     'langpair': curSrcLang + '|' + curDstLang,
                     'q': $('#originalText').val()
                 },
                 success: handleDictionaryLookupSuccessResponse,
-                error: handleDictionaryLookupErrorResponse,
+                error: $('#dictionaryLookup').addClass('hide'),
                 complete: function () {
                     ajaxComplete();
                     currentLookupRequest = undefined;
                 }
-            }, '/dictionaryLookup');
+            }, '/dictionaryLookup?dictionary=true');
         }
     }
 
     function handleDictionaryLookupSuccessResponse(data) {
         $('#dictionaryLookup').removeClass('hide');
-        if($('#currentWordForLookup').length === 0) {
-            var currentWord = $('<span id="currentWordForLookup">');
-            currentWord.html($('#originalText').val());
-            $('#dictTranslation').html($('#dictTranslation').html().replace('{{word}}', ''));
-            $('#dictTranslation').append(currentWord);
+        if($('#dictionaryTranslatedWord').length === 0) {
+            var currentWord = $('<span id="dictionaryTranslatedWord">');
+            currentWord.text($('#originalText').val());
+            $('#dictionaryTranslation').text($('#dictionaryTranslation').text().replace('{{word}}', ''));
+            $('#dictionaryTranslation').append(currentWord);
         }
         else {
-            $('#currentWordForLookup').html($('#originalText').val());
+            $('#dictionaryTranslatedWord').text($('#originalText').val());
         }
         for(var analysisType in data) {
-            var values = $('<ul id="dictionaryTranslationContents">');
+            var dictionaryList = $('<ul id="dictionaryTranslationContents">');
             for(var translationContent = 0; translationContent < data[analysisType].length; translationContent++) {
                 var livalues = $('<li>');
-                livalues.html(data[analysisType][translationContent].replace('#', ''));
-                values.append(livalues);
+                livalues.text(data[analysisType][translationContent].replace('#', ''));
+                dictionaryList.append(livalues);
             }
-            var dlSpan = $('<span id="dictDLHeaders">');
-            dlSpan.attr({'data-text': 'POS_' + analysisType});
-            dlSpan.html(dynamicLocalizations['part_of_speech'][analysisType]);
-            $('#dictionaryLookupResult').append(dlSpan);
-            $('#dictionaryLookupResult').append(values);
+            var dictionaryHeaders = $('<span id="dictionaryHeaders">');
+            dictionaryHeaders.text(dynamicLocalizations['fallback']['POS_' + analysisType]); // eslint-disable-line dot-notation
+            $('#dictionaryLookupResult').append(dictionaryHeaders);
+            $('#dictionaryLookupResult').append(dictionaryList);
         }
     }
-
-    function handleDictionaryLookupErrorResponse() {
-        $('#dictionaryLookup').addClass('hide');
-    }
-
 }
 
 /*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
