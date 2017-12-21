@@ -1122,10 +1122,8 @@ function dictionaryLookup() {
 
         $('#dictionaryLookupResult').empty();
         var wordToLookup = $('#originalText').val().trim().split(' '); // eslint-disable-line newline-per-chained-call
-        console.log($('#originalText'));
-        console.log(wordToLookup);
-        if(wordToLookup[0] !== '') {
-            /*currentLookupRequest = callApy({
+        if(wordToLookup.length <= 3 && wordToLookup[0] !== '') {
+            currentLookupRequest = callApy({
                 data: {
                     'langpair': curSrcLang + '|' + curDstLang,
                     'q': $('#originalText').val()
@@ -1136,30 +1134,33 @@ function dictionaryLookup() {
                     ajaxComplete();
                     currentLookupRequest = undefined;
                 }
-            }, '/dictionaryLookup');*/
-            // Random data used for testing purposes
-            handleDictionaryLookupSuccessResponse({"n": ["carrera"], "vblex": ["correr", "funcionar"]});
+            }, '/dictionaryLookup');
         }
     }
 
     function handleDictionaryLookupSuccessResponse(data) {
         $('#dictionaryLookup').removeClass('hide');
-        $('#currentWordForLookup').html($('#originalText').val());
+        if($('#currentWordForLookup').length === 0) {
+            var currentWord = $('<span id="currentWordForLookup">');
+            currentWord.html($('#originalText').val());
+            $('#dictTranslation').html($('#dictTranslation').html().replace('{{word}}', ''));
+            $('#dictTranslation').append(currentWord);
+        }
+        else {
+            $('#currentWordForLookup').html($('#originalText').val());
+        }
         for(var analysisType in data) {
-            var values = document.createElement('ul');
-            values.id = 'dictionaryTranslationContents'; // eslint-disable-line id-length
+            var values = $('<ul id="dictionaryTranslationContents">');
             for(var translationContent = 0; translationContent < data[analysisType].length; translationContent++) {
-                var livalues = document.createElement('li');
-                var textNode = document.createTextNode(data[analysisType][translationContent].replace('#', ''));
-                livalues.appendChild(textNode);
+                var livalues = $('<li>');
+                livalues.html(data[analysisType][translationContent].replace('#', ''));
                 values.append(livalues);
             }
-            var dlSpan = document.createElement('span');
-            dlSpan.id = 'dictDLHeaders'; // eslint-disable-line id-length
-            dlSpan.setAttribute('data-text', 'POS_' + analysisType);
-            dlSpan.appendChild(document.createTextNode(dynamicLocalizations[analysisType]));
-            document.getElementById('dictionaryLookupResult').append(dlSpan);
-            document.getElementById('dictionaryLookupResult').append(values);
+            var dlSpan = $('<span id="dictDLHeaders">');
+            dlSpan.attr({'data-text': 'POS_' + analysisType});
+            dlSpan.html(dynamicLocalizations['part_of_speech'][analysisType]);
+            $('#dictionaryLookupResult').append(dlSpan);
+            $('#dictionaryLookupResult').append(values);
         }
     }
 
