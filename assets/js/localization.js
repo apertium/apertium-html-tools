@@ -13,7 +13,8 @@ var localizedLanguageCodes /*: {[string]: string} */ = {}, localizedLanguageName
 
 /* global config, getPairs, getGenerators, getAnalyzers, persistChoices, getURLParam, cache, ajaxSend, ajaxComplete, sendEvent,
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
-    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
+    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique,
+    dictionaryLookup */
 
 var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
     'fallback': {
@@ -21,7 +22,28 @@ var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
         'detected': 'detected',
         'File_Too_Large': 'File is too large!',
         'Format_Not_Supported': 'Format not supported!',
-        'Download_File': 'Download {{fileName}}'
+        'Download_File': 'Download {{fileName}}',
+        'POS_n': 'Noun',
+        'POS_vblex': 'Verb',
+        'POS_vbmod': 'Modal verb',
+        'POS_vbser': 'Verb "to be"',
+        'POS_vbhaver': 'Verb "to have"',
+        'POS_vaux': 'Auxilliary verb',
+        'POS_adj': 'Adjective',
+        'POS_post': 'Postposition',
+        'POS_adv': 'Adverb',
+        'POS_preadv': 'Pre-adverb',
+        'POS_postadv': 'Post-adverb',
+        'POS_mod': 'Modal word',
+        'POS_det': 'Determiner',
+        'POS_prn': 'Pronoun',
+        'POS_pr': 'Preposition',
+        'POS_num': 'Numeral',
+        'POS_np': 'Proper noun',
+        'POS_ij': 'Interjection',
+        'POS_cnjcoo': 'Co-ordinating conjunction',
+        'POS_cnjsub': 'Sub-ordinating conjunction',
+        'POS_cnjadv': 'Conjunctive adverb'
     }
 };
 
@@ -370,6 +392,8 @@ function localizeStrings(stringsFresh /*: boolean */) {
                 getDynamicLocalization('Download_File').replace('{{fileName}}', $('a#fileDownload').attr('download'))
             );
         }
+
+        dictionaryLookup();
     }
 }
 
@@ -420,10 +444,12 @@ function setLocale(newLocale /*: string */) {
     return newLocale;
 }
 
-/*:: export {getLangByCode, getDynamicLocalization, iso639Codes, iso639CodesInverse, locale, localizeInterface, setLocale} */
+/*:: export {getLangByCode, getDynamicLocalization, iso639Codes, iso639CodesInverse, locale, localizeInterface, setLocale,
+    dynamicLocalizations} */
 
 /*:: import {curDstLang, curSrcLang, dstLangs, getPairs, populateTranslationList, refreshLangList, srcLangs} from "./translator.js" */
 /*:: import {ajaxSend, ajaxComplete, getURLParam, modeEnabled, onlyUnique, sendEvent} from "./util.js" */
 /*:: import {generatorData, generators, getGenerators, populateGeneratorList} from "./generator.js" */
 /*:: import {analyzerData, analyzers, getAnalyzers, populateAnalyzerList} from "./analyzer.js" */
 /*:: import {cache, persistChoices, readCache, restoreChoices} from "./persistence.js" */
+/*:: import {dictionaryLookup} from "./translator.js" */
