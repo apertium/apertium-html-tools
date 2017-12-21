@@ -1121,10 +1121,11 @@ function dictionaryLookup() {
         }
 
         $('#dictionaryLookupResult').empty();
-        var wordToLookup = $('#originalText').val().trim()
-            .split(' ');
-        if(wordToLookup.length <= 3 && wordToLookup[0] !== '') {
-            currentLookupRequest = callApy({
+        var wordToLookup = $('#originalText').val().trim().split(' '); // eslint-disable-line newline-per-chained-call
+        console.log($('#originalText'));
+        console.log(wordToLookup);
+        if(wordToLookup[0] !== '') {
+            /*currentLookupRequest = callApy({
                 data: {
                     'langpair': curSrcLang + '|' + curDstLang,
                     'q': $('#originalText').val()
@@ -1135,7 +1136,9 @@ function dictionaryLookup() {
                     ajaxComplete();
                     currentLookupRequest = undefined;
                 }
-            }, '/dictionaryLookup');
+            }, '/dictionaryLookup');*/
+            // Random data used for testing purposes
+            handleDictionaryLookupSuccessResponse({"n": ["carrera"], "vblex": ["correr", "funcionar"]});
         }
     }
 
@@ -1143,13 +1146,20 @@ function dictionaryLookup() {
         $('#dictionaryLookup').removeClass('hide');
         $('#currentWordForLookup').html($('#originalText').val());
         for(var analysisType in data) {
-            var values = '<ul id="dictionaryTranslationContents">';
+            var values = document.createElement('ul');
+            values.id = 'dictionaryTranslationContents'; // eslint-disable-line id-length
             for(var translationContent = 0; translationContent < data[analysisType].length; translationContent++) {
-                values += '<li>' + data[analysisType][translationContent].replace('#', '') + '</li>';
+                var livalues = document.createElement('li');
+                var textNode = document.createTextNode(data[analysisType][translationContent].replace('#', ''));
+                livalues.appendChild(textNode);
+                values.append(livalues);
             }
-            values += '</ul>';
-            $('#dictionaryLookupResult').html($('#dictionaryLookupResult').html() +
-                '<span id="dynamicLocalization">' + dynamicLocalizations[analysisType] + '</span>' + values);
+            var dlSpan = document.createElement('span');
+            dlSpan.id = 'dictDLHeaders'; // eslint-disable-line id-length
+            dlSpan.setAttribute('data-text', 'POS_' + analysisType);
+            dlSpan.appendChild(document.createTextNode(dynamicLocalizations[analysisType]));
+            document.getElementById('dictionaryLookupResult').append(dlSpan);
+            document.getElementById('dictionaryLookupResult').append(values);
         }
     }
 
