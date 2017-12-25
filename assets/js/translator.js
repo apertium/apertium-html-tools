@@ -92,11 +92,7 @@ if(modeEnabled('translation')) {
                     if($('#detect').hasClass('activeAfterCancel')) {
                         $('.srcLang').removeClass('active');
                         $('#detect').addClass('active');
-                        muteLanguages();
-                        $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
-                        refreshLangList();
-                        $('#detectedText').show();
-                        $('#detectText').hide();
+                        handleDetectLanguageSuccessComplete();
                         $('#detect').removeClass('activeAfterCancel');
                     }
                     else {
@@ -148,11 +144,7 @@ if(modeEnabled('translation')) {
                     if($('#detect').hasClass('activeAfterCancel')) {
                         $('.srcLang').removeClass('active');
                         $('#detect').addClass('active');
-                        muteLanguages();
-                        $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
-                        refreshLangList();
-                        $('#detectedText').show();
-                        $('#detectText').hide();
+                        handleDetectLanguageSuccessComplete();
                         $('#detect').removeClass('activeAfterCancel');
                     }
                     else {
@@ -1055,17 +1047,20 @@ function detectLanguage() {
         curSrcLang = recentSrcLangs[0];
         autoSelectDstLang();
         $('#srcLangSelect').val(curSrcLang);
-        muteLanguages();
-
-        $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
-        refreshLangList();
-        $('#detectedText').show();
-        $('#detectText').hide();
+        handleDetectLanguageSuccessComplete();
     }
 
     function handleDetectLanguageErrorResponse() {
         $('#srcLang1').click();
     }
+}
+
+function handleDetectLanguageSuccessComplete() {
+    muteLanguages();
+    $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
+    refreshLangList();
+    $('#detectedText').show();
+    $('#detectText').hide();
 }
 
 function translationNotAvailable() {
