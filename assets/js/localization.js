@@ -216,11 +216,11 @@ function getLocales() {
             return a[1].toLowerCase().localeCompare(b[1].toLowerCase());
         });
         $('.localeSelect').empty();
-        $.each(localePairs, function (code /*: string */, name /*: string */) {
+        $.each(localePairs, function (i /*: number */, codeAndName /*: [string, string] */) {
             $('.localeSelect').append(
                 $('<option></option>')
-                    .val(code)
-                    .text(name)
+                    .val(codeAndName[0])
+                    .text(codeAndName[1])
                     .prop('dir', rtlLanguages.indexOf(this[0]) !== -1 ? 'rtl' : 'ltr')
             );
         });
