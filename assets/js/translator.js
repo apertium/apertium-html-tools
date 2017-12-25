@@ -68,7 +68,8 @@ if(modeEnabled('translation')) {
 
         function setupWebpageTranslation() {
             $('button#showTranslateWebpage').click(function () {
-                showTranslateWebpageInterface($('#originalText').val().trim(), true);
+                var possibleURL = $('#originalText').val().trim();
+                showTranslateWebpageInterface(isURL(possibleURL) ? possibleURL : null, true);
             });
 
             $('button#cancelTranslateWebpage').click(function () {
@@ -846,7 +847,7 @@ function translateDoc() {
             }
         }
     }
-    else {
+    else if(file) {
         docTranslateError(getDynamicLocalization('Not_Available'), 'Not_Available');
     }
 
