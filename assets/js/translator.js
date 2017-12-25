@@ -89,6 +89,19 @@ if(modeEnabled('translation')) {
                     $('div#translateText').fadeIn('fast', function () {
                         synchronizeTextareaHeights();
                     });
+                    if($('#detect').hasClass('activeAfterCancel')) {
+                        $('.srcLang').removeClass('active');
+                        $('#detect').addClass('active');
+                        muteLanguages();
+                        $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
+                        refreshLangList();
+                        $('#detectedText').show();
+                        $('#detectText').hide();
+                        $('#detect').removeClass('activeAfterCancel');
+                    }
+                    else {
+                        translateText();
+                    }
                     $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
                     $('#detect').removeClass('disabledLang');
                 });
@@ -111,6 +124,10 @@ if(modeEnabled('translation')) {
                     $('#fileInput').show();
                     $('div#fileName').hide();
                     $('div#docTranslation').fadeIn('fast');
+                    if($('#detect').hasClass('active')) {
+                        $('#srcLang1').click();
+                        $('#detect').addClass('activeAfterCancel');
+                    }
                     $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', true);
                     $('#detect').addClass('disabledLang');
                 });
@@ -128,6 +145,19 @@ if(modeEnabled('translation')) {
                     form.reset();
                     $('input#fileInput').unwrap();
                     $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
+                    if($('#detect').hasClass('activeAfterCancel')) {
+                        $('.srcLang').removeClass('active');
+                        $('#detect').addClass('active');
+                        muteLanguages();
+                        $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
+                        refreshLangList();
+                        $('#detectedText').show();
+                        $('#detectText').hide();
+                        $('#detect').removeClass('activeAfterCancel');
+                    }
+                    else {
+                        translateText();
+                    }
                     $('#detect').removeClass('disabledLang');
                 });
                 updatePairList();
@@ -252,6 +282,7 @@ if(modeEnabled('translation')) {
                 curSrcLang = $(this).attr('data-code');
                 $('.srcLang').removeClass('active');
                 $(this).addClass('active');
+                $('#detect').removeClass('activeAfterCancel');
                 populateTranslationList();
                 refreshLangList(true);
                 muteLanguages();
@@ -961,6 +992,10 @@ function showTranslateWebpageInterface(url /*: ?string */, ignoreIfEmpty /*: ?bo
         });
         $('button#cancelTranslateWebpage').fadeIn('fast').addClass('cancelTranslateWebpage');
         $('div#translateWebpage').fadeIn('fast');
+        if($('#detect').hasClass('active')) {
+            $('#srcLang1').click();
+            $('#detect').addClass('activeAfterCancel');
+        }
         $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
         $('#detect').addClass('disabledLang');
 

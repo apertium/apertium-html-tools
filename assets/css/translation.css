@@ -43,7 +43,7 @@ html[dir='rtl'] #srcLanguages {
 }
 
 .disabledLang {
-    color: #808080;
+    color: #808080 !important; /* sass-lint:disable-line no-important */
     opacity: 1 !important; /* sass-lint:disable-line no-important */
 }
 
