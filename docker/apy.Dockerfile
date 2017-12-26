@@ -14,6 +14,7 @@ RUN apt-get --yes update && apt-get --yes install \
     locales \
 	libtool \
     pkg-config \
+    python \
     python3-dev \
     python3-pip \
     subversion \
@@ -59,8 +60,6 @@ RUN apertium-get en-es
 RUN apertium-get kaz-tat
 RUN apertium-get nno-nob
 
-EXPOSE 2737
-CMD ["python3", \
-    "/root/apertium-apy/servlet.py", "/source", \
-    "--lang-names", "/root/apertium-apy/langNames.db" \
-]
+CMD python3 /root/apertium-apy/servlet.py /source \
+        --port $PORT \
+        --lang-names /root/apertium-apy/langNames.db

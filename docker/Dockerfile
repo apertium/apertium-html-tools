@@ -20,7 +20,7 @@ ENV LANG en_US.UTF-8
 
 # Setup Html-tools
 
-CMD (nohup socat TCP4-LISTEN:2737,fork TCP4:apy:2737 &) && \
-    (while ! curl --output /dev/null --silent --fail http://apy:2737/listPairs; do sleep 1 && echo -n .; done;) && \
+CMD (nohup socat TCP4-LISTEN:$APY_PORT,fork TCP4:apy:$APY_PORT &) && \
+    (while ! curl --output /dev/null --silent --fail http://apy:$APY_PORT/listPairs; do sleep 1 && echo -n .; done;) && \
     cd apertium-html-tools && make -j32 -B && \
     while true; do inotifywait . -r -e MODIFY && make -j32; done;

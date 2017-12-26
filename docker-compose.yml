@@ -6,6 +6,8 @@ services:
       dockerfile: apy.Dockerfile
     ports:
       - 2737:2737
+    environment:
+      - PORT=2737
   html-tools:
     build:
       context: .
@@ -16,6 +18,8 @@ services:
       - apy
     volumes:
       - .:/root/apertium-html-tools
+    environment:
+      - APY_PORT=2737
   nginx:
     image: nginx
     ports:
