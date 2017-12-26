@@ -145,12 +145,7 @@
                                           </button>
                                           <ul class="dropdown-menu" id="srcLanguages" role="menu">
                                               <li>
-                                                  <div class="row">
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                  </div>
+                                                  <div class="row"></div>
                                               </li>
                                           </ul>
                                       </div>
@@ -169,12 +164,7 @@
                                           </button>
                                           <ul class="dropdown-menu" id="dstLanguages" role="menu">
                                               <li>
-                                                  <div class="row">
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                  </div>
+                                                  <div class="row"></div>
                                               </li>
                                           </ul>
                                       </div>

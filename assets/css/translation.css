@@ -21,25 +21,21 @@ html[dir='rtl'] .languageName {
 }
 
 html[dir='ltr'] #srcLanguages {
-    min-width: 500px;
     right: auto;
 }
 
 html[dir='ltr'] #dstLanguages {
     left: auto;
-    min-width: 500px;
     right: 0;
 }
 
 html[dir='rtl'] #dstLanguages {
     left: 0;
-    min-width: 500px;
     right: auto;
 }
 
 html[dir='rtl'] #srcLanguages {
     left: auto;
-    min-width: 500px;
 }
 
 .disabledLang {
@@ -113,4 +109,10 @@ html[dir='rtl'] #srcLanguages {
 
 .chaining {
     display: none;
+}
+
+.languageCol {
+    float: left;
+    padding: 0 15px;
+    position: relative;
 }

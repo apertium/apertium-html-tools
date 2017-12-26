@@ -9,9 +9,9 @@ var translateRequest;
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
-    TRANSLATION_LIST_WIDTH = 650,
-    TRANSLATION_LIST_ROWS = 8,
-    TRANSLATION_LIST_COLUMNS = 4,
+    TRANSLATION_LIST_IDEAL_ROWS = 12,
+    TRANSLATION_LIST_MAX_WIDTH = 800,
+    TRANSLATION_LIST_MAX_COLUMNS = 5,
     TRANSLATION_LISTS_BUFFER = 50;
 
 var INSTANT_TRANSLATION_URL_DELAY = 500,
@@ -550,67 +550,72 @@ function refreshLangList(resetDetect /*: ?boolean */) {
 
 function populateTranslationList() {
     sortTranslationList();
-    $('.languageName').remove();
-    $('.languageCol').show().removeClass('col-sm-3 col-sm-4 col-sm-6 col-sm-12');
+    $('.languageCol').remove();
 
-    var numSrcCols = Math.ceil(srcLangs.length / TRANSLATION_LIST_ROWS) < (TRANSLATION_LIST_COLUMNS + 1)
-        ? Math.ceil(srcLangs.length / TRANSLATION_LIST_ROWS)
-        : TRANSLATION_LIST_COLUMNS;
-    var numDstCols = Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS) < (TRANSLATION_LIST_COLUMNS + 1)
-        ? Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS)
-        : TRANSLATION_LIST_COLUMNS;
+    var minColumnWidth = TRANSLATION_LIST_MAX_WIDTH / TRANSLATION_LIST_MAX_COLUMNS;
 
-    var columnWidth = TRANSLATION_LIST_WIDTH / TRANSLATION_LIST_COLUMNS;
-    var maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
-    numSrcCols = Math.min(Math.floor(maxSrcLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
-    var maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
-        TRANSLATION_LISTS_BUFFER;
-    numDstCols = Math.min(Math.floor(maxDstLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
+    // figure out how much space is actually available for the columns
+    var maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER,
+        maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
+                            TRANSLATION_LISTS_BUFFER;
 
-    var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols);
-    var dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
+    // then, prevent the all the columns from getting too wide
+    maxSrcLangsWidth = Math.min(TRANSLATION_LIST_MAX_WIDTH, maxSrcLangsWidth);
+    maxDstLangsWidth = Math.min(TRANSLATION_LIST_MAX_WIDTH, maxDstLangsWidth);
 
-    var BOOTSTRAP_MAX_COLUMNS = 12;
+    // finally, pick the ideal number of columns (up to limitations from the maximum overall width and the imposed maximum)
+    var numSrcCols = Math.min(
+            Math.ceil(srcLangs.length / TRANSLATION_LIST_IDEAL_ROWS),
+            Math.floor(maxSrcLangsWidth / minColumnWidth),
+            TRANSLATION_LIST_MAX_COLUMNS
+        ),
+        numDstCols = Math.min(
+            Math.ceil(dstLangs.length / TRANSLATION_LIST_IDEAL_ROWS),
+            Math.floor(maxDstLangsWidth / minColumnWidth),
+            TRANSLATION_LIST_MAX_COLUMNS
+        );
 
-    $('#srcLanguages').css('min-width', Math.floor(TRANSLATION_LIST_WIDTH * (numSrcCols / TRANSLATION_LIST_COLUMNS)) + 'px');
-    $('#srcLanguages .languageCol').addClass('col-sm-' + (BOOTSTRAP_MAX_COLUMNS / numSrcCols));
-    $('#srcLanguages .languageCol:gt(' + (numSrcCols - 1) + ')').hide();
-
-    $('#dstLanguages').css('min-width', Math.floor(TRANSLATION_LIST_WIDTH * (numDstCols / TRANSLATION_LIST_COLUMNS)) + 'px');
-    $('#dstLanguages .languageCol').addClass('col-sm-' + (BOOTSTRAP_MAX_COLUMNS / numDstCols));
-    $('#dstLanguages .languageCol:gt(' + (numDstCols - 1) + ')').hide();
+    var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
+        dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
 
     for(var i = 0; i < numSrcCols; i++) {
         var numSrcLang = Math.ceil(srcLangs.length / numSrcCols) * i;
+        var srcLangCol = $('<div class="languageCol">').appendTo($('#srcLanguages .row'));
+
         for(var j = numSrcLang; j < numSrcLang + srcLangsPerCol; j++) {
             if(numSrcLang < srcLangs.length) {
                 var langCode = srcLangs[j];
                 var langName = getLangByCode(langCode);
-                $('#srcLanguages .languageCol:eq(' + i + ')')
-                    .append(
-                        $('<div class="languageName"></div>')
-                            .attr('data-code', langCode)
-                            .text(langName)
-                    );
+                srcLangCol.append(
+                    $('<div class="languageName"></div>')
+                        .attr('data-code', langCode)
+                        .text(langName)
+                );
             }
         }
     }
 
     for(i = 0; i < numDstCols; i++) {
         var numDstLang = Math.ceil(dstLangs.length / numDstCols) * i;
+        var dstLangCol = $('<div class="languageCol">').appendTo($('#dstLanguages .row'));
+
         for(j = numDstLang; j < numDstLang + dstLangsPerCol; j++) {
             if(numDstLang < dstLangs.length) {
                 langCode = dstLangs[j];
                 langName = getLangByCode(langCode);
-                $('#dstLanguages .languageCol:eq(' + i + ')')
-                    .append(
-                        $('<div class="languageName"></div>')
-                            .attr('data-code', langCode)
-                            .text(langName)
-                    );
+                dstLangCol.append(
+                    $('<div class="languageName"></div>')
+                        .attr('data-code', langCode)
+                        .text(langName)
+                );
             }
         }
     }
+
+    $('#srcLanguages').css('min-width', numSrcCols * minColumnWidth);
+    $('#dstLanguages').css('min-width', numDstCols * minColumnWidth);
+    $('#srcLanguages .languageCol').css('width', (100.0 / numSrcCols) + '%');
+    $('#dstLanguages .languageCol').css('width', (100.0 / numDstCols) + '%');
 
     $('.langSelect option[value!=detect]').remove();
     $.each(srcLangs, function () {
