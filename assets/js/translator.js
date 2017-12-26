@@ -635,27 +635,38 @@ function populateTranslationList() {
     function sortTranslationList() {
         var sortLocale = (locale && locale in iso639Codes) ? iso639Codes[locale] : locale;
 
-        srcLangs = srcLangs.sort(function (a, b) {
+        function compareLangCodes(a, b) {
+            var directCompare;
             try {
-                return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+                directCompare = getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
             }
             catch(e) {
-                return getLangByCode(a).localeCompare(getLangByCode(b));
+                directCompare = getLangByCode(a).localeCompare(getLangByCode(b));
             }
-        });
 
+            var aVariant = a.split('_'), bVariant = b.split('_');
+
+            if(aVariant[1] && bVariant[1] && aVariant[0] === bVariant[0]) {
+                return directCompare;
+            }
+            else if(aVariant && a.startsWith(b)) {
+                return 1;
+            }
+            else if(bVariant && b.startsWith(a)) {
+                return -1;
+            }
+            else {
+                return directCompare;
+            }
+        }
+
+        srcLangs = srcLangs.sort(compareLangCodes);
         dstLangs = dstLangs.sort(function (a, b) {
             var aPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1;
             var bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
 
             if(aPossible === bPossible) {
-                try {
-                    return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
-                }
-                catch(e) {
-                    return getLangByCode(a).localeCompare(getLangByCode(b));
-                }
-
+                return compareLangCodes(a, b);
             }
             else if(aPossible && !bPossible) {
                 return -1;
