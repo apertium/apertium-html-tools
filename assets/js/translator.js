@@ -559,7 +559,7 @@ function populateTranslationList() {
         maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
                             TRANSLATION_LISTS_BUFFER;
 
-    // then, prevent the all the columns from getting too wide
+    // then, prevent all the columns from getting too wide
     maxSrcLangsWidth = Math.min(TRANSLATION_LIST_MAX_WIDTH, maxSrcLangsWidth);
     maxDstLangsWidth = Math.min(TRANSLATION_LIST_MAX_WIDTH, maxDstLangsWidth);
 
