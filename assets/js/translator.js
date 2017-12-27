@@ -35,6 +35,14 @@ if(modeEnabled('translation')) {
             pairs = $('input#chainedTranslation').prop('checked') ? chainedPairs : originalPairs;
         }
 
+        function updateDetect() {
+            var disableDetect = $('#originalText').text() === '';
+            $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', disableDetect);
+            $('#detect').toggleClass('disabledLang', disableDetect);
+
+            persistChoices('translator');
+        }
+
         function setupTextTranslation() {
             synchronizeTextareaHeights();
 
@@ -58,12 +66,10 @@ if(modeEnabled('translation')) {
             });
 
             $('#originalText').on('input propertychange', function () {
-                var disableDetect = this.value === '';
-                $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', disableDetect);
-                $('#detect').toggleClass('disabledLang', disableDetect);
-
-                persistChoices('translator');
+                updateDetect();
             });
+
+            updateDetect();
         }
 
         function setupWebpageTranslation() {
@@ -907,7 +913,7 @@ function translateWebpage(ignoreIfEmpty /*: ?boolean */) {
             // have to scroll through a full screen of whitespace before reaching content.
             // This might mess things up some places – needs testing – but on the other hand
             // most uses of document.write are evil.
-            return html.replace(/document[.]write[(]/g, 'console.log("document.write "+');
+            return html.replace(/document\.write\(/g, 'console.log("document.write "+');
         }
 
         var translatedHtml /*: string */ = data.responseData.translatedText;
