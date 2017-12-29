@@ -29,35 +29,6 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
     callApy, apyRequestTimeout, isURL */
 /* global ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
-function updateDetect(state /*: bool */) {
-    var oldState;
-
-    if(state) {
-        oldState = $('#detect').hasClass('activeAfterCancel');
-
-        if(oldState) {
-            $('.srcLang').removeClass('active');
-            $('#detect').addClass('active');
-            handleDetectLanguageSuccessComplete();
-            $('#detect').removeClass('activeAfterCancel');
-        }
-    }
-    else {
-        oldState = $('#detect').hasClass('active');
-
-        if(oldState) {
-            $('#srcLang1').click();
-            $('#detect').addClass('activeAfterCancel');
-        }
-
-        $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', true);
-        $('#detect').addClass('disabledLang');
-    }
-
-    persistChoices('translator');
-    return oldState;
-}
-
 if(modeEnabled('translation')) {
     $(document).ready(function () {
         function updatePairList() {
@@ -1021,6 +992,35 @@ function showTranslateWebpageInterface(url /*: ?string */, ignoreIfEmpty /*: ?bo
         window.location.hash = 'webpageTranslation';
         translateWebpage(ignoreIfEmpty);
     });
+}
+
+function updateDetect(state /*: bool */) {
+    var oldState;
+
+    if(state) {
+        oldState = $('#detect').hasClass('activeAfterCancel');
+
+        if(oldState) {
+            $('.srcLang').removeClass('active');
+            $('#detect').addClass('active');
+            handleDetectLanguageSuccessComplete();
+            $('#detect').removeClass('activeAfterCancel');
+        }
+    }
+    else {
+        oldState = $('#detect').hasClass('active');
+
+        if(oldState) {
+            $('#srcLang1').click();
+            $('#detect').addClass('activeAfterCancel');
+        }
+
+        $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', true);
+        $('#detect').addClass('disabledLang');
+    }
+
+    persistChoices('translator');
+    return oldState;
 }
 
 function detectLanguage() {
