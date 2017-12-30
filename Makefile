@@ -85,7 +85,7 @@ build/js/all.js: $(JSFILES) build/js/.d
 	cat $(JSFILES) > $@
 
 build/js/min.js: build/js/all.js
-	cp $< $@
+	./tools/minify-js.py $< $@
 
 build/js/compat.js: assets/js/compat.js build/js/.d
 	cp $< $@
@@ -193,7 +193,7 @@ build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/b
 	cat $^ > $@
 
 build/css/min.css: build/css/all.css
-	cp $< $@
+	./tools/minify-css.py $< $@
 
 build/css/style.css: $(CSSFILES) $(if $(theme), assets/css/themes/style.$(theme).css, ) build/css/.d
 	cat $^ > $@
