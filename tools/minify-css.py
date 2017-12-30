@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 
-from csscompressor import compress
 import sys
 
-input_file = sys.argv[1]
-output_file = sys.argv[2]
+try:
+    from csscompressor import compress
+except ImportError:
+    print("csscompressor not installed, skipping CSS minification")
+    sys.exit(0)
 
-with open(input_file, 'r') as f:
+path = sys.argv[1]
+
+with open(path, 'r') as f:
     input_data = f.read()
 
 output_data = compress(input_data)
 
-with open(output_file, 'w') as f:
+with open(path, 'w') as f:
     f.write(output_data)
