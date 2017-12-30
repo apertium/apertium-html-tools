@@ -24,7 +24,7 @@ Setup
 -------
 
 1. Copy `config.conf.example` to `config.conf` and edit it.
-1. Then type `make`.
+2. Then type `make`.
 
 Running
 ----------
@@ -42,7 +42,10 @@ Any changes to the local version of Html-tools will trigger a `make`.
 
     docker-compose up
 
-For production usage, remember to enable gzip compression in your server.
+For production usage, remember to ...
+
+1. build with jsmin and csscompressor installed
+2. enable gzip compression on your server
 
 Contributing
 ------------
