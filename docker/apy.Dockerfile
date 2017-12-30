@@ -36,7 +36,7 @@ ENV LANG en_US.UTF-8
 
 # Install APy
 
-RUN pip3 install --upgrade tornado
+RUN pip3 install --upgrade tornado jsmin csscompressor
 RUN git clone https://github.com/goavki/apertium-apy
 RUN cd apertium-apy && make -j2
 
