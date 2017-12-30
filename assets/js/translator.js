@@ -1006,6 +1006,9 @@ function updateDetect(state /*: bool */) {
             handleDetectLanguageSuccessComplete();
             $('#detect').removeClass('activeAfterCancel');
         }
+
+        $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
+        $('#detect').removeClass('disabledLang');
     }
     else {
         oldState = $('#detect').hasClass('active');
