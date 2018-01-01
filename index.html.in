@@ -11,7 +11,7 @@
         <link rel="shortcut icon" href="./img/favicon.ico">
 
         <!-- <link type="text/css" rel="stylesheet" href="./css/icon-globe.css"> -->
-        <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu"> <!-- Selectivzr bug requires this being in <link> rather than @import -->
+        <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400&amp;subset=latin"> <!-- Selectivzr bug requires this being in <link> rather than @import -->
 
         <link type="text/css" rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" integrity="sha384-6ePHh72Rl3hKio4HiJ841psfsRJveeS+aLoaEf3BWfS+gTF0XdAqku2ka8VddikM" crossorigin="anonymous"></script>
