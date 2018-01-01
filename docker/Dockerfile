@@ -11,12 +11,16 @@ RUN apt-get --yes update && apt-get --yes install \
     locales \
     make \
     python3 \
+    python3-pip \
     socat
 
 # Repair locales
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
+
+# Install some (optional) dependencies
+RUN pip3 install --upgrade jsmin csscompressor
 
 # Setup Html-tools
 
