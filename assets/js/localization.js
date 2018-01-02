@@ -53,7 +53,7 @@ if(!config.LANGNAMES) {
     config.LANGNAMES = {};
 }
 
-function getRecaptchaSrc(locale2) {
+function getRecaptchaSrc(locale2 /*: string */) {
     newSrc = recaptchaScriptSrc + 'en';
     var backoff = true;
 

@@ -392,13 +392,14 @@ if(modeEnabled('translation')) {
                     'context': getContext(fromWord),
                     'g-recaptcha-response': recaptchaResponse
                 },
-                success: function () {
+                success: function (_data, _textStatus, _jqXHR) {
                     $('#suggestedWordInput').tooltip('destroy');
                     $('#suggestedWordInput').val('');
                     $('#wordSuggestModal').modal('hide');
                 },
-                error: function (data) {
-                    var data1 = $.parseJSON(data.responseText);
+                error: function (data /*: JQueryXHR */, _textStatus, _errorThrown) {
+                    var responseText /*: string */ = (data.responseText /*: any */);
+                    var data1 = $.parseJSON(responseText);
                     $('#suggestedWordInput').tooltip('destroy');
                     $('#suggestedWordInput').tooltip({
                         'title': (data1.explanation ? data1.explanation : 'An error occurred'),
@@ -411,7 +412,7 @@ if(modeEnabled('translation')) {
                         $('#suggestedWordInput').tooltip('destroy');
                     }, SUGGESTION_DESTROY_TIMEOUT);
                 },
-                complete: function () {
+                complete: function (_jqXHR, _textStatus) {
                     ajaxComplete;
                     grecaptcha.reset();
                 }
