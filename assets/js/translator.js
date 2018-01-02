@@ -58,10 +58,10 @@ if(modeEnabled('translation')) {
             });
 
             $('#originalText').on('input propertychange', function () {
-                updateDetect($('#originalText').text() !== '');
+                updateDetect($('#originalText').val() !== '');
             });
 
-            updateDetect($('#originalText').text() !== '');
+            updateDetect($('#originalText').val() !== '');
         }
 
         function setupWebpageTranslation() {
