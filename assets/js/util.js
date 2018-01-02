@@ -255,4 +255,3 @@ function displayInstallationNotification() {
 /*:: export {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} */
 
 /*:: import {_paq} from "./init.js" */
-/*:: import {config} from "./config.js" */
