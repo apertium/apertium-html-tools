@@ -994,13 +994,13 @@ function showTranslateWebpageInterface(url /*: ?string */, ignoreIfEmpty /*: ?bo
     });
 }
 
-function updateDetect(state /*: bool */) {
-    var oldState;
+function updateDetect(active /*: bool */) {
+    var wasActive;
 
-    if(state) {
-        oldState = $('#detect').hasClass('activeAfterCancel');
+    if(active) {
+        wasActive = $('#detect').hasClass('activeAfterCancel');
 
-        if(oldState) {
+        if(wasActive) {
             $('.srcLang').removeClass('active');
             $('#detect').addClass('active');
             handleDetectLanguageSuccessComplete();
@@ -1011,9 +1011,9 @@ function updateDetect(state /*: bool */) {
         $('#detect').removeClass('disabledLang');
     }
     else {
-        oldState = $('#detect').hasClass('active');
+        wasActive = $('#detect').hasClass('active');
 
-        if(oldState) {
+        if(wasActive) {
             $('#srcLang1').click();
             $('#detect').addClass('activeAfterCancel');
         }
@@ -1023,7 +1023,7 @@ function updateDetect(state /*: bool */) {
     }
 
     persistChoices('translator');
-    return oldState;
+    return wasActive;
 }
 
 function detectLanguage() {
