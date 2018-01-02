@@ -350,23 +350,6 @@ if(modeEnabled('translation')) {
                 return;
             }
 
-            // Obtaining context, (± config.SUGGESTIONS.context_size) words
-            // fallback to complete text if this fails.
-            var hashedWord = fromWord.hashCode() + fromWord + fromWord.hashCode();
-            $('#wordGettingSuggested').text(hashedWord);
-
-            var splitText = $('#translatedText').text().split(' ');
-            $('#wordGettingSuggested').text(fromWord);
-
-            var targetIndex = splitText.indexOf(hashedWord);
-            var wrapLength = parseInt(config.SUGGESTIONS.context_size, 10);
-            var begin = (targetIndex > wrapLength) ? (targetIndex - wrapLength) : 0;
-            var ending = (splitText.length - targetIndex - 1 > wrapLength) ? (targetIndex + wrapLength + 1) : splitText.length;
-            var context = splitText.slice(begin, ending).join(' ').replace(hashedWord, fromWord);
-            if(!context) {
-                context = $('#translatedText').attr('pristineText');
-            }
-
             $.ajax({
                 url: config.APY_URL + '/suggest',
                 type: 'POST',
@@ -375,7 +358,7 @@ if(modeEnabled('translation')) {
                     'langpair': curSrcLang + '|' + curDstLang,
                     'word': fromWord,
                     'newWord': toWord,
-                    'context': context,
+                    'context': getContext(fromWord),
                     'g-recaptcha-response': recaptchaResponse
                 },
                 success: function () {
@@ -458,6 +441,30 @@ if(modeEnabled('translation')) {
         setupWebpageTranslation();
         setupDocTranslation();
     });
+}
+
+function getContext(fromWord) {
+    var wrapLength = parseInt(config.SUGGESTIONS.context_size, 10);
+    var mark = 'MEGAWORD!';
+    var markedWord = mark + fromWord;
+    var rawText = $('#translatedText').html();
+    var cleanMarkedText = rawText.replace(/<span[^>]*id="wordGettingSuggested"[^>]*>/g, mark);
+    cleanMarkedText = cleanMarkedText.replace(/<[/]?span[^>]*>/g, '');
+    var splittedText = cleanMarkedText.replace(/\s+/g, ' ').split(' ');
+    var targetIndex = -1;
+    var wordCount = splittedText.length;
+    for(var i = 0; i < wordCount && targetIndex === -1; i++) {
+        if(splittedText[i].indexOf(markedWord) !== -1) {
+            targetIndex = i;
+        }
+    }
+    var beginning = (targetIndex > wrapLength) ? (targetIndex - wrapLength) : 0;
+    var ending = (splittedText.length - targetIndex - 1 > wrapLength) ? (targetIndex + wrapLength + 1) : splittedText.length;
+    var context = splittedText.slice(beginning, ending).join(' ').replace(mark, '');
+    if(!context) {
+        context = $('#translatedText').attr('pristineText');
+    }
+    return context;
 }
 
 function getPairs() {
@@ -793,22 +800,26 @@ function translateText(ignoreIfEmpty) {
                             var placeholder = getDynamicLocalization('Suggest_Placeholder');
                             $('#suggestedWordInput').attr('placeholder', placeholder);
                             $('#translatedText').html(
-                                $('#translatedText').html().replace(/(^|\W|\d)(\*|@|#)(\w+)/g,
-                                    '$1<span class="wordSuggestPopover text-danger" title="' +
-                                localizedTitle + '" style="cursor: pointer">$3</span>')
+                                $('#translatedText').html().replace(/(\*|@|#)([^\s0-9.…,!?;:)_>"'«/»`“”„‘’‛+=–—‒―-]+)/g,
+                                    '<span class="wordSuggestPopover text-danger" title="' +
+                                localizedTitle + '" style="cursor: pointer">$2</span>')
                             );
                         }
 
-                        $('#translatedTextClone').html($('#translatedText').attr('pristineText'));
                         $('.wordSuggestPopover').click(function () {
+                            $('#translatedTextClone').html($('#translatedText').attr('pristineText'));
+                            var fromWord = $(this).html();
+                            $(this).attr('id', 'wordGettingSuggested');
+                            var context = getContext(fromWord);
+                            $('#translatedTextClone').html(context);
+
                             $('.wordSuggestPopover').removeAttr('id');
                             $('.wordSuggestPopoverInline').removeAttr('id');
-                            $(this).attr('id', 'wordGettingSuggested');
 
                             $('#translatedTextClone').html(
-                                $('#translatedTextClone').html().replace(/(^|\W|\d)(\*|@|#)(\w+)/g,
-                                    '$1<span class="wordSuggestPopoverInline text-danger" title="' +
-                                localizedTitle + '" style="cursor: pointer">$3</span>')
+                                $('#translatedTextClone').html().replace(/(\*|@|#)([^\s0-9.…,!?;:)_>"'«/»`“”„‘’‛+=–—‒―-]+)/g,
+                                    '<span class="wordSuggestPopover text-danger" title="' +
+                                localizedTitle + '" style="cursor: pointer">$2</span>')
                             );
 
                             $('.wordSuggestPopoverInline').click(function () {
@@ -826,6 +837,7 @@ function translateText(ignoreIfEmpty) {
                             $('#suggestionTargetWord').html($(this).text().replace(/(\*|@|#)/g, ''));
 
                             $('#wordSuggestModal').modal();
+                            $(this).removeAttr('id');
                         });
                     }
                     else {
