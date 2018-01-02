@@ -145,12 +145,7 @@
                                           </button>
                                           <ul class="dropdown-menu" id="srcLanguages" role="menu">
                                               <li>
-                                                  <div class="row">
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                  </div>
+                                                  <div class="row"></div>
                                               </li>
                                           </ul>
                                       </div>
@@ -169,12 +164,7 @@
                                           </button>
                                           <ul class="dropdown-menu" id="dstLanguages" role="menu">
                                               <li>
-                                                  <div class="row">
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                  </div>
+                                                  <div class="row"></div>
                                               </li>
                                           </ul>
                                       </div>
@@ -278,7 +268,7 @@
                       <fieldset>
                           <legend data-text="Morphological_Analysis_Help"></legend>
                           <div class="form-group">
-                              <label for="primaryAnalyzerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
+                              <label for="primaryAnalyzerMode" class="col-sm-2 col-md-1 control-label" data-text="Language">Language</label>
                               <div class="col-sm-3">
                                   <select class="form-control analyzerMode" id="primaryAnalyzerMode" name="primaryAnalyzerMode" required>
                                       <option> </option>
@@ -291,7 +281,7 @@
                               </div>
                           </div>
                           <div class="form-group">
-                              <label for="morphAnalyzerInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
+                              <label for="morphAnalyzerInput" class="col-sm-2 col-md-1 control-label" data-text="Input_Text">Input Text</label>
                               <div class="col-sm-10">
                                   <textarea class="form-control" rows="5" id="morphAnalyzerInput" name="morphAnalyzerInput" spellcheck="false" required></textarea>
                               </div>
@@ -312,7 +302,7 @@
                       <fieldset>
                           <legend data-text="Morphological_Generation_Help"></legend>
                           <div class="form-group">
-                              <label for="primaryGeneratorMode" class="col-sm-2 control-label" data-text="Language">Language</label>
+                              <label for="primaryGeneratorMode" class="col-sm-2 col-md-1 control-label" data-text="Language">Language</label>
                               <div class="col-sm-3">
                                   <select class="form-control generatorMode" id="primaryGeneratorMode" name="primaryGeneratorMode" required>
                                       <option> </option>
@@ -325,7 +315,7 @@
                               </div>
                           </div>
                           <div class="form-group">
-                              <label for="morphGeneratorInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
+                              <label for="morphGeneratorInput" class="col-sm-2 col-md-1 control-label" data-text="Input_Text">Input Text</label>
                               <div class="col-sm-10">
                                   <textarea class="form-control" rows="5" id="morphGeneratorInput" name="morphGeneratorInput" spellcheck="false" required></textarea>
                               </div>

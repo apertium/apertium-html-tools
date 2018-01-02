@@ -1,0 +1,118 @@
+html[dir='ltr'] .languageName {
+    padding-left: .5em;
+}
+
+html[dir='rtl'] .languageName {
+    padding-right: .5em;
+}
+
+.languageName {
+    position: relative;
+}
+
+.languageName:not(.text-muted) {
+    text-decoration: none;
+}
+
+.languageName:hover:not(.text-muted) {
+    background-color: #446e9b;
+    color: #fff;
+    cursor: pointer;
+}
+
+html[dir='ltr'] #srcLanguages {
+    right: auto;
+}
+
+html[dir='ltr'] #dstLanguages {
+    left: auto;
+    right: 0;
+}
+
+html[dir='rtl'] #dstLanguages {
+    left: 0;
+    right: auto;
+}
+
+html[dir='rtl'] #srcLanguages {
+    left: auto;
+}
+
+.disabledLang {
+    color: #808080 !important; /* sass-lint:disable-line no-important */
+    opacity: 1 !important; /* sass-lint:disable-line no-important */
+}
+
+#originalText,
+#translatedText {
+    resize: vertical;
+}
+
+@media(max-width: 768px) {
+    #originalText {
+        margin-bottom: 1em;
+    }
+}
+
+#srcLangSelectors {
+   padding-left: 0;
+}
+
+@media(min-width: 768px) {
+    .swapLangBtn {
+        position: absolute;
+        top: 0;
+    }
+
+    html[dir='ltr'] .swapLangBtn {
+        right: 15px;
+    }
+
+    html[dir='rtl'] .swapLangBtn {
+        left: 15px;
+    }
+}
+
+#translateOptions label {
+    clear: both;
+}
+
+#translatedWebpage {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 700px;
+    width: 100%;
+}
+
+#translatedWebpage.notAvailable {
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+#showTranslateWebpage {
+    margin-top: 1em;
+}
+
+#translateWebpage {
+    display: none;
+    overflow: hidden;
+}
+
+#translateWebpage .input-group { /* sass-lint:disable-line class-name-format */
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.cancelTranslateWebpage {
+    margin-right: 5px;
+}
+
+.chaining {
+    display: none;
+}
+
+.languageCol {
+    float: left;
+    padding: 0 15px;
+    position: relative;
+}

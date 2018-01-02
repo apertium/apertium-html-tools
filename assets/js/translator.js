@@ -1,17 +1,17 @@
-/* @flow */
+// @flow
 
-var pairs = {}, chainedPairs = {}, originalPairs = pairs;
-var srcLangs = [], dstLangs = [];
-var curSrcLang, curDstLang;
-var recentSrcLangs = [], recentDstLangs = [];
-var droppedFile;
+var pairs /*: {[string]: string[]} */ = {}, chainedPairs = {}, originalPairs = pairs;
+var srcLangs /*: string[] */ = [], dstLangs /*: string[] */ = [];
+var curSrcLang /*: string */, curDstLang/*: string */;
+var recentSrcLangs /*: string[] */ = [], recentDstLangs /*: string[] */ = [];
+var droppedFile/*: ?File */;
 var translateRequest;
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
-    TRANSLATION_LIST_WIDTH = 650,
-    TRANSLATION_LIST_ROWS = 8,
-    TRANSLATION_LIST_COLUMNS = 4,
+    TRANSLATION_LIST_IDEAL_ROWS = 12,
+    TRANSLATION_LIST_MAX_WIDTH = 800,
+    TRANSLATION_LIST_MAX_COLUMNS = 5,
     TRANSLATION_LISTS_BUFFER = 50;
 
 var INSTANT_TRANSLATION_URL_DELAY = 500,
@@ -20,11 +20,14 @@ var INSTANT_TRANSLATION_URL_DELAY = 500,
 
 var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-disable-line no-magic-numbers
 
-/* exported getPairs */
+/* exported curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
+    refreshLangList, recentSrcLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, showTranslateWebpageInterface,
+    srcLangs */
+
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
     callApy, apyRequestTimeout, isURL */
-/* global SPACE_KEY_CODE, ENTER_KEY_CODE, HTTP_OK_CODE, XHR_LOADING, XHR_DONE, HTTP_OK_CODE, HTTP_BAD_REQUEST_CODE */
+/* global ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
@@ -65,7 +68,8 @@ if(modeEnabled('translation')) {
 
         function setupWebpageTranslation() {
             $('button#showTranslateWebpage').click(function () {
-                showTranslateWebpageInterface($('#originalText').val().trim(), true);
+                var possibleURL = $('#originalText').val().trim();
+                showTranslateWebpageInterface(isURL(possibleURL) ? possibleURL : null, true);
             });
 
             $('button#cancelTranslateWebpage').click(function () {
@@ -86,6 +90,15 @@ if(modeEnabled('translation')) {
                     $('div#translateText').fadeIn('fast', function () {
                         synchronizeTextareaHeights();
                     });
+                    if($('#detect').hasClass('activeAfterCancel')) {
+                        $('.srcLang').removeClass('active');
+                        $('#detect').addClass('active');
+                        handleDetectLanguageSuccessComplete();
+                        $('#detect').removeClass('activeAfterCancel');
+                    }
+                    else {
+                        translateText();
+                    }
                     $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
                     $('#detect').removeClass('disabledLang');
                 });
@@ -94,7 +107,7 @@ if(modeEnabled('translation')) {
                 window.location.hash = 'translation';
             }).removeClass('cancelTranslateWebpage');
 
-            $('input#webpage').keyup(function (ev) {
+            $('input#webpage').keyup(function (ev /*: JQueryKeyEventObject */) {
                 if(ev.keyCode === ENTER_KEY_CODE && isURL($('input#webpage').val())) {
                     translate();
                     return false;
@@ -108,6 +121,10 @@ if(modeEnabled('translation')) {
                     $('#fileInput').show();
                     $('div#fileName').hide();
                     $('div#docTranslation').fadeIn('fast');
+                    if($('#detect').hasClass('active')) {
+                        $('#srcLang1').click();
+                        $('#detect').addClass('activeAfterCancel');
+                    }
                     $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', true);
                     $('#detect').addClass('disabledLang');
                 });
@@ -116,14 +133,24 @@ if(modeEnabled('translation')) {
             });
 
             $('button#cancelDocTranslate').click(function () {
-                droppedFile = undefined;
+                droppedFile = null;
                 $('div#docTranslation').fadeOut('fast', function () {
                     $('a#fileDownload').hide();
                     $('span#uploadError').hide();
                     $('div#translateText').fadeIn('fast', synchronizeTextareaHeights);
-                    $('input#fileInput').wrap('<form>').closest('form')[0].reset();
+                    var form /*: HTMLFormElement */ = ($('input#fileInput').wrap('<form>').closest('form')[0] /*: any */);
+                    form.reset();
                     $('input#fileInput').unwrap();
                     $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
+                    if($('#detect').hasClass('activeAfterCancel')) {
+                        $('.srcLang').removeClass('active');
+                        $('#detect').addClass('active');
+                        handleDetectLanguageSuccessComplete();
+                        $('#detect').removeClass('activeAfterCancel');
+                    }
+                    else {
+                        translateText();
+                    }
                     $('#detect').removeClass('disabledLang');
                 });
                 updatePairList();
@@ -138,24 +165,24 @@ if(modeEnabled('translation')) {
             });
 
             $('body')
-                .on('dragover', function (ev) {
+                .on('dragover', function (ev /*: JQueryEventObject */) {
                     ev.preventDefault();
                     return false;
                 })
-                .on('dragenter', function (ev) {
+                .on('dragenter', function (ev /*: JQueryEventObject */) {
                     ev.preventDefault();
                     if(!$('div#fileDropBackdrop:visible').length) {
                         $('div#fileDropBackdrop').fadeTo('fast', 0.5);
-                        $('div#fileDropMask').on('drop', function (ev) {
+                        $('div#fileDropMask').on('drop', function (ev /*: JQueryEventObject */) {
                             ev.preventDefault();
-                            droppedFile = ev.originalEvent.dataTransfer.files[0];
+                            var originalEvent /*: DragEvent */ = (ev.originalEvent /*: any */);
+                            // Assume non-null value
+                            var dataTransfer /*: DataTransfer */ = (originalEvent.dataTransfer /*: any */);
+                            droppedFile = dataTransfer.files[0];
 
                             $('#fileDropBackdrop').fadeOut();
-                            if(!$('div#docTranslation').is(':visible')) {
-                                $('div#translateText').fadeOut('fast', function () {
-                                    $('input#fileInput').hide();
-                                    $('div#docTranslation').fadeIn('fast');
-
+                            if($('div#docTranslation').is(':visible')) {
+                                $('input#fileInput').fadeOut('fast', function () {
                                     if(droppedFile) {
                                         $('div#fileName').show().text(droppedFile.name);
                                         translateDoc();
@@ -163,7 +190,10 @@ if(modeEnabled('translation')) {
                                 });
                             }
                             else {
-                                $('input#fileInput').fadeOut('fast', function () {
+                                $('div#translateText').fadeOut('fast', function () {
+                                    $('input#fileInput').hide();
+                                    $('div#docTranslation').fadeIn('fast');
+
                                     if(droppedFile) {
                                         $('div#fileName').show().text(droppedFile.name);
                                         translateDoc();
@@ -183,7 +213,8 @@ if(modeEnabled('translation')) {
 
         function setupLanguageSelectors() {
             $('.swapLangBtn').click(function () {
-                var srcCode = $('.srcLang.active').attr('data-code'), dstCode = $('.dstLang.active').attr('data-code');
+                var srcCode = $('.srcLang.active').attr('data-code');
+                var dstCode = $('.dstLang.active').attr('data-code');
                 curSrcLang = dstCode;
                 curDstLang = srcCode;
 
@@ -215,12 +246,12 @@ if(modeEnabled('translation')) {
             });
 
             $('#srcLangSelect').change(function () {
-                var selectValue = $(this).val();
+                var selectValue /*: string */ = $(this).val();
                 if(selectValue === 'detect') {
                     $.when(detectLanguage()).done(translateText);
                 }
                 else {
-                    handleNewCurrentLang(curSrcLang = $(this).val(), recentSrcLangs, 'srcLang', true);
+                    handleNewCurrentLang(curSrcLang = ($(this).val() /*: string */), recentSrcLangs, 'srcLang', true);
                     autoSelectDstLang();
                 }
             });
@@ -244,6 +275,7 @@ if(modeEnabled('translation')) {
                 curSrcLang = $(this).attr('data-code');
                 $('.srcLang').removeClass('active');
                 $(this).addClass('active');
+                $('#detect').removeClass('activeAfterCancel');
                 populateTranslationList();
                 refreshLangList(true);
                 muteLanguages();
@@ -276,7 +308,7 @@ if(modeEnabled('translation')) {
             var targetLists = [pairs[srcLang]];
 
             while(targetLists.length > 0) {
-                $.each(targetLists.pop(), function (i, trgt) {
+                $.each(targetLists.pop(), function (i /*: number */, trgt) {
                     if(!targetsSeen[trgt]) {
                         targets.push(trgt);
                         if(pairs[trgt]) {
@@ -292,7 +324,7 @@ if(modeEnabled('translation')) {
 
         if(config.TRANSLATION_CHAINING) {
             $('.chaining').show();
-            $.each(pairs, function (srcLang, _dstLangs) {
+            $.each(pairs, function (srcLang /*: string */, _dstLangs) {
                 chainedPairs[srcLang] = getChainedDstLangs(srcLang);
             });
             updatePairList();
@@ -311,7 +343,9 @@ if(modeEnabled('translation')) {
         });
 
         var timer, lastPunct = false;
-        $('#originalText').on('keyup paste', function (event) {
+        $('#originalText').on('keyup paste', function (ev /*: JQueryEventObject */) {
+            var event /*: JQueryKeyEventObject */ = (ev /*: any */);
+
             if(lastPunct && (event.keyCode === SPACE_KEY_CODE || event.keyCode === ENTER_KEY_CODE)) {
                 // Don't override the short timeout for simple space-after-punctuation
                 return;
@@ -356,7 +390,7 @@ if(modeEnabled('translation')) {
     });
 }
 
-function getPairs() {
+function getPairs() /*: JQueryPromise<any> */ {
     var deferred = $.Deferred();
 
     if(config.PAIRS && 'responseData' in config.PAIRS) {
@@ -370,19 +404,19 @@ function getPairs() {
             deferred.resolve();
         }
         else {
-            console.warn('Translation pairs cache ' + (pairs === null ? 'stale' : 'miss') + ', retrieving from server');
+            console.warn('Translation pairs cache ' + (pairs ? 'miss' : 'stale') + ', retrieving from server');
             $.jsonp({
                 url: config.APY_URL + '/list?q=pairs',
                 beforeSend: ajaxSend,
-                success: function (data) {
+                success: function (data, _textStatus, _xOptions) {
                     handlePairs(data.responseData);
                     cache('pairs', data.responseData);
                 },
-                error: function () {
-                    console.error('Failed to get available translation language pairs');
+                error: function (_xOptions, errorThrown) {
+                    console.error('Failed to get available translation language pairs: ' + errorThrown);
                     translationNotAvailable();
                 },
-                complete: function () {
+                complete: function (_xOptions, _errorThrown) {
                     ajaxComplete();
                     deferred.resolve();
                 }
@@ -397,7 +431,7 @@ function getPairs() {
             translate(true);
             return;
         }
-        $.each(pairData, function (i, pair) {
+        $.each(pairData, function (i /*: number */, pair) {
             if(config.ALLOWED_PAIRS && config.ALLOWED_PAIRS.indexOf(pair.sourceLanguage + '-' + pair.targetLanguage) === -1) {
                 return;
             }
@@ -421,8 +455,12 @@ function getPairs() {
             break;
         }
         for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
-            recentSrcLangs.push(i < srcLangs.length ? srcLangs[i] : undefined);
-            recentDstLangs.push(i < dstLangs.length ? dstLangs[i] : undefined);
+            if(i < srcLangs.length) {
+                recentSrcLangs.push(srcLangs[i]);
+            }
+            if(i < dstLangs.length) {
+                recentDstLangs.push(dstLangs[i]);
+            }
         }
 
         populateTranslationList();
@@ -433,7 +471,8 @@ function getPairs() {
     return deferred.promise();
 }
 
-function handleNewCurrentLang(lang, recentLangs, langType, resetDetect, noTranslate) {
+function handleNewCurrentLang(lang /*: string */, recentLangs /*: string[] */, langType /*: string */,
+    resetDetect /*: ?boolean */, noTranslate /*: ?boolean */) {
     $('.' + langType).removeClass('active');
     if(recentLangs.indexOf(lang) === -1) {
         recentLangs.unshift(lang);
@@ -458,7 +497,7 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect, noTransl
     }
 }
 
-function refreshLangList(resetDetect) {
+function refreshLangList(resetDetect /*: ?boolean */) {
     recentSrcLangs = filterLangs(recentSrcLangs, srcLangs);
     recentDstLangs = filterLangs(recentDstLangs, dstLangs);
 
@@ -493,7 +532,7 @@ function refreshLangList(resetDetect) {
         $('#detectedText').hide();
     }
 
-    function filterLangs(allRecentLangs, allLangs) {
+    function filterLangs(allRecentLangs /*: string[] */, allLangs /*: string[] */) /*: string[] */ {
         var recentLangs = allRecentLangs.filter(onlyUnique);
         if(recentLangs.length < TRANSLATION_LIST_BUTTONS) {
             for(var i = 0; i < allLangs.length; i++) {
@@ -511,65 +550,72 @@ function refreshLangList(resetDetect) {
 
 function populateTranslationList() {
     sortTranslationList();
-    $('.languageName').remove();
-    $('.languageCol').show().removeClass('col-sm-3 col-sm-4 col-sm-6 col-sm-12');
+    $('.languageCol').remove();
 
-    var numSrcCols = Math.ceil(srcLangs.length / TRANSLATION_LIST_ROWS) < (TRANSLATION_LIST_COLUMNS + 1)
-            ? Math.ceil(srcLangs.length / TRANSLATION_LIST_ROWS)
-            : TRANSLATION_LIST_COLUMNS,
-        numDstCols = Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS) < (TRANSLATION_LIST_COLUMNS + 1)
-            ? Math.ceil(dstLangs.length / TRANSLATION_LIST_ROWS)
-            : TRANSLATION_LIST_COLUMNS;
+    var minColumnWidth = TRANSLATION_LIST_MAX_WIDTH / TRANSLATION_LIST_MAX_COLUMNS;
 
-    var columnWidth = TRANSLATION_LIST_WIDTH / TRANSLATION_LIST_COLUMNS;
-    var maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
-    numSrcCols = Math.min(Math.floor(maxSrcLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
-    var maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
-        TRANSLATION_LISTS_BUFFER;
-    numDstCols = Math.min(Math.floor(maxDstLangsWidth / columnWidth), TRANSLATION_LIST_COLUMNS);
+    // figure out how much space is actually available for the columns
+    var maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER,
+        maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
+                            TRANSLATION_LISTS_BUFFER;
+
+    // then, prevent all the columns from getting too wide
+    maxSrcLangsWidth = Math.min(TRANSLATION_LIST_MAX_WIDTH, maxSrcLangsWidth);
+    maxDstLangsWidth = Math.min(TRANSLATION_LIST_MAX_WIDTH, maxDstLangsWidth);
+
+    // finally, pick the ideal number of columns (up to limitations from the maximum overall width and the imposed maximum)
+    var numSrcCols = Math.min(
+            Math.ceil(srcLangs.length / TRANSLATION_LIST_IDEAL_ROWS),
+            Math.floor(maxSrcLangsWidth / minColumnWidth),
+            TRANSLATION_LIST_MAX_COLUMNS
+        ),
+        numDstCols = Math.min(
+            Math.ceil(dstLangs.length / TRANSLATION_LIST_IDEAL_ROWS),
+            Math.floor(maxDstLangsWidth / minColumnWidth),
+            TRANSLATION_LIST_MAX_COLUMNS
+        );
 
     var srcLangsPerCol = Math.ceil(srcLangs.length / numSrcCols),
         dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
 
-    var BOOTSTRAP_MAX_COLUMNS = 12;
-
-    $('#srcLanguages').css('min-width', Math.floor(TRANSLATION_LIST_WIDTH * (numSrcCols / TRANSLATION_LIST_COLUMNS)) + 'px');
-    $('#srcLanguages .languageCol').addClass('col-sm-' + (BOOTSTRAP_MAX_COLUMNS / numSrcCols));
-    $('#srcLanguages .languageCol:gt(' + (numSrcCols - 1) + ')').hide();
-
-    $('#dstLanguages').css('min-width', Math.floor(TRANSLATION_LIST_WIDTH * (numDstCols / TRANSLATION_LIST_COLUMNS)) + 'px');
-    $('#dstLanguages .languageCol').addClass('col-sm-' + (BOOTSTRAP_MAX_COLUMNS / numDstCols));
-    $('#dstLanguages .languageCol:gt(' + (numDstCols - 1) + ')').hide();
-
     for(var i = 0; i < numSrcCols; i++) {
         var numSrcLang = Math.ceil(srcLangs.length / numSrcCols) * i;
+        var srcLangCol = $('<div class="languageCol">').appendTo($('#srcLanguages .row'));
+
         for(var j = numSrcLang; j < numSrcLang + srcLangsPerCol; j++) {
             if(numSrcLang < srcLangs.length) {
-                var langCode = srcLangs[j], langName = getLangByCode(langCode);
-                $('#srcLanguages .languageCol:eq(' + i + ')')
-                    .append(
-                        $('<div class="languageName"></div>')
-                            .attr('data-code', langCode)
-                            .text(langName)
-                    );
+                var langCode = srcLangs[j];
+                var langName = getLangByCode(langCode);
+                srcLangCol.append(
+                    $('<div class="languageName"></div>')
+                        .attr('data-code', langCode)
+                        .text(langName)
+                );
             }
         }
     }
 
     for(i = 0; i < numDstCols; i++) {
         var numDstLang = Math.ceil(dstLangs.length / numDstCols) * i;
+        var dstLangCol = $('<div class="languageCol">').appendTo($('#dstLanguages .row'));
+
         for(j = numDstLang; j < numDstLang + dstLangsPerCol; j++) {
             if(numDstLang < dstLangs.length) {
-                langCode = dstLangs[j], langName = getLangByCode(langCode);
-                $('#dstLanguages .languageCol:eq(' + i + ')')
-                    .append(
-                        $('<div class="languageName"></div>')
-                            .attr('data-code', langCode)
-                            .text(langName)
-                    );
+                langCode = dstLangs[j];
+                langName = getLangByCode(langCode);
+                dstLangCol.append(
+                    $('<div class="languageName"></div>')
+                        .attr('data-code', langCode)
+                        .text(langName)
+                );
             }
         }
     }
+
+    $('#srcLanguages').css('min-width', numSrcCols * minColumnWidth);
+    $('#dstLanguages').css('min-width', numDstCols * minColumnWidth);
+    $('#srcLanguages .languageCol').css('width', (100.0 / numSrcCols) + '%');
+    $('#dstLanguages .languageCol').css('width', (100.0 / numDstCols) + '%');
 
     $('.langSelect option[value!=detect]').remove();
     $.each(srcLangs, function () {
@@ -594,27 +640,38 @@ function populateTranslationList() {
     function sortTranslationList() {
         var sortLocale = (locale && locale in iso639Codes) ? iso639Codes[locale] : locale;
 
-        srcLangs = srcLangs.sort(function (a, b) {
+        function compareLangCodes(a, b) {
+            var directCompare;
             try {
-                return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+                directCompare = getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
             }
             catch(e) {
-                return getLangByCode(a).localeCompare(getLangByCode(b));
+                directCompare = getLangByCode(a).localeCompare(getLangByCode(b));
             }
-        });
 
+            var aVariant = a.split('_'), bVariant = b.split('_');
+
+            if(aVariant[1] && bVariant[1] && aVariant[0] === bVariant[0]) {
+                return directCompare;
+            }
+            else if(aVariant && a.startsWith(b)) {
+                return 1;
+            }
+            else if(bVariant && b.startsWith(a)) {
+                return -1;
+            }
+            else {
+                return directCompare;
+            }
+        }
+
+        srcLangs = srcLangs.sort(compareLangCodes);
         dstLangs = dstLangs.sort(function (a, b) {
-            var aPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1,
-                bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
+            var aPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1;
+            var bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
 
-            if((aPossible && bPossible) || (!aPossible && !bPossible)) {
-                try {
-                    return getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
-                }
-                catch(e) {
-                    return getLangByCode(a).localeCompare(getLangByCode(b));
-                }
-
+            if(aPossible === bPossible) {
+                return compareLangCodes(a, b);
             }
             else if(aPossible && !bPossible) {
                 return -1;
@@ -649,7 +706,7 @@ function translateText(ignoreIfEmpty) {
         }
     }
 
-    var originalText = $('#originalText').val();
+    var originalText /*: string */ = $('#originalText').val();
 
     if(!originalText && ignoreIfEmpty) {
         return;
@@ -664,25 +721,28 @@ function translateText(ignoreIfEmpty) {
                 clearTimeout(apyRequestTimeout);
             }
 
-            var endpoint, request;
+            var endpoint/*: string */;
+            var request /*: { langpairs?: string, langpair?: string, q: string, markUnknown: string } */ = {
+                q: originalText, // eslint-disable-line id-length
+                markUnknown: $('#markUnknown').prop('checked') ? 'yes' : 'no'
+            };
+
             if($('input#chainedTranslation').prop('checked') && config.TRANSLATION_CHAINING) {
                 endpoint = '/translateChain';
-                request = {'langpairs': curSrcLang + '|' + curDstLang};
+                request.langpairs = curSrcLang + '|' + curDstLang;
             }
             else {
                 endpoint = '/translate';
-                request = {'langpair': curSrcLang + '|' + curDstLang};
+                request.langpair = curSrcLang + '|' + curDstLang;
             }
 
-            request.q = originalText; // eslint-disable-line id-length
-            request.markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             translateRequest = callApy({
                 data: request,
                 success: handleTranslateSuccessResponse,
                 error: translationNotAvailable,
                 complete: function () {
                     ajaxComplete();
-                    translateRequest = undefined;
+                    translateRequest = null;
                 }
             }, endpoint);
         }
@@ -694,10 +754,11 @@ function translateText(ignoreIfEmpty) {
 
 function translateDoc() {
     var validPair = pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) !== -1;
+    var file = droppedFile ? droppedFile : null;
+    var fileInput /*: HTMLInputElement */ = ($('input#fileInput')[0] /*: any */);
 
-    var file = droppedFile ? droppedFile : undefined;
-    if($('input#fileInput')[0].files.length > 0 && $('input#fileInput')[0].files[0].length !== 0) {
-        file = $('input#fileInput')[0].files[0];
+    if(fileInput.files.length > 0 && fileInput.files[0].length !== 0) {
+        file = fileInput.files[0];
     }
 
     if(validPair && file) {
@@ -725,6 +786,7 @@ function translateDoc() {
                 $('input#fileInput').prop('disabled', true);
                 $('button#translate').prop('disabled', true);
 
+                // $FlowFixMe
                 var xhr = new XMLHttpRequest({mozSystem: true});
                 xhr.addEventListener('progress', updateProgressBar, false);
                 if(xhr.upload) {
@@ -758,7 +820,9 @@ function translateDoc() {
                                 reader.onload = function () {
                                     $('a#fileDownload')
                                         .click(function () {
-                                            window.location.href = reader.result.replace(/^data:[^;]*;/, 'data:attachment/file;');
+                                            // Flow infers incorrect type ArrayBuffer
+                                            var result /*: string */ = (reader.result /*: any */);
+                                            window.location.href = result.replace(/^data:[^;]*;/, 'data:attachment/file;');
                                         });
                                 };
                                 reader.readAsDataURL(xhr.response);
@@ -775,11 +839,11 @@ function translateDoc() {
                         });
                     }
                     else if(this.status >= HTTP_BAD_REQUEST_CODE) {
-                        docTranslateError(getDynamicLocalization('Not_Available'));
+                        docTranslateError(getDynamicLocalization('Not_Available'), 'Not_Available');
                     }
                 };
                 xhr.onerror = function () {
-                    docTranslateError(getDynamicLocalization('Not_Available'));
+                    docTranslateError(getDynamicLocalization('Not_Available'), 'Not_Available');
                 };
 
                 updateProgressBar({'loaded': 0, 'total': 1, 'position': undefined, 'totalSize': undefined});
@@ -799,24 +863,17 @@ function translateDoc() {
             }
         }
     }
-    else {
-        docTranslateError(getDynamicLocalization('Not_Available'));
+    else if(file) {
+        docTranslateError(getDynamicLocalization('Not_Available'), 'Not_Available');
     }
 
-    function updateProgressBar(ev) {
-        var progress = 0.0;
-        if(ev instanceof ProgressEvent) {
-            progress = ev.loaded / ev.total;
-        }
-        else {
-            console.warn('Strange event type given to updateProgressBar:');
-            console.warn(ev);
-        }
+    function updateProgressBar(ev /*: ProgressEvent | {'total': number, 'loaded': number} */) {
+        var progress = ev.loaded / ev.total;
         var percentDone = Math.floor(progress * 1000) / 10;
         $('div#fileUploadProgress').attr('aria-valuenow', percentDone).css('width', percentDone + '%');
     }
 
-    function docTranslateError(errorMessage, errorTextName) {
+    function docTranslateError(errorMessage /*: string */, errorTextName /*: string */) {
         $('div#fileUploadProgress').parent().fadeOut('fast', function () {
             $('span#uploadError')
                 .text(errorMessage)
@@ -831,7 +888,7 @@ function translateDoc() {
     }
 }
 
-function translateWebpage(ignoreIfEmpty) {
+function translateWebpage(ignoreIfEmpty /*: ?boolean */) {
     function webpageTranslationNotAvailable(data) {
         $('#translatedWebpage').replaceWith(
             $('<div id="translatedWebpage" class="notAvailable text-danger"></div>')
@@ -844,7 +901,7 @@ function translateWebpage(ignoreIfEmpty) {
     }
 
     function handleTranslateWebpageSuccessResponse(data) {
-        function cleanPage(html) {
+        function cleanPage(html /*: string */) /*: string */ {
             // Pages like https://goo.gl/PiZyW3 insert noise using document.write that
             // 1. makes things enormously slow, and 2. completely mess up styling so e.g. you
             // have to scroll through a full screen of whitespace before reaching content.
@@ -853,10 +910,10 @@ function translateWebpage(ignoreIfEmpty) {
             return html.replace(/document[.]write[(]/g, 'console.log("document.write "+');
         }
 
-        var translatedHtml = data.responseData.translatedText;
+        var translatedHtml /*: string */ = data.responseData.translatedText;
 
         if(data.responseStatus === HTTP_OK_CODE && translatedHtml) {
-            var iframe = $('<iframe id="translatedWebpage" frameborder="0"></iframe>')[0];
+            var iframe /*: HTMLIFrameElement */ = ($('<iframe id="translatedWebpage" frameborder="0"></iframe>')[0] /*: any */);
             $('#translatedWebpage').replaceWith(iframe);
             iframe.contentWindow.document.open();
             iframe.contentWindow.document.write(cleanPage(translatedHtml));
@@ -896,7 +953,7 @@ function translateWebpage(ignoreIfEmpty) {
         showTranslateWebpageInterface($('#originalText').val().trim());
     }
 
-    var url = $('input#webpage').val();
+    var url /*: string */ = $('input#webpage').val();
 
     if(!url && ignoreIfEmpty) {
         return;
@@ -927,14 +984,14 @@ function translateWebpage(ignoreIfEmpty) {
             error: handleTranslateWebpageErrorResponse,
             complete: function () {
                 ajaxComplete();
-                translateRequest = undefined;
+                translateRequest = null;
                 $('iframe#translatedWebpage').animate({'opacity': 1}, 'fast');
             }
         }, '/translatePage', true);
     }
 }
 
-function showTranslateWebpageInterface(url, ignoreIfEmpty) {
+function showTranslateWebpageInterface(url /*: ?string */, ignoreIfEmpty /*: ?boolean */) {
     $('#srcLangSelectors').removeClass('col-sm-11').addClass('col-sm-9');
 
     $('div#translateText').fadeOut('fast', function () {
@@ -944,6 +1001,10 @@ function showTranslateWebpageInterface(url, ignoreIfEmpty) {
         });
         $('button#cancelTranslateWebpage').fadeIn('fast').addClass('cancelTranslateWebpage');
         $('div#translateWebpage').fadeIn('fast');
+        if($('#detect').hasClass('active')) {
+            $('#srcLang1').click();
+            $('#detect').addClass('activeAfterCancel');
+        }
         $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
         $('#detect').addClass('disabledLang');
 
@@ -958,7 +1019,7 @@ function showTranslateWebpageInterface(url, ignoreIfEmpty) {
 }
 
 function detectLanguage() {
-    var originalText = $('#originalText').val();
+    var originalText /*: string */ = $('#originalText').val();
 
     if(translateRequest) {
         translateRequest.abort();
@@ -973,22 +1034,22 @@ function detectLanguage() {
         error: handleDetectLanguageErrorResponse,
         complete: function () {
             ajaxComplete();
-            translateRequest = undefined;
+            translateRequest = null;
         }
     }, '/identifyLang');
 
     return translateRequest;
 
     function handleDetectLanguageSuccessResponse(data) {
-        var possibleLanguages = [];
+        var possibleLanguages /*: string[][] */ = [];
         for(var lang in data) {
             possibleLanguages.push([lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang, data[lang]]);
         }
         possibleLanguages.sort(function (a, b) {
-            return b[1] - a[1];
+            return parseInt(b[1], 10) - parseInt(a[1], 10);
         });
 
-        var oldSrcLangs = recentSrcLangs;
+        var oldSrcLangs /*: string[] */ = recentSrcLangs;
         recentSrcLangs = [];
         for(var i = 0; i < possibleLanguages.length; i++) {
             if(recentSrcLangs.length < TRANSLATION_LIST_BUTTONS && possibleLanguages[i][0] in pairs) {
@@ -1003,17 +1064,20 @@ function detectLanguage() {
         curSrcLang = recentSrcLangs[0];
         autoSelectDstLang();
         $('#srcLangSelect').val(curSrcLang);
-        muteLanguages();
-
-        $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
-        refreshLangList();
-        $('#detectedText').show();
-        $('#detectText').hide();
+        handleDetectLanguageSuccessComplete();
     }
 
     function handleDetectLanguageErrorResponse() {
         $('#srcLang1').click();
     }
+}
+
+function handleDetectLanguageSuccessComplete() {
+    muteLanguages();
+    $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
+    refreshLangList();
+    $('#detectedText').show();
+    $('#detectText').hide();
 }
 
 function translationNotAvailable() {
@@ -1045,7 +1109,7 @@ function muteLanguages() {
 
 function autoSelectDstLang() {
     if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(curDstLang) === -1) {
-        var newDstLang;
+        var newDstLang/*: ?string */;
         for(var i = 0; i < recentDstLangs.length; i++) {
             if(pairs[curSrcLang].indexOf(recentDstLangs[i]) !== -1) {
                 newDstLang = recentDstLangs[i];
@@ -1074,10 +1138,34 @@ function autoSelectDstLang() {
     }
 }
 
-/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode,
-    callApy, apyRequestTimeout} from "./util.js" */
+function setCurSrcLang(lang /*: string */) {
+    curSrcLang = lang;
+    return lang;
+}
+
+function setCurDstLang(lang /*: string */) {
+    curDstLang = lang;
+    return lang;
+}
+
+function setRecentSrcLangs(langs /*: string[] */) {
+    recentSrcLangs = langs;
+    return langs;
+}
+
+function setRecentDstLangs(langs /*: string[] */) {
+    recentDstLangs = langs;
+    return langs;
+}
+
+/*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
+    refreshLangList, recentSrcLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, showTranslateWebpageInterface,
+    srcLangs} */
+
+/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, sendEvent, callApy,
+    apyRequestTimeout} from "./util.js" */
+/*:: import {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
-/*:: import localizeInterface from "./localization.js" */
-/*:: import {readCache,cache} from "./cache.js" */
-/*:: import {config} from "./config.js" */
+/*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes} from "./localization.js" */
+/*:: import {readCache, cache} from "./persistence.js" */
 /*:: import {isURL} from "./util.js" */

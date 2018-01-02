@@ -42,7 +42,10 @@ Any changes to the local version of Html-tools will trigger a `make`.
 
     docker-compose up
 
-For production usage, remember to enable gzip compression in your server.
+For production usage, remember to
+
+1. Build with `jsmin` and `csscompressor` installed through `pip`.
+1. Enable gzip compression on your server.
 
 Contributing
 ------------

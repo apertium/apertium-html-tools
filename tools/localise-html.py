@@ -47,7 +47,7 @@ class DataTextHTMLParser(HTMLParser):
             """This is where html's dir attribute is set to ltr or rtl"""
             if tag == "html":
                 text = self.get_starttag_text()
-                self.p('<html dir="%s" lang="%s"' % ('rtl' if self.localename in rtl_languages else 'ltr', self.alpha2name) + '" ' + text[text.index('html') + 4:])
+                self.p('<html dir="%s" lang="%s"' % ('rtl' if self.localename in rtl_languages else 'ltr', self.alpha2name) + text[text.index('html') + 4:])
             else:
                 self.p(self.get_starttag_text())
         else:
