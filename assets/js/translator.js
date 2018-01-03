@@ -58,12 +58,10 @@ if(modeEnabled('translation')) {
             });
 
             $('#originalText').on('input propertychange', function () {
-                var disableDetect = this.value === '';
-                $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', disableDetect);
-                $('#detect').toggleClass('disabledLang', disableDetect);
-
-                persistChoices('translator');
+                updateDetect($('#originalText').val() !== '');
             });
+
+            updateDetect($('#originalText').val() !== '');
         }
 
         function setupWebpageTranslation() {
@@ -90,13 +88,7 @@ if(modeEnabled('translation')) {
                     $('div#translateText').fadeIn('fast', function () {
                         synchronizeTextareaHeights();
                     });
-                    if($('#detect').hasClass('activeAfterCancel')) {
-                        $('.srcLang').removeClass('active');
-                        $('#detect').addClass('active');
-                        handleDetectLanguageSuccessComplete();
-                        $('#detect').removeClass('activeAfterCancel');
-                    }
-                    else {
+                    if(!updateDetect(true)) {
                         translateText();
                     }
                     $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
@@ -121,12 +113,7 @@ if(modeEnabled('translation')) {
                     $('#fileInput').show();
                     $('div#fileName').hide();
                     $('div#docTranslation').fadeIn('fast');
-                    if($('#detect').hasClass('active')) {
-                        $('#srcLang1').click();
-                        $('#detect').addClass('activeAfterCancel');
-                    }
-                    $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', true);
-                    $('#detect').addClass('disabledLang');
+                    updateDetect(false);
                 });
                 pairs = originalPairs;
                 populateTranslationList();
@@ -142,13 +129,7 @@ if(modeEnabled('translation')) {
                     form.reset();
                     $('input#fileInput').unwrap();
                     $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
-                    if($('#detect').hasClass('activeAfterCancel')) {
-                        $('.srcLang').removeClass('active');
-                        $('#detect').addClass('active');
-                        handleDetectLanguageSuccessComplete();
-                        $('#detect').removeClass('activeAfterCancel');
-                    }
-                    else {
+                    if(!updateDetect(true)) {
                         translateText();
                     }
                     $('#detect').removeClass('disabledLang');
@@ -907,7 +888,7 @@ function translateWebpage(ignoreIfEmpty /*: ?boolean */) {
             // have to scroll through a full screen of whitespace before reaching content.
             // This might mess things up some places – needs testing – but on the other hand
             // most uses of document.write are evil.
-            return html.replace(/document[.]write[(]/g, 'console.log("document.write "+');
+            return html.replace(/document\.write\(/g, 'console.log("document.write "+');
         }
 
         var translatedHtml /*: string */ = data.responseData.translatedText;
@@ -1001,12 +982,7 @@ function showTranslateWebpageInterface(url /*: ?string */, ignoreIfEmpty /*: ?bo
         });
         $('button#cancelTranslateWebpage').fadeIn('fast').addClass('cancelTranslateWebpage');
         $('div#translateWebpage').fadeIn('fast');
-        if($('#detect').hasClass('active')) {
-            $('#srcLang1').click();
-            $('#detect').addClass('activeAfterCancel');
-        }
-        $('#detect, #srcLangSelect option[value=detect]').prop('disabled', true);
-        $('#detect').addClass('disabledLang');
+        updateDetect(false);
 
         if(url) {
             $('input#webpage').val(url);
@@ -1016,6 +992,38 @@ function showTranslateWebpageInterface(url /*: ?string */, ignoreIfEmpty /*: ?bo
         window.location.hash = 'webpageTranslation';
         translateWebpage(ignoreIfEmpty);
     });
+}
+
+function updateDetect(active /*: bool */) {
+    var wasActive;
+
+    if(active) {
+        wasActive = $('#detect').hasClass('activeAfterCancel');
+
+        if(wasActive) {
+            $('.srcLang').removeClass('active');
+            $('#detect').addClass('active');
+            handleDetectLanguageSuccessComplete();
+            $('#detect').removeClass('activeAfterCancel');
+        }
+
+        $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', false);
+        $('#detect').removeClass('disabledLang');
+    }
+    else {
+        wasActive = $('#detect').hasClass('active');
+
+        if(wasActive) {
+            $('#srcLang1').click();
+            $('#detect').addClass('activeAfterCancel');
+        }
+
+        $('#detect, #srcLangSelect option[value="detect"]').prop('disabled', true);
+        $('#detect').addClass('disabledLang');
+    }
+
+    persistChoices('translator');
+    return wasActive;
 }
 
 function detectLanguage() {
