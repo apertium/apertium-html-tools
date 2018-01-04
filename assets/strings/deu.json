@@ -8,7 +8,7 @@
             "de",
             "deu"
         ],
-        "completion": " 97% 109.09%",
+        "completion": " 97% 108.53%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para"
@@ -24,7 +24,7 @@
     "detected": "erkannt",
     "Instant_Translation": "Sofort übersetzen",
     "Mark_Unknown_Words": "Unbekannte Wörter markieren",
-    "Multi_Step_Translation": "<a href='https://en.wikipedia.org/wiki/Pivot_language' target='_blank'>Mehrstufige Übersetzung</a> (experimentell)",
+    "Multi_Step_Translation": "<a href='https://en.wikipedia.org/wiki/Pivot_language' target='_blank' rel='noopener'>Mehrstufige Übersetzung</a> (experimentell)",
     "Translate_Document": "Ein Dokument übersetzen",
     "Drop_Document": "Legen Sie hier Ihr Dokument ab",
     "Not_Available": "Übersetzung noch nicht verfügbar!",
@@ -33,8 +33,6 @@
     "Format_Not_Supported": "Format wird nicht unterstützt!",
     "Translate_Webpage": "Eine Webseite übersetzen",
     "Supported_Formats": "Unterstützte Formate: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 und neuer). <br/><i>.doc-Dateien von Word 97 und PDFs werden nicht unterstützt.</i>",
-    "Download_Browser_Warning": "Ihr Browser lädt Dateien möglicherweise nicht korrekt herunter. Speichern Sie den Link entweder per Rechtsklick unter dem richtigen Dateinamen oder öffnen Sie diese Seite in <a href=\"https://www.mozilla.org/firefox/\">Firefox</a>.",
-    "Download_File": "{{fileName}} herunterladen",
     "Morphological_Analysis": "Morphologische Analyse",
     "Morphological_Analysis_Help": "Wählen Sie eine Sprache und analysieren Sie Ihren Text mit Apertiums morphologischen Analysierern.",
     "Analyze": "Analysieren",
@@ -53,7 +51,7 @@
     "Contact_Us": "Gerne können Sie uns kontaktieren, wenn Sie einen Fehler finden, es ein Projekt gibt, an dem Sie uns gerne arbeiten sehen würden, oder Sie aushelfen möchten.",
     "Maintainer": "Diese Webseite wird von {{maintainer}} gepflegt.",
     "About_Title": "Über diese Webseite",
-    "Enable_JS_Warning": "Diese Seite funktioniert nur mit eingeschaltetem JavaScript. Wenn Sie JavaScript nicht <a href='http://www.enable-javascript.com/' target='_blank'>einschalten</a> können, probieren Sie die <a href='http://traductor.prompsit.com' target='_blank'>Übersetzer bei Prompsit</a> aus.",
+    "Enable_JS_Warning": "Diese Seite funktioniert nur mit eingeschaltetem JavaScript. Wenn Sie JavaScript nicht <a href='http://www.enable-javascript.com/' target='_blank' rel='noopener'>einschalten</a> können, probieren Sie die <a href='http://traductor.prompsit.com' target='_blank' rel='noopener'>Übersetzer bei Prompsit</a> aus.",
     "Not_Found_Error": "<b>404 Fehler:</b> Entschuldigung, diese Seite existiert nicht mehr!",
     "About": "Über",
     "Download": "Herunterladen",
@@ -61,8 +59,8 @@
     "Documentation": "Dokumentation",
     "About_Apertium": "Über Apertium",
     "What_Is_Apertium": "<p>Apertium ist eine <b>freie/quelloffene Plattform für maschinelle Übersetzungen</b>, zielte ursprünglich auf Paare verwandter Sprachen ab, wurde aber erweitert, um mit divergenteren Sprachpaaren arbeiten zu können (wie z.B. Englisch-Katalanisch). Die Plattform bietet</p> <ol> <li>eine Sprachunabhängige Engine für maschinelle Übersetzungen</li> <li>Werkzeuge um die linguistischen Daten zu verwalten, die für den Bau eines Systems für maschinelle Übersetzungen für ein gegebenes Sprachpaar nötig sind und</li> <li>linguistische Daten für eine wachsende Anzahl von Sprachpaaren.</li> </ol> <p>Apertium begrüßt neue Entwickler: Wenn Sie glauben, dass Sie die Engine verbessern oder linguistische Daten für uns entwickeln können, zögern Sie nicht <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>uns zu kontaktieren</a>.</p>",
-    "Documentation_Para": "Dokumentation finden Sie in unserem <a href='http://wiki.apertium.org/' target='_blank'>Wiki</a> auf der Unterseite „<a href='http://wiki.apertium.org/wiki/Documentation' target='_blank'>Documentation</a>“. Wir haben diverse Konferenzbeiträge und Zeitschriftenartikel veröffentlicht, von denen eine Liste im Wiki unter <a href='http://wiki.apertium.org/wiki/Publications' target='_blank'>Publications</a> zu finden ist.",
+    "Documentation_Para": "Dokumentation finden Sie in unserem <a href='http://wiki.apertium.org/' target='_blank' rel='noopener'>Wiki</a> auf der Unterseite „<a href='http://wiki.apertium.org/wiki/Documentation' target='_blank' rel='noopener'>Documentation</a>“. Wir haben diverse Konferenzbeiträge und Zeitschriftenartikel veröffentlicht, von denen eine Liste im Wiki unter <a href='http://wiki.apertium.org/wiki/Publications' target='_blank' rel='noopener'>Publications</a> zu finden ist.",
     "Apertium_Downloads": "Apertium-Downloads",
-    "Downloads_Para": "Aktuelle Versionen der <b>Apertium-Toolbox</b> sowie der <b>Sprachpaar-Daten</b> können von der SourceForge-Seite <a href='http://sf.net/projects/apertium/' target='_blank'>sf.net/projects/apertium</a> bezogen werden. Installationsanweisungen für Apertium auf allen größeren Plattformen werden auf der <a href='http://wiki.apertium.org/wiki/Installation' target='_blank'>Installationsseite des Wikis</a> bereitgestellt.",
-    "Contact_Para": "<h4>IRC-Kanal</h4> <p>Der schnellste Weg, mit uns Kontakt aufzunehmen, ist, unserem <a href='http://wiki.apertium.org/wiki/IRC' target='_blank'><abbr title='Internet Relay Chat'>IRC</abbr>-Kanal, #apertium</a> bei irc.freenode.net beizutreten, wo sich Benutzer und Entwickler von Apertium treffen. Sie brauchen keinen IRC-Client; Sie können <a href='http://webchat.freenode.net/?channels=apertium'>freenode webchat</a> benutzen. </p> <h4>Mailingliste</h4> <p>Abonnieren Sie auch die <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank'> apertium-stuff-Mailingliste</a>, an die Sie längere Vorschläge oder Probleme schicken und auch der allgemeinen Apertium-Diskussion folgen können. </p> <h4>Kontakt</h4> <p>Gerne können Sie uns über die <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'>apertium-contact-Mailingliste</a> kontaktieren, wenn Sie einen Fehler finden, es ein Projekt gibt, an dem Sie uns gerne arbeiten sehen würden, oder Sie aushelfen möchten.</p>"
+    "Downloads_Para": "Aktuelle Versionen der <b>Apertium-Toolbox</b> sowie der <b>Sprachpaar-Daten</b> können von der SourceForge-Seite <a href='http://sf.net/projects/apertium/' target='_blank' rel='noopener'>sf.net/projects/apertium</a> bezogen werden. Installationsanweisungen für Apertium auf allen größeren Plattformen werden auf der <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Installationsseite des Wikis</a> bereitgestellt.",
+    "Contact_Para": "<h4>IRC-Kanal</h4> <p>Der schnellste Weg, mit uns Kontakt aufzunehmen, ist, unserem <a href='http://wiki.apertium.org/wiki/IRC' target='_blank' rel='noopener'><abbr title='Internet Relay Chat'>IRC</abbr>-Kanal, #apertium</a> bei irc.freenode.net beizutreten, wo sich Benutzer und Entwickler von Apertium treffen. Sie brauchen keinen IRC-Client; Sie können <a href='http://webchat.freenode.net/?channels=apertium'>freenode webchat</a> benutzen. </p> <h4>Mailingliste</h4> <p>Abonnieren Sie auch die <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank' rel='noopener'> apertium-stuff-Mailingliste</a>, an die Sie längere Vorschläge oder Probleme schicken und auch der allgemeinen Apertium-Diskussion folgen können. </p> <h4>Kontakt</h4> <p>Gerne können Sie uns über die <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank' rel='noopener'>apertium-contact-Mailingliste</a> kontaktieren, wenn Sie einen Fehler finden, es ein Projekt gibt, an dem Sie uns gerne arbeiten sehen würden, oder Sie aushelfen möchten.</p>"
 }

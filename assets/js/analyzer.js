@@ -1,9 +1,12 @@
+// @flow
+
 var analyzers = {}, analyzerData = {};
 var currentAnalyzerRequest;
 
-/* exported getAnalyzers */
+/* exported analyzerData, analyzers, getAnalyzers, populateAnalyzerList, populateSecondaryAnalyzerList */
+
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
-    cache, getLangByCode, filterLangList, allowedLang, sendEvent, callApy, apyRequestTimeout */
+    cache, getLangByCode, filterLangPairList, allowedLang, sendEvent, callApy, apyRequestTimeout */
 /* global ENTER_KEY_CODE */
 
 if(modeEnabled('analyzation')) {
@@ -23,7 +26,7 @@ if(modeEnabled('analyzation')) {
             persistChoices('analyzer');
         });
 
-        $('#morphAnalyzerInput').keydown(function (e) {
+        $('#morphAnalyzerInput').keydown(function (e /*: JQueryKeyEventObject */) {
             if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
                 analyze();
@@ -40,7 +43,7 @@ if(modeEnabled('analyzation')) {
     });
 }
 
-function getAnalyzers() {
+function getAnalyzers() /*: JQueryPromise<any> */ {
     var deferred = $.Deferred();
 
     if(config.ANALYZERS) {
@@ -56,11 +59,11 @@ function getAnalyzers() {
             deferred.resolve();
         }
         else {
-            console.warn('Analyzers cache ' + (analyzers === null ? 'stale' : 'miss') + ', retrieving from server');
+            console.warn('Analyzers cache ' + (analyzers ? 'miss' : 'stale') + ', retrieving from server');
             $.jsonp({
                 url: config.APY_URL + '/list?q=analyzers',
                 beforeSend: ajaxSend,
-                success: function (data) {
+                success: function (data, _textStatus, _xOptions) {
                     analyzerData = data;
                     populateAnalyzerList(analyzerData);
                     cache('analyzers', data);
@@ -79,10 +82,10 @@ function getAnalyzers() {
     return deferred.promise();
 }
 
-function populateAnalyzerList(data) {
+function populateAnalyzerList(data /*: {} */) {
     $('.analyzerMode').empty();
 
-    analyzers = {};
+    analyzers = ({} /*: {[string]: string[] } */);
     for(var lang in data) {
         var analyzerLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
         var group = analyzers[analyzerLang];
@@ -94,11 +97,11 @@ function populateAnalyzerList(data) {
         }
     }
 
-    var analyzersArray = [];
-    $.each(analyzers, function (analyzerLang, lang) {
+    var analyzersArray /*: [string, string][] */ = [];
+    $.each(analyzers, function (analyzerLang /*: string */, lang /*: string */) {
         analyzersArray.push([analyzerLang, lang]);
     });
-    analyzersArray = filterLangList(analyzersArray, function (analyzer) {
+    analyzersArray = filterLangPairList(analyzersArray, function (analyzer) {
         return allowedLang(analyzer[0]);
     });
     analyzersArray.sort(function (a, b) {
@@ -114,7 +117,7 @@ function populateAnalyzerList(data) {
 }
 
 function populateSecondaryAnalyzerList() {
-    var group = analyzers[$('#primaryAnalyzerMode').val()];
+    var group /*: string[] */ = analyzers[$('#primaryAnalyzerMode').val()];
     $('#secondaryAnalyzerMode').empty();
 
     if(group) {
@@ -143,13 +146,13 @@ function populateSecondaryAnalyzerList() {
 }
 
 function analyze() {
-    var input = $('#morphAnalyzerInput').val();
+    var input /*: string */ = $('#morphAnalyzerInput').val();
 
-    if($('#primaryAnalyzerMode').val() === null || input.trim() === '') {
+    if(!$('#primaryAnalyzerMode').val() || input.trim() === '') {
         return;
     }
 
-    var analyzerMode = analyzers[$('#primaryAnalyzerMode').val()].length > 1
+    var analyzerMode /*: string */ = analyzers[$('#primaryAnalyzerMode').val()].length > 1
         ? $('#secondaryAnalyzerMode').val()
         : analyzers[$('#primaryAnalyzerMode').val()][0];
     sendEvent('analyzer', 'analyze', analyzerMode, $('#morphAnalyzerInput').val().length);
@@ -170,12 +173,12 @@ function analyze() {
         error: handleAnalyzeErrorResponse,
         complete: function () {
             ajaxComplete();
-            currentAnalyzerRequest = undefined;
+            currentAnalyzerRequest = null;
         }
     }, '/analyze');
 }
 
-function handleAnalyzeSuccessResponse(data) {
+function handleAnalyzeSuccessResponse(data /*: string[][] */) {
     var regex = /([^<]*)((<[^>]+>)*)/g;
     $('#morphAnalyzerOutput').empty();
     for(var i = 0; i < data.length; i++) {
@@ -197,8 +200,9 @@ function handleAnalyzeSuccessResponse(data) {
         var joinedMorphemes = {};
         for(var j = 1; j < splitUnit.length; j++) {
             var unit = splitUnit[j];
-            if(unit.match(regex).length > 2) {
-                var matches = unit.match(regex);
+            var matches = unit.match(regex);
+
+            if(matches && matches.length > 2) {
                 for(var k = 1; k < matches.length - 1; k++) {
                     if(joinedMorphemes[matches[k]]) {
                         joinedMorphemes[matches[k]].push(unit);
@@ -225,10 +229,10 @@ function handleAnalyzeSuccessResponse(data) {
     }
 }
 
-function formatUnit(unit) {
-    var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags = [];
-    var tagMatch = tagRegex.exec(unit);
-    while(tagMatch !== null) {
+function formatUnit(unit /*: string */) {
+    var tagRegex = /<([^>]+)>/g, arrow = '&nbsp;&nbsp;&#8612;&nbsp;&nbsp;', tags /*: string[] */ = [];
+    var tagMatch /*: ?string[] */ = tagRegex.exec(unit);
+    while(tagMatch) {
         tags.push(tagMatch[1]);
         tagMatch = tagRegex.exec(unit);
     }
@@ -237,6 +241,14 @@ function formatUnit(unit) {
         (tags.length > 0 ? arrow + tags.join(' &#8901; ') : '');
 }
 
-function handleAnalyzeErrorResponse(xOptions, error) {
+function handleAnalyzeErrorResponse(xOptions, error /*: string */) {
     $('#morphAnalyzerOutput').text(error).removeClass('blurred');
 }
+
+/*:: export {analyzerData, analyzers, getAnalyzers, populateAnalyzerList, populateSecondaryAnalyzerList} */
+
+/*:: import {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, filterLangPairList,
+    modeEnabled, sendEvent} from "./util.js" */
+/*:: import {ENTER_KEY_CODE} from "./util.js" */
+/*:: import {getLangByCode, localizeInterface} from "./localization.js" */
+/*:: import {cache, persistChoices, readCache, restoreChoices} from "./persistence.js" */

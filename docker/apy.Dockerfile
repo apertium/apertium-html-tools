@@ -14,6 +14,7 @@ RUN apt-get --yes update && apt-get --yes install \
     locales \
 	libtool \
     pkg-config \
+    python \
     python3-dev \
     python3-pip \
     subversion \
@@ -21,11 +22,12 @@ RUN apt-get --yes update && apt-get --yes install \
     wget \
     zlib1g-dev
 
-# Install Apertium
+# Install Apertium and related grammar libraries
 
 ADD https://apertium.projectjj.com/apt/install-nightly.sh .
 RUN bash install-nightly.sh
 RUN apt-get --yes install apertium-all-dev
+RUN apt-get --yes install giella-core giella-shared
 
 # Repair locales
 
@@ -36,7 +38,7 @@ ENV LANG en_US.UTF-8
 
 RUN pip3 install --upgrade tornado
 RUN git clone https://github.com/goavki/apertium-apy
-RUN cd apertium-apy && make
+RUN cd apertium-apy && make -j2
 
 # Install CLD2
 
@@ -52,15 +54,11 @@ RUN cd /root/chromium-compact-language-detector && \
 
 WORKDIR /source
 
-ADD https://raw.githubusercontent.com/unhammer/apertium-get/master/apertium-get .
+ADD https://raw.githubusercontent.com/sushain97/apertium-get/master/apertium-get .
 RUN chmod +x apertium-get
 
 RUN apertium-get en-es
-RUN apertium-get kaz-tat
-RUN apertium-get nno-nob
 
-EXPOSE 2737
-CMD ["python3", \
-    "/root/apertium-apy/servlet.py", "/source", \
-    "--lang-names", "/root/apertium-apy/langNames.db" \
-]
+CMD python3 /root/apertium-apy/servlet.py /source \
+        --port $PORT \
+        --lang-names /root/apertium-apy/langNames.db

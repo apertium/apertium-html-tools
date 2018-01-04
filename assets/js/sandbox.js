@@ -1,15 +1,17 @@
+// @flow
+
 var currentSandboxRequest;
 
 /* global config, ajaxSend, ajaxComplete, persistChoices, restoreChoices */
 /* global ENTER_KEY_CODE */
 
-if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
+if(!config.ENABLED_MODES || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
     $(document).ready(function () {
         $('#sandboxForm').submit(function () {
             request();
         });
 
-        $('#sandboxInput').keydown(function (e) {
+        $('#sandboxInput').keydown(function (e /*: JQueryKeyEventObject */) {
             if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
                 request();
@@ -25,7 +27,7 @@ if(config.ENABLED_MODES === undefined || config.ENABLED_MODES.indexOf('sandbox')
 }
 
 function request() {
-    var input = $('#sandboxInput').val();
+    var input /*: string */ = $('#sandboxInput').val();
     if(input.trim() === '') {
         return;
     }
@@ -38,16 +40,21 @@ function request() {
     currentSandboxRequest = $.jsonp({
         url: config.APY_URL + input,
         beforeSend: ajaxSend,
-        success: function (data) {
+        success: function (data, _textStatus, _jqXHR) {
             $('#sandboxOutput').text(JSON.stringify(data, undefined, 3)).removeClass('blurred');
         },
-        error: function (xOptions, error) {
-            $('#sandboxOutput').text(error).removeClass('blurred');
+        error: function (xOptions, errorThrown) {
+            $('#sandboxOutput').text(errorThrown).removeClass('blurred');
         },
-        complete: function () {
+        complete: function (_xOptions, _errorThrown) {
             ajaxComplete();
             $('#time').text(new Date().getTime() - startTime + ' ms');
-            currentSandboxRequest = undefined;
+            currentSandboxRequest = null;
         }
     });
 }
+
+/*:: import {ajaxSend, ajaxComplete} from "./util.js" */
+/*:: import {ENTER_KEY_CODE} from "./util.js" */
+/*:: import {persistChoices, restoreChoices} from "./persistence.js" */
+/*:: import {locale} from "./localization.js" */

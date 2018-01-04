@@ -9,14 +9,12 @@
             "se",
             "sme"
         ],
-        "completion": " 62%  19.17%",
+        "completion": " 64%  20.08%",
         "missing": [
             "About_Apertium",
             "Apertium_Downloads",
             "Contact_Para",
             "Documentation_Para",
-            "Download_Browser_Warning",
-            "Download_File",
             "Downloads_Para",
             "Drop_Document",
             "Enable_JS_Warning",

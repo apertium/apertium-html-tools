@@ -102,7 +102,7 @@ if (!Object.keys) {
 
 // From: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf
 if (!Array.prototype.lastIndexOf) {
-  Array.prototype.lastIndexOf = function(searchElement /*, fromIndex*/) {
+  Array.prototype.lastIndexOf = function(searchElement /*, fromIndex */) {
     'use strict';
 
     if (this === void 0 || this === null) {
@@ -183,4 +183,20 @@ if (!String.prototype.trim) {
 // From: http://stackoverflow.com/a/221297/1266600
 if (!Date.now) {
     Date.now = function() { return new Date().getTime(); };
+}
+
+if (!String.prototype.hashCode) {
+    String.prototype.hashCode = function () {
+        var hash = 0;
+        var leftShift = 5;
+        if(this.length === 0) {
+            return hash;
+        }
+        for(i = 0; i < this.length; i++) {
+            char = this.charCodeAt(i);
+            hash = ((hash << leftShift) - hash) + char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
+    }
 }

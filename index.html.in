@@ -2,6 +2,7 @@
 
 <html>
     <head>
+        <meta name="theme-color" content="#2196F3"/>
         <title data-text="title"></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,17 +11,17 @@
         <link rel="shortcut icon" href="./img/favicon.ico">
 
         <!-- <link type="text/css" rel="stylesheet" href="./css/icon-globe.css"> -->
-        <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu"> <!-- Selectivzr bug requires this being in <link> rather than @import -->
+        <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu"> <!-- Selectivzr bug requires this being in <link> rather than @import -->
 
-        <link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" integrity="sha384-6ePHh72Rl3hKio4HiJ841psfsRJveeS+aLoaEf3BWfS+gTF0XdAqku2ka8VddikM" crossorigin="anonymous"></script>
+        <link type="text/css" rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" integrity="sha384-6ePHh72Rl3hKio4HiJ841psfsRJveeS+aLoaEf3BWfS+gTF0XdAqku2ka8VddikM" crossorigin="anonymous"></script>
         <script type="text/javascript">
             if(!window.jQuery) {
                 document.write('<script src="./js/jquery.min.js"><\/script>');
                 console.warn('jQuery from CDN not available - reverting to local copy');
             }
         </script>
-        <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script type="text/javascript">
             if(!(typeof $().modal == 'function')) {
                 document.write('<script src="./js/bootstrap.min.js"><\/script>');
@@ -30,7 +31,7 @@
 
         <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
 @include_head@
-        <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.2.0-rc2/css/bootstrap-rtl.min.css" class="rtlStylesheet"> <!-- Positioned to override styles in bootstrap.css -->
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.2.0-rc2/css/bootstrap-rtl.min.css" class="rtlStylesheet"> <!-- Positioned to override styles in bootstrap.css -->
 
         <!--[if lt IE 9]>
             <script src="//cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js"></script>
@@ -44,7 +45,7 @@
                 try { if ($buoop.ol) $buoop.ol(); } catch (e) {}
                 var e = document.createElement("script");
                 e.setAttribute("type", "text/javascript");
-                e.setAttribute("src", "//browser-update.org/update.js");
+                e.setAttribute("src", "https://browser-update.org/update.js");
                 document.body.appendChild(e);
             };
         </script>
@@ -54,6 +55,7 @@
                 button#translateDoc { display: none; }
             </style>
         <![endif]-->
+        <link rel="manifest" href="./manifest.json">
     </head>
     <body>
         <span class="fa hide" id="faChecker"></span>
@@ -113,11 +115,11 @@
                           <legend data-text="Translation_Help"></legend>
                           <div class="form-group visible-xs">
                               <div class="col-sm-12">
-                                  <select class="langSelect" id="srcLangSelect" style="display: inline-block !important">
+                                  <select class="langSelect" id="srcLangSelect" style="display: inline-block !important" aria-label="Select Original Language">
                                       <option data-text="Detect_Language" value="detect">Detect language</option>
                                   </select>
-                                  <button type="button" class="btn btn-default btn-xs swapLangBtn"><i class="fa fa-exchange"></i></button>
-                                  <select class="langSelect" id="dstLangSelect" style="display: inline-block !important">
+                                  <button type="button" class="btn btn-default btn-xs swapLangBtn" aria-label="Swap Languages"><i class="fa fa-exchange"></i></button>
+                                  <select class="langSelect" id="dstLangSelect" style="display: inline-block !important" aria-label="Select New Language">
                                       <option> </option>
                                   </select>
                                   <button type="button" class="btn btn-primary btn-xs pull-right translateBtn" data-text="Translate">Translate</button>
@@ -143,12 +145,7 @@
                                           </button>
                                           <ul class="dropdown-menu" id="srcLanguages" role="menu">
                                               <li>
-                                                  <div class="row">
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                  </div>
+                                                  <div class="row"></div>
                                               </li>
                                           </ul>
                                       </div>
@@ -167,12 +164,7 @@
                                           </button>
                                           <ul class="dropdown-menu" id="dstLanguages" role="menu">
                                               <li>
-                                                  <div class="row">
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                      <div class="languageCol"></div>
-                                                  </div>
+                                                  <div class="row"></div>
                                               </li>
                                           </ul>
                                       </div>
@@ -183,11 +175,11 @@
                           <div class="form-group">
                               <div id="translateText">
                                   <div class="col-sm-6">
-                                      <textarea class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
-                                      <button class="btn clearButton"><i class="fa fa-times"></i></button>
+                                      <textarea class="form-control" id="originalText" rows="15" spellcheck="false" aria-label="Original Text"></textarea>
+                                      <button class="btn clearButton" aria-label="Clear Text"><i class="fa fa-times"></i></button>
                                   </div>
                                   <div class="col-sm-6">
-                                      <div class="form-control" id="translatedText" rows="15" spellcheck="false"></div>
+                                      <div class="form-control" id="translatedText" rows="15" spellcheck="false" aria-label="Translated Text" readonly></div>
                                   </div>
                                   <div class="col-sm-6">
                                       <button id="translateDoc" class="btn btn-default" style="margin-top: 1em;">
@@ -251,7 +243,6 @@
                                               <span id="fileDownloadText"></span>
                                           </a>
                                       </h1>
-                                      <p style="display:none" id="fileDownloadBrowserWarning" data-text="Download_Browser_Warning">Your browser might not handle downloads correctly. Either right-click and "Save As" that file-name or open this page in Firefox.</p>
                                   </div>
                               </div>
                               <div id="translateWebpage">
@@ -277,7 +268,7 @@
                       <fieldset>
                           <legend data-text="Morphological_Analysis_Help"></legend>
                           <div class="form-group">
-                              <label for="primaryAnalyzerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
+                              <label for="primaryAnalyzerMode" class="col-sm-2 col-md-1 control-label" data-text="Language">Language</label>
                               <div class="col-sm-3">
                                   <select class="form-control analyzerMode" id="primaryAnalyzerMode" name="primaryAnalyzerMode" required>
                                       <option> </option>
@@ -290,7 +281,7 @@
                               </div>
                           </div>
                           <div class="form-group">
-                              <label for="morphAnalyzerInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
+                              <label for="morphAnalyzerInput" class="col-sm-2 col-md-1 control-label" data-text="Input_Text">Input Text</label>
                               <div class="col-sm-10">
                                   <textarea class="form-control" rows="5" id="morphAnalyzerInput" name="morphAnalyzerInput" spellcheck="false" required></textarea>
                               </div>
@@ -311,7 +302,7 @@
                       <fieldset>
                           <legend data-text="Morphological_Generation_Help"></legend>
                           <div class="form-group">
-                              <label for="primaryGeneratorMode" class="col-sm-2 control-label" data-text="Language">Language</label>
+                              <label for="primaryGeneratorMode" class="col-sm-2 col-md-1 control-label" data-text="Language">Language</label>
                               <div class="col-sm-3">
                                   <select class="form-control generatorMode" id="primaryGeneratorMode" name="primaryGeneratorMode" required>
                                       <option> </option>
@@ -324,7 +315,7 @@
                               </div>
                           </div>
                           <div class="form-group">
-                              <label for="morphGeneratorInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
+                              <label for="morphGeneratorInput" class="col-sm-2 col-md-1 control-label" data-text="Input_Text">Input Text</label>
                               <div class="col-sm-10">
                                   <textarea class="form-control" rows="5" id="morphGeneratorInput" name="morphGeneratorInput" spellcheck="false" required></textarea>
                               </div>
@@ -344,7 +335,7 @@
                       <fieldset>
                           <legend>
                               <span data-text="APy_Sandbox_Help">
-                              <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right">
+                              <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right" rel="noopener">
                                   <abbr title="Apertium API in Python">APy</abbr>
                                   <i class="fa fa-question-circle"></i>
                               </a>
@@ -367,7 +358,7 @@
                   <pre id="sandboxOutput" class="outputContainer small"></pre>
               </div>
               <div class="visible-xs">
-                  <select class="localeSelect pull-left"><option> </option></select>
+                  <select class="localeSelect pull-left" aria-label="Select Language"><option> </option></select>
                   <i class="fa fa-globe fa-2x pull-left localeGlobe" style="padding: 5px 0px 0px 5px"></i>
                   <!-- <i class="fa fa-globe localeGlobe pull-left"></i> -->
               </div>
@@ -388,7 +379,7 @@
                         <span data-text="Notice_Mistake">Notice a mistake?</span>
                         <a data-toggle="modal" data-target="#aboutModal" data-text="Help_Improve" data-keyboard="true" style="cursor: pointer">Help us improve Apertium!</a>
                     </div>
-                    <a id="version" class="text-muted hidden-sm hidden-xs" href="https://github.com/goavki/apertium-html-tools" target="_blank">
+                    <a id="version" class="text-muted hidden-sm hidden-xs" href="https://github.com/goavki/apertium-html-tools" target="_blank" rel="noopener">
                         <small>
 @include_version@
                         </small>
@@ -416,22 +407,22 @@
                         <div class="row lead">
                             <div class="col-md-6">
                                 <div class="center-block">
-                                    <a href="https://developers.google.com/open-source/soc/" target="_blank" style="text-decoration: none">
+                                    <a href="https://developers.google.com/open-source/soc/" target="_blank" style="text-decoration: none" rel="noopener">
                                         <img alt="Google Summer of Code" data-src="https://summerofcode.withgoogle.com/static/img/summer-of-code-logo.svg" style="height: 2.5em;">
                                     </a>
-                                    <a href="https://developers.google.com/open-source/gci/" target="_blank" style="text-decoration: none">
+                                    <a href="https://developers.google.com/open-source/gci/" target="_blank" style="text-decoration: none" rel="noopener">
                                         <img alt="Google Code-In" data-src="https://developers.google.com/open-source/gci/images/logo-icon.png" style="height: 2.5em; padding-left: .5em;">
                                     </a>
                                 </div>
                             </div>
 
                             <div class="col-md-3 text-center">
-                                <a href="http://www.bytemark.co.uk/" target="_blank">
+                                <a href="http://www.bytemark.co.uk/" target="_blank" rel="noopener">
                                     <img alt="Bytemark" data-src="./img/logo_bytemark.gif" style="width: 100%; margin-top: .5em">
                                 </a>
                             </div>
                             <div class="col-md-3 text-center">
-                                <a href="http://www.sourceforge.net" target="_blank">
+                                <a href="http://www.sourceforge.net" target="_blank" rel="noopener">
                                     <img alt="Sourceforge" data-src="./img/sourceforge.png" style="width: 100%; margin-top: .25em">
                                 </a>
                             </div>
@@ -439,12 +430,12 @@
 
                         <div class="row lead">
                             <div class="col-md-6 text-center">
-                                <a href="http://www.minetur.gob.es/" target="_blank">
+                                <a href="http://www.minetur.gob.es/" target="_blank" rel="noopener">
                                     <img alt="Ministry of Industry, Energy and Tourism" data-src="./img/logomitc120.jpg">
                                 </a>
                             </div>
                             <div class="col-md-6 text-center">
-                                <a href="http://www.ua.es/" target="_blank">
+                                <a href="http://www.ua.es/" target="_blank" rel="noopener">
                                     <img alt="Universidad de Alicante" data-src="./img/logouapp.gif">
                                 </a>
                             </div>
@@ -452,17 +443,17 @@
 
                         <div class="row">
                             <div class="col-md-4 text-center">
-                                <a href="http://www.prompsit.com/" target="_blank">
+                                <a href="http://www.prompsit.com/" target="_blank" rel="noopener">
                                     <img alt="Prompsit Language Engineering S.L." data-src="./img/prompsit150x52.png">
                                 </a>
                             </div>
                             <div class="col-md-4 text-center">
-                                <a href="http://www10.gencat.net" target="_blank">
+                                <a href="http://www10.gencat.net" target="_blank" rel="noopener">
                                     <img alt="Generalitat de Catalunya" data-src="./img/stsi.gif">
                                 </a>
                             </div>
                             <div class="col-md-4 text-center">
-                                <a href="http://www.mae.ro/" target="_blank">
+                                <a href="http://www.mae.ro/" target="_blank" rel="noopener">
                                     <img alt="ROMÂNIA  Ministerul Afacerilor Externe" data-src="./img/logo_mae_ro_75pc.jpg">
                                 </a>
                             </div>
@@ -548,7 +539,7 @@
                         <p data-text="Contact_Us"></p>
 
                         <div class="center-block" style="margin-bottom: 1.5em;">
-                            <a href="http://www.apertium.org/" target="_blank">
+                            <a href="http://www.apertium.org/" target="_blank" rel="noopener">
                                 <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" style="height: 5em; max-width: 100%;">
                             </a>
                         </div>
