@@ -622,15 +622,15 @@ function populateTranslationList() {
         var sortLocale = (locale && locale in iso639Codes) ? iso639Codes[locale] : locale;
 
         function compareLangCodes(a, b) {
+            var aVariant = a.split('_'), bVariant = b.split('_');
+
             var directCompare;
             try {
-                directCompare = getLangByCode(a).localeCompare(getLangByCode(b), sortLocale);
+                directCompare = getLangByCode(aVariant[0]).localeCompare(getLangByCode(bVariant[0]), sortLocale);
             }
             catch(e) {
-                directCompare = getLangByCode(a).localeCompare(getLangByCode(b));
+                directCompare = getLangByCode(aVariant[0]).localeCompare(getLangByCode(bVariant[0]));
             }
-
-            var aVariant = a.split('_'), bVariant = b.split('_');
 
             if(aVariant[1] && bVariant[1] && aVariant[0] === bVariant[0]) {
                 return directCompare;
