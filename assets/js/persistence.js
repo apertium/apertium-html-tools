@@ -3,7 +3,7 @@
 /* exported persistChoices, restoreChoices, cache, readCache */
 
 /* global config, Store, getURLParam, iso639CodesInverse, pairs, refreshLangList populateSecondaryAnalyzerList,
-    populateSecondaryGeneratorList, isSubset, handleNewCurrentLang */
+    populateSecondaryGeneratorList, populateSecondarySpellcheckerList, isSubset, handleNewCurrentLang */
 /* global srcLangs, dstLangs, recentSrcLangs, recentDstLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, setLocale,
     curSrcLang, curDstLang, locale */
 
@@ -74,6 +74,14 @@ function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
                 'generatorInput': $('#morphGeneratorInput').val()
             };
         }
+        else if(mode === 'spellchecker') {
+            objects = {
+                'primarySpellcheckerChoice': $('#primarySpellcheckerMode').val(),
+                'secondarySpellcheckerChoice': $('#secondarySpellcheckerMode').val(),
+                'spellcheckerInput': $('#spellcheckerInput').text(),
+                'instantChecking': $('#instantChecking').val()
+            };
+        }
         else if(mode === 'localization') {
             objects = {
                 'locale': $('.localeSelect').val()
@@ -122,6 +130,11 @@ function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
             urlParams = [];
             urlParams.push('choice=' + encodeURIComponent($('#secondaryGeneratorMode').val()));
             qVal = $('#morphGeneratorInput').val();
+        }
+        else if(hash === '#spellchecker' && $('#secondarySpellcheckerMode').val()) {
+            urlParams = [];
+            urlParams.push('choice=' + encodeURIComponent($('#secondarySpellcheckerMode').val()));
+            qVal = $('#spellcheckerInput').text();
         }
 
         var qName /*: string */ = HASH_URL_MAP[hash];
@@ -267,6 +280,33 @@ function restoreChoices(mode /*: string */) {
             $('#morphGeneratorInput').val(decodeURIComponent(getURLParam('qG')));
         }
     }
+    else if(mode === 'spellchecker') {
+        if(store.able()) {
+            var primarySpellcheckerChoice = store.get('primarySpellcheckerChoice', ''),
+                secondarySpellcheckerChoice = store.get('secondarySpellcheckerChoice', '');
+            if(store.has('primarySpellcheckerChoice') && store.has('secondarySpellcheckerChoice')) {
+                $('#primarySpellcheckerMode option[value="' + primarySpellcheckerChoice + '"]').prop('selected', true);
+                populateSecondarySpellcheckerList();
+                $('#secondarySpellcheckerMode option[value="' + secondarySpellcheckerChoice + '"]').prop('selected', true);
+            }
+            else {
+                populateSecondarySpellcheckerList();
+            }
+            if(store.has('spellcheckerInput')) {
+                $('#spellcheckerInput').text(store.get('spellcheckerInput'));
+                $('#instantChecking').prop('checked', store.get('instantChecking', true));
+            }
+        }
+
+        if(getURLParam('choice')) {
+            choice = getURLParam('choice').split('-');
+            $('#primarySpellcheckerMode option[value="' + choice[0] + '"]').prop('selected', true);
+            populateSecondarySpellcheckerList();
+            if(choice.length === 2) {
+                $('#secondarySpellcheckerMode option[value="' + choice.join('-') + '"]').prop('selected', true);
+            }
+        }
+    }
     else if(mode === 'localization') {
         if(store.able()) {
             setLocale(store.get('locale', ''));
@@ -290,5 +330,6 @@ function restoreChoices(mode /*: string */) {
 /*:: import {iso639Codes, iso639CodesInverse, locale, setLocale} from "./localization.js" */
 /*:: import {populateSecondaryGeneratorList} from "./generator.js" */
 /*:: import {populateSecondaryAnalyzerList} from "./analyzer.js" */
+/*:: import {populateSecondarySpellcheckerList} from "./spellchecker.js" */
 /*:: import {getURLParam, isSubset} from "./util.js" */
 /*:: import {Store} from "./store.js" */
