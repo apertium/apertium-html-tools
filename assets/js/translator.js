@@ -560,15 +560,31 @@ function populateTranslationList() {
         dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
 
     for(var i = 0; i < numSrcCols; i++) {
-        var numSrcLang = Math.ceil(srcLangs.length / numSrcCols) * i;
+        while(srcLangs[i * srcLangsPerCol].indexOf('_') !== -1) {
+            srcLangsPerCol++;
+        }
+    }
+
+    for(i = 0; i < numDstCols; i++) {
+        while(dstLangs[i * dstLangsPerCol].indexOf('_') !== -1) {
+            dstLangsPerCol++;
+        }
+    }
+
+    for(i = 0; i < numSrcCols; i++) {
+        var numSrcLang = srcLangsPerCol * i;
         var srcLangCol = $('<div class="languageCol">').appendTo($('#srcLanguages .row'));
 
         for(var j = numSrcLang; j < numSrcLang + srcLangsPerCol; j++) {
             if(numSrcLang < srcLangs.length) {
                 var langCode = srcLangs[j];
                 var langName = getLangByCode(langCode);
+                var langClasses = 'languageName';
+                if(typeof langCode !== 'undefined' && langCode.indexOf('_') !== -1) {
+                    langClasses += ' languageVariant';
+                }
                 srcLangCol.append(
-                    $('<div class="languageName"></div>')
+                    $('<div class="' + langClasses + '"></div>')
                         .attr('data-code', langCode)
                         .text(langName)
                 );
@@ -577,15 +593,19 @@ function populateTranslationList() {
     }
 
     for(i = 0; i < numDstCols; i++) {
-        var numDstLang = Math.ceil(dstLangs.length / numDstCols) * i;
+        var numDstLang = dstLangsPerCol * i;
         var dstLangCol = $('<div class="languageCol">').appendTo($('#dstLanguages .row'));
 
         for(j = numDstLang; j < numDstLang + dstLangsPerCol; j++) {
             if(numDstLang < dstLangs.length) {
                 langCode = dstLangs[j];
                 langName = getLangByCode(langCode);
+                langClasses = 'languageName';
+                if(typeof langCode !== 'undefined' && langCode.indexOf('_') !== -1) {
+                    langClasses += ' languageVariant';
+                }
                 dstLangCol.append(
-                    $('<div class="languageName"></div>')
+                    $('<div class="' + langClasses + '"></div>')
                         .attr('data-code', langCode)
                         .text(langName)
                 );
@@ -600,10 +620,18 @@ function populateTranslationList() {
 
     $('.langSelect option[value!=detect]').remove();
     $.each(srcLangs, function () {
-        $('#srcLangSelect').append($('<option></option>').prop('value', this).text(getLangByCode(this)));
+        var indent = '';
+        if(typeof this !== 'undefined' && this.indexOf('_') !== -1) {
+            indent += '&nbsp;&nbsp;&nbsp;&nbsp;';
+        }
+        $('#srcLangSelect').append($('<option></option>').prop('value', this).html(indent + getLangByCode(this)));
     });
     $.each(dstLangs, function () {
-        $('#dstLangSelect').append($('<option></option>').prop('value', this).text(getLangByCode(this)));
+        var indent = '';
+        if(typeof this !== 'undefined' && this.indexOf('_') !== -1) {
+            indent += '&nbsp;&nbsp;&nbsp;&nbsp;';
+        }
+        $('#dstLangSelect').append($('<option></option>').prop('value', this).html(indent + getLangByCode(this)));
     });
 
     $('#srcLangSelect').val(curSrcLang);
@@ -623,7 +651,6 @@ function populateTranslationList() {
 
         function compareLangCodes(a, b) {
             var aVariant = a.split('_'), bVariant = b.split('_');
-
             var directCompare;
             try {
                 directCompare = getLangByCode(aVariant[0]).localeCompare(getLangByCode(bVariant[0]), sortLocale);
@@ -635,10 +662,10 @@ function populateTranslationList() {
             if(aVariant[1] && bVariant[1] && aVariant[0] === bVariant[0]) {
                 return directCompare;
             }
-            else if(aVariant && a.startsWith(b)) {
+            else if(aVariant[1] && aVariant[0] === b) {
                 return 1;
             }
-            else if(bVariant && b.startsWith(a)) {
+            else if(bVariant[1] && bVariant[0] === a) {
                 return -1;
             }
             else {
@@ -647,7 +674,18 @@ function populateTranslationList() {
         }
 
         srcLangs = srcLangs.sort(compareLangCodes);
-        dstLangs = dstLangs.sort(function (a, b) {
+
+        var langsOnly = [];
+        var variantsOnly = [];
+        for(var i = 0; i < dstLangs.length; i++) {
+            if(dstLangs[i].indexOf('_') !== -1) {
+                variantsOnly.push(dstLangs[i]);
+            }
+            else {
+                langsOnly.push(dstLangs[i]);
+            }
+        }
+        dstLangs = langsOnly.sort(function (a, b) {
             var aPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1;
             var bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
 
@@ -661,6 +699,16 @@ function populateTranslationList() {
                 return 1;
             }
         });
+
+        for(i = 0; i < variantsOnly.length; i++) {
+            var baseLang = variantsOnly[i].split('_')[0];
+            for(var j = 0; j < dstLangs.length; j++) {
+                if(baseLang === dstLangs[j]) {
+                    dstLangs.splice(j + 1, 0, variantsOnly[i]);
+                    break;
+                }
+            }
+        }
     }
 }
 

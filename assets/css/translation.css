@@ -6,6 +6,16 @@ html[dir='rtl'] .languageName {
     padding-right: .5em;
 }
 
+html[dir='ltr'] .languageVariant {
+    font-size: 12px;
+    padding-left: 2.5em;
+}
+
+html[dir='rtl'] .languageVariant {
+    font-size: 12px;
+    padding-right: 2.5em;
+}
+
 .languageName {
     position: relative;
 }

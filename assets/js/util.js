@@ -19,7 +19,7 @@ var INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 5,
     INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 3000,
     INSTALLATION_NOTIFICATION_DURATION = 10000;
 
-var apyRequestTimeout /*: number */, apyRequestStartTime/*: ?number */;
+var apyRequestTimeout /*: TimeoutID */, apyRequestStartTime/*: ?number */;
 var installationNotificationShown = false, lastNAPyRequestDurations = [];
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
@@ -55,7 +55,9 @@ function debounce(func /*: any */, delay /*: ?number */) { // eslint-disable-lin
     var clock = null;
     return function () {
         var context = this, args = arguments;
-        clearTimeout(clock);
+        if(clock) {
+            clearTimeout(clock);
+        }
         clock = setTimeout(function () {
             func.apply(context, args);
         }, delay || DEFAULT_DEBOUNCE_DELAY);
