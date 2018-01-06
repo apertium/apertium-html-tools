@@ -664,15 +664,15 @@ function populateTranslationList() {
                 langsOnly.push(srcLangs[i]);
             }
         }
-        
+
         var langHead = 0;
         var variantHead = 0;
         var numLangs = srcLangs.length;
         srcLangs = [];
-        
+
         langsOnly = langsOnly.sort(compareLangCodes);
         variantsOnly = variantsOnly.sort(compareLangCodes);
-        
+
         while((langHead + variantHead) < numLangs) {
             if(variantHead < variantsOnly.length && langHead < langsOnly.length) {
                 var baseLang = variantsOnly[variantHead].split('_')[0];
@@ -682,11 +682,11 @@ function populateTranslationList() {
                     srcLangs.push(variantsOnly[variantHead]);
                     variantHead++;
                 }
-                else if(baseLang < langsOnly[langHead]){
+                else if(baseLang < langsOnly[langHead]) {
                     srcLangs.push(variantsOnly[variantHead]);
                     variantHead++;
                 }
-                else{
+                else {
                     srcLangs.push(langsOnly[langHead]);
                     langHead++;
                 }
@@ -712,12 +712,12 @@ function populateTranslationList() {
                 langsOnly.push(dstLangs[i]);
             }
         }
-        
+
         langHead = 0;
         variantHead = 0;
         numLangs = dstLangs.length;
         dstLangs = [];
-        
+
         langsOnly = langsOnly.sort(function (a, b) {
             var aPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1;
             var bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
@@ -732,10 +732,10 @@ function populateTranslationList() {
                 return 1;
             }
         });
-        
+
         variantsOnly = variantsOnly.sort(compareLangCodes);
         dstLangs = [];
-        
+
         while((langHead + variantHead) < numLangs) {
             if(variantHead < variantsOnly.length && langHead < langsOnly.length) {
                 baseLang = variantsOnly[variantHead].split('_')[0];
@@ -745,11 +745,11 @@ function populateTranslationList() {
                     dstLangs.push(variantsOnly[variantHead]);
                     variantHead++;
                 }
-                else if(baseLang < langsOnly[langHead]){
+                else if(baseLang < langsOnly[langHead]) {
                     dstLangs.push(variantsOnly[variantHead]);
                     variantHead++;
                 }
-                else{
+                else {
                     dstLangs.push(langsOnly[langHead]);
                     langHead++;
                 }
