@@ -3,7 +3,7 @@
 /* exported persistChoices, restoreChoices, cache, readCache */
 
 /* global config, Store, getURLParam, iso639CodesInverse, pairs, refreshLangList populateSecondaryAnalyzerList,
-    populateSecondaryGeneratorList, populateSecondarySpellcheckerList, isSubset, handleNewCurrentLang */
+    populateSecondaryGeneratorList, populateSecondarySpellCheckerList, isSubset, handleNewCurrentLang */
 /* global srcLangs, dstLangs, recentSrcLangs, recentDstLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, setLocale,
     curSrcLang, curDstLang, locale */
 
@@ -14,7 +14,8 @@ var URL_PARAM_Q_LIMIT = 1300,
         '#webpageTranslation': 'qP',
         '#analyzation': 'qA',
         '#generation': 'qG',
-        '#sandbox': 'qS'
+        '#sandbox': 'qSand'
+        '#spellchecker': 'qS'
     };
 
 var store = new Store(config.HTML_URL);
@@ -76,9 +77,9 @@ function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
         }
         else if(mode === 'spellchecker') {
             objects = {
-                'primarySpellcheckerChoice': $('#primarySpellcheckerMode').val(),
-                'secondarySpellcheckerChoice': $('#secondarySpellcheckerMode').val(),
-                'spellcheckerInput': $('#spellcheckerInput').text(),
+                'primarySpellCheckerChoice': $('#primarySpellCheckerMode').val(),
+                'secondarySpellCheckerChoice': $('#secondarySpellCheckerMode').val(),
+                'spellCheckerInput': $('#spellCheckerInput').text(),
                 'instantChecking': $('#instantChecking').val()
             };
         }
@@ -131,10 +132,10 @@ function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
             urlParams.push('choice=' + encodeURIComponent($('#secondaryGeneratorMode').val()));
             qVal = $('#morphGeneratorInput').val();
         }
-        else if(hash === '#spellchecker' && $('#secondarySpellcheckerMode').val()) {
+        else if(hash === '#spellchecker' && $('#secondarySpellCheckerMode').val()) {
             urlParams = [];
-            urlParams.push('choice=' + encodeURIComponent($('#secondarySpellcheckerMode').val()));
-            qVal = $('#spellcheckerInput').text();
+            urlParams.push('choice=' + encodeURIComponent($('#secondarySpellCheckerMode').val()));
+            qVal = $('#spellCheckerInput').text();
         }
 
         var qName /*: string */ = HASH_URL_MAP[hash];
@@ -282,28 +283,28 @@ function restoreChoices(mode /*: string */) {
     }
     else if(mode === 'spellchecker') {
         if(store.able()) {
-            var primarySpellcheckerChoice = store.get('primarySpellcheckerChoice', ''),
-                secondarySpellcheckerChoice = store.get('secondarySpellcheckerChoice', '');
-            if(store.has('primarySpellcheckerChoice') && store.has('secondarySpellcheckerChoice')) {
-                $('#primarySpellcheckerMode option[value="' + primarySpellcheckerChoice + '"]').prop('selected', true);
-                populateSecondarySpellcheckerList();
-                $('#secondarySpellcheckerMode option[value="' + secondarySpellcheckerChoice + '"]').prop('selected', true);
+            var primarySpellCheckerChoice = store.get('primarySpellCheckerChoice', ''),
+                secondarySpellCheckerChoice = store.get('secondarySpellCheckerChoice', '');
+            if(store.has('primarySpellCheckerChoice') && store.has('secondarySpellCheckerChoice')) {
+                $('#primarySpellCheckerMode option[value="' + primarySpellCheckerChoice + '"]').prop('selected', true);
+                populateSecondarySpellCheckerList();
+                $('#secondarySpellCheckerMode option[value="' + secondarySpellCheckerChoice + '"]').prop('selected', true);
             }
             else {
-                populateSecondarySpellcheckerList();
+                populateSecondarySpellCheckerList();
             }
-            if(store.has('spellcheckerInput')) {
-                $('#spellcheckerInput').text(store.get('spellcheckerInput'));
+            if(store.has('spellCheckerInput')) {
+                $('#spellCheckerInput').text(String(store.get('spellCheckerInput')));
                 $('#instantChecking').prop('checked', store.get('instantChecking', true));
             }
         }
 
         if(getURLParam('choice')) {
             choice = getURLParam('choice').split('-');
-            $('#primarySpellcheckerMode option[value="' + choice[0] + '"]').prop('selected', true);
-            populateSecondarySpellcheckerList();
+            $('#primarySpellCheckerMode option[value="' + choice[0] + '"]').prop('selected', true);
+            populateSecondarySpellCheckerList();
             if(choice.length === 2) {
-                $('#secondarySpellcheckerMode option[value="' + choice.join('-') + '"]').prop('selected', true);
+                $('#secondarySpellCheckerMode option[value="' + choice.join('-') + '"]').prop('selected', true);
             }
         }
     }
@@ -330,6 +331,6 @@ function restoreChoices(mode /*: string */) {
 /*:: import {iso639Codes, iso639CodesInverse, locale, setLocale} from "./localization.js" */
 /*:: import {populateSecondaryGeneratorList} from "./generator.js" */
 /*:: import {populateSecondaryAnalyzerList} from "./analyzer.js" */
-/*:: import {populateSecondarySpellcheckerList} from "./spellchecker.js" */
+/*:: import {populateSecondarySpellCheckerList} from "./spellchecker.js" */
 /*:: import {getURLParam, isSubset} from "./util.js" */
 /*:: import {Store} from "./store.js" */

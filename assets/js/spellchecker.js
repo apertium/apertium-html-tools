@@ -1,7 +1,7 @@
 var spellers = {}, spellerData = {};
 var currentSpellCheckerRequest;
 
-/* exported getSpellers, populateSecondarySpellcheckerList */
+/* exported getSpellers, populateSecondarySpellCheckerList */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
     localizeInterface, getLangByCode, restoreChoices, callApy */
 /* global ENTER_KEY_CODE */
@@ -11,14 +11,14 @@ function getSpellers() {
 
     if(config.SPELLERS) {
         spellerData = config.SPELLERS;
-        populatePrimarySpellcheckerList(spellerData);
+        populatePrimarySpellCheckerList(spellerData);
         deferred.resolve();
     }
     else {
         var spellers = readCache('spellers', 'LIST_REQUEST');
         if(spellers) {
             spellerData = spellers;
-            populatePrimarySpellcheckerList(spellerData);
+            populatePrimarySpellCheckerList(spellerData);
             deferred.resolve();
         }
         else {
@@ -28,9 +28,9 @@ function getSpellers() {
                 beforeSend: ajaxSend,
                 success: function (data) {
                     spellerData = data;
-                    populatePrimarySpellcheckerList(spellerData);
+                    populatePrimarySpellCheckerList(spellerData);
                     cache('spellers', data);
-                    populatePrimarySpellcheckerList(data);
+                    populatePrimarySpellCheckerList(data);
                 },
                 error: function () {
                     console.error('Failed to get available spellers');
@@ -50,12 +50,12 @@ if(modeEnabled('spellchecker')) {
     $(document).ready(function () {
         restoreChoices('spellchecker');
         var timer, timeout = 2000;
-        $('#spellChekerForm').submit(function () {
+        $('#spellCheckerForm').submit(function () {
             clearTimeout(timer);
             check();
         });
 
-        $('#spellcheckerInput').on('input propertychange', function () {
+        $('#spellCheckerInput').on('input propertychange', function () {
             if(timer && $('#instantChecking').prop('checked')) {
                 clearTimeout(timer);
             }
@@ -66,13 +66,13 @@ if(modeEnabled('spellchecker')) {
             }, timeout);
         });
 
-        $('#primarySpellcheckerMode').change(function () {
-            populateSecondarySpellcheckerList();
+        $('#primarySpellCheckerMode').change(function () {
+            populateSecondarySpellCheckerList();
             localizeInterface();
             persistChoices('spellchecker');
         });
 
-        $('#secondarySpellcheckerMode').change(function () {
+        $('#secondarySpellCheckerMode').change(function () {
             persistChoices('spellchecker');
         });
 
@@ -87,20 +87,20 @@ if(modeEnabled('spellchecker')) {
             persistChoices('spellchecker');
         });
 
-        $('#spellcheckerInput').on('input propertychange', function () {
-            $('#spellcheckerInput').removeClass('spellcheckVisible');
+        $('#spellCheckerInput').on('input propertychange', function () {
+            $('#spellCheckerInput').removeClass('spellCheckerVisible');
             $('.spellError').each(function () {
                 $(this).popover('hide');
             });
             persistChoices('spellchecker');
         });
 
-        $('#spellcheckerInput').submit(function () {
+        $('#spellCheckerInput').submit(function () {
             clearTimeout(timer);
             check();
         });
 
-        $(document).on('mouseover', '.spellcheckVisible .spellError', function () {
+        $(document).on('mouseover', '.spellCheckerVisible .spellError', function () {
             $('.spellError').each(function () {
                 $(this).popover('hide');
             });
@@ -123,7 +123,7 @@ if(modeEnabled('spellchecker')) {
             });
         });
 
-        $(document).on('click', '.list-group-item', function () {
+        $(document).on('click', '.spellCheckerListItem', function () {
             var e = $(this).parents('.popover').prev();
             e.text($(this).text());
             e.removeClass('spellError');
@@ -133,16 +133,16 @@ if(modeEnabled('spellchecker')) {
     });
 }
 
-function populateSecondarySpellcheckerList() {
-    var group = analyzers[$('#primarySpellcheckerMode').val()];
-    $('#secondarySpellcheckerMode').empty();
+function populateSecondarySpellCheckerList() {
+    var group = analyzers[$('#primarySpellCheckerMode').val()];
+    $('#secondarySpellCheckerMode').empty();
 
     if(group) {
         if(group.length <= 1) {
-            $('#secondarySpellcheckerMode').fadeOut('fast');
+            $('#secondarySpellCheckerMode').fadeOut('fast');
         }
         else {
-            $('#secondarySpellcheckerMode').fadeIn('fast');
+            $('#secondarySpellCheckerMode').fadeIn('fast');
         }
 
         group.sort(function (a, b) {
@@ -154,15 +154,15 @@ function populateSecondarySpellcheckerList() {
             var langDisplay = lang.indexOf('-') !== -1
                 ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1])
                 : getLangByCode(lang);
-            $('#secondarySpellcheckerMode').append($('<option></option').val(lang).text(langDisplay));
+            $('#secondarySpellCheckerMode').append($('<option></option').val(lang).text(langDisplay));
         }
     }
     else {
-        $('#secondarySpellcheckerMode').fadeOut('fast');
+        $('#secondarySpellCheckerMode').fadeOut('fast');
     }
 }
-function populatePrimarySpellcheckerList(data) {
-    $('.spellcheckerMode').empty();
+function populatePrimarySpellCheckerList(data) {
+    $('.spellCheckerMode').empty();
 
     spellers = {};
     for(var lang in data) {
@@ -189,7 +189,7 @@ function populatePrimarySpellcheckerList(data) {
 
     for(var i = 0; i < spellerArray.length; i++) {
         lang = spellerArray[i][0];
-        $('#primarySpellcheckerMode').append($('<option></option>').val(lang).text(getLangByCode(lang)));
+        $('#primarySpellCheckerMode').append($('<option></option>').val(lang).text(getLangByCode(lang)));
     }
 
     restoreChoices('spellerchecker');
@@ -199,22 +199,22 @@ function check() {
     if(currentSpellCheckerRequest) {
         currentSpellCheckerRequest.abort();
     }
-    $('#spellcheckerInput').addClass('spellcheckVisible');
-    $('#spellcheckerInput').html($('#spellcheckerInput').html().replace(/br/g, '\n')
+    $('#spellCheckerInput').addClass('spellCheckerVisible');
+    $('#spellCheckerInput').html($('#spellCheckerInput').html().replace(/br/g, '\n')
         .replace(/&nbsp;/g, ' '));
-    var words = $.trim($('#spellcheckerInput').text());
+    var words = $.trim($('#spellCheckerInput').text());
     var splitWords = words.split(' ');
     var content = {};
-    $('#spellcheckerInput').html('');
+    $('#spellCheckerInput').html('');
     currentSpellCheckerRequest = callApy({
         data: {
             'q': words,
-            'lang': $('#primarySpellcheckerMode').val()
+            'lang': $('#primarySpellCheckerMode').val()
         },
         success: function (data) {
             var originalWordsIndex = 0;
             for(var tokenIndex = 0; tokenIndex < data.length; tokenIndex++) {
-                if(data[tokenIndex].known === true) {
+                if(data[tokenIndex]['known'] === true) { // eslint-disable-line dot-notation
                     $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' ' + splitWords[originalWordsIndex]);
                     originalWordsIndex++;
                     continue;
@@ -222,20 +222,15 @@ function check() {
                 $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' <span class="spellError" id=' +
                     splitWords[originalWordsIndex] + '>' + splitWords[originalWordsIndex] + '</span>');
                 content[splitWords[originalWordsIndex]] = '<div class="list-group">';
-                for(var sugg = 0; sugg < data[tokenIndex].sugg.length; sugg++) {
+                for(var sugg = 0; sugg < data[tokenIndex]['sugg'].length; sugg++) { // eslint-disable-line dot-notation
                     content[splitWords[originalWordsIndex]] += '<a href="#" class="list-group-item">' +
-                        data[tokenIndex].sugg[sugg][0] + '</a>';
+                        data[tokenIndex]['sugg'][sugg][0] + '</a>'; // eslint-disable-line dot-notation
                     content[splitWords[originalWordsIndex]] += '</div>';
                 }
                 $('.spellError').each(function () {
                     var currentTokenId = this.id;
-                    $(this).popover({
-                        animation: false,
-                        placement: 'bottom',
-                        trigger: 'manual',
-                        html: true,
-                        content: content[currentTokenId]
-                    });
+                    $(this).popover({animation: false, placement: 'bottom', trigger: 'manual', html: true,
+                        content: content[currentTokenId]});
                 });
                 originalWordsIndex++;
             }
@@ -253,7 +248,7 @@ function handleSpellCheckerErrorResponse(jqXHR) {
 }
 
 function spellCheckerNotAvailable(data) {
-    $('#spellcheckerInput').append($('<div></div>').text(' '));
-    $('#spellcheckerInput').append($('<div></div>').text(data.message));
-    $('#spellcheckerInput').append($('<div></div>').text(data.explanation));
+    $('#spellCheckerInput').append($('<div></div>').text(' '));
+    $('#spellCheckerInput').append($('<div></div>').text(data.message));
+    $('#spellCheckerInput').append($('<div></div>').text(data.explanation));
 }

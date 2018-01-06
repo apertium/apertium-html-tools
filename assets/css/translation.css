@@ -89,14 +89,14 @@ html[dir='rtl'] #srcLanguages {
 
 /* Spell Checker */
 
-#spellcheckerInput {
+#spellCheckerInput {
     display: block;
     height: 131px;
     overflow: auto;
     resize: both;
 }
 
-.spellcheckVisible .spellError {
+.spellCheckerVisible .spellError {
     border-bottom: 1px solid #f00;
 }
 
@@ -107,13 +107,14 @@ html[dir='rtl'] #srcLanguages {
     width: 110%;
 }
 
-.list-group { /* sass-lint:disable-line class-name-format */
+.spellCheckerList {
     margin-bottom: 0;
 }
 
-.list-group-item { /* sass-lint:disable-line class-name-format */
+.spellCheckerListItem {
     border: 0;
     cursor: pointer;
+    display: block;
     padding: 4px 10px;
 }
 
