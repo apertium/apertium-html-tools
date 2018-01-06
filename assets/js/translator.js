@@ -251,7 +251,7 @@ if(modeEnabled('translation')) {
                 curDstLang = $(this).attr('data-code');
                 handleNewCurrentLang(curDstLang, recentDstLangs, 'dstLang');
             });
-
+			
             $('.srcLang:not(#detect)').click(function () {
                 curSrcLang = $(this).attr('data-code');
                 $('.srcLang').removeClass('active');
@@ -567,8 +567,12 @@ function populateTranslationList() {
             if(numSrcLang < srcLangs.length) {
                 var langCode = srcLangs[j];
                 var langName = getLangByCode(langCode);
+				var c = "languageName";
+				if (langCode.indexOf("_") != -1) {
+					c = c + " languageVariant"
+				}
                 srcLangCol.append(
-                    $('<div class="languageName"></div>')
+                    $('<div class="' + c + '"></div>')
                         .attr('data-code', langCode)
                         .text(langName)
                 );
@@ -579,16 +583,20 @@ function populateTranslationList() {
     for(i = 0; i < numDstCols; i++) {
         var numDstLang = Math.ceil(dstLangs.length / numDstCols) * i;
         var dstLangCol = $('<div class="languageCol">').appendTo($('#dstLanguages .row'));
-
+		
         for(j = numDstLang; j < numDstLang + dstLangsPerCol; j++) {
             if(numDstLang < dstLangs.length) {
-                langCode = dstLangs[j];
-                langName = getLangByCode(langCode);
-                dstLangCol.append(
-                    $('<div class="languageName"></div>')
-                        .attr('data-code', langCode)
-                        .text(langName)
-                );
+				langCode = dstLangs[j];
+				langName = getLangByCode(langCode);
+				var c = "languageName";
+				if (langCode.indexOf("_") != -1) {
+					c = c + " languageVariant"		
+				}
+				dstLangCol.append(
+					$('<div class="' + c + '"></div>')
+						.attr('data-code', langCode)
+						.text(langName)
+				);
             }
         }
     }
@@ -645,12 +653,45 @@ function populateTranslationList() {
                 return directCompare;
             }
         }
+		
+		var langsOnly = [];
+		var variantsOnly = [];	
+		
+		for(i = 0; i < srcLangs.length; i++) {
+			if (srcLangs[i].indexOf("_") != -1) {
+				variantsOnly.push(srcLangs[i]);
+			}
+			else {
+				langsOnly.push(srcLangs[i]);
+			}
+			}
 
-        srcLangs = srcLangs.sort(compareLangCodes);
-        dstLangs = dstLangs.sort(function (a, b) {
+        srcLangs = langsOnly.sort(compareLangCodes);
+		for(i = 0; i < variantsOnly.length; i++) {
+			var baseLang = variantsOnly[i].split("_")[0]
+			for (j = 0; j < srcLangs.length; j++) {
+				if (baseLang === srcLangs[j]) {
+					srcLangs.splice(j + 1, 0, variantsOnly[i]);
+					j++;
+				}
+			}
+		}
+		
+		langsOnly = [];
+		variantsOnly = [];		
+
+		for(i = 0; i < dstLangs.length; i++) {
+			if (dstLangs[i].indexOf("_") != -1) {
+				variantsOnly.push(dstLangs[i]);
+			}
+			else {
+				langsOnly.push(dstLangs[i]);
+			}
+			}
+        dstLangs = langsOnly.sort(function (a, b) {
             var aPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1;
             var bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
-
+			
             if(aPossible === bPossible) {
                 return compareLangCodes(a, b);
             }
@@ -661,6 +702,16 @@ function populateTranslationList() {
                 return 1;
             }
         });
+		
+		for(i = 0; i < variantsOnly.length; i++) {
+			var baseLang = variantsOnly[i].split("_")[0]
+			for (j = 0; j < dstLangs.length; j++) {
+				if (baseLang === dstLangs[j]) {
+					dstLangs.splice(j + 1, 0, variantsOnly[i]);
+					j++;
+				}
+			}
+		}
     }
 }
 
@@ -1100,6 +1151,11 @@ function muteLanguages() {
     $('.dstLang').removeClass('disabledLang').prop('disabled', false);
 
     $.each($('#dstLanguages .languageName'), function () {
+        if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(this).attr('data-code')) === -1) {
+            $(this).addClass('text-muted');
+        }
+    });
+    $.each($('#dstLanguages .languageVariant'), function () {
         if(!pairs[curSrcLang] || pairs[curSrcLang].indexOf($(this).attr('data-code')) === -1) {
             $(this).addClass('text-muted');
         }
