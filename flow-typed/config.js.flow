@@ -27,6 +27,7 @@ declare var config: {
     PIWIK_SITEID: ?number,
     REPLACEMENTS: {[string]: string},
     SHOW_NAVBAR: boolean,
+    SPELLERS: ?{[string]: string},
     SUBTITLE: ?string,
     SUBTITLE_COLOR: ?string,
     TAGGERS: ?{[string]: string},

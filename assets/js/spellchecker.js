@@ -4,11 +4,11 @@ var spellers = {}, spellerData = {};
 var currentSpellCheckerRequest;
 
 /* exported getSpellers, populateSecondarySpellCheckerList */
-/* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangList, allowedLang, analyzers, cache,
+/* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangPairList, allowedLang, analyzers, cache,
     localizeInterface, getLangByCode, restoreChoices, callApy */
 /* global ENTER_KEY_CODE */
 
-function getSpellers() {
+function getSpellers() /*: JQueryPromise<any> */ {
     var deferred = $.Deferred();
 
     if(config.SPELLERS) {
@@ -78,7 +78,7 @@ if(modeEnabled('spellchecking')) {
             persistChoices('spellchecker');
         });
 
-        $('#spellCheckerInput').keydown(function (e) {
+        $('#spellCheckerInput').keydown(function (e /*: JQueryKeyEventObject */) {
             if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
                 check();
@@ -163,10 +163,11 @@ function populateSecondarySpellCheckerList() {
         $('#secondarySpellCheckerMode').fadeOut('fast');
     }
 }
-function populatePrimarySpellCheckerList(data) {
+
+function populatePrimarySpellCheckerList(data /*: {} */) {
     $('.spellCheckerMode').empty();
 
-    spellers = {};
+    spellers = ({} /*: {[string]: string[]} */);
     for(var lang in data) {
         var spellerLang = lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
         var group = spellers[spellerLang];
@@ -178,11 +179,11 @@ function populatePrimarySpellCheckerList(data) {
         }
     }
 
-    var spellerArray = [];
-    $.each(spellers, function (spellerLang, lang) {
+    var spellerArray /*: [string, string][] */ = [];
+    $.each(spellers, function (spellerLang /*: string */, lang /*: string */) {
         spellerArray.push([spellerLang, lang]);
     });
-    spellerArray = filterLangList(spellerArray, function (speller) {
+    spellerArray = filterLangPairList(spellerArray, function (speller /*: [string, string] */) {
         return allowedLang(speller[0]);
     });
     spellerArray.sort(function (a, b) {
@@ -231,8 +232,13 @@ function check() {
                 }
                 $('.spellError').each(function () {
                     var currentTokenId = this.id;
-                    $(this).popover({animation: false, placement: 'bottom', trigger: 'manual', html: true,
-                        content: content[currentTokenId]});
+                    $(this).popover({
+                        animation: false,
+                        placement: 'bottom',
+                        trigger: 'manual',
+                        html: true,
+                        content: content[currentTokenId]
+                    });
                 });
                 originalWordsIndex++;
             }
@@ -254,6 +260,10 @@ function spellCheckerNotAvailable(data) {
     $('#spellCheckerInput').append($('<div></div>').text(data.explanation));
 }
 
-/*:: import {modeEnabled, ajaxSend, ajaxComplete, filterLangList, callApy} from "./util.js" */
+/*:: export {getSpellers, populateSecondarySpellCheckerList} */
+
+/*:: import {modeEnabled, ajaxSend, ajaxComplete, allowedLang, filterLangPairList, callApy, ENTER_KEY_CODE} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
+/*:: import {localizeInterface, getLangByCode} from "./localization.js" */
 /*:: import {readCache, cache} from "./persistence.js" */
+/*:: import {analyzers} from "./analyzer.js" */
