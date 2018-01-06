@@ -47,7 +47,7 @@ JSFILES= \
 	assets/js/analyzer.js \
 	assets/js/generator.js \
 	assets/js/sandbox.js \
-        assets/js/spellchecker.js
+	assets/js/spellchecker.js
 
 build/js/config.js: $(CONFIG) tools/read-conf.py build/js/.d
 	./tools/read-conf.py -c $< js > $@

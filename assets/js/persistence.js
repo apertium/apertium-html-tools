@@ -14,8 +14,8 @@ var URL_PARAM_Q_LIMIT = 1300,
         '#webpageTranslation': 'qP',
         '#analyzation': 'qA',
         '#generation': 'qG',
-        '#sandbox': 'qSand'
-        '#spellchecker': 'qS'
+        '#sandbox': 'qSand',
+        '#spellchecking': 'qS'
     };
 
 var store = new Store(config.HTML_URL);
@@ -132,7 +132,7 @@ function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
             urlParams.push('choice=' + encodeURIComponent($('#secondaryGeneratorMode').val()));
             qVal = $('#morphGeneratorInput').val();
         }
-        else if(hash === '#spellchecker' && $('#secondarySpellCheckerMode').val()) {
+        else if(hash === '#spellchecking' && $('#secondarySpellCheckerMode').val()) {
             urlParams = [];
             urlParams.push('choice=' + encodeURIComponent($('#secondarySpellCheckerMode').val()));
             qVal = $('#spellCheckerInput').text();

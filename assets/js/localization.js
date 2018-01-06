@@ -13,7 +13,7 @@ var localizedLanguageCodes /*: {[string]: string} */ = {}, localizedLanguageName
 
 /* global config, getPairs, getGenerators, getAnalyzers, persistChoices, getURLParam, cache, ajaxSend, ajaxComplete, sendEvent,
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
-    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique
+    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique,
     getSpellers */
 
 var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
@@ -57,7 +57,7 @@ $(document).ready(function () {
         'translation': getPairs,
         'generation': getGenerators,
         'analyzation': getAnalyzers,
-        'spellchecker': getSpellers
+        'spellchecking': getSpellers
     };
     var deferredItems = [getLocale(), getLocales()];
     if(config.ENABLED_MODES) {

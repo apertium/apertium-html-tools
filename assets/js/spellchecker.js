@@ -1,3 +1,5 @@
+// @flow
+
 var spellers = {}, spellerData = {};
 var currentSpellCheckerRequest;
 
@@ -46,7 +48,7 @@ function getSpellers() {
     return deferred.promise();
 }
 
-if(modeEnabled('spellchecker')) {
+if(modeEnabled('spellchecking')) {
     $(document).ready(function () {
         restoreChoices('spellchecker');
         var timer, timeout = 2000;
@@ -214,17 +216,17 @@ function check() {
         success: function (data) {
             var originalWordsIndex = 0;
             for(var tokenIndex = 0; tokenIndex < data.length; tokenIndex++) {
-                if(data[tokenIndex]['known'] === true) { // eslint-disable-line dot-notation
-                    $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' ' + splitWords[originalWordsIndex]);
+                if(data[tokenIndex].known === true) {
+                    $('#spellCheckerInput').html($('#spellCheckerInput').html() + ' ' + splitWords[originalWordsIndex]);
                     originalWordsIndex++;
                     continue;
                 }
-                $('#spellcheckerInput').html($('#spellcheckerInput').html() + ' <span class="spellError" id=' +
+                $('#spellCheckerInput').html($('#spellCheckerInput').html() + ' <span class="spellError" id=' +
                     splitWords[originalWordsIndex] + '>' + splitWords[originalWordsIndex] + '</span>');
                 content[splitWords[originalWordsIndex]] = '<div class="list-group">';
-                for(var sugg = 0; sugg < data[tokenIndex]['sugg'].length; sugg++) { // eslint-disable-line dot-notation
+                for(var sugg = 0; sugg < data[tokenIndex].sugg.length; sugg++) {
                     content[splitWords[originalWordsIndex]] += '<a href="#" class="list-group-item">' +
-                        data[tokenIndex]['sugg'][sugg][0] + '</a>'; // eslint-disable-line dot-notation
+                        data[tokenIndex].sugg[sugg][0] + '</a>';
                     content[splitWords[originalWordsIndex]] += '</div>';
                 }
                 $('.spellError').each(function () {
@@ -248,7 +250,10 @@ function handleSpellCheckerErrorResponse(jqXHR) {
 }
 
 function spellCheckerNotAvailable(data) {
-    $('#spellCheckerInput').append($('<div></div>').text(' '));
     $('#spellCheckerInput').append($('<div></div>').text(data.message));
     $('#spellCheckerInput').append($('<div></div>').text(data.explanation));
 }
+
+/*:: import {modeEnabled, ajaxSend, ajaxComplete, filterLangList, callApy} from "./util.js" */
+/*:: import {persistChoices, restoreChoices} from "./persistence.js" */
+/*:: import {readCache, cache} from "./persistence.js" */

@@ -100,7 +100,7 @@
                     <li><a href="#translation" id="translationTarget" data-mode="translation" data-text="Translation" class="hide">Translation</a></li>
                     <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis" class="hide">Morphological analysis</a></li>
                     <li><a href="#generation" data-mode="generation" data-text="Morphological_Generation" class="hide">Morphological generation</a></li>
-                    <li><a href="#spellchecker" data-mode="spellchecker" data-text="Spell_Checker">Spell checker</a></li>
+                    <li><a href="#spellchecking" data-mode="spellchecking" data-text="Spell_Checking">Spell checking</a></li>
                     <li><a href="#sandbox" data-mode="sandbox" data-text="APy_Sandbox" class="hide">APy sandbox</a></li>
                   </ul>
               </div>
@@ -329,8 +329,8 @@
                   </form>
                   <div id="morphGenOutput" class="outputContainer"></div>
               </div>
-              <div class="modeContainer" id="spellcheckerContainer">
-                  <h2 class="visible-xs" data-text="Spell_Checker">Spell Checker</h2>
+              <div class="modeContainer" id="spellcheckingContainer">
+                  <h2 class="visible-xs" data-text="Spell_Checking">Spell Checking</h2>
                   <form class="form-horizontal" role="form" id="spellCheckerForm">
                       <fieldset>
                           <legend data-text="Spell_Checker_Help"></legend>
@@ -338,12 +338,12 @@
                               <label for="primarySpellCheckerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
                               <div class="col-sm-3">
                                   <select class="form-control spellCheckerMode" id="primarySpellCheckerMode" name="primarySpellCheckerMode">
-                                      <option> </option>
+                                      <option></option>
                                   </select>
                               </div>
                               <div class="col-sm-4">
                                   <select class="form-control spellCheckerMode" id="secondarySpellCheckerMode" name="secondarySpellCheckerMode">
-                                      <option> </option>
+                                      <option></option>
                                   </select>
                               </div>
                           </div>
