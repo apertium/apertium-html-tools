@@ -54,7 +54,7 @@ RUN cd /root/chromium-compact-language-detector && \
 
 WORKDIR /source
 
-ADD https://raw.githubusercontent.com/sushain97/apertium-get/master/apertium-get .
+ADD https://raw.githubusercontent.com/unhammer/apertium-get/master/apertium-get .
 RUN chmod +x apertium-get
 
 RUN apertium-get en-es
