@@ -565,15 +565,14 @@ function populateTranslationList() {
 
         for(var j = numSrcLang; j < numSrcLang + srcLangsPerCol; j++) {
             if(numSrcLang < srcLangs.length) {
-				console.log(srcLangs[j]);
                 var langCode = srcLangs[j];
                 var langName = getLangByCode(langCode);
                 var langClasses = 'languageName';
-                    if(langCode != null) {
-                        if(langCode.indexOf('_') !== -1) {
-                            langClasses += ' languageVariant';
-                        }						
-					}
+                if(typeof langCode !== 'undefined') {
+                    if(langCode.indexOf('_') !== -1) {
+                        langClasses += ' languageVariant';
+                    }
+		        }
                 srcLangCol.append(
                     $('<div class="' + langClasses + '"></div>')
                         .attr('data-code', langCode)
@@ -592,11 +591,11 @@ function populateTranslationList() {
                 langCode = dstLangs[j];
                 langName = getLangByCode(langCode);
                 langClasses = 'languageName';
-                    if(langCode != null) {
-                        if(langCode.indexOf('_') !== -1) {
-                            langClasses += ' languageVariant';
-                        }						
-					}
+                if(typeof langCode !== 'undefined') {
+                    if(langCode.indexOf('_') !== -1) {
+                        langClasses += ' languageVariant';
+                    }
+		        }
                 dstLangCol.append(
                     $('<div class="' + langClasses + '"></div>')
                         .attr('data-code', langCode)
@@ -750,7 +749,7 @@ function populateTranslationList() {
                     dstLangs.push(variantsOnly[variantHead]);
                     variantHead++;
                 }
-                else if(baseLang < langsOnly[langHead]) {
+                else if(baseLang < getLangByCode(langsOnly[langHead])) {
                     dstLangs.push(variantsOnly[variantHead]);
                     variantHead++;
                 }
