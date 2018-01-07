@@ -100,7 +100,7 @@
                     <li><a href="#translation" id="translationTarget" data-mode="translation" data-text="Translation" class="hide">Translation</a></li>
                     <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis" class="hide">Morphological analysis</a></li>
                     <li><a href="#generation" data-mode="generation" data-text="Morphological_Generation" class="hide">Morphological generation</a></li>
-                    <li><a href="#spellchecking" data-mode="spellchecking" data-text="Spell_Checking">Spell checking</a></li>
+                    <li><a href="#spellchecking" data-mode="spellchecking" data-text="Spell_Checking" class="hide">Spell checking</a></li>
                     <li><a href="#sandbox" data-mode="sandbox" data-text="APy_Sandbox" class="hide">APy sandbox</a></li>
                   </ul>
               </div>

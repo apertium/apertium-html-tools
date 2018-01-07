@@ -224,12 +224,12 @@ function check() {
                 }
                 $('#spellCheckerInput').html($('#spellCheckerInput').html() + ' <span class="spellError" id=' +
                     splitWords[originalWordsIndex] + '>' + splitWords[originalWordsIndex] + '</span>');
-                content[splitWords[originalWordsIndex]] = '<div class="list-group">';
+                content[splitWords[originalWordsIndex]] = '<div class="spellCheckerList">';
                 for(var sugg = 0; sugg < data[tokenIndex].sugg.length; sugg++) {
-                    content[splitWords[originalWordsIndex]] += '<a href="#" class="list-group-item">' +
+                    content[splitWords[originalWordsIndex]] += '<a href="#" class="spellCheckerListItem">' +
                         data[tokenIndex].sugg[sugg][0] + '</a>';
-                    content[splitWords[originalWordsIndex]] += '</div>';
                 }
+                content[splitWords[originalWordsIndex]] += '</div>';
                 $('.spellError').each(function () {
                     var currentTokenId = this.id;
                     $(this).popover({
