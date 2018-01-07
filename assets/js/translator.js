@@ -572,7 +572,7 @@ function populateTranslationList() {
                     if(langCode.indexOf('_') !== -1) {
                         langClasses += ' languageVariant';
                     }
-		        }
+                }
                 srcLangCol.append(
                     $('<div class="' + langClasses + '"></div>')
                         .attr('data-code', langCode)
@@ -595,7 +595,7 @@ function populateTranslationList() {
                     if(langCode.indexOf('_') !== -1) {
                         langClasses += ' languageVariant';
                     }
-		        }
+                }
                 dstLangCol.append(
                     $('<div class="' + langClasses + '"></div>')
                         .attr('data-code', langCode)
