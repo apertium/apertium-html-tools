@@ -230,18 +230,19 @@ function check() {
                         data[tokenIndex].sugg[sugg][0] + '</a>';
                 }
                 content[splitWords[originalWordsIndex]] += '</div>';
-                $('.spellError').each(function () {
-                    var currentTokenId = this.id;
-                    $(this).popover({
-                        animation: false,
-                        placement: 'bottom',
-                        trigger: 'manual',
-                        html: true,
-                        content: content[currentTokenId]
-                    });
-                });
                 originalWordsIndex++;
             }
+            $('.spellError').each(function () {
+                var currentTokenId = this.id;
+                $(this).popover({
+                    animation: false,
+                    placement: 'bottom',
+                    trigger: 'manual',
+                    html: true,
+                    content: content[currentTokenId]
+                });
+            });
+
         },
         error: handleSpellCheckerErrorResponse,
         complete: function () {
