@@ -677,7 +677,7 @@ function populateTranslationList() {
         dstLangs = dstLangs.sort(function (a, b) {
             var aPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1;
             var bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
- 
+
             if(aPossible === bPossible) {
                 return compareLangCodes(a, b);
             }
