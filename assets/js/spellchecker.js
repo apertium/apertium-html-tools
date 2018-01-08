@@ -4,7 +4,7 @@ var spellers = {}, spellerData = {};
 var currentSpellCheckerRequest;
 
 /* exported getSpellers, populateSecondarySpellCheckerList */
-/* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangPairList, allowedLang, analyzers, cache,
+/* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangPairList, allowedLang, cache,
     localizeInterface, getLangByCode, restoreChoices, callApy */
 /* global ENTER_KEY_CODE */
 
@@ -135,35 +135,6 @@ if(modeEnabled('spellchecking')) {
     });
 }
 
-function populateSecondarySpellCheckerList() {
-    var group = analyzers[$('#primarySpellCheckerMode').val()];
-    $('#secondarySpellCheckerMode').empty();
-
-    if(group) {
-        if(group.length <= 1) {
-            $('#secondarySpellCheckerMode').fadeOut('fast');
-        }
-        else {
-            $('#secondarySpellCheckerMode').fadeIn('fast');
-        }
-
-        group.sort(function (a, b) {
-            return a.length - b.length;
-        });
-
-        for(var i = 0; i < group.length; i++) {
-            var lang = group[i];
-            var langDisplay = lang.indexOf('-') !== -1
-                ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1])
-                : getLangByCode(lang);
-            $('#secondarySpellCheckerMode').append($('<option></option').val(lang).text(langDisplay));
-        }
-    }
-    else {
-        $('#secondarySpellCheckerMode').fadeOut('fast');
-    }
-}
-
 function populatePrimarySpellCheckerList(data /*: {} */) {
     $('.spellCheckerMode').empty();
 
@@ -196,6 +167,35 @@ function populatePrimarySpellCheckerList(data /*: {} */) {
     }
 
     restoreChoices('spellerchecker');
+}
+
+function populateSecondarySpellCheckerList() {
+    var group = spellers[$('#primarySpellCheckerMode').val()];
+    $('#secondarySpellCheckerMode').empty();
+
+    if(group) {
+        if(group.length <= 1) {
+            $('#secondarySpellCheckerMode').fadeOut('fast');
+        }
+        else {
+            $('#secondarySpellCheckerMode').fadeIn('fast');
+        }
+
+        group.sort(function (a, b) {
+            return a.length - b.length;
+        });
+
+        for(var i = 0; i < group.length; i++) {
+            var lang = group[i];
+            var langDisplay = lang.indexOf('-') !== -1
+                ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1])
+                : getLangByCode(lang);
+            $('#secondarySpellCheckerMode').append($('<option></option').val(lang).text(langDisplay));
+        }
+    }
+    else {
+        $('#secondarySpellCheckerMode').fadeOut('fast');
+    }
 }
 
 function check() {
@@ -267,4 +267,3 @@ function spellCheckerNotAvailable(data) {
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
 /*:: import {localizeInterface, getLangByCode} from "./localization.js" */
 /*:: import {readCache, cache} from "./persistence.js" */
-/*:: import {analyzers} from "./analyzer.js" */
