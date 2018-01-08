@@ -580,10 +580,8 @@ function populateTranslationList() {
                 var langCode = srcLangs[j];
                 var langName = getLangByCode(langCode);
                 var langClasses = 'languageName';
-                if(typeof langCode !== 'undefined') {
-                    if(langCode.indexOf('_') !== -1) {
-                        langClasses += ' languageVariant';
-                    }
+                if(typeof langCode !== 'undefined' && langCode.indexOf('_') !== -1) {
+                    langClasses += ' languageVariant';
                 }
                 srcLangCol.append(
                     $('<div class="' + langClasses + '"></div>')
@@ -603,10 +601,8 @@ function populateTranslationList() {
                 langCode = dstLangs[j];
                 langName = getLangByCode(langCode);
                 langClasses = 'languageName';
-                if(typeof langCode !== 'undefined') {
-                    if(langCode.indexOf('_') !== -1) {
-                        langClasses += ' languageVariant';
-                    }
+                if(typeof langCode !== 'undefined' && langCode.indexOf('_') !== -1) {
+                    langClasses += ' languageVariant';
                 }
                 dstLangCol.append(
                     $('<div class="' + langClasses + '"></div>')
@@ -625,19 +621,15 @@ function populateTranslationList() {
     $('.langSelect option[value!=detect]').remove();
     $.each(srcLangs, function () {
         var indent = '';
-        if(typeof this !== 'undefined') {
-            if(this.indexOf('_') !== -1) {
-                indent += '&nbsp;&nbsp;&nbsp;&nbsp;';
-            }
+        if(typeof this !== 'undefined' && this.indexOf('_') !== -1) {
+            indent += '&nbsp;&nbsp;&nbsp;&nbsp;';
         }
         $('#srcLangSelect').append($('<option></option>').prop('value', this).html(indent + getLangByCode(this)));
     });
     $.each(dstLangs, function () {
         var indent = '';
-        if(typeof this !== 'undefined') {
-            if(this.indexOf('_') !== -1) {
-                indent += '&nbsp;&nbsp;&nbsp;&nbsp;';
-            }
+        if(typeof this !== 'undefined' && this.indexOf('_') !== -1) {
+            indent += '&nbsp;&nbsp;&nbsp;&nbsp;';
         }
         $('#dstLangSelect').append($('<option></option>').prop('value', this).html(indent + getLangByCode(this)));
     });
@@ -682,6 +674,20 @@ function populateTranslationList() {
         }
 
         srcLangs = srcLangs.sort(compareLangCodes);
+        dstLangs = dstLangs.sort(function (a, b) {
+            var aPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1;
+            var bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
+ 
+            if(aPossible === bPossible) {
+                return compareLangCodes(a, b);
+            }
+            else if(aPossible && !bPossible) {
+                return -1;
+            }
+            else {
+                return 1;
+            }
+        });
         dstLangs = dstLangs.sort(compareLangCodes);
     }
 }
