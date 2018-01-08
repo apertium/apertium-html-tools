@@ -562,17 +562,16 @@ function populateTranslationList() {
     for(var i = 0; i < numSrcCols; i++) {
         while(srcLangs[i * srcLangsPerCol].indexOf('_') !== -1) {
             srcLangsPerCol++;
-            break;
         }
     }
 
-    for(var i = 0; i < numDstCols; i++) {
+    for(i = 0; i < numDstCols; i++) {
         while(dstLangs[i * dstLangsPerCol].indexOf('_') !== -1) {
             dstLangsPerCol++;
         }
     }
 
-    for(var i = 0; i < numSrcCols; i++) {
+    for(i = 0; i < numSrcCols; i++) {
         var numSrcLang = srcLangsPerCol * i;
         var srcLangCol = $('<div class="languageCol">').appendTo($('#srcLanguages .row'));
 
