@@ -688,7 +688,6 @@ function populateTranslationList() {
                 return 1;
             }
         });
-        dstLangs = dstLangs.sort(compareLangCodes);
     }
 }
 
