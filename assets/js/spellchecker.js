@@ -3,7 +3,7 @@
 var spellers = {}, spellerData = {};
 var currentSpellCheckerRequest;
 
-/* exported getSpellers, spellerData */
+/* exported getSpellers, spellerData, populatePrimarySpellCheckerList */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangPairList, allowedLang, cache,
     localizeInterface, getLangByCode, restoreChoices, callApy */
 /* global ENTER_KEY_CODE */
@@ -200,15 +200,25 @@ function check() {
             }
             $('.spellError').each(function () {
                 var currentTokenId = this.id;
-                $(this).popover({
-                    animation: false,
-                    placement: 'bottom',
-                    trigger: 'manual',
-                    html: true,
-                    content: content[currentTokenId]
-                });
+                if(content[currentTokenId].indexOf('spellCheckerListItem') !== -1) {
+                    $(this).popover({
+                        animation: false,
+                        placement: 'bottom',
+                        trigger: 'manual',
+                        html: true,
+                        content: content[currentTokenId]
+                    });
+                }
+                else {
+                    $(this).popover({
+                        animation: false,
+                        placement: 'bottom',
+                        trigger: 'manual',
+                        html: true,
+                        content: '<div style="padding: 4px 10px; color: #b94a48;">No spelling suggestions</div>'
+                    });
+                }
             });
-
         },
         error: handleSpellCheckerErrorResponse,
         complete: function () {
@@ -227,7 +237,7 @@ function spellCheckerNotAvailable(data) {
     $('#spellCheckerInput').append($('<div></div>').text(data.explanation));
 }
 
-/*:: export {getSpellers, spellerData} */
+/*:: export {getSpellers, spellerData, populatePrimarySpellCheckerList} */
 
 /*:: import {modeEnabled, ajaxSend, ajaxComplete, allowedLang, filterLangPairList, callApy, ENTER_KEY_CODE} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
