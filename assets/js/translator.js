@@ -6,12 +6,15 @@ var curSrcLang /*: string */, curDstLang/*: string */;
 var recentSrcLangs /*: string[] */ = [], recentDstLangs /*: string[] */ = [];
 var droppedFile/*: ?File */;
 var translateRequest;
+var grecaptcha;
+var recaptchaRenderCallback; // eslint-disable-line no-unused-vars
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
     TRANSLATION_LIST_IDEAL_ROWS = 12,
     TRANSLATION_LIST_MAX_WIDTH = 800,
     TRANSLATION_LIST_MAX_COLUMNS = 5,
+    SUGGESTION_DESTROY_TIMEOUT = 3000,
     TRANSLATION_LISTS_BUFFER = 50;
 
 var INSTANT_TRANSLATION_URL_DELAY = 500,
@@ -26,11 +29,28 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, apyRequestTimeout, isURL */
+    callApy, apyRequestTimeout, isURL, getRecaptchaSrc */
 /* global ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
 if(modeEnabled('translation')) {
     $(document).ready(function () {
+        var locale2 = iso639Codes[$('.localeSelect').val()];
+        var newSrc = getRecaptchaSrc(locale2);
+        $.getScript(newSrc);
+
+        synchronizeTextareaHeights();
+        recaptchaRenderCallback = function () { // eslint-disable-line no-unused-vars
+            grecaptcha.render('suggestRecaptcha', {
+                'sitekey': config.SUGGESTIONS.recaptcha_site_key
+            });
+        };
+
+        $('#srcLanguages').on('click', '.languageName:not(.text-muted)', function () {
+            curSrcLang = $(this).attr('data-code');
+            handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
+
+            autoSelectDstLang();
+        });
         function updatePairList() {
             pairs = $('input#chainedTranslation').prop('checked') ? chainedPairs : originalPairs;
         }
@@ -317,6 +337,73 @@ if(modeEnabled('translation')) {
             persistChoices('translator', true);
         });
 
+        $('#translatedText').css('height', $('#originalText').css('height'));
+        $('#suggestCloseBtn').click(function () {
+            $('#suggestedWordInput').val('');
+            grecaptcha.reset();
+        });
+        $('#suggestBtn').click(function () {
+            var fromWord = $('#suggestionTargetWord').html();
+            var toWord = $('#suggestedWordInput').val();
+            var recaptchaResponse = grecaptcha.getResponse();
+
+            if(toWord.length === 0) {
+                $('#suggestedWordInput').tooltip('destroy');
+                $('#suggestedWordInput').tooltip({
+                    'title': 'Suggestion cannot be empty.',
+                    'trigger': 'manual',
+                    'placement': 'bottom'
+                });
+                $('#suggestedWordInput').tooltip('show');
+                setTimeout(function () {
+                    $('#suggestedWordInput').tooltip('destroy');
+                }, SUGGESTION_DESTROY_TIMEOUT);
+
+                return;
+            }
+
+            $.ajax({
+                url: config.APY_URL + '/suggest',
+                type: 'POST',
+                beforeSend: ajaxSend,
+                data: {
+                    'langpair': curSrcLang + '|' + curDstLang,
+                    'word': fromWord,
+                    'newWord': toWord,
+                    'context': getContext(fromWord),
+                    'g-recaptcha-response': recaptchaResponse
+                },
+                success: function (_data, _textStatus, _jqXHR) {
+                    $('#suggestedWordInput').tooltip('destroy');
+                    $('#suggestedWordInput').val('');
+                    $('#wordSuggestModal').modal('hide');
+                },
+                error: function (data /*: JQueryXHR */, _textStatus, _errorThrown) {
+                    var responseText /*: string */ = (data.responseText /*: any */);
+                    var data1 = $.parseJSON(responseText);
+                    $('#suggestedWordInput').tooltip('destroy');
+                    $('#suggestedWordInput').tooltip({
+                        'title': (data1.explanation ? data1.explanation : 'An error occurred'),
+                        'trigger': 'manual',
+                        'placement': 'bottom'
+                    });
+                    $('#suggestedWordInput').tooltip('show');
+                    setTimeout(function () {
+                        $('#suggestedWordInput').tooltip('hide');
+                        $('#suggestedWordInput').tooltip('destroy');
+                    }, SUGGESTION_DESTROY_TIMEOUT);
+                },
+                complete: function (_jqXHR, _textStatus) {
+                    ajaxComplete;
+                    grecaptcha.reset();
+                }
+            });
+        });
+
+        $('body').on('dragover', function (ev) {
+            ev.preventDefault();
+            return false;
+        });
         $('input#chainedTranslation').change(function () {
             updatePairList();
             populateTranslationList();
@@ -369,6 +456,30 @@ if(modeEnabled('translation')) {
         setupWebpageTranslation();
         setupDocTranslation();
     });
+}
+
+function getContext(fromWord) {
+    var wrapLength = parseInt(config.SUGGESTIONS.context_size, 10);
+    var mark = 'MEGAWORD!';
+    var markedWord = mark + fromWord;
+    var rawText = $('#translatedText').html();
+    var cleanMarkedText = rawText.replace(/<span[^>]*id="wordGettingSuggested"[^>]*>/g, mark);
+    cleanMarkedText = cleanMarkedText.replace(/<[/]?span[^>]*>/g, '');
+    var splittedText = cleanMarkedText.replace(/\s+/g, ' ').split(' ');
+    var targetIndex = -1;
+    var wordCount = splittedText.length;
+    for(var i = 0; i < wordCount && targetIndex === -1; i++) {
+        if(splittedText[i].indexOf(markedWord) !== -1) {
+            targetIndex = i;
+        }
+    }
+    var beginning = (targetIndex > wrapLength) ? (targetIndex - wrapLength) : 0;
+    var ending = (splittedText.length - targetIndex - 1 > wrapLength) ? (targetIndex + wrapLength + 1) : splittedText.length;
+    var context = splittedText.slice(beginning, ending).join(' ').replace(mark, '');
+    if(!context) {
+        context = $('#translatedText').attr('pristineText');
+    }
+    return context;
 }
 
 function getPairs() /*: JQueryPromise<any> */ {
@@ -679,8 +790,55 @@ function translate(ignoreIfEmpty) {
 function translateText(ignoreIfEmpty) {
     function handleTranslateSuccessResponse(data) {
         if(data.responseStatus === HTTP_OK_CODE) {
-            $('#translatedText').val(data.responseData.translatedText);
+            $('#translatedText').html(data.responseData.translatedText);
             $('#translatedText').removeClass('notAvailable text-danger');
+
+            $('#translatedText').attr('pristineText', data.responseData.translatedText);
+
+            if(config.SUGGESTIONS.enabled) {
+                var localizedTitle = getDynamicLocalization('Suggest_Title');
+                var placeholder = getDynamicLocalization('Suggest_Placeholder');
+                $('#suggestedWordInput').attr('placeholder', placeholder);
+                $('#translatedText').html(
+                    $('#translatedText').html().replace(/(\*|@|#)([^\s0-9.…,!?;:)_>"'«/»`“”„‘’‛+=–—‒―-]+)/g,
+                        '<span class="wordSuggestPopover text-danger" title="' +
+                    localizedTitle + '" style="cursor: pointer">$2</span>')
+                );
+            }
+
+            $('.wordSuggestPopover').click(function () {
+                $('#translatedTextClone').html($('#translatedText').attr('pristineText'));
+                var fromWord = $(this).html();
+                $(this).attr('id', 'wordGettingSuggested');
+                var context = getContext(fromWord);
+                $('#translatedTextClone').html(context);
+
+                $('.wordSuggestPopover').removeAttr('id');
+                $('.wordSuggestPopoverInline').removeAttr('id');
+
+                $('#translatedTextClone').html(
+                    $('#translatedTextClone').html().replace(/(\*|@|#)([^\s0-9.…,!?;:)_>"'«/»`“”„‘’‛+=–—‒―-]+)/g,
+                        '<span class="wordSuggestPopover text-danger" title="' +
+                    localizedTitle + '" style="cursor: pointer">$2</span>')
+                );
+
+                $('.wordSuggestPopoverInline').click(function () {
+                    $('.wordSuggestPopover').removeAttr('id');
+                    $('.wordSuggestPopoverInline').removeAttr('id');
+                    $(this).attr('id', 'wordGettingSuggested');
+
+                    $('#suggestionTargetWord').html($(this).text().replace(/(\*|@|#)/g, ''));
+                    $('#suggestedWordInput').val('');
+                });
+
+                $('#suggestSentenceContainer').html(getDynamicLocalization('Suggest_Sentence').replace('{{targetWordCode}}',
+                    '<code><span id="suggestionTargetWord"></span></code>')
+                );
+                $('#suggestionTargetWord').html($(this).text().replace(/(\*|@|#)/g, ''));
+
+                $('#wordSuggestModal').modal();
+                $(this).removeAttr('id');
+            });
         }
         else {
             translationNotAvailable();
@@ -704,6 +862,7 @@ function translateText(ignoreIfEmpty) {
 
             var endpoint/*: string */;
             var request /*: { langpairs?: string, langpair?: string, q: string, markUnknown: string } */ = {
+                langpair: curSrcLang + '|' + curDstLang,
                 q: originalText, // eslint-disable-line id-length
                 markUnknown: $('#markUnknown').prop('checked') ? 'yes' : 'no'
             };
@@ -1174,6 +1333,6 @@ function setRecentDstLangs(langs /*: string[] */) {
     apyRequestTimeout} from "./util.js" */
 /*:: import {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
-/*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes} from "./localization.js" */
+/*:: import {localizeInterface, getLangByCode, getDynamicLocalization, getRecaptchaSrc, locale, iso639Codes} from "./localization.js" */
 /*:: import {readCache, cache} from "./persistence.js" */
 /*:: import {isURL} from "./util.js" */
