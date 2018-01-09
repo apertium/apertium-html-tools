@@ -3,7 +3,7 @@
 var spellers = {}, spellerData = {};
 var currentSpellCheckerRequest;
 
-/* exported getSpellers */
+/* exported getSpellers, spellerData */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangPairList, allowedLang, cache,
     localizeInterface, getLangByCode, restoreChoices, callApy */
 /* global ENTER_KEY_CODE */
@@ -227,7 +227,7 @@ function spellCheckerNotAvailable(data) {
     $('#spellCheckerInput').append($('<div></div>').text(data.explanation));
 }
 
-/*:: export {getSpellers} */
+/*:: export {getSpellers, spellerData} */
 
 /*:: import {modeEnabled, ajaxSend, ajaxComplete, allowedLang, filterLangPairList, callApy, ENTER_KEY_CODE} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */

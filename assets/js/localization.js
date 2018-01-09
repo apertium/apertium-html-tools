@@ -13,8 +13,8 @@ var localizedLanguageCodes /*: {[string]: string} */ = {}, localizedLanguageName
 
 /* global config, getPairs, getGenerators, getAnalyzers, persistChoices, getURLParam, cache, ajaxSend, ajaxComplete, sendEvent,
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
-    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique,
-    getSpellers */
+    populateAnalyzerList, populatePrimarySpellCheckerList, analyzerData, generatorData, spellerData, curSrcLang, curDstLang,
+    restoreChoices, refreshLangList, onlyUnique, getSpellers */
 
 var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
     'fallback': {
@@ -310,6 +310,9 @@ function localizeLanguageNames(localizedNamesFromJSON) {
         if(modeEnabled('analyzation')) {
             populateAnalyzerList(analyzerData);
         }
+        if(modeEnabled('spellchecking')) {
+            populatePrimarySpellCheckerList(spellerData);
+        }
     }
 }
 
@@ -385,7 +388,8 @@ function localizeInterface() {
         '#originalText': curSrcLang,
         '#translatedText': curDstLang,
         '#morphAnalyzerInput': $('#primaryAnalyzerMode').val(),
-        '#morphGeneratorInput': $('#primaryGeneratorMode').val()
+        '#morphGeneratorInput': $('#primaryGeneratorMode').val(),
+        '#spellCheckerInput': $('#primarySpellCheckerMode').val()
     };
 
     $.each(elements, function (selector, lang /*: string */) {
@@ -433,4 +437,4 @@ function setLocale(newLocale /*: string */) {
 /*:: import {generatorData, generators, getGenerators, populateGeneratorList} from "./generator.js" */
 /*:: import {analyzerData, analyzers, getAnalyzers, populateAnalyzerList} from "./analyzer.js" */
 /*:: import {cache, persistChoices, readCache, restoreChoices} from "./persistence.js" */
-/*:: import {getSpellers} from "./spellchecker.js" */
+/*:: import {getSpellers, populatePrimarySpellCheckerList, spellerData} from "./spellchecker.js" */
