@@ -674,7 +674,18 @@ function populateTranslationList() {
         }
 
         srcLangs = srcLangs.sort(compareLangCodes);
-        dstLangs = dstLangs.sort(function (a, b) {
+
+        var langsOnly = [];
+        var variantsOnly = [];
+        for(var i = 0; i < dstLangs.length; i++) {
+            if(dstLangs[i].indexOf('_') !== -1) {
+                variantsOnly.push(dstLangs[i]);
+            }
+            else {
+                langsOnly.push(dstLangs[i]);
+            }
+        }
+        dstLangs = langsOnly.sort(function (a, b) {
             var aPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1;
             var bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
 
@@ -688,6 +699,16 @@ function populateTranslationList() {
                 return 1;
             }
         });
+
+        for(i = 0; i < variantsOnly.length; i++) {
+            var baseLang = variantsOnly[i].split('_')[0];
+            for(var j = 0; j < dstLangs.length; j++) {
+                if(baseLang === dstLangs[j]) {
+                    dstLangs.splice(j + 1, 0, variantsOnly[i]);
+                    break;
+                }
+            }
+        }
     }
 }
 
