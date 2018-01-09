@@ -3,7 +3,7 @@
 var spellers = {}, spellerData = {};
 var currentSpellCheckerRequest;
 
-/* exported getSpellers, populateSecondarySpellCheckerList */
+/* exported getSpellers */
 /* global config, modeEnabled, persistChoices, readCache, ajaxSend, ajaxComplete, filterLangPairList, allowedLang, cache,
     localizeInterface, getLangByCode, restoreChoices, callApy */
 /* global ENTER_KEY_CODE */
@@ -69,12 +69,7 @@ if(modeEnabled('spellchecking')) {
         });
 
         $('#primarySpellCheckerMode').change(function () {
-            populateSecondarySpellCheckerList();
             localizeInterface();
-            persistChoices('spellchecker');
-        });
-
-        $('#secondarySpellCheckerMode').change(function () {
             persistChoices('spellchecker');
         });
 
@@ -169,35 +164,6 @@ function populatePrimarySpellCheckerList(data /*: {} */) {
     restoreChoices('spellerchecker');
 }
 
-function populateSecondarySpellCheckerList() {
-    var group = spellers[$('#primarySpellCheckerMode').val()];
-    $('#secondarySpellCheckerMode').empty();
-
-    if(group) {
-        if(group.length <= 1) {
-            $('#secondarySpellCheckerMode').fadeOut('fast');
-        }
-        else {
-            $('#secondarySpellCheckerMode').fadeIn('fast');
-        }
-
-        group.sort(function (a, b) {
-            return a.length - b.length;
-        });
-
-        for(var i = 0; i < group.length; i++) {
-            var lang = group[i];
-            var langDisplay = lang.indexOf('-') !== -1
-                ? getLangByCode(lang.split('-')[0]) + '-' + getLangByCode(lang.split('-')[1])
-                : getLangByCode(lang);
-            $('#secondarySpellCheckerMode').append($('<option></option').val(lang).text(langDisplay));
-        }
-    }
-    else {
-        $('#secondarySpellCheckerMode').fadeOut('fast');
-    }
-}
-
 function check() {
     if(currentSpellCheckerRequest) {
         currentSpellCheckerRequest.abort();
@@ -261,7 +227,7 @@ function spellCheckerNotAvailable(data) {
     $('#spellCheckerInput').append($('<div></div>').text(data.explanation));
 }
 
-/*:: export {getSpellers, populateSecondarySpellCheckerList} */
+/*:: export {getSpellers} */
 
 /*:: import {modeEnabled, ajaxSend, ajaxComplete, allowedLang, filterLangPairList, callApy, ENTER_KEY_CODE} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */

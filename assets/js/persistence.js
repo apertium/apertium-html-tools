@@ -3,7 +3,7 @@
 /* exported persistChoices, restoreChoices, cache, readCache */
 
 /* global config, Store, getURLParam, iso639CodesInverse, pairs, refreshLangList populateSecondaryAnalyzerList,
-    populateSecondaryGeneratorList, populateSecondarySpellCheckerList, isSubset, handleNewCurrentLang */
+    populateSecondaryGeneratorList, isSubset, handleNewCurrentLang */
 /* global srcLangs, dstLangs, recentSrcLangs, recentDstLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, setLocale,
     curSrcLang, curDstLang, locale */
 
@@ -78,7 +78,6 @@ function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
         else if(mode === 'spellchecker') {
             objects = {
                 'primarySpellCheckerChoice': $('#primarySpellCheckerMode').val(),
-                'secondarySpellCheckerChoice': $('#secondarySpellCheckerMode').val(),
                 'spellCheckerInput': $('#spellCheckerInput').text(),
                 'instantChecking': $('#instantChecking').val()
             };
@@ -131,11 +130,6 @@ function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
             urlParams = [];
             urlParams.push('choice=' + encodeURIComponent($('#secondaryGeneratorMode').val()));
             qVal = $('#morphGeneratorInput').val();
-        }
-        else if(hash === '#spellchecking' && $('#secondarySpellCheckerMode').val()) {
-            urlParams = [];
-            urlParams.push('choice=' + encodeURIComponent($('#secondarySpellCheckerMode').val()));
-            qVal = $('#spellCheckerInput').text();
         }
 
         var qName /*: string */ = HASH_URL_MAP[hash];
@@ -283,15 +277,9 @@ function restoreChoices(mode /*: string */) {
     }
     else if(mode === 'spellchecker') {
         if(store.able()) {
-            var primarySpellCheckerChoice = store.get('primarySpellCheckerChoice', ''),
-                secondarySpellCheckerChoice = store.get('secondarySpellCheckerChoice', '');
-            if(store.has('primarySpellCheckerChoice') && store.has('secondarySpellCheckerChoice')) {
+            var primarySpellCheckerChoice = store.get('primarySpellCheckerChoice', '');
+            if(store.has('primarySpellCheckerChoice')) {
                 $('#primarySpellCheckerMode option[value="' + primarySpellCheckerChoice + '"]').prop('selected', true);
-                populateSecondarySpellCheckerList();
-                $('#secondarySpellCheckerMode option[value="' + secondarySpellCheckerChoice + '"]').prop('selected', true);
-            }
-            else {
-                populateSecondarySpellCheckerList();
             }
             if(store.has('spellCheckerInput')) {
                 $('#spellCheckerInput').text(String(store.get('spellCheckerInput')));
@@ -300,12 +288,8 @@ function restoreChoices(mode /*: string */) {
         }
 
         if(getURLParam('choice')) {
-            choice = getURLParam('choice').split('-');
-            $('#primarySpellCheckerMode option[value="' + choice[0] + '"]').prop('selected', true);
-            populateSecondarySpellCheckerList();
-            if(choice.length === 2) {
-                $('#secondarySpellCheckerMode option[value="' + choice.join('-') + '"]').prop('selected', true);
-            }
+            choice = getURLParam('choice');
+            $('#primarySpellCheckerMode option[value="' + choice + '"]').prop('selected', true);
         }
     }
     else if(mode === 'localization') {
@@ -331,6 +315,5 @@ function restoreChoices(mode /*: string */) {
 /*:: import {iso639Codes, iso639CodesInverse, locale, setLocale} from "./localization.js" */
 /*:: import {populateSecondaryGeneratorList} from "./generator.js" */
 /*:: import {populateSecondaryAnalyzerList} from "./analyzer.js" */
-/*:: import {populateSecondarySpellCheckerList} from "./spellchecker.js" */
 /*:: import {getURLParam, isSubset} from "./util.js" */
 /*:: import {Store} from "./store.js" */

@@ -341,11 +341,6 @@
                                       <option></option>
                                   </select>
                               </div>
-                              <div class="col-sm-4">
-                                  <select class="form-control spellCheckerMode" id="secondarySpellCheckerMode" name="secondarySpellCheckerMode">
-                                      <option></option>
-                                  </select>
-                              </div>
                           </div>
                           <div class="form-group">
                               <label for="spellCheckerInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
