@@ -22,12 +22,12 @@ RUN apt-get --yes update && apt-get --yes install \
     wget \
     zlib1g-dev
 
-# Install Apertium and related grammar libraries
+# Install Apertium and related libraries
 
 ADD https://apertium.projectjj.com/apt/install-nightly.sh .
 RUN bash install-nightly.sh
-RUN apt-get --yes install apertium-all-dev
-RUN apt-get --yes install giella-core giella-shared
+RUN apt-get --yes update && apt-get --yes install apertium-all-dev
+RUN apt-get --yes update && apt-get --yes install giella-core giella-shared hfst-ospell
 
 # Repair locales
 
@@ -37,7 +37,7 @@ ENV LANG en_US.UTF-8
 # Install APy
 
 RUN pip3 install --upgrade tornado
-RUN git clone https://github.com/goavki/apertium-apy
+RUN git clone --recursive https://github.com/goavki/apertium-apy
 RUN cd apertium-apy && make -j2
 
 # Install CLD2
