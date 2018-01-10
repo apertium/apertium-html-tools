@@ -675,15 +675,15 @@ function populateTranslationList() {
 
         srcLangs = srcLangs.sort(compareLangCodes);
         dstLangs = dstLangs.sort(function (a, b) {
-            function isPossible(x) {
-                var xVariant = x.split('_');
-				function containsParentLang(lang) {
-					return lang.indexOf(xVariant[0]) != -1;
-				}
-                if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(x) !== -1) {
+            function isPossible(lang) {
+                var langVariant = lang.split('_');
+                function containsParentLang(variant) {
+                    return variant.indexOf(langVariant[0]) !== -1;
+                }
+                if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(lang) !== -1) {
                     return true;
                 }
-                else if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(xVariant[0]) !== -1) {
+                else if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(langVariant[0]) !== -1) {
                     return true;
                 }
                 else if(pairs[curSrcLang] && pairs[curSrcLang].some(containsParentLang)) {
