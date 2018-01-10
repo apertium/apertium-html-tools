@@ -674,21 +674,23 @@ function populateTranslationList() {
         }
 
         srcLangs = srcLangs.sort(compareLangCodes);
-
-        var langsOnly = [];
-        var variantsOnly = [];
-        for(var i = 0; i < dstLangs.length; i++) {
-            if(dstLangs[i].indexOf('_') !== -1) {
-                variantsOnly.push(dstLangs[i]);
-            }
-            else {
-                langsOnly.push(dstLangs[i]);
-            }
-        }
-        dstLangs = langsOnly.sort(function (a, b) {
-            var aPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1;
-            var bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
-
+        dstLangs = dstLangs.sort(function (a, b) {
+            function determineIfPossible (a) {
+                var aVariant = a.split('_');
+                if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1) {
+                    return true;
+                }
+                else if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(aVariant[0]) !== -1) {
+                    return true;
+                }
+                else if(pairs[curSrcLang] && pairs[curSrcLang].join().match('/' + aVariant[0] + '/g')) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }    
+            var aPossible = determineIfPossible(a), bPossible = determineIfPossible(b);
             if(aPossible === bPossible) {
                 return compareLangCodes(a, b);
             }
@@ -699,16 +701,6 @@ function populateTranslationList() {
                 return 1;
             }
         });
-
-        for(i = 0; i < variantsOnly.length; i++) {
-            var baseLang = variantsOnly[i].split('_')[0];
-            for(var j = 0; j < dstLangs.length; j++) {
-                if(baseLang === dstLangs[j]) {
-                    dstLangs.splice(j + 1, 0, variantsOnly[i]);
-                    break;
-                }
-            }
-        }
     }
 }
 
