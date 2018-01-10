@@ -634,7 +634,16 @@ function populateTranslationList() {
     });
 
     $('#srcLangSelect').val(curSrcLang);
+    var currentSrcLangSelect = $('#srcLangSelect option[value="' + $('#srcLangSelect').val() + '"]');
+    if(currentSrcLangSelect.text().substring(0,4) === '    ') {
+        currentSrcLangSelect.text(currentSrcLangSelect.text().substring(4));
+    }
+
     $('#dstLangSelect').val(curDstLang);
+    var currentDstLangSelect = $('#dstLangSelect option[value="' + $('#dstLangSelect').val() + '"]');
+    if(currentDstLangSelect.text().substring(0,4) === '    ') {
+        currentDstLangSelect.text(currentDstLangSelect.text().substring(4));
+    }
 
     muteLanguages();
 
