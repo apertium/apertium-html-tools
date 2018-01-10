@@ -533,6 +533,9 @@ function populateTranslationList() {
     sortTranslationList();
     $('.languageCol').remove();
 
+    function isVariant(lang) {
+        return lang.indexOf('_') !== -1;
+    }
     var minColumnWidth = TRANSLATION_LIST_MAX_WIDTH / TRANSLATION_LIST_MAX_COLUMNS;
 
     // figure out how much space is actually available for the columns
@@ -560,15 +563,31 @@ function populateTranslationList() {
         dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
 
     for(var i = 0; i < numSrcCols; i++) {
-        var numSrcLang = Math.ceil(srcLangs.length / numSrcCols) * i;
+        while(isVariant(srcLangs[i * srcLangsPerCol])) {
+            srcLangsPerCol++;
+        }
+    }
+
+    for(i = 0; i < numDstCols; i++) {
+        while(isVariant(dstLangs[i * dstLangsPerCol])) {
+            dstLangsPerCol++;
+        }
+    }
+
+    for(i = 0; i < numSrcCols; i++) {
+        var numSrcLang = srcLangsPerCol * i;
         var srcLangCol = $('<div class="languageCol">').appendTo($('#srcLanguages .row'));
 
         for(var j = numSrcLang; j < numSrcLang + srcLangsPerCol; j++) {
             if(numSrcLang < srcLangs.length) {
                 var langCode = srcLangs[j];
                 var langName = getLangByCode(langCode);
+                var langClasses = 'languageName';
+                if(typeof langCode !== 'undefined' && isVariant(langCode)) {
+                    langClasses += ' languageVariant';
+                }
                 srcLangCol.append(
-                    $('<div class="languageName"></div>')
+                    $('<div class="' + langClasses + '"></div>')
                         .attr('data-code', langCode)
                         .text(langName)
                 );
@@ -577,15 +596,19 @@ function populateTranslationList() {
     }
 
     for(i = 0; i < numDstCols; i++) {
-        var numDstLang = Math.ceil(dstLangs.length / numDstCols) * i;
+        var numDstLang = dstLangsPerCol * i;
         var dstLangCol = $('<div class="languageCol">').appendTo($('#dstLanguages .row'));
 
         for(j = numDstLang; j < numDstLang + dstLangsPerCol; j++) {
             if(numDstLang < dstLangs.length) {
                 langCode = dstLangs[j];
                 langName = getLangByCode(langCode);
+                langClasses = 'languageName';
+                if(typeof langCode !== 'undefined' && isVariant(langCode)) {
+                    langClasses += ' languageVariant';
+                }
                 dstLangCol.append(
-                    $('<div class="languageName"></div>')
+                    $('<div class="' + langClasses + '"></div>')
                         .attr('data-code', langCode)
                         .text(langName)
                 );
@@ -600,10 +623,18 @@ function populateTranslationList() {
 
     $('.langSelect option[value!=detect]').remove();
     $.each(srcLangs, function () {
-        $('#srcLangSelect').append($('<option></option>').prop('value', this).text(getLangByCode(this)));
+        var indent = '';
+        if(typeof this !== 'undefined' && isVariant(this)) {
+            indent += '&nbsp;&nbsp;&nbsp;&nbsp;';
+        }
+        $('#srcLangSelect').append($('<option></option>').prop('value', this).html(indent + getLangByCode(this)));
     });
     $.each(dstLangs, function () {
-        $('#dstLangSelect').append($('<option></option>').prop('value', this).text(getLangByCode(this)));
+        var indent = '';
+        if(typeof this !== 'undefined' && isVariant(this)) {
+            indent += '&nbsp;&nbsp;&nbsp;&nbsp;';
+        }
+        $('#dstLangSelect').append($('<option></option>').prop('value', this).html(indent + getLangByCode(this)));
     });
 
     $('#srcLangSelect').val(curSrcLang);
@@ -623,7 +654,6 @@ function populateTranslationList() {
 
         function compareLangCodes(a, b) {
             var aVariant = a.split('_'), bVariant = b.split('_');
-
             var directCompare;
             try {
                 directCompare = getLangByCode(aVariant[0]).localeCompare(getLangByCode(bVariant[0]), sortLocale);
@@ -635,10 +665,10 @@ function populateTranslationList() {
             if(aVariant[1] && bVariant[1] && aVariant[0] === bVariant[0]) {
                 return directCompare;
             }
-            else if(aVariant && a.startsWith(b)) {
+            else if(aVariant[1] && aVariant[0] === b) {
                 return 1;
             }
-            else if(bVariant && b.startsWith(a)) {
+            else if(bVariant[1] && bVariant[0] === a) {
                 return -1;
             }
             else {
@@ -648,9 +678,15 @@ function populateTranslationList() {
 
         srcLangs = srcLangs.sort(compareLangCodes);
         dstLangs = dstLangs.sort(function (a, b) {
-            var aPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1;
-            var bPossible = pairs[curSrcLang] && pairs[curSrcLang].indexOf(b) !== -1;
-
+            function isPossible(lang) {
+                var langVariant = lang.split('_');
+                function containsParentLang(variant) {
+                    return variant.indexOf(langVariant[0]) !== -1;
+                }
+                return pairs[curSrcLang] && (pairs[curSrcLang].indexOf(lang) !== -1 ||
+                    pairs[curSrcLang].indexOf(langVariant[0]) !== -1 || pairs[curSrcLang].some(containsParentLang));
+            }
+            var aPossible = isPossible(a), bPossible = isPossible(b);
             if(aPossible === bPossible) {
                 return compareLangCodes(a, b);
             }
