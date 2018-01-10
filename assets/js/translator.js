@@ -680,15 +680,9 @@ function populateTranslationList() {
                 function containsParentLang(variant) {
                     return variant.indexOf(langVariant[0]) !== -1;
                 }
-                if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(lang) !== -1) {
+                if(pairs[curSrcLang] && (pairs[curSrcLang].indexOf(lang) !== -1 || pairs[curSrcLang].indexOf(langVariant[0]) !== -1 || pairs[curSrcLang].some(containsParentLang))) {
                     return true;
-                }
-                else if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(langVariant[0]) !== -1) {
-                    return true;
-                }
-                else if(pairs[curSrcLang] && pairs[curSrcLang].some(containsParentLang)) {
-                    return true;
-                }
+				}
                 else {
                     return false;
                 }
