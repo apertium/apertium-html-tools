@@ -59,6 +59,7 @@ RUN chmod +x apertium-get
 
 RUN apertium-get en-es
 
-CMD python3 /root/apertium-apy/servlet.py /source \
+CMD cd /root/apertium-apy && make -B && \
+    python3 servlet.py /source \
         --port $PORT \
         --lang-names /root/apertium-apy/langNames.db
