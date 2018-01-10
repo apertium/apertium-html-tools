@@ -675,22 +675,22 @@ function populateTranslationList() {
 
         srcLangs = srcLangs.sort(compareLangCodes);
         dstLangs = dstLangs.sort(function (a, b) {
-            function determineIfPossible(a) {
-                var aVariant = a.split('_');
-                if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1) {
+            function isPossible(x) {
+                var aVariant = x.split('_');
+                if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(x) !== -1) {
                     return true;
                 }
-                else if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(aVariant[0]) !== -1) {
+                else if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(xVariant[0]) !== -1) {
                     return true;
                 }
-                else if(pairs[curSrcLang] && pairs[curSrcLang].join().match('/' + aVariant[0] + '/g')) {
+                else if(pairs[curSrcLang] && pairs[curSrcLang].join().match('/' + xVariant[0] + '/g')) {
                     return true;
                 }
                 else {
                     return false;
                 }
             }
-            var aPossible = determineIfPossible(a), bPossible = determineIfPossible(b);
+            var aPossible = isPossible(a), bPossible = isPossible(b);
             if(aPossible === bPossible) {
                 return compareLangCodes(a, b);
             }
