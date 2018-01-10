@@ -533,9 +533,9 @@ function populateTranslationList() {
     sortTranslationList();
     $('.languageCol').remove();
 
-function isVariant(lang) {
-return lang.indexOf('_') !== -1;
-}
+    function isVariant(lang) {
+        return lang.indexOf('_') !== -1;
+    }
     var minColumnWidth = TRANSLATION_LIST_MAX_WIDTH / TRANSLATION_LIST_MAX_COLUMNS;
 
     // figure out how much space is actually available for the columns
