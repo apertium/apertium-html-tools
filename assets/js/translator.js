@@ -675,7 +675,7 @@ function populateTranslationList() {
 
         srcLangs = srcLangs.sort(compareLangCodes);
         dstLangs = dstLangs.sort(function (a, b) {
-            function determineIfPossible (a) {
+            function determineIfPossible(a) {
                 var aVariant = a.split('_');
                 if(pairs[curSrcLang] && pairs[curSrcLang].indexOf(a) !== -1) {
                     return true;
@@ -689,7 +689,7 @@ function populateTranslationList() {
                 else {
                     return false;
                 }
-            }    
+            }
             var aPossible = determineIfPossible(a), bPossible = determineIfPossible(b);
             if(aPossible === bPossible) {
                 return compareLangCodes(a, b);
