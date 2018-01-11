@@ -11,6 +11,8 @@ if(!config.ENABLED_MODES || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
             request();
         });
 
+        $('#APy_Sandbox_Help').text($('#APy_Sandbox_Help').text().replace('{{word}}', config.APY_URL));
+
         $('#sandboxInput').keydown(function (e /*: JQueryKeyEventObject */) {
             if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();
