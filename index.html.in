@@ -334,14 +334,16 @@
                   <form class="form-horizontal" role="form" id="sandboxForm">
                       <fieldset>
                           <legend>
-                              <span id="APy_Sandbox_Help" data-text="APy_Sandbox_Help"></span>
+                              <span data-text="APy_Sandbox_Help"></span>
                               <a href="http://wiki.apertium.org/wiki/Apertium-apy" target="_blank" class="pull-right" rel="noopener">
                                   <abbr title="Apertium API in Python">APy</abbr>
                                   <i class="fa fa-question-circle"></i>
                               </a>
                           </legend>
                           <div class="form-group">
-                              <label for="sandboxInput" class="col-sm-2 control-label" data-text="APy_Request">APy Request</label>
+                              <label for="sandboxInput" class="col-sm-2 control-label" data-text="APy_Request">
+                                  <i id="APy_Endpoint" class="fa fa-info-circle" data-toggle="tooltip" style="margin-left:5px;"></i>
+                              </label>
                               <div class="col-sm-10">
                                   <textarea class="form-control" rows="3" id="sandboxInput" name="sandboxInput" spellcheck="false" required></textarea>
                                   <div class="help-block">e.g. /perWord?lang=en-es&amp;modes=morph+translate+biltrans&amp;q=let+there+be+light</div>
