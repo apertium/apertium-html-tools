@@ -341,8 +341,9 @@
                               </a>
                           </legend>
                           <div class="form-group">
-                              <label for="sandboxInput" class="col-sm-2 control-label" data-text="APy_Request">
-                                  <i id="APy_Endpoint" class="fa fa-info-circle" data-toggle="tooltip" style="margin-left:5px;"></i>
+                              <label for="sandboxInput" class="col-sm-2 control-label">
+                                  <label data-text="APy_Request"></label>
+                                  <i id="APy_Endpoint" class="fa fa-info-circle" data-toggle="tooltip"></i>
                               </label>
                               <div class="col-sm-10">
                                   <textarea class="form-control" rows="3" id="sandboxInput" name="sandboxInput" spellcheck="false" required></textarea>
