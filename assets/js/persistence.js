@@ -13,7 +13,8 @@ var URL_PARAM_Q_LIMIT = 1300,
         '#translation': 'q',
         '#webpageTranslation': 'qP',
         '#analyzation': 'qA',
-        '#generation': 'qG'
+        '#generation': 'qG',
+        '#sandbox': 'qS'
     };
 
 var store = new Store(config.HTML_URL);
