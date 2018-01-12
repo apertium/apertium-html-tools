@@ -11,7 +11,7 @@ if(!config.ENABLED_MODES || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
             request();
         });
 
-        $('#APy_Endpoint').attr('data-original-title', config.APY_URL);
+        $('#endpoint').attr('data-original-title', config.APY_URL);
         $('[data-toggle="tooltip"]').tooltip();
 
         $('#sandboxInput').keydown(function (e /*: JQueryKeyEventObject */) {
