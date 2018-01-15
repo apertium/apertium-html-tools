@@ -8,7 +8,9 @@ jobs:
 
       # Install development dependencies
       - run: sudo apt-get install python3 python3-pip
-      - run: sudo npm install -g jsonlint eslint flow flow-bin flow-coverage-report htmlhint sass-lint
+      - run: sudo npm install -g jsonlint eslint flow flow-bin flow-coverage-report htmlhint sass-lint grunt-cli
+      - run: npm install grunt
+      - run: npm install grunt-contrib-qunit --unsafe-perm
       - run: sudo pip3 install flake8 jsmin csscompressor
 
       # Run tests
@@ -23,6 +25,9 @@ jobs:
       # Build project
       - run: cp config.conf.example config.conf
       - run: make -j8 || true
+
+      # Run unit tests
+      - run: grunt qunit
       
       # Save a live version
       - store_artifacts:
