@@ -44,7 +44,7 @@ Store.prototype.set = function /*:: <T> */ (key /*: string */, value /*: T */) /
 Store.prototype.clear = function () /*: void */ {
     if(this.able()) {
         for(var key in window.localStorage) {
-            if(key.startsWith((this.prefix /*: string */))) {
+            if(key.indexOf((this.prefix /*: string */)) === 0) {
                 window.localStorage.removeItem(key);
             }
         }
