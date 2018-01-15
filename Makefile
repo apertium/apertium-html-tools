@@ -5,13 +5,13 @@ all: check-deps prod
 
 debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js build/sitemap.xml build/strings/locales.json build/index.$(DEFAULT_LOCALE).html build/strings/$(DEFAULT_LOCALE).json images
 
-prod: js css html fonts build/sitemap.xml build/manifest.json build/strings/locales.json localhtml images
+prod: js css html fonts build/sitemap.xml build/manifest.json build/strings/locales.json localhtml images tests
 
-js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js debugjs
+js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js debugjs build/js/qunit-2.4.1.js
 debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/init.js build/js/store.js build/js/persistence.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
-css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css debugcss
+css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css debugcss build/css/qunit-2.4.1.css
 debugcss: build/css/bootstrap.css build/css/analysis.css build/css/footer.css build/css/general.css build/css/navbar.css build/css/translation.css
-html: build/index.html build/index.debug.html build/not-found.html
+html: build/index.html build/index.debug.html build/not-found.html build/qunit-test.html
 fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf build/fonts/fontawesome-webfont.svg build/fonts/fontawesome-webfont.eot
 
 check-deps:
@@ -96,6 +96,9 @@ build/js/jquery.min.js: build/js/.d
 build/js/bootstrap.min.js: build/js/.d
 	curl -Ss 'http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js' -o $@
 
+build/js/qunit-2.4.1.js: build/js/.d
+	curl -Ss 'https://code.jquery.com/qunit/qunit-2.4.1.js' -o $@
+
 build/js/%.js: assets/js/%.js build/js/.d
 	cp $< $@
 
@@ -141,6 +144,9 @@ build/index.html: build/index.$(DEFAULT_LOCALE).html
 
 build/not-found.html: build/index.html not-found.html
 	sed -e '/<!-- Not found warning -->/r not-found.html' $< > $@
+
+build/qunit-test.html: build/index.html qunit-test.html qunit-head.html
+	sed -e '/<!-- qunit-testing -->/r qunit-test.html' -e '/<!-- qunit head -->/r qunit-head.html' $< > $@
 
 build/strings/%.langnames.json: tools/read-conf.py $(CONFIG) build/strings/.d
 	curl -Ss "$(shell $< -c $(CONFIG) get APY_URL)/listLanguageNames?locale=$*" >$@
@@ -189,6 +195,9 @@ theme = $(filter $(THEMES), $(MAKECMDGOALS))
 build/css/bootstrap.%.css: build/css/.d
 	curl -Ss 'http://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/$*/bootstrap.min.css' -o $@
 
+build/css/qunit-2.4.1.css: build/css/.d
+	curl -Ss 'https://code.jquery.com/qunit/qunit-2.4.1.css' -o $@
+
 build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/bootstrap.css) build/css/style.css build/css/.d
 	cat $^ > $@
 
@@ -233,6 +242,16 @@ build/img/%: assets/img/%
 
 images: $(IMAGES_BUILD)
 
+### Tests ###
+# Tests just copied over
+TEST_FILES=$(shell find tests -path '*/.svn' -prune -o -type f -print)
+TEST_BUILD=$(patsubst tests/%, build/tests/%, $(TEST_FILES))
+
+build/tests/%: tests/%
+	@mkdir -p $(@D)
+	cp $< $@
+
+tests: $(TEST_BUILD)
 
 ### Test server ###
 server:

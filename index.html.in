@@ -31,6 +31,7 @@
 
         <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
 @include_head@
+	<!-- qunit head -->
         <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.2.0-rc2/css/bootstrap-rtl.min.css" class="rtlStylesheet"> <!-- Positioned to override styles in bootstrap.css -->
 
         <!--[if lt IE 9]>
@@ -58,6 +59,7 @@
         <link rel="manifest" href="./manifest.json">
     </head>
     <body>
+        <!-- qunit-testing -->
         <span class="fa hide" id="faChecker"></span>
         <script type="text/javascript">
             if($('#faChecker').css('fontFamily') !== 'FontAwesome') {
