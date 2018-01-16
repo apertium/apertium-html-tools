@@ -1,6 +1,16 @@
 <div id="qunit"></div>
 <div id="qunit-fixture"></div>
 <script src="./js/qunit-2.4.1.js"></script>
+<script>
+    // Start QUnit after document finishes loading
+    QUnit.config.autostart = false;
+    $(document).ready(function () {
+            console.log("\nStarting QUnit tests...");
+            QUnit.start();
+    });
+</script>
+
+
 
 <!-- add test files here -->
 <script type="text/javascript" src="./tests/a.js"></script>

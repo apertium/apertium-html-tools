@@ -59,7 +59,7 @@
         <link rel="manifest" href="./manifest.json">
     </head>
     <body>
-        <!-- qunit-testing -->
+        <!-- qunit-tests -->
         <span class="fa hide" id="faChecker"></span>
         <script type="text/javascript">
             if($('#faChecker').css('fontFamily') !== 'FontAwesome') {

@@ -146,7 +146,7 @@ build/not-found.html: build/index.html not-found.html
 	sed -e '/<!-- Not found warning -->/r not-found.html' $< > $@
 
 build/qunit-test.html: build/index.html qunit-test.html qunit-head.html
-	sed -e '/<!-- qunit-testing -->/r qunit-test.html' -e '/<!-- qunit head -->/r qunit-head.html' $< > $@
+	sed -e '/<!-- qunit-tests -->/r qunit-test.html' -e '/<!-- qunit head -->/r qunit-head.html' $< > $@
 
 build/strings/%.langnames.json: tools/read-conf.py $(CONFIG) build/strings/.d
 	curl -Ss "$(shell $< -c $(CONFIG) get APY_URL)/listLanguageNames?locale=$*" >$@

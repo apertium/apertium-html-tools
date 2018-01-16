@@ -682,7 +682,7 @@ function populateTranslationList() {
                     possibleDstLangs.indexOf(lang) !== -1 ||
                     possibleDstLangs.indexOf(parentLanguage) !== -1 ||
                     possibleDstLangs.some(function (possibleLang) {
-                        return possibleLang.indexOf(parentLanguage) === 0;
+                        return possibleLang.startsWith(parentLanguage);
                     })
                 );
             }
