@@ -13,6 +13,10 @@ jobs:
       - run: npm install grunt-contrib-qunit --unsafe-perm
       - run: sudo pip3 install flake8 jsmin csscompressor
 
+      # Build project
+      - run: cp config.conf.example config.conf
+      - run: make -j8 || true
+
       # Run tests
       - run: find assets/strings -type f -name '*.json' -exec jsonlint -q '{}' +
       - run: eslint --config assets/js/.eslintrc.json assets/js/*.js
@@ -21,12 +25,6 @@ jobs:
       - run: flake8 --config tools/.flake8.ini *.py **/**.py **/**/*.py
       - run: flow-coverage-report --config flow-coverage.json
       - run: flow check
-
-      # Build project
-      - run: cp config.conf.example config.conf
-      - run: make -j8 || true
-
-      # Run unit tests
       - run: grunt qunit
       
       # Save a live version
