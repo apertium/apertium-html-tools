@@ -622,14 +622,14 @@ function populateTranslationList() {
         $('#srcLangSelect').append(
             $('<option></option>')
                 .prop('value', this)
-                .html((isVariant(this) ? '&nbsp;&nbsp;&nbsp;&nbsp;' : '') + getLangByCode(this))
+                .html(getLangByCode(this))
         );
     });
     $.each(dstLangs, function () {
         $('#dstLangSelect').append(
             $('<option></option>')
                 .prop('value', this)
-                .html((isVariant(this) ? '&nbsp;&nbsp;&nbsp;&nbsp;' : '') + getLangByCode(this))
+                .html(getLangByCode(this))
         );
     });
 

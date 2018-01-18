@@ -22,6 +22,9 @@ var INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 5,
 var apyRequestTimeout /*: TimeoutID */, apyRequestStartTime/*: ?number */;
 var installationNotificationShown = false, lastNAPyRequestDurations = [];
 
+// These polyfills are placed here since all versions of IE require them and IE10+
+// does not support conditional comments. They could be moved to a separate file.
+
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
 if (typeof Object.assign != 'function') {
@@ -48,6 +51,25 @@ if (typeof Object.assign != 'function') {
     }
     return to;
   };
+}
+
+// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith#Polyfill
+if (!String.prototype.startsWith) {
+    // $FlowFixMe
+	String.prototype.startsWith = function(search /*: string */, pos /*: ?number */) {
+		return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
+	};
+}
+
+// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith#Polyfill
+if (!String.prototype.endsWith) {
+    // $FlowFixMe
+	String.prototype.endsWith = function(search /*: string */, this_len /*: number|undefined */) {
+		if (this_len === undefined || this_len > this.length) {
+			this_len = this.length;
+		}
+        return this.substring(this_len - search.length, this_len) === search;
+	};
 }
 /* eslint-enable */
 
