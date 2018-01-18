@@ -16,6 +16,7 @@ jobs:
       # Build project
       - run: cp config.conf.example config.conf
       - run: make -j8 || true
+      - run: make test
 
       # Run tests
       - run: find assets/strings -type f -name '*.json' -exec jsonlint -q '{}' +
