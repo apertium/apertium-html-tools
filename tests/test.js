@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 QUnit.module( 'Change mode' );
 QUnit.test( 'Mode test', function ( assert ) {
     assert.expect( 4 );
