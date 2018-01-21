@@ -1,10 +1,10 @@
 /* eslint-disable */
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     grunt.initConfig({
         qunit: {
-            all: 'build/qunit-test.html'
-        }
+            all: 'build/qunit-test.html',
+        },
     });
     grunt.loadNpmTasks('grunt-contrib-qunit');
 };
