@@ -15,7 +15,6 @@ jobs:
 
       # Build project
       - run: cp config.conf.example config.conf
-      - run: make -j8 || true
       - run: make test
 
       # Run tests
