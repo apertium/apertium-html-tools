@@ -134,7 +134,9 @@ build/l10n-rel.html: assets/strings/locales.json isobork build/.d
 	awk 'BEGIN{while(getline<"isobork")i[$$1]=$$2} /:/{sub(/^[^"]*"/,""); sub(/".*/,""); borkd=i[$$0]; if(!borkd)borkd=$$0; print "<link rel=\"alternate\" hreflang=\""borkd"\" href=\"index."$$0".html\">"}' $^ > $@
 
 build/index.%.html: build/strings/%.json build/index.localiseme.html $(CONFIG) tools/read-conf.py tools/localise-html.py
-	./tools/localise-html.py -c $(CONFIG) build/index.localiseme.html $< $@
+	./tools/localise-html.py -c $(CONFIG) build/index.localiseme.html $< $@.tmp
+	htmlmin $@.tmp $@
+	rm $@.tmp
 
 build/index.html: build/index.$(DEFAULT_LOCALE).html
 	cp $^ $@

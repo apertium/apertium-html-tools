@@ -44,7 +44,7 @@ Any changes to the local version of Html-tools will trigger a `make`.
 
 For production usage, remember to
 
-1. Build with `jsmin` and `csscompressor` installed through `pip`.
+1. Build with `jsmin`, `csscompressor` and `htmlmin` installed through `pip`.
 1. Enable gzip compression on your server.
 
 Contributing
