@@ -135,7 +135,7 @@ build/l10n-rel.html: assets/strings/locales.json isobork build/.d
 
 build/index.%.html: build/strings/%.json build/index.localiseme.html $(CONFIG) tools/read-conf.py tools/localise-html.py
 	./tools/localise-html.py -c $(CONFIG) build/index.localiseme.html $< $@.tmp
-	htmlmin $@.tmp $@
+	htmlmin $@.tmp $@ || (echo "htmlmin not installed, skipping HTML minification" && cp $@.tmp $@)
 	rm $@.tmp
 
 build/index.html: build/index.$(DEFAULT_LOCALE).html
