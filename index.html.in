@@ -112,7 +112,6 @@
                   <h2 class="visible-xs" data-text="Translation">Translation</h2>
                   <form class="form-horizontal" role="form" id="translationForm">
                       <fieldset>
-                          <legend data-text="Translation_Help"></legend>
                           <div class="form-group visible-xs">
                               <div class="col-sm-12">
                                   <select class="langSelect" id="srcLangSelect" style="display: inline-block !important" aria-label="Select Original Language">
@@ -266,7 +265,6 @@
                   <h2 class="visible-xs" data-text="Morphological_Analysis">Morphological analysis</h2>
                   <form class="form-horizontal" role="form" id="analysisForm">
                       <fieldset>
-                          <legend data-text="Morphological_Analysis_Help"></legend>
                           <div class="form-group">
                               <label for="primaryAnalyzerMode" class="col-sm-2 col-md-1 control-label" data-text="Language">Language</label>
                               <div class="col-sm-3">
@@ -300,7 +298,6 @@
                   <h2 class="visible-xs" data-text="Morphological_Generation">Morphological generation</h2>
                   <form class="form-horizontal" role="form" id="generateForm">
                       <fieldset>
-                          <legend data-text="Morphological_Generation_Help"></legend>
                           <div class="form-group">
                               <label for="primaryGeneratorMode" class="col-sm-2 col-md-1 control-label" data-text="Language">Language</label>
                               <div class="col-sm-3">
