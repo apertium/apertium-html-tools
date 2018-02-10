@@ -6,13 +6,13 @@ WORKDIR /root
 
 RUN apt-get --yes update && apt-get --yes install \
     apt-utils \
-	automake \
+    automake \
     build-essential \
     gawk \
     gcc-multilib \
     git \
     locales \
-	libtool \
+    libtool \
     pkg-config \
     python \
     python3-dev \
