@@ -28,8 +28,6 @@
             "Install_Apertium_Para",
             "Maintainer",
             "Mark_Unknown_Words",
-            "Morphological_Analysis_Help",
-            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Not_Found_Error",
             "Supported_Formats",
@@ -42,7 +40,6 @@
         ]
     },
     "Translation": "翻译",
-    "Translation_Help": "选择两种语言，并使用Apertium翻译您的文字！",
     "Translate": "翻译",
     "Detect_Language": "自动检测",
     "detected": "检测到的语言",
