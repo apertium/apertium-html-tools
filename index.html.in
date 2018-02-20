@@ -112,7 +112,7 @@
                   <h2 class="visible-xs" data-text="Translation">Translation</h2>
                   <form class="form-horizontal" role="form" id="translationForm">
                       <fieldset>
-                          <!--<legend data-text="Translation_Help"></legend>-->
+                          <legend data-text="Translation_Help"></legend>
                           <div class="form-group visible-xs">
                               <div class="col-sm-12">
                                   <select class="langSelect" id="srcLangSelect" style="display: inline-block !important" aria-label="Select Original Language">
