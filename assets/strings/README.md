@@ -3,9 +3,11 @@ Localization
 
 This directory contains the JSON files powering Html-tools' localization as well as some helpful utilities. `locales.json` contains a reference to each JSON strings file as well as each language's endonym. Localization instructions are available on the [Apertium Wiki](http://wiki.apertium.org/wiki/Apertium-html-tools).
 
+After editing localizations, do the following or tell another developer:
+
 ```bash
 $ ./cleanup.sh
-$ ./progresstable.sh md
+$ ./progresstable.sh md # copy this into README.md
 ```
 
 | code | CBE* | CBC** |
