@@ -1,25 +1,36 @@
+// @flow
+
 /* exported persistChoices, restoreChoices, cache, readCache */
+
 /* global config, Store, getURLParam, iso639CodesInverse, pairs, refreshLangList populateSecondaryAnalyzerList,
     populateSecondaryGeneratorList, isSubset, handleNewCurrentLang */
-/* global srcLangs:true, dstLangs:true, recentSrcLangs: true, recentDstLangs:true, curSrcLang:true, curDstLang:true, locale:true */
+/* global srcLangs, dstLangs, recentSrcLangs, recentDstLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, setLocale,
+    curSrcLang, curDstLang, locale */
 
 var URL_PARAM_Q_LIMIT = 1300,
-    DEFAULT_EXPIRY_HOURS = 24;
+    DEFAULT_EXPIRY_HOURS = 24,
+    HASH_URL_MAP = {
+        '#translation': 'q',
+        '#webpageTranslation': 'qP',
+        '#analyzation': 'qA',
+        '#generation': 'qG',
+        '#sandbox': 'qS'
+    };
 
 var store = new Store(config.HTML_URL);
 
 // eslint-disable-next-line id-blacklist
-function cache(name, value) {
+function cache/*:: <T> */(name /*: string */, value /*: T */) {
     store.set(name, value);
     store.set(name + '_timestamp', Date.now());
 }
 
-function readCache(name, type) {
+function readCache(name /*: string */, type /*: string */) /*: ?any */ {
     var timestamp = store.get(name + '_timestamp', 0);
-    var storedValue = store.get(name, null);
+    var storedValue /*: ?number */ = store.get(name, null);
     if(storedValue && timestamp) {
         var expiryHours = config[type.toUpperCase() + '_CACHE_EXPIRY'];
-        if(expiryHours === undefined) {
+        if(typeof expiryHours !== 'number') {
             expiryHours = DEFAULT_EXPIRY_HOURS;
         }
         var MS_IN_HOUR = 3600000,
@@ -31,7 +42,7 @@ function readCache(name, type) {
     return null;
 }
 
-function persistChoices(mode, updatePermalink) {
+function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
     if(store.able()) {
         var objects;
         if(mode === 'translator') {
@@ -43,6 +54,7 @@ function persistChoices(mode, updatePermalink) {
                 'curSrcChoice': $('.srcLang.active').prop('id'),
                 'curDstChoice': $('.dstLang.active').prop('id'),
                 'translationInput': $('#originalText').val(),
+                'webpageInput': $('#webpage').val(),
                 'instantTranslation': $('#instantTranslation').prop('checked'),
                 'markUnknown': $('#markUnknown').prop('checked'),
                 'chainedTranslation': $('#chainedTranslation').prop('checked')
@@ -79,9 +91,9 @@ function persistChoices(mode, updatePermalink) {
     }
 
     if(window.history.replaceState && parent.location.hash) {
-        var hash = parent.location.hash,
-            urlParams = [],
-            urlParamNames = ['dir', 'choice'];
+        var hash /*: string */ = parent.location.hash,
+            urlParams /*: string[] */ = [],
+            urlParamNames /* string[] */ = ['dir', 'choice'];
 
         $.each(urlParamNames, function () {
             var urlParam = getURLParam(this);
@@ -90,11 +102,16 @@ function persistChoices(mode, updatePermalink) {
             }
         });
 
-        var qVal = '';
+        var qVal /*: string */ = '';
         if(hash === '#translation' && curSrcLang && curDstLang) {
             urlParams = [];
             urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
             qVal = $('#originalText').val();
+        }
+        else if(hash === '#webpageTranslation' && curSrcLang && curDstLang) {
+            urlParams = [];
+            urlParams.push('dir=' + encodeURIComponent(curSrcLang + '-' + curDstLang));
+            qVal = $('#webpage').val();
         }
         else if(hash === '#analyzation' && $('#secondaryAnalyzerMode').val()) {
             urlParams = [];
@@ -107,50 +124,62 @@ function persistChoices(mode, updatePermalink) {
             qVal = $('#morphGeneratorInput').val();
         }
 
-        var qName = '';
-        if(hash === '#translation') { qName = ''; }
-        if(hash === '#analyzation') { qName = 'A'; }
-        if(hash === '#generation') { qName = 'G'; }
+        var qName /*: string */ = HASH_URL_MAP[hash];
 
         if(updatePermalink) {
-            if(qVal !== undefined && qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
-                urlParams.push('q' + qName + '=' + encodeURIComponent(qVal));
+            if(qVal && qVal.length > 0 && qVal.length < URL_PARAM_Q_LIMIT) {
+                urlParams.push(qName + '=' + encodeURIComponent(qVal));
             }
         }
-        else if(getURLParam('q' + qName).length > 0) {
-            urlParams.push('q' + qName + '=' + getURLParam('q' + qName));
+        else if(getURLParam(qName).length > 0) {
+            urlParams.push(qName + '=' + getURLParam(qName));
         }
 
-        var newURL = window.location.pathname + (urlParams.length > 0 ? '?' + urlParams.join('&') : '') + hash;
+        var newURL /*: string */ = window.location.pathname + (urlParams.length > 0 ? '?' + urlParams.join('&') : '') + hash;
         window.history.replaceState({}, document.title, newURL);
     }
 }
 
-function restoreChoices(mode) {
+function restoreChoices(mode /*: string */) {
     if(store.able() && getURLParam('reset').length > 0) {
         store.clear();
     }
-
+    var hash /*: string */ = parent.location.hash;
     if(mode === 'translator') {
         if(store.able()) {
-            recentSrcLangs = store.get('recentSrcLangs', recentSrcLangs);
-            recentDstLangs = store.get('recentDstLangs', recentDstLangs);
-            curSrcLang = store.get('curSrcLang', curSrcLang);
-            curDstLang = store.get('curDstLang', curDstLang);
-            if(store.has('recentSrcLangs') && isSubset(recentSrcLangs, srcLangs)) {
+            var storedRecentSrcLangs /* ?string[] */ = store.get('recentSrcLangs');
+            if(storedRecentSrcLangs && isSubset(storedRecentSrcLangs, srcLangs)) {
+                setRecentSrcLangs(storedRecentSrcLangs);
                 $('.srcLang').removeClass('active');
-                $('#srcLangSelect option[value=' + curSrcLang + ']').prop('selected', true);
-                $('#' + store.get('curSrcChoice', 'srcLang1')).addClass('active');
-                if(store.get('curSrcChoice', 'srcLang1') === 'detect') {
-                    $('#detectedText').parent('.srcLang').attr('data-code', curSrcLang);
+            }
+
+            var storedCurSrcLang /*: ?string */ = store.get('curSrcLang');
+            if(storedCurSrcLang) {
+                setCurSrcLang(storedCurSrcLang);
+                $('#srcLangSelect option[value=' + storedCurSrcLang + ']').prop('selected', true);
+
+                var storedCurSrcChoice = store.get('curSrcChoice', 'srcLang1');
+                $('#' + storedCurSrcChoice).addClass('active');
+                if(storedCurSrcChoice === 'detect') {
+                    $('#detectedText').parent('.srcLang').attr('data-code', storedCurSrcLang);
                     $('#detectText').hide();
                 }
             }
-            if(store.has('recentDstLangs') && isSubset(recentDstLangs, dstLangs)) {
+
+            var storedRecentDstLangs /* ?string[] */ = store.get('recentDstLangs');
+            if(storedRecentDstLangs && isSubset(storedRecentDstLangs, dstLangs)) {
+                setRecentDstLangs(storedRecentDstLangs);
                 $('.dstLang').removeClass('active');
-                $('#dstLangSelect option[value=' + curDstLang + ']').prop('selected', true);
+            }
+
+            var storedCurDstLang /*: ?string */ = store.get('curDstLang');
+            if(storedCurDstLang) {
+                setCurDstLang(storedCurDstLang);
+                $('#dstLangSelect option[value=' + storedCurDstLang + ']').prop('selected', true);
                 $('#' + store.get('curDstChoice', 'dstLang1')).addClass('active');
             }
+
+            $('#webpage').val(store.get('webpageInput', ''));
             $('#originalText').val(store.get('translationInput', ''));
             $('#instantTranslation').prop('checked', store.get('instantTranslation', true));
             $('#markUnknown').prop('checked', store.get('markUnknown', false));
@@ -158,17 +187,21 @@ function restoreChoices(mode) {
         }
 
         if(getURLParam('dir')) {
-            var pair = getURLParam('dir').split('-');
+            var pair /*: string[] */ = getURLParam('dir').split('-');
             pair[0] = iso639CodesInverse[pair[0]] ? iso639CodesInverse[pair[0]] : pair[0];
             pair[1] = iso639CodesInverse[pair[1]] ? iso639CodesInverse[pair[1]] : pair[1];
             if(pairs[pair[0]] && pairs[pair[0]].indexOf(pair[1]) !== -1) {
-                handleNewCurrentLang(curSrcLang = pair[0], recentSrcLangs, 'srcLang', undefined, true);
-                handleNewCurrentLang(curDstLang = pair[1], recentDstLangs, 'dstLang', undefined, true);
+                handleNewCurrentLang(setCurSrcLang(pair[0]), recentSrcLangs, 'srcLang', undefined, true);
+                handleNewCurrentLang(setCurDstLang(pair[1]), recentDstLangs, 'dstLang', undefined, true);
             }
         }
 
-        if(getURLParam('q').length > 0) {
+        if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
             $('#originalText').val(decodeURIComponent(getURLParam('q')));
+        }
+
+        if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
+            $('#webpage').val(decodeURIComponent(getURLParam('qP')));
         }
 
         refreshLangList();
@@ -201,7 +234,7 @@ function restoreChoices(mode) {
             }
         }
 
-        if(getURLParam('qA').length > 0) {
+        if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
             $('#morphAnalyzerInput').val(decodeURIComponent(getURLParam('qA')));
         }
     }
@@ -230,13 +263,13 @@ function restoreChoices(mode) {
             }
         }
 
-        if(getURLParam('qG').length > 0) {
+        if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
             $('#morphGeneratorInput').val(decodeURIComponent(getURLParam('qG')));
         }
     }
     else if(mode === 'localization') {
         if(store.able()) {
-            locale = store.get('locale', '');
+            setLocale(store.get('locale', ''));
             if(locale) {
                 $('.localeSelect').val(locale);
             }
@@ -251,4 +284,11 @@ function restoreChoices(mode) {
 }
 
 /*:: export {persistChoices, restoreChoices, cache, readCache} */
+
+/*:: import {curDstLang, curSrcLang, dstLangs, handleNewCurrentLang, pairs, recentDstLangs, recentSrcLangs, refreshLangList,
+    setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, srcLangs} from "./translator.js" */
+/*:: import {iso639Codes, iso639CodesInverse, locale, setLocale} from "./localization.js" */
+/*:: import {populateSecondaryGeneratorList} from "./generator.js" */
+/*:: import {populateSecondaryAnalyzerList} from "./analyzer.js" */
+/*:: import {getURLParam, isSubset} from "./util.js" */
 /*:: import {Store} from "./store.js" */

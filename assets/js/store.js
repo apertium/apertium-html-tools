@@ -1,3 +1,5 @@
+// @flow
+
 /* exported Store */
 
 /* eslint-disable id-blacklist */
@@ -6,30 +8,23 @@
 }] */
 
 // eslint-disable-next-line func-style
-var Store = function (prefix/*: string*/)/*: void*/ {
+var Store = function (prefix /*: string */) /*: void */ {
     this.prefix = prefix;
 };
 
-Store.prototype.get = function/*:: <T>*/ (key/*: string*/, fallback/*: T*/)/*: T*/ {
-    if(fallback === undefined) {
-        console.warn('Store.get with undefined fallback! Key:', key);
-    }
+Store.prototype.get = function /*:: <T> */ (key /*: string */, fallback /*: T */) /*: T */ {
     if(!this.able()) {
         return fallback;
     }
 
-    var fromStorage = window.localStorage[this.prefix + key];
-    if(fromStorage === undefined) {
+    var fromStorage /*: string */ = window.localStorage[(this.prefix /*: string */) + key];
+    if(fromStorage === undefined || fromStorage === 'undefined') {
         return fallback;
-    }
-    else if(fromStorage === 'undefined') {
-        // JSON.parse(JSON.stringify(undefined)) fails – manually "parse" if so:
-        return undefined;
     }
     else {
         try {
             var parsed = JSON.parse(fromStorage);
-            if(parsed !== null) {
+            if(parsed) {
                 return parsed;
             }
         }
@@ -40,30 +35,29 @@ Store.prototype.get = function/*:: <T>*/ (key/*: string*/, fallback/*: T*/)/*: T
     }
 };
 
-Store.prototype.set = function/*:: <T>*/ (key/*: string*/, value/*: T*/)/*: void*/ {
+Store.prototype.set = function /*:: <T> */ (key /*: string */, value /*: T */) /*: void */ {
     if(this.able()) {
-        window.localStorage[this.prefix + key] = JSON.stringify(value);
+        window.localStorage[(this.prefix /*: string */) + key] = JSON.stringify(value);
     }
 };
 
-Store.prototype.clear = function ()/*: void*/ {
+Store.prototype.clear = function () /*: void */ {
     if(this.able()) {
         for(var key in window.localStorage) {
-            if(key.startsWith(this.prefix)) {
+            if(key.startsWith((this.prefix /*: string */))) {
                 window.localStorage.removeItem(key);
             }
         }
     }
 };
 
-Store.prototype.has = function (key/*: string*/)/*: bool*/ {
-    return this.able() &&
-        (this.prefix + key) in window.localStorage;
+Store.prototype.has = function (key /*: string */) /*: boolean */ {
+    return this.able() && ((this.prefix /*: string */) + key) in window.localStorage;
 };
 
-Store.prototype.able = function ()/*: bool*/ {
+Store.prototype.able = function () /*: boolean */ {
     try {
-        return !!(window.localStorage);
+        return Boolean(window.localStorage);
     }
     catch(e) {
         if(e.name === 'SecurityError') {

@@ -9,9 +9,8 @@
             "ca",
             "cat"
         ],
-        "completion": " 84%  89.06%",
+        "completion": " 85%  92.89%",
         "missing": [
-            "Download_Browser_Warning",
             "Drop_Document",
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -35,7 +34,6 @@
     "File_Too_Large": "El fitxer és massa gran!",
     "Cancel": "Cancel·la",
     "Format_Not_Supported": "No es reconeix el format del document!",
-    "Download_File": "Baixa {{fileName}}",
     "Morphological_Analysis": "Anàlisi morfològica",
     "Morphological_Analysis_Help": "Trieu una llengua i analitzeu text amb els analitzadors morfològics d'Apertium.",
     "Analyze": "Analitza",
@@ -54,7 +52,7 @@
     "Contact_Us": "No dubteu en posar-vos en contacte amb nosaltres si trobeu cap errada, si hi ha cap projecte en el qual vos agradaria que treballarem o si voleu ajudar-nos.",
     "Maintainer": "Aquest lloc web està mantingut per {{maintainer}}.",
     "About_Title": "Quant a la web",
-    "Enable_JS_Warning": "La web només funciona amb navegadors que funcionen amb JavaScript, si no podeu <a href='http://www.enable-javascript.com/' target='_blank'>habilitar JavaScript</a>, podeu provar els <a href='http://traductor.prompsit.com' target='_blank'>traductors a Prompsit</a>.",
+    "Enable_JS_Warning": "La web només funciona amb navegadors que funcionen amb JavaScript, si no podeu <a href='http://www.enable-javascript.com/' target='_blank' rel='noopener'>habilitar JavaScript</a>, podeu provar els <a href='http://traductor.prompsit.com' target='_blank' rel='noopener'>traductors a Prompsit</a>.",
     "Not_Found_Error": "<b>Error 404:</b> Disculpeu, aquesta pàgina ja no existeix!",
     "About": "Quant a",
     "Download": "Baixa",
@@ -62,8 +60,8 @@
     "Documentation": "Documentació",
     "About_Apertium": "Quant a Apertium",
     "What_Is_Apertium": "<p>Apertium és una <b>plataforma lliure/de codi font obert per a la traducció automàtica</b>, inicialment concebuda per a traducció entre parells de llengües properes, però que s'ha extés per a treballar amb parells de llengües més divergents (com, per exemple, anglés-català). La plataforma proporciona</p> <ol> <li>un motor de traducció independent de la llengua</li> <li>eines per gestionar les dades lingüístiques necessàries per a construir un sistema de traducció automàtica per a un determinat parell de llengües</li> <li>dades lingüístiques per a una quantitat de parells de llengües cada vegada més gran.</li> </ol> <p>Apertium dóna la benvinguda a nous desenvolupadors: si penseu que podeu millorar el motor o les eines, o desenvolupar dades lingüístiques amb nosaltres, no dubteu a <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>contactar amb nosaltres</a>.</p>",
-    "Documentation_Para": "Documentation can be found on our <a href='http://wiki.apertium.org/'>Wiki</a> under the <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank'>Documentation</a> sub-page. We have published various conference papers and journal articles, a list of which may be found on the Wiki under <a href='http://wiki.apertium.org/wiki/Publications' target='_blank'>Publications</a>.",
+    "Documentation_Para": "Documentation can be found on our <a href='http://wiki.apertium.org/'>Wiki</a> under the <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank' rel='noopener'>Documentation</a> sub-page. We have published various conference papers and journal articles, a list of which may be found on the Wiki under <a href='http://wiki.apertium.org/wiki/Publications' target='_blank' rel='noopener'>Publications</a>.",
     "Apertium_Downloads": "Baixades",
-    "Downloads_Para": "Les versions actuals d'<b>Apertium</b> així com de les <b>dades lingüístiques</b> es troben disponibles a <a href='https://sourceforge.net/projects/apertium/' target='_blank'>la pàgina de SourceForge</a>. Les instruccions d'instal·lació d'Apertium a la majoria de plataformes es poden trobar a la <a href='http://wiki.apertium.org/wiki/Installation' target='_blank'>pàgina d'instal·lació de la Wiki</a>.",
-    "Contact_Para": "<h4>Canal IRC</h4> <p>La manera més fàcil de posar-vos en contacte amb nosaltres és unir-vos al nostre <a href='http://wiki.apertium.org/wiki/IRC' target='_blank'>canal <abbr title='Internet Relay Chat'>IRC</abbr>, #apertium</a> a irc.freenode.net. Allà es reuneixen els usuaris i desenvolupadors d'Apertium. Si no teniu cap client IRC; podeu utilitzar el <a href='http://webchat.freenode.net/?channels=apertium'>webchat de freenode</a>. </p> <h4>Llista de correu</h4><p>També vos podeu subscriure a <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank'>la llista de correu apertium-stuff</a>, on podeu enviar propostes o problemes que tingueu, així com seguir les discussions generals sobre Apertium.</p> <h4>Contacte</h4> <p>No dubteu en posar-vos en contacte amb nosaltres a través de <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank'>l'adreça de correu apertium-contact</a> si trobeu alguna errada, hi ha algun projecte que vos interesse, o si necessiteu ajuda.</p>"
+    "Downloads_Para": "Les versions actuals d'<b>Apertium</b> així com de les <b>dades lingüístiques</b> es troben disponibles a <a href='https://sourceforge.net/projects/apertium/' target='_blank' rel='noopener'>la pàgina de SourceForge</a>. Les instruccions d'instal·lació d'Apertium a la majoria de plataformes es poden trobar a la <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>pàgina d'instal·lació de la Wiki</a>.",
+    "Contact_Para": "<h4>Canal IRC</h4> <p>La manera més fàcil de posar-vos en contacte amb nosaltres és unir-vos al nostre <a href='http://wiki.apertium.org/wiki/IRC' target='_blank' rel='noopener'>canal <abbr title='Internet Relay Chat'>IRC</abbr>, #apertium</a> a irc.freenode.net. Allà es reuneixen els usuaris i desenvolupadors d'Apertium. Si no teniu cap client IRC; podeu utilitzar el <a href='http://webchat.freenode.net/?channels=apertium'>webchat de freenode</a>. </p> <h4>Llista de correu</h4><p>També vos podeu subscriure a <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank' rel='noopener'>la llista de correu apertium-stuff</a>, on podeu enviar propostes o problemes que tingueu, així com seguir les discussions generals sobre Apertium.</p> <h4>Contacte</h4> <p>No dubteu en posar-vos en contacte amb nosaltres a través de <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank' rel='noopener'>l'adreça de correu apertium-contact</a> si trobeu alguna errada, hi ha algun projecte que vos interesse, o si necessiteu ajuda.</p>"
 }

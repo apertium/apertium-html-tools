@@ -1,13 +1,16 @@
+CONFIG ?= config.conf
+DEFAULT_LOCALE ?= $(shell ./tools/read-conf.py -c $(CONFIG) get DEFAULT_LOCALE)
+
 all: check-deps prod
 
 debug: debugjs debugcss build/index.debug.html build/not-found.html fonts build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js build/sitemap.xml build/strings/locales.json build/index.$(DEFAULT_LOCALE).html build/strings/$(DEFAULT_LOCALE).json images
 
-prod: js css html fonts build/sitemap.xml build/strings/locales.json localhtml images
+prod: js css html fonts build/sitemap.xml build/manifest.json build/strings/locales.json localhtml images
 
 js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js debugjs
-debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/store.js build/js/persistence.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
+debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/init.js build/js/store.js build/js/persistence.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
 css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css debugcss
-debugcss: build/css/bootstrap.css build/css/style.css
+debugcss: build/css/bootstrap.css build/css/analysis.css build/css/footer.css build/css/general.css build/css/navbar.css build/css/translation.css
 html: build/index.html build/index.debug.html build/not-found.html
 fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf build/fonts/fontawesome-webfont.svg build/fonts/fontawesome-webfont.eot
 
@@ -31,12 +34,12 @@ check-deps:
 ### JS ###
 JSFILES= \
 	assets/js/strict.js \
-	assets/js/flow.js \
 	assets/js/jquery.jsonp-2.4.0.min.js \
 	build/js/config.js \
 	build/js/locales.js \
 	build/js/listrequests.js \
 	assets/js/util.js \
+	assets/js/init.js \
 	assets/js/store.js \
 	assets/js/persistence.js \
 	assets/js/localization.js \
@@ -44,9 +47,6 @@ JSFILES= \
 	assets/js/analyzer.js \
 	assets/js/generator.js \
 	assets/js/sandbox.js
-
-CONFIG ?= config.conf
-DEFAULT_LOCALE ?= $(shell ./tools/read-conf.py -c $(CONFIG) get DEFAULT_LOCALE)
 
 build/js/config.js: $(CONFIG) tools/read-conf.py build/js/.d
 	./tools/read-conf.py -c $< js > $@
@@ -85,7 +85,7 @@ build/js/all.js: $(JSFILES) build/js/.d
 	cat $(JSFILES) > $@
 
 build/js/min.js: build/js/all.js
-	cp $< $@
+	python3 -m jsmin $< > $@ || (echo "jsmin not installed, skipping JS minification" && cp $< $@)
 
 build/js/compat.js: assets/js/compat.js build/js/.d
 	cp $< $@
@@ -99,6 +99,9 @@ build/js/bootstrap.min.js: build/js/.d
 build/js/%.js: assets/js/%.js build/js/.d
 	cp $< $@
 
+### MANIFEST ###
+build/manifest.json: assets/manifest.json build/.d
+	cp $< $@
 
 ### HTML ###
 build/index.debug.html: index.html.in debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json $(CONFIG) tools/read-conf.py tools/localise-html.py build/.d
@@ -131,7 +134,9 @@ build/l10n-rel.html: assets/strings/locales.json isobork build/.d
 	awk 'BEGIN{while(getline<"isobork")i[$$1]=$$2} /:/{sub(/^[^"]*"/,""); sub(/".*/,""); borkd=i[$$0]; if(!borkd)borkd=$$0; print "<link rel=\"alternate\" hreflang=\""borkd"\" href=\"index."$$0".html\">"}' $^ > $@
 
 build/index.%.html: build/strings/%.json build/index.localiseme.html $(CONFIG) tools/read-conf.py tools/localise-html.py
-	./tools/localise-html.py -c $(CONFIG) build/index.localiseme.html $< $@
+	./tools/localise-html.py -c $(CONFIG) build/index.localiseme.html $< $@.tmp
+	htmlmin $@.tmp $@ || (echo "htmlmin not installed, skipping HTML minification" && cp $@.tmp $@)
+	rm $@.tmp
 
 build/index.html: build/index.$(DEFAULT_LOCALE).html
 	cp $^ $@
@@ -170,6 +175,13 @@ build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.HTML_URL
 
 ### CSS ###
 
+CSSFILES= \
+	assets/css/analysis.css \
+	assets/css/footer.css \
+	assets/css/general.css \
+	assets/css/navbar.css \
+	assets/css/translation.css
+
 THEMES= cerulean cosmo cyborg darkly journal lumen paper readable sandstone simplex slate spacelab superhero united yeti
 
 $(THEMES): % : all build/css/bootstrap.%.css build/css/.d
@@ -183,9 +195,9 @@ build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/b
 	cat $^ > $@
 
 build/css/min.css: build/css/all.css
-	cp $< $@
+	python3 -m csscompressor $< > $@ || (echo "csscompressor not installed, skipping CSS minification" && cp $< $@)
 
-build/css/style.css: assets/css/style.css $(if $(theme), assets/css/themes/style.$(theme).css, ) build/css/.d
+build/css/style.css: $(CSSFILES) $(if $(theme), assets/css/themes/style.$(theme).css, ) build/css/.d
 	cat $^ > $@
 
 build/css/font-awesome.min.css: build/css/.d
@@ -223,10 +235,6 @@ build/img/%: assets/img/%
 
 images: $(IMAGES_BUILD)
 
-### Typechecking ###
-# grab the bin from https://github.com/facebook/flow/releases
-flow: build/js/all.js
-	grep -Ev '/\*:: *(ex|im)port ' $< | flow check-contents
 
 ### Test server ###
 server:
