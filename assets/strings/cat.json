@@ -9,11 +9,12 @@
             "ca",
             "cat"
         ],
-        "completion": " 100%  100%",
+        "completion": "100% 112.47%",
+        "missing": []
     },
     "title": "Apertium | Una plataforma lliure per a la traducció automàtica",
-    "description": "Apertium és una plataforma de traducció automàtica basada en regles. És programari lliure, i est publicat sota els termes de la llicència «GNU General Public License».",
     "tagline": "Plataforma lliure/de codi font obert per a la traducció automàtica",
+    "description": "Apertium és una plataforma de traducció automàtica basada en regles. És programari lliure, i est publicat sota els termes de la llicència «GNU General Public License».",
     "Translation": "Traducció",
     "Translation_Help": "Introduïu el text o l'URL per a traduir.",
     "Translate": "Tradueix",
