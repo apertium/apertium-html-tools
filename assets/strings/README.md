@@ -12,8 +12,9 @@ $ ./progresstable.sh md # copy this into README.md
 
 | code | CBE* | CBC** |
 |------|------|-------|
-| cat  | 100% | 112.47% | 
+| cat  | 100% | 112.49% | 
 | eng  | 100% | 100.00% | 
+| mar  | 95% | 52.93% | 
 | deu  | 91% | 104.58% | 
 | kir  | 89% | 45.64% | 
 | srd  | 85% | 91.69% | 
