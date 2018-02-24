@@ -8,21 +8,23 @@
             "tr",
             "tur"
         ],
-        "completion": " 89%  88.54%",
+        "completion": " 83%  86.46%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Supported_Formats",
-            "Translate_Webpage"
+            "Translate_Webpage",
+            "Translation_Help"
         ]
     },
     "title": "Apertium | Özgür ve açık kaynak kodlu bir makine çevirisi platformu",
     "tagline": "Özgür ve açık kaynak kodlu bir makine çevirisi platformu",
     "description": "Apertium kural tabanlı bir makine çevirisi platformudur. Apertium bir özgür yazılımdır, ve GNU Genel Kamu Lisansı ile dağıtılır.",
     "Translation": "Çeviri",
-    "Translation_Help": "İki dil seçin ve Apertium platformunu kullanarak belgenizi çevirin!",
     "Translate": "Çevir",
     "Detect_Language": "Dili tahmin et",
     "detected": "tahmin edildi",
@@ -34,10 +36,8 @@
     "Cancel": "İptal",
     "Format_Not_Supported": "Format desteklenmiyor!",
     "Morphological_Analysis": "Morfolojik çözümleme",
-    "Morphological_Analysis_Help": "Bir dil seçip Apertium morfolojik çözümleme araçlarıyla analiz et.",
     "Analyze": "Çözümle",
     "Morphological_Generation": "Morfolojik üretme",
-    "Morphological_Generation_Help": "Bir dil seçip Apertium morfolojik üretme araçlarıyla sözcük üret.",
     "Generate": "Üret",
     "Spell_Checker": "Yazım denetleyicisi",
     "APy_Sandbox": "APy kum havuzu",

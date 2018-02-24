@@ -8,17 +8,19 @@
             "de",
             "deu"
         ],
-        "completion": " 97% 108.53%",
+        "completion": " 91% 104.58%",
         "missing": [
             "Install_Apertium",
-            "Install_Apertium_Para"
+            "Install_Apertium_Para",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
+            "Translation_Help"
         ]
     },
     "title": "Apertium | Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "tagline": "Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "description": "Apertium ist eine Plattform für regelbasierte maschinelle Übersetzungen. Es ist freie Software und wurde unter den Bedingungen der GNU General Public License veröffentlicht.",
     "Translation": "Übersetzung",
-    "Translation_Help": "Wählen Sie zwei Sprachen und übersetzen Sie Ihren Text mit Apertiums Übersetzungsplattform!",
     "Translate": "Übersetzen",
     "Detect_Language": "Sprache erkennen",
     "detected": "erkannt",
@@ -34,10 +36,8 @@
     "Translate_Webpage": "Eine Webseite übersetzen",
     "Supported_Formats": "Unterstützte Formate: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 und neuer). <br/><i>.doc-Dateien von Word 97 und PDFs werden nicht unterstützt.</i>",
     "Morphological_Analysis": "Morphologische Analyse",
-    "Morphological_Analysis_Help": "Wählen Sie eine Sprache und analysieren Sie Ihren Text mit Apertiums morphologischen Analysierern.",
     "Analyze": "Analysieren",
     "Morphological_Generation": "Morphologische Erzeugung",
-    "Morphological_Generation_Help": "Wählen Sie eine Sprache und erzeugen Sie aus Ihrem Text flektierte Formen mit Apertiums morphologischen Generatoren.",
     "Generate": "Erzeugen",
     "Spell_Checker": "Rechtschreibprüfung",
     "APy_Sandbox": "APy-Sandkasten",

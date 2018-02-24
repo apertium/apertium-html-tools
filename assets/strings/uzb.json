@@ -8,21 +8,23 @@
             "uz",
             "uzb"
         ],
-        "completion": " 89%  95.95%",
+        "completion": " 83%  92.09%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Supported_Formats",
-            "Translate_Webpage"
+            "Translate_Webpage",
+            "Translation_Help"
         ]
     },
     "title": "Apertium | Tekin, ochiq kodli mashina tarjima platformasi",
     "tagline": "Tekin, ochiq kodli mashina tarjima platformasi",
     "description": "Apertium - qoidaga asoslangan mashina tarjima platformasi. Bu dastur tekin bo‘lib GNU General Public License shartlari asosida chop etilgan.",
     "Translation": "Tarjima",
-    "Translation_Help": "Ikkita tilni tanlang va Apertiumning tarjima platformasini ishlatgan holda tarjima qiling.",
     "Translate": "Tarjima qilish",
     "Detect_Language": "Tilni aniqlash",
     "detected": "aniqlandi",
@@ -34,10 +36,8 @@
     "Cancel": "Bekor qilish",
     "Format_Not_Supported": "Format qo‘llanilmaydi!",
     "Morphological_Analysis": "Morfologik tahlil",
-    "Morphological_Analysis_Help": "Tilni tanlang va matningizni Apertiumning morfologik tahlilchilari orqali tahlil qiling.",
     "Analyze": "Tahlil qilish",
     "Morphological_Generation": "Morfologik generator",
-    "Morphological_Generation_Help": "Tilni tanlang va Apertiumning morfologik generatorlarini ishlatib ust shakllarni ishlab chiqaring",
     "Generate": "Ishlab chiqarish",
     "Spell_Checker": "Imlo tekshiruvchi",
     "APy_Sandbox": "APy qumdon",

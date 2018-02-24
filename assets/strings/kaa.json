@@ -7,22 +7,24 @@
         "locale": [
             "kaa"
         ],
-        "completion": " 85%  91.20%",
+        "completion": " 79%  87.73%",
         "missing": [
             "Drop_Document",
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Supported_Formats",
             "Translate_Webpage",
+            "Translation_Help",
             "description"
         ]
     },
     "title": "Apertium | Biypul/ashıq mashinalı awdarmalaw platforması",
     "tagline": "Biypul/ashıq mashinalı awdarmalaw platforması",
     "Translation": "Awdarma",
-    "Translation_Help": "Tillerdi tan'lan' ha'm tekstin'izdi Apertium ko'meginde awdarın'!",
     "Translate": "Awdarıw",
     "Detect_Language": "Tildi anıqlaw",
     "detected": "anıqlandı",
@@ -33,10 +35,8 @@
     "Cancel": "Biykar etiw",
     "Format_Not_Supported": "Format tuwra kelmeydi!",
     "Morphological_Analysis": "Morfologiyalıq analiz",
-    "Morphological_Analysis_Help": "Tildi tan'lap, tekstin'izdi Apertiumnın' morfologiyalıq analizatorları ko'meginde analiz qılın'.",
     "Analyze": "Tan'law",
     "Morphological_Generation": "Morfologiyalıq sintez",
-    "Morphological_Generation_Help": "Rejimdi tan'lap, Apertiumnın' morfologiyalıq generatorları ko'meginde betki formalardı sintezlen'.",
     "Generate": "Sintezlew",
     "Spell_Checker": "Orfografiya teksergish",
     "APy_Sandbox": "APy qumyashik",

@@ -9,7 +9,7 @@
             "ky",
             "kir"
         ],
-        "completion": " 75%  28.73%",
+        "completion": " 72%  24.53%",
         "missing": [
             "Contact_Para",
             "Documentation_Para",
@@ -19,9 +19,11 @@
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Supported_Formats",
-            "Translate_Webpage",
+            "Translation_Help",
             "What_Is_Apertium",
             "description"
         ]
@@ -29,7 +31,6 @@
     "title": "Apertium | Эркин/ачык машинелик котормо платформасы",
     "tagline": "Эркин/ачык машинелик котормо платформасы",
     "Translation": "Которуу",
-    "Translation_Help": "Тилдерди тандап, текстиңизди Апертиумдун жардамы менен которуу!",
     "Translate": "Котор",
     "Detect_Language": "Тилди автоматтык түрдө аныктоо",
     "detected": "автоматтык түрдө аныкталды",
@@ -38,11 +39,10 @@
     "Not_Available": "Котормо даяр эмес",
     "File_Too_Large": "Файлдын көлөмү лимиттен ашып кетти!",
     "Cancel": "Артка кайтуу",
+    "Translate_Webpage": "Веб барагы которуу",
     "Morphological_Analysis": "Морфологиялык талдоо",
-    "Morphological_Analysis_Help": "Тилди тандап, Апертиум морфологиялык талдагычтары менен текстиңизди талдоо",
     "Analyze": "Талдоо",
     "Morphological_Generation": "Морфологиялык синтездөө",
-    "Morphological_Generation_Help": "Тилди танадп, Апертиум морфологиялык талдагычтарынын жардамы менен сөзформалар синтездөө.",
     "Generate": "Синтездөө",
     "Spell_Checker": "Катаны текшерүү",
     "APy_Sandbox": "APy кум аянтчасы",
@@ -63,6 +63,5 @@
     "Contact": "Байланышуу",
     "Documentation": "Документация",
     "About_Apertium": "Апертиум жөнүндө",
-    "Apertium_Downloads": "Апертиумду жүктөп алуу",
-	 "Translate_Webpage": "Веб барагы которуу"
+    "Apertium_Downloads": "Апертиумду жүктөп алуу"
 }

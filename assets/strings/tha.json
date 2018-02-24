@@ -5,22 +5,24 @@
         "locale": [
             "tha"
         ],
-        "completion": " 85%  78.91%",
+        "completion": " 79%  75.80%",
         "missing": [
             "Drop_Document",
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Supported_Formats",
             "Translate_Webpage",
+            "Translation_Help",
             "description"
         ]
     },
     "title": "อาเปอร์เทียม | แพรตฟอร์มเครื่องแปลภาษาเสรี/โอเพนซอร์ส",
     "tagline": "แพรตฟอร์มเครื่องแปลภาษาเสรี/โอเพนซอร์ส",
     "Translation": "การแปล",
-    "Translation_Help": "เลือกภาษาทั้งสองภาษาและแปลข้อความของคุณโดยใช้แพรตฟอร์มการแปลอาเปอร์เทียม!",
     "Translate": "แปล",
     "Detect_Language": "ตรวจหาภาษา",
     "detected": "ได้ตรวจหาแล้ว",
@@ -31,10 +33,8 @@
     "Cancel": "ยกเลิก",
     "Format_Not_Supported": "รูปแบบยังไม่ถูกรองรับ",
     "Morphological_Analysis": "การวิเคราะห์วจีวิภาค",
-    "Morphological_Analysis_Help": "เลือกภาษาหนึ่งภาษาและวิเคราะห์ข้อความของคุณโดยใช้ตัววิเคราะห์ทางวจีวิภาคของอาเปอร์เทียม",
     "Analyze": "วิเคราะห์",
     "Morphological_Generation": "การสร้างทางวิจีวิภาค",
-    "Morphological_Generation_Help": "เลือกภาษาหนึ่งภาษาและสร้างรูปคำจากข้อความของคุณโดยใช้ตัวสร้างทางวจีวิภาคของอาเปอร์เทียม",
     "Generate": "สร้าง",
     "Spell_Checker": "ตรวจสอบการสะกด",
     "APy_Sandbox": "กล่องทรายเอพีวาย",
