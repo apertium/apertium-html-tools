@@ -3,16 +3,20 @@ Localization
 
 This directory contains the JSON files powering Html-tools' localization as well as some helpful utilities. `locales.json` contains a reference to each JSON strings file as well as each language's endonym. Localization instructions are available on the [Apertium Wiki](http://wiki.apertium.org/wiki/Apertium-html-tools).
 
+After editing localizations, do the following or tell another developer:
+
 ```bash
 $ ./cleanup.sh
-$ ./progresstable.sh md
+$ ./progresstable.sh md # copy this into README.md
 ```
 
 | code | CBE* | CBC** |
 |------|------|-------|
+| cat  | 100% | 112.49% |
 | mar  | 100% | 101.36% |
 | eng  | 100% | 100.00% |
 | deu  | 91% | 104.58% |
+| kir  | 89% | 45.64% |
 | srd  | 85% | 91.69% |
 | arg  | 83% | 94.39% |
 | uzb  | 83% | 92.09% |
@@ -21,12 +25,10 @@ $ ./progresstable.sh md
 | rus  | 83% | 82.28% |
 | nob  | 81% | 85.66% |
 | nno  | 81% | 81.28% |
-| cat  | 79% | 90.37% |
 | kaa  | 79% | 87.73% |
 | fin  | 79% | 76.85% |
 | tha  | 79% | 75.80% |
 | spa  | 74% | 26.94% |
-| kir  | 72% | 24.53% |
 | fra  | 70% | 86.97% |
 | oci  | 70% | 83.91% |
 | uig  | 70% | 78.71% |
