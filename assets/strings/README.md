@@ -7,9 +7,10 @@ After editing localizations, do the following or tell another developer:
 
 ```bash
 $ ./cleanup.sh
-$ ./progresstable.sh md # copy this into README.md
+$ echo "$( sed -n '/<!--table-->$/q;p' README.md ; echo '<!--table-->' ; ./progresstable.sh md ; )" > README.md
 ```
 
+<!--table-->
 | code | CBE* | CBC** |
 |------|------|-------|
 | cat  | 100% | 112.49% |
