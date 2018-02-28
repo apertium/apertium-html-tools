@@ -7,14 +7,16 @@ After editing localizations, do the following or tell another developer:
 
 ```bash
 $ ./cleanup.sh
-$ ./progresstable.sh md # copy this into README.md
+$ echo "$( sed -n '/<!--table-->$/q;p' README.md ; echo '<!--table-->' ; ./progresstable.sh md ; )" > README.md
 ```
 
+<!--table-->
 | code | CBE* | CBC** |
 |------|------|-------|
 | cat  | 100% | 112.49% |
 | mar  | 100% | 101.36% |
 | eng  | 100% | 100.00% |
+| fin  | 100% | 95.51% |
 | deu  | 91% | 104.58% |
 | kir  | 89% | 45.64% |
 | srd  | 85% | 91.69% |
@@ -26,7 +28,6 @@ $ ./progresstable.sh md # copy this into README.md
 | nob  | 81% | 85.66% |
 | nno  | 81% | 81.28% |
 | kaa  | 79% | 87.73% |
-| fin  | 79% | 76.85% |
 | tha  | 79% | 75.80% |
 | spa  | 74% | 26.94% |
 | fra  | 70% | 86.97% |
