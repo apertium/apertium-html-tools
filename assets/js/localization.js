@@ -88,8 +88,8 @@ $(document).ready(function () {
         locale = $(this).val();
         sendEvent('localization', 'localize', locale);
         localizeEverything(false);
-        persistChoices('localization');
-        $('.localeSelect').val($(this).find("option:selected").attr("value"));
+        persistChoices('localization'); 
+        $('.localeSelect').val(locale);
     });
 
 
