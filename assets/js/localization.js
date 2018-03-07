@@ -88,12 +88,11 @@ $(document).ready(function () {
         locale = $(this).val();
         sendEvent('localization', 'localize', locale);
         localizeEverything(false);
-        persistChoices('localization'); 
+        persistChoices('localization');
         $('.localeSelect').val(locale);
     });
 
-
-    function localizeEverything(stringsFresh /*: boolean */) {
+function localizeEverything(stringsFresh /*: boolean */) {
         localizeInterface();
         localizeStrings(stringsFresh);
         if($('#translatedText').hasClass('notAvailable')) {
