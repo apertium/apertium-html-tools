@@ -8,8 +8,8 @@ jobs:
 
       # Install development dependencies
       - run: sudo apt-get install python3 python3-pip
-      - run: sudo npm install -g json eslint flow flow-bin flow-coverage-report htmlhint sass-lint
-      - run: sudo pip3 install flake8 jsmin csscompressor htmlmin
+      - run: sudo npm install -g json eslint flow flow-bin flow-coverage-report htmlhint sass-lint purify-css
+      - run: sudo pip3 install flake8 jsmin htmlmin
 
       # Run tests
       - run: find assets/strings -type f -name '*.json' -exec json --validate '{}' +

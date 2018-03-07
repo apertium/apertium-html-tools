@@ -23,8 +23,8 @@ Prerequisites
 Setup
 -------
 
-1. Copy `config.conf.example` to `config.conf` and edit it.
-1. Then type `make`.
+* Copy `config.conf.example` to `config.conf` and edit it.
+* Then type `make`.
 
 Running
 ----------
@@ -44,8 +44,9 @@ Any changes to the local version of Html-tools will trigger a `make`.
 
 For production usage, remember to
 
-1. Build with `jsmin`, `csscompressor` and `htmlmin` installed through `pip`.
-1. Enable gzip compression on your server.
+* Build with `jsmin`, `htmlmin` installed through `pip`.
+* Build with `purify-css` installed through `npm`.
+* Enable gzip compression on your server.
 
 Contributing
 ------------
