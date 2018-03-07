@@ -558,12 +558,5 @@
           <h4 id="installationNoticeTitle" data-text="Install_Apertium"></h4>
           <p data-text="Install_Apertium_Para"></p>
         </div>
-         <script type="text/javascript">
-          $('.localeSelect').on('change', function(){
-            var total = $(this).val();
-            $('.localeSelect').val($(this).find("option:selected").attr("value"));
-});
-       </script>
-
     </body>
 </html>
