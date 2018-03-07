@@ -1,7 +1,7 @@
 Apertium Html-tools
 ====================
 
-[![CircleCI](https://circleci.com/gh/goavki/apertium-html-tools.svg?style=svg)](https://circleci.com/gh/goavki/apertium-html-tools)
+[![CircleCI](https://circleci.com/gh/apertium/apertium-html-tools.svg?style=svg)](https://circleci.com/gh/apertium/apertium-html-tools)
 
 [Apertium Html-tools](http://wiki.apertium.org/wiki/Apertium-html-tools) is a web application
 providing a fully localised interface for text/document/website translation, analysis, and generation
