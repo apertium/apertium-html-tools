@@ -89,6 +89,7 @@ $(document).ready(function () {
         sendEvent('localization', 'localize', locale);
         localizeEverything(false);
         persistChoices('localization');
+        $('.localeSelect').val(locale);
     });
 
     function localizeEverything(stringsFresh /*: boolean */) {
