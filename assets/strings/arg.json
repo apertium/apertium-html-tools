@@ -7,16 +7,14 @@
         "locale": [
             "arg"
         ],
-        "completion": "100%",
-        "missing": [
-
-        ]
+        "completion": "100% 111.82%",
+        "missing": []
     },
     "title": "Apertium | Una plataforma libre de traducción automatica",
     "tagline": "Plataforma de traducción automatica libre/de codigo fuent ubierto",
     "description": "Apertium ye una plataforma de traducción automatica basada en reglas. Ye software libre y se publica baixo os termins d'a GNU General Public License",
     "Translation": "Traducción",
-    "Translation_Help": "Escribir lo texto u la URL a traducir.", 
+    "Translation_Help": "Escribir lo texto u la URL a traducir.",
     "Translate": "Traducir",
     "Detect_Language": "Detectar la luenga",
     "detected": "detectada",
