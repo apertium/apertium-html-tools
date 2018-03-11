@@ -23,7 +23,7 @@
     "title": "Apertium | Une plateforme libre/open source de traduction automatique",
     "tagline": "Une plateforme libre/open source de traduction automatique",
     "Translation": "Traduction",
-    "Translation_Help": "Entre un text ou un URL pour le traduire."
+    "Translation_Help": "Entre un text ou un URL pour le traduire.",
     "Translate": "Traduire",
     "Detect_Language": "Détecter la langue",
     "detected": "détecté",
