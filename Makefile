@@ -194,8 +194,8 @@ build/css/bootstrap.%.css: build/css/.d
 build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/bootstrap.css) build/css/style.css build/css/.d
 	cat $^ > $@
 
-build/css/min.css: build/css/all.css
-	python3 -m csscompressor $< > $@ || (echo "csscompressor not installed, skipping CSS minification" && cp $< $@)
+build/css/min.css: build/css/all.css build/index.html build/js/all.js
+	purifycss $< build/index.html build/js/all.js --min --out $@ || (echo "purifycss not installed, skipping CSS minification"; cp $< $@)
 
 build/css/style.css: $(CSSFILES) $(if $(theme), assets/css/themes/style.$(theme).css, ) build/css/.d
 	cat $^ > $@
