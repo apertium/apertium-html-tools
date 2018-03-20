@@ -180,6 +180,7 @@ CSSFILES= \
 	assets/css/footer.css \
 	assets/css/general.css \
 	assets/css/navbar.css \
+	assets/css/removeinline.css \
 	assets/css/translation.css
 
 THEMES= cerulean cosmo cyborg darkly journal lumen paper readable sandstone simplex slate spacelab superhero united yeti
