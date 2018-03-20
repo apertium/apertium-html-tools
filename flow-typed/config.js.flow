@@ -30,4 +30,5 @@ declare var config: {
     SUBTITLE: ?string,
     SUBTITLE_COLOR: ?string,
     TAGGERS: ?{[string]: string},
+    TRANSLATION_CHAINING: boolean,
 };
