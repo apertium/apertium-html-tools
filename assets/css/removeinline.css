@@ -1,6 +1,7 @@
- 
-#one{position: relative;}
-#two { 
+#one {
+ position: relative;
+}
+#two {
  margin-bottom: -.25em;
 }
 #three {
