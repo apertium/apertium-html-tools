@@ -1,49 +1,123 @@
  
 #one{position: relative;}
-#two { margin-bottom: -.25em;}
-#three{width: 35%;}
-#four{padding: 5px 5px 0 0;}
-#five{display: inline-block;}
-#six{display: inline-block;}
-#seven{display: none;}
-#eig{margin-top: 1em;}
-#nin{display: none;
- z-index: 1000;}
-#ten{text-align: center; 
+#two { 
+ margin-bottom: -.25em;
+}
+#three {
+ width: 35%;
+}
+#four {
+ padding: 5px 5px 0 0;
+}
+#five {
+ display: inline-block;
+}
+#six {
+ display: inline-block;
+}
+#seven {
+ display: none;
+}
+#eig {
+ margin-top: 1em;
+}
+#nin {
+ display: none;
+ z-index: 1000;
+}
+#ten {
+ text-align: center; 
  position: absolute; 
  top: 35%; left: 35%;
 }
-#elev{font-weight: bold;}
-#twl{opacity: 0;
- z-index: 10000;}
-#thrt{display: none;}
-#fourtn{display: none;}
-#fiftn{min-height: 50px; 
- margin-top: 1em;}
-#sixtn{display: none;}
-#seventn{display: none; 
- margin-bottom: 0px;}
-#eightn{width: 0%;}
+#elev {
+ font-weight: bold;
+}
+#twl {
+ opacity: 0;
+ z-index: 10000;
+}
+#thrt {
+ display: none;
+}
+#fourtn {
+ display: none; 
+}
+#fiftn {
+ min-height: 50px; 
+ margin-top: 1em;
+}
+#sixtn {
+ display: none;
+}
+#seventn {
+ display: none; 
+ margin-bottom: 0px;
+}
+#eightn {
+ width: 0%;
+}
 #nintn{display: none;
  position: absolute; 
  top: 50%; 
  left: 50%;}
-#twnty{display: none;}
-#twnty1{display: none;}
-#twnty2{padding: 5px 0px 0px 5px;}
-#twnty3{display: inline-block;}
-#twnty4{cursor: pointer;}
-#twnty5{margin-top: 10px;}
-#twnty6{padding-bottom: 2em;}
-#twnty7{text-decoration: none;}
-#twnty8{height: 2.5em;}
-#twnty9{text-decoration: none;}
-#thirty{height: 2.5em; padding-left: .5em;}
-#thirty1{width: 100%; margin-top: .5em;}
-#thirty2{width: 100%; margin-top: .25em;}
-#thirty3{display: inline-block; margin: 0 .5em 0 .5em;}
-#thirty4{display: inline-block; margin: 0 .5em 0 .5em;}
-#thirty5{margin-bottom: 1.5em;}
-#thirty6{height: 5em; max-width: 100%;}
-#thirty7{border: 0;}
+#twnty { 
+ display: none;
+}
+#twnty1 {
+ display: none;
+}
+#twnty2 {
+ padding: 5px 0px 0px 5px;
+}
+#twnty3 {
+ display: inline-block;
+}
+#twnty4 {
+ cursor: pointer;
+}
+#twnty5 {
+ margin-top: 10px;
+}
+#twnty6 {
+ padding-bottom: 2em;
+}
+#twnty7 {
+ text-decoration: none;
+}
+#twnty8 {
+ height: 2.5em;
+}
+#twnty9 {
+ text-decoration: none;
+}
+#thirty {
+ height: 2.5em;
+ padding-left: .5em;
+}
+#thirty1{
+ width: 100%; 
+ margin-top: .5em;
+}
+#thirty2{width: 100%;
+ margin-top: .25em;
+}
+#thirty3{
+ display: inline-block; 
+ margin: 0 .5em 0 .5em;
+}
+#thirty4 {
+ display: inline-block;
+ margin: 0 .5em 0 .5em;
+}
+#thirty5 {
+ margin-bottom: 1.5em;
+}
+#thirty6 {
+ height: 5em; 
+ max-width: 100%;
+}
+#thirty7 {
+ border: 0;
+}
 
