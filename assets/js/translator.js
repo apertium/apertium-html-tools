@@ -775,7 +775,7 @@ function translateDoc() {
     var file = droppedFile ? droppedFile : null;
     var fileInput /*: HTMLInputElement */ = ($('input#fileInput')[0] /*: any */);
 
-    if(fileInput.files.length > 0 && fileInput.files[0].length !== 0) {
+    if(fileInput.files.length > 0 && fileInput.files[0].size !== 0) {
         file = fileInput.files[0];
     }
 
