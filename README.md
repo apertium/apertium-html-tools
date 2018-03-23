@@ -9,8 +9,7 @@ powered by [Apertium](http://apertium.org). Designed with a dead simple build pr
 dependencies and only static resources for quick and easy deployment with any web server, it is
 relatively lightweight and user-friendly. Html-tools relies on an Apertium HTTP API such as
 [Apertium-apy](http://wiki.apertium.org/wiki/Apertium-apy) or [ScaleMT](http://wiki.apertium.org/wiki/ScaleMT)
-(to a lesser extent). Development takes place on [GitHub](https://github.com/goavki/apertium-html-tools);
-however, a read-only copy of the repository is kept in our [SVN repository (/trunk/apertium-tools/apertium-html-tools)](https://svn.code.sf.net/p/apertium/svn/trunk/apertium-tools/apertium-html-tools/).
+(to a lesser extent).
 
 More information along with instructions for localization is available on the [Apertium Wiki](http://wiki.apertium.org/wiki/Apertium-html-tools).
 
