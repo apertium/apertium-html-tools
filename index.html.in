@@ -91,9 +91,9 @@
                       </div>
                       <p data-text="tagline" class="tagline"></p>
                   </div>
-                  <div class="pull-right hidden-xs">
+                  <div class="pull-right hidden-xs" id="divPullRightHidden">
                       <!-- <i class="icon-globe localeGlobe pull-right"></i> -->
-                      <i class="fa fa-globe fa-2x fa-inverse pull-right localeGlobe"></i>
+                      <i class="fa fa-globe fa-2x fa-inverse pull-right localeGlobe" id="faFaGlobe"></i>
                       <select class="localeSelect pull-right"><option> </option></select>
                   </div>
                   <ul class="nav navbar-nav navbar-right collapse navbar-collapse">

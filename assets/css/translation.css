@@ -135,11 +135,11 @@ html[dir='rtl'] #srcLanguages {
     margin-bottom: -.25em;
 }
 
-.pull-right.hidden-xs {
+#divPullRightHidden {
     width: 35%;
 }
 
-.fa.fa-globe {
+#faFaGlobe {
     padding: 5px 5px 0 0;
 }
 
@@ -165,7 +165,7 @@ html[dir='rtl'] #srcLanguages {
 }
 
 #divforDropDocument {
-    left: 35%;    
+    left: 35%;
     position: absolute;
     top: 35%;
     text-align: center;
