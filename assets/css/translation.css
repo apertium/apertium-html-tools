@@ -126,3 +126,159 @@ html[dir='rtl'] #srcLanguages {
     padding: 0 15px;
     position: relative;
 }
+
+#navcontainerPosition {
+    position: relative;
+}
+
+#apertiumLogo {
+    margin-bottom: -.25em;
+}
+
+#divPullRightHidden {
+    width: 35%;
+}
+
+#faFaGlobe {
+    padding: 5px 5px 0 0;
+}
+
+#srcLangSelect {
+    display: inline-block;
+}
+
+#dstLangSelect {
+    display: inline-block;
+}
+
+#cancelTranslateWebpage {
+    display: none;
+}
+
+#translateDoc {
+    margin-top: 1em;
+}
+
+#fileDropBackdrop {
+    display: none;
+    z-index: 1000;
+}
+
+#divforDropDocument {
+    left: 35%;
+    position: absolute;
+    text-align: center;
+    top: 35%;
+}
+
+#headerForDropDocument {
+    font-weight: bold;
+
+}
+#fileDropMask {
+    opacity: 0;
+    z-index: 10000;
+}
+#docTranslation {
+    display: none;
+}
+#fileName {
+    display: none;
+}
+
+#divForUploadError {
+    margin-top: 1em;
+    min-height: 50px;
+}
+
+#uploadError {
+    display: none;
+}
+.progress {
+    display: none;
+    margin-bottom: 0;
+}
+
+#fileUploadProgress {
+    width: 0%;
+}
+
+#fileLoading {
+    display: none;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+}
+
+#fileDownload {
+    display: none;
+}
+
+#morphAnalyzerOutput {
+    border-spacing: 0;
+}
+
+#selectLanguage {
+    padding: 5px 0 0 5px;
+}
+
+#footer-container-unoderlist {
+    display: inline-block;
+}
+
+#mistakeId {
+    cursor: pointer;
+}
+
+#divForMistake {
+    margin-top: 10px;
+}
+#divForMaintainer {
+    padding-bottom: 2em;
+}
+
+#refForGsoc,
+#refForCodeIn {
+    text-decoration: none;
+}
+
+#imgOfGsocLogo {
+    height: 2.5em;
+}
+
+#imgOfCodeInLogo {
+  height: 2.5em;
+  padding-left: .5em;
+}
+
+#imgOfByteMark {
+    margin-top: .5em;
+    width: 100%;
+}
+
+#imgOfSourceforge {
+    margin-top: .25em;
+    width: 100%;
+}
+
+#divForLicenses,
+#divForGnuLicenses {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-left: .5em;
+    margin-right: .5em;
+    margin-top: 0;
+}
+
+#divForcenter-block {
+    margin-bottom: 1.5em;
+}
+
+#imgofcenter-block {
+    height: 5em;
+    max-width: 100%;
+}
+
+#imgforEnableJs {
+    border: 0;
+}
