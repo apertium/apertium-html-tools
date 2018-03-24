@@ -167,8 +167,8 @@ html[dir='rtl'] #srcLanguages {
 #divforDropDocument {
     left: 35%;
     position: absolute;
-    top: 35%;
     text-align: center;
+    top: 35%;
 }
 
 #headerForDropDocument {
@@ -187,8 +187,8 @@ html[dir='rtl'] #srcLanguages {
 }
 
 #divForUploadError {
-    min-height: 50px;
     margin-top: 1em;
+    min-height: 50px;
 }
 
 #uploadError {
