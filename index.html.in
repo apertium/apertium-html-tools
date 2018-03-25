@@ -76,7 +76,7 @@
 
         <div id="wrap">
           <nav class="navbar navbar-default" role="navigation">
-              <div class="container" id= "navcontainerPosition">
+              <div class="container position-relative">
                   <div class="navbar-header">
                       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                           <span class="sr-only">Toggle navigation</span>
@@ -87,13 +87,13 @@
                       <div>
                           <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Apertium Box" class="apertiumBox">
                           <span class="apertiumSubLogo"></span>
-                          <span class="apertiumLogo" id = "apertiumLogo" >Apertium</span>
+                          <span class="apertiumLogo" id="apertiumLogo">Apertium</span>
                       </div>
                       <p data-text="tagline" class="tagline"></p>
                   </div>
-                  <div class="pull-right hidden-xs">
+                  <div class="pull-right hidden-xs" id="divPullRightHidden">
                       <!-- <i class="icon-globe localeGlobe pull-right"></i> -->
-                      <i class="fa fa-globe fa-2x fa-inverse pull-right localeGlobe"></i>
+                      <i class="fa fa-globe fa-2x fa-inverse pull-right localeGlobe" id="faFaGlobe"></i>
                       <select class="localeSelect pull-right"><option> </option></select>
                   </div>
                   <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
@@ -114,11 +114,11 @@
                       <fieldset>
                           <div class="form-group visible-xs">
                               <div class="col-sm-12">
-                                  <select class="langSelect" id="srcLangSelect" aria-label="Select Original Language">
+                                  <select class="langSelect d-inline-block" id="srcLangSelect" aria-label="Select Original Language">
                                       <option data-text="Detect_Language" value="detect">Detect language</option>
                                   </select>
                                   <button type="button" class="btn btn-default btn-xs swapLangBtn" aria-label="Swap Languages"><i class="fa fa-exchange"></i></button>
-                                  <select class="langSelect" id="dstLangSelect" aria-label="Select New Language">
+                                  <select class="langSelect d-inline-block" id="dstLangSelect" aria-label="Select New Language">
                                       <option> </option>
                                   </select>
                                   <button type="button" class="btn btn-primary btn-xs pull-right translateBtn" data-text="Translate">Translate</button>
@@ -126,7 +126,7 @@
                           </div>
                           <div class="form-group hidden-xs">
                               <div class="col-sm-6">
-                                  <button type="button" class="btn btn-sm btn-default pull-left" id="cancelTranslateWebpage">
+                                  <button type="button" class="btn btn-sm btn-default pull-left d-none" id="cancelTranslateWebpage">
                                       <i class="fa fa-arrow-left"></i> <span data-text="Cancel">Cancel</span>
                                   </button>
                                   <div class="btn-group col-sm-11" id="srcLangSelectors">
@@ -208,21 +208,21 @@
                                   </div>
                               </div>
 
-                              <div class="modal-backdrop" id="fileDropBackdrop">
-                                <div class="well well-lg" id="divforDropDocument">
-                                    <h1 id="headerForDropDocument" data-text="Drop_Document">Drop your document</h1>
+                              <div class="modal-backdrop d-none" id="fileDropBackdrop">
+                                <div class="well well-lg text-center position-absolute" id="dropDocumentDiv">
+                                    <h1 class="font-weight-bold" data-text="Drop_Document">Drop your document</h1>
                                 </div>
                                 <div class="modal-backdrop" id="fileDropMask"></div>
                               </div>
 
-                              <div id="docTranslation">
+                              <div class="d-none" id="docTranslation">
                                   <div class="col-sm-6">
                                       <div class="well well-lg">
                                           <input type="file" id="fileInput" accept="text/plain,text/html,text/rtf,application/rtf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.oasis.opendocument.text,application/x-latex,application/x-tex">
-                                          <div class="lead" id="fileName"></div>
-                                          <div id="divForUploadError">
-                                              <span id="uploadError" class="text-danger lead"></span>
-                                              <div class="progress progress-striped active" id="seventn">
+                                          <div class="lead d-none" id="fileName"></div>
+                                          <div id="uploadErrorDiv">
+                                              <span id="uploadError" class="text-danger lead d-none"></span>
+                                              <div class="progress progress-striped active d-none">
                                                   <div id="fileUploadProgress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                               </div>
                                           </div>
@@ -233,11 +233,11 @@
                                       </div>
                                   </div>
                                   <div class="col-sm-6">
-                                      <div id="fileLoading" class="text-center">
+                                      <div id="fileLoading" class="text-center d-none position-absolute">
                                           <i class="fa fa-spinner fa-spin fa-4x"></i>
                                       </div>
                                       <h1>
-                                          <a id="fileDownload" href="#" class="text-center lead">
+                                          <a class="d-none" id="fileDownload" href="#" class="text-center lead">
                                               <i class="fa fa-download"></i>
                                               <span id="fileDownloadText"></span>
                                           </a>
@@ -369,7 +369,7 @@
         <div id="footer">
             <div class="navbar-bottom hidden-xs">
                 <div class="container" id="footer-container">
-                    <ul class="nav nav-pills pull-left" id="footer-container-unoderlist">
+                    <ul class="nav nav-pills pull-left d-inline-block ">
                         <li><a data-toggle="modal" data-target="#aboutModal" data-keyboard="true"><i class="fa fa-question-circle"></i> <span data-text="About">About</span></a></li>
                         <li><a data-toggle="modal" data-target="#downloadModal" data-keyboard="true"><i class="fa fa-download"></i> <span data-text="Download">Download</span></a></li>
                         <li><a data-toggle="modal" data-target="#docModal" data-keyboard="true"><i class="fa fa-book"></i> <span data-text="Documentation">Documentation</span></a></li>
@@ -387,7 +387,7 @@
                 </div>
             </div>
 
-            <div class="pull-right well well-sm visible-xs helpMessage" id="divForMistake">
+            <div class="pull-right well well-sm visible-xs helpMessage" id="mistakeDiv">
                 <span data-text="Notice_Mistake">Notice a mistake?</span>
                 <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve" data-keyboard="true">Help us improve Apertium!</a>
             </div>
@@ -402,28 +402,28 @@
                     </div>
                     <div class="modal-body">
                         <div data-text="What_Is_Apertium"></div>
-                        <div data-text="Maintainer" id="divForMaintainer"></div>
+                        <div data-text="Maintainer" id="maintainerDiv"></div>
 
                         <div class="row lead">
                             <div class="col-md-6">
                                 <div class="center-block">
-                                    <a href="https://developers.google.com/open-source/soc/" target="_blank" id="refForGsoc" rel="noopener">
-                                        <img alt="Google Summer of Code" data-src="https://summerofcode.withgoogle.com/static/img/summer-of-code-logo.svg" id="imgOfGsocLogo">
+                                    <a href="https://developers.google.com/open-source/soc/" target="_blank" id="gsocRef" rel="noopener">
+                                        <img alt="Google Summer of Code" data-src="https://summerofcode.withgoogle.com/static/img/summer-of-code-logo.svg" id="gsocLogo">
                                     </a>
-                                    <a href="https://developers.google.com/open-source/gci/" target="_blank" id="refForCodeIn" rel="noopener">
-                                        <img alt="Google Code-In" data-src="https://developers.google.com/open-source/gci/images/logo-icon.png" id="imgOfCodeInLogo">
+                                    <a href="https://developers.google.com/open-source/gci/" target="_blank" id="codeInRef" rel="noopener">
+                                        <img alt="Google Code-In" data-src="https://developers.google.com/open-source/gci/images/logo-icon.png" id="codeInLogo">
                                     </a>
                                 </div>
                             </div>
 
                             <div class="col-md-3 text-center">
                                 <a href="http://www.bytemark.co.uk/" target="_blank" rel="noopener">
-                                    <img alt="Bytemark" data-src="./img/logo_bytemark.gif" id="imgOfByteMark">
+                                    <img alt="Bytemark" data-src="./img/logo_bytemark.gif" id="byteMarkLogo">
                                 </a>
                             </div>
                             <div class="col-md-3 text-center">
                                 <a href="http://www.sourceforge.net" target="_blank" rel="noopener">
-                                    <img alt="Sourceforge" data-src="./img/sourceforge.png" id="imgOfSourceforge">
+                                    <img alt="Sourceforge" data-src="./img/sourceforge.png" id="sourceForgeLogo">
                                 </a>
                             </div>
                         </div>
@@ -459,13 +459,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div id="divForLicenses">
+                            <div class="d-inline-block" id="licensesDiv">
                                 <a href="http://creativecommons.org/licenses/by-sa/3.0/">
                                     <img alt="Creative Commons licence" data-src="./img/cc-by-sa-3.0-88x31.png">
                                 </a>
                             </div>
 
-                            <div id="divForGnuLicenses">
+                            <div class="d-inline-block" id="gnuLicensesDiv">
                                 <a href="https://www.gnu.org/licenses/gpl.html">
                                     <img alt="GNU GPL License" data-src="./img/gplv3-88x31.png">
                                 </a>
@@ -538,9 +538,9 @@
                         </p>
                         <p data-text="Contact_Us"></p>
 
-                        <div class="center-block" id="divForcenter-block">
+                        <div class="center-block" id="centerBlockDiv">
                             <a href="http://www.apertium.org/" target="_blank" rel="noopener">
-                                <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" id="imgofcenter-block">
+                                <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" id="centerBlockLogo">
                             </a>
                         </div>
                     </div>
@@ -550,7 +550,7 @@
 
         <div id="noscript">
             <div class="lead text-warning well well-sm" data-text="Enable_JS_Warning"></div>
-            <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" id="imgforEnableJs" alt=""></p></noscript>
+            <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" id="enableJsLogo" alt=""></p></noscript>
         </div>
         <button class="btn btn-default hidden-sm hidden-xs" id="backToTop"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
         <div id="installationNotice" class="hidden-xs hidden-sm alert alert-warning alert-dismissible">

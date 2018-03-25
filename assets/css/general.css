@@ -26,6 +26,31 @@ h2 {
     z-index: 10000;
 }
 
+/*sass-lint:disable position-relative,d-{sm,md,lg,xl}-none,d-{sm,md,lg,xl}-inline-block,text-center,position-absolute,font-weight-bold*/
+.position-relative {
+    position: relative;
+}
+
+.d-none {
+    display: none;
+}
+
+.d-inline-block {
+    display: inline-block;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
 /* Locale selection */
 
 .localeGlobe {
