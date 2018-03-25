@@ -26,7 +26,7 @@ h2 {
     z-index: 10000;
 }
 
-/*sass-lint:disable position-relative,d-{sm,md,lg,xl}-none,d-{sm,md,lg,xl}-inline-block,text-center,position-absolute,font-weight-bold*/
+/*sass-lint:disable position-relative,d-none,d-inline-block,text-center,position-absolute,font-weight-bold*/
 .position-relative {
     position: relative;
 }
