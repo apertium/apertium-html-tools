@@ -26,27 +26,32 @@ h2 {
     z-index: 10000;
 }
 
-/*sass-lint:disable position-relative,d-none,d-inline-block,text-center,position-absolute,font-weight-bold*/
+/*sass-lint:disable position-relative*/
 .position-relative {
     position: relative;
 }
 
+/*sass-lint:disable d-none*/
 .d-none {
     display: none;
 }
 
+/*sass-lint:disable d-inline-block*/
 .d-inline-block {
     display: inline-block;
 }
 
+/*sass-lint:disable text-center*/
 .text-center {
     text-align: center;
 }
 
+/*sass-lint:disable position-absolute*/
 .position-absolute {
     position: absolute;
 }
 
+/*sass-lint:disable font-weight-bold*/
 .font-weight-bold {
     font-weight: bold;
 }
