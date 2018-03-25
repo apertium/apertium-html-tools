@@ -144,7 +144,6 @@ html[dir='rtl'] #srcLanguages {
 }
 
 #fileDropBackdrop {
-    display: none;
     z-index: 1000;
 }
 
@@ -156,14 +155,6 @@ html[dir='rtl'] #srcLanguages {
 #fileDropMask {
     opacity: 0;
     z-index: 10000;
-}
-
-#docTranslation {
-    display: none;
-}
-
-#fileName {
-    display: none;
 }
 
 #uploadErrorDiv {
