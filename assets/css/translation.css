@@ -126,3 +126,116 @@ html[dir='rtl'] #srcLanguages {
     padding: 0 15px;
     position: relative;
 }
+
+#apertiumLogo {
+    margin-bottom: -.25em;
+}
+
+#divPullRightHidden {
+    width: 35%;
+}
+
+#faFaGlobe {
+    padding: 5px 5px 0 0;
+}
+
+#translateDoc {
+    margin-top: 1em;
+}
+
+#fileDropBackdrop {
+    z-index: 1000;
+}
+
+#dropDocumentDiv {
+    left: 35%;
+    top: 35%;
+}
+
+#fileDropMask {
+    opacity: 0;
+    z-index: 10000;
+}
+
+#uploadErrorDiv {
+    margin-top: 1em;
+    min-height: 50px;
+}
+
+.progress {
+    margin-bottom: 0;
+}
+
+#fileUploadProgress {
+    width: 0%;
+}
+
+#fileLoading {
+    left: 50%;
+    top: 50%;
+}
+
+#morphAnalyzerOutput {
+    border-spacing: 0;
+}
+
+#selectLanguage {
+    padding: 5px 0 0 5px;
+}
+
+#mistakeId {
+    cursor: pointer;
+}
+
+#mistakeDiv {
+    margin-top: 10px;
+}
+
+#maintainerDiv {
+    padding-bottom: 2em;
+}
+
+#gsocRef,
+#codeInRef {
+    text-decoration: none;
+}
+
+#gsocLogo {
+    height: 2.5em;
+}
+
+#codeInLogo {
+  height: 2.5em;
+  padding-left: .5em;
+}
+
+#byteMarkLogo {
+    margin-top: .5em;
+    width: 100%;
+}
+
+#sourceForgeLogo {
+    margin-top: .25em;
+    width: 100%;
+}
+
+#licensesDiv,
+#gnuLicensesDiv {
+    margin-bottom: 0;
+    margin-left: .5em;
+    margin-right: .5em;
+    margin-top: 0;
+}
+
+#centerBlockDiv {
+    margin-bottom: 1.5em;
+}
+
+#centerBlockLogo {
+    height: 5em;
+    max-width: 100%;
+}
+
+#enableJsLogo {
+    border: 0;
+}
