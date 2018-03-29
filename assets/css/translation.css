@@ -126,3 +126,71 @@ html[dir='rtl'] #srcLanguages {
     padding: 0 15px;
     position: relative;
 }
+
+#localeSelectContainer {
+     width: 35%;
+}
+
+#primaryLocaleGlobe {
+     padding: 5px 5px 0 0;
+}
+
+#translateDoc {
+     margin-top: 1em;
+}
+
+#fileDropBackdrop {
+     z-index: 1000;
+}
+
+#dropDocumentContainer {
+     left: 35%;
+     top: 35%;
+}
+
+#fileDropMask {
+     opacity: 0;
+     z-index: 10000;
+}
+
+#uploadErrorContainer {
+     margin-top: 1em;
+     min-height: 50px;
+}
+
+#progressContainer {
+     margin-bottom: 0;
+}
+
+#fileUploadProgress {
+     width: 0%;
+}
+
+#fileLoading {
+     left: 50%;
+     top: 50%;
+}
+
+#morphAnalyzerOutput {
+     border-spacing: 0;
+}
+
+#selectLanguage {
+     padding: 5px 0 0 5px;
+}
+
+#mistakeId {
+     cursor: pointer;
+}
+
+#noticeMistake {
+     margin-top: 10px;
+}
+
+#maintainerAbout {
+     padding-bottom: 2em;
+}
+
+#centerBlockContainer {
+     margin-bottom: 1.5em;
+}
