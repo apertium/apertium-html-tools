@@ -37,14 +37,13 @@ h2 {
 
 .d-inline-block {
     display: inline-block;
+
+.w-0 {
+    width: 0%;
 }
 
 .w-100 {
     width: 100%;
-}
-
-.w-0 {
-    width: 0%;
 }
 
 .border-0 {
