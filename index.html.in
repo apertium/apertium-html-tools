@@ -223,7 +223,7 @@
                                           <div id="uploadErrorContainer">
                                               <span id="uploadError" class="text-danger lead d-none"></span>
                                               <div class="progress progress-striped active d-none" id="progressContainer">
-                                                  <div id="fileUploadProgress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                  <div id="fileUploadProgress" class="progress-bar w-0" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                               </div>
                                           </div>
                                           <p><span data-text="Supported_Formats"></span></p>
@@ -418,12 +418,12 @@
 
                             <div class="col-md-3 text-center">
                                 <a href="http://www.bytemark.co.uk/" target="_blank" rel="noopener">
-                                    <img alt="Bytemark" data-src="./img/logo_bytemark.gif" id="byteMarkLogo">
+                                    <img alt="Bytemark" class="w-100" data-src="./img/logo_bytemark.gif" id="bytemarkLogo">
                                 </a>
                             </div>
                             <div class="col-md-3 text-center">
                                 <a href="http://www.sourceforge.net" target="_blank" rel="noopener">
-                                    <img alt="Sourceforge" data-src="./img/sourceforge.png" id="sourceForgeLogo">
+                                    <img alt="Sourceforge" claas="w-100" data-src="./img/sourceforge.png" id="sourceForgeLogo">
                                 </a>
                             </div>
                         </div>
@@ -550,7 +550,7 @@
 
         <div id="noscript">
             <div class="lead text-warning well well-sm" data-text="Enable_JS_Warning"></div>
-            <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" id="enableJsLogo" alt=""></p></noscript>
+            <noscript><p><img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" class="border-0" alt=""></p></noscript>
         </div>
         <button class="btn btn-default hidden-sm hidden-xs" id="backToTop"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
         <div id="installationNotice" class="hidden-xs hidden-sm alert alert-warning alert-dismissible">

@@ -39,6 +39,18 @@ h2 {
     display: inline-block;
 }
 
+.w-100 {
+    width: 100%;
+}
+
+.w-0 {
+    width: 0%;
+}
+
+.border-0 {
+    border: 0;
+}
+
 .text-center {
     text-align: center;
 }
@@ -70,14 +82,12 @@ h2 {
     padding-left: .5em;
 }
 
-#byteMarkLogo {
+#bytemarkLogo {
     margin-top: .5em;
-    width: 100%;
 }
 
 #sourceForgeLogo {
     margin-top: .25em;
-    width: 100%;
 }
 
 #creativeCommonsLicence,
@@ -91,10 +101,6 @@ h2 {
 #centerBlockLogo {
     height: 5em;
     max-width: 100%;
-}
-
-#enableJsLogo{
-    border: 0;
 }
 
 /* Locale selection */

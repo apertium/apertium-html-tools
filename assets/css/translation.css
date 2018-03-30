@@ -162,10 +162,6 @@ html[dir='rtl'] #srcLanguages {
      margin-bottom: 0;
 }
 
-#fileUploadProgress {
-     width: 0%;
-}
-
 #fileLoading {
      left: 50%;
      top: 50%;
