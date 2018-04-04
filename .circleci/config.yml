@@ -9,7 +9,7 @@ jobs:
       # Install development dependencies
       - run: sudo apt-get install python3 python3-pip
       - run: sudo pip3 install -r requirements-dev.txt
-      - run: npm install
+      - run: yarn install
       - run: echo 'export PATH=./node_modules/.bin:$PATH' >> $BASH_ENV
 
       # Run tests
