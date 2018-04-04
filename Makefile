@@ -226,7 +226,7 @@ build/fonts/fontawesome-webfont.eot: build/fonts/.d
 
 ### Images ###
 # Images just copied over
-IMAGES_ASSETS=$(shell find assets/img -path '*/.svn' -prune -o -type f -print)
+IMAGES_ASSETS=$(shell find assets/img -path '*/.git' -prune -o -type f -print)
 IMAGES_BUILD=$(patsubst assets/%, build/%, $(IMAGES_ASSETS))
 
 build/img/%: assets/img/%
@@ -238,7 +238,7 @@ images: $(IMAGES_BUILD)
 
 ### Test server ###
 server:
-	exo-open "http://localhost:8082"
+	exo-open "http://localhost:8082" || open "http://localhost:8082"
 	( cd build && python3 -m http.server 8082 )
 
 
