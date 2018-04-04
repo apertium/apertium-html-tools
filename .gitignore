@@ -2,6 +2,12 @@
 __pycache__/
 venv/
 
+# Node
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+node_modules/
+
 # Build
 build/
 config.conf
