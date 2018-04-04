@@ -421,9 +421,9 @@
                                     <img alt="Bytemark" class="w-100" data-src="./img/logo_bytemark.gif" id="bytemarkLogo">
                                 </a>
                             </div>
-                            <div class="col-md-3 text-center">
-                                <a href="http://www.sourceforge.net" target="_blank" rel="noopener">
-                                    <img alt="Sourceforge" claas="w-100" data-src="./img/sourceforge.png" id="sourceForgeLogo">
+                            <div class="col-md-3 text-center">                            
+                                <a href="https://www.github.com/apertium" target="_blank" rel="noopener">
+                                    <img alt="GitHub" data-src="./img/github.png" id="githubLogo">
                                 </a>
                             </div>
                         </div>
