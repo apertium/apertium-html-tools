@@ -45,3 +45,4 @@ $ echo "$( sed -n '/<!--table-->$/q;p' README.md ; echo '<!--table-->' ; ./progr
 
 \*CBE: completion by entries<br>
 \**CBC: completion by characters (i.e., ratio of characters to English ~source)
+
