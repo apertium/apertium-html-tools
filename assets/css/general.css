@@ -98,10 +98,43 @@ h2 {
     margin-top: 0;
 }
 
-#centerBlockLogo {
+#infoModalApertiumLogo {
     height: 5em;
     max-width: 100%;
 }
+
+#morphAnalyzerOutput {
+    border-spacing: 0;
+}
+
+#secondaryLocalGlobe {
+    padding: 5px 0 0 5px;
+}
+
+#aboutModalTrigger {
+    cursor: pointer;
+}
+
+#xsHelpMessageContainer {
+    margin-top: 10px;
+}
+
+#maintainerAbout {
+    padding-bottom: 2em;
+}
+
+#infoModalApertiumContainer {
+    margin-bottom: 1.5em;
+}
+
+#localeSelectContainer {
+    width: 35%;
+}
+
+#primaryLocaleGlobe {
+    padding: 5px 5px 0 0;
+}
+
 
 /* Locale selection */
 

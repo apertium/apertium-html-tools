@@ -359,7 +359,7 @@
               </div>
               <div class="visible-xs">
                   <select class="localeSelect pull-left" aria-label="Select Language"><option> </option></select>
-                  <i class="fa fa-globe fa-2x pull-left localeGlobe" id="selectLanguage"></i>
+                  <i class="fa fa-globe fa-2x pull-left localeGlobe" id="secondaryLocalGlobe"></i>
                   <!-- <i class="fa fa-globe localeGlobe pull-left"></i> -->
               </div>
           </div>
@@ -377,7 +377,7 @@
                     </ul>
                     <div class="pull-right well well-sm helpMessage">
                         <span data-text="Notice_Mistake">Notice a mistake?</span>
-                        <a data-toggle="modal" data-target="#aboutModal" data-text="Help_Improve" data-keyboard="true" id="mistakeId">Help us improve Apertium!</a>
+                        <a data-toggle="modal" data-target="#aboutModal" data-text="Help_Improve" data-keyboard="true" id="aboutModalTrigger">Help us improve Apertium!</a>
                     </div>
                     <a id="version" class="text-muted hidden-sm hidden-xs" href="https://github.com/goavki/apertium-html-tools" target="_blank" rel="noopener">
                         <small>
@@ -387,7 +387,7 @@
                 </div>
             </div>
 
-            <div class="pull-right well well-sm visible-xs helpMessage" id="noticeMistake">
+            <div class="pull-right well well-sm visible-xs helpMessage" id="xsHelpMessageContainer">
                 <span data-text="Notice_Mistake">Notice a mistake?</span>
                 <a data-toggle="modal" data-target="#infoModal" data-text="Help_Improve" data-keyboard="true">Help us improve Apertium!</a>
             </div>
@@ -538,9 +538,9 @@
                         </p>
                         <p data-text="Contact_Us"></p>
 
-                        <div class="center-block" id="centerBlockContainer">
+                        <div class="center-block" id="infoModalApertiumContainer">
                             <a href="http://www.apertium.org/" target="_blank" rel="noopener">
-                                <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" id="centerBlockLogo">
+                                <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" id="infoModalApertiumLogo">
                             </a>
                         </div>
                     </div>
