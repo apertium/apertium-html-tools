@@ -20,7 +20,7 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
 # Install some (optional) dependencies
-RUN pip3 install --upgrade jsmin csscompressor htmlmin
+RUN pip3 install -U -r apertium-html-tools/requirements-prod.txt
 
 # Setup Html-tools
 

@@ -9,7 +9,7 @@ jobs:
       # Install development dependencies
       - run: sudo apt-get install python3 python3-pip
       - run: sudo npm install -g json eslint flow flow-bin flow-coverage-report htmlhint sass-lint
-      - run: sudo pip3 install flake8 jsmin csscompressor htmlmin
+      - run: sudo pip3 install -r requirements-dev.txt
 
       # Run tests
       - run: find assets/strings -type f -name '*.json' -exec json --validate '{}' +
@@ -23,7 +23,7 @@ jobs:
       # Build project
       - run: cp config.conf.example config.conf
       - run: make -j8 || true
-      
+
       # Save a live version
       - store_artifacts:
           path: build/
