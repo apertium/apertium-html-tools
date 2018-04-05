@@ -421,11 +421,7 @@
                                     <img alt="Bytemark" class="w-100" data-src="./img/logo_bytemark.gif" id="bytemarkLogo">
                                 </a>
                             </div>
-<<<<<<< HEAD
                             <div class="col-md-3 text-center">
-=======
-                            <div class="col-md-3 text-center">                            
->>>>>>> a9cb3a0a314a8d593669fec1c08d136da3622436
                                 <a href="https://www.github.com/apertium" target="_blank" rel="noopener">
                                     <img alt="GitHub" data-src="./img/github.png" id="githubLogo">
                                 </a>
