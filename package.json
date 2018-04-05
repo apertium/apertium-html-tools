@@ -1,0 +1,16 @@
+{
+  "name": "apertium-html-tools",
+  "repository": "git@github.com:apertium/apertium-html-tools.git",
+  "author": "Sushain Cherivirala <sushain@skc.name>",
+  "license": "GPLv3",
+  "private": true,
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "flow": "^0.2.3",
+    "flow-bin": "^0.69.0",
+    "flow-coverage-report": "^0.5.0",
+    "htmlhint": "^0.9.13",
+    "json": "^9.0.6",
+    "sass-lint": "^1.12.1"
+  }
+}

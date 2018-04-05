@@ -7,26 +7,26 @@ from collections import OrderedDict
 
 # TODO: run Apertium to fill in placeholders if a fitting language pair is installed!
 
-def dumpJSON(f, data):
+def dump_json(f, data):
     f.seek(0)
     f.write(json.dumps(data, indent=4, sort_keys=False, ensure_ascii=False, separators=(',', ': ')))
     f.write('\n')
     f.truncate()
 
-def loadJSON(f):
+def load_json(f):
     return json.loads(f.read(), object_pairs_hook=OrderedDict)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Manipulate localisation files', formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument('actions', nargs='+', help="new/create: creates a new localisation file\n"
-                                                   "sort: sorts according to the sort order specified by the canonical file (-c)\n"
-                                                   "clean: removes localisations that are not present in the canonical file (-c)\n"
-                                                   "scrub: removes localisations marked unavailable\n"
-                                                   "update: updates metadata stats\n"
-                                                   "rebase: adds entries for missing localisations as specified by the placeholder file (-p)\n"
-                                                   "cleanup: clean, scrub, update, sort\n"
-                                                   "all: clean, scrub, rebase, update, and sort")
+    parser.add_argument('actions', nargs='+', help='new/create: creates a new localisation file\n'
+                                                   'sort: sorts according to the sort order specified by the canonical file (-c)\n'
+                                                   'clean: removes localisations that are not present in the canonical file (-c)\n'
+                                                   'scrub: removes localisations marked unavailable\n'
+                                                   'update: updates metadata stats\n'
+                                                   'rebase: adds entries for missing localisations as specified by the placeholder file (-p)\n'
+                                                   'cleanup: clean, scrub, update, sort\n'
+                                                   'all: clean, scrub, rebase, update, and sort')
     # choices=['new', 'create'] + list(map(lambda x: '+'.join(x), itertools.chain.from_iterable([itertools.permutations(['clean', 'sort', 'update', 'rebase', 'scrub'], i) for i in range(1, 6)]))))
     parser.add_argument('codes', nargs='+', help='language codes for filenames')
     parser.add_argument('-m', '--metadataKey', default='@metadata')
@@ -51,7 +51,7 @@ if __name__ == '__main__':
         args.placeholderFile += '.json'
 
     with open(args.canonicalFile) as f:
-        canonicalStrings = loadJSON(f)
+        canonicalStrings = load_json(f)
     with open(args.placeholderFile) as f:
         placeholderStrings = json.loads(f.read())
 
@@ -73,15 +73,15 @@ if __name__ == '__main__':
                 f.write(json.dumps(strings, indent=4, sort_keys=False, ensure_ascii=False, separators=(',', ': ')))
         if len(set(['clean', 'all', 'cleanup']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
-                strings = OrderedDict(filter(lambda x: x[0] in canonicalStrings.keys(), loadJSON(f).items()))
-                dumpJSON(f, strings)
+                strings = OrderedDict(filter(lambda x: x[0] in canonicalStrings.keys(), load_json(f).items()))
+                dump_json(f, strings)
         if len(set(['scrub', 'all', 'cleanup']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
-                strings = OrderedDict(filter(lambda x: x[0] == args.metadataKey or not x[1].startswith(args.unavailableString), loadJSON(f).items()))
-                dumpJSON(f, strings)
+                strings = OrderedDict(filter(lambda x: x[0] == args.metadataKey or not x[1].startswith(args.unavailableString), load_json(f).items()))
+                dump_json(f, strings)
         if len(set(['rebase', 'all']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
-                strings = OrderedDict(filter(lambda x: x[0] == args.metadataKey or not x[1].startswith(args.unavailableString), loadJSON(f).items()))
+                strings = OrderedDict(filter(lambda x: x[0] == args.metadataKey or not x[1].startswith(args.unavailableString), load_json(f).items()))
                 for stringName in set(canonicalStrings.keys()) - set(strings.keys()):
                     if stringName != args.metadataKey:
                         try:
@@ -95,10 +95,10 @@ if __name__ == '__main__':
                 for key in set(defaultMetadata.keys()) - set(strings[args.metadataKey].keys()):
                     strings[args.metadataKey][key] = defaultMetadata[key]
 
-                dumpJSON(f, strings)
+                dump_json(f, strings)
         if len(set(['update', 'all', 'cleanup']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
-                strings = loadJSON(f)
+                strings = load_json(f)
                 if args.metadataKey not in strings:
                     strings[args.metadataKey] = defaultMetadata
 
@@ -106,10 +106,10 @@ if __name__ == '__main__':
                 presentValuesLength, allValuesLength = sum(map(len, map(lambda x: x[1], filter(lambda x: x[0] in presentKeys, strings.items())))), sum(map(len, canonicalStrings.values()))
                 strings[args.metadataKey]['completion'] = '%3d%% %6.2f%%' % (100 - int(len(allKeys - presentKeys) / len(allKeys) * 100), presentValuesLength / allValuesLength * 100)
                 strings[args.metadataKey]['missing'] = sorted(list(allKeys - presentKeys))
-                dumpJSON(f, strings)
+                dump_json(f, strings)
         if len(set(['sort', 'all', 'cleanup']) & set(args.actions)) > 0:
             with open(fname, 'r+') as f:
-                strings = loadJSON(f)
+                strings = load_json(f)
                 strings = OrderedDict(sorted(strings.items(), key=lambda x: -1 if x[0] not in canonicalStrings.keys() else list(canonicalStrings.keys()).index(x[0])))
                 strings[args.metadataKey] = OrderedDict(sorted(strings[args.metadataKey].items(), key=lambda x: -1 if x[0] not in defaultMetadata.keys() else list(defaultMetadata.keys()).index(x[0])))
-                dumpJSON(f, strings)
+                dump_json(f, strings)
