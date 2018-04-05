@@ -86,8 +86,8 @@ h2 {
     margin-top: .5em;
 }
 
-#sourceForgeLogo {
-    margin-top: .25em;
+#githubLogo {
+    height: 1.5em;
 }
 
 #creativeCommonsLicence,
@@ -103,11 +103,7 @@ h2 {
     max-width: 100%;
 }
 
-#morphAnalyzerOutput {
-    border-spacing: 0;
-}
-
-#secondaryLocalGlobe {
+#secondaryLocaleGlobe {
     padding: 5px 0 0 5px;
 }
 
