@@ -9,9 +9,8 @@
   "attr-no-duplication": true,
   "alt-require": true,
   "doctype-html5": true,
-  "style-disabled": true,
+  "style-disabled": false,
   "inline-script-disabled": true,
-  "inline-style-disabled": true,
   "space-tab-mixed-disabled": "space",
   "id-class-ad-disabled": true,
   "attr-unsafe-chars": true
