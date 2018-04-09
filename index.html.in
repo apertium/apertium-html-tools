@@ -402,16 +402,16 @@
                     </div>
                     <div class="modal-body">
                         <div data-text="What_Is_Apertium"></div>
-                        <div data-text="Maintainer" id="maintainerAbout"></div>
+                        <div data-text="Maintainer" id="aboutModalMaintainer"></div>
 
                         <div class="row lead">
                             <div class="col-md-6">
                                 <div class="center-block">
                                     <a href="https://developers.google.com/open-source/soc/" target="_blank" id="gsocRef" rel="noopener">
-                                        <img alt="Google Summer of Code" data-src="https://summerofcode.withgoogle.com/static/img/summer-of-code-logo.svg" id="gsocLogo">
+                                        <img alt="Google Summer of Code" data-src="https://summerofcode.withgoogle.com/static/img/summer-of-code-logo.svg" id="gsocLogoContainer">
                                     </a>
                                     <a href="https://developers.google.com/open-source/gci/" target="_blank" id="codeInRef" rel="noopener">
-                                        <img alt="Google Code-In" data-src="https://developers.google.com/open-source/gci/images/logo-icon.png" id="codeInLogo">
+                                        <img alt="Google Code-In" data-src="https://developers.google.com/open-source/gci/images/logo-icon.png" id="codeInLogoContainer">
                                     </a>
                                 </div>
                             </div>
@@ -467,7 +467,7 @@
 
                             <div class="d-inline-block" id="gnuGplLicence">
                                 <a href="https://www.gnu.org/licenses/gpl.html">
-                                    <img alt="GNU GPL Licence" data-src="./img/gplv3-88x31.png">
+                                    <img alt="GNU GPL License" data-src="./img/gplv3-88x31.png">
                                 </a>
                             </div>
                         </div>
@@ -538,7 +538,7 @@
                         </p>
                         <p data-text="Contact_Us"></p>
 
-                        <div class="center-block" id="infoModalApertiumContainer">
+                        <div class="center-block" id="infoModalApertiumLogoContainer">
                             <a href="http://www.apertium.org/" target="_blank" rel="noopener">
                                 <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" id="infoModalApertiumLogo">
                             </a>

@@ -73,11 +73,11 @@ h2 {
     text-decoration: none;
 }
 
-#gsocLogo {
+#gsocLogoContainer {
     height: 2.5em;
 }
 
-#codeInLogo {
+#codeInLogoContainer {
     height: 2.5em;
     padding-left: .5em;
 }
@@ -115,11 +115,11 @@ h2 {
     margin-top: 10px;
 }
 
-#maintainerAbout {
+#aboutModalMaintainer {
     padding-bottom: 2em;
 }
 
-#infoModalApertiumContainer {
+#infoModalApertiumLogoContainer {
     margin-bottom: 1.5em;
 }
 
