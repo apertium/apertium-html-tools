@@ -403,6 +403,7 @@
                     <div class="modal-body">
                         <div data-text="What_Is_Apertium"></div>
                         <div data-text="Maintainer" id="aboutModalMaintainer"></div>
+                        
                         <div class="row lead">
                             <div class="col-md-6">
                                 <div class="center-block">
@@ -414,6 +415,7 @@
                                     </a>
                                 </div>
                             </div>
+                            
                             <div class="col-md-3 text-center">
                                 <a href="http://www.bytemark.co.uk/" target="_blank" rel="noopener">
                                     <img alt="Bytemark" class="w-100" data-src="./img/logo_bytemark.gif" id="bytemarkLogo">
