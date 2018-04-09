@@ -68,8 +68,8 @@ h2 {
     margin-bottom: -.25em;
 }
 
-#gsocRef,
-#codeInRef {
+#gsocLogoContainer,
+#codeInLogoContainer {
     text-decoration: none;
 }
 
@@ -115,11 +115,11 @@ h2 {
     margin-top: 10px;
 }
 
-#maintainerAbout {
+#aboutModalMaintainer {
     padding-bottom: 2em;
 }
 
-#infoModalApertiumContainer {
+#infoModalApertiumLogoContainer {
     margin-bottom: 1.5em;
 }
 
