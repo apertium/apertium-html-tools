@@ -126,3 +126,35 @@ html[dir='rtl'] #srcLanguages {
     padding: 0 15px;
     position: relative;
 }
+
+#translateDoc {
+     margin-top: 1em;
+}
+
+#fileDropBackdrop {
+     z-index: 1000;
+}
+
+#dropDocumentContainer {
+     left: 35%;
+     top: 35%;
+}
+
+#fileDropMask {
+     opacity: 0;
+     z-index: 10000;
+}
+
+#uploadErrorContainer {
+     margin-top: 1em;
+     min-height: 50px;
+}
+
+#progressContainer {
+     margin-bottom: 0;
+}
+
+#fileLoading {
+     left: 50%;
+     top: 50%;
+}
