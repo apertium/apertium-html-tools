@@ -30,55 +30,12 @@ h2 {
     margin-bottom: -.25em;
 }
 
-#gsocLogoContainer,
-#codeInLogoContainer {
-    text-decoration: none;
-}
-
-#gsocLogo {
-    height: 2.5em;
-}
-
-#codeInLogo {
-    height: 2.5em;
-    padding-left: .5em;
-}
-
-#bytemarkLogo {
-    margin-top: .5em;
-}
-
-#githubLogo {
-    height: 1.5em;
-}
-
-#creativeCommonsLicence,
-#gnuGplLicence {
-    margin-bottom: 0;
-    margin-left: .5em;
-    margin-right: .5em;
-    margin-top: 0;
-}
-
-#infoModalApertiumLogo {
-    height: 5em;
-    max-width: 100%;
-}
-
 #aboutModalTrigger {
     cursor: pointer;
 }
 
 #xsHelpMessageContainer {
     margin-top: 10px;
-}
-
-#aboutModalMaintainer {
-    padding-bottom: 2em;
-}
-
-#infoModalApertiumLogoContainer {
-    margin-bottom: 1.5em;
 }
 
 /* Utilities */
@@ -120,6 +77,53 @@ h2 {
     font-weight: bold;
 }
 /* sass-lint:enable class-name-format */
+
+/* About modal */
+
+#aboutModalMaintainer {
+    padding-bottom: 2em;
+}
+
+#gsocLogoContainer,
+#codeInLogoContainer {
+    text-decoration: none;
+}
+
+#gsocLogo {
+    height: 2.5em;
+}
+
+#codeInLogo {
+    height: 2.5em;
+    padding-left: .5em;
+}
+
+#bytemarkLogo {
+    margin-top: .5em;
+}
+
+#githubLogo {
+    height: 1.5em;
+}
+
+#creativeCommonsLicence,
+#gnuGplLicence {
+    margin-bottom: 0;
+    margin-left: .5em;
+    margin-right: .5em;
+    margin-top: 0;
+}
+
+/* Info modal */
+
+#infoModalApertiumLogo {
+    height: 5em;
+    max-width: 100%;
+}
+
+#infoModalApertiumLogoContainer {
+    margin-bottom: 1.5em;
+}
 
 /* Locale selection */
 
