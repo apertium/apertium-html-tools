@@ -1243,6 +1243,18 @@ declare class JQuery {
   load(url: string, data?: string | Object, complete?: (responseText: string, textStatus: string, XMLHttpRequest: XMLHttpRequest) => any): JQuery;
 
   /**
+   * Bootstrap popover
+   */
+  popover(options?: any): JQuery;
+
+  /**
+   * Bootstrap popover
+   *
+   * @param command A string that tells what the popover to do.
+   */
+  popover(command: string): JQuery;
+
+  /**
    * Encode a set of form elements as a string for submission.
    */
   serialize(): string;

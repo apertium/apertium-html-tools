@@ -100,7 +100,7 @@
                     <li><a href="#translation" id="translationTarget" data-mode="translation" data-text="Translation" class="hide">Translation</a></li>
                     <li><a href="#analyzation" data-mode="analyzation" data-text="Morphological_Analysis" class="hide">Morphological analysis</a></li>
                     <li><a href="#generation" data-mode="generation" data-text="Morphological_Generation" class="hide">Morphological generation</a></li>
-                    <!-- <li><a href="#spellchecker" data-mode="spellchecker" data-text="Spell_Checker">Spell checker</a></li> -->
+                    <li><a href="#spellchecking" data-mode="spellchecking" data-text="Spell_Checking" class="hide">Spell checking</a></li>
                     <li><a href="#sandbox" data-mode="sandbox" data-text="APy_Sandbox" class="hide">APy sandbox</a></li>
                   </ul>
               </div>
@@ -325,6 +325,36 @@
                       </fieldset>
                   </form>
                   <div id="morphGenOutput" class="outputContainer"></div>
+              </div>
+              <div class="modeContainer" id="spellcheckingContainer">
+                  <h2 class="visible-xs" data-text="Spell_Checking">Spell Checking</h2>
+                  <form class="form-horizontal" role="form" id="spellCheckerForm">
+                      <fieldset>
+                          <legend data-text="Spell_Checker_Help"></legend>
+                          <div class="form-group">
+                              <label for="primarySpellCheckerMode" class="col-sm-2 control-label" data-text="Language">Language</label>
+                              <div class="col-sm-3">
+                                  <select class="form-control spellCheckerMode" id="primarySpellCheckerMode" name="primarySpellCheckerMode">
+                                      <option></option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="spellCheckerInput" class="col-sm-2 control-label" data-text="Input_Text">Input Text</label>
+                              <div class="col-sm-10">
+                                  <div class="form-control" id="spellCheckerInput" contenteditable spellcheck="false"></div>
+                              </div>
+                          </div>
+                          <div class="col-sm-offset-2 col-sm-7">
+                              <button type="submit" class="btn btn-primary" id="check" data-text="Check">Check</button>
+                          </div>
+                          <div class="col-sm-3 checkbox">
+                              <label class="pull-right">
+                                  <input type="checkbox" id="instantChecking" checked> <span data-text="Instant_Checking">Instant checking</span>
+                              </label>
+                          </div>
+                      </fieldset>
+                  </form>
               </div>
               <div class="modeContainer" id="sandboxContainer">
                   <h2 class="visible-xs" data-text="APy_Sandbox">APy sandbox</h2>

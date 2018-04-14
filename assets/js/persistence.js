@@ -14,7 +14,8 @@ var URL_PARAM_Q_LIMIT = 1300,
         '#webpageTranslation': 'qP',
         '#analyzation': 'qA',
         '#generation': 'qG',
-        '#sandbox': 'qS'
+        '#sandbox': 'qSand',
+        '#spellchecking': 'qS'
     };
 
 var store = new Store(config.HTML_URL);
@@ -72,6 +73,13 @@ function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
                 'primaryGeneratorChoice': $('#primaryGeneratorMode').val(),
                 'secondaryGeneratorChoice': $('#secondaryGeneratorMode').val(),
                 'generatorInput': $('#morphGeneratorInput').val()
+            };
+        }
+        else if(mode === 'spellchecker') {
+            objects = {
+                'primarySpellCheckerChoice': $('#primarySpellCheckerMode').val(),
+                'spellCheckerInput': $('#spellCheckerInput').text(),
+                'instantChecking': $('#instantChecking').val()
             };
         }
         else if(mode === 'localization') {
@@ -265,6 +273,23 @@ function restoreChoices(mode /*: string */) {
 
         if(getURLParam(HASH_URL_MAP[hash]).length > 0) {
             $('#morphGeneratorInput').val(decodeURIComponent(getURLParam('qG')));
+        }
+    }
+    else if(mode === 'spellchecker') {
+        if(store.able()) {
+            var primarySpellCheckerChoice = store.get('primarySpellCheckerChoice', '');
+            if(store.has('primarySpellCheckerChoice')) {
+                $('#primarySpellCheckerMode option[value="' + primarySpellCheckerChoice + '"]').prop('selected', true);
+            }
+            if(store.has('spellCheckerInput')) {
+                $('#spellCheckerInput').text(String(store.get('spellCheckerInput')));
+                $('#instantChecking').prop('checked', store.get('instantChecking', true));
+            }
+        }
+
+        if(getURLParam('choice')) {
+            choice = getURLParam('choice');
+            $('#primarySpellCheckerMode option[value="' + choice + '"]').prop('selected', true);
         }
     }
     else if(mode === 'localization') {

@@ -87,6 +87,37 @@ html[dir='rtl'] #srcLanguages {
     clear: both;
 }
 
+/* Spell Checker */
+
+#spellCheckerInput {
+    display: block;
+    height: 131px;
+    overflow: auto;
+    resize: both;
+}
+
+.spellCheckerVisible .spellError {
+    border-bottom: 1px solid #f00;
+}
+
+.popover-content { /* sass-lint:disable-line class-name-format */
+    max-height: 190px;
+    overflow: auto;
+    padding: 0;
+    width: 110%;
+}
+
+.spellCheckerList {
+    margin-bottom: 0;
+}
+
+.spellCheckerListItem {
+    border: 0;
+    cursor: pointer;
+    display: block;
+    padding: 4px 10px;
+}
+
 #translatedWebpage {
     border: 1px solid #ccc;
     border-radius: 4px;
