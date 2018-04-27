@@ -38,14 +38,16 @@ can do the following.
 
 A completely local setup with language data and translation from Apertium,
 an APy instance, and Nginx to serve Html-tools is provided via [Docker][6].
-After installing Docker, simply run the following and check `http://localhost:4545`.
+After installing Docker, point your `APY_URL` in `config.conf` to
+`http://localhost:2737`, run the following and check `http://localhost:8082`.
 Any changes to the local version of Html-tools will trigger a `make`.
 
     docker-compose up
 
 For production usage, remember to
 
-1. Build with `jsmin`, `csscompressor` and `htmlmin` using `pip install -r requirements-prod.txt`.
+1. Build with `jsmin`, `csscompressor` and `htmlmin` using
+   `pip install -r requirements-prod.txt`.
 1. Enable gzip compression on your server.
 
 Contributing
