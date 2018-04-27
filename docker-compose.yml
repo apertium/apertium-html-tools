@@ -1,8 +1,7 @@
 version: '3'
 services:
   apy:
-    build:
-      context: https://github.com/apertium/apertium-apy.git
+    image: apertium/apy
     command: ["/source", "--port", "2737"]
     ports:
       - 2737:2737

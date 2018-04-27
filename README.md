@@ -39,7 +39,7 @@ can do the following.
 A completely local setup with language data and translation from Apertium,
 an APy instance, and Nginx to serve Html-tools is provided via [Docker][6].
 After installing Docker, point your `APY_URL` in `config.conf` to
-`http://localhost:2737`, run the following and check `http://localhost:8082`.
+`http://localhost:2737`, run the following, and check `http://localhost:8082`.
 Any changes to the local version of Html-tools will trigger a `make`.
 
     docker-compose up
