@@ -89,10 +89,6 @@ html[dir='rtl'] .apertiumLogo {
     }
 }
 
-.navbar {
-    margin-top: 4em;
-}
-
 .nav-pills { /* sass-lint:disable-line class-name-format */
     cursor: pointer;
 }

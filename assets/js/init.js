@@ -16,10 +16,6 @@ $.jsonp.setup({
 });
 
 $(document).ready(function () {
-    $('.navbar').css('margin-top', '0px');
-    $('body > .container').css('margin-top', '0px');
-    $('#noscript').hide();
-
     if(config.SUBTITLE) {
         var subtitle = config.SUBTITLE,
             subtitleColor = config.SUBTITLE_COLOR;

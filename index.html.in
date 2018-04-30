@@ -62,6 +62,14 @@
             </style>
         <![endif]-->
 
+        <noscript>
+            <style type="text/css">
+                body {
+                    margin-top: 4em;
+                }
+            </style>
+        </noscript>
+
         <link rel="manifest" href="./manifest.json">
     </head>
     <body>
@@ -607,14 +615,10 @@
             </div>
         </div>
 
-        <div id="noscript">
+        <noscript id="noscript">
             <div class="lead text-warning well well-sm" data-text="Enable_JS_Warning"></div>
-            <noscript>
-                <p>
-                    <img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" class="border-0" alt="">
-                </p>
-            </noscript>
-        </div>
+            <img src="@include_piwik_url@/piwik.php?idsite=@include_piwik_siteid@" class="border-0" alt="">
+        </noscript>
         <button class="btn btn-default hide hidden-sm hidden-xs" id="backToTop">
             <i class="fa fa-arrow-up" aria-hidden="true"></i>
         </button>

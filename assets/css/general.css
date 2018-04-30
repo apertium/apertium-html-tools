@@ -223,10 +223,6 @@ html[dir='rtl'] .clearButton {
     z-index: 10000000000000;
 }
 
-body > .container {
-    margin-top: 4em;
-}
-
 /* RTL checking */
 
 html[dir='rtl'] .pull-right:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
