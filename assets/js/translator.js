@@ -937,7 +937,7 @@ function translateWebpage(ignoreIfEmpty /*: ?boolean */) {
             iframe.contentWindow.document.write(cleanPage(translatedHtml));
             iframe.contentWindow.document.close();
 
-            $(iframe).load(function () {
+            $(iframe).on('load', function () {
                 var contents = $(iframe).contents();
                 contents.find('head').append($('<base>').attr('href', $('input#webpage').val()));
 
