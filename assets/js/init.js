@@ -86,13 +86,11 @@ $(document).ready(function () {
         var mode = $(this).data('mode');
         $('.nav li').removeClass('active');
         $(this).parent('li').addClass('active');
-        $('.modeContainer:not(#' + mode + 'Container)').stop().fadeOut({
-            queue: false,
-            duration: 'fast'
+        $('.modeContainer:not(#' + mode + 'Container)').stop().hide({
+            queue: false
         });
-        $('#' + mode + 'Container').stop().fadeIn({
-            queue: false,
-            duration: 'fast'
+        $('#' + mode + 'Container').stop().show({
+            queue: false
         });
         synchronizeTextareaHeights();
     });
