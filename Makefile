@@ -192,7 +192,7 @@ $(THEMES): % : all build/css/bootstrap.%.css build/css/.d
 theme = $(filter $(THEMES), $(MAKECMDGOALS))
 
 build/css/bootstrap.%.css: build/css/.d
-	curl -Ss 'http://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/$*/bootstrap.min.css' -o $@
+	curl -Ss 'http://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/$*/bootstrap.min.css' -o $@
 
 build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/bootstrap.css) build/css/style.css build/css/.d
 	cat $^ > $@
@@ -207,7 +207,7 @@ build/css/font-awesome.min.css: build/css/.d
 	curl -Ss 'http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' -o $@
 
 build/css/bootstrap-rtl.min.css: build/css/.d
-	curl -Ss 'http://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.2.0-rc2/css/bootstrap-rtl.min.css' -o $@
+	curl -Ss 'http://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.3.4/css/bootstrap-rtl.min.css' -o $@
 
 build/css/%.css: assets/css/%.css build/css/.d
 	cp $< $@
