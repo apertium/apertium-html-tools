@@ -95,7 +95,6 @@ if(modeEnabled('translation')) {
                     $('#detect').removeClass('disabledLang');
                 });
 
-                $('#translationTarget').attr('href', '#translation');
                 window.location.hash = 'translation';
             }).removeClass('cancelTranslateWebpage');
 
@@ -146,15 +145,15 @@ if(modeEnabled('translation')) {
             });
 
             $('body')
-                .on('dragover', function (ev /*: JQueryEventObject */) {
+                .on('dragover', function (ev) {
                     ev.preventDefault();
                     return false;
                 })
-                .on('dragenter', function (ev /*: JQueryEventObject */) {
+                .on('dragenter', function (ev) {
                     ev.preventDefault();
                     if(!$('div#fileDropBackdrop:visible').length) {
                         $('div#fileDropBackdrop').fadeTo('fast', 0.5);
-                        $('div#fileDropMask').on('drop', function (ev /*: JQueryEventObject */) {
+                        $('div#fileDropMask').on('drop', function (ev) {
                             ev.preventDefault();
                             var originalEvent /*: DragEvent */ = (ev.originalEvent /*: any */);
                             // Assume non-null value
@@ -1025,7 +1024,6 @@ function showTranslateWebpageInterface(url /*: ?string */, ignoreIfEmpty /*: ?bo
             $('input#webpage').val(url);
         }
 
-        $('#translationTarget').attr('href', '#webpageTranslation');
         window.location.hash = 'webpageTranslation';
         translateWebpage(ignoreIfEmpty);
     });

@@ -52,23 +52,11 @@ $(document).ready(function () {
     var hash /*: string */ = parent.location.hash;
 
     try {
-        if(!hash || !$(hash + 'Container')) {
-            hash = '#' + config.DEFAULT_MODE;
-            parent.location.hash = hash;
-        }
-    }
-    catch(e) {
-        console.error('Invalid hash: ' + e);
-        hash = '#' + config.DEFAULT_MODE;
-        parent.location.hash = hash;
-    }
-
-    try {
         if(hash === '#webpageTranslation') {
             hash = '#translation';
             showTranslateWebpageInterface();
         }
-        else if(!hash || !$(hash + 'Container').length) {
+        else if(!hash || !$('.modeContainer' + hash).length) {
             hash = '#' + config.DEFAULT_MODE;
             parent.location.hash = hash;
         }
@@ -79,23 +67,11 @@ $(document).ready(function () {
         parent.location.hash = hash;
     }
 
-    $('.modeContainer' + hash + 'Container').show();
+    $('.modeContainer' + hash).addClass('in active');
     $('.navbar-default .nav li > a[data-mode=' + hash.substring(1) + ']').parent().addClass('active');
 
-    $('.navbar-default .nav a').click(function () {
-        var mode = $(this).data('mode');
-        $('.nav li').removeClass('active');
-        $(this).parent('li').addClass('active');
-        $('.modeContainer:not(#' + mode + 'Container)').stop().hide({
-            queue: false
-        });
-        $('#' + mode + 'Container').stop().show({
-            queue: false
-        });
-        synchronizeTextareaHeights();
-    });
-
     resizeFooter();
+
     $(window)
         .on('hashchange', function () {
             var mode /*: string */ = parent.location.hash.substring(1);
@@ -119,6 +95,12 @@ $(document).ready(function () {
         Array.prototype.push.apply(config.ALLOWED_LANGS, withIso);
     }
 
+    $('a[data-mode][data-toggle="tab"]').on('shown.bs.tab', function (ev) {
+        synchronizeTextareaHeights();
+        var target/*: HTMLLinkElement */ = (ev.target /*: any */);
+        parent.location.hash = '#' + target.dataset.mode;
+    });
+
     $('form').submit(function () {
         return false;
     });
@@ -134,7 +116,6 @@ $(document).ready(function () {
         $('a[data-target=#' + $(this).attr('id') + ']').parents('li').removeClass('active');
     });
 
-    $('#backToTop').addClass('hide');
     $(window).scroll(function () {
         $('#backToTop').toggleClass('hide', $(window).scrollTop() < BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT);
     });
