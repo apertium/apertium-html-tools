@@ -16,9 +16,9 @@ $.jsonp.setup({
 });
 
 $(document).ready(function () {
-    $('#noscript').hide();
     $('.navbar').css('margin-top', '0px');
     $('body > .container').css('margin-top', '0px');
+    $('#noscript').hide();
 
     if(config.SUBTITLE) {
         var subtitle = config.SUBTITLE,
@@ -145,8 +145,6 @@ $(document).ready(function () {
         }, 'fast');
         return false;
     });
-
-    $('#installationNotice').addClass('hide');
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {
