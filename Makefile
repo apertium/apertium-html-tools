@@ -15,6 +15,9 @@ html: build/index.html build/index.debug.html build/not-found.html
 fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf build/fonts/fontawesome-webfont.svg build/fonts/fontawesome-webfont.eot
 
 check-deps:
+	@if ! command -V htmlmin >/dev/null; then echo; echo "Skipping HTML minification since htmlmin is not installed."; echo; fi
+	@if ! python3 -c "import jsmin" >/dev/null; then echo; echo "Skipping JS minification since jsmin not installed."; echo; fi
+	@if ! python3 -c "import csscompressor" >/dev/null; then echo; echo "Skipping CSS minification since csscompressor not installed."; echo; fi
 	@if ! command -V curl >/dev/null; then echo; echo "You need to install curl"; echo; false; fi
 
 # Note: the min.{js,css} are equal to all.{js,css}; minification gives
@@ -85,7 +88,7 @@ build/js/all.js: $(JSFILES) build/js/.d
 	cat $(JSFILES) > $@
 
 build/js/min.js: build/js/all.js
-	python3 -m jsmin $< > $@ || (echo "jsmin not installed, skipping JS minification" && cp $< $@)
+	python3 -m jsmin $< > $@ || cp $< $@
 
 build/js/compat.js: assets/js/compat.js build/js/.d
 	cp $< $@
@@ -135,7 +138,7 @@ build/l10n-rel.html: assets/strings/locales.json isobork build/.d
 
 build/index.%.html: build/strings/%.json build/index.localiseme.html $(CONFIG) tools/read-conf.py tools/localise-html.py
 	./tools/localise-html.py -c $(CONFIG) build/index.localiseme.html $< $@.tmp
-	htmlmin $@.tmp $@ || (echo "htmlmin not installed, skipping HTML minification" && cp $@.tmp $@)
+	htmlmin $@.tmp $@ || cp $@.tmp $@
 	rm $@.tmp
 
 build/index.html: build/index.$(DEFAULT_LOCALE).html
@@ -195,7 +198,7 @@ build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/b
 	cat $^ > $@
 
 build/css/min.css: build/css/all.css
-	python3 -m csscompressor $< > $@ || (echo "csscompressor not installed, skipping CSS minification" && cp $< $@)
+	python3 -m csscompressor $< > $@ || cp $< $@
 
 build/css/style.css: $(CSSFILES) $(if $(theme), assets/css/themes/style.$(theme).css, ) build/css/.d
 	cat $^ > $@
