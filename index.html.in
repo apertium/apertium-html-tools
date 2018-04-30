@@ -14,14 +14,14 @@
         <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu"> <!-- Selectivzr bug requires this being in <link> rather than @import -->
 
         <link type="text/css" rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" integrity="sha384-6ePHh72Rl3hKio4HiJ841psfsRJveeS+aLoaEf3BWfS+gTF0XdAqku2ka8VddikM" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
         <script type="text/javascript">
             if(!window.jQuery) {
                 document.write('<script src="./js/jquery.min.js"><\/script>');
                 console.warn('jQuery from CDN not available - reverting to local copy');
             }
         </script>
-        <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script type="text/javascript">
             if(!(typeof $().modal == 'function')) {
                 document.write('<script src="./js/bootstrap.min.js"><\/script>');
@@ -31,7 +31,7 @@
 
         <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
 @include_head@
-        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.2.0-rc2/css/bootstrap-rtl.min.css" class="rtlStylesheet"> <!-- Positioned to override styles in bootstrap.css -->
+        <link type="text/css" rel="stylesheet" class="rtlStylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.3.4/css/bootstrap-rtl.min.css" integrity="sha384-sof2OVBGwYe+xxU9GEyJFMzXdW/020baEiLtKZeJ4Guum2ktMTnm3XQYO3JGtcez" crossorigin="anonymous"> <!-- Positioned to override styles in bootstrap.css -->
 
         <!--[if lt IE 9]>
             <script src="//cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js"></script>

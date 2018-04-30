@@ -91,10 +91,10 @@ build/js/compat.js: assets/js/compat.js build/js/.d
 	cp $< $@
 
 build/js/jquery.min.js: build/js/.d
-	curl -Ss 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js' -o $@
+	curl -Ss 'http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js' -o $@
 
 build/js/bootstrap.min.js: build/js/.d
-	curl -Ss 'http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js' -o $@
+	curl -Ss 'http://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' -o $@
 
 build/js/%.js: assets/js/%.js build/js/.d
 	cp $< $@
