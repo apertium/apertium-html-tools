@@ -32,9 +32,9 @@
 
         <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
         @include_head@
-        <!-- Positioned to override styles in bootstrap.css -->
-        <link type="text/css" rel="stylesheet" class="rtlStylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.3.4/css/bootstrap-rtl.min.css"
-            integrity="sha384-sof2OVBGwYe+xxU9GEyJFMzXdW/020baEiLtKZeJ4Guum2ktMTnm3XQYO3JGtcez" crossorigin="anonymous">
+        <!-- Positioned to override styles in bootstrap.css; maintain /> for proper detection in localise-html.py -->
+        <link type="text/css" rel="stylesheet" id="rtlStylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.3.4/css/bootstrap-rtl.min.css"
+            integrity="sha384-sof2OVBGwYe+xxU9GEyJFMzXdW/020baEiLtKZeJ4Guum2ktMTnm3XQYO3JGtcez" crossorigin="anonymous" />
 
         <!--[if lt IE 9]>
             <script src="//cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js"></script>
@@ -75,8 +75,8 @@
 
         <span class="pull-right flip hide" id="rtlChecker"></span>
         <script type="text/javascript">
-            if ($('#rtlChecker').css('float') !== 'left' && !$('.rtlStylesheet').attr('disabled')) {
-                $('<link type="text/css" rel="stylesheet" href="./css/bootstrap-rtl.min.css" class="rtlStylesheet">').appendTo('head');
+            if ($('#rtlChecker').css('float') !== 'left' && !$('#rtlStylesheet').attr('disabled')) {
+                $('<link type="text/css" rel="stylesheet" href="./css/bootstrap-rtl.min.css" id="rtlStylesheet">').appendTo('head');
                 console.warn('BootstrapRTL CSS from CDN not available - reverting to local copy');
             }
         </script>

@@ -391,7 +391,7 @@ function localizeInterface() {
         return rtlLanguages.indexOf(lang) === -1 ? 'ltr' : 'rtl';
     }
 
-    $('link.rtlStylesheet').prop('disabled', direction(locale) === 'ltr');
+    $('link#rtlStylesheet').prop('disabled', direction(locale) === 'ltr');
 }
 
 function getLangByCode(dirtyCode /*: string */) /*: string */ {
