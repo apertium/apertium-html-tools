@@ -29,7 +29,6 @@ class DataTextHTMLParser(HTMLParser):
         if tag == 'link' and ('id', 'rtlStylesheet') in attrs:
             text = self.get_starttag_text()
             self.p(text[:text.index('/>')] + ('enabled' if self.localename in rtl_languages else 'disabled') + ' />')
-            print(text, text[:text.index('/>')])
         else:
             self.p(self.get_starttag_text())
 
