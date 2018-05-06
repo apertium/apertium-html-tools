@@ -102,14 +102,14 @@ $(document).ready(function () {
     });
 
     $('.modal').on('show.bs.modal', function () {
-        $('a[data-target=#' + $(this).attr('id') + ']').parents('li').addClass('active');
+        $('a[data-target="#' + $(this).attr('id') + '"]').parents('li').addClass('active');
         $.each($(this).find('img[data-src]'), function () {
             $(this).attr('src', $(this).attr('data-src'));
         });
     });
 
     $('.modal').on('hide.bs.modal', function () {
-        $('a[data-target=#' + $(this).attr('id') + ']').parents('li').removeClass('active');
+        $('a[data-target="#' + $(this).attr('id') + '"]').parents('li').removeClass('active');
     });
 
     $(window).scroll(function () {
