@@ -58,6 +58,10 @@ html[dir='rtl'] #srcLanguages {
     resize: vertical;
 }
 
+#translatedText {
+    cursor: text;
+}
+
 @media(max-width: 768px) {
     #originalText {
         margin-bottom: 1em;
