@@ -254,7 +254,7 @@
                               </div>
                                   <div class="col-sm-6 pull-right">
                                       <div class="checkbox" id="translateOptions">
-                                          <label class="pull-right" id="markUnknownLabel">
+                                          <label class="pull-right" id="markUnknownLabel"> <!-- not on jorgal, see js -->
                                               <input type="checkbox" id="markUnknown"> <span data-text="Mark_Unknown_Words">Mark unknown words</span></input>
                                           </label>
                                           <label class="pull-right" id="instantTranslationLabel">

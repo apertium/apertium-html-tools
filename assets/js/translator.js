@@ -250,6 +250,10 @@ if(modeEnabled('translation')) {
             }
         });
 
+        if(window.location.hostname === "jorgal.uit.no") { // only show markUnknown checkbox on mt-testing etc.
+            $('#markUnknownLabel').hide();
+        }
+
         $('button#translateWebpage').click(showTranslateWebpageInterface);
 
         $('button#cancelWebpageTranslate').click(hideTranslateWebpageInterface);
