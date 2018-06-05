@@ -222,6 +222,7 @@ if(modeEnabled('translation')) {
             $('div#translateText').fadeOut('fast', function () {
                 $('#fileInput').show();
                 $('div#fileName').hide();
+                $('#instantTranslationLabel').hide();
                 $('div#docTranslation').fadeIn('fast');
             });
             pairs = originalPairs;
@@ -234,6 +235,7 @@ if(modeEnabled('translation')) {
                 $('a#fileDownload').hide();
                 $('span#uploadError').hide();
                 $('div#translateText').fadeIn('fast', synchronizeTextareaHeights);
+                $('#instantTranslationLabel').show();
                 $('input#fileInput').wrap('<form>').closest('form')[0].reset();
                 $('input#fileInput').unwrap();
             });
@@ -881,7 +883,7 @@ function hideTranslateWebpageInterface() {
     $('#footer').show();
     $('div#translateWebpage').fadeOut('fast', function () {
         $('button#cancelWebpageTranslate').fadeOut('fast');
-        $('div#translateText').fadeIn('fast', function () {
+        $('div#translateTextDoc').fadeIn('fast', function () {
             synchronizeTextareaHeights();
         });
     });
@@ -903,7 +905,7 @@ function showTranslateWebpageInterface(url) {
     if(getURLParam('embed').length > 0) {
         $('#webpageTranslationLangSelectors').hide();
     }
-    $('div#translateText').fadeOut('fast', function () {
+    $('div#translateTextDoc').fadeOut('fast', function () {
         $('input#webpage').attr({
             'required': true,
             'novalidate': false

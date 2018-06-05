@@ -195,7 +195,9 @@
                             </div>
                           </div>
                           <div class="form-group" id="contentForms">
-                              <div id="translateText">
+
+                              <div id="translateTextDoc">
+                                <div id="translateText">
                                   <div class="col-sm-6">
                                       <textarea data-textattr="placeholder" data-text="Translate_Input_Placeholder" placeholder="Write/paste text or a website address here to get it translated (or drag a document file onto the page)" class="form-control" id="originalText" rows="15" spellcheck="false"></textarea>
                                       <button class="btn clearButton"><i class="fa fa-times"></i></button>
@@ -217,25 +219,7 @@
                                           <i class="fa fa-link"></i> <span data-text="Translate_Webpage">Translate a webpage</span>
                                        </button>
                                   </div>
-                                  <div class="col-sm-6 pull-right">
-                                      <div class="checkbox" id="translateOptions">
-                                          <!-- <label class="pull-right"> -->
-                                          <!--     <input type="checkbox" id="markUnknown"> <span data-text="Mark_Unknown_Words">Mark unknown words</span></input> -->
-                                          <!-- </label> -->
-                                          <label class="pull-right">
-                                              <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span></input>
-                                          </label>
-                                        </div>
-                                  </div>
-                              </div>
-
-                              <div class="modal-backdrop" id="fileDropBackdrop" style="display: none; z-index: 1000;">
-                                <div class="well well-lg" style="text-align: center; position: absolute; top: 35%; left: 35%;">
-                                    <h1 style="font-weight: bold;" data-text="Drop_Document">Drop your document</h1>
                                 </div>
-                                <div class="modal-backdrop" id="fileDropMask" style="opacity: 0; z-index: 10000;"></div>
-                              </div>
-
                               <div id="docTranslation" style="display: none;">
                                   <div class="col-sm-6">
                                       <div class="well well-lg">
@@ -268,6 +252,25 @@
                                       <p style="display:none" id="fileDownloadBrowserWarning" data-text="Download_Browser_Warning">Your browser might not handle downloads correctly. Either right-click and "Save As" that file-name or open this page in Firefox.</p>
                                   </div>
                               </div>
+                                  <div class="col-sm-6 pull-right">
+                                      <div class="checkbox" id="translateOptions">
+                                          <label class="pull-right" id="markUnknownLabel">
+                                              <input type="checkbox" id="markUnknown"> <span data-text="Mark_Unknown_Words">Mark unknown words</span></input>
+                                          </label>
+                                          <label class="pull-right" id="instantTranslationLabel">
+                                              <input type="checkbox" id="instantTranslation" checked> <span data-text="Instant_Translation">Instant translation</span></input>
+                                          </label>
+                                        </div>
+                                  </div>
+                              </div>
+
+                              <div class="modal-backdrop" id="fileDropBackdrop" style="display: none; z-index: 1000;">
+                                <div class="well well-lg" style="text-align: center; position: absolute; top: 35%; left: 35%;">
+                                    <h1 style="font-weight: bold;" data-text="Drop_Document">Drop your document</h1>
+                                </div>
+                                <div class="modal-backdrop" id="fileDropMask" style="opacity: 0; z-index: 10000;"></div>
+                              </div>
+
                               <div id="translateWebpage" style="display: none; overflow: hidden;">
                                   <div class="col-sm-12">
                                       <iframe
