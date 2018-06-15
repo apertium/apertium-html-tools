@@ -146,7 +146,7 @@ function populateSecondaryAnalyzerList() {
 }
 
 function analyze() {
-    var input /*: string */ = $('#morphAnalyzerInput').val();
+    var input /*: string */ = $('#morphAnalyzerInput').val().replace(/\u00AD/g, '');
 
     if(!$('#primaryAnalyzerMode').val() || input.trim() === '') {
         return;
