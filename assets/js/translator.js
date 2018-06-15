@@ -6,6 +6,7 @@ var curSrcLang /*: string */, curDstLang/*: string */;
 var recentSrcLangs /*: string[] */ = [], recentDstLangs /*: string[] */ = [];
 var droppedFile/*: ?File */;
 var translateRequest;
+var translatedAlready = false;
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
@@ -335,6 +336,8 @@ if(modeEnabled('translation')) {
                 clearTimeout(timer);
             }
 
+            translatedAlready = false;
+
             var timeout;
             if(PUNCTUATION_KEY_CODES.indexOf(event.keyCode) !== -1) {
                 timeout = INSTANT_TRANSLATION_PUNCTUATION_DELAY;
@@ -350,7 +353,7 @@ if(modeEnabled('translation')) {
             }
 
             timer = setTimeout(function () {
-                if($('#instantTranslation').prop('checked')) {
+                if($('#instantTranslation').prop('checked') && !translatedAlready) {
                     translate();
                 }
                 persistChoices('translator', true);
@@ -701,6 +704,7 @@ function populateTranslationList() {
 }
 
 function translate(ignoreIfEmpty) {
+    translatedAlready = true;
     if($('div#translateWebpage').is(':visible') || isURL($('#originalText').val())) {
         translateWebpage(ignoreIfEmpty);
     }
