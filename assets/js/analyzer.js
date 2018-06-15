@@ -146,7 +146,7 @@ function populateSecondaryAnalyzerList() {
 }
 
 function analyze() {
-    var input /*: string */ = $('#morphAnalyzerInput').val().replace(/\u00AD/g, '');
+    var input /*: string */ = $('#morphAnalyzerInput').val().replace(/\u00AD/g, ''); // Removes all soft hyphens before analyzing
 
     if(!$('#primaryAnalyzerMode').val() || input.trim() === '') {
         return;

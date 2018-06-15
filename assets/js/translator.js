@@ -723,7 +723,7 @@ function translateText(ignoreIfEmpty) {
         }
     }
 
-    var originalText /*: string */ = $('#originalText').val().replace(/\u00AD/g, '');
+    var originalText /*: string */ = $('#originalText').val().replace(/\u00AD/g, ''); // Removes all soft hyphens before translating
 
     if(!originalText && ignoreIfEmpty) {
         return;
