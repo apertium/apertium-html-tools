@@ -131,8 +131,12 @@ h2 {
     padding: 5px 0 0 5px;
 }
 
+#localeSelectSpacer {
+    display: flex;
+}
+
 #localeSelectContainer {
-    width: 35%;
+    flex: 1;
 }
 
 #primaryLocaleGlobe {

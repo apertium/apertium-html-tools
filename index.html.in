@@ -106,14 +106,16 @@
                         </div>
                         <p data-text="tagline" class="tagline"></p>
                     </div>
-                    <div class="pull-right hidden-xs" id="localeSelectContainer">
-                        <!-- <i class="icon-globe localeGlobe pull-right"></i> -->
-                        <i class="fa fa-globe fa-2x fa-inverse pull-right localeGlobe" id="primaryLocaleGlobe"></i>
-                        <select class="localeSelect pull-right">
-                            <option></option>
-                        </select>
+                    <div id="localeSelectSpacer">
+                        <div class="pull-right hidden-xs" id="localeSelectContainer">
+                            <!-- <i class="icon-globe localeGlobe pull-right"></i> -->
+                            <i class="fa fa-globe fa-2x fa-inverse pull-right localeGlobe" id="primaryLocaleGlobe"></i>
+                            <select class="localeSelect pull-right">
+                                <option></option>
+                            </select>
+                        </div>
                     </div>
-                    <ul class="nav navbar-nav navbar-right navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-left navbar-collapse collapse">
                         <li>
                             <a href="#translation" data-mode="translation" data-text="Translation" class="hide" data-toggle="tab">Translation</a>
                         </li>
