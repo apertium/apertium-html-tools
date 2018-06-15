@@ -723,7 +723,7 @@ function translateText(ignoreIfEmpty) {
         }
     }
 
-    var originalText /*: string */ = $('#originalText').val();
+    var originalText /*: string */ = $('#originalText').val().replace(/\u00AD/g, '');
 
     if(!originalText && ignoreIfEmpty) {
         return;
