@@ -6,7 +6,7 @@ var curSrcLang /*: string */, curDstLang/*: string */;
 var recentSrcLangs /*: string[] */ = [], recentDstLangs /*: string[] */ = [];
 var droppedFile/*: ?File */;
 var translateRequest;
-var translationTimer /*: TimeoutID */;
+var translationTimer/*: TimeoutID */;
 
 var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_BUTTONS = 3,
