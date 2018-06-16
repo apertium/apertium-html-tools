@@ -6,7 +6,7 @@ var currentAnalyzerRequest;
 /* exported analyzerData, analyzers, getAnalyzers, populateAnalyzerList, populateSecondaryAnalyzerList */
 
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
-    cache, getLangByCode, filterLangPairList, allowedLang, sendEvent, callApy, apyRequestTimeout */
+    cache, getLangByCode, filterLangPairList, allowedLang, sendEvent, callApy, apyRequestTimeout, removeSoftHyphens */
 /* global ENTER_KEY_CODE */
 
 if(modeEnabled('analyzation')) {
@@ -146,7 +146,7 @@ function populateSecondaryAnalyzerList() {
 }
 
 function analyze() {
-    var input /*: string */ = $('#morphAnalyzerInput').val().replace(/\u00AD/g, ''); // Removes all soft hyphens before analyzing
+    var input /*: string */ = removeSoftHyphens($('#morphAnalyzerInput').val());
 
     if(!$('#primaryAnalyzerMode').val() || input.trim() === '') {
         return;
@@ -248,7 +248,7 @@ function handleAnalyzeErrorResponse(xOptions, error /*: string */) {
 /*:: export {analyzerData, analyzers, getAnalyzers, populateAnalyzerList, populateSecondaryAnalyzerList} */
 
 /*:: import {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, filterLangPairList,
-    modeEnabled, sendEvent} from "./util.js" */
+    modeEnabled, sendEvent, removeSoftHyphens} from "./util.js" */
 /*:: import {ENTER_KEY_CODE} from "./util.js" */
 /*:: import {getLangByCode, localizeInterface} from "./localization.js" */
 /*:: import {cache, persistChoices, readCache, restoreChoices} from "./persistence.js" */

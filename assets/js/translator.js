@@ -26,7 +26,7 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, apyRequestTimeout, isURL */
+    callApy, apyRequestTimeout, isURL, removeSoftHyphens */
 /* global ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
 if(modeEnabled('translation')) {
@@ -723,7 +723,7 @@ function translateText(ignoreIfEmpty) {
         }
     }
 
-    var originalText /*: string */ = $('#originalText').val().replace(/\u00AD/g, ''); // Removes all soft hyphens before translating
+    var originalText /*: string */ = removeSoftHyphens($('#originalText').val());
 
     if(!originalText && ignoreIfEmpty) {
         return;
@@ -1206,7 +1206,7 @@ function setRecentDstLangs(langs /*: string[] */) {
     srcLangs} */
 
 /*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, sendEvent, callApy,
-    apyRequestTimeout} from "./util.js" */
+    apyRequestTimeout, removeSoftHyphens} from "./util.js" */
 /*:: import {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
 /*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes} from "./localization.js" */

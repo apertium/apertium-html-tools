@@ -1,7 +1,7 @@
 // @flow
 
 /* exported ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, debounce, filterLangList, filterLangPairList, getURLParam,
-    isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights */
+    isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights, removeSoftHyphens */
 /* exported ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
 /* global _paq, config */
@@ -117,6 +117,10 @@ function sendEvent/*:: <T> */(category /*: string */, action /*: string */, labe
 
 function modeEnabled(mode /*: string */) {
     return !config.ENABLED_MODES || config.ENABLED_MODES.indexOf(mode) !== -1;
+}
+
+function removeSoftHyphens(text /*: string */) {
+    return text.replace(/\u00AD/g, '');
 }
 
 function resizeFooter() {
@@ -275,7 +279,7 @@ function displayInstallationNotification() {
 }
 
 /*:: export {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, debounce, filterLangList, filterLangPairList, getURLParam,
-    isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights} */
+    isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights, removeSoftHyphens} */
 /*:: export {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} */
 
 /*:: import {_paq} from "./init.js" */
