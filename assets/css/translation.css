@@ -87,6 +87,10 @@ html[dir='rtl'] #srcLanguages {
     }
 }
 
+#translateOptionsContainer {
+    width: auto;
+}
+
 #translateOptions label {
     clear: both;
 }
