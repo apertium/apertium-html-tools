@@ -95,6 +95,10 @@ html[dir='rtl'] #srcLanguages {
     clear: both;
 }
 
+html[dir='rtl'] #markUnknown, html[dir='rtl'] #instantTranslation, html[dir='rtl'] #chainedTranslation {
+    float: right;
+}
+
 #translatedWebpage {
     border: 1px solid #ccc;
     border-radius: 4px;
