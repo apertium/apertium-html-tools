@@ -222,7 +222,7 @@ function getLocales() {
                 $('<option></option>')
                     .val(codeAndName[0])
                     .text(codeAndName[1])
-                    .prop('dir', rtlLanguages.indexOf(this[0]) !== -1 ? 'rtl' : 'ltr')
+                    .prop('dir', direction(this[0]))
             );
         });
     }
@@ -354,7 +354,7 @@ function localizeStrings(stringsFresh /*: boolean */) {
                         }
                         else {
                             elem.html(text);
-                            elem.attr('dir', rtlLanguages.indexOf(locale) === -1 ? 'ltr' : 'rtl');
+                            elem.attr('dir', direction(locale));
                         }
                     }
                 }
@@ -375,6 +375,11 @@ function localizeStrings(stringsFresh /*: boolean */) {
     }
 }
 
+function direction(lang /*: string */) /*: 'ltr' | 'rtl' */ {
+    return rtlLanguages.indexOf(lang) === -1 ? 'ltr' : 'rtl';
+}
+
+
 function localizeInterface() {
     var elements = {
         'html': locale,
@@ -387,10 +392,6 @@ function localizeInterface() {
     $.each(elements, function (selector, lang /*: string */) {
         $(selector).attr('dir', direction(lang));
     });
-
-    function direction(lang /*: string */) /*: 'ltr' | 'rtl' */ {
-        return rtlLanguages.indexOf(lang) === -1 ? 'ltr' : 'rtl';
-    }
 
     $('link#rtlStylesheet').prop('disabled', direction(locale) === 'ltr');
 }
