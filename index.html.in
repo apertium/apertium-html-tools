@@ -225,23 +225,21 @@
                                                 <span data-text="Translate_Webpage">Translate a webpage</span>
                                             </button>
                                         </div>
-                                        <div class="col-lg-3 col-md-6  pull-right" id="translateOptionsContainer">
-                                            <div class="checkbox" id="translateOptions">
-                                                <label class="pull-right">
-                                                    <input type="checkbox" id="markUnknown" checked>
-                                                    <span data-text="Mark_Unknown_Words">Mark unknown words</span>
-                                                </label>
-                                                <label class="pull-right">
-                                                    <input type="checkbox" id="instantTranslation" checked>
-                                                    <span data-text="Instant_Translation">Instant translation</span>
-                                                </label>
-                                                <label class="pull-right">
-                                                    <input type="checkbox" id="chainedTranslation" class="chaining">
-                                                    <span data-text="Multi_Step_Translation" class="chaining">
-                                                        Multi-step translation (experimental)
-                                                    </span>
-                                                </label>
-                                            </div>
+                                        <div class="col-lg-3 col-md-6 pull-right checkbox" id="translateOptions">
+                                            <label class="pull-right">
+                                                <input type="checkbox" id="markUnknown" checked>
+                                                <span data-text="Mark_Unknown_Words">Mark unknown words</span>
+                                            </label>
+                                            <label class="pull-right">
+                                                <input type="checkbox" id="instantTranslation" checked>
+                                                <span data-text="Instant_Translation">Instant translation</span>
+                                            </label>
+                                            <label class="pull-right">
+                                                <input type="checkbox" id="chainedTranslation" class="chaining">
+                                                <span data-text="Multi_Step_Translation" class="chaining">
+                                                    Multi-step translation (experimental)
+                                                </span>
+                                            </label>
                                         </div>
                                     </div>
 

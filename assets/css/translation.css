@@ -87,7 +87,7 @@ html[dir='rtl'] #srcLanguages {
     }
 }
 
-#translateOptionsContainer {
+#translateOptions {
     width: auto;
 }
 
@@ -95,7 +95,7 @@ html[dir='rtl'] #srcLanguages {
     clear: both;
 }
 
-html[dir='rtl'] #translateOptions input[type="checkbox"] {
+html[dir='rtl'] #translateOptions input[type='checkbox'] {
     float: right;
 }
 
