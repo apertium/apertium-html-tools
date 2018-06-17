@@ -354,7 +354,7 @@ function localizeStrings(stringsFresh /*: boolean */) {
                         }
                         else {
                             elem.html(text);
-                            elem.attr("dir", rtlLanguages.indexOf(locale) === -1 ? 'ltr' : 'rtl');
+                            elem.attr('dir', rtlLanguages.indexOf(locale) === -1 ? 'ltr' : 'rtl');
                         }
                     }
                 }
