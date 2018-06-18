@@ -178,6 +178,10 @@ function getLocale() {
     return deferred.promise();
 }
 
+function langDirection(lang /*: string */) /*: 'ltr' | 'rtl' */ {
+    return rtlLanguages.indexOf(lang) === -1 ? 'ltr' : 'rtl';
+}
+
 function getLocales() {
     var deferred /*: JQueryDeferred<any> */ = $.Deferred();
     if(config.LOCALES) {
@@ -222,7 +226,7 @@ function getLocales() {
                 $('<option></option>')
                     .val(codeAndName[0])
                     .text(codeAndName[1])
-                    .prop('dir', rtlLanguages.indexOf(this[0]) !== -1 ? 'rtl' : 'ltr')
+                    .prop('dir', langDirection(this[0]))
             );
         });
     }
@@ -354,6 +358,7 @@ function localizeStrings(stringsFresh /*: boolean */) {
                         }
                         else {
                             elem.html(text);
+                            elem.attr('dir', langDirection(locale));
                         }
                     }
                 }
@@ -384,14 +389,10 @@ function localizeInterface() {
     };
 
     $.each(elements, function (selector, lang /*: string */) {
-        $(selector).attr('dir', direction(lang));
+        $(selector).attr('dir', langDirection(lang));
     });
 
-    function direction(lang /*: string */) /*: 'ltr' | 'rtl' */ {
-        return rtlLanguages.indexOf(lang) === -1 ? 'ltr' : 'rtl';
-    }
-
-    $('link#rtlStylesheet').prop('disabled', direction(locale) === 'ltr');
+    $('link#rtlStylesheet').prop('disabled', langDirection(locale) === 'ltr');
 }
 
 function getLangByCode(dirtyCode /*: string */) /*: string */ {
