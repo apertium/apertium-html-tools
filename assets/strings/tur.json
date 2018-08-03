@@ -1,44 +1,41 @@
 {
     "@metadata": {
         "authors": [
-            "coltekin"
+            "coltekin",
+            "memduhg"
         ],
         "last-updated": "2015-11-27",
         "locale": [
             "tr",
             "tur"
         ],
-        "completion": " 83%  86.40%",
-        "missing": [
-            "Install_Apertium",
-            "Install_Apertium_Para",
-            "Mark_Unknown_Words",
-            "Morphological_Analysis_Help",
-            "Morphological_Generation_Help",
-            "Multi_Step_Translation",
-            "Supported_Formats",
-            "Translate_Webpage",
-            "Translation_Help"
-        ]
+        "completion": "100% 104.15%",
+        "missing": []
     },
     "title": "Apertium | Özgür ve açık kaynak kodlu bir makine çevirisi platformu",
     "tagline": "Özgür ve açık kaynak kodlu bir makine çevirisi platformu",
     "description": "Apertium kural tabanlı bir makine çevirisi platformudur. Apertium özgür yazılımdır, ve dağıtımı GNU Genel Kamu Lisansı ile yapılır.",
     "Translation": "Çeviri",
+    "Translation_Help": "Cevrilecek bir metin veya web bağlantısı giriniz.",
     "Translate": "Çevir",
     "Detect_Language": "Dili tahmin et",
     "detected": "tahmin edildi",
     "Instant_Translation": "Anında çeviri",
+    "Mark_Unknown_Words": "Bilinmeyen kelimeleri işaretle",
+    "Multi_Step_Translation": "<a href='https://en.wikipedia.org/wiki/Pivot_language' target='_blank' rel='noopener'>Multi-step translation</a> (experimental)",
     "Translate_Document": "Belge çevir",
-    "Translate_Webpage": "Web sitesi çevir",
     "Drop_Document": "Bir belge sürükle",
     "Not_Available": "Çeviri henüz mümkün değil!",
     "File_Too_Large": "Dosya çok büyük!",
     "Cancel": "İptal",
     "Format_Not_Supported": "Format desteklenmiyor!",
+    "Translate_Webpage": "Web sitesi çevir",
+    "Supported_Formats": "Desteklenen formatlar: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 ve daha yenileri). <br/><i>Word 97 .doc dosyaları ve pdf'ler desteklenmemektedir..</i>",
     "Morphological_Analysis": "Morfolojik çözümleme",
+    "Morphological_Analysis_Help": "Biçimbilimsel analizi yapılacak formları giriniz.",
     "Analyze": "Çözümle",
     "Morphological_Generation": "Morfolojik üretme",
+    "Morphological_Generation_Help": "Metin halinde üretilmesini istediğiniz biçimbilimsel formları giriniz.",
     "Generate": "Üret",
     "Spell_Checker": "İmla denetleyicisi",
     "APy_Sandbox": "APy kum havuzu",
@@ -63,5 +60,7 @@
     "Documentation_Para": "Belgeler <a href='http://wiki.apertium.org/'>Wiki</a> sayfamızda, <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank' rel='noopener'>Documentation</a> bölümündedir. Çeşitli konferans ve dergilerde yayınladığımız makalelerin listesine Wiki'de <a href='http://wiki.apertium.org/wiki/Publications' target='_blank' rel='noopener'>Publications</a> sayfasından erişebilirsiniz.",
     "Apertium_Downloads": "Apertium'dan indirilebilecekler",
     "Downloads_Para": "<b>Apertium araçları</b> ve <b>eşleştirilmiş dil verilerinin</b> son sürümüne, <a href='https://github.com/apertium' target='_blank' rel='noopener'>GitHub sayfamızdan</a> erişebilirsiniz. Başlıca işletim sistemleri için Apertium kurulum belgeleri <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Wiki kurulum sayfasında</a> bulunabilir.",
-    "Contact_Para": "<h4>IRC kanalı</h4> <p>Bize ulaşmanın en hızlı yolu, Apertium kullanıcıları ver geliştiricilerin buluşma ortamı olan, irc.freenode.net'ten erişebileceğiniz <a href='http://wiki.apertium.org/wiki/IRC' target='_blank' rel='noopener'><abbr title='Internet Relay Chat'>IRC</abbr>kanalı, #apertium</a>'a katılmaktır. Bunun için özel bir IRC uygulaması kullanmanıza gerek yok. <a href='http://webchat.freenode.net/?channels=apertium'>freenode webchat</a> kullanarak katılabilirsiniz. </p> <h4>Email listesi</h4> <p>Ayrıca, <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank' rel='noopener'> apertium-stuff email listesine</a> üye olarak, daha uzun önerilerde bulunup sorunları tartışabileceğiniz gibi, Apertium'la ilgili genel konuları takip edebilirsiniz.</p> <h4>İletişim</h4> <p>Eğer bir hata bulursanız, üzerinde çalışmamızı istediğiniz bir proje varsa, ya da yardım etmek isterseniz, <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank' rel='noopener'>apertium-contact email listesini</a> kullanarak bizimle iletişime geçmekten çekinmeyin.</p>"
+    "Contact_Para": "<h4>IRC kanalı</h4> <p>Bize ulaşmanın en hızlı yolu, Apertium kullanıcıları ver geliştiricilerin buluşma ortamı olan, irc.freenode.net'ten erişebileceğiniz <a href='http://wiki.apertium.org/wiki/IRC' target='_blank' rel='noopener'><abbr title='Internet Relay Chat'>IRC</abbr>kanalı, #apertium</a>'a katılmaktır. Bunun için özel bir IRC uygulaması kullanmanıza gerek yok. <a href='http://webchat.freenode.net/?channels=apertium'>freenode webchat</a> kullanarak katılabilirsiniz. </p> <h4>Email listesi</h4> <p>Ayrıca, <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank' rel='noopener'> apertium-stuff email listesine</a> üye olarak, daha uzun önerilerde bulunup sorunları tartışabileceğiniz gibi, Apertium'la ilgili genel konuları takip edebilirsiniz.</p> <h4>İletişim</h4> <p>Eğer bir hata bulursanız, üzerinde çalışmamızı istediğiniz bir proje varsa, ya da yardım etmek isterseniz, <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank' rel='noopener'>apertium-contact email listesini</a> kullanarak bizimle iletişime geçmekten çekinmeyin.</p>",
+    "Install_Apertium": "Apertium'u kurun",
+    "Install_Apertium_Para": "Siteden cevaplar yavaş mı geliyor? Sunucularımız aşırı yüklenmiş olabilir. <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Apertium'u lokalinize kurmayı</a> öğrenmek için tıklayın."
 }
