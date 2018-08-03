@@ -12,6 +12,7 @@ After editing localizations, run `make` or tell another developer.
 | cat  | 100% | 112.54% |
 | arg  | 100% | 111.87% |
 | tat  | 100% | 105.36% |
+| tur  | 100% | 104.15% |
 | mar  | 100% | 101.48% |
 | eng  | 100% | 100.00% |
 | fin  | 100% | 95.49% |
@@ -20,7 +21,6 @@ After editing localizations, run `make` or tell another developer.
 | srd  | 85% | 91.65% |
 | uzb  | 83% | 92.06% |
 | swe  | 83% | 86.49% |
-| tur  | 83% | 86.40% |
 | rus  | 83% | 82.47% |
 | nob  | 81% | 85.59% |
 | nno  | 81% | 81.19% |
