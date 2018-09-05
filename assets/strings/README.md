@@ -13,6 +13,7 @@ After editing localizations, run `make` or tell another developer.
 | arg  | 100% | 111.87% |
 | tat  | 100% | 105.36% |
 | tur  | 100% | 104.15% |
+| szl  | 100% | 102.11% |
 | mar  | 100% | 101.48% |
 | eng  | 100% | 100.00% |
 | fin  | 100% | 95.49% |
