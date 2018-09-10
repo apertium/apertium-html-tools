@@ -102,9 +102,11 @@ build/js/bootstrap.min.js: build/js/.d
 build/js/%.js: assets/js/%.js build/js/.d
 	cp $< $@
 
+
 ### MANIFEST ###
 build/manifest.json: assets/manifest.json build/.d
 	cp $< $@
+
 
 ### HTML ###
 build/index.debug.html: index.html.in debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json $(CONFIG) tools/read-conf.py tools/localise-html.py build/.d
@@ -177,7 +179,6 @@ build/sitemap.xml: sitemap.xml.in build/l10n-rel.html build/.HTML_URL
 
 
 ### CSS ###
-
 CSSFILES= \
 	assets/css/analysis.css \
 	assets/css/footer.css \
