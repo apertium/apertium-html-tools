@@ -3,7 +3,7 @@ Localization
 
 This directory contains the JSON files powering Html-tools' localization as well as some helpful utilities. `locales.json` contains a reference to each JSON strings file as well as each language's endonym. Localization instructions are available on the [Apertium Wiki](http://wiki.apertium.org/wiki/Apertium-html-tools).
 
-After editing localizations, run `make` or tell another developer.
+After editing localizations, please run `make`.
 
 <!--table-->
 | code | CBE* | CBC** |

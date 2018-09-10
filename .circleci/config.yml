@@ -21,6 +21,10 @@ jobs:
       - run: flow-coverage-report --config flow-coverage.json
       - run: flow check
 
+      # Ensure localizations are clean and README statistics up-to-date
+      - run: cd assets/strings && make
+      - run: git diff --exit-code assets/strings
+
       # Build project
       - run: cp config.conf.example config.conf
       - run: make -j8 || true
