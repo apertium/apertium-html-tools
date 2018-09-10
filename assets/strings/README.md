@@ -11,6 +11,7 @@ After editing localizations, please run `make`.
 | deu  | 100% | 114.70% |
 | cat  | 100% | 112.54% |
 | arg  | 100% | 111.87% |
+| glg  | 100% | 109.11% |
 | tat  | 100% | 105.36% |
 | tur  | 100% | 104.15% |
 | szl  | 100% | 102.11% |
