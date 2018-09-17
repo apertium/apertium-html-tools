@@ -15,7 +15,7 @@ services:
     links:
       - apy
     volumes:
-      - ./:/root/apertium-html-tools
+      - .:/root/apertium-html-tools
     environment:
       - APY_PORT=2737
   nginx:
