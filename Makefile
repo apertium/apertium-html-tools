@@ -110,7 +110,7 @@ build/manifest.json: assets/manifest.json build/.d
 
 ### HTML ###
 build/index.debug.html: ./html/index.html.in ./html/debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json $(CONFIG) tools/read-conf.py tools/localise-html.py build/.d
-	sed -e '/@include_head@/r ./debug-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
+	sed -e '/@include_head@/r ./html/debug-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
 	./tools/localise-html.py -c $(CONFIG) $@ build/strings/eng.json $@
 
 # timestamp links, only double quotes supported :>
