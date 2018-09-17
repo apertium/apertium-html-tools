@@ -109,12 +109,12 @@ build/manifest.json: assets/manifest.json build/.d
 
 
 ### HTML ###
-build/index.debug.html: ./html/index.html.in ./html/debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json $(CONFIG) tools/read-conf.py tools/localise-html.py build/.d
-	sed -e '/@include_head@/r ./html/debug-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
+build/index.debug.html: html/index.html.in html/debug-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID build/strings/eng.json $(CONFIG) tools/read-conf.py tools/localise-html.py build/.d
+	sed -e '/@include_head@/r html/debug-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' -e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" $< > $@
 	./tools/localise-html.py -c $(CONFIG) $@ build/strings/eng.json $@
 
 # timestamp links, only double quotes supported :>
-build/prod-head.html: ./html/prod-head.html build/js/all.js build/css/all.css
+build/prod-head.html: html/prod-head.html build/js/all.js build/css/all.css
 	ts=`date +%s`; sed "s/\(href\|src\)=\"\([^\"]*\)\"/\1=\"\2?$${ts}\"/" $< > $@
 
 build/.PIWIK_URL: $(CONFIG) tools/read-conf.py build/.d
@@ -122,7 +122,7 @@ build/.PIWIK_URL: $(CONFIG) tools/read-conf.py build/.d
 build/.PIWIK_SITEID: $(CONFIG) tools/read-conf.py build/.d
 	./tools/read-conf.py -c $< get PIWIK_SITEID > $@
 
-build/index.localiseme.html: ./html/index.html.in build/prod-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID
+build/index.localiseme.html: html/index.html.in build/prod-head.html build/l10n-rel.html build/.PIWIK_URL build/.PIWIK_SITEID
 	sed -e '/@include_head@/r build/prod-head.html' -e '/@include_head@/r build/l10n-rel.html' -e '/@include_head@/d' \
 		-e "s%@include_piwik_url@%$(shell cat build/.PIWIK_URL)%" -e "s%@include_piwik_siteid@%$(shell cat build/.PIWIK_SITEID)%" \
 		-e "s%@include_version@%$(shell git describe --tags --always || '')%" \
@@ -146,8 +146,8 @@ build/index.%.html: build/strings/%.json build/index.localiseme.html $(CONFIG) t
 build/index.html: build/index.$(DEFAULT_LOCALE).html
 	cp $^ $@
 
-build/not-found.html: build/index.html ./html/not-found.html
-	sed -e '/<!-- Not found warning -->/r ./html/not-found.html' $< > $@
+build/not-found.html: build/index.html html/not-found.html
+	sed -e '/<!-- Not found warning -->/r html/not-found.html' $< > $@
 
 build/strings/%.langnames.json: tools/read-conf.py $(CONFIG) build/strings/.d
 	curl -Ss "$(shell $< -c $(CONFIG) get APY_URL)/listLanguageNames?locale=$*" >$@
