@@ -180,7 +180,7 @@ function analyze() {
 
 function handleAnalyzeSuccessResponse(data /*: string[][] */) {
     var regex = /([^<]*)((<[^>]+>)*)/g;
-    $('#morphAnalyzerOutput').empty();
+    $('#morphAnalyzerOutput').html('<tbody></tbody>');
     for(var i = 0; i < data.length; i++) {
         var leftTD = $('<td class="text-right"></td>');
         var strong = $('<strong></strong>').text(data[i][1].trim());
@@ -195,7 +195,7 @@ function handleAnalyzeSuccessResponse(data /*: string[][] */) {
         }
 
         var tr = $('<tr></tr>').append(leftTD).append(rightTD);
-        $('#morphAnalyzerOutput').append(tr);
+        $('#morphAnalyzerOutput tbody').append(tr);
 
         var joinedMorphemes = {};
         for(var j = 1; j < splitUnit.length; j++) {
