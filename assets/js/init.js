@@ -33,16 +33,17 @@ $(document).ready(function () {
     if(config.SHOW_NAVBAR) {
         if(config.ENABLED_MODES) {
             $.each(config.ENABLED_MODES, function () {
-                $('.nav a[data-mode=' + this + ']').removeClass('hide');
+                $('.nav a[data-mode=' + this + ']').show();
             });
         }
         else {
-            $('.nav a').removeClass('hide');
+            $('.nav a').show();
         }
+        $('.navbarDefault > div').addClass('pb-md-5 pb-xl-0');
     }
     else {
-        $('.navbar-default .navbar-toggle').hide();
-        $('.navbar-default .nav').hide();
+        $('.navbarDefault .navbar-toggler').hide();
+        $('.navbarDefault .nav').hide();
     }
 
     var hash /*: string */ = parent.location.hash;
@@ -63,8 +64,10 @@ $(document).ready(function () {
         parent.location.hash = hash;
     }
 
-    $('.modeContainer' + hash).addClass('in active');
-    $('.navbar-default .nav li > a[data-mode=' + hash.substring(1) + ']').parent().addClass('active');
+    $('.modeContainer' + hash).addClass('active show');
+    // FlowCheck doesn't recognise Bootstrap's `tab` function
+    // $FlowFixMe
+    $('.navbarDefault .nav li > a[data-mode=' + hash.substring(1) + ']').tab('show');
 
     resizeFooter();
 

@@ -262,7 +262,7 @@ function displayInstallationNotification() {
     }
     installationNotificationShown = true;
 
-    $('#installationNotice').fadeIn('slow').removeClass('hide')
+    $('#installationNotice').fadeIn('slow').show()
         .delay(INSTALLATION_NOTIFICATION_DURATION)
         .fadeOut('slow', hideInstallationNotification);
 
@@ -274,7 +274,7 @@ function displayInstallationNotification() {
     });
 
     function hideInstallationNotification() {
-        $('#installationNotice').addClass('hide');
+        $('#installationNotice').hide();
     }
 }
 
