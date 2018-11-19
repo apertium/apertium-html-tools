@@ -186,14 +186,14 @@ CSSFILES= \
 	assets/css/navbar.css \
 	assets/css/translation.css
 
-THEMES= cerulean cosmo cyborg darkly journal lumen paper readable sandstone simplex slate spacelab superhero united yeti
+THEMES= cerulean cosmo cyborg darkly flatly journal litera lumen lux materia minty pulse sandstone simplex sketchy slate solar spacelab superhero united yeti
 
 $(THEMES): % : all build/css/bootstrap.%.css build/css/.d
 
 theme = $(filter $(THEMES), $(MAKECMDGOALS))
 
 build/css/bootstrap.%.css: build/css/.d
-	curl -Ss 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/$*/bootstrap.min.css' -o $@
+	curl -Ss 'https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/$*/bootstrap.min.css' -o $@
 
 build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/bootstrap.css) build/css/style.css build/css/.d
 	cat $^ > $@
