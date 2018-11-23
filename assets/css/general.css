@@ -23,6 +23,11 @@ h2 {
     right: 20px;
 }
 
+html[dir='rtl'] #cancelDocTranslate {
+    left: 20px;
+    right: auto;
+}
+
 #loadingIndicator {
     display: none;
     left: 48%;
@@ -50,8 +55,9 @@ h2 {
 
 /* Action buttons use blue color instead of the primary orange, overwrite */
 #generate, #analyze, #request, .translateBtn {
-    background-color: #446e9b !important; /* sass-lint:disable-line no-important */
-    color: #fff !important; /* sass-lint:disable-line no-important */
+    /* sass-lint:disable-block no-important */
+    background-color: #446e9b !important;
+    color: #fff !important;
 }
 
 .translateBtn:focus,
@@ -72,9 +78,20 @@ h2 {
         position: absolute;
         right: 0;
     }
+
+    html[dir='rtl'] .collapse.navbar-collapse { /* sass-lint:disable-line class-name-format */
+        bottom: 0;
+        left: 0;
+        right: auto;
+    }
 }
 
 .navbar-toggler { /* sass-lint:disable-line class-name-format */
+    left: 0;
+    right: auto;
+}
+
+html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
     right: 0;
     top: 5px;
 }
@@ -251,7 +268,16 @@ html[dir='rtl'] .clearButton {
     z-index: 10000000000000;
 }
 
+/* FontAwesome and Bootstrap 4 helpers */
+.fa.float-right { /* sass-lint:disable-line class-name-format */
+    margin-left: .3em;
+}
+
 /* RTL checking */
+
+html[dir='rtl'] body {
+    text-align: right !important; /* sass-lint:disable-line no-important */
+}
 
 html[dir='rtl'] .float-right:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
     float: left !important; /* sass-lint:disable-line no-important */
@@ -261,7 +287,22 @@ html[dir='rtl'] .float-left:not(#rtlChecker) { /* sass-lint:disable-line class-n
     float: right !important; /* sass-lint:disable-line no-important */
 }
 
-/* FontAwesome and Bootstrap 4 helpers */
-.fa.float-right { /* sass-lint:disable-line class-name-format */
-    margin-left: .3em;
+html[dir='rtl'] label input[type='checkbox'] {
+    margin-right: -20px;
+    margin-top: 5px;
+}
+
+html[dir='rtl'] button.close { /* sass-lint:disable-line no-qualifying-elements */
+    margin-left: 0 !important; /* sass-lint:disable-line no-important */
+}
+
+html[dir='rtl'] .btn-group > .btn:last-child:not(.dropdown-toggle), /* sass-lint:disable-line class-name-format */
+.btn-group > .btn-group:last-child > .btn { /* sass-lint:disable-line class-name-format */
+    border-radius: .2rem 0 0 .2rem;
+}
+
+
+html[dir='rtl'] .btn-group > .btn:first-child:not(.dropdown-toggle), /* sass-lint:disable-line class-name-format */
+.btn-group > .btn-group:first-child > .btn { /* sass-lint:disable-line class-name-format */
+    border-radius: 0 .2rem .2rem 0;
 }

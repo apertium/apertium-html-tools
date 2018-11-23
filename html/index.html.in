@@ -31,12 +31,12 @@
                 console.warn('Bootstrap JS from CDN not available - reverting to local copy');
             }
         </script>
-
-        <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
-        @include_head@
-        <!-- Positioned to override styles in bootstrap.css; maintain /> for proper detection in localise-html.py -->
+        
+        <!-- Positioned to get overwritten by theme styles in bootstrap.css; maintain /> for proper detection in localise-html.py -->
         <link type="text/css" rel="stylesheet" id="rtlStylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.0.0/css/bootstrap.min.css"
             integrity="sha384-P4uhUIGk/q1gaD/NdgkBIl3a6QywJjlsFJFk7SPRdruoGddvRVSwv5qFnvZ73cpz" crossorigin="anonymous" />
+        <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
+        @include_head@
 
         <!--[if lt IE 9]>
             <script src="//cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js"></script>
@@ -218,7 +218,7 @@
                                             </div>
                                         </div>
                                         <div class="row mt-2">
-                                            <div class="col-12 col-md-6 d-flex d-sm-block justify-content-between flex-wrap">
+                                            <div class="col-12 col-md-6 d-flex d-sm-block justify-content-between flex-wrap otherTranslationOptions">
                                                 <button id="translateDoc" class="btn btn-secondary">
                                                     <i class="fa fa-file-text"></i>
                                                     <span data-text="Translate_Document">Translate a document</span>
