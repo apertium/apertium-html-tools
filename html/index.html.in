@@ -60,7 +60,7 @@
 
         <!-- [if lt IE 10]>
             <style type="text/css">
-                button#translateDoc { display: none;; }
+                button#translateDoc { display: none; }
             </style>
         <![endif]-->
 
