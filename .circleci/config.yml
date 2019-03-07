@@ -13,7 +13,7 @@ jobs:
       - run: echo 'export PATH=./node_modules/.bin:$PATH' >> $BASH_ENV
 
       # Run tests
-      - run: find assets/strings -type f -name '*.json' -exec json --validate '{}' +
+      - run: find assets/strings -type f -name '*.json' -exec json --validate -f {} \;
       - run: eslint --config assets/js/.eslintrc.json assets/js/*.js
       - run: htmlhint --config .htmlhintrc.json *.html
       - run: sass-lint --config assets/css/.sass-lint.yml --verbose --no-exit --max-warnings 0
