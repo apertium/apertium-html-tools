@@ -1,7 +1,8 @@
 // @flow
 
 /* exported ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, debounce, filterLangList, filterLangPairList, getURLParam,
-    isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights, removeSoftHyphens */
+    isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights, removeSoftHyphens, parentLang,
+    isVariant */
 /* exported ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
 /* global _paq, config */
@@ -129,13 +130,21 @@ function resizeFooter() {
     $('#wrap').css('margin-bottom', -footerHeight);
 }
 
+function parentLang(code /*: string */) {
+    return code.split('_')[0];
+}
+
+function isVariant(code /*: string */) {
+    return code.indexOf('_') !== -1;
+}
+
 function allowedLang(code /*: string */) {
-    if(code.indexOf('_') === -1) {
-        return !config.ALLOWED_LANGS || config.ALLOWED_LANGS.indexOf(code) !== -1;
+    if(isVariant(code)) {
+        return allowedLang(parentLang(code)) &&
+            (!config.ALLOWED_VARIANTS || config.ALLOWED_VARIANTS.indexOf(code.split('_')[1]) !== -1);
     }
     else {
-        return allowedLang(code.split('_')[0]) &&
-            (!config.ALLOWED_VARIANTS || config.ALLOWED_VARIANTS.indexOf(code.split('_')[1]) !== -1);
+        return !config.ALLOWED_LANGS || config.ALLOWED_LANGS.indexOf(code) !== -1;
     }
 }
 
@@ -279,7 +288,8 @@ function displayInstallationNotification() {
 }
 
 /*:: export {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, debounce, filterLangList, filterLangPairList, getURLParam,
-    isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights, removeSoftHyphens} */
+    isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights, removeSoftHyphens, parentLang,
+    isVariant} */
 /*:: export {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} */
 
 /*:: import {_paq} from "./init.js" */

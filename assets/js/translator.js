@@ -27,7 +27,7 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, apyRequestTimeout, isURL, removeSoftHyphens */
+    callApy, apyRequestTimeout, isURL, removeSoftHyphens, parentLang, isVariant */
 /* global ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
 if(modeEnabled('translation')) {
@@ -533,9 +533,6 @@ function populateTranslationList() {
     sortTranslationList();
     $('.languageCol').remove();
 
-    function isVariant(lang) {
-        return lang.indexOf('_') !== -1;
-    }
     var minColumnWidth = TRANSLATION_LIST_MAX_WIDTH / TRANSLATION_LIST_MAX_COLUMNS;
 
     // figure out how much space is actually available for the columns
@@ -674,24 +671,50 @@ function populateTranslationList() {
 
         srcLangs = srcLangs.sort(compareLangCodes);
         dstLangs = dstLangs.sort(function (a, b) {
-            var possibleDstLangs = pairs[curSrcLang];
+            var possibleDstLangs = pairs[curSrcLang] || [];
+
             function isPossible(lang) {
-                var parentLanguage = lang.split('_')[0];
+                return possibleDstLangs.indexOf(lang) !== -1;
+            }
 
-                return possibleDstLangs && (
-                    possibleDstLangs.indexOf(lang) !== -1 ||
-                    possibleDstLangs.indexOf(parentLanguage) !== -1 ||
+            function isFamilyPossible(lang) {
+                var parent = parentLang(lang);
+                return isPossible(lang) ||
+                    possibleDstLangs.indexOf(parent) !== -1 ||
                     possibleDstLangs.some(function (possibleLang) {
-                        return possibleLang.startsWith(parentLanguage);
-                    })
-                );
+                        return parentLang(possibleLang) === parent;
+                    });
             }
 
-            var aPossible = isPossible(a), bPossible = isPossible(b);
-            if(aPossible === bPossible) {
-                return compareLangCodes(a, b);
+            var aParent = parentLang(a), bParent = parentLang(b);
+            var aFamilyPossible = isFamilyPossible(a), bFamilyPossible = isFamilyPossible(b);
+            if(aFamilyPossible === bFamilyPossible) {
+                if(aParent === bParent) {
+                    var aVariant = isVariant(a), bVariant = isVariant(b);
+                    if(aVariant && bVariant) {
+                        var aPossible = isPossible(a), bPossible = isPossible(b);
+                        if(aPossible === bPossible) {
+                            return compareLangCodes(a, b);
+                        }
+                        else if(aPossible) {
+                            return -1;
+                        }
+                        else {
+                            return 1;
+                        }
+                    }
+                    else if(aVariant) {
+                        return 1;
+                    }
+                    else {
+                        return -1;
+                    }
+                }
+                else {
+                    return compareLangCodes(a, b);
+                }
             }
-            else if(aPossible && !bPossible) {
+            else if(aFamilyPossible) {
                 return -1;
             }
             else {
@@ -1211,7 +1234,7 @@ function setRecentDstLangs(langs /*: string[] */) {
     srcLangs} */
 
 /*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, sendEvent, callApy,
-    apyRequestTimeout, removeSoftHyphens} from "./util.js" */
+    apyRequestTimeout, removeSoftHyphens, parentLang, isVariant} from "./util.js" */
 /*:: import {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
 /*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes} from "./localization.js" */
