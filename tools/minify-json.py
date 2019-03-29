@@ -5,7 +5,7 @@ import sys
 
 if __name__ == '__main__':
     with open(sys.argv[1], 'r+') as f:
-        strings = json.loads(f.read())
+        strings = json.load(f)
         if '@metadata' in strings:
             strings['alpha2'] = strings['@metadata']['locale'][0]
             del strings['@metadata']

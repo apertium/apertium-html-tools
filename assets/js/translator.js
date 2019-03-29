@@ -563,13 +563,13 @@ function populateTranslationList() {
         dstLangsPerCol = Math.ceil(dstLangs.length / numDstCols);
 
     for(var i = 0; i < numSrcCols; i++) {
-        while(isVariant(srcLangs[i * srcLangsPerCol])) {
+        while(i * srcLangsPerCol < srcLangs.length && isVariant(srcLangs[i * srcLangsPerCol])) {
             srcLangsPerCol++;
         }
     }
 
     for(i = 0; i < numDstCols; i++) {
-        while(isVariant(dstLangs[i * dstLangsPerCol])) {
+        while(i * dstLangsPerCol < dstLangs.length && isVariant(dstLangs[i * dstLangsPerCol])) {
             dstLangsPerCol++;
         }
     }
