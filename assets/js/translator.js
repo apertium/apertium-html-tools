@@ -412,10 +412,12 @@ function getPairs() /*: JQueryPromise<any> */ {
             translate(true);
             return;
         }
+
         $.each(pairData, function (i /*: number */, pair) {
             if(config.ALLOWED_PAIRS && config.ALLOWED_PAIRS.indexOf(pair.sourceLanguage + '-' + pair.targetLanguage) === -1) {
                 return;
             }
+
             srcLangs.push(pair.sourceLanguage);
             dstLangs.push(pair.targetLanguage);
 
@@ -426,15 +428,24 @@ function getPairs() /*: JQueryPromise<any> */ {
                 pairs[pair.sourceLanguage] = [pair.targetLanguage];
             }
         });
+
         srcLangs = filterLangList(srcLangs.filter(onlyUnique));
         dstLangs = filterLangList(dstLangs.filter(onlyUnique));
 
-        for(var k in pairs) {
+        $.each(dstLangs, function () {
+            var parent = parentLang(this);
+            if(dstLangs.indexOf(parent) === -1) {
+                dstLangs.push(parent);
+            }
+        });
+
+        for(var srcLang in pairs) {
             // Default for new users is first available pair; TODO something smart based on browser lang setting
-            curSrcLang = k;
-            curDstLang = pairs[k][0];
+            curSrcLang = srcLang;
+            curDstLang = pairs[srcLang][0];
             break;
         }
+
         for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
             if(i < srcLangs.length) {
                 recentSrcLangs.push(srcLangs[i]);
