@@ -18,6 +18,7 @@ After editing localizations, please run `make`.
 | mar  | 100% | 101.48% |
 | eng  | 100% | 100.00% |
 | fin  | 100% | 95.49% |
+| ara  | 100% | 90.89% |
 | kir  | 89% | 45.85% |
 | fra  | 87% | 93.69% |
 | srd  | 85% | 91.65% |
