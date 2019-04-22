@@ -5,11 +5,10 @@
   "license": "GPLv3",
   "private": true,
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "flow": "^0.2.3",
-    "flow-bin": "^0.69.0",
+    "eslint": "^5.16.0",
+    "flow-bin": "^0.83.0",
     "flow-coverage-report": "^0.5.0",
-    "htmlhint": "^0.9.13",
+    "htmlhint": "^0.11.0",
     "json": "^9.0.6",
     "sass-lint": "^1.12.1"
   }

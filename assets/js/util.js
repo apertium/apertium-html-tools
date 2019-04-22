@@ -158,7 +158,7 @@ function filterLangList(langs /*: string[] */, _filterFn /*: ?(lang: string) => 
             };
         }
 
-        return langs.filter(filterFn);
+        return (langs.filter(filterFn) /*: string[] */);
     }
     else {
         return langs;
