@@ -27,7 +27,7 @@ After editing localizations, please run `make`.
 | rus  | 83% | 82.47% |
 | nob  | 81% | 85.59% |
 | nno  | 81% | 81.19% |
-| kaa  | 79% | 87.68% |
+| kaa  | 79% | 86.20% |
 | tha  | 79% | 75.70% |
 | spa  | 74% | 27.06% |
 | oci  | 70% | 83.84% |
