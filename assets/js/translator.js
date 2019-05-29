@@ -856,6 +856,11 @@ function translateWebpage() {
                                 a.href = "#";
                                 a.target = "";
                             });
+                        // Workaround for Drupal js-links:
+                        document.getElementById('translatedWebpage').contentWindow.Drupal.facetapi.Redirect.prototype.gotoHref = function() {
+                            console.log("Intercepted Drupal Redirect to " + this.href);
+                            window.parent.translateLink(this.href);
+                        };
                         $('#translatedWebpage').contents().find('body')
                             .bind('mousedown', onTranslatedPreSelection)
                             .bind('mouseup', onTranslatedSelection);
