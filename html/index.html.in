@@ -289,7 +289,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-link"></i>
                                                 </span>
-                                                <input id="webpage" placeholder="URL" class="form-control" autocomplete="url">
+                                                <input id="webpage" placeholder="URL ⏎" class="form-control" autocomplete="url">
                                             </div>
                                             <iframe id="translatedWebpage" src="about:blank">
                                             </iframe>
