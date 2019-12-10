@@ -556,8 +556,10 @@ function populateTranslationList() {
 
     var maxSrcLangsWidth, maxDstLangsWidth;
 
+    var direction = locale ? langDirection(locale) : 'ltr';
+
     // figure out how much space is actually available for the columns
-    if(langDirection(locale) === 'ltr') {
+    if(direction === 'ltr') {
         maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
         maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
                             TRANSLATION_LISTS_BUFFER;
