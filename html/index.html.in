@@ -88,7 +88,15 @@
                 console.warn('BootstrapRTL CSS from CDN not available - reverting to local copy');
             }
         </script>
-
+        <script type="text/javascript">
+            var lang = navigator.language.substr(0, navigator.language.indexOf('-'));
+            if ($("[hreflang=" + lang + "]").length == 0) {
+                window.location.assign($("[hreflang=en]").attr(href));
+            }
+            else {
+                window.location.assign($("[hreflang=" + lang + "]").attr(href));
+            }
+        </script>
         <div id="wrap">
             <nav class="navbar navbar-default" role="navigation">
                 <div class="container position-relative">
