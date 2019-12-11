@@ -449,17 +449,17 @@ function getPairs() /*: JQueryPromise<any> */ {
 
         // Default for new users is first available Browser Preference Language pair
         var prefLang;
-        if (languages[navigator.languages[0]] != undefined) {
+        if(languages[navigator.languages[0]] !== undefined) {
             prefLang = navigator.languages[0];
         } 
-        else if (languages[navigator.languages[1]] != undefined) {
+        else if(languages[navigator.languages[1]] !== undefined) {
             prefLang = navigator.languages[1];
         }
-        else if (languages[navigator.languages[2]] != undefined) {
+        else if(languages[navigator.languages[2]] !== undefined) {
             prefLang = navigator.languages[2];
         }
         else {
-            prefLang = "en"
+            prefLang = 'en';
         }
         curSrcLang = iso639CodesInverse[prefLang];
         handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
