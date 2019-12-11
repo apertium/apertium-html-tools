@@ -448,16 +448,22 @@ function getPairs() /*: JQueryPromise<any> */ {
         });
 
         // Default for new users is first available Browser Preference Language pair
-        var brwsLangs = navigator.languages;
+        var brwsLangs = navigator.languages; //Chrome, Mozilla and Safari
         var prefLang;
         $.each(brwsLangs, function(index) {
             if(languages[brwsLangs[index]] !== undefined) {
-                prefLang = brwsLangs[index];
+                prefLang = brwsLangs[index].substring(0, 2);
                 return false;
             }
         })
         if (typeof prefLang === 'undefined') {
-            curSrcLang = locale;
+            if (navigator.userlanguage !== undefined || navigator.browserlanguage !== undefined) {
+                var bLang = navigator.userlanguage || navigator.browserlanguage;
+                curSrcLang = iso639CodesInverse[bLang]; //Internet Explorer
+            }
+            else {
+                curSrcLang = locale;
+            }
         }
         else {
             curSrcLang = iso639CodesInverse[prefLang];
