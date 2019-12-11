@@ -450,7 +450,7 @@ function getPairs() /*: JQueryPromise<any> */ {
         // Default for new users is first available Browser Preference Language pair
         var brwsLangs = navigator.languages;
         var prefLang;
-        $.each(brwsLangs, function( index ) {
+        $.each(brwsLangs, function(index) {
             if(languages[brwsLangs[index]] !== undefined) {
                 prefLang = brwsLangs[index];
                 return false;
