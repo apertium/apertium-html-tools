@@ -448,18 +448,16 @@ function getPairs() /*: JQueryPromise<any> */ {
         });
 
         // Default for new users is first available Browser Preference Language pair
+        var brwsLangs = navigator.languages;
         var prefLang;
-        if(languages[navigator.languages[0]] !== undefined) {
-            prefLang = navigator.languages[0];
-        }
-        else if(languages[navigator.languages[1]] !== undefined) {
-            prefLang = navigator.languages[1];
-        }
-        else if(languages[navigator.languages[2]] !== undefined) {
-            prefLang = navigator.languages[2];
-        }
-        else {
-            prefLang = 'en';
+        $.each(brwsLangs, function( index ) {
+            if(languages[brwsLangs[index]] !== undefined) {
+                prefLang = brwsLangs[index];
+                return false;
+            }
+        })
+        if (typeof prefLang === 'undefined') {
+            prefLang = locale;
         }
         curSrcLang = iso639CodesInverse[prefLang];
         handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
