@@ -451,7 +451,7 @@ function getPairs() /*: JQueryPromise<any> */ {
         var prefLang;
         if(languages[navigator.languages[0]] !== undefined) {
             prefLang = navigator.languages[0];
-        } 
+        }
         else if(languages[navigator.languages[1]] !== undefined) {
             prefLang = navigator.languages[1];
         }
