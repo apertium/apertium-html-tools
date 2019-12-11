@@ -457,9 +457,11 @@ function getPairs() /*: JQueryPromise<any> */ {
             }
         })
         if (typeof prefLang === 'undefined') {
-            prefLang = locale;
+            curSrcLang = locale;
         }
-        curSrcLang = iso639CodesInverse[prefLang];
+        else {
+            curSrcLang = iso639CodesInverse[prefLang];
+        }
         handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
         autoSelectDstLang();
 
