@@ -447,33 +447,35 @@ function getPairs() /*: JQueryPromise<any> */ {
             }
         });
 
-        // Default for new users is first available Browser Preference Language pair
-        var brwsLangs = navigator.languages; // Chrome, Mozilla and Safari
-        var prefLang;
-        $.each(brwsLangs, function(index) {
-            if(languages[brwsLangs[index].substr(0, 2)] !== undefined) {
-                curSrcLang = iso639CodesInverse[brwsLangs[index].substr(0, 2)];
-                autoSelectDstLang();
-                if(curDstLang !== undefined) {
-                    prefLang = brwsLangs[index].substr(0, 2);
-                    return false;
-                }
-            }
-        });
-        if(typeof prefLang === 'undefined') {
-            if(!navigator.userlanguage && !navigator.browserlanguage) {
-                curSrcLang = locale;
-            }
-            else {
-                var bLang = navigator.userlanguage || navigator.browserlanguage; // Internet Explorer
-                curSrcLang = iso639CodesInverse[bLang];
-            }
-        }
-        else {
-            curSrcLang = iso639CodesInverse[prefLang];
-        }
-        handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
-        autoSelectDstLang();
+         // Default for new users is first available Browser Preference Language pair
+         var browserLangs = navigator.languages; // Chrome, Mozilla and Safari
+         var prefLang;
+         $.each(browserLangs, function(i, langVal) {
+             var browserLang = getLangCode(langVal);
+             if(checkLangPairAvailable(browserLang)) {
+                     prefLang = browserLang;
+                     return false;
+             }
+         });
+ 
+         if(typeof prefLang === 'undefined') {
+             if(navigator.userlanguage !== undefined || navigator.browserlanguage !== undefined) {
+                 var ieLang = getLangCode(navigator.userlanguage || navigator.browserlanguage); // Internet Explorer
+                 if(checkLangPairAvailable(ieLang)) {
+                     curSrcLang = iso639CodesInverse[ieLang];
+                 } else {
+                     noPrefSrcLang();
+                 }
+             }
+             else {
+                 noPrefSrcLang();
+             }
+         }
+         else {
+             curSrcLang = iso639CodesInverse[prefLang];
+         }
+         handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
+         autoSelectDstLang();
 
         for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
             if(i < srcLangs.length) {
@@ -1261,6 +1263,41 @@ function autoSelectDstLang() {
     }
 
     $('#dstLangSelect').val(curDstLang).change();
+}
+
+// Check if the Language pair Exist or Not
+function checkLangPairAvailable(lang){
+    if(languages[lang] !== undefined) {
+        curSrcLang = iso639CodesInverse[lang];
+        autoSelectDstLang();
+        if(curDstLang !== undefined) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else {
+        return false;
+    }
+}
+
+// Set curSrcLang as locale or Eng, if locale not available
+function noPrefSrcLang(){
+    if(checkLangPairAvailable(iso639Codes[locale])) {
+        curSrcLang = locale;
+    } else {
+        curSrcLang = 'eng';
+    }
+}
+
+// Get the language code if - exist
+function getLangCode(lang) {
+    if(lang.includes('-')) {
+        return lang.substr(0, lang.indexOf('-'));
+    } else {
+        return lang;
+    }
 }
 
 function setCurSrcLang(lang /*: string */) {
