@@ -448,9 +448,9 @@ function getPairs() /*: JQueryPromise<any> */ {
         });
 
         // Default for new users is first available Browser Preference Language pair
-        var brwsLangs = navigator.languages; //Chrome, Mozilla and Safari
+        var brwsLangs = navigator.languages; // Chrome, Mozilla and Safari
         var prefLang;
-        $.each(brwsLangs, function(index) {
+        $.each(brwsLangs, function(index){
             if(languages[brwsLangs[index].substr(0, 2)] !== undefined) {
                 curSrcLang = iso639CodesInverse[brwsLangs[index].substr(0, 2)];
                 autoSelectDstLang();
@@ -459,10 +459,10 @@ function getPairs() /*: JQueryPromise<any> */ {
                     return false;
                 }
             }
-        })
-        if (typeof prefLang === 'undefined') {
-            if (navigator.userlanguage !== undefined || navigator.browserlanguage !== undefined) {
-                var bLang = navigator.userlanguage || navigator.browserlanguage; //Internet Explorer
+        });
+        if(typeof prefLang === 'undefined') {
+            if(navigator.userlanguage !== undefined || navigator.browserlanguage !== undefined) {
+                var bLang = navigator.userlanguage || navigator.browserlanguage; // Internet Explorer
                 curSrcLang = iso639CodesInverse[bLang];
             }
             else {
