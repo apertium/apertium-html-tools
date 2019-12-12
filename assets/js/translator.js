@@ -451,15 +451,19 @@ function getPairs() /*: JQueryPromise<any> */ {
         var brwsLangs = navigator.languages; //Chrome, Mozilla and Safari
         var prefLang;
         $.each(brwsLangs, function(index) {
-            if(languages[brwsLangs[index]] !== undefined) {
-                prefLang = brwsLangs[index].substring(0, 2);
-                return false;
+            if(languages[brwsLangs[index].substr(0, 2)] !== undefined) {
+                curSrcLang = iso639CodesInverse[brwsLangs[index].substr(0, 2)];
+                autoSelectDstLang();
+                if(curDstLang !== undefined) {
+                    prefLang = brwsLangs[index].substr(0, 2);
+                    return false;
+                }
             }
         })
         if (typeof prefLang === 'undefined') {
             if (navigator.userlanguage !== undefined || navigator.browserlanguage !== undefined) {
-                var bLang = navigator.userlanguage || navigator.browserlanguage;
-                curSrcLang = iso639CodesInverse[bLang]; //Internet Explorer
+                var bLang = navigator.userlanguage || navigator.browserlanguage; //Internet Explorer
+                curSrcLang = iso639CodesInverse[bLang];
             }
             else {
                 curSrcLang = locale;
