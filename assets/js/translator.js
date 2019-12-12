@@ -450,7 +450,7 @@ function getPairs() /*: JQueryPromise<any> */ {
         // Default for new users is first available Browser Preference Language pair
         var browserLangs = navigator.languages; // Chrome, Mozilla and Safari
         var prefLang;
-        $.each(browserLangs, function(i , langVal) {
+        $.each(browserLangs, function( i, langVal) {
             var browserLang = getLangCode(langVal);
             if(checkLangPairAvailable(browserLang)) {
                     prefLang = browserLang;
