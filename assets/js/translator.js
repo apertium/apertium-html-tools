@@ -461,12 +461,12 @@ function getPairs() /*: JQueryPromise<any> */ {
             }
         });
         if(typeof prefLang === 'undefined') {
-            if(navigator.userlanguage !== undefined || navigator.browserlanguage !== undefined) {
-                var bLang = navigator.userlanguage || navigator.browserlanguage; // Internet Explorer
-                curSrcLang = iso639CodesInverse[bLang];
+            if(!navigator.userlanguage && !navigator.browserlanguage) {
+                curSrcLang = locale;
             }
             else {
-                curSrcLang = locale;
+                var bLang = navigator.userlanguage || navigator.browserlanguage; // Internet Explorer
+                curSrcLang = iso639CodesInverse[bLang];
             }
         }
         else {
