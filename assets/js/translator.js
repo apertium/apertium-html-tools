@@ -1270,12 +1270,7 @@ function checkLangPairAvailable(lang) {
     if(languages[lang] !== undefined) {
         curSrcLang = iso639CodesInverse[lang];
         autoSelectDstLang();
-        if(curDstLang !== undefined) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return curDstLang !== undefined;
     }
     else {
         return false;
@@ -1294,12 +1289,7 @@ function noPrefSrcLang() {
 
 // Get the language code if - exist
 function getLangCode(lang) {
-    if(lang.includes('-')) {
-        return lang.substr(0, lang.indexOf('-'));
-    }
-    else {
-        return lang;
-    }
+    return lang.split('-', 2)[0];
 }
 
 function setCurSrcLang(lang /*: string */) {
