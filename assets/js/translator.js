@@ -450,7 +450,7 @@ function getPairs() /*: JQueryPromise<any> */ {
         // Default for new users is first available Browser Preference Language pair
         var brwsLangs = navigator.languages; // Chrome, Mozilla and Safari
         var prefLang;
-        $.each(brwsLangs, function(index){
+        $.each(brwsLangs, function(index) {
             if(languages[brwsLangs[index].substr(0, 2)] !== undefined) {
                 curSrcLang = iso639CodesInverse[brwsLangs[index].substr(0, 2)];
                 autoSelectDstLang();
