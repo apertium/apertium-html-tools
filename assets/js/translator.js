@@ -1277,13 +1277,16 @@ function checkLangPairAvailable(lang) {
     }
 }
 
-// Set curSrcLang as locale or Eng, if locale not available
+// Set curSrcLang as locale or first available pair, if locale not available
 function noPrefSrcLang() {
     if(checkLangPairAvailable(iso639Codes[locale])) {
         curSrcLang = locale;
     }
     else {
-        curSrcLang = 'eng';
+        for(var srcLang in pairs) {
+            curSrcLang = srcLang;
+            break;
+        }
     }
 }
 
