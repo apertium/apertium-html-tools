@@ -1268,14 +1268,14 @@ function autoSelectDstLang() {
 // Check if the Language pair Exist or Not
 function checkLangPairAvailable(lang) {
     if(languages[lang] !== undefined) {
-        curSrcLang = iso639CodesInverse[lang];
-        autoSelectDstLang();
-        return curDstLang !== undefined;
+        var checkDstLang = pairs[iso639CodesInverse[lang]][0];
+        return checkDstLang !== undefined;
     }
     else {
         return false;
     }
 }
+
 
 // Set curSrcLang as locale or first available pair, if locale not available
 function noPrefSrcLang() {
