@@ -1284,14 +1284,9 @@ function setDefaultSrcLang() {
 
     // Set curSrcLang as locale or first available pair, if locale not available
     function noPrefSrcLang() {
-        if(checkLangPairAvailable(iso639Codes[locale])) {
-            curSrcLang = locale;
-        }
-        else {
-            for(var srcLang in pairs) {
-                curSrcLang = srcLang;
-                break;
-            }
+        for(var srcLang in pairs) {
+            curSrcLang = srcLang;
+            break;
         }
     }
     // Get the language code if - exist
