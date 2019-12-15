@@ -1281,16 +1281,16 @@ function setDefaultSrcLang() {
         return languages[lang] && pairs[iso639CodesInverse[lang]];
     }
 
-
     // Set curSrcLang as locale or first available pair, if locale not available
     function noPrefSrcLang() {
-        for(var srcLang in pairs) {
-            var firAvaiPair = srcLang;
-            break;
+        if(checkLangPairAvailable(iso639Codes[locale])) {
+            curSrcLang = locale;
         }
-        var defLang = locale || firAvaiPair;
-        if(checkLangPairAvailable(iso639Codes[defLang])) {
-            curSrcLang = defLang;
+        else {
+            for(var srcLang in pairs) {
+                curSrcLang = srcLang;
+                break;
+            }
         }
     }
     // Get the language code if - exist
