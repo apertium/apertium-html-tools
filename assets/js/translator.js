@@ -447,35 +447,8 @@ function getPairs() /*: JQueryPromise<any> */ {
             }
         });
 
-        // Default for new users is first available Browser Preference Language pair
-        var browserLangs = navigator.languages; // Chrome, Mozilla and Safari
-        var prefLang;
-        $.each(browserLangs, function(i, langVal) {
-            var browserLang = getLangCode(langVal);
-            if(checkLangPairAvailable(browserLang)) {
-                prefLang = browserLang;
-                return false;
-            }
-        });
-        if(typeof prefLang === 'undefined') {
-            if(navigator.userlanguage !== undefined || navigator.browserlanguage !== undefined) {
-                var ieLang = getLangCode(navigator.userlanguage || navigator.browserlanguage); // Internet Explorer
-                if(checkLangPairAvailable(ieLang)) {
-                    curSrcLang = iso639CodesInverse[ieLang];
-                }
-                else {
-                    noPrefSrcLang();
-                }
-            }
-            else {
-                noPrefSrcLang();
-            }
-        }
-        else {
-            curSrcLang = iso639CodesInverse[prefLang];
-        }
-        handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
-        autoSelectDstLang();
+        //Setting Default language for new user
+        setDefaultSrcLang();
 
         for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
             if(i < srcLangs.length) {
@@ -1265,34 +1238,56 @@ function autoSelectDstLang() {
     $('#dstLangSelect').val(curDstLang).change();
 }
 
-// Check if the Language pair Exist or Not
-function checkLangPairAvailable(lang) {
-    if(languages[lang] !== undefined) {
-        var checkDstLang = pairs[iso639CodesInverse[lang]][0];
-        return checkDstLang !== undefined;
-    }
-    else {
-        return false;
-    }
-}
-
-
-// Set curSrcLang as locale or first available pair, if locale not available
-function noPrefSrcLang() {
-    if(checkLangPairAvailable(iso639Codes[locale])) {
-        curSrcLang = locale;
-    }
-    else {
-        for(var srcLang in pairs) {
-            curSrcLang = srcLang;
-            break;
+function setDefaultSrcLang(){
+    // Default for new users is first available Browser Preference Language pair
+    var browserLangs = navigator.languages; // Chrome, Mozilla and Safari
+    var ieLang = navigator.userlanguage || navigator.browserlanguage; // Internet Explorer
+    var prefSrcLang;
+    $.each(browserLangs, function(i, lang) {
+        var browserLang = getLangCode(lang);
+        if(checkLangPairAvailable(browserLang)) {
+            prefSrcLang = browserLang;
+            return false;
+        }
+    });
+    if(!prefSrcLang) {
+        if(ieLang) {
+            var iePrefLang = getLangCode(ieLang); 
+            if(checkLangPairAvailable(iePrefLang)) {
+                prefSrcLang = iePrefLang;
+            }
         }
     }
-}
+    if(!prefSrcLang) {
+        noPrefSrcLang()
+    }
+    curSrcLang = iso639CodesInverse[prefSrcLang];
+    handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
+    autoSelectDstLang();
 
-// Get the language code if - exist
-function getLangCode(lang) {
-    return lang.split('-', 2)[0];
+    // Check if the Language pair Exist or Not
+    function checkLangPairAvailable(lang) {
+        return languages[lang] && pairs[iso639CodesInverse[lang]]
+    }
+
+
+    // Set curSrcLang as locale or first available pair, if locale not available
+    function noPrefSrcLang() {
+        if(checkLangPairAvailable(iso639Codes[locale])) {
+            curSrcLang = locale;
+        }
+        else {
+            for(var srcLang in pairs) {
+                curSrcLang = srcLang;
+                break;
+            }
+        }
+    }
+
+    // Get the language code if - exist
+    function getLangCode(lang) {
+        return lang.replace('-', '_');
+    }
 }
 
 function setCurSrcLang(lang /*: string */) {
