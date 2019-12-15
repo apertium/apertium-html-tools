@@ -1,7 +1,6 @@
 // @flow
 var languages;
 var iso639CodesInverse;
-var locale;
 var pairs /*: {[string]: string[]} */ = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs /*: string[] */ = [], dstLangs /*: string[] */ = [];
 var curSrcLang /*: string */, curDstLang/*: string */;
@@ -1285,17 +1284,15 @@ function setDefaultSrcLang() {
 
     // Set curSrcLang as locale or first available pair, if locale not available
     function noPrefSrcLang() {
-        if(checkLangPairAvailable(iso639Codes[locale])) {
-            curSrcLang = locale;
+        for(var srcLang in pairs) {
+            var firAvaiPair= srcLang;
+            break;
         }
-        else {
-            for(var srcLang in pairs) {
-                curSrcLang = srcLang;
-                break;
-            }
+        var defLang = locale || firAvaiPair;
+        if(checkLangPairAvailable(iso639Codes[defLang])) {
+            curSrcLang = defLang;
         }
     }
-
     // Get the language code if - exist
     function getLangCode(lang) {
         return lang.replace('-', '_');
