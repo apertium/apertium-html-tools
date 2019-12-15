@@ -1285,7 +1285,7 @@ function setDefaultSrcLang() {
     // Set curSrcLang as locale or first available pair, if locale not available
     function noPrefSrcLang() {
         for(var srcLang in pairs) {
-            var firAvaiPair= srcLang;
+            var firAvaiPair = srcLang;
             break;
         }
         var defLang = locale || firAvaiPair;
