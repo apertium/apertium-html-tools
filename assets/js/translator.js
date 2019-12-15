@@ -1,5 +1,6 @@
 // @flow
-
+var languages;
+var iso639CodesInverse;
 var pairs /*: {[string]: string[]} */ = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs /*: string[] */ = [], dstLangs /*: string[] */ = [];
 var curSrcLang /*: string */, curDstLang/*: string */;
