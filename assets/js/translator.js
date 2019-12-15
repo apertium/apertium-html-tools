@@ -1254,13 +1254,14 @@ function setDefaultSrcLang() {
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
     var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage; // Internet Explorer
     var prefSrcLang;
-    $.each(browserLangs, function (i, lang) {
-        var browserLang = getLangCode(lang);
+    var i;
+    for (i = 0; i < browserLangs.length; ++i) {
+        var browserLang = getLangCode(browserLangs[i]);
         if(checkLangPairAvailable(browserLang)) {
             prefSrcLang = browserLang;
-            return false;
+            break;
         }
-    });
+    }
     if(!prefSrcLang) {
         if(ieLang) {
             var iePrefLang = getLangCode(ieLang);
