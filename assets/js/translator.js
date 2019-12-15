@@ -1254,9 +1254,10 @@ function setDefaultSrcLang() {
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
     var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage; // Internet Explorer
     var prefSrcLang;
-    var lang;
-    for (lang of browserLangs) {
-        var browserLang = getLangCode(lang);
+
+    var langu;
+    for (langu of browserLangs) {
+        var browserLang = getLangCode(langu);
         if(checkLangPairAvailable(browserLang)) {
             prefSrcLang = browserLang;
             break;
