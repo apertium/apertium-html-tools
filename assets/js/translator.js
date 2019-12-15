@@ -1251,8 +1251,8 @@ function autoSelectDstLang() {
 
 function setDefaultSrcLang() {
     // Default for new users is first available Browser Preference Language pair
-    var browserLangs = navigator.languages; // Chrome, Mozilla and Safari
-    var ieLang = navigator.userlanguage || navigator.browserlanguage; // Internet Explorer
+    var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
+    var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage; // Internet Explorer
     var prefSrcLang;
     $.each(browserLangs, function (i, lang) {
         var browserLang = getLangCode(lang);
