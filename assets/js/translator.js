@@ -447,7 +447,7 @@ function getPairs() /*: JQueryPromise<any> */ {
             }
         });
 
-        //Setting Default language for new user
+        // Setting Default language for new user
         setDefaultSrcLang();
 
         for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
@@ -1238,7 +1238,7 @@ function autoSelectDstLang() {
     $('#dstLangSelect').val(curDstLang).change();
 }
 
-function setDefaultSrcLang(){
+function setDefaultSrcLang() {
     // Default for new users is first available Browser Preference Language pair
     var browserLangs = navigator.languages; // Chrome, Mozilla and Safari
     var ieLang = navigator.userlanguage || navigator.browserlanguage; // Internet Explorer
@@ -1252,14 +1252,14 @@ function setDefaultSrcLang(){
     });
     if(!prefSrcLang) {
         if(ieLang) {
-            var iePrefLang = getLangCode(ieLang); 
+            var iePrefLang = getLangCode(ieLang);
             if(checkLangPairAvailable(iePrefLang)) {
                 prefSrcLang = iePrefLang;
             }
         }
     }
     if(!prefSrcLang) {
-        noPrefSrcLang()
+        noPrefSrcLang();
     }
     curSrcLang = iso639CodesInverse[prefSrcLang];
     handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
@@ -1267,7 +1267,7 @@ function setDefaultSrcLang(){
 
     // Check if the Language pair Exist or Not
     function checkLangPairAvailable(lang) {
-        return languages[lang] && pairs[iso639CodesInverse[lang]]
+        return languages[lang] && pairs[iso639CodesInverse[lang]];
     }
 
 
