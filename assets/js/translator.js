@@ -1,6 +1,7 @@
 // @flow
 var languages;
 var iso639CodesInverse;
+var locale;
 var pairs /*: {[string]: string[]} */ = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs /*: string[] */ = [], dstLangs /*: string[] */ = [];
 var curSrcLang /*: string */, curDstLang/*: string */;
@@ -1254,7 +1255,7 @@ function setDefaultSrcLang() {
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
     var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage; // Internet Explorer
     var prefSrcLang;
-    $.each(browserLangs, function (_index, lang) {
+    $.each(browserLangs, function (index, lang) {
         var browserLang = getLangCode(lang);
         if(checkLangPairAvailable(browserLang)) {
             prefSrcLang = browserLang;
