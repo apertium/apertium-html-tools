@@ -1274,21 +1274,22 @@ function setDefaultSrcLang() {
 
     function convertBCP47LangCode(lang) {
         // converts variant format
-        lang = lang.replace('-', '_');
+        var conLang;
+        conLang = lang.replace('-', '_');
 
         // BCP 47 prefers shortest code, we prefer longest
-        if(isVariant(lang)) {
-            var splitLang = lang.split('_', 2);
+        if(isVariant(conLang)) {
+            var splitLang = conLang.split('_', 2);
             if(iso639CodesInverse[splitLang[0]]) {
-                lang = iso639CodesInverse[splitLang[0]] + '_' + splitLang[1];
+                conLang = iso639CodesInverse[splitLang[0]] + '_' + splitLang[1];
             }
         }
 
-        return lang;
+        return conLang;
     }
 
     function apertLangCode(lang) {
-        return lang.split('-')[0]
+        return lang.split('-')[0];
     }
     // default to first available browser preference pair
     var prefSrcLang;
@@ -1311,7 +1312,7 @@ function setDefaultSrcLang() {
         }
         else if(validSrcLang(apertLang)) {
             prefSrcLang = apertLang;
-        } 
+        }
     }
 
     if(!prefSrcLang) {
@@ -1323,7 +1324,6 @@ function setDefaultSrcLang() {
     }
     curSrcLang = iso639CodesInverse[prefSrcLang];
     curDstLang = pairs[curSrcLang][0];
-    handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
 }
 
 /*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
