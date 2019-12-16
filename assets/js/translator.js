@@ -1,6 +1,4 @@
 // @flow
-var languages;
-var iso639CodesInverse;
 var pairs /*: {[string]: string[]} */ = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs /*: string[] */ = [], dstLangs /*: string[] */ = [];
 var curSrcLang /*: string */, curDstLang/*: string */;
@@ -1248,56 +1246,6 @@ function autoSelectDstLang() {
     $('#dstLangSelect').val(curDstLang).change();
 }
 
-function setDefaultSrcLang() {
-    // Default for new users is first available Browser Preference Language pair
-    var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
-    var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage; // Internet Explorer
-    var prefSrcLang;
-
-    var i;
-    for(i = 0; i < browserLangs.length; ++i) {
-        var browserLang = getLangCode(browserLangs[i]);
-        if(checkLangPairAvailable(browserLang)) {
-            prefSrcLang = browserLang;
-            break;
-        }
-    }
-
-    if(!prefSrcLang) {
-        if(ieLang) {
-            var iePrefLang = getLangCode(ieLang);
-            if(checkLangPairAvailable(iePrefLang)) {
-                prefSrcLang = iePrefLang;
-            }
-        }
-    }
-
-    if(!prefSrcLang) {
-        noPrefSrcLang();
-    }
-
-    curSrcLang = iso639CodesInverse[prefSrcLang];
-    handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
-    autoSelectDstLang();
-
-    // Check if the Language pair Exist or Not
-    function checkLangPairAvailable(lang) {
-        return languages[lang] && pairs[iso639CodesInverse[lang]];
-    }
-
-    // Set curSrcLang as locale or first available pair, if locale not available
-    function noPrefSrcLang() {
-        for(var srcLang in pairs) {
-            curSrcLang = srcLang;
-            break;
-        }
-    }
-    // Get the language code if - exist
-    function getLangCode(lang) {
-        return lang.replace('-', '_');
-    }
-}
-
 function setCurSrcLang(lang /*: string */) {
     curSrcLang = lang;
     return lang;
@@ -1318,6 +1266,52 @@ function setRecentDstLangs(langs /*: string[] */) {
     return langs;
 }
 
+function setDefaultSrcLang() {
+    // Default for new users is first available Browser Preference Language pair
+    var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
+    var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage; // Internet Explorer
+    var prefSrcLang;
+
+    var i;
+    for(i = 0; i < browserLangs.length; ++i) {
+        var browserLang = changeLangCode(browserLangs[i]);
+        if(checkLangPairAvailable(browserLang)) {
+            prefSrcLang = browserLang;
+            break;
+        }
+    }
+
+    if(!prefSrcLang) {
+        if(ieLang) {
+            var iePrefLang = changeLangCode(ieLang);
+            if(checkLangPairAvailable(iePrefLang)) {
+                prefSrcLang = iePrefLang;
+            }
+        }
+    }
+
+    if(!prefSrcLang) {
+        for(var srcLang in pairs) {
+            curSrcLang = srcLang;
+            curDstLang = pairs[srcLang][0];
+            break;
+        }
+    } else {
+        curSrcLang = iso639CodesInverse[prefSrcLang];
+        curDstLang = pairs[curSrcLang][0];
+    }
+
+    // Check if the Language pair Exist or Not
+    function checkLangPairAvailable(lang) {
+        return languages[lang] && pairs[iso639CodesInverse[lang]];
+    }
+
+    // Convert language code from browser -> apertium format.
+    function changeLangCode(lang) {
+        return lang.replace('-', '_');
+    }
+}
+
 /*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
     refreshLangList, recentSrcLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, showTranslateWebpageInterface,
     srcLangs} */
@@ -1326,6 +1320,6 @@ function setRecentDstLangs(langs /*: string[] */) {
     apyRequestTimeout, removeSoftHyphens, parentLang, isVariant} from "./util.js" */
 /*:: import {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
-/*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes, langDirection} from "./localization.js" */
+/*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes, langDirection, languages, iso639CodesInverse} from "./localization.js" */
 /*:: import {readCache, cache} from "./persistence.js" */
 /*:: import {isURL} from "./util.js" */
