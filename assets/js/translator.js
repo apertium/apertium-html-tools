@@ -1323,6 +1323,7 @@ function setDefaultSrcLang() {
     }
     curSrcLang = iso639CodesInverse[prefSrcLang];
     curDstLang = pairs[curSrcLang][0];
+    handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
 }
 
 /*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
