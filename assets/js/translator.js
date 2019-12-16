@@ -1,4 +1,5 @@
 // @flow
+
 var pairs /*: {[string]: string[]} */ = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs /*: string[] */ = [], dstLangs /*: string[] */ = [];
 var curSrcLang /*: string */, curDstLang/*: string */;
