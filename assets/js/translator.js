@@ -1295,24 +1295,23 @@ function setDefaultSrcLang() {
 
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
     for(var i = 0; i < browserLangs.length; ++i) {
-        var BCP47lang = convertBCP47LangCode(browserLangs[i]);
-        var apertLang = apertLangCode(browserLangs[i]);
-        if(validSrcLang(BCP47lang)) {
-            prefSrcLang = BCP47lang;
+        var lang = convertBCP47LangCode(browserLangs[i]);
+        if(validSrcLang(lang)) {
+            prefSrcLang = lang;
             break;
         }
-        else if(validSrcLang(apertLang)) {
-            prefSrcLang = apertLang;
-            break;
-        } 
     }
 
     var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage || window.navigator.language;
     if(!prefSrcLang && ieLang) {
-        var lang = convertBCP47LangCode(ieLang);
-        if(validSrcLang(lang)) {
-            prefSrcLang = lang;
+        var BCP47lang = convertBCP47LangCode(ieLang);
+        var apertLang = apertLangCode(ieLang);
+        if(validSrcLang(BCP47lang)) {
+            prefSrcLang = BCP47lang;
         }
+        else if(validSrcLang(apertLang)) {
+            prefSrcLang = apertLang;
+        } 
     }
 
     if(!prefSrcLang) {
