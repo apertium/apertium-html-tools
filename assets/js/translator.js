@@ -1270,7 +1270,7 @@ function setRecentDstLangs(langs /*: string[] */) {
 function setDefaultSrcLang() {
     // Default for new users is first available Browser Preference Language pair
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
-    var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage; // Internet Explorer
+    var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage || window.navigator.language; // IE
     var prefSrcLang;
 
     for(var i = 0; i < browserLangs.length; ++i) {
@@ -1307,7 +1307,7 @@ function setDefaultSrcLang() {
 
     // Convert language code from browser -> apertium format.
     function changeLangCode(lang) {
-        return lang.replace('-', '_');
+        return lang.split('-')[0];
     }
 }
 
