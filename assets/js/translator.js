@@ -1,18 +1,5 @@
 // @flow
 
-/*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
-    refreshLangList, recentSrcLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, showTranslateWebpageInterface,
-    srcLangs} */
-
-/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, sendEvent, callApy,
-    apyRequestTimeout, removeSoftHyphens, parentLang, isVariant} from "./util.js" */
-/*:: import {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} from "./util.js" */
-/*:: import {persistChoices, restoreChoices} from "./persistence.js" */
-/*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes, langDirection} from "./localization.js" */
-/*:: import {languages, iso639CodesInverse} from "./localization.js" */
-/*:: import {readCache, cache} from "./persistence.js" */
-/*:: import {isURL} from "./util.js" */
-
 var pairs /*: {[string]: string[]} */ = {}, chainedPairs = {}, originalPairs = pairs;
 var srcLangs /*: string[] */ = [], dstLangs /*: string[] */ = [];
 var curSrcLang /*: string */, curDstLang/*: string */;
@@ -1326,3 +1313,16 @@ function setDefaultSrcLang() {
         return lang.replace('-', '_');
     }
 }
+
+/*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
+    refreshLangList, recentSrcLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, showTranslateWebpageInterface,
+    srcLangs} */
+
+/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, sendEvent, callApy,
+    apyRequestTimeout, removeSoftHyphens, parentLang, isVariant} from "./util.js" */
+/*:: import {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} from "./util.js" */
+/*:: import {persistChoices, restoreChoices} from "./persistence.js" */
+/*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes, langDirection} from "./localization.js" */
+/*:: import {languages, iso639CodesInverse} from "./localization.js" */
+/*:: import {readCache, cache} from "./persistence.js" */
+/*:: import {isURL} from "./util.js" */
