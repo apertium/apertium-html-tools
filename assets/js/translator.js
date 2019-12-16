@@ -1268,6 +1268,10 @@ function setRecentDstLangs(langs /*: string[] */) {
 }
 
 function setDefaultSrcLang() {
+    function validSrcLang(lang) {
+        return languages[lang] && pairs[iso639CodesInverse[lang]];
+    }
+
     function convertBCP47LangCode(lang) {
         // converts variant format
         lang = lang.replace('-', '_');
@@ -1278,29 +1282,35 @@ function setDefaultSrcLang() {
             if(iso639CodesInverse[splitLang[0]]) {
                 lang = iso639CodesInverse[splitLang[0]] + '_' + splitLang[1];
             }
-        } else if(iso639CodesInverse[lang]) {
-            lang = iso639CodesInverse[lang]
         }
 
         return lang;
     }
 
+    function apertLangCode(lang) {
+        return lang.split('-')[0]
+    }
     // default to first available browser preference pair
     var prefSrcLang;
 
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
     for(var i = 0; i < browserLangs.length; ++i) {
-        var lang = convertBCP47LangCode(browserLangs[i]);
-        if(languages[lang]) {
-            prefSrcLang = lang;
+        var BCP47lang = convertBCP47LangCode(browserLangs[i]);
+        var apertLang = apertLangCode(browserLangs[i]);
+        if(validSrcLang(BCP47lang)) {
+            prefSrcLang = BCP47lang;
             break;
         }
+        else if(validSrcLang(apertLang)) {
+            prefSrcLang = apertLang;
+            break;
+        } 
     }
 
     var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage || window.navigator.language;
     if(!prefSrcLang && ieLang) {
         var lang = convertBCP47LangCode(ieLang);
-        if(languages[lang]) {
+        if(validSrcLang(lang)) {
             prefSrcLang = lang;
         }
     }
@@ -1308,15 +1318,12 @@ function setDefaultSrcLang() {
     if(!prefSrcLang) {
         // first available overall pair
         for(var srcLang in pairs) {
-            curSrcLang = srcLang;
-            curDstLang = pairs[srcLang][0];
+            prefSrcLang = srcLang;
             break;
         }
     }
-    else {
-        curSrcLang = iso639CodesInverse[prefSrcLang];
-        curDstLang = pairs[curSrcLang][0];
-    }
+    curSrcLang = iso639CodesInverse[prefSrcLang];
+    curDstLang = pairs[curSrcLang][0];
 }
 
 /*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
