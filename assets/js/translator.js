@@ -1268,13 +1268,21 @@ function setRecentDstLangs(langs /*: string[] */) {
 }
 
 function setDefaultSrcLang() {
-    function validSrcLang(lang) {
-        return languages[lang] && pairs[iso639CodesInverse[lang]];
-    }
-
-    function convertBrowserLangCode(lang) {
+    function convertBCP47LangCode(lang) {
         // converts variant format
-        return lang.replace('-', '_');
+        lang = lang.replace('-', '_');
+
+        // BCP 47 prefers shortest code, we prefer longest
+        if(isVariant(lang)) {
+            var splitLang = lang.split('_', 2);
+            if(iso639CodesInverse[splitLang[0]]) {
+                lang = iso639CodesInverse[splitLang[0]] + '_' + splitLang[1];
+            }
+        } else if(iso639CodesInverse[lang]) {
+            lang = iso639CodesInverse[lang]
+        }
+
+        return lang;
     }
 
     // default to first available browser preference pair
@@ -1282,8 +1290,8 @@ function setDefaultSrcLang() {
 
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
     for(var i = 0; i < browserLangs.length; ++i) {
-        var lang = convertBrowserLangCode(browserLangs[i]);
-        if(validSrcLang(lang)) {
+        var lang = convertBCP47LangCode(browserLangs[i]);
+        if(languages[lang]) {
             prefSrcLang = lang;
             break;
         }
@@ -1291,8 +1299,8 @@ function setDefaultSrcLang() {
 
     var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage || window.navigator.language;
     if(!prefSrcLang && ieLang) {
-        var lang = convertBrowserLangCode(ieLang);
-        if(validSrcLang(lang)) {
+        var lang = convertBCP47LangCode(ieLang);
+        if(languages[lang]) {
             prefSrcLang = lang;
         }
     }
