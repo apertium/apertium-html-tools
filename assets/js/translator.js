@@ -27,7 +27,7 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, apyRequestTimeout, isURL, removeSoftHyphens, parentLang, isVariant */
+    callApy, apyRequestTimeout, isURL, removeSoftHyphens, parentLang, isVariant, langDirection */
 /* global ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
 if(modeEnabled('translation')) {
@@ -447,23 +447,7 @@ function getPairs() /*: JQueryPromise<any> */ {
             }
         });
 
-        // Default for new users is first available Browser Preference Language pair
-        var prefLang;
-        if (languages[navigator.languages[0]] != undefined) {
-            prefLang = navigator.languages[0];
-        } 
-        else if (languages[navigator.languages[1]] != undefined) {
-            prefLang = navigator.languages[1];
-        }
-        else if (languages[navigator.languages[2]] != undefined) {
-            prefLang = navigator.languages[2];
-        }
-        else {
-            prefLang = "en"
-        }
-        curSrcLang = iso639CodesInverse[prefLang];
-        handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
-        autoSelectDstLang();
+        setDefaultSrcLang();
 
         for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
             if(i < srcLangs.length) {
@@ -565,10 +549,20 @@ function populateTranslationList() {
 
     var minColumnWidth = TRANSLATION_LIST_MAX_WIDTH / TRANSLATION_LIST_MAX_COLUMNS;
 
-    // figure out how much space is actually available for the columns
-    var maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER,
+    var maxSrcLangsWidth, maxDstLangsWidth;
+
+    // figure out how much space is actually available for the columns, defaulting to ltr
+    var direction = locale ? langDirection(locale) : 'ltr';
+    if(direction === 'ltr') {
+        maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
         maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
                             TRANSLATION_LISTS_BUFFER;
+    }
+    else {
+        maxSrcLangsWidth = $('#srcLanguagesDropdownTrigger').offset().left + $('#srcLanguagesDropdownTrigger').outerWidth() -
+                          TRANSLATION_LISTS_BUFFER;
+        maxDstLangsWidth = $(window).width() - $('#dstLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
+    }
 
     // then, prevent all the columns from getting too wide
     maxSrcLangsWidth = Math.min(TRANSLATION_LIST_MAX_WIDTH, maxSrcLangsWidth);
@@ -1273,6 +1267,52 @@ function setRecentDstLangs(langs /*: string[] */) {
     return langs;
 }
 
+function setDefaultSrcLang() {
+    // Default for new users is first available Browser Preference Language pair
+    var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
+    var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage; // Internet Explorer
+    var prefSrcLang;
+
+    var i;
+    for(i = 0; i < browserLangs.length; ++i) {
+        var browserLang = changeLangCode(browserLangs[i]);
+        if(checkLangPairAvailable(browserLang)) {
+            prefSrcLang = browserLang;
+            break;
+        }
+    }
+
+    if(!prefSrcLang) {
+        if(ieLang) {
+            var iePrefLang = changeLangCode(ieLang);
+            if(checkLangPairAvailable(iePrefLang)) {
+                prefSrcLang = iePrefLang;
+            }
+        }
+    }
+
+    if(!prefSrcLang) {
+        for(var srcLang in pairs) {
+            curSrcLang = srcLang;
+            curDstLang = pairs[srcLang][0];
+            break;
+        }
+    } else {
+        curSrcLang = iso639CodesInverse[prefSrcLang];
+        curDstLang = pairs[curSrcLang][0];
+    }
+
+    // Check if the Language pair Exist or Not
+    function checkLangPairAvailable(lang) {
+        return languages[lang] && pairs[iso639CodesInverse[lang]];
+    }
+
+    // Convert language code from browser -> apertium format.
+    function changeLangCode(lang) {
+        return lang.replace('-', '_');
+    }
+}
+
 /*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
     refreshLangList, recentSrcLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, showTranslateWebpageInterface,
     srcLangs} */
@@ -1281,6 +1321,6 @@ function setRecentDstLangs(langs /*: string[] */) {
     apyRequestTimeout, removeSoftHyphens, parentLang, isVariant} from "./util.js" */
 /*:: import {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
-/*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes} from "./localization.js" */
+/*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes, langDirection, languages, iso639CodesInverse} from "./localization.js" */
 /*:: import {readCache, cache} from "./persistence.js" */
 /*:: import {isURL} from "./util.js" */
