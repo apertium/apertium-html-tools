@@ -448,7 +448,6 @@ function getPairs() /*: JQueryPromise<any> */ {
             }
         });
 
-        // Setting Default language for new user
         setDefaultSrcLang();
 
         for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
@@ -1254,6 +1253,7 @@ function setDefaultSrcLang() {
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
     var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage; // Internet Explorer
     var prefSrcLang;
+
     var i;
     for(i = 0; i < browserLangs.length; ++i) {
         var browserLang = getLangCode(browserLangs[i]);
@@ -1262,6 +1262,7 @@ function setDefaultSrcLang() {
             break;
         }
     }
+
     if(!prefSrcLang) {
         if(ieLang) {
             var iePrefLang = getLangCode(ieLang);
@@ -1270,9 +1271,11 @@ function setDefaultSrcLang() {
             }
         }
     }
+
     if(!prefSrcLang) {
         noPrefSrcLang();
     }
+
     curSrcLang = iso639CodesInverse[prefSrcLang];
     handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
     autoSelectDstLang();
