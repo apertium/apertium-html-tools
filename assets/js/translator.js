@@ -1318,12 +1318,15 @@ function setDefaultSrcLang() {
     if(!prefSrcLang) {
         // first available overall pair
         for(var srcLang in pairs) {
-            prefSrcLang = srcLang;
+            curSrcLang = iso639CodesInverse[srcLang];
+            curDstLang = pairs[srcLang][0];
             break;
         }
     }
-    curSrcLang = iso639CodesInverse[prefSrcLang];
-    curDstLang = pairs[curSrcLang][0];
+    else {
+        curSrcLang = iso639CodesInverse[prefSrcLang];
+        curDstLang = pairs[curSrcLang][0];
+    }
 }
 
 /*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
