@@ -1268,27 +1268,37 @@ function setRecentDstLangs(langs /*: string[] */) {
 }
 
 function setDefaultSrcLang() {
-    // Default for new users is first available Browser Preference Language pair
-    var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
-    var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage || window.navigator.language; // IE
+    function validSrcLang(lang) {
+        return languages[lang] && pairs[iso639CodesInverse[lang]];
+    }
+
+    function convertBrowserLangCode(lang) {
+        // converts variant format
+        return lang.replace('-', '_');
+    }
+
+    // default to first available browser preference pair
     var prefSrcLang;
 
+    var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
     for(var i = 0; i < browserLangs.length; ++i) {
-        var browserLang = changeLangCode(browserLangs[i]);
-        if(checkLangPairAvailable(browserLang)) {
-            prefSrcLang = browserLang;
+        var lang = convertBrowserLangCode(browserLangs[i]);
+        if(validSrcLang(lang)) {
+            prefSrcLang = lang;
             break;
         }
     }
 
+    var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage || window.navigator.language;
     if(!prefSrcLang && ieLang) {
-        var iePrefLang = changeLangCode(ieLang);
-        if(checkLangPairAvailable(iePrefLang)) {
-            prefSrcLang = iePrefLang;
+        var lang = convertBrowserLangCode(ieLang);
+        if(validSrcLang(lang)) {
+            prefSrcLang = lang;
         }
     }
 
     if(!prefSrcLang) {
+        // first available overall pair
         for(var srcLang in pairs) {
             curSrcLang = srcLang;
             curDstLang = pairs[srcLang][0];
@@ -1298,16 +1308,6 @@ function setDefaultSrcLang() {
     else {
         curSrcLang = iso639CodesInverse[prefSrcLang];
         curDstLang = pairs[curSrcLang][0];
-    }
-
-    // Check if the Language pair Exist or Not
-    function checkLangPairAvailable(lang) {
-        return languages[lang] && pairs[iso639CodesInverse[lang]];
-    }
-
-    // Convert language code from browser -> apertium format.
-    function changeLangCode(lang) {
-        return lang.split('-')[0];
     }
 }
 
