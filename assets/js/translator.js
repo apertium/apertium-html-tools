@@ -1271,6 +1271,7 @@ function setDefaultSrcLang() {
     // Default for new users is first available Browser Preference Language pair
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
     var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage; // Internet Explorer
+    var iePrefLang = changeLangCode(ieLang);
     var prefSrcLang;
 
     for(var i = 0; i < browserLangs.length; ++i) {
@@ -1281,8 +1282,8 @@ function setDefaultSrcLang() {
         }
     }
 
-    if(!prefSrcLang && ieLang && checkLangPairAvailable(changeLangCode(ieLang))) {
-            prefSrcLang = iePrefLang;
+    if(!prefSrcLang && ieLang && checkLangPairAvailable(iePrefLang)) {
+        prefSrcLang = iePrefLang;
     }
 
     if(!prefSrcLang) {
