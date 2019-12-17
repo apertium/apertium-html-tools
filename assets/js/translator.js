@@ -27,7 +27,7 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, apyRequestTimeout, isURL, removeSoftHyphens, parentLang, isVariant, langDirection, languages, iso639CodesInverse, stored */
+    callApy, apyRequestTimeout, isURL, removeSoftHyphens, parentLang, isVariant, langDirection, languages, iso639CodesInverse, store */
 /* global ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
 if(modeEnabled('translation')) {
@@ -1290,12 +1290,12 @@ function setDefaultSrcLang() {
     }
 
     function setLangs(lang) {
-        if(!store.get('curSrcLang')){
+        if(!store.get('curSrcLang')) {
             curSrcLang = iso639CodesInverse[lang];
             autoSelectDstLang();
         }
     }
-    
+
     // default to first available browser preference pair
     var prefSrcLang;
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
