@@ -1294,21 +1294,21 @@ function setDefaultSrcLang() {
 
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
     for(var i = 0; i < browserLangs.length; ++i) {
-        var BCP47lang = convertBCP47LangCode(browserLangs[i]);
-        if(validSrcLang(BCP47lang)) {
-            prefSrcLang = BCP47lang;
+        var isoLang = convertBCP47LangCode(browserLangs[i]);
+        if(validSrcLang(isoLang)) {
+            prefSrcLang = isoLang;
             break;
         }
     }
 
     var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage || window.navigator.language;
     if(!prefSrcLang && ieLang) {
-        var ieBCP47lang = convertBCP47LangCode(ieLang);
-        if(validSrcLang(ieBCP47lang)) {
-            prefSrcLang = ieBCP47lang;
+        var ieIsoLang = convertBCP47LangCode(ieLang);
+        if(validSrcLang(ieIsoLang)) {
+            prefSrcLang = ieIsoLang;
         }
-        else if(validSrcLang(parentLang(ieBCP47lang))) {
-            prefSrcLang = parentLang(ieBCP47lang);
+        else if(validSrcLang(parentLang(ieIsoLang))) {
+            prefSrcLang = parentLang(ieIsoLang);
         }
     }
 
