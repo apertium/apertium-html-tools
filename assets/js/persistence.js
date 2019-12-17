@@ -1,6 +1,6 @@
 // @flow
 
-/* exported persistChoices, restoreChoices, cache, readCache, store */
+/* exported persistChoices, restoreChoices, cache, readCache */
 
 /* global config, Store, getURLParam, iso639CodesInverse, pairs, refreshLangList populateSecondaryAnalyzerList,
     populateSecondaryGeneratorList, isSubset, handleNewCurrentLang */
@@ -283,7 +283,7 @@ function restoreChoices(mode /*: string */) {
 
 }
 
-/*:: export {persistChoices, restoreChoices, cache, readCache, store} */
+/*:: export {persistChoices, restoreChoices, cache, readCache} */
 
 /*:: import {curDstLang, curSrcLang, dstLangs, handleNewCurrentLang, pairs, recentDstLangs, recentSrcLangs, refreshLangList,
     setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, srcLangs} from "./translator.js" */

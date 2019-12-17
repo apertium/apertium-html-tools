@@ -27,7 +27,7 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, apyRequestTimeout, isURL, removeSoftHyphens, parentLang, isVariant, langDirection, languages, iso639CodesInverse, stored */
+    callApy, apyRequestTimeout, isURL, removeSoftHyphens, parentLang, isVariant, langDirection, languages, iso639CodesInverse */
 /* global ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
 if(modeEnabled('translation')) {
@@ -1289,23 +1289,15 @@ function setDefaultSrcLang() {
         return iso639Lang;
     }
 
-    function setLangs(lang) {
-        if(!store.get('curSrcLang')){
-            curSrcLang = iso639CodesInverse[lang];
-            autoSelectDstLang();
-        }
-    }
-    
     // default to first available browser preference pair
     var prefSrcLang;
+
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
-    if(browserLangs) {
-        for(var i = 0; i < browserLangs.length; ++i) {
-            var isoLang = convertBCP47LangCode(browserLangs[i]);
-            if(validSrcLang(isoLang)) {
-                prefSrcLang = isoLang;
-                break;
-            }
+    for(var i = 0; i < browserLangs.length; ++i) {
+        var isoLang = convertBCP47LangCode(browserLangs[i]);
+        if(validSrcLang(isoLang)) {
+            prefSrcLang = isoLang;
+            break;
         }
     }
 
@@ -1315,20 +1307,22 @@ function setDefaultSrcLang() {
         if(validSrcLang(ieIsoLang)) {
             prefSrcLang = ieIsoLang;
         }
-        else if(validSrcLang(iso639Codes[parentLang(ieIsoLang)])) {
-            prefSrcLang = iso639Codes[parentLang(ieIsoLang)];
+        else if(validSrcLang(parentLang(ieIsoLang))) {
+            prefSrcLang = parentLang(ieIsoLang);
         }
     }
 
     if(!prefSrcLang) {
         // first available overall pair
         for(var srcLang in pairs) {
-            setLangs(srcLang);
+            curSrcLang = iso639CodesInverse[srcLang];
+            curDstLang = pairs[srcLang][0];
             break;
         }
     }
     else {
-        setLangs(prefSrcLang);
+        curSrcLang = iso639CodesInverse[prefSrcLang];
+        curDstLang = pairs[curSrcLang][0];
     }
 }
 
@@ -1342,5 +1336,5 @@ function setDefaultSrcLang() {
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
 /*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes, langDirection, languages,
     iso639CodesInverse} from "./localization.js" */
-/*:: import {readCache, cache, store} from "./persistence.js" */
+/*:: import {readCache, cache} from "./persistence.js" */
 /*:: import {isURL} from "./util.js" */
