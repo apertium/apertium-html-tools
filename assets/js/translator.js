@@ -1273,24 +1273,22 @@ function setDefaultSrcLang() {
     }
 
     function convertBCP47LangCode(lang) {
+        var iso639Lang;
+
         // converts variant format
-        var conLang;
-        conLang = lang.replace('-', '_');
+        iso639Lang = lang.replace('-', '_');
 
         // BCP 47 prefers shortest code, we prefer longest
-        if(isVariant(conLang)) {
-            var splitLang = conLang.split('_', 2);
+        if(isVariant(iso639Lang)) {
+            var splitLang = iso639Lang.split('_', 2);
             if(iso639CodesInverse[splitLang[0]]) {
-                conLang = iso639CodesInverse[splitLang[0]] + '_' + splitLang[1];
+                iso639Lang = iso639CodesInverse[splitLang[0]] + '_' + splitLang[1];
             }
         }
 
-        return conLang;
+        return iso639Lang;
     }
 
-    function apertLangCode(lang) {
-        return lang.split('-')[0];
-    }
     // default to first available browser preference pair
     var prefSrcLang;
 
@@ -1305,13 +1303,12 @@ function setDefaultSrcLang() {
 
     var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage || window.navigator.language;
     if(!prefSrcLang && ieLang) {
-        var BCP47lang = convertBCP47LangCode(ieLang);
-        var apertLang = apertLangCode(ieLang);
-        if(validSrcLang(BCP47lang)) {
-            prefSrcLang = BCP47lang;
+        var lang = convertBCP47LangCode(ieLang);
+        if(validSrcLang(lang)) {
+            prefSrcLang = lang;
         }
-        else if(validSrcLang(apertLang)) {
-            prefSrcLang = apertLang;
+        else if(validSrcLang(parentLang(lang)) {
+            prefSrcLang = parentLang(lang);
         }
     }
 
