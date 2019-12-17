@@ -1288,7 +1288,7 @@ function setDefaultSrcLang() {
 
         return iso639Lang;
     }
-    
+
     function setLangs(lang) {
         restoreChoices('translator');
         if(!curSrcLang) {
