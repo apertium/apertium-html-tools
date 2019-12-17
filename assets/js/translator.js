@@ -1288,16 +1288,26 @@ function setDefaultSrcLang() {
 
         return iso639Lang;
     }
+    
+    function setLangs(lang) {
+        restoreChoices('translator');
+        if(!curSrcLang) {
+            curSrcLang = iso639CodesInverse[lang];
+            autoSelectDstLang();
+        }
+    }
 
     // default to first available browser preference pair
     var prefSrcLang;
 
     var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
-    for(var i = 0; i < browserLangs.length; ++i) {
-        var isoLang = convertBCP47LangCode(browserLangs[i]);
-        if(validSrcLang(isoLang)) {
-            prefSrcLang = isoLang;
-            break;
+    if(browserLangs) {
+        for(var i = 0; i < browserLangs.length; ++i) {
+            var isoLang = convertBCP47LangCode(browserLangs[i]);
+            if(validSrcLang(isoLang)) {
+                prefSrcLang = isoLang;
+                break;
+            }
         }
     }
 
@@ -1307,22 +1317,20 @@ function setDefaultSrcLang() {
         if(validSrcLang(ieIsoLang)) {
             prefSrcLang = ieIsoLang;
         }
-        else if(validSrcLang(parentLang(ieIsoLang))) {
-            prefSrcLang = parentLang(ieIsoLang);
+        else if(validSrcLang(iso639Codes[parentLang(ieIsoLang)])) {
+            prefSrcLang = iso639Codes[parentLang(ieIsoLang)];
         }
     }
 
     if(!prefSrcLang) {
         // first available overall pair
         for(var srcLang in pairs) {
-            curSrcLang = iso639CodesInverse[srcLang];
-            curDstLang = pairs[srcLang][0];
+            setLangs(srcLang);
             break;
         }
     }
     else {
-        curSrcLang = iso639CodesInverse[prefSrcLang];
-        curDstLang = pairs[curSrcLang][0];
+        setLangs(prefSrcLang);
     }
 }
 
