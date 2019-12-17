@@ -1307,7 +1307,7 @@ function setDefaultSrcLang() {
         if(validSrcLang(lang)) {
             prefSrcLang = lang;
         }
-        else if(validSrcLang(parentLang(lang)) {
+        else if(validSrcLang(parentLang(lang))) {
             prefSrcLang = parentLang(lang);
         }
     }
