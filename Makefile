@@ -186,7 +186,7 @@ CSSFILES= \
 	assets/css/navbar.css \
 	assets/css/translation.css
 
-THEMES= cerulean cosmo cyborg darkly flatly journal litera lumen lux materia minty pulse sandstone simplex sketchy slate solar spacelab superhero united yeti
+THEMES= cerulean cosmo cyborg darkly flatly journal litera lumen materia pulse sandstone simplex slat spacelab superhero united yeti
 
 $(THEMES): % : all build/css/bootstrap.%.css build/css/.d
 
