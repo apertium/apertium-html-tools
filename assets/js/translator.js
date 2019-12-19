@@ -455,11 +455,11 @@ function getPairs() /*: JQueryPromise<any> */ {
                 recentDstLangs.push(dstLangs[i]);
             }
         }
-        
+
         populateTranslationList();
 
         restoreChoices('translator');
-        if (!curSrcLang) {
+        if(!curSrcLang) {
             setDefaultSrcLang();
         }
 
