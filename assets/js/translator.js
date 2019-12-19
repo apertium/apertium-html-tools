@@ -447,8 +447,6 @@ function getPairs() /*: JQueryPromise<any> */ {
             }
         });
 
-        setDefaultSrcLang();
-
         for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
             if(i < srcLangs.length) {
                 recentSrcLangs.push(srcLangs[i]);
@@ -457,9 +455,14 @@ function getPairs() /*: JQueryPromise<any> */ {
                 recentDstLangs.push(dstLangs[i]);
             }
         }
-
+        
         populateTranslationList();
+        
         restoreChoices('translator');
+        if (!curSrcLang) {
+            setDefaultSrcLang();
+        }
+
         translate(true);
     }
 
