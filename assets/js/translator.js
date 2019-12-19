@@ -457,7 +457,7 @@ function getPairs() /*: JQueryPromise<any> */ {
         }
         
         populateTranslationList();
-        
+
         restoreChoices('translator');
         if (!curSrcLang) {
             setDefaultSrcLang();
@@ -1293,11 +1293,8 @@ function setDefaultSrcLang() {
     }
 
     function setLangs(lang) {
-        restoreChoices('translator');
-        if(!curSrcLang) {
-            curSrcLang = iso639CodesInverse[lang];
-            autoSelectDstLang();
-        }
+        setCurSrcLang(iso639CodesInverse[lang]);
+        autoSelectDstLang();
     }
 
     // default to first available browser preference pair
