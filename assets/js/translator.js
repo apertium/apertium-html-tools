@@ -447,23 +447,12 @@ function getPairs() /*: JQueryPromise<any> */ {
             }
         });
 
-        // Default for new users is first available Browser Preference Language pair
-        var prefLang;
-        if (languages[navigator.languages[0]] != undefined) {
-            prefLang = navigator.languages[0];
-        } 
-        else if (languages[navigator.languages[1]] != undefined) {
-            prefLang = navigator.languages[1];
+        for(var srcLang in pairs) {
+            // Default for new users is first available pair
+            curSrcLang = srcLang;
+            curDstLang = pairs[srcLang][0];
+            break;
         }
-        else if (languages[navigator.languages[2]] != undefined) {
-            prefLang = navigator.languages[2];
-        }
-        else {
-            prefLang = "en"
-        }
-        curSrcLang = iso639CodesInverse[prefLang];
-        handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
-        autoSelectDstLang();
 
         for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
             if(i < srcLangs.length) {
