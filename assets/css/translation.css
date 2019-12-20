@@ -17,7 +17,9 @@ html[dir='rtl'] .languageVariant {
 }
 
 .languageName {
+    overflow-x: hidden;
     position: relative;
+    text-overflow: ellipsis;
 }
 
 .languageName:not(.text-muted) {
@@ -72,27 +74,13 @@ html[dir='rtl'] #srcLanguages {
    padding-left: 0;
 }
 
-@media(min-width: 768px) {
-    .swapLangBtn {
-        position: absolute;
-        top: 0;
-    }
-
-    html[dir='ltr'] .swapLangBtn {
-        right: 15px;
-    }
-
-    html[dir='rtl'] .swapLangBtn {
-        left: 15px;
-    }
-}
-
 #translateOptions {
     width: auto;
 }
 
 #translateOptions label {
     clear: both;
+    margin: 0;
 }
 
 html[dir='rtl'] #translateOptions input[type='checkbox'] {

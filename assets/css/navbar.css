@@ -62,12 +62,18 @@ html[dir='rtl'] .apertiumLogo {
     font-size: 16px;
 }
 
-.navbar-default .nav { /* sass-lint:disable-line class-name-format */
+.navbarDefault {
+    margin-bottom: 21px;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.navbarDefault .nav {
     margin-top: 5px;
 }
 
 @media(max-width: 768px) {
-    html[dir='ltr'] .navbar-header { /* sass-lint:disable-line class-name-format */
+    html[dir='ltr'] .navbar-brand { /* sass-lint:disable-line class-name-format */
         padding-left: 15px;
     }
 }
@@ -84,7 +90,7 @@ html[dir='rtl'] .apertiumLogo {
 }
 
 @media(max-width: 768px) {
-    html[dir='rtl'] .navbar-header { /* sass-lint:disable-line class-name-format */
+    html[dir='rtl'] .navbar-brand { /* sass-lint:disable-line class-name-format */
         padding-right: 5px;
     }
 }
