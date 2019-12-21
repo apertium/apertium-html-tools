@@ -37,24 +37,6 @@ html[dir='rtl'] textarea {
     cursor: pointer;
 }
 
-html[dir='ltr'] #srcLanguages {
-    right: auto;
-}
-
-html[dir='ltr'] #dstLanguages {
-    left: auto;
-    right: 0;
-}
-
-html[dir='rtl'] #dstLanguages {
-    left: 0;
-    right: auto;
-}
-
-html[dir='rtl'] #srcLanguages {
-    left: auto;
-}
-
 .disabledLang {
     color: #808080 !important; /* sass-lint:disable-line no-important */
     opacity: 1 !important; /* sass-lint:disable-line no-important */
