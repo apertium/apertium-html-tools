@@ -17,6 +17,10 @@ html[dir='rtl'] .languageVariant {
     padding-right: 2.5em;
 }
 
+html[dir='rtl'] textarea {
+    text-align: right;
+}
+
 .languageName {
     overflow-x: hidden;
     position: relative;
