@@ -562,11 +562,15 @@ function populateTranslationList() {
         maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
         maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
                             TRANSLATION_LISTS_BUFFER;
+        $("#srcLanguages").removeClass("dropdown-menu-right").addClass("dropdown-menu-left");
+        $("#dstLanguages").removeClass("dropdown-menu-left").addClass("dropdown-menu-right");
     }
     else {
         maxSrcLangsWidth = $('#srcLanguagesDropdownTrigger').offset().left + $('#srcLanguagesDropdownTrigger').outerWidth() -
                           TRANSLATION_LISTS_BUFFER;
         maxDstLangsWidth = $(window).width() - $('#dstLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
+        $("#srcLanguages").removeClass("dropdown-menu-left").addClass("dropdown-menu-right");
+        $("#dstLanguages").removeClass("dropdown-menu-right").addClass("dropdown-menu-left");
     }
 
     // then, prevent all the columns from getting too wide

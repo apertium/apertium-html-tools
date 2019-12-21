@@ -4,6 +4,7 @@ html[dir='ltr'] .languageName {
 
 html[dir='rtl'] .languageName {
     padding-right: .5em;
+    text-align: right;
 }
 
 html[dir='ltr'] .languageVariant {

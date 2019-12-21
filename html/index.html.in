@@ -194,7 +194,7 @@
                                                     <span class="caret"></span>
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
-                                                <div class="dropdown-menu dropdown-menu-right" id="dstLanguages" role="menu">
+                                                <div class="dropdown-menu" id="dstLanguages" role="menu">
                                                     <div class="row d-flex"></div>
                                                 </div>
                                             </div>
