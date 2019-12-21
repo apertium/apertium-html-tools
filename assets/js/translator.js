@@ -1294,6 +1294,7 @@ function setDefaultSrcLang() {
 
     function setLangs(lang) {
         setCurSrcLang(iso639CodesInverse[lang]);
+        handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
         autoSelectDstLang();
     }
 
