@@ -1323,6 +1323,7 @@ function setDefaultSrcLang() {
             prefSrcLang = srcLang;
             break;
         }
+        return; // unreachable
     }
 
     setCurSrcLang(iso639CodesInverse[prefSrcLang]);
