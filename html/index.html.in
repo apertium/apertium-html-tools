@@ -171,13 +171,11 @@
                                                 <span data-text="Detect_Language" id="detectText">Detect language</span>
                                                 <span id="detectedText"></span>
                                             </button>
-                                            <div class="btn-group">
-                                                <button type="button" id="srcLanguagesDropdownTrigger" class="btn btn-secondary dropdown-toggle btn-sm" data-toggle="dropdown">
-                                                    <span class="sr-only">Toggle Dropdown</span>
-                                                </button>
-                                                <div class="dropdown-menu" id="srcLanguages" role="menu">
-                                                    <div class="row d-flex"></div>
-                                                </div>
+                                            <button type="button" id="srcLanguagesDropdownTrigger" class="btn btn-secondary dropdown-toggle btn-sm" data-toggle="dropdown">
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu" id="srcLanguages" role="menu">
+                                                <div class="row d-flex"></div>
                                             </div>
                                         </div>
                                         <button type="button" class="btn btn-secondary btn-sm swapLangBtn">
@@ -189,14 +187,12 @@
                                             <button type="button" class="btn btn-secondary btn-sm dstLang active" id="dstLang1"></button>
                                             <button type="button" class="btn btn-secondary btn-sm dstLang" id="dstLang2"></button>
                                             <button type="button" class="btn btn-secondary btn-sm dstLang" id="dstLang3"></button>
-                                            <div class="btn-group">
-                                                <button type="button" id="dstLanguagesDropdownTrigger" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
-                                                    <span class="caret"></span>
-                                                    <span class="sr-only">Toggle Dropdown</span>
-                                                </button>
-                                                <div class="dropdown-menu" id="dstLanguages" role="menu">
-                                                    <div class="row d-flex"></div>
-                                                </div>
+                                            <button type="button" id="dstLanguagesDropdownTrigger" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu" id="dstLanguages" role="menu">
+                                                <div class="row d-flex"></div>
                                             </div>
                                         </div>
                                         <button type="button" id="translate" class="btn btn-blue btn-sm translateBtn" data-text="Translate">Translate</button>
