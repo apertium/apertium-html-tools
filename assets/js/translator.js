@@ -1292,12 +1292,6 @@ function setDefaultSrcLang() {
         return iso639Lang;
     }
 
-    function setLangs(lang) {
-        setCurSrcLang(iso639CodesInverse[lang]);
-        handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
-        autoSelectDstLang();
-    }
-
     // default to first available browser preference pair
     var prefSrcLang;
 
@@ -1326,13 +1320,14 @@ function setDefaultSrcLang() {
     if(!prefSrcLang) {
         // first available overall pair
         for(var srcLang in pairs) {
-            setLangs(srcLang);
+            prefSrcLang = srcLang;
             break;
         }
     }
-    else {
-        setLangs(prefSrcLang);
-    }
+
+    setCurSrcLang(iso639CodesInverse[prefSrcLang]);
+    handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
+    autoSelectDstLang();
 }
 
 /*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
