@@ -109,9 +109,6 @@ html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
     width: 0%;
 }
 
-.border-0 {
-    border: 0;
-}
 /* sass-lint:enable class-name-format */
 
 /* About modal */
@@ -296,11 +293,9 @@ html[dir='rtl'] button.close { /* sass-lint:disable-line no-qualifying-elements 
     margin-left: 0 !important; /* sass-lint:disable-line no-important */
 }
 
-html[dir='rtl'] .btn-group > .btn:last-child:not(.dropdown-toggle), /* sass-lint:disable-line class-name-format */
-.btn-group > .btn-group:last-child > .btn { /* sass-lint:disable-line class-name-format */
+html[dir='rtl'] .btn-group > .btn { /* sass-lint:disable-line class-name-format */
     border-radius: .2rem 0 0 .2rem;
 }
-
 
 html[dir='rtl'] .btn-group > .btn:first-child:not(.dropdown-toggle), /* sass-lint:disable-line class-name-format */
 .btn-group > .btn-group:first-child > .btn { /* sass-lint:disable-line class-name-format */
