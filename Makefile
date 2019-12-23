@@ -9,7 +9,7 @@ prod: js css html fonts build/sitemap.xml build/manifest.json build/strings/loca
 
 js: build/js/min.js build/js/compat.js build/js/jquery.min.js build/js/bootstrap.min.js debugjs
 debugjs: build/js/jquery.jsonp-2.4.0.min.js build/js/config.js build/js/util.js build/js/init.js build/js/store.js build/js/persistence.js build/js/localization.js build/js/translator.js build/js/analyzer.js build/js/generator.js build/js/sandbox.js
-css: build/css/min.css build/css/font-awesome.min.css build/css/bootstrap-rtl.min.css debugcss
+css: build/css/min.css build/css/font-awesome.min.css debugcss
 debugcss: build/css/bootstrap.css build/css/analysis.css build/css/footer.css build/css/general.css build/css/navbar.css build/css/translation.css
 html: build/index.html build/index.debug.html build/not-found.html
 fonts: build/fonts/fontawesome-webfont.woff build/fonts/fontawesome-webfont.ttf build/fonts/fontawesome-webfont.svg build/fonts/fontawesome-webfont.eot
@@ -206,9 +206,6 @@ build/css/style.css: $(CSSFILES) $(if $(theme), assets/css/themes/style.$(theme)
 
 build/css/font-awesome.min.css: build/css/.d
 	curl -Ss 'http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' -o $@
-
-build/css/bootstrap-rtl.min.css: build/css/.d
-	curl -Ss 'https://cdn.rtlcss.com/bootstrap/v4.0.0/css/bootstrap.min.css' -o $@
 
 build/css/%.css: assets/css/%.css build/css/.d
 	cp $< $@
