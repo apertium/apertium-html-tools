@@ -27,7 +27,7 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, apyRequestTimeout, isURL, removeSoftHyphens, parentLang, isVariant, langDirection */
+    callApy, apyRequestTimeout, isURL, removeSoftHyphens, parentLang, isVariant, langDirection, languages, iso639CodesInverse */
 /* global ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
 if(modeEnabled('translation')) {
@@ -447,13 +447,6 @@ function getPairs() /*: JQueryPromise<any> */ {
             }
         });
 
-        for(var srcLang in pairs) {
-            // Default for new users is first available pair
-            curSrcLang = srcLang;
-            curDstLang = pairs[srcLang][0];
-            break;
-        }
-
         for(var i = 0; i < TRANSLATION_LIST_BUTTONS; i++) {
             if(i < srcLangs.length) {
                 recentSrcLangs.push(srcLangs[i]);
@@ -464,7 +457,12 @@ function getPairs() /*: JQueryPromise<any> */ {
         }
 
         populateTranslationList();
+
         restoreChoices('translator');
+        if(!curSrcLang) {
+            setDefaultSrcLang();
+        }
+
         translate(true);
     }
 
@@ -1272,6 +1270,67 @@ function setRecentDstLangs(langs /*: string[] */) {
     return langs;
 }
 
+function setDefaultSrcLang() {
+    function validSrcLang(lang) {
+        return languages[lang] && pairs[iso639CodesInverse[lang]];
+    }
+
+    function convertBCP47LangCode(lang) {
+        var iso639Lang;
+
+        // converts variant format
+        iso639Lang = lang.replace('-', '_');
+
+        // BCP 47 prefers shortest code, we prefer longest
+        if(isVariant(iso639Lang)) {
+            var splitLang = iso639Lang.split('_', 2);
+            if(iso639CodesInverse[splitLang[0]]) {
+                iso639Lang = iso639CodesInverse[splitLang[0]] + '_' + splitLang[1];
+            }
+        }
+
+        return iso639Lang;
+    }
+
+    // default to first available browser preference pair
+    var prefSrcLang;
+
+    var browserLangs = window.navigator.languages; // Chrome, Mozilla and Safari
+    if(browserLangs) {
+        for(var i = 0; i < browserLangs.length; ++i) {
+            var isoLang = convertBCP47LangCode(browserLangs[i]);
+            if(validSrcLang(isoLang)) {
+                prefSrcLang = isoLang;
+                break;
+            }
+        }
+    }
+
+    var ieLang = window.navigator.userlanguage || window.navigator.browserlanguage || window.navigator.language;
+    if(!prefSrcLang && ieLang) {
+        var ieIsoLang = convertBCP47LangCode(ieLang);
+        if(validSrcLang(ieIsoLang)) {
+            prefSrcLang = ieIsoLang;
+        }
+        else if(validSrcLang(iso639Codes[parentLang(ieIsoLang)])) {
+            prefSrcLang = iso639Codes[parentLang(ieIsoLang)];
+        }
+    }
+
+    if(!prefSrcLang) {
+        // first available overall pair
+        for(var srcLang in pairs) {
+            prefSrcLang = srcLang;
+            break;
+        }
+        return; // unreachable
+    }
+
+    setCurSrcLang(iso639CodesInverse[prefSrcLang]);
+    handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
+    autoSelectDstLang();
+}
+
 /*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
     refreshLangList, recentSrcLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, showTranslateWebpageInterface,
     srcLangs} */
@@ -1280,6 +1339,7 @@ function setRecentDstLangs(langs /*: string[] */) {
     apyRequestTimeout, removeSoftHyphens, parentLang, isVariant} from "./util.js" */
 /*:: import {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} from "./util.js" */
 /*:: import {persistChoices, restoreChoices} from "./persistence.js" */
-/*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes, langDirection} from "./localization.js" */
+/*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes, langDirection, languages,
+    iso639CodesInverse} from "./localization.js" */
 /*:: import {readCache, cache} from "./persistence.js" */
 /*:: import {isURL} from "./util.js" */
