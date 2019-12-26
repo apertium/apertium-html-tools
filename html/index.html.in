@@ -81,7 +81,7 @@
         </script>
 
         <div id="wrap">
-            <nav class="navbar navbar-dark bg-dark navbarDefault navbar-expand-md" role="navigation">
+            <nav class="navbar navbar-dark bg-dark navbarDefault navbar-expand-lg" role="navigation">
                 <div class="container position-relative">
                     <div>
                         <div>
@@ -99,7 +99,7 @@
                         </select>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fa fa-bars"></i>
+                        <i class="fa fa-bars navbarBars"></i>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarToggler">
                         <ul class="nav navbar-nav ml-auto">

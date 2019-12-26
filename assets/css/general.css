@@ -72,7 +72,7 @@ html[dir='rtl'] #cancelDocTranslate {
     padding-top: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
     .collapse.navbar-collapse { /* sass-lint:disable-line class-name-format */
         bottom: 0;
         position: absolute;
@@ -96,6 +96,20 @@ html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
     left: 0;
 	position: absolute;
     top: 10px;
+}
+
+@media (min-width: 768px) {
+    .navbar-toggler { /* sass-lint:disable-line class-name-format */
+        position: absolute;
+        right: 0;
+        top: 40px;
+    }
+    
+    html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
+        left: 0;
+        position: absolute;
+        top: 40px;
+    }
 }
 
 /* Monkeypatch for a bug with grid,
@@ -178,6 +192,10 @@ html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
     color: #fff;
     font-size: 1.8em;
     padding: 0 5px 0 0;
+}
+
+.navbarBars {
+    color: #fff;
 }
 
 .localeSelect {
