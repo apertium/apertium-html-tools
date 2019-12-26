@@ -88,14 +88,14 @@ html[dir='rtl'] #cancelDocTranslate {
 
 .navbar-toggler { /* sass-lint:disable-line class-name-format */
 	position: absolute;
-	top: 10px;
 	right: 0;
+	top: 10px;
 }
 
 html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
+    left: 0;
 	position: absolute;
     top: 10px;
-    left: 0;
 }
 
 /* Monkeypatch for a bug with grid,
