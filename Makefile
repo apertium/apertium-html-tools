@@ -97,7 +97,7 @@ build/js/jquery.min.js: build/js/.d
 	curl -Ss 'http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js' -o $@
 
 build/js/bootstrap.min.js: build/js/.d
-	curl -Ss 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js' -o $@
+	curl -Ss 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js' -o $@
 
 build/js/%.js: assets/js/%.js build/js/.d
 	cp $< $@
@@ -193,7 +193,7 @@ $(THEMES): % : all build/css/bootstrap.%.css build/css/.d
 theme = $(filter $(THEMES), $(MAKECMDGOALS))
 
 build/css/bootstrap.%.css: build/css/.d
-	curl -Ss 'https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/$*/bootstrap.min.css' -o $@
+	curl -Ss 'https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/$*/bootstrap.min.css' -o $@
 
 build/css/all.css: $(if $(theme), build/css/bootstrap.$(theme).css, assets/css/bootstrap.css) build/css/style.css build/css/.d
 	cat $^ > $@
