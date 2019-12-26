@@ -103,7 +103,7 @@ html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
         position: absolute;
         right: 0;
         top: 40px;
-    }
+}
     
     html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
         left: 0;
