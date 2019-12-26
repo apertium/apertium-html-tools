@@ -129,7 +129,7 @@
                 </div>
                 <div class="tab-content">
                     <div class="modeContainer tab-pane fade" id="translation">
-                        <h2 class="d-block d-sm-none" data-text="Translation">Translation</h2>
+                        <h2 class="d-block d-md-none" data-text="Translation">Translation</h2>
                         <form id="translationForm">
                             <fieldset>
                                 <div class="form-group d-flex d-md-none flex-column">
