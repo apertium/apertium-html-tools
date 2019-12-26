@@ -91,9 +91,6 @@
                         </div>
                         <p data-text="tagline" class="tagline"></p>
                     </div>
-                    <button type="button" class="navbar-toggler d-md-none position-absolute" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
                     <div class="float-right d-none d-md-block align-self-start" id="localeSelectContainer">
                         <!-- <i class="icon-globe localeGlobe float-right"></i> -->
                         <i class="fa fa-globe fa-2x fa-inverse float-right localeGlobe" id="primaryLocaleGlobe"></i>
@@ -101,7 +98,10 @@
                             <option></option>
                         </select>
                     </div>
-                    <div class="collapse navbar-collapse">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarToggler">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item p-1">
                                 <a href="#translation" data-mode="translation" data-text="Translation" class="nav-link" data-toggle="tab" style="display: none;">Translation</a>
