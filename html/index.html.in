@@ -143,8 +143,8 @@
                                         <select class="langSelect d-inline-block" id="dstLangSelect" aria-label="Select New Language" class="col">
                                             <option> </option>
                                         </select>
-                                    <button type="button" class="btn btn-primary btn-sm translateBtn align-self-end" data-text="Translate">Translate</button>
                                     </div>
+                                    <button type="button" class="btn btn-primary btn-sm translateBtn align-self-end" data-text="Translate">Translate</button>
                                 </div>
                                 <div class="form-group row d-none d-md-block">
                                     <div class="col-6 d-inline-flex align-items-start justify-content-between">
