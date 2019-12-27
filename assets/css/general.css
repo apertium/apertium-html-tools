@@ -48,26 +48,25 @@ html[dir='rtl'] #cancelDocTranslate {
     margin-top: 10px;
 }
 
-html[dir='ltr'] .d-flex .flex-wrap > *:not(*:last-child) {
+html[dir='ltr'] .d-flex .flex-wrap > *:not(*:last-child) { /* sass-lint:disable-line class-name-format */
     font-size: smaller;
     margin-right: 3px;
 }
 
-html[dir='rtl'] .d-flex .flex-wrap > *:not(*:first-child) {
+html[dir='rtl'] .d-flex .flex-wrap > *:not(*:first-child) { /* sass-lint:disable-line class-name-format */
     font-size: smaller;
     margin-right: 3px;
 }
 
-html[dir='ltr'] .otherTranslationOptions > *:not(*:last-child) {
+html[dir='ltr'] .otherTranslationOptions > *:not(*:last-child) { /* sass-lint:disable-line class-name-format */
     margin-right: 5px;
 }
 
-html[dir='rtl'] .otherTranslationOptions > *:not(*:first-child) {
+html[dir='rtl'] .otherTranslationOptions > *:not(*:first-child) { /* sass-lint:disable-line class-name-format */
     margin-right: 5px;
 }
 
-html[dir='rtl'] 
-.form-group.d-sm-none .translateBtn { /* sass-lint:disable-line class-name-format */
+html[dir='rtl'] .form-group.d-sm-none .translateBtn { /* sass-lint:disable-line class-name-format */
     margin: 4px;
     margin-right: 0;
 }
