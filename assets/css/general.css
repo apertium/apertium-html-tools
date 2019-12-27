@@ -48,6 +48,21 @@ html[dir='rtl'] #cancelDocTranslate {
     margin-top: 10px;
 }
 
+html[dir='ltr'] .d-flex .flex-wrap > *:not(*:last-child) {
+    font-size: smaller;
+    margin-right: 3px;
+}
+
+html[dir='rtl'] .d-flex .flex-wrap > *:not(*:first-child) {
+    font-size: smaller;
+    margin-right: 3px;
+}
+
+.otherTranslationOptions > * {
+    margin-right: 5px;
+}
+
+html[dir='rtl'] 
 .form-group.d-sm-none .translateBtn { /* sass-lint:disable-line class-name-format */
     margin: 4px;
     margin-right: 0;

@@ -133,7 +133,7 @@
                         <form id="translationForm">
                             <fieldset>
                                 <div class="form-group d-flex d-md-none flex-column">
-                                    <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-wrap">
                                         <select class="langSelect d-inline-block" id="srcLangSelect" aria-label="Select Original Language" class="col">
                                             <option data-text="Detect_Language" value="detect">Detect language</option>
                                         </select>
@@ -143,8 +143,8 @@
                                         <select class="langSelect d-inline-block" id="dstLangSelect" aria-label="Select New Language" class="col">
                                             <option> </option>
                                         </select>
+                                        <button type="button" class="btn btn-primary btn-sm translateBtn ml-auto" data-text="Translate">Translate</button>
                                     </div>
-                                    <button type="button" class="btn btn-primary btn-sm translateBtn align-self-end" data-text="Translate">Translate</button>
                                 </div>
                                 <div class="form-group row d-none d-md-block">
                                     <div class="col-6 d-inline-flex align-items-start justify-content-between">
@@ -203,7 +203,7 @@
                                             </div>
                                         </div>
                                         <div class="row mt-2">
-                                            <div class="col-12 col-md-6 d-flex d-sm-block justify-content-between flex-wrap otherTranslationOptions">
+                                            <div class="col-12 col-md-6 d-flex d-sm-block flex-wrap otherTranslationOptions">
                                                 <button id="translateDoc" class="btn btn-secondary">
                                                     <i class="fa fa-file-text"></i>
                                                     <span data-text="Translate_Document">Translate a document</span>

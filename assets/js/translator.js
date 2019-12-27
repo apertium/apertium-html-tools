@@ -562,6 +562,7 @@ function populateTranslationList() {
                             TRANSLATION_LISTS_BUFFER;
         $('#srcLanguages').removeClass('dropdown-menu-right').addClass('dropdown-menu-left');
         $('#dstLanguages').removeClass('dropdown-menu-left').addClass('dropdown-menu-right');
+        $('.translateBtn').removeClass('mr-auto').addClass('ml-auto');
     }
     else {
         maxSrcLangsWidth = $('#srcLanguagesDropdownTrigger').offset().left + $('#srcLanguagesDropdownTrigger').outerWidth() -
@@ -569,6 +570,7 @@ function populateTranslationList() {
         maxDstLangsWidth = $(window).width() - $('#dstLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
         $('#srcLanguages').removeClass('dropdown-menu-left').addClass('dropdown-menu-right');
         $('#dstLanguages').removeClass('dropdown-menu-right').addClass('dropdown-menu-left');
+        $('.translateBtn').removeClass('ml-auto').addClass('mr-auto');
     }
 
     // then, prevent all the columns from getting too wide
