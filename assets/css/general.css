@@ -104,7 +104,7 @@ html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
         right: 0;
         top: 40px;
 }
-    
+
     html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
         left: 0;
         position: absolute;
