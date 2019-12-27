@@ -58,7 +58,11 @@ html[dir='rtl'] .d-flex .flex-wrap > *:not(*:first-child) {
     margin-right: 3px;
 }
 
-.otherTranslationOptions > * {
+html[dir='ltr'] .otherTranslationOptions > *:not(*:last-child) {
+    margin-right: 5px;
+}
+
+html[dir='rtl'] .otherTranslationOptions > *:not(*:first-child) {
     margin-right: 5px;
 }
 
