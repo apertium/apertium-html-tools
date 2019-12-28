@@ -133,7 +133,7 @@
                         <form id="translationForm">
                             <fieldset>
                                 <div class="form-group d-flex d-md-none flex-column">
-                                    <div class="d-flex flex-wrap">
+                                    <div class="d-flex flex-wrap langSelectGroup">
                                         <select class="langSelect d-inline-block" id="srcLangSelect" aria-label="Select Original Language" class="col">
                                             <option data-text="Detect_Language" value="detect">Detect language</option>
                                         </select>

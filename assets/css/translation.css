@@ -1,23 +1,67 @@
+html[dir='ltr'] .langSelectGroup > *:not(*:last-child) { /* sass-lint:disable-line class-name-format */
+    font-size: smaller;
+    margin-right: 3px;
+}
+
+html[dir='rtl'] .langSelectGroup > *:not(*:first-child) { /* sass-lint:disable-line class-name-format */
+    font-size: smaller;
+    margin-right: 3px;
+}
+
+html[dir='ltr'] .otherTranslationOptions > *:not(*:last-child) {
+    margin-right: 5px;
+}
+
+html[dir='rtl'] .otherTranslationOptions > *:not(*:first-child) {
+    margin-right: 5px;
+}
+
+html[dir='rtl'] .form-group.d-sm-none .translateBtn { /* sass-lint:disable-line class-name-format */
+    margin: 4px;
+    margin-right: 0;
+}
+
+/* Action buttons use blue color instead of the primary orange, overwrite */
+#generate, #analyze, #request, .translateBtn {
+    /* sass-lint:disable-block no-important */
+    background-color: #446e9b !important;
+    color: #fff !important;
+}
+
+.translateBtn:focus,
+.translateBtn:hover, .translateBtn.focus
+.translateBtn:active, .translateBtn.active {
+    background-color: #385a7f !important; /* sass-lint:disable-line no-important */
+}
+
+#srcLangSelectors {
+    padding-left: 0;
+}
+
+/* Monkeypatch for a bug with grid,
+   they don't fit in one line otherwise */
+   .dstLangParent {
+    width: calc(50% - 5px);
+}
+
+#srcLanguages .dropdown-item, /* sass-lint:disable-line class-name-format */
+#dstLanguages .dropdown-item { /* sass-lint:disable-line class-name-format */
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.languageCol {
+    float: left;
+    padding: 0 15px;
+    position: relative;
+}
+
 html[dir='ltr'] .languageName {
     padding-left: .5em;
 }
 
 html[dir='rtl'] .languageName {
     padding-right: .5em;
-    text-align: right;
-}
-
-html[dir='ltr'] .languageVariant {
-    font-size: 12px;
-    padding-left: 2.5em;
-}
-
-html[dir='rtl'] .languageVariant {
-    font-size: 12px;
-    padding-right: 2.5em;
-}
-
-html[dir='rtl'] textarea {
     text-align: right;
 }
 
@@ -37,9 +81,23 @@ html[dir='rtl'] textarea {
     cursor: pointer;
 }
 
+html[dir='ltr'] .languageVariant {
+    font-size: 12px;
+    padding-left: 2.5em;
+}
+
+html[dir='rtl'] .languageVariant {
+    font-size: 12px;
+    padding-right: 2.5em;
+}
+
 .disabledLang {
     color: #808080 !important; /* sass-lint:disable-line no-important */
     opacity: 1 !important; /* sass-lint:disable-line no-important */
+}
+
+html[dir='rtl'] textarea {
+    text-align: right;
 }
 
 #originalText,
@@ -57,8 +115,37 @@ html[dir='rtl'] textarea {
     }
 }
 
-#srcLangSelectors {
-   padding-left: 0;
+/* Clear button */
+
+.clearButton {
+    background-color: rgba(0, 0, 0, 0);
+    padding: 0 3px;
+    position: absolute;
+    top: 3px;
+}
+
+.clearButton:hover,
+.clearButton:focus {
+    background-color: #eee;
+    color: #000;
+}
+
+html[dir='ltr'] .clearButton {
+    right: 18px;
+}
+
+html[dir='rtl'] .clearButton {
+    left: 18px;
+}
+
+/* otherTranslateOptions */
+
+#translateDoc {
+    margin-top: 1em;
+}
+
+#showTranslateWebpage {
+    margin-top: 1em;
 }
 
 #translateOptions {
@@ -75,20 +162,46 @@ html[dir='rtl'] #translateOptions input[type='checkbox'] {
     float: right;
 }
 
-#translatedWebpage {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    height: 700px;
-    width: 100%;
+.chaining {
+    display: none;
 }
 
-#translatedWebpage.notAvailable {
-    padding-left: 10px;
-    padding-top: 10px;
+#fileDropBackdrop {
+    z-index: 1000;
 }
 
-#showTranslateWebpage {
+#dropDocumentContainer {
+    left: 35%;
+    top: 35%;
+}
+
+#fileDropMask {
+    opacity: 0;
+    z-index: 10000;
+}
+
+#uploadErrorContainer {
     margin-top: 1em;
+    min-height: 50px;
+}
+
+#progressContainer {
+    margin-bottom: 0;
+}
+
+#cancelDocTranslate {
+    bottom: -6px;
+    right: 20px;
+}
+
+html[dir='rtl'] #cancelDocTranslate {
+    left: 20px;
+    right: auto;
+}
+
+#fileLoading {
+    left: 50%;
+    top: 50%;
 }
 
 #translateWebpage {
@@ -105,44 +218,14 @@ html[dir='rtl'] #translateOptions input[type='checkbox'] {
     margin-right: 5px;
 }
 
-.chaining {
-    display: none;
+#translatedWebpage {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 700px;
+    width: 100%;
 }
 
-.languageCol {
-    float: left;
-    padding: 0 15px;
-    position: relative;
-}
-
-#translateDoc {
-     margin-top: 1em;
-}
-
-#fileDropBackdrop {
-     z-index: 1000;
-}
-
-#dropDocumentContainer {
-     left: 35%;
-     top: 35%;
-}
-
-#fileDropMask {
-     opacity: 0;
-     z-index: 10000;
-}
-
-#uploadErrorContainer {
-     margin-top: 1em;
-     min-height: 50px;
-}
-
-#progressContainer {
-     margin-bottom: 0;
-}
-
-#fileLoading {
-     left: 50%;
-     top: 50%;
+#translatedWebpage.notAvailable {
+    padding-left: 10px;
+    padding-top: 10px;
 }
