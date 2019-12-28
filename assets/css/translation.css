@@ -45,7 +45,7 @@ html[dir='rtl'] .form-group.d-sm-none .translateBtn { /* sass-lint:disable-line 
 }
 
 html[dir='rtl'] .srcLang, .dstLang {
-    border-radius: 0 0 0 0;
+    border-radius: 0;
 }
 
 html[dir='rtl'] #srcLang1, #dstLang1 {
