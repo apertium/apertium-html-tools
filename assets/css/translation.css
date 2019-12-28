@@ -40,8 +40,21 @@ html[dir='rtl'] .form-group.d-sm-none .translateBtn { /* sass-lint:disable-line 
 
 /* Monkeypatch for a bug with grid,
    they don't fit in one line otherwise */
-   .dstLangParent {
+.dstLangParent {
     width: calc(50% - 5px);
+}
+
+html[dir='rtl'] .srcLang, .dstLang {
+    border-radius: 0 0 0 0;
+}
+
+html[dir='rtl'] #srcLang1, #dstLang1 {
+	border-radius: 0 .2rem .2rem 0;
+}
+
+html[dir='rtl'] #srcLanguagesDropdownTrigger,
+html[dir='rtl'] #dstLanguagesDropdownTrigger {
+    border-radius: .2rem 0 0 .2rem;
 }
 
 #srcLanguages .dropdown-item, /* sass-lint:disable-line class-name-format */

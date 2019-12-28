@@ -201,12 +201,3 @@ html[dir='rtl'] label input[type='checkbox'] {
 html[dir='rtl'] button.close { /* sass-lint:disable-line no-qualifying-elements */
     margin-left: 0 !important; /* sass-lint:disable-line no-important */
 }
-
-html[dir='rtl'] .btn-group > .btn { /* sass-lint:disable-line class-name-format */
-    border-radius: .2rem 0 0 .2rem;
-}
-
-html[dir='rtl'] .btn-group > .btn:first-child:not(.dropdown-toggle), /* sass-lint:disable-line class-name-format */
-.btn-group > .btn-group:first-child > .btn { /* sass-lint:disable-line class-name-format */
-    border-radius: 0 .2rem .2rem 0;
-}
