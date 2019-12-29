@@ -146,7 +146,6 @@ h2 {
     z-index: 10000000000000;
 }
 
-/* FontAwesome and Bootstrap 4 helpers */
 .fa.float-right { /* sass-lint:disable-line class-name-format */
     margin-left: .3em;
 }
