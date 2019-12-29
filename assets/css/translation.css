@@ -18,11 +18,13 @@ html[dir='rtl'] .langSelectGroup > *:not(*:first-child) {
     width: calc(50% - 5px);
 }
 
-html[dir='rtl'] .srcLang, .dstLang {
+html[dir='rtl'] .srcLang,
+html[dir='rtl'] .dstLang {
     border-radius: 0;
 }
 
-html[dir='rtl'] #srcLang1, #dstLang1 {
+html[dir='rtl'] #srcLang1,
+html[dir='rtl'] #dstLang1 {
 	border-radius: 0 .2rem .2rem 0;
 }
 
