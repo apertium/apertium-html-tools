@@ -1,11 +1,37 @@
-html[dir='ltr'] .langSelectGroup > *:not(*:last-child) {
+html[dir='ltr'] .langSelectGroup > *:not(*:last-child) { /* sass-lint:disable-line class-name-format */
     font-size: smaller;
     margin-right: 3px;
 }
 
-html[dir='rtl'] .langSelectGroup > *:not(*:first-child) {
+html[dir='rtl'] .langSelectGroup > *:not(*:first-child) { /* sass-lint:disable-line class-name-format */
     font-size: smaller;
     margin-right: 3px;
+}
+
+html[dir='ltr'] .otherTranslationOptions > *:not(*:last-child) {
+    margin-right: 5px;
+}
+
+html[dir='rtl'] .otherTranslationOptions > *:not(*:first-child) {
+    margin-right: 5px;
+}
+
+html[dir='rtl'] .form-group.d-sm-none .translateBtn { /* sass-lint:disable-line class-name-format */
+    margin: 4px;
+    margin-right: 0;
+}
+
+/* Action buttons use blue color instead of the primary orange, overwrite */
+#generate, #analyze, #request, .translateBtn {
+    /* sass-lint:disable-block no-important */
+    background-color: #446e9b !important;
+    color: #fff !important;
+}
+
+.translateBtn:focus,
+.translateBtn:hover, .translateBtn.focus
+.translateBtn:active, .translateBtn.active {
+    background-color: #385a7f !important; /* sass-lint:disable-line no-important */
 }
 
 #srcLangSelectors {
@@ -83,24 +109,6 @@ html[dir='rtl'] .languageVariant {
     opacity: 1 !important; /* sass-lint:disable-line no-important */
 }
 
-html[dir='rtl'] .form-group.d-sm-none .translateBtn { /* sass-lint:disable-line class-name-format */
-    margin: 4px;
-    margin-right: 0;
-}
-
-/* Action buttons use blue color instead of the primary orange, overwrite */
-#generate, #analyze, #request, .translateBtn {
-    /* sass-lint:disable-block no-important */
-    background-color: #446e9b !important;
-    color: #fff !important;
-}
-
-.translateBtn:focus,
-.translateBtn:hover, .translateBtn.focus
-.translateBtn:active, .translateBtn.active {
-    background-color: #385a7f !important; /* sass-lint:disable-line no-important */
-}
-
 html[dir='rtl'] textarea {
     text-align: right;
 }
@@ -143,13 +151,7 @@ html[dir='rtl'] .clearButton {
     left: 18px;
 }
 
-html[dir='ltr'] .otherTranslationOptions > *:not(*:last-child) {
-    margin-right: 5px;
-}
-
-html[dir='rtl'] .otherTranslationOptions > *:not(*:first-child) {
-    margin-right: 5px;
-}
+/* otherTranslateOptions */
 
 #translateDoc {
     margin-top: 1em;
