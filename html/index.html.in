@@ -81,7 +81,7 @@
         </script>
 
         <div id="wrap">
-            <nav class="navbar navbar-dark bg-dark navbarDefault navbar-expand-lg pb-0 pt-0" role="navigation">
+            <nav class="navbar navbar-dark bg-dark navbarDefault navbar-expand-lg" role="navigation">
                 <div class="container position-relative">
                     <div>
                         <div>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="float-right d-none d-md-block align-self-start" id="localeSelectContainer">
                         <!-- <i class="icon-globe localeGlobe float-right"></i> -->
-                        <i class="fa fa-globe fa-2x fa-inverse float-right localeGlobe pt-1 pr-1" id="primaryLocaleGlobe"></i>
+                        <i class="fa fa-globe fa-2x fa-inverse float-right localeGlobe" id="primaryLocaleGlobe"></i>
                         <select class="localeSelect float-right">
                             <option></option>
                         </select>
@@ -124,7 +124,7 @@
             </nav>
             <div class="container">
                 <!-- Not found warning -->
-                <div class="position-absolute d-none" id="loadingIndicator">
+                <div id="loadingIndicator">
                     <i class="fa fa-spinner fa-spin fa-4x"></i>
                 </div>
                 <div class="tab-content">
@@ -148,11 +148,11 @@
                                 </div>
                                 <div class="form-group row d-none d-md-block">
                                     <div class="col-6 d-inline-flex align-items-start justify-content-between">
-                                        <button type="button" class="btn btn-sm btn-secondary float-left mr-1" id="cancelTranslateWebpage" style="display: none">
+                                        <button type="button" class="btn btn-sm btn-secondary float-left" id="cancelTranslateWebpage" style="display: none">
                                             <i class="fa fa-arrow-left"></i>
                                             <span data-text="Cancel">Cancel</span>
                                         </button>
-                                        <div class="btn-group d-flex flex-wrap pl-0" id="srcLangSelectors">
+                                        <div class="btn-group d-flex flex-wrap" id="srcLangSelectors">
                                             <button type="button" class="btn btn-secondary btn-sm srcLang active" id="srcLang1"></button>
                                             <button type="button" class="btn btn-secondary btn-sm srcLang" id="srcLang2"></button>
                                             <button type="button" class="btn btn-secondary btn-sm srcLang" id="srcLang3"></button>
@@ -193,7 +193,7 @@
                                             <div class="col-12 col-md-6">
                                                 <textarea class="form-control" id="originalText" rows="15" spellcheck="false" aria-label="Original Text"
                                                     data-textattr="placeholder" data-text="Translation_Help"></textarea>
-                                                <button class="btn clearButton position-absolute pr-1" aria-label="Clear Text">
+                                                <button class="btn clearButton" aria-label="Clear Text">
                                                     <i class="fa fa-times"></i>
                                                 </button>
                                             </div>
@@ -213,7 +213,7 @@
                                                     <span data-text="Translate_Webpage">Translate a webpage</span>
                                                 </button>
                                             </div>
-                                            <div class="col-12 col-md-6 form-check d-flex flex-column align-items-end justify-content-end w-auto mt-2" id="translateOptions">
+                                            <div class="col-12 col-md-6 form-check d-flex flex-column align-items-end justify-content-end" id="translateOptions">
                                                 <label>
                                                     <input type="checkbox" id="markUnknown" checked>
                                                     <span data-text="Mark_Unknown_Words">Mark unknown words</span>
@@ -246,7 +246,7 @@
                                                 <div class="lead" id="fileName" style="display: none"></div>
                                                 <div id="uploadErrorContainer">
                                                     <span id="uploadError" class="text-danger lead" style="display: none"></span>
-                                                    <div class="progress mb-0 d-none" id="progressContainer">
+                                                    <div class="progress" style="display: none" id="progressContainer">
                                                         <div id="fileUploadProgress" class="progress-bar progress-bar-striped progress-bar-animated w-0" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
@@ -272,9 +272,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="d-none overflow-hidden" id="translateWebpage">
+                                    <div id="translateWebpage">
                                         <div class="col-sm-12 row">
-                                            <div class="input-group mb-2 w-100">
+                                            <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <i class="fa fa-link input-group-text"></i>
                                                 </div>
@@ -392,7 +392,7 @@
                     <select class="localeSelect float-left" aria-label="Select Language">
                         <option> </option>
                     </select>
-                    <i class="fa fa-globe fa-2x float-left localeGlobe pt-1 pl-1" id="secondaryLocaleGlobe"></i>
+                    <i class="fa fa-globe fa-2x float-left localeGlobe" id="secondaryLocaleGlobe"></i>
                     <!-- <i class="fa fa-globe localeGlobe float-left"></i> -->
                 </div>
             </div>
@@ -439,7 +439,7 @@
                 </a>
             </div>
 
-            <div class="align-self-end card card-body d-block bg-light d-md-none helpMessage mt-2" id="xsHelpMessageContainer">
+            <div class="align-self-end card card-body d-block bg-light d-md-none helpMessage" id="xsHelpMessageContainer">
                 <span data-text="Notice_Mistake">Notice a mistake?</span>
                 <a tabindex="0"data-toggle="modal" data-target="#infoModal" data-text="Help_Improve" data-keyboard="true">Help us improve Apertium!</a>
             </div>
@@ -511,13 +511,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="d-inline-block my-o" id="creativeCommonsLicence">
+                            <div class="d-inline-block" id="creativeCommonsLicence">
                                 <a href="http://creativecommons.org/licenses/by-sa/3.0/">
                                     <img alt="Creative Commons licence" data-src="./img/cc-by-sa-3.0-88x31.png">
                                 </a>
                             </div>
 
-                            <div class="d-inline-block my-0" id="gnuGplLicence">
+                            <div class="d-inline-block" id="gnuGplLicence">
                                 <a href="https://www.gnu.org/licenses/gpl.html">
                                     <img alt="GNU GPL License" data-src="./img/gplv3-88x31.png">
                                 </a>
@@ -592,7 +592,7 @@
 
                         <div class="center-block" id="infoModalApertiumLogoContainer">
                             <a href="http://www.apertium.org/" target="_blank" rel="noopener">
-                                <img alt="Apertium" data-src="./img/Apertium.png" class="center-block mw-100" id="infoModalApertiumLogo">
+                                <img alt="Apertium" data-src="./img/Apertium.png" class="center-block" id="infoModalApertiumLogo">
                             </a>
                         </div>
                     </div>
@@ -607,12 +607,12 @@
         <button class="btn btn-secondary" id="backToTop" style="display: none;">
             <i class="fa fa-arrow-up" aria-hidden="true"></i>
         </button>
-        <div id="installationNotice" class="alert alert-warning alert-dismissible m-2 p-2" style="display: none;">
+        <div id="installationNotice" class="alert alert-warning alert-dismissible" style="display: none;">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="m-0 pb-2" id="installationNoticeTitle" data-text="Install_Apertium"></h4>
-            <p class="mb-0" data-text="Install_Apertium_Para"></p>
+            <h4 id="installationNoticeTitle" data-text="Install_Apertium"></h4>
+            <p data-text="Install_Apertium_Para"></p>
         </div>
     </body>
 </html>

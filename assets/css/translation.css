@@ -1,11 +1,15 @@
 html[dir='ltr'] .langSelectGroup > *:not(*:last-child) {
-    font-size: 10px;
+    font-size: smaller;
     margin-right: 3px;
 }
 
 html[dir='rtl'] .langSelectGroup > *:not(*:first-child) {
-    font-size: 10px;
+    font-size: smaller;
     margin-right: 3px;
+}
+
+#srcLangSelectors {
+    padding-left: 0;
 }
 
 /* Monkeypatch for a bug with grid,
@@ -27,6 +31,12 @@ html[dir='rtl'] #dstLang1 {
 html[dir='rtl'] #srcLanguagesDropdownTrigger,
 html[dir='rtl'] #dstLanguagesDropdownTrigger {
     border-radius: .2rem 0 0 .2rem;
+}
+
+#srcLanguages .dropdown-item, /* sass-lint:disable-line class-name-format */
+#dstLanguages .dropdown-item { /* sass-lint:disable-line class-name-format */
+    padding-bottom: 0;
+    padding-top: 0;
 }
 
 .languageCol {
@@ -60,15 +70,13 @@ html[dir='rtl'] .languageName {
     cursor: pointer;
 }
 
-.languageVariant {
-    font-size: 12px;
-}
-
 html[dir='ltr'] .languageVariant {
+    font-size: 12px;
     padding-left: 2.5em;
 }
 
 html[dir='rtl'] .languageVariant {
+    font-size: 12px;
     padding-right: 2.5em;
 }
 
@@ -118,6 +126,8 @@ html[dir='rtl'] textarea {
 
 .clearButton {
     background-color: rgba(0, 0, 0, 0);
+    padding: 0 3px;
+    position: absolute;
     top: 3px;
 }
 
@@ -151,6 +161,11 @@ html[dir='rtl'] .otherTranslationOptions > *:not(*:first-child) {
     margin-top: 1em;
 }
 
+#translateOptions {
+    margin-top: 10px;
+    width: auto;
+}
+
 #translateOptions label {
     clear: both;
     margin: 0;
@@ -158,8 +173,6 @@ html[dir='rtl'] .otherTranslationOptions > *:not(*:first-child) {
 
 html[dir='rtl'] #translateOptions input[type='checkbox'] {
     float: right;
-    margin-right: -20px;
-    margin-top: 5px;
 }
 
 .chaining {
@@ -185,6 +198,10 @@ html[dir='rtl'] #translateOptions input[type='checkbox'] {
     min-height: 50px;
 }
 
+#progressContainer {
+    margin-bottom: 0;
+}
+
 #cancelDocTranslate {
     bottom: -6px;
     right: 20px;
@@ -200,9 +217,28 @@ html[dir='rtl'] #cancelDocTranslate {
     top: 50%;
 }
 
+#translateWebpage {
+    display: none;
+    overflow: hidden;
+}
+
+#translateWebpage .input-group { /* sass-lint:disable-line class-name-format */
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.cancelTranslateWebpage {
+    margin-right: 5px;
+}
+
 #translatedWebpage {
     border: 1px solid #ccc;
     border-radius: 4px;
     height: 700px;
     width: 100%;
+}
+
+#translatedWebpage.notAvailable {
+    padding-left: 10px;
+    padding-top: 10px;
 }

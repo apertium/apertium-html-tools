@@ -19,13 +19,19 @@ h2 {
 }
 
 #loadingIndicator {
+    display: none;
     left: 48%;
+    position: absolute;
     top: 45%;
     z-index: 10000;
 }
 
 #aboutModalTrigger {
     cursor: pointer;
+}
+
+#xsHelpMessageContainer {
+    margin-top: 10px;
 }
 
 /* Utilities */
@@ -67,14 +73,17 @@ h2 {
 
 #creativeCommonsLicence,
 #gnuGplLicence {
+    margin-bottom: 0;
     margin-left: .5em;
     margin-right: .5em;
+    margin-top: 0;
 }
 
 /* Info modal */
 
 #infoModalApertiumLogo {
     height: 5em;
+    max-width: 100%;
 }
 
 #infoModalApertiumLogoContainer {
@@ -83,8 +92,16 @@ h2 {
 
 /* Locale selection */
 
+#secondaryLocaleGlobe {
+    padding: 5px 0 0 5px;
+}
+
 #localeSelectContainer {
     width: 35%;
+}
+
+#primaryLocaleGlobe {
+    padding: 5px 5px 0 0;
 }
 
 .localeGlobe {
@@ -118,6 +135,8 @@ h2 {
 
 #installationNotice {
     font-size: inherit;
+    margin: 8px;
+    padding: 8px;
     position: fixed;
     right: 20px;
     top: 20px;
@@ -131,8 +150,17 @@ h2 {
     }
 }
 
+#installationNotice p {
+    margin-bottom: 0;
+}
+
 #installationNotice .fa-times:hover { /* sass-lint:disable-line class-name-format */
     cursor: pointer;
+}
+
+#installationNoticeTitle {
+    margin: 0;
+    padding-bottom: 10px;
 }
 
 /* No JS banner */
@@ -150,20 +178,25 @@ h2 {
     margin-left: .3em;
 }
 
-/* RTL */
+/* RTL checking */
 
 html[dir='rtl'] body {
     text-align: right !important; /* sass-lint:disable-line no-important */
 }
 
-html[dir='rtl'] .float-right { /* sass-lint:disable-line class-name-format */
+html[dir='rtl'] .float-right:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
     float: left !important; /* sass-lint:disable-line no-important */
 }
 
-html[dir='rtl'] .float-left { /* sass-lint:disable-line class-name-format */
+html[dir='rtl'] .float-left:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
     float: right !important; /* sass-lint:disable-line no-important */
 }
 
-html[dir='rtl'] .close {
+html[dir='rtl'] label input[type='checkbox'] {
+    margin-right: -20px;
+    margin-top: 5px;
+}
+
+html[dir='rtl'] button.close { /* sass-lint:disable-line no-qualifying-elements */
     margin-left: 0 !important; /* sass-lint:disable-line no-important */
 }
