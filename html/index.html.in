@@ -193,7 +193,7 @@
                                             <div class="col-12 col-md-6">
                                                 <textarea class="form-control" id="originalText" rows="15" spellcheck="false" aria-label="Original Text"
                                                     data-textattr="placeholder" data-text="Translation_Help"></textarea>
-                                                <button class="btn clearButton position-absolute pr-1" aria-label="Clear Text">
+                                                <button class="btn clearButton position-absolute" aria-label="Clear Text">
                                                     <i class="fa fa-times"></i>
                                                 </button>
                                             </div>

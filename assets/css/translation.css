@@ -116,6 +116,7 @@ html[dir='rtl'] textarea {
 
 .clearButton {
     background-color: rgba(0, 0, 0, 0);
+    padding: 0 3px;
     top: 3px;
 }
 
