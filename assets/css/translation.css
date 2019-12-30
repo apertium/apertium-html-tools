@@ -83,8 +83,8 @@ html[dir='rtl'] .form-group.d-sm-none .translateBtn { /* sass-lint:disable-line 
 #generate, #analyze, #request, .translateBtn {
     /* sass-lint:disable-block no-important */
     background-color: #446e9b !important;
-    border-color: #446e9b;
     color: #fff !important;
+    border-color: #446e9b;
 }
 
 .translateBtn:focus,
