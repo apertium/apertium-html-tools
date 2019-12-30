@@ -272,7 +272,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="d-none overflow-hidden" id="translateWebpage">
+                                    <div class="overflow-hidden" id="translateWebpage">
                                         <div class="col-sm-12 row">
                                             <div class="input-group mb-2 w-100">
                                                 <div class="input-group-prepend">

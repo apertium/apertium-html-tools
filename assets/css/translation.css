@@ -198,6 +198,18 @@ html[dir='rtl'] #cancelDocTranslate {
     top: 50%;
 }
 
+#translateWebpage {
+    display: none;
+}
+
+html[dir='ltr'] #translateWebpage {
+    margin-right: -30px;
+}
+
+html[dir='rtl'] #translateWebpage {
+    margin-left: -30px;
+}
+
 #translatedWebpage {
     border: 1px solid #ccc;
     border-radius: 4px;
