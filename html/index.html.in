@@ -31,7 +31,7 @@
                 console.warn('Bootstrap JS from CDN not available - reverting to local copy');
             }
         </script>
-
+        
         <!--[if lt IE 9]> <script type="text/javascript" src="./js/compat.js"></script> <![endif]-->
         @include_head@
 
