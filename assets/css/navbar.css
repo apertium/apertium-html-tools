@@ -68,8 +68,6 @@ html[dir='rtl'] .apertiumLogo {
 
 .navbarDefault {
     margin-bottom: 21px;
-    padding-bottom: 0;
-    padding-top: 0;
 }
 
 .navbarDefault .nav {
@@ -115,20 +113,17 @@ html[dir='rtl'] .apertiumLogo {
 
 html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
     left: 0;
-	position: absolute;
     top: 10px;
 }
 
 @media (min-width: 768px) {
     .navbar-toggler { /* sass-lint:disable-line class-name-format */
-        position: absolute;
         right: 0;
         top: 40px;
 }
 
     html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
         left: 0;
-        position: absolute;
         top: 40px;
     }
 }
@@ -141,7 +136,6 @@ html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
     }
 
     html[dir='rtl'] .collapse.navbar-collapse { /* sass-lint:disable-line class-name-format */
-        bottom: 0;
         left: 0;
         right: auto;
     }
