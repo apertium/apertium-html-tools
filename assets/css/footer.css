@@ -29,8 +29,3 @@ body {
 #version:hover, #version:active, #version:focus {
     text-decoration: none;
 }
-
-.helpMessage {
-    border-radius: 3px;
-    margin-bottom: 20px;
-}

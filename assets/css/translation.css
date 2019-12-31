@@ -134,20 +134,9 @@ html[dir='rtl'] .clearButton {
     left: 18px;
 }
 
-html[dir='ltr'] .otherTranslationOptions > *:not(*:last-child) {
-    margin-right: 5px;
-}
-
+html[dir='ltr'] .otherTranslationOptions > *:not(*:last-child),
 html[dir='rtl'] .otherTranslationOptions > *:not(*:first-child) {
     margin-right: 5px;
-}
-
-#translateDoc {
-    margin-top: 1em;
-}
-
-#showTranslateWebpage {
-    margin-top: 1em;
 }
 
 #translateOptions label {
@@ -180,7 +169,6 @@ html[dir='rtl'] #translateOptions input[type='checkbox'] {
 }
 
 #uploadErrorContainer {
-    margin-top: 1em;
     min-height: 50px;
 }
 

@@ -66,14 +66,6 @@ html[dir='rtl'] .apertiumLogo {
     font-size: 16px;
 }
 
-.navbarDefault {
-    margin-bottom: 21px;
-}
-
-.navbarDefault .nav {
-    margin-top: 5px;
-}
-
 @media(max-width: 768px) {
     html[dir='ltr'] .navbar-brand { /* sass-lint:disable-line class-name-format */
         padding-left: 15px;

@@ -81,7 +81,7 @@
         </script>
 
         <div id="wrap">
-            <nav class="navbar navbar-dark bg-dark navbarDefault navbar-expand-lg pb-0 pt-0" role="navigation">
+            <nav class="navbar navbar-dark bg-dark navbarDefault navbar-expand-lg mb-4 pb-0 pt-0" role="navigation">
                 <div class="container position-relative">
                     <div>
                         <div>
@@ -93,8 +93,8 @@
                     </div>
                     <div class="float-right d-none d-md-block align-self-start" id="localeSelectContainer">
                         <!-- <i class="icon-globe localeGlobe float-right"></i> -->
-                        <i class="fa fa-globe fa-2x fa-inverse float-right localeGlobe pt-1 pr-1" id="primaryLocaleGlobe"></i>
-                        <select class="localeSelect float-right">
+                        <i class="fa fa-globe fa-2x fa-inverse float-right localeGlobe pt-2 pr-1" id="primaryLocaleGlobe"></i>
+                        <select class="localeSelect float-right mt-2">
                             <option></option>
                         </select>
                     </div>
@@ -102,7 +102,7 @@
                         <i class="fa fa-bars navbarBars"></i>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarToggler">
-                        <ul class="nav navbar-nav ml-auto">
+                        <ul class="nav navbar-nav mt-1 ml-auto">
                             <li class="nav-item p-1">
                                 <a href="#translation" data-mode="translation" data-text="Translation" class="nav-link" data-toggle="tab" style="display: none;">Translation</a>
                             </li>
@@ -204,11 +204,11 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div class="col-12 col-md-6 d-flex d-sm-block flex-wrap otherTranslationOptions">
-                                                <button id="translateDoc" class="btn btn-secondary">
+                                                <button id="translateDoc" class="btn btn-secondary mt-3">
                                                     <i class="fa fa-file-text"></i>
                                                     <span data-text="Translate_Document">Translate a document</span>
                                                 </button>
-                                                <button id="showTranslateWebpage" class="btn btn-secondary">
+                                                <button id="showTranslateWebpage" class="btn btn-secondary mt-3">
                                                     <i class="fa fa-link"></i>
                                                     <span data-text="Translate_Webpage">Translate a webpage</span>
                                                 </button>
@@ -244,7 +244,7 @@
                                             <div class="card card-body bg-light">
                                                 <input type="file" id="fileInput" accept="text/plain,text/html,text/rtf,application/rtf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.oasis.opendocument.text,application/x-latex,application/x-tex">
                                                 <div class="lead" id="fileName" style="display: none"></div>
-                                                <div id="uploadErrorContainer">
+                                                <div class="mt-3" id="uploadErrorContainer">
                                                     <span id="uploadError" class="text-danger lead" style="display: none"></span>
                                                     <div class="progress mb-0 d-none" id="progressContainer">
                                                         <div id="fileUploadProgress" class="progress-bar progress-bar-striped progress-bar-animated w-0" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -389,7 +389,7 @@
                 </div>
 
                 <div class="d-block d-sm-none">
-                    <select class="localeSelect float-left" aria-label="Select Language">
+                    <select class="localeSelect float-left mt-2 mb-2" aria-label="Select Language">
                         <option> </option>
                     </select>
                     <i class="fa fa-globe fa-2x float-left localeGlobe pt-1 pl-1" id="secondaryLocaleGlobe"></i>
@@ -427,7 +427,7 @@
                         </a>
                     </li>
                 </ul>
-                <div class="card d-inline-block bg-light helpMessage mr-3 ml-3 p-2">
+                <div class="card d-inline-block bg-light helpMessage mr-3 mb-4 ml-3 p-2">
                     <span data-text="Notice_Mistake">Notice a mistake?</span>
                     <a tabindex="0"data-toggle="modal" data-target="#aboutModal" data-text="Help_Improve" data-keyboard="true" id="aboutModalTrigger">Help us improve Apertium!</a>
                 </div>
