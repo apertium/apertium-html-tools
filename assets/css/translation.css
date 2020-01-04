@@ -2,10 +2,7 @@
     font-size: 10px;
 }
 
-html[dir='ltr'] .langSelectGroup > *:not(*:last-child) {
-    margin-right: 3px;
-}
-
+html[dir='ltr'] .langSelectGroup > *:not(*:last-child),
 html[dir='rtl'] .langSelectGroup > *:not(*:first-child) {
     margin-right: 3px;
 }
@@ -18,7 +15,7 @@ html[dir='rtl'] .langSelectGroup > *:not(*:first-child) {
 
 html[dir='rtl'] #srcLang1,
 html[dir='rtl'] #dstLang1 {
-	border-radius: 0 .2rem .2rem 0;
+    border-radius: 0 .2rem .2rem 0;
 }
 
 html[dir='rtl'] #srcLanguagesDropdownTrigger,
@@ -203,5 +200,4 @@ html[dir='rtl'] #translateWebpage {
     border: 1px solid #ccc;
     border-radius: 4px;
     height: 700px;
-    width: 100%;
 }

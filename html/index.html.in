@@ -72,7 +72,7 @@
         <link rel="manifest" href="./manifest.json">
     </head>
     <body>
-        <span class="fa" id="faChecker" style="display: none;"></span>
+        <span class="fa d-none" id="faChecker"></span>
         <script type="text/javascript">
             if ($('#faChecker').css('fontFamily') !== 'FontAwesome') {
                 $('<link type="text/css" rel="stylesheet" href="./css/font-awesome.min.css">').appendTo('head');
@@ -280,7 +280,7 @@
                                                 </div>
                                                 <input id="webpage" placeholder="URL ⏎" class="form-control" autocomplete="url">
                                             </div>
-                                            <iframe id="translatedWebpage" src="about:blank">
+                                            <iframe class="w-100" id="translatedWebpage" src="about:blank">
                                             </iframe>
                                         </div>
                                     </div>
