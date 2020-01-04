@@ -389,7 +389,7 @@
                 </div>
 
                 <div class="d-block d-sm-none">
-                    <select class="localeSelect float-left mt-2 mb-2" aria-label="Select Language">
+                    <select class="localeSelect float-left my-2" aria-label="Select Language">
                         <option> </option>
                     </select>
                     <i class="fa fa-globe fa-2x float-left localeGlobe pt-1 pl-1" id="secondaryLocaleGlobe"></i>
