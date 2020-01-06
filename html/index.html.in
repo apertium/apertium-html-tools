@@ -23,8 +23,7 @@
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
             crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
         <script type="text/javascript">
             if (!(typeof $().modal == 'function')) {
                 document.write('<script src="./js/bootstrap.min.js"><\/script>');
@@ -81,7 +80,7 @@
         </script>
 
         <div id="wrap">
-            <nav class="navbar navbar-dark bg-dark navbarDefault navbar-expand-lg mb-4 pb-0 pt-0" role="navigation">
+            <nav class="navbar navbar-dark bg-dark navbarDefault navbar-expand-xl mb-4 pb-0 pt-0" role="navigation">
                 <div class="container position-relative">
                     <div>
                         <div>

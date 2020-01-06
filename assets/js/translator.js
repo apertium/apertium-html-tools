@@ -969,7 +969,7 @@ function translateDoc() {
 function translateWebpage(ignoreIfEmpty /*: ?boolean */) {
     function webpageTranslationNotAvailable(data) {
         $('#translatedWebpage').replaceWith(
-            $('<div id="translatedWebpage" class="notAvailable text-danger pl-2 pt-2"></div>')
+            $('<div id="translatedWebpage" class="notAvailable text-danger w-100 pl-2 pt-2"></div>')
                 .text(getDynamicLocalization('Not_Available'))
         );
 

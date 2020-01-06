@@ -120,7 +120,7 @@ html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
     }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
     .collapse.navbar-collapse { /* sass-lint:disable-line class-name-format */
         bottom: 0;
         position: absolute;
