@@ -120,9 +120,9 @@ html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
     .collapse.navbar-collapse { /* sass-lint:disable-line class-name-format */
-        bottom: 0;
+        bottom: -30px;
         position: absolute;
         right: 0;
     }
@@ -130,5 +130,16 @@ html[dir='rtl'] .navbar-toggler { /* sass-lint:disable-line class-name-format */
     html[dir='rtl'] .collapse.navbar-collapse { /* sass-lint:disable-line class-name-format */
         left: 0;
         right: auto;
+    }
+    .navbarDefault {
+        padding-bottom: 30px;
+    }
+}
+@media (min-width: 1200px) {
+    .collapse.navbar-collapse { /* sass-lint:disable-line class-name-format */
+        bottom: 0;
+    }
+    .navbarDefault {
+        padding-bottom: 0;
     }
 }

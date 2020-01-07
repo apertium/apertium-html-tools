@@ -80,7 +80,7 @@
         </script>
 
         <div id="wrap">
-            <nav class="navbar navbar-dark bg-dark navbarDefault navbar-expand-xl mb-4 pb-0 pt-0" role="navigation">
+            <nav class="navbar navbar-dark bg-dark navbarDefault navbar-expand-md mb-4 pt-0" role="navigation">
                 <div class="container position-relative">
                     <div>
                         <div>
