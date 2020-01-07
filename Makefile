@@ -97,7 +97,7 @@ build/js/jquery.min.js: build/js/.d
 	curl -Ss 'http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js' -o $@
 
 build/js/bootstrap.min.js: build/js/.d
-	curl -Ss 'https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js' -o $@
+	curl -Ss 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js' -o $@
 
 build/js/%.js: assets/js/%.js build/js/.d
 	cp $< $@
