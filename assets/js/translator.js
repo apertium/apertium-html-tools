@@ -560,11 +560,17 @@ function populateTranslationList() {
         maxSrcLangsWidth = $(window).width() - $('#srcLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
         maxDstLangsWidth = $('#dstLanguagesDropdownTrigger').offset().left + $('#dstLanguagesDropdownTrigger').outerWidth() -
                             TRANSLATION_LISTS_BUFFER;
+        $('#srcLanguages').removeClass('dropdown-menu-right').addClass('dropdown-menu-left');
+        $('#dstLanguages').removeClass('dropdown-menu-left').addClass('dropdown-menu-right');
+        $('.translateBtn').removeClass('mr-auto').addClass('ml-auto');
     }
     else {
         maxSrcLangsWidth = $('#srcLanguagesDropdownTrigger').offset().left + $('#srcLanguagesDropdownTrigger').outerWidth() -
                           TRANSLATION_LISTS_BUFFER;
         maxDstLangsWidth = $(window).width() - $('#dstLanguagesDropdownTrigger').offset().left - TRANSLATION_LISTS_BUFFER;
+        $('#srcLanguages').removeClass('dropdown-menu-left').addClass('dropdown-menu-right');
+        $('#dstLanguages').removeClass('dropdown-menu-right').addClass('dropdown-menu-left');
+        $('.translateBtn').removeClass('ml-auto').addClass('mr-auto');
     }
 
     // then, prevent all the columns from getting too wide
@@ -963,7 +969,7 @@ function translateDoc() {
 function translateWebpage(ignoreIfEmpty /*: ?boolean */) {
     function webpageTranslationNotAvailable(data) {
         $('#translatedWebpage').replaceWith(
-            $('<div id="translatedWebpage" class="notAvailable text-danger"></div>')
+            $('<div id="translatedWebpage" class="notAvailable text-danger w-100 pl-2 pt-2"></div>')
                 .text(getDynamicLocalization('Not_Available'))
         );
 

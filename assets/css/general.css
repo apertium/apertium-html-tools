@@ -19,63 +19,22 @@ h2 {
 }
 
 #loadingIndicator {
-    display: none;
     left: 48%;
-    position: absolute;
     top: 45%;
     z-index: 10000;
-}
-
-#apertiumLogo {
-    margin-bottom: -.25em;
 }
 
 #aboutModalTrigger {
     cursor: pointer;
 }
 
-#xsHelpMessageContainer {
-    margin-top: 10px;
-}
-
 /* Utilities */
 
 /* sass-lint:disable class-name-format */
-.position-relative {
-    position: relative;
-}
-
-.d-none {
-    display: none;
-}
-
-.d-inline-block {
-    display: inline-block;
-}
-
 .w-0 {
     width: 0%;
 }
 
-.w-100 {
-    width: 100%;
-}
-
-.border-0 {
-    border: 0;
-}
-
-.text-center {
-    text-align: center;
-}
-
-.position-absolute {
-    position: absolute;
-}
-
-.font-weight-bold {
-    font-weight: bold;
-}
 /* sass-lint:enable class-name-format */
 
 /* About modal */
@@ -108,17 +67,14 @@ h2 {
 
 #creativeCommonsLicence,
 #gnuGplLicence {
-    margin-bottom: 0;
     margin-left: .5em;
     margin-right: .5em;
-    margin-top: 0;
 }
 
 /* Info modal */
 
 #infoModalApertiumLogo {
     height: 5em;
-    max-width: 100%;
 }
 
 #infoModalApertiumLogoContainer {
@@ -127,16 +83,8 @@ h2 {
 
 /* Locale selection */
 
-#secondaryLocaleGlobe {
-    padding: 5px 0 0 5px;
-}
-
 #localeSelectContainer {
     width: 35%;
-}
-
-#primaryLocaleGlobe {
-    padding: 5px 5px 0 0;
 }
 
 .localeGlobe {
@@ -148,31 +96,6 @@ h2 {
 .localeSelect {
     font-size: 14px;
     height: 25px;
-    margin-bottom: 6px;
-    margin-top: 7px;
-}
-
-/* Clear button */
-
-.clearButton {
-    background-color: rgba(0, 0, 0, 0);
-    padding: 0 3px;
-    position: absolute;
-    top: 3px;
-}
-
-.clearButton:hover,
-.clearButton:focus {
-    background-color: #eee;
-    color: #000;
-}
-
-html[dir='ltr'] .clearButton {
-    right: 18px;
-}
-
-html[dir='rtl'] .clearButton {
-    left: 18px;
 }
 
 /* Back to top button */
@@ -193,9 +116,6 @@ html[dir='rtl'] .clearButton {
 
 #installationNotice {
     font-size: inherit;
-    height: 105px;
-    margin: 8px;
-    padding: 8px;
     position: fixed;
     right: 20px;
     top: 20px;
@@ -203,13 +123,14 @@ html[dir='rtl'] .clearButton {
     z-index: 9999999;
 }
 
-#installationNotice .fa-times:hover { /* sass-lint:disable-line class-name-format */
-    cursor: pointer;
+@media (max-width: 992px) {
+    #installationNotice {
+        display: none;
+    }
 }
 
-#installationNoticeTitle {
-    margin: 0;
-    padding-bottom: 10px;
+#installationNotice .fa-times:hover { /* sass-lint:disable-line class-name-format */
+    cursor: pointer;
 }
 
 /* No JS banner */
@@ -223,12 +144,24 @@ html[dir='rtl'] .clearButton {
     z-index: 10000000000000;
 }
 
-/* RTL checking */
+.fa.float-right { /* sass-lint:disable-line class-name-format */
+    margin-left: .3em;
+}
 
-html[dir='rtl'] .pull-right:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
+/* RTL */
+
+html[dir='rtl'] body {
+    text-align: right !important; /* sass-lint:disable-line no-important */
+}
+
+html[dir='rtl'] .float-right { /* sass-lint:disable-line class-name-format */
     float: left !important; /* sass-lint:disable-line no-important */
 }
 
-html[dir='rtl'] .pull-left:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
+html[dir='rtl'] .float-left { /* sass-lint:disable-line class-name-format */
     float: right !important; /* sass-lint:disable-line no-important */
+}
+
+html[dir='rtl'] .close {
+    margin-left: 0 !important; /* sass-lint:disable-line no-important */
 }
