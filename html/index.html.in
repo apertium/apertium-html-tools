@@ -84,9 +84,11 @@
                 <div class="container position-relative">
                     <div>
                         <div>
+                            <a href="https://beta.apertium.org/">
                             <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Apertium Box" class="apertiumBox">
                             <span class="apertiumSubLogo"></span>
                             <span class="apertiumLogo" id="apertiumLogo">Apertium</span>
+                            </a>
                         </div>
                         <p data-text="tagline" class="tagline"></p>
                     </div>
