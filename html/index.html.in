@@ -122,7 +122,15 @@
                 </div>
             </nav>
             <div class="container">
-                <!-- Not found warning -->
+               <div class="alert alert-danger alert-dismissible" role="alert" id="notFoundWarning">
+    <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+    </button>
+    <span data-text="Not_Found_Error" class="lead">
+        <b>404 Error:</b> Sorry, that page doesn't exist anymore!
+    </span>
+</div>
                 <div class="position-absolute d-none" id="loadingIndicator">
                     <i class="fa fa-spinner fa-spin fa-4x"></i>
                 </div>
