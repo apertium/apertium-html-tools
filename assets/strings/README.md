@@ -11,7 +11,9 @@ After editing localizations, please run `make` and commit its changes.
 | deu  | 100% | 114.70% |
 | cat  | 100% | 112.54% |
 | arg  | 100% | 111.87% |
+| fra  | 100% | 110.57% |
 | glg  | 100% | 109.11% |
+| frp  | 100% | 107.99% |
 | tat  | 100% | 105.36% |
 | tur  | 100% | 104.15% |
 | szl  | 100% | 102.11% |
@@ -20,7 +22,6 @@ After editing localizations, please run `make` and commit its changes.
 | fin  | 100% | 95.49% |
 | ara  | 100% | 90.89% |
 | kir  | 89% | 45.85% |
-| fra  | 87% | 93.69% |
 | srd  | 85% | 91.65% |
 | uzb  | 83% | 92.06% |
 | swe  | 83% | 86.49% |
