@@ -430,7 +430,7 @@
                     <span data-text="Notice_Mistake">Notice a mistake?</span>
                     <a tabindex="0"data-toggle="modal" data-target="#aboutModal" data-text="Help_Improve" data-keyboard="true" id="aboutModalTrigger">Help us improve Apertium!</a>
                 </div>
-                <a id="version" class="text-muted d-none d-lg-block" href="https://github.com/goavki/apertium-html-tools" target="_blank"
+                <a id="version" class="text-muted d-none d-lg-block" href="https://github.com/apertium/apertium-html-tools" target="_blank"
                     rel="noopener">
                     <small>
                         @include_version@
