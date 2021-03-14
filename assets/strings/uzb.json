@@ -8,7 +8,7 @@
             "uz",
             "uzb"
         ],
-        "completion": " 83%  92.06%",
+        "completion": " 82%  91.71%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -16,6 +16,7 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "Norm_Preferences",
             "Supported_Formats",
             "Translate_Webpage",
             "Translation_Help"

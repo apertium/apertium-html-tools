@@ -71,16 +71,22 @@ build/js/locales.js: assets/strings/locales.json build/js/.d
 
 build/js/listrequests.js: $(CONFIG) tools/read-conf.py build/js/.d
 	printf "config.PAIRS = " > $@
-	curl -Ss "$(shell ./tools/read-conf.py -c $< get APY_URL)/list?q=pairs" >> $@ || ( rm $@; false; )
+	curl -fSs "$(shell ./tools/read-conf.py -c $< get APY_URL)/list?q=pairs" >> $@ || ( rm $@; false; )
 	echo ";" >> $@
 	printf "config.GENERATORS = " >> $@
-	curl -Ss "$(shell ./tools/read-conf.py -c $< get APY_URL)/list?q=generators" >> $@ || ( rm $@; false; )
+	curl -fSs "$(shell ./tools/read-conf.py -c $< get APY_URL)/list?q=generators" >> $@ || ( rm $@; false; )
 	echo ";" >> $@
 	printf "config.ANALYZERS = " >> $@
-	curl -Ss "$(shell ./tools/read-conf.py -c $< get APY_URL)/list?q=analyzers" >> $@ || ( rm $@; false; )
+	curl -fSs "$(shell ./tools/read-conf.py -c $< get APY_URL)/list?q=analyzers" >> $@ || ( rm $@; false; )
 	echo ";" >> $@
 	printf "config.TAGGERS = " >> $@
-	curl -Ss "$(shell ./tools/read-conf.py -c $< get APY_URL)/list?q=taggers" >> $@ || ( rm $@; false; )
+	curl -fSs "$(shell ./tools/read-conf.py -c $< get APY_URL)/list?q=taggers" >> $@ || ( rm $@; false; )
+	echo ";" >> $@
+	printf "config.PAIRPREFS = " >> $@
+	if curl -fSs "$(shell ./tools/read-conf.py -c $< get APY_URL)/pairprefs" >> $@.tmp; \
+		then cat $@.tmp >> $@; rm $@.tmp;                                           \
+		else echo "{}" >> $@;                                                       \
+	fi
 	echo ";" >> $@
 
 build/js/all.js: $(JSFILES) build/js/.d

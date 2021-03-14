@@ -8,7 +8,7 @@
             "nn",
             "nno"
         ],
-        "completion": " 81%  81.19%",
+        "completion": " 82%  81.04%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -56,6 +56,7 @@
     "About": "Om",
     "Download": "Last ned",
     "Contact": "Ta kontakt",
+    "Norm_Preferences": "Normval",
     "Documentation": "Dokumentasjon",
     "About_Apertium": "Om Apertium",
     "What_Is_Apertium": "<p>Apertium er ei <b>fri/open kjeldekode maskinomsetjingsplattform</b>, opphavleg meint for nærskylde språk, men seinare utvida til å handtera meir ulike språkpar (som nordsamisk-bokmål). Plattformen tilbyr </p> <ol> <li>ein språkuavhengig maksinomsetjingsmotor</li> <li>verktøy for å handtera dei språkdata som trengst for å byggja eit maskinomsetjingssystem for eit visst språkpar, og </li>språkdata for fleire og fleire språkpar.</li> </ol> <p>Apertium vil gjerne ha nye utviklarar: Viss du trur du kan betra på motoren eller verktøya, eller utvikla språkdata for oss, må du ikkje nøla med å <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>ta kontakt</a>.</p>",

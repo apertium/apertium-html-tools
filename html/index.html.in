@@ -215,7 +215,15 @@
                                                     <span data-text="Translate_Webpage">Translate a webpage</span>
                                                 </button>
                                             </div>
+
                                             <div class="col-12 col-md-6 form-check d-flex flex-column align-items-end justify-content-end w-auto mt-2" id="translateOptions">
+                                                <input id="stylePrefToggle" type="checkbox" name="stylePrefToggle" style="display: none"/>
+                                                <label for="stylePrefToggle" id="showPreferences" class="btn btn-secondary btn-sm mb-2">
+                                                  <span data-text="Norm_Preferences" class="dropdown-toggle">Style preferences</span>
+                                                  <span id="preferenceList" class="text-left mt-2" data-pair="">
+                                                    <input type="checkbox" value="" id="somepref" /> <label for="somepref">-ize → -ise</label><br/>
+                                                  </span>
+                                                </label>
                                                 <label>
                                                     <input type="checkbox" id="markUnknown" checked>
                                                     <span data-text="Mark_Unknown_Words">Mark unknown words</span>

@@ -23,6 +23,7 @@ declare var config: {
         responseStatus: number,
         responseDetails: ?string
     },
+    PAIRPREFS: { [string]: { [string]: { [string]: string } } },
     PIWIK_URL: ?string,
     PIWIK_SITEID: ?number,
     REPLACEMENTS: {[string]: string},

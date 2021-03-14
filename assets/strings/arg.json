@@ -7,8 +7,10 @@
         "locale": [
             "arg"
         ],
-        "completion": "100% 111.87%",
-        "missing": []
+        "completion": " 99% 111.45%",
+        "missing": [
+            "Norm_Preferences"
+        ]
     },
     "title": "Apertium | Una plataforma libre de traducción automatica",
     "tagline": "Plataforma de traducción automatica libre/de codigo fuent ubierto",

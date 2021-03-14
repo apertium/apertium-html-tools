@@ -5,7 +5,7 @@
         "locale": [
             "eus"
         ],
-        "completion": " 47%  13.22%",
+        "completion": " 46%  13.17%",
         "missing": [
             "About",
             "About_Apertium",
@@ -28,6 +28,7 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "Norm_Preferences",
             "Not_Found_Error",
             "Supported_Formats",
             "Translate_Document",

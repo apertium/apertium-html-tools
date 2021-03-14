@@ -8,7 +8,7 @@
             "ug",
             "uig"
         ],
-        "completion": " 70%  78.61%",
+        "completion": " 68%  78.31%",
         "missing": [
             "Cancel",
             "Drop_Document",
@@ -20,6 +20,7 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "Norm_Preferences",
             "Not_Found_Error",
             "Supported_Formats",
             "Translate_Document",

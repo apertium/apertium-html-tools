@@ -8,7 +8,7 @@
             "nb",
             "nob"
         ],
-        "completion": " 81%  85.59%",
+        "completion": " 82%  85.45%",
         "missing": [
             "Drop_Document",
             "Install_Apertium",
@@ -56,6 +56,7 @@
     "About": "Om",
     "Download": "Last ned",
     "Contact": "Ta kontakt",
+    "Norm_Preferences": "Normvalg",
     "Documentation": "Dokumentasjon",
     "About_Apertium": "Om Apertium",
     "What_Is_Apertium": "<p>Apertium er en <b>fri/åpen kildekode maskinoversettelsesplattform</b>, opprinnelig ment for nærbeslektede språk, men senere utvidet til å håndtere mer ulike språkpar (som nordsamisk-bokmål). Plattformen tilbyr </p> <ol> <li>en språkuavhengig maksinoversettelsesmotor</li> <li>verktøy for å håndtere de språkdata som er nødvendige for å bygge et maskinoversettelsessystem for et visst språkpar, og </li>språkdata for flere og flere språkpar.</li> </ol> <p>Apertium vil gjerne ha nye utviklere: Hvis du tror du kan forbedre motoren eller verktøyene, eller utvikle språkdata for oss, må du ikke nøle med å <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>ta kontakt</a>.</p>",

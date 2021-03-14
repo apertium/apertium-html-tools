@@ -53,6 +53,7 @@
     "About": "About",
     "Download": "Download",
     "Contact": "Contact",
+    "Norm_Preferences": "Style preferences",
     "Documentation": "Documentation",
     "About_Apertium": "About Apertium",
     "What_Is_Apertium": "<p>Apertium is a <b>free/open-source machine translation platform</b>, initially aimed at related-language pairs but expanded to deal with more divergent language pairs (such as English-Catalan). The platform provides</p> <ol> <li>a language-independent machine translation engine</li> <li>tools to manage the linguistic data necessary to build a machine translation system for a given language pair and</li> <li>linguistic data for a growing number of language pairs.</li> </ol> <p>Apertium welcomes new developers: if you think you can improve the engine or the tools, or develop linguistic data for us, do not hesitate to <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>contact us</a>.</p>",
