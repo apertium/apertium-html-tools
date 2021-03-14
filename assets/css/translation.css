@@ -216,3 +216,19 @@ html[dir='rtl'] #translateWebpage {
     height: 700px;
     width: 100%;
 }
+
+
+#preferenceList {
+    display: none;
+}
+
+input[type='checkbox']:checked ~ #showPreferences #preferenceList {
+    display: block;
+}
+
+input[type='checkbox']:checked ~ #showPreferences {
+    position: absolute;
+    top: 0;
+    z-index: 10000;
+}
+

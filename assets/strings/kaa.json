@@ -7,7 +7,7 @@
         "locale": [
             "kaa"
         ],
-        "completion": " 79%  86.20%",
+        "completion": " 78%  85.87%",
         "missing": [
             "Drop_Document",
             "Install_Apertium",
@@ -16,6 +16,7 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "Norm_Preferences",
             "Supported_Formats",
             "Translate_Webpage",
             "Translation_Help",

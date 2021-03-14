@@ -13,7 +13,8 @@ var localizedLanguageCodes /*: {[string]: string} */ = {}, localizedLanguageName
 
 /* global config, getPairs, getGenerators, getAnalyzers, persistChoices, getURLParam, cache, ajaxSend, ajaxComplete, sendEvent,
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
-    populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
+    refreshPreferences, populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices,
+    refreshLangList, onlyUnique */
 
 var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
     'fallback': {
@@ -88,6 +89,7 @@ $(document).ready(function () {
         locale = $(this).val();
         sendEvent('localization', 'localize', locale);
         localizeEverything(false);
+        refreshPreferences();
         persistChoices('localization');
         $('.localeSelect').val(locale);
     });
@@ -425,7 +427,8 @@ function setLocale(newLocale /*: string */) {
 /*:: export {getLangByCode, getDynamicLocalization, iso639Codes, iso639CodesInverse, locale, localizeInterface, setLocale,
     langDirection, languages} */
 
-/*:: import {curDstLang, curSrcLang, dstLangs, getPairs, populateTranslationList, refreshLangList, srcLangs} from "./translator.js" */
+/*:: import {refreshPreferences, curDstLang, curSrcLang, dstLangs, getPairs, populateTranslationList, refreshLangList,
+             srcLangs} from "./translator.js" */
 /*:: import {ajaxSend, ajaxComplete, getURLParam, modeEnabled, onlyUnique, sendEvent} from "./util.js" */
 /*:: import {generatorData, generators, getGenerators, populateGeneratorList} from "./generator.js" */
 /*:: import {analyzerData, analyzers, getAnalyzers, populateAnalyzerList} from "./analyzer.js" */

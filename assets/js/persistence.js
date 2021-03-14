@@ -42,6 +42,42 @@ function readCache(name /*: string */, type /*: string */) /*: ?any */ {
     return null;
 }
 
+function getFormSelectedPrefs() {
+    return $('#preferenceList input:checked')
+        .toArray()
+        .map(function (e) { return e.value; })
+        .join(',');
+}
+
+function restoreSelectedPrefs() {
+    var selectedPrefs = store.get('selectedPrefs', {});
+    if(curSrcLang && curDstLang) {
+        var pair = curSrcLang + '-' + curDstLang;
+        if(pair in selectedPrefs) {
+            var prefs = selectedPrefs[pair];
+            $('#preferenceList input').each(function (i, e) {
+                if(e instanceof HTMLInputElement) {
+                    e.checked = prefs.includes(e.value);
+                }
+            });
+        }
+    }
+}
+
+function getMergedPrefs() {
+    var prefs = store.get('selectedPrefs', {});
+    if(curSrcLang && curDstLang) {
+        var pair = curSrcLang + '-' + curDstLang;
+        // Add checked preferences only if it's filled with checkboxes for *this* pair:
+        $('#preferenceList input')
+            .filter(function () { return $(this).data('pair') === pair; })
+            .each(function () {
+                prefs[pair] = getFormSelectedPrefs();
+            });
+    }
+    return prefs;
+}
+
 function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
     if(store.able()) {
         var objects;
@@ -58,6 +94,7 @@ function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
                 'instantTranslation': $('#instantTranslation').prop('checked'),
                 'markUnknown': $('#markUnknown').prop('checked'),
                 'chainedTranslation': $('#chainedTranslation').prop('checked'),
+                'selectedPrefs': getMergedPrefs(),
             };
         }
         else if(mode === 'analyzer') {
@@ -184,6 +221,8 @@ function restoreChoices(mode /*: string */) {
             $('#instantTranslation').prop('checked', store.get('instantTranslation', true));
             $('#markUnknown').prop('checked', store.get('markUnknown', false));
             $('#chainedTranslation').prop('checked', store.get('chainedTranslation', false));
+
+            restoreSelectedPrefs();
         }
 
         if(getURLParam('dir')) {
@@ -283,7 +322,7 @@ function restoreChoices(mode /*: string */) {
 
 }
 
-/*:: export {persistChoices, restoreChoices, cache, readCache} */
+/*:: export {restoreSelectedPrefs, getFormSelectedPrefs, persistChoices, restoreChoices, cache, readCache} */
 
 /*:: import {curDstLang, curSrcLang, dstLangs, handleNewCurrentLang, pairs, recentDstLangs, recentSrcLangs, refreshLangList,
     setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, srcLangs} from "./translator.js" */

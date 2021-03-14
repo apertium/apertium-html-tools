@@ -27,6 +27,7 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
+    restoreSelectedPrefs, getFormSelectedPrefs,
     callApy, apyRequestTimeout, isURL, removeSoftHyphens, parentLang, isVariant, langDirection, languages, iso639CodesInverse */
 /* global ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
@@ -45,6 +46,22 @@ if(modeEnabled('translation')) {
                 }
                 persistChoices('translator');
             });
+
+            window.addEventListener('click', function (e) {
+                // Hide preference list on click outside it:
+                var label = document.getElementById('showPreferences'),
+                    input = document.getElementById('stylePrefToggle');
+                if(label && input && !(label.contains(e.target)) && !(input.contains(e.target))) {
+                    $('#stylePrefToggle').prop('checked', false);
+                    $('#showPreferences').toggleClass('dropup', false); // ▼
+                }
+            });
+            $('#stylePrefToggle').on('change', function () {
+                // Change between ▼ and ▲:
+                var droppedDown = $('#stylePrefToggle').prop('checked');
+                $('#showPreferences').toggleClass('dropup', droppedDown);
+            });
+            refreshPreferences();
 
             $('.clearButton').click(function () {
                 $('#originalText, #translatedText').val('');
@@ -224,6 +241,7 @@ if(modeEnabled('translation')) {
 
                 refreshLangList(true);
                 muteLanguages();
+                refreshPreferences();
 
                 var temp = $('#originalText').val();
                 $('#originalText').val($('#translatedText').val());
@@ -498,6 +516,7 @@ function handleNewCurrentLang(lang /*: string */, recentLangs /*: string[] */, l
 
     populateTranslationList();
     muteLanguages();
+    refreshPreferences();
     localizeInterface();
     if(!noTranslate) {
         translate();
@@ -766,6 +785,46 @@ function populateTranslationList() {
     }
 }
 
+function refreshPreferences() {
+    var pair = curSrcLang + '-' + curDstLang;
+    if(pair in config.PAIRPREFS && Object.keys(config.PAIRPREFS[pair]).length > 0) {
+        var prefs = config.PAIRPREFS[pair];
+        var npid = 0;
+        $('#preferenceList').empty();
+        for(var prefId in prefs) {
+            var pref = prefs[prefId];
+            var prefvals/*: any*/ = Object.values(pref);
+            // Prefer local value, else go for the first available one:
+            var label/*: ?string */ =
+                locale && pref[locale] ? pref[locale]
+                    : prefvals.length > 0 ? prefvals[0]
+                        : null;
+            if(!label) { continue; }
+            var prid = 'preference_' + (npid++);
+            $('#preferenceList').append($('<input type="checkbox"/>')
+                .attr('value', prefId)
+                .attr('id', prid)
+                .addClass('mr-1')
+                .data('pair', pair));
+            $('#preferenceList').append($('<label>')
+                .attr('for', prid)
+                .text(label));
+            $('#preferenceList').append($('<br/>'));
+        }
+        restoreSelectedPrefs();
+        $('#showPreferences').show();
+        $('#preferenceList input').change(function () {
+            if($('div#translateText').is(':visible')) {
+                translateText();
+            }
+            persistChoices('translator');
+        });
+    }
+    else {
+        $('#showPreferences').hide();
+    }
+}
+
 function translate(ignoreIfEmpty) {
     if(translationTimer) {
         clearTimeout(translationTimer);
@@ -812,6 +871,7 @@ function translateText(ignoreIfEmpty) {
             var request /*: { langpairs?: string, langpair?: string, q: string, markUnknown: string } */ = {
                 q: originalText, // eslint-disable-line id-length
                 markUnknown: $('#markUnknown').prop('checked') ? 'yes' : 'no',
+                prefs: getFormSelectedPrefs(),
             };
 
             if($('input#chainedTranslation').prop('checked') && config.TRANSLATION_CHAINING) {
@@ -1347,13 +1407,13 @@ function setDefaultSrcLang() {
 }
 
 /*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
-    refreshLangList, recentSrcLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, showTranslateWebpageInterface,
-    srcLangs} */
+    refreshPreferences, refreshLangList, recentSrcLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs,
+    showTranslateWebpageInterface, srcLangs} */
 
 /*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, sendEvent, callApy,
     apyRequestTimeout, removeSoftHyphens, parentLang, isVariant} from "./util.js" */
 /*:: import {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} from "./util.js" */
-/*:: import {persistChoices, restoreChoices} from "./persistence.js" */
+/*:: import {restoreSelectedPrefs, getFormSelectedPrefs, persistChoices, restoreChoices} from "./persistence.js" */
 /*:: import {localizeInterface, getLangByCode, getDynamicLocalization, locale, iso639Codes, langDirection, languages,
     iso639CodesInverse} from "./localization.js" */
 /*:: import {readCache, cache} from "./persistence.js" */

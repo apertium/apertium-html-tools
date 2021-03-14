@@ -9,8 +9,10 @@
             "ca",
             "cat"
         ],
-        "completion": "100% 112.54%",
-        "missing": []
+        "completion": " 99% 112.12%",
+        "missing": [
+            "Norm_Preferences"
+        ]
     },
     "title": "Apertium | Una plataforma lliure per a la traducció automàtica",
     "tagline": "Plataforma lliure/de codi font obert per a la traducció automàtica",

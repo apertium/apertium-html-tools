@@ -9,7 +9,7 @@
             "pt",
             "por"
         ],
-        "completion": " 50%  12.41%",
+        "completion": " 50%  12.36%",
         "missing": [
             "About_Apertium",
             "Apertium_Downloads",
@@ -30,6 +30,7 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "Norm_Preferences",
             "Not_Found_Error",
             "Supported_Formats",
             "Translate_Document",
