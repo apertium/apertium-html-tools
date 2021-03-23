@@ -96,7 +96,7 @@ $(document).ready(function () {
 
     $.when.apply($, deferredItems).then(function () /*: void */ {
         if(config.LOCALES) {
-            if(!config.LOCALES.hasOwnProperty(locale)) { // in case of bad caching
+            if(!Object.prototype.hasOwnProperty.call(config.LOCALES, locale)) { // in case of bad caching
                 for(var k in config.LOCALES) { // just pick one that exists
                     locale = k;
                     break;
