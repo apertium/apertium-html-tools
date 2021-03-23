@@ -834,7 +834,7 @@ function translateWebpage() {
             },
             data: {
                 'langpair': curSrcLang + '|' + curDstLang,
-                'markUnknown': 'no', // TODO: checkbox; also perhaps only remove the #-marks, not *
+                'markUnknown': $('#markUnknown').prop('checked') ? 'yes' : 'no',
                 'url': $('input#webpage').val()
             },
             success: function (data) {
