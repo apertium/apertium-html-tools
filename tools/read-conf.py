@@ -18,7 +18,7 @@ def check_config(conf, result):
     # Some error checking:
     for section in conf.sections():
         if section not in ['APY', 'REPLACEMENTS', 'SUGGESTIONS']:
-            raise configparser.Error("\nUnknown section [%s]" % (section,))
+            raise configparser.Error('\nUnknown section [%s]' % (section,))
 
     apy_diff = set(k.lower() for k in conf['APY'].keys()) - set(k.lower() for k in result.keys())
     if apy_diff:
@@ -63,7 +63,7 @@ def load_conf(filename):
         'SUGGESTIONS'                    : {
             'enabled': conf['SUGGESTIONS'].getboolean('ENABLED'),
             'recaptcha_site_key': conf['SUGGESTIONS'].get('RECAPTCHA_SITE_KEY'),
-            'context_size': conf['SUGGESTIONS'].get('CONTEXT_SIZE')
+            'context_size': conf['SUGGESTIONS'].get('CONTEXT_SIZE'),
         },
         # These are filled at various places by javascript:
         'LANGNAMES': None,
