@@ -158,7 +158,7 @@ function restoreChoices(mode) {
             $('#webpage').val(store.get('webpageInput', ''));
             $('#originalText').val(store.get('translationInput', ''));
             $('#instantTranslation').prop('checked', store.get('instantTranslation', true));
-            $('#markUnknown').prop('checked', store.get('markUnknown', false));
+            $('#markUnknown').prop('checked', store.get('markUnknown', window.location.hostname !== "jorgal.uit.no")); // default to true unless on jorgal
             $('#chainedTranslation').prop('checked', store.get('chainedTranslation', false));
         }
 
