@@ -459,7 +459,7 @@ function setLocale(newLocale /*: string */) {
 }
 
 /*:: export {getLangByCode, getDynamicLocalization, getRecaptchaSrc, iso639Codes, iso639CodesInverse, locale, localizeInterface,
-    setLocale} */
+    langDirection, languages, setLocale} */
 
 /*:: import {curDstLang, curSrcLang, dstLangs, getPairs, populateTranslationList, refreshLangList, srcLangs} from "./translator.js" */
 /*:: import {ajaxSend, ajaxComplete, getURLParam, modeEnabled, onlyUnique, sendEvent} from "./util.js" */
