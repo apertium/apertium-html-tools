@@ -602,15 +602,15 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="suggestCloseBtn">&times;</button>
-                        <h4 class="modal-title" data-text="Suggest_Title"></h4>
+                        <h5 class="modal-title" data-text="Suggest_Title">Improve Apertium's translation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
                       <p id="translatedTextClone"></p>
                       <hr>
                       <p id="suggestSentenceContainer"></p>
 
-                      <form class="form-search form-inline" id="suggestedInput">
+                      <form class="form-search" id="suggestedInput">
                         <input type="text" class="form-control" id="suggestedWordInput">
                         <div id="suggestRecaptcha"></div>
                         <button type="submit" class="btn btn-primary btn-block" id="suggestBtn">
