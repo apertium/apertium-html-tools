@@ -1250,6 +1250,10 @@ declare class JQuery {
    * Encode a set of form elements as an array of names and values.
    */
   serializeArray(): JQuerySerializeArrayElement[];
+  /**
+   * Bootstrap tooltip
+   */
+  tooltip(): any;
 
   /**
    * Adds the specified class(es: any) to each of the set of matched elements.
@@ -3249,7 +3253,7 @@ declare class JQuery {
 }
 
 declare module 'jquery' {
-  declare var exports: JQueryStatic;
+  declare module.exports: JQueryStatic;
 }
 declare var jQuery: JQueryStatic;
 declare var $: JQueryStatic;

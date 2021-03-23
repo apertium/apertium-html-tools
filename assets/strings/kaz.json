@@ -9,7 +9,7 @@
             "kk",
             "kaz"
         ],
-        "completion": " 75%  81.04%",
+        "completion": " 70%  77.89%",
         "missing": [
             "Cancel",
             "Drop_Document",
@@ -18,28 +18,28 @@
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Not_Found_Error",
             "Supported_Formats",
             "Translate_Document",
             "Translate_Webpage",
+            "Translation_Help",
             "description"
         ]
     },
     "title": "Apertium | A free/open-source machine translation platform",
     "tagline": "A free/open-source machine translation platform",
     "Translation": "Аударма",
-    "Translation_Help": "Тілдерді таңдаңыз және мәтініңізді Апертиум көмегімен аударыңыз!",
     "Translate": "Аудару",
     "Detect_Language": "Тілді анықтау",
     "detected": "анықталды",
     "Instant_Translation": "Шапшаң аударма",
     "Not_Available": "Аударма әзірше қолжетімді емес",
     "Morphological_Analysis": "Морфологиялық анализ",
-    "Morphological_Analysis_Help": "Тілді таңдап, мәтіңізді Апертиумның морфологиялық анализаторлары көмегімен талдаңыздар.",
     "Analyze": "Талдау",
     "Morphological_Generation": "Морфологиялық синтез",
-    "Morphological_Generation_Help": "Тілді таңдап, Апертиумның морфологиялық генераторлары көмегімен беткі формаларды синтездеңіз.",
     "Generate": "Синтездеу",
     "Spell_Checker": "Емлені тексергіш",
     "APy_Sandbox": "APy құмжәшік",
@@ -62,6 +62,6 @@
     "What_Is_Apertium": "<p>Apertium бұл <b>тегін/ашық-дереккөзді машиналық аударма платформасы</b>, алғашқы кезде байланысқан тілдік жұптар үшін болған, бірақ, кейін көбірек ауытқыған тілдік жұптар(Ағылшын-Каталан сияқты) үшін кеңейтілген болатын. Платформа құралады</p> <ol> <li> тілдік-тәуелсіз машиналық аударма қозғалтқышынан </li> <li> берілген тілдік жұбының машиналық аударма жүйесін құру үшін қажетті лингвистикалық қорды басқаратын  құралдардан<ol> <p>Апертиум жаңа құрушыларды күтеді: егер сізде қозғалтқышты немесе құралдарды жетілдіру ойыңыз болса немесе бізге лингвистикалық қорды дамыта алсаңыз, онда көп ойламай <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>арқылы бізбен хабарласыңыз</a>.</p>",
     "Documentation_Para": "Құжаттама біздің <a href='http://wiki.apertium.org/'>Wiki</a> сайтының <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank' rel='noopener'>Құжаттама</a> ішкі бетінде таба аласыз. Біз әр түрлі баяндамалар мен журнал мақалаларын шығардық, олардың тізімін Wiki сайтында <a href='http://wiki.apertium.org/wiki/Publications' target='_blank' rel='noopener'>Басылымдар</a> бөлімінде таба аласыз.",
     "Apertium_Downloads": "Апертиумды жүктеп алу",
-    "Downloads_Para": "Ағымдағы <b>Апертиум құралдарын</b> сондай-ақ <b>тілдік-жұп деректерін</b> <a href='https://sourceforge.net/projects/apertium/' target='_blank' rel='noopener'>SourceForge</a> бетінде таба аласыз. Апертиумды негізгі платформаларға орнату үшін нұсқаулықтар <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Wiki-ның орнату бетінде</a> көрсетілген.",
+    "Downloads_Para": "Ағымдағы <b>Апертиум құралдарын</b> сондай-ақ <b>тілдік-жұп деректерін</b> <a href='https://github.com/apertium' target='_blank' rel='noopener'>GitHub</a> бетінде таба аласыз. Апертиумды негізгі платформаларға орнату үшін нұсқаулықтар <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Wiki-ның орнату бетінде</a> көрсетілген.",
     "Contact_Para": "<h4>IRC channel</h4> <p>Байланысудың ең тез жолы - біздің <a href='http://wiki.apertium.org/wiki/IRC' target='_blank' rel='noopener'><abbr title='Internet Relay Chat'>IRC</abbr> арнамызға, #apertium</a> irc.freenode.net сайтында қосылу, бұл жерде Апертиумның қолданушылары мен құраушылары кездеседі. Сізге IRC client қажет емес; қолдану үшін <a href='http://webchat.freenode.net/?channels=apertium'>freenode webchat</a> қосылыңыз. </p> <h4>Жіберу тізімі</h4> <p>Сонымен қатар, <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank' rel='noopener'> apertium-stuff mailing list</a> жазылыңыз, бұл жерде сіз ұзынырақ сұраныстар мен мәселелерді жібере аласыз, Апертиумның жалпы талқылауларда сияқты.</p> <h4>Байланысу</h4> <p>Бізбен жеңіл хабарласыңыз  <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank' rel='noopener'>aпертиум-байланыс жіберу тізімі</a> арқылы, әсіресе, егер сіз біз жасап жатқан жобада қате тапсаңыз немесе осы жобаға көмектескіңіз келсе.</p>"
 }

@@ -10,7 +10,7 @@
             "es",
             "spa"
         ],
-        "completion": " 79%  31.25%",
+        "completion": " 74%  27.06%",
         "missing": [
             "Contact_Para",
             "Documentation_Para",
@@ -18,9 +18,12 @@
             "Drop_Document",
             "Install_Apertium",
             "Install_Apertium_Para",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Supported_Formats",
             "Translate_Webpage",
+            "Translation_Help",
             "What_Is_Apertium",
             "description"
         ]
@@ -28,7 +31,6 @@
     "title": "Apertium | Una plataforma libre para la traducción automática",
     "tagline": "Plataforma libre para la traducción automática",
     "Translation": "Traducción",
-    "Translation_Help": "Elige dos idiomas y traduce textos con Apertium!",
     "Translate": "Traducir",
     "Detect_Language": "Detectar idioma",
     "detected": "detectado",
@@ -40,10 +42,8 @@
     "Cancel": "Cancelar",
     "Format_Not_Supported": "Formato desconocido!",
     "Morphological_Analysis": "Análisis morfológico",
-    "Morphological_Analysis_Help": "Elige un idioma y analiza textos con los analizadores morfológicos de Apertium.",
     "Analyze": "Analizar",
     "Morphological_Generation": "Generación morfológica",
-    "Morphological_Generation_Help": "Elige un idioma y genera formas superficiales a partir de formas léxicas de palabras.",
     "Generate": "Generar",
     "Spell_Checker": "Corrector ortográfico",
     "APy_Sandbox": "Entorno de pruebas",

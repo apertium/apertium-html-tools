@@ -11,6 +11,9 @@ if(!config.ENABLED_MODES || config.ENABLED_MODES.indexOf('sandbox') !== -1) {
             request();
         });
 
+        $('#endpoint').attr('data-original-title', config.APY_URL);
+        $('[data-toggle="tooltip"]').tooltip();
+
         $('#sandboxInput').keydown(function (e /*: JQueryKeyEventObject */) {
             if(e.keyCode === ENTER_KEY_CODE && !e.shiftKey) {
                 e.preventDefault();

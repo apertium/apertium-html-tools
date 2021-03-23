@@ -10,7 +10,7 @@ import sys
 def getlist(conf_section, key, fallback=None):
     string = conf_section.get(key, fallback=fallback)
     if string:
-        return re.split(r"[, ]+", string)
+        return re.split(r'[, ]+', string)
     else:
         return fallback
 
@@ -22,7 +22,7 @@ def check_config(conf, result):
 
     apy_diff = set(k.lower() for k in conf['APY'].keys()) - set(k.lower() for k in result.keys())
     if apy_diff:
-        raise configparser.Error("\nUnknown key(s) in section [APY]: %s" % (apy_diff,))
+        raise configparser.Error('\nUnknown key(s) in section [APY]: %s' % (apy_diff,))
 
     return True
 
@@ -30,10 +30,10 @@ def load_conf(filename):
     conf = configparser.ConfigParser()
     with open(filename, 'r') as f:
         conf.read_file(f)
-    conf_APY = conf['APY']
+    conf_APY = conf['APY']  # noqa: N806
     result = {
-        'HTML_URL'                       : conf_APY.get('HTML_URL', fallback="http://www.apertium.org"),
-        'APY_URL'                        : conf_APY.get('APY_URL', fallback="http://apy.projectjj.com"),
+        'HTML_URL'                       : conf_APY.get('HTML_URL', fallback='http://www.apertium.org'),
+        'APY_URL'                        : conf_APY.get('APY_URL', fallback='http://apy.projectjj.com'),
 
         'SUBTITLE'                       : conf_APY.get('SUBTITLE', fallback=None),
         'SUBTITLE_COLOR'                 : conf_APY.get('SUBTITLE_COLOR', fallback=None),
@@ -42,11 +42,11 @@ def load_conf(filename):
         'ALLOWED_VARIANTS'               : getlist(conf_APY, 'ALLOWED_VARIANTS', fallback=None),
         'ALLOWED_PAIRS'                  : getlist(conf_APY, 'ALLOWED_PAIRS', fallback=None),
 
-        'ENABLED_MODES'                  : getlist(conf_APY, 'ENABLED_MODES', fallback=["translation"]),
-        'DEFAULT_MODE'                   : conf_APY.get('DEFAULT_MODE', fallback="translation"),
+        'ENABLED_MODES'                  : getlist(conf_APY, 'ENABLED_MODES', fallback=['translation']),
+        'DEFAULT_MODE'                   : conf_APY.get('DEFAULT_MODE', fallback='translation'),
         'TRANSLATION_CHAINING'           : conf_APY.getboolean('TRANSLATION_CHAINING', fallback=False),
 
-        'DEFAULT_LOCALE'                 : conf_APY.get('DEFAULT_LOCALE', fallback="eng"),
+        'DEFAULT_LOCALE'                 : conf_APY.get('DEFAULT_LOCALE', fallback='eng'),
 
         'SHOW_NAVBAR'                    : conf_APY.getboolean('SHOW_NAVBAR', fallback=False),
 
@@ -71,7 +71,7 @@ def load_conf(filename):
         'PAIRS': None,
         'GENERATORS': None,
         'ANALYZERS': None,
-        'TAGGERS': None
+        'TAGGERS': None,
     }
     check_config(conf, result)
     return result
@@ -81,13 +81,13 @@ def print_json(result, args):
     print(json.dumps(result))
 
 def print_js(result, args):
-    print("var config = %s;" % (json.dumps(result, indent=4, sort_keys=False, ensure_ascii=False),))
+    print('var config = %s;' % (json.dumps(result, indent=4, sort_keys=False, ensure_ascii=False),))
 
 def print_keyval(result, args):
     print(result[args.key])
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Load config, print stuff')
     parser.add_argument('-c', '--config', default='config.conf', help='Config file name (default: config.conf)')
     subparsers = parser.add_subparsers(help='Available actions:')

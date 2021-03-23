@@ -8,21 +8,23 @@
             "uz",
             "uzb"
         ],
-        "completion": " 89%  95.95%",
+        "completion": " 83%  92.06%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Supported_Formats",
-            "Translate_Webpage"
+            "Translate_Webpage",
+            "Translation_Help"
         ]
     },
     "title": "Apertium | Tekin, ochiq kodli mashina tarjima platformasi",
     "tagline": "Tekin, ochiq kodli mashina tarjima platformasi",
     "description": "Apertium - qoidaga asoslangan mashina tarjima platformasi. Bu dastur tekin bo‘lib GNU General Public License shartlari asosida chop etilgan.",
     "Translation": "Tarjima",
-    "Translation_Help": "Ikkita tilni tanlang va Apertiumning tarjima platformasini ishlatgan holda tarjima qiling.",
     "Translate": "Tarjima qilish",
     "Detect_Language": "Tilni aniqlash",
     "detected": "aniqlandi",
@@ -34,10 +36,8 @@
     "Cancel": "Bekor qilish",
     "Format_Not_Supported": "Format qo‘llanilmaydi!",
     "Morphological_Analysis": "Morfologik tahlil",
-    "Morphological_Analysis_Help": "Tilni tanlang va matningizni Apertiumning morfologik tahlilchilari orqali tahlil qiling.",
     "Analyze": "Tahlil qilish",
     "Morphological_Generation": "Morfologik generator",
-    "Morphological_Generation_Help": "Tilni tanlang va Apertiumning morfologik generatorlarini ishlatib ust shakllarni ishlab chiqaring",
     "Generate": "Ishlab chiqarish",
     "Spell_Checker": "Imlo tekshiruvchi",
     "APy_Sandbox": "APy qumdon",
@@ -61,6 +61,6 @@
     "What_Is_Apertium": "<p>Apertium dastlab bog‘liq tillar juftligiga mo‘ljallangan, lekin keyinchalik bir-biridan ayiriluvchi tillar juftligi (mas. Inglizcha - Katalancha) bilan ishlashga moslashtirilgan <b>tekin, ochiq kodli mashina tarjima platformasi</b>dir. Platforma quyidagilarni ta‘minlaydi:</p> <ol> <li>biror bir tilga bog‘liq bo‘lmagan mashina tarjima motori</li> <li>berilgan til juftligi uchun mashina tarjimasi tizimini yaratish uchun kerakli lingvistik ma‘lumotlarni boshqaruvchi asboblar va</li> <li>oshib borayotgan tillar juftligi uchun lingvistik ma‘lumotlar.</li> </ol> <p>Apertium yangi tuzuvchilarni xush ko‘radi: agar motorni yoki asboblarni yaxshilay olaman deb o‘ylasangiz, yoki biz uchun lingvistik ma‘lumotlarni rivojlantirib bilsangiz, <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>bizga murojaat qilish</a>dan tortinmang.</p>",
     "Documentation_Para": "Hujjatlarni <a href='http://wiki.apertium.org/'>Viki</a>mizning <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank' rel='noopener'>Hujjatlar</a> ost-sahifasida topshingiz mumkin. Biz turli xil konferensiya ilmiy hujjatlari va jurnal maqolalarini chop etganmiz. Ularning ro‘yxatini Vikining <a href='http://wiki.apertium.org/wiki/Publications' target='_blank' rel='noopener'>Nashrlar</a> sahifasida topishingiz mumkin.",
     "Apertium_Downloads": "Apertium Ko‘chirmalari",
-    "Downloads_Para": "<b>Apertium asboblar qutisi</b> va <b>til juftligi ma‘lumotlari</b>ning ushbu versiyalari <a href='https://sourceforge.net/projects/apertium/' target='_blank' rel='noopener'>SourceForge sahifasi</a>da mavjud. Apertiumni barcha muhim platformalarda o‘rnatish ko‘rsatmalari <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Vikining O‘rnatish sahifasi</a>da berilgan.",
+    "Downloads_Para": "<b>Apertium asboblar qutisi</b> va <b>til juftligi ma‘lumotlari</b>ning ushbu versiyalari <a href='https://github.com/apertium' target='_blank' rel='noopener'>GitHub sahifasi</a>da mavjud. Apertiumni barcha muhim platformalarda o‘rnatish ko‘rsatmalari <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Vikining O‘rnatish sahifasi</a>da berilgan.",
     "Contact_Para": "<h4>Chat (IRC) kanali</h4> <p>irc.freenode.net dagi Apertiumning foydalanuvchilari va tuzuvchilari uchrashadigan <a href='http://wiki.apertium.org/wiki/IRC' target='_blank' rel='noopener'>#apertium <abbr title='Internet Relay Chat'>IRC</abbr> kanalimiz</a>ga ulanish orqali biz bilgan tezda bog‘lanishingiz mumkin. Bu uchun sizga IRC mijozi shart emas; <a href='http://webchat.freenode.net/?channels=apertium'>freenode veb chatini</a>ni ishlatishingiz mumkin. </p> <h4>Tarqatish ro‘yxatlari</h4> <p>Uzunroq taklif yoki muammolarni yozishingiz, shu bilan birga umumiy Apertium muhokamalarni kuzatishingiz mumkin bo‘lgan <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank' rel='noopener'> apertium-stuff tarqatish ro‘yxatiga</a> ham a‘zo bo‘ling. </p> <h4>Murojaat qilish</h4> <p>Xato topsangiz, bizni biror loyiha ustida ishlashimizni xoxlasangiz, yoki yordam bermoqchi bo‘lsangiz bizga <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank' rel='noopener'>apertium-contact tarqatish ro‘yxati</a> orqali bizga murojaat qilishdan tortinmang</p>"
 }

@@ -3,22 +3,19 @@
         "authors": [
             "roybaer"
         ],
-        "last-updated": "2016-03-28",
+        "last-updated": "2018-03-08",
         "locale": [
             "de",
             "deu"
         ],
-        "completion": " 97% 108.53%",
-        "missing": [
-            "Install_Apertium",
-            "Install_Apertium_Para"
-        ]
+        "completion": "100% 114.70%",
+        "missing": []
     },
     "title": "Apertium | Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "tagline": "Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "description": "Apertium ist eine Plattform für regelbasierte maschinelle Übersetzungen. Es ist freie Software und wurde unter den Bedingungen der GNU General Public License veröffentlicht.",
     "Translation": "Übersetzung",
-    "Translation_Help": "Wählen Sie zwei Sprachen und übersetzen Sie Ihren Text mit Apertiums Übersetzungsplattform!",
+    "Translation_Help": "Geben Sie den zu übersetzenden Text bzw. die zu übersetzende URL ein.",
     "Translate": "Übersetzen",
     "Detect_Language": "Sprache erkennen",
     "detected": "erkannt",
@@ -34,10 +31,10 @@
     "Translate_Webpage": "Eine Webseite übersetzen",
     "Supported_Formats": "Unterstützte Formate: .txt, .rtf, .odp, .ods, .odt (LibreOffice/OpenOffice), .xlsx, .pptx, .docx (Microsoft Office 2003 und neuer). <br/><i>.doc-Dateien von Word 97 und PDFs werden nicht unterstützt.</i>",
     "Morphological_Analysis": "Morphologische Analyse",
-    "Morphological_Analysis_Help": "Wählen Sie eine Sprache und analysieren Sie Ihren Text mit Apertiums morphologischen Analysierern.",
+    "Morphological_Analysis_Help": "Geben Sie den Text für die morphologische Analyse ein.",
     "Analyze": "Analysieren",
     "Morphological_Generation": "Morphologische Erzeugung",
-    "Morphological_Generation_Help": "Wählen Sie eine Sprache und erzeugen Sie aus Ihrem Text flektierte Formen mit Apertiums morphologischen Generatoren.",
+    "Morphological_Generation_Help": "Geben Sie die morphologischen Formen ein, zu denen Sie Text erzeugt haben möchten.",
     "Generate": "Erzeugen",
     "Spell_Checker": "Rechtschreibprüfung",
     "APy_Sandbox": "APy-Sandkasten",
@@ -61,6 +58,8 @@
     "What_Is_Apertium": "<p>Apertium ist eine <b>freie/quelloffene Plattform für maschinelle Übersetzungen</b>, zielte ursprünglich auf Paare verwandter Sprachen ab, wurde aber erweitert, um mit divergenteren Sprachpaaren arbeiten zu können (wie z.B. Englisch-Katalanisch). Die Plattform bietet</p> <ol> <li>eine Sprachunabhängige Engine für maschinelle Übersetzungen</li> <li>Werkzeuge um die linguistischen Daten zu verwalten, die für den Bau eines Systems für maschinelle Übersetzungen für ein gegebenes Sprachpaar nötig sind und</li> <li>linguistische Daten für eine wachsende Anzahl von Sprachpaaren.</li> </ol> <p>Apertium begrüßt neue Entwickler: Wenn Sie glauben, dass Sie die Engine verbessern oder linguistische Daten für uns entwickeln können, zögern Sie nicht <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>uns zu kontaktieren</a>.</p>",
     "Documentation_Para": "Dokumentation finden Sie in unserem <a href='http://wiki.apertium.org/' target='_blank' rel='noopener'>Wiki</a> auf der Unterseite „<a href='http://wiki.apertium.org/wiki/Documentation' target='_blank' rel='noopener'>Documentation</a>“. Wir haben diverse Konferenzbeiträge und Zeitschriftenartikel veröffentlicht, von denen eine Liste im Wiki unter <a href='http://wiki.apertium.org/wiki/Publications' target='_blank' rel='noopener'>Publications</a> zu finden ist.",
     "Apertium_Downloads": "Apertium-Downloads",
-    "Downloads_Para": "Aktuelle Versionen der <b>Apertium-Toolbox</b> sowie der <b>Sprachpaar-Daten</b> können von der SourceForge-Seite <a href='http://sf.net/projects/apertium/' target='_blank' rel='noopener'>sf.net/projects/apertium</a> bezogen werden. Installationsanweisungen für Apertium auf allen größeren Plattformen werden auf der <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Installationsseite des Wikis</a> bereitgestellt.",
-    "Contact_Para": "<h4>IRC-Kanal</h4> <p>Der schnellste Weg, mit uns Kontakt aufzunehmen, ist, unserem <a href='http://wiki.apertium.org/wiki/IRC' target='_blank' rel='noopener'><abbr title='Internet Relay Chat'>IRC</abbr>-Kanal, #apertium</a> bei irc.freenode.net beizutreten, wo sich Benutzer und Entwickler von Apertium treffen. Sie brauchen keinen IRC-Client; Sie können <a href='http://webchat.freenode.net/?channels=apertium'>freenode webchat</a> benutzen. </p> <h4>Mailingliste</h4> <p>Abonnieren Sie auch die <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank' rel='noopener'> apertium-stuff-Mailingliste</a>, an die Sie längere Vorschläge oder Probleme schicken und auch der allgemeinen Apertium-Diskussion folgen können. </p> <h4>Kontakt</h4> <p>Gerne können Sie uns über die <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank' rel='noopener'>apertium-contact-Mailingliste</a> kontaktieren, wenn Sie einen Fehler finden, es ein Projekt gibt, an dem Sie uns gerne arbeiten sehen würden, oder Sie aushelfen möchten.</p>"
+    "Downloads_Para": "Aktuelle Versionen der <b>Apertium-Toolbox</b> sowie der <b>Sprachpaar-Daten</b> können von der GitHub-Seite <a href='http://sf.net/projects/apertium/' target='_blank' rel='noopener'>sf.net/projects/apertium</a> bezogen werden. Installationsanweisungen für Apertium auf allen größeren Plattformen werden auf der <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Installationsseite des Wikis</a> bereitgestellt.",
+    "Contact_Para": "<h4>IRC-Kanal</h4> <p>Der schnellste Weg, mit uns Kontakt aufzunehmen, ist, unserem <a href='http://wiki.apertium.org/wiki/IRC' target='_blank' rel='noopener'><abbr title='Internet Relay Chat'>IRC</abbr>-Kanal, #apertium</a> bei irc.freenode.net beizutreten, wo sich Benutzer und Entwickler von Apertium treffen. Sie brauchen keinen IRC-Client; Sie können <a href='http://webchat.freenode.net/?channels=apertium'>freenode webchat</a> benutzen. </p> <h4>Mailingliste</h4> <p>Abonnieren Sie auch die <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank' rel='noopener'> apertium-stuff-Mailingliste</a>, an die Sie längere Vorschläge oder Probleme schicken und auch der allgemeinen Apertium-Diskussion folgen können. </p> <h4>Kontakt</h4> <p>Gerne können Sie uns über die <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank' rel='noopener'>apertium-contact-Mailingliste</a> kontaktieren, wenn Sie einen Fehler finden, es ein Projekt gibt, an dem Sie uns gerne arbeiten sehen würden, oder Sie aushelfen möchten.</p>",
+    "Install_Apertium": "Apertium installieren",
+    "Install_Apertium_Para": "Erleben Sie lange Antwortzeiten? Unsere Server sind möglicherweise überlastet. Lernen Sie <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Apertium lokal zu installieren</a>."
 }

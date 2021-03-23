@@ -8,21 +8,23 @@
             "nn",
             "nno"
         ],
-        "completion": " 87%  84.80%",
+        "completion": " 81%  81.19%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Supported_Formats",
             "Translate_Webpage",
+            "Translation_Help",
             "description"
         ]
     },
     "title": "Apertium | Ei fri/open kjeldekode maskinomsetjingsplattform",
     "tagline": "Ei fri/open kjeldekode maskinomsetjingsplattform",
     "Translation": "Omsetjing",
-    "Translation_Help": "Vel to språk og set om teksten din med omsetjingsplattformen til Apertium!",
     "Translate": "Omset",
     "Detect_Language": "Gjenkjenn språk",
     "detected": "gjenkjent",
@@ -34,10 +36,8 @@
     "Cancel": "Avbryt",
     "Format_Not_Supported": "Det formatet er ikkje støtta!",
     "Morphological_Analysis": "Morfologisk analyse",
-    "Morphological_Analysis_Help": "Vel eit språk og analyser teksten din med dei morfologiske analysatorane til Apertium.",
     "Analyze": "Analyser",
     "Morphological_Generation": "Morfologisk generering",
-    "Morphological_Generation_Help": "Vel eit språk og generer overflateformer frå teksten din med dei morfologiske generatorane til Apertium.",
     "Generate": "Generer",
     "Spell_Checker": "Stavekontroll",
     "APy_Sandbox": "APy-sandkasse",
@@ -61,6 +61,6 @@
     "What_Is_Apertium": "<p>Apertium er ei <b>fri/open kjeldekode maskinomsetjingsplattform</b>, opphavleg meint for nærskylde språk, men seinare utvida til å handtera meir ulike språkpar (som nordsamisk-bokmål). Plattformen tilbyr </p> <ol> <li>ein språkuavhengig maksinomsetjingsmotor</li> <li>verktøy for å handtera dei språkdata som trengst for å byggja eit maskinomsetjingssystem for eit visst språkpar, og </li>språkdata for fleire og fleire språkpar.</li> </ol> <p>Apertium vil gjerne ha nye utviklarar: Viss du trur du kan betra på motoren eller verktøya, eller utvikla språkdata for oss, må du ikkje nøla med å <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>ta kontakt</a>.</p>",
     "Documentation_Para": "Dokumentasjon finn du på <a href='http://wiki.apertium.org/'>wikien</a> vår på sida <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank' rel='noopener'>Documentation</a>. Me har publisert ei rekkje artiklar til konferansar og tidsskrift; du finn ei liste over desse på wikien på sida <a href='http://wiki.apertium.org/wiki/Publications' target='_blank' rel='noopener'>Publications</a>.",
     "Apertium_Downloads": "Nedlastingar",
-    "Downloads_Para": "Du finn siste utgåvene av <b>Apertium-verktøya</b>, i tillegg til <b>språkdata</b>, på <a href='https://sourceforge.net/projects/apertium/' target='_blank' rel='noopener'>SourceForge-sida</a>. Du finn installasjonsrettleiing for Apertium på alle vanlege plattformer på sida <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Installation</a> på wikien.",
+    "Downloads_Para": "Du finn siste utgåvene av <b>Apertium-verktøya</b>, i tillegg til <b>språkdata</b>, på <a href='https://github.com/apertium' target='_blank' rel='noopener'>GitHub-sida</a>. Du finn installasjonsrettleiing for Apertium på alle vanlege plattformer på sida <a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Installation</a> på wikien.",
     "Contact_Para": "<h4>IRC-kanal</h4> <p>Den raskaste måten å få kontakt med oss er ved å gå inn i <a href='http://wiki.apertium.org/wiki/IRC' target='_blank' rel='noopener'><abbr title='Internet Relay Chat'>IRC</abbr>-kanalen vår, #apertium</a> på irc.freenode.net, kor brukarar og utviklarar av Apertium møtest. Du treng ikkje å lasta ned eit IRC-program; det er nok å opna <a href='http://webchat.freenode.net/?channels=apertium'>freenode sin webchat</a>. </p> <h4>E-postlister</h4> <p>Du bør òg abonnera på <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank' rel='noopener'>e-postlista apertium-stuff</a>, kor du kan leggja inn meir utbroderte forslag eller problem, og følgja med på ymse diskusjonar rundt Apertium. </p> <h4>Kontakt</h4> <p>Ta gjerne kontakt med oss via <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank' rel='noopener'>e-postlista apertium-contact</a> viss du finn ein feil eller har eit prosjekt du vil at me skal ta fatt i, eller har lyst til å hjelpa til.</p>"
 }

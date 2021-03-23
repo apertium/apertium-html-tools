@@ -1,19 +1,15 @@
 version: '3'
 services:
   apy:
-    build:
-      context: ./docker
-      dockerfile: apy.Dockerfile
+    image: apertium/apy
+    command: ["/source", "--port", "2737"]
     ports:
       - 2737:2737
-    environment:
-      - PORT=2737
     volumes:
       - data:/source
   html-tools:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile
     depends_on:
       - apy
     links:
@@ -25,10 +21,10 @@ services:
   nginx:
     image: nginx
     ports:
-      - 4545:80
+      - 8082:80
     volumes:
       - .:/root/apertium-html-tools
-      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./tools/docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       - html-tools
     command: /bin/bash -c "chmod a+rx /root && nginx -g 'daemon off;'"

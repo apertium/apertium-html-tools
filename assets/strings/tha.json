@@ -5,22 +5,24 @@
         "locale": [
             "tha"
         ],
-        "completion": " 85%  78.91%",
+        "completion": " 79%  75.70%",
         "missing": [
             "Drop_Document",
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Supported_Formats",
             "Translate_Webpage",
+            "Translation_Help",
             "description"
         ]
     },
     "title": "อาเปอร์เทียม | แพรตฟอร์มเครื่องแปลภาษาเสรี/โอเพนซอร์ส",
     "tagline": "แพรตฟอร์มเครื่องแปลภาษาเสรี/โอเพนซอร์ส",
     "Translation": "การแปล",
-    "Translation_Help": "เลือกภาษาทั้งสองภาษาและแปลข้อความของคุณโดยใช้แพรตฟอร์มการแปลอาเปอร์เทียม!",
     "Translate": "แปล",
     "Detect_Language": "ตรวจหาภาษา",
     "detected": "ได้ตรวจหาแล้ว",
@@ -31,10 +33,8 @@
     "Cancel": "ยกเลิก",
     "Format_Not_Supported": "รูปแบบยังไม่ถูกรองรับ",
     "Morphological_Analysis": "การวิเคราะห์วจีวิภาค",
-    "Morphological_Analysis_Help": "เลือกภาษาหนึ่งภาษาและวิเคราะห์ข้อความของคุณโดยใช้ตัววิเคราะห์ทางวจีวิภาคของอาเปอร์เทียม",
     "Analyze": "วิเคราะห์",
     "Morphological_Generation": "การสร้างทางวิจีวิภาค",
-    "Morphological_Generation_Help": "เลือกภาษาหนึ่งภาษาและสร้างรูปคำจากข้อความของคุณโดยใช้ตัวสร้างทางวจีวิภาคของอาเปอร์เทียม",
     "Generate": "สร้าง",
     "Spell_Checker": "ตรวจสอบการสะกด",
     "APy_Sandbox": "กล่องทรายเอพีวาย",
@@ -58,6 +58,6 @@
     "What_Is_Apertium": "<p>อาเปอร์เทียมคือ<b>แพลตฟอร์มเครื่องแปลเสรี/โอเพนซอร์ส</b> แต่เดิมทีมุ่งไปที่คู่ภาษาที่มีความเกี่ยวข้องกันแต่ขยายให้จัดกับกับคู่ภาษาที่ต่างกันมากขึ้นได้ (เช่น ภาษาอังกฤษ-ภาษาคาตาลัน) แพลตฟอร์มให้บริการ</p> <ol> <li>เอนจินเครื่องแปลภาษาที่ไม่ขึ้นกับภาษา</li> <li>เครื่องมือที่ใช้จัดการข้อมูลทางภาษาศาสตร์ที่จำเป็นสำหรับการสร้างระบบเครื่องแปลภาษาสำหรับภาษาที่จะแปลและ</li> <li>ข้อมูลทางภาษาศาสตร์สำหรับเพิ่มจำนวนคู่ภาษา</li> </ol> <p>อาเปอร์เทียมยินดีต้อนรับนักพัฒนาใหม่ทั้งหลาย: ถ้าคุณคิดว่าคุณสามารถปรับปรุงเอนจินและเครื่องมือทั้งหลาย หรือพัฒนาข้อมูลทางภาษาศาสตร์สำหรับเรา อย่าลังเลที่จะ<a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>ติดต่อเรา</a>.</p>",
     "Documentation_Para": "เอกสารสามารถหาพบได้ที่<a href='http://wiki.apertium.org/'>วิกิ</a>ในหน้าย่อย<a href='http://wiki.apertium.org/wiki/Documentation' target='_blank' rel='noopener'>เอกสาร</a> เราได้ตีพิมพ์เอกสารในการประชุมวิชาการและบทความในวารสารมากมาย รายการอาจจะพบได้ในวิกิ<a href='http://wiki.apertium.org/wiki/Publications' target='_blank' rel='noopener'>การตีพิมพ์</a>.",
     "Apertium_Downloads": "ดาวโหลดอาเปอร์เทียม",
-    "Downloads_Para": "รุ่นปัจจุบันของ<b>กล่องเครื่องมืออาเปอร์เทีย, where you can post longer proposals or issues,ม</b>อีกทั้ง<b>ข้อมูลคู่ภาษา</b>อยู่ที่<a href='https://sourceforge.net/projects/apertium/' target='_blank' rel='noopener'>หน้าของ SourceForge</a> วิธีการติดตั้งสำหรับอาเปอร์เทียมบนแพลตฟอร์มหลักทั้งหมดมีให้ที่<a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>หน้าการติดตั้งที่วิกิ</a>.",
+    "Downloads_Para": "รุ่นปัจจุบันของ<b>กล่องเครื่องมืออาเปอร์เทีย, where you can post longer proposals or issues,ม</b>อีกทั้ง<b>ข้อมูลคู่ภาษา</b>อยู่ที่<a href='https://github.com/apertium' target='_blank' rel='noopener'>หน้าของ GitHub</a> วิธีการติดตั้งสำหรับอาเปอร์เทียมบนแพลตฟอร์มหลักทั้งหมดมีให้ที่<a href='http://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>หน้าการติดตั้งที่วิกิ</a>.",
     "Contact_Para": "<h4>ช่องไออาร์ซี</h4> <p>วิธีที่เร็วที่สุดที่จะติดต่อเราโดยเข้าร่วม<a href='http://wiki.apertium.org/wiki/IRC' target='_blank' rel='noopener'><abbr title='Internet Relay Chat'>ไออาร์ซี</abbr>ที่ช่อง #apertium</a> ที่ irc.freenode.net ที่ผู้ใช้และนักพัฒนาทั้งหลายของอาเปอร์เทียมพบกัน คุณไม่จำเป็นต้องใช้ไออาร์ซีไคลเอนต์ คุณสามารถใช้<a href='http://webchat.freenode.net/?channels=apertium'>โปรแกรมแชทบนเว็บของฟรีโหนด</a>. </p> <h4>Mailing list</h4> <p>อีกทั้งยังสามารถบอกรับเมล์ที่<a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank' rel='noopener'> apertium-stuff mailing list</a> ที่คุณสามารถโพสข้อเสนอหรือประเด็นที่ยาวขึ้น พร้อมทั้งติดตามการอภิปรายโดยทั่วไปของอาเปอร์เทียม</p> <h4>ติดต่อ</h4> <p>อย่าลังเลที่จะติดต่อเราโดย <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank' rel='noopener'>apertium-contact mailing list</a> ถ้าคุณพบข้อผิดพลาดหรือมีโครงการที่คุณต้องการเห็นเราทำหรือที่คุณต้องการช่วย</p>"
 }

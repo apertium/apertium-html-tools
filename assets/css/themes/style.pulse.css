@@ -1,0 +1,4 @@
+.btn.disabledLang {
+  background-color: #fff;
+  border-color: #ccc; /* sass-lint:disable-line no-important */
+}

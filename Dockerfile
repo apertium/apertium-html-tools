@@ -1,26 +1,22 @@
-FROM ubuntu:latest
+FROM debian:jessie-slim
 LABEL maintainer sushain@skc.name
+ENV LANG C.UTF-8
 WORKDIR /root
 
 # Install packaged dependencies
 
-RUN apt-get --yes update && apt-get --yes install \
+RUN apt-get -qq update && apt-get -qq install \
     curl \
     git \
     inotify-tools \
-    locales \
     make \
     python3 \
     python3-pip \
     socat
 
-# Repair locales
-
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-
 # Install some (optional) dependencies
-RUN pip3 install --upgrade jsmin csscompressor
+COPY requirements-prod.txt .
+RUN pip3 install -U -r requirements-prod.txt
 
 # Setup Html-tools
 

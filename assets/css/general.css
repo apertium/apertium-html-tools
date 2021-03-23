@@ -19,14 +19,73 @@ h2 {
 }
 
 #loadingIndicator {
-    display: none;
     left: 48%;
-    position: absolute;
     top: 45%;
     z-index: 10000;
 }
 
+#aboutModalTrigger {
+    cursor: pointer;
+}
+
+/* Utilities */
+
+/* sass-lint:disable class-name-format */
+.w-0 {
+    width: 0%;
+}
+
+/* sass-lint:enable class-name-format */
+
+/* About modal */
+
+#aboutModalMaintainer {
+    padding-bottom: 2em;
+}
+
+#gsocLogoContainer,
+#codeInLogoContainer {
+    text-decoration: none;
+}
+
+#gsocLogo {
+    height: 2.5em;
+}
+
+#codeInLogo {
+    height: 2.5em;
+    padding-left: .5em;
+}
+
+#bytemarkLogo {
+    margin-top: .5em;
+}
+
+#githubLogo {
+    height: 1.5em;
+}
+
+#creativeCommonsLicence,
+#gnuGplLicence {
+    margin-left: .5em;
+    margin-right: .5em;
+}
+
+/* Info modal */
+
+#infoModalApertiumLogo {
+    height: 5em;
+}
+
+#infoModalApertiumLogoContainer {
+    margin-bottom: 1.5em;
+}
+
 /* Locale selection */
+
+#localeSelectContainer {
+    width: 35%;
+}
 
 .localeGlobe {
     color: #fff;
@@ -37,31 +96,6 @@ h2 {
 .localeSelect {
     font-size: 14px;
     height: 25px;
-    margin-bottom: 6px;
-    margin-top: 7px;
-}
-
-/* Clear button */
-
-.clearButton {
-    background-color: rgba(0, 0, 0, 0);
-    padding: 0 3px;
-    position: absolute;
-    top: 3px;
-}
-
-.clearButton:hover,
-.clearButton:focus {
-    background-color: #eee;
-    color: #000;
-}
-
-html[dir='ltr'] .clearButton {
-    right: 18px;
-}
-
-html[dir='rtl'] .clearButton {
-    left: 18px;
 }
 
 /* Back to top button */
@@ -82,9 +116,6 @@ html[dir='rtl'] .clearButton {
 
 #installationNotice {
     font-size: inherit;
-    height: 105px;
-    margin: 8px;
-    padding: 8px;
     position: fixed;
     right: 20px;
     top: 20px;
@@ -92,13 +123,14 @@ html[dir='rtl'] .clearButton {
     z-index: 9999999;
 }
 
-#installationNotice .fa-times:hover { /* sass-lint:disable-line class-name-format */
-    cursor: pointer;
+@media (max-width: 992px) {
+    #installationNotice {
+        display: none;
+    }
 }
 
-#installationNoticeTitle {
-    margin: 0;
-    padding-bottom: 10px;
+#installationNotice .fa-times:hover { /* sass-lint:disable-line class-name-format */
+    cursor: pointer;
 }
 
 /* No JS banner */
@@ -112,16 +144,24 @@ html[dir='rtl'] .clearButton {
     z-index: 10000000000000;
 }
 
-body > .container {
-    margin-top: 4em;
+.fa.float-right { /* sass-lint:disable-line class-name-format */
+    margin-left: .3em;
 }
 
-/* RTL checking */
+/* RTL */
 
-html[dir='rtl'] .pull-right:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
+html[dir='rtl'] body {
+    text-align: right !important; /* sass-lint:disable-line no-important */
+}
+
+html[dir='rtl'] .float-right { /* sass-lint:disable-line class-name-format */
     float: left !important; /* sass-lint:disable-line no-important */
 }
 
-html[dir='rtl'] .pull-left:not(#rtlChecker) { /* sass-lint:disable-line class-name-format */
+html[dir='rtl'] .float-left { /* sass-lint:disable-line class-name-format */
     float: right !important; /* sass-lint:disable-line no-important */
+}
+
+html[dir='rtl'] .close {
+    margin-left: 0 !important; /* sass-lint:disable-line no-important */
 }

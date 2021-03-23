@@ -1,13 +1,47 @@
+.langSelectGroup {
+    font-size: 10px;
+}
+
+html[dir='ltr'] .langSelectGroup > *:not(*:last-child),
+html[dir='rtl'] .langSelectGroup > *:not(*:first-child) {
+    margin-right: 3px;
+}
+
+/* Monkeypatch for a bug with grid,
+   they don't fit in one line otherwise */
+.dstLangParent {
+    width: calc(50% - 5px);
+}
+
+html[dir='rtl'] #srcLang1,
+html[dir='rtl'] #dstLang1 {
+    border-radius: 0 .2rem .2rem 0;
+}
+
+html[dir='rtl'] #srcLanguagesDropdownTrigger,
+html[dir='rtl'] #dstLanguagesDropdownTrigger {
+    border-radius: .2rem 0 0 .2rem;
+}
+
+.languageCol {
+    float: left;
+    padding: 0 15px;
+    position: relative;
+}
+
 html[dir='ltr'] .languageName {
     padding-left: .5em;
 }
 
 html[dir='rtl'] .languageName {
     padding-right: .5em;
+    text-align: right;
 }
 
 .languageName {
+    overflow-x: hidden;
     position: relative;
+    text-overflow: ellipsis;
 }
 
 .languageName:not(.text-muted) {
@@ -20,22 +54,16 @@ html[dir='rtl'] .languageName {
     cursor: pointer;
 }
 
-html[dir='ltr'] #srcLanguages {
-    right: auto;
+.languageVariant {
+    font-size: 12px;
 }
 
-html[dir='ltr'] #dstLanguages {
-    left: auto;
-    right: 0;
+html[dir='ltr'] .languageVariant {
+    padding-left: 2.5em;
 }
 
-html[dir='rtl'] #dstLanguages {
-    left: 0;
-    right: auto;
-}
-
-html[dir='rtl'] #srcLanguages {
-    left: auto;
+html[dir='rtl'] .languageVariant {
+    padding-right: 2.5em;
 }
 
 .disabledLang {
@@ -43,9 +71,36 @@ html[dir='rtl'] #srcLanguages {
     opacity: 1 !important; /* sass-lint:disable-line no-important */
 }
 
+html[dir='rtl'] .form-group.d-sm-none .translateBtn { /* sass-lint:disable-line class-name-format */
+    margin: 4px;
+    margin-right: 0;
+}
+
+/* Action buttons use blue color instead of the primary orange, overwrite */
+#generate, #analyze, #request, .translateBtn {
+    /* sass-lint:disable-block no-important */
+    background-color: #446e9b !important;
+    border-color: #446e9b;
+    color: #fff !important;
+}
+
+.translateBtn:focus,
+.translateBtn:hover, .translateBtn.focus
+.translateBtn:active, .translateBtn.active {
+    background-color: #385a7f !important; /* sass-lint:disable-line no-important */
+}
+
+html[dir='rtl'] textarea {
+    text-align: right;
+}
+
 #originalText,
 #translatedText {
     resize: vertical;
+}
+
+#translatedText {
+    cursor: text;
 }
 
 @media(max-width: 768px) {
@@ -54,27 +109,91 @@ html[dir='rtl'] #srcLanguages {
     }
 }
 
-#srcLangSelectors {
-   padding-left: 0;
+/* Clear button */
+
+.clearButton {
+    background-color: rgba(0, 0, 0, 0);
+    padding: 0 3px;
+    top: 3px;
 }
 
-@media(min-width: 768px) {
-    .swapLangBtn {
-        position: absolute;
-        top: 0;
-    }
+.clearButton:hover,
+.clearButton:focus {
+    background-color: #eee;
+    color: #000;
+}
 
-    html[dir='ltr'] .swapLangBtn {
-        right: 15px;
-    }
+html[dir='ltr'] .clearButton {
+    right: 18px;
+}
 
-    html[dir='rtl'] .swapLangBtn {
-        left: 15px;
-    }
+html[dir='rtl'] .clearButton {
+    left: 18px;
+}
+
+html[dir='ltr'] .otherTranslationOptions > *:not(*:last-child),
+html[dir='rtl'] .otherTranslationOptions > *:not(*:first-child) {
+    margin-right: 5px;
 }
 
 #translateOptions label {
     clear: both;
+    margin: 0;
+}
+
+html[dir='rtl'] #translateOptions input[type='checkbox'] {
+    float: right;
+    margin-right: -20px;
+    margin-top: 5px;
+}
+
+.chaining {
+    display: none;
+}
+
+#fileDropBackdrop {
+    z-index: 1000;
+}
+
+#dropDocumentContainer {
+    left: 35%;
+    top: 35%;
+}
+
+#fileDropMask {
+    opacity: 0;
+    z-index: 10000;
+}
+
+#uploadErrorContainer {
+    min-height: 50px;
+}
+
+#cancelDocTranslate {
+    bottom: -6px;
+    right: 20px;
+}
+
+html[dir='rtl'] #cancelDocTranslate {
+    left: 20px;
+    right: auto;
+}
+
+#fileLoading {
+    left: 50%;
+    top: 50%;
+}
+
+#translateWebpage {
+    display: none;
+}
+
+html[dir='ltr'] #translateWebpage {
+    margin-right: -30px;
+}
+
+html[dir='rtl'] #translateWebpage {
+    margin-left: -30px;
 }
 
 #translatedWebpage {
@@ -82,37 +201,4 @@ html[dir='rtl'] #srcLanguages {
     border-radius: 4px;
     height: 700px;
     width: 100%;
-}
-
-#translatedWebpage.notAvailable {
-    padding-left: 10px;
-    padding-top: 10px;
-}
-
-#showTranslateWebpage {
-    margin-top: 1em;
-}
-
-#translateWebpage {
-    display: none;
-    overflow: hidden;
-}
-
-#translateWebpage .input-group { /* sass-lint:disable-line class-name-format */
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-.cancelTranslateWebpage {
-    margin-right: 5px;
-}
-
-.chaining {
-    display: none;
-}
-
-.languageCol {
-    float: left;
-    padding: 0 15px;
-    position: relative;
 }

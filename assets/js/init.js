@@ -16,10 +16,6 @@ $.jsonp.setup({
 });
 
 $(document).ready(function () {
-    $('#noscript').hide();
-    $('.navbar').css('margin-top', '0px');
-    $('body > .container').css('margin-top', '0px');
-
     if(config.SUBTITLE) {
         var subtitle = config.SUBTITLE,
             subtitleColor = config.SUBTITLE_COLOR;
@@ -37,38 +33,26 @@ $(document).ready(function () {
     if(config.SHOW_NAVBAR) {
         if(config.ENABLED_MODES) {
             $.each(config.ENABLED_MODES, function () {
-                $('.nav a[data-mode=' + this + ']').removeClass('hide');
+                $('.nav a[data-mode=' + this + ']').show();
             });
         }
         else {
-            $('.nav a').removeClass('hide');
+            $('.nav a').show();
         }
     }
     else {
-        $('.navbar-default .navbar-toggle').hide();
-        $('.navbar-default .nav').hide();
+        $('.navbarDefault .navbar-toggler').hide();
+        $('.navbarDefault .nav').hide();
     }
 
     var hash /*: string */ = parent.location.hash;
-
-    try {
-        if(!hash || !$(hash + 'Container')) {
-            hash = '#' + config.DEFAULT_MODE;
-            parent.location.hash = hash;
-        }
-    }
-    catch(e) {
-        console.error('Invalid hash: ' + e);
-        hash = '#' + config.DEFAULT_MODE;
-        parent.location.hash = hash;
-    }
 
     try {
         if(hash === '#webpageTranslation') {
             hash = '#translation';
             showTranslateWebpageInterface();
         }
-        else if(!hash || !$(hash + 'Container').length) {
+        else if(!hash || !$('.modeContainer' + hash).length) {
             hash = '#' + config.DEFAULT_MODE;
             parent.location.hash = hash;
         }
@@ -79,23 +63,13 @@ $(document).ready(function () {
         parent.location.hash = hash;
     }
 
-    $('.modeContainer' + hash + 'Container').show();
-    $('.navbar-default .nav li > a[data-mode=' + hash.substring(1) + ']').parent().addClass('active');
-
-    $('.navbar-default .nav a').click(function () {
-        var mode = $(this).data('mode');
-        $('.nav li').removeClass('active');
-        $(this).parent('li').addClass('active');
-        $('.modeContainer:not(#' + mode + 'Container)').stop().hide({
-            queue: false
-        });
-        $('#' + mode + 'Container').stop().show({
-            queue: false
-        });
-        synchronizeTextareaHeights();
-    });
+    $('.modeContainer' + hash).addClass('active show');
+    // FlowCheck doesn't recognise Bootstrap's `tab` function
+    // $FlowFixMe
+    $('.navbarDefault .nav li > a[data-mode=' + hash.substring(1) + ']').tab('show');
 
     resizeFooter();
+
     $(window)
         .on('hashchange', function () {
             var mode /*: string */ = parent.location.hash.substring(1);
@@ -119,22 +93,27 @@ $(document).ready(function () {
         Array.prototype.push.apply(config.ALLOWED_LANGS, withIso);
     }
 
+    $('a[data-mode][data-toggle="tab"]').on('shown.bs.tab', function (ev) {
+        synchronizeTextareaHeights();
+        var target/*: HTMLLinkElement */ = (ev.target /*: any */);
+        parent.location.hash = '#' + target.dataset.mode;
+    });
+
     $('form').submit(function () {
         return false;
     });
 
     $('.modal').on('show.bs.modal', function () {
-        $('a[data-target=#' + $(this).attr('id') + ']').parents('li').addClass('active');
+        $('a[data-target="#' + $(this).attr('id') + '"]').parents('li').addClass('active');
         $.each($(this).find('img[data-src]'), function () {
             $(this).attr('src', $(this).attr('data-src'));
         });
     });
 
     $('.modal').on('hide.bs.modal', function () {
-        $('a[data-target=#' + $(this).attr('id') + ']').parents('li').removeClass('active');
+        $('a[data-target="#' + $(this).attr('id') + '"]').parents('li').removeClass('active');
     });
 
-    $('#backToTop').addClass('hide');
     $(window).scroll(function () {
         $('#backToTop').toggleClass('hide', $(window).scrollTop() < BACK_TO_TOP_BUTTON_ACTIVATION_HEIGHT);
     });
@@ -145,8 +124,6 @@ $(document).ready(function () {
         }, 'fast');
         return false;
     });
-
-    $('#installationNotice').addClass('hide');
 });
 
 if(config.PIWIK_SITEID && config.PIWIK_URL) {

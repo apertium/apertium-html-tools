@@ -5,7 +5,7 @@
         "locale": [
             "eus"
         ],
-        "completion": " 52%  19.47%",
+        "completion": " 47%  13.22%",
         "missing": [
             "About",
             "About_Apertium",
@@ -25,11 +25,14 @@
             "Install_Apertium_Para",
             "Instant_Translation",
             "Mark_Unknown_Words",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Not_Found_Error",
             "Supported_Formats",
             "Translate_Document",
             "Translate_Webpage",
+            "Translation_Help",
             "What_Is_Apertium",
             "description"
         ]
@@ -37,16 +40,13 @@
     "title": "Apertium | Kode irekiko itzulpen automatiko plataforma librea",
     "tagline": "Kode irekiko itzulpen automatiko plataforma librea",
     "Translation": "Itzulpena",
-    "Translation_Help": "Aukera ezazu bi hizkuntza eta itzuli zure testua Apertium itzulpen plataforman",
     "Translate": "Itzuli",
     "Detect_Language": "Hizkuntza detektatu",
     "detected": "detektatua",
     "Not_Available": "Itzulpena ez dago oraindik eskuragarri!",
     "Morphological_Analysis": "Analisi morfologikoa",
-    "Morphological_Analysis_Help": "Aukera ezazu hizkuntza bat eta analiza ezazu zure testua Apertium-en analizatzaile morfologikoen bidez",
     "Analyze": "Analizatu",
     "Morphological_Generation": "Sorkuntza morfologikoa",
-    "Morphological_Generation_Help": "Aukera ezazu hizkuntza bat eta azal formak sor itzazu Apertium-en sortzaile morfologikoen bidez.",
     "Generate": "Sorkuntza",
     "Spell_Checker": "Zuzentzaile ortografikoa",
     "APy_Sandbox": "APy Sandbox",

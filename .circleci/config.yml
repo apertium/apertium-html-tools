@@ -8,11 +8,12 @@ jobs:
 
       # Install development dependencies
       - run: sudo apt-get install python3 python3-pip
-      - run: sudo npm install -g jsonlint eslint flow flow-bin flow-coverage-report htmlhint sass-lint
-      - run: sudo pip3 install flake8 jsmin csscompressor
+      - run: sudo pip3 install -r requirements-dev.txt
+      - run: yarn install
+      - run: echo 'export PATH=./node_modules/.bin:$PATH' >> $BASH_ENV
 
       # Run tests
-      - run: find assets/strings -type f -name '*.json' -exec jsonlint -q '{}' +
+      - run: find assets/strings -type f -name '*.json' -exec json --validate -f {} \;
       - run: eslint --config assets/js/.eslintrc.json assets/js/*.js
       - run: htmlhint --config .htmlhintrc.json *.html
       - run: sass-lint --config assets/css/.sass-lint.yml --verbose --no-exit --max-warnings 0
@@ -20,10 +21,14 @@ jobs:
       - run: flow-coverage-report --config flow-coverage.json
       - run: flow check
 
+      # Ensure localizations are clean and README statistics up-to-date
+      - run: cd assets/strings && make
+      - run: git diff --exit-code assets/strings
+
       # Build project
       - run: cp config.conf.example config.conf
       - run: make -j8 || true
-      
+
       # Save a live version
       - store_artifacts:
           path: build/

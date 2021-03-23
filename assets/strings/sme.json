@@ -9,7 +9,7 @@
             "se",
             "sme"
         ],
-        "completion": " 64%  20.08%",
+        "completion": " 58%  14.81%",
         "missing": [
             "About_Apertium",
             "Apertium_Downloads",
@@ -24,10 +24,13 @@
             "Install_Apertium_Para",
             "Instant_Translation",
             "Mark_Unknown_Words",
+            "Morphological_Analysis_Help",
+            "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Not_Found_Error",
             "Supported_Formats",
             "Translate_Document",
+            "Translation_Help",
             "What_Is_Apertium",
             "description"
         ]
@@ -35,7 +38,6 @@
     "title": "Apertium | Friddja ja rabasgáldokodavuđot dihtorjorgalanvuogádat",
     "tagline": "Friddja ja rabasgáldokodavuđot dihtorjorgalanvuogádat",
     "Translation": "Jorgaleapmi",
-    "Translation_Help": "Vállje guokte giela ja jorgal teavstta Apertiuma dihtorjorgalanvuogádagain!",
     "Translate": "Jorgal",
     "Detect_Language": "Dovdá giela",
     "detected": "Árvaluvvon giella",
@@ -43,10 +45,8 @@
     "Cancel": "Gaskkalduhte",
     "Translate_Webpage": "Jorgal neahttasiiddu",
     "Morphological_Analysis": "Morfologalaš analysa",
-    "Morphological_Analysis_Help": "Vállje giela ja analysere teavstta Apertiuma morfologalaš analysáhtoriin.",
     "Analyze": "Analysere",
     "Morphological_Generation": "Morfologalaš genereren",
-    "Morphological_Generation_Help": "Vállje giela ja generere teavstta sátnehámiid Apertiuma morfologalaš analysáhtoriin.",
     "Generate": "Generere",
     "Spell_Checker": "Sátnedárkkisteapmi",
     "APy_Sandbox": "APy-sáttokássa",

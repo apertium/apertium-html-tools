@@ -1,7 +1,8 @@
 // @flow
 
 /* exported ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, debounce, filterLangList, filterLangPairList, getURLParam,
-    isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights */
+    isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights, removeSoftHyphens, parentLang,
+    isVariant */
 /* exported ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
 /* global _paq, config */
@@ -19,8 +20,11 @@ var INSTALLATION_NOTIFICATION_REQUESTS_BUFFER_LENGTH = 5,
     INSTALLATION_NOTIFICATION_CUMULATIVE_DURATION_THRESHOLD = 3000,
     INSTALLATION_NOTIFICATION_DURATION = 10000;
 
-var apyRequestTimeout /*: number */, apyRequestStartTime/*: ?number */;
+var apyRequestTimeout /*: TimeoutID */, apyRequestStartTime/*: ?number */;
 var installationNotificationShown = false, lastNAPyRequestDurations = [];
+
+// These polyfills are placed here since all versions of IE require them and IE10+
+// does not support conditional comments. They could be moved to a separate file.
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
 /* eslint-disable */
@@ -49,13 +53,34 @@ if (typeof Object.assign != 'function') {
     return to;
   };
 }
+
+// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith#Polyfill
+if (!String.prototype.startsWith) {
+    // $FlowFixMe
+	String.prototype.startsWith = function(search /*: string */, pos /*: ?number */) {
+		return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
+	};
+}
+
+// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith#Polyfill
+if (!String.prototype.endsWith) {
+    // $FlowFixMe
+	String.prototype.endsWith = function(search /*: string */, this_len /*: number|undefined */) {
+		if (this_len === undefined || this_len > this.length) {
+			this_len = this.length;
+		}
+        return this.substring(this_len - search.length, this_len) === search;
+	};
+}
 /* eslint-enable */
 
 function debounce(func /*: any */, delay /*: ?number */) { // eslint-disable-line no-unused-vars
     var clock = null;
     return function () {
         var context = this, args = arguments;
-        clearTimeout(clock);
+        if(clock) {
+            clearTimeout(clock);
+        }
         clock = setTimeout(function () {
             func.apply(context, args);
         }, delay || DEFAULT_DEBOUNCE_DELAY);
@@ -95,19 +120,31 @@ function modeEnabled(mode /*: string */) {
     return !config.ENABLED_MODES || config.ENABLED_MODES.indexOf(mode) !== -1;
 }
 
+function removeSoftHyphens(text /*: string */) {
+    return text.replace(/\u00AD/g, '');
+}
+
 function resizeFooter() {
     var footerHeight = $('#footer').height();
     $('#push').css('height', footerHeight);
     $('#wrap').css('margin-bottom', -footerHeight);
 }
 
+function parentLang(code /*: string */) {
+    return code.split('_')[0];
+}
+
+function isVariant(code /*: string */) {
+    return code.indexOf('_') !== -1;
+}
+
 function allowedLang(code /*: string */) {
-    if(code.indexOf('_') === -1) {
-        return !config.ALLOWED_LANGS || config.ALLOWED_LANGS.indexOf(code) !== -1;
+    if(isVariant(code)) {
+        return allowedLang(parentLang(code)) &&
+            (!config.ALLOWED_VARIANTS || config.ALLOWED_VARIANTS.indexOf(code.split('_')[1]) !== -1);
     }
     else {
-        return allowedLang(code.split('_')[0]) &&
-            (!config.ALLOWED_VARIANTS || config.ALLOWED_VARIANTS.indexOf(code.split('_')[1]) !== -1);
+        return !config.ALLOWED_LANGS || config.ALLOWED_LANGS.indexOf(code) !== -1;
     }
 }
 
@@ -121,7 +158,7 @@ function filterLangList(langs /*: string[] */, _filterFn /*: ?(lang: string) => 
             };
         }
 
-        return langs.filter(filterFn);
+        return (langs.filter(filterFn) /*: string[] */);
     }
     else {
         return langs;
@@ -234,7 +271,7 @@ function displayInstallationNotification() {
     }
     installationNotificationShown = true;
 
-    $('#installationNotice').fadeIn('slow').removeClass('hide')
+    $('#installationNotice').fadeIn('slow').show()
         .delay(INSTALLATION_NOTIFICATION_DURATION)
         .fadeOut('slow', hideInstallationNotification);
 
@@ -246,12 +283,13 @@ function displayInstallationNotification() {
     });
 
     function hideInstallationNotification() {
-        $('#installationNotice').addClass('hide');
+        $('#installationNotice').hide();
     }
 }
 
 /*:: export {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, debounce, filterLangList, filterLangPairList, getURLParam,
-    isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights} */
+    isSubset, isURL, modeEnabled, onlyUnique, resizeFooter, sendEvent, synchronizeTextareaHeights, removeSoftHyphens, parentLang,
+    isVariant} */
 /*:: export {ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING} */
 
 /*:: import {_paq} from "./init.js" */

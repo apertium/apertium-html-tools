@@ -6,7 +6,7 @@ var currentAnalyzerRequest;
 /* exported analyzerData, analyzers, getAnalyzers, populateAnalyzerList, populateSecondaryAnalyzerList */
 
 /* global config, modeEnabled, persistChoices, restoreChoices, localizeInterface, readCache, ajaxSend, ajaxComplete,
-    cache, getLangByCode, filterLangPairList, allowedLang, sendEvent, callApy, apyRequestTimeout */
+    cache, getLangByCode, filterLangPairList, allowedLang, sendEvent, callApy, apyRequestTimeout, removeSoftHyphens */
 /* global ENTER_KEY_CODE */
 
 if(modeEnabled('analyzation')) {
@@ -146,7 +146,7 @@ function populateSecondaryAnalyzerList() {
 }
 
 function analyze() {
-    var input /*: string */ = $('#morphAnalyzerInput').val();
+    var input /*: string */ = removeSoftHyphens($('#morphAnalyzerInput').val());
 
     if(!$('#primaryAnalyzerMode').val() || input.trim() === '') {
         return;
@@ -180,7 +180,7 @@ function analyze() {
 
 function handleAnalyzeSuccessResponse(data /*: string[][] */) {
     var regex = /([^<]*)((<[^>]+>)*)/g;
-    $('#morphAnalyzerOutput').empty();
+    $('#morphAnalyzerOutput').html('<tbody></tbody>');
     for(var i = 0; i < data.length; i++) {
         var leftTD = $('<td class="text-right"></td>');
         var strong = $('<strong></strong>').text(data[i][1].trim());
@@ -195,7 +195,7 @@ function handleAnalyzeSuccessResponse(data /*: string[][] */) {
         }
 
         var tr = $('<tr></tr>').append(leftTD).append(rightTD);
-        $('#morphAnalyzerOutput').append(tr);
+        $('#morphAnalyzerOutput tbody').append(tr);
 
         var joinedMorphemes = {};
         for(var j = 1; j < splitUnit.length; j++) {
@@ -248,7 +248,7 @@ function handleAnalyzeErrorResponse(xOptions, error /*: string */) {
 /*:: export {analyzerData, analyzers, getAnalyzers, populateAnalyzerList, populateSecondaryAnalyzerList} */
 
 /*:: import {ajaxComplete, ajaxSend, allowedLang, apyRequestTimeout, callApy, filterLangPairList,
-    modeEnabled, sendEvent} from "./util.js" */
+    modeEnabled, sendEvent, removeSoftHyphens} from "./util.js" */
 /*:: import {ENTER_KEY_CODE} from "./util.js" */
 /*:: import {getLangByCode, localizeInterface} from "./localization.js" */
 /*:: import {cache, persistChoices, readCache, restoreChoices} from "./persistence.js" */

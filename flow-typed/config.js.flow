@@ -35,4 +35,5 @@ declare var config: {
         recaptcha_site_key: ?string
     },
     TAGGERS: ?{[string]: string},
+    TRANSLATION_CHAINING: boolean,
 };

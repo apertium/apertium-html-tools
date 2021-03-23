@@ -3,41 +3,44 @@ Localization
 
 This directory contains the JSON files powering Html-tools' localization as well as some helpful utilities. `locales.json` contains a reference to each JSON strings file as well as each language's endonym. Localization instructions are available on the [Apertium Wiki](http://wiki.apertium.org/wiki/Apertium-html-tools).
 
-```bash
-$ ./cleanup.sh
-$ ./progresstable.sh md
-```
+After editing localizations, please run `make` and commit its changes.
 
+<!--table-->
 | code | CBE* | CBC** |
 |------|------|-------|
+| deu  | 100% | 114.70% |
+| cat  | 100% | 112.54% |
+| arg  | 100% | 111.87% |
+| fra  | 100% | 110.57% |
+| glg  | 100% | 109.11% |
+| frp  | 100% | 107.99% |
+| tat  | 100% | 105.36% |
+| tur  | 100% | 104.15% |
+| szl  | 100% | 102.11% |
+| mar  | 100% | 101.48% |
 | eng  | 100% | 100.00% |
-| deu  | 97% | 109.09% |
-| srd  | 89% | 91.53% |
-| arg  | 88% | 93.21% |
-| uzb  | 88% | 92.18% |
-| nob  | 88% | 89.83% |
-| swe  | 88% | 86.68% |
-| tur  | 88% | 84.91% |
-| rus  | 88% | 82.38% |
-| nno  | 86% | 81.41% |
-| cat  | 84% | 89.06% |
-| kaa  | 84% | 87.56% |
-| tha  | 84% | 75.76% |
-| fin  | 84% | 75.50% |
-| spa  | 78% | 30.30% |
-| kir  | 75% | 28.09% |
-| fra  | 73% | 87.19% |
-| oci  | 73% | 84.29% |
-| uig  | 73% | 77.95% |
-| kaz  | 73% | 77.37% |
-| heb  | 73% | 68.24% |
-| sme  | 62% | 19.17% |
-| tat  | 62% | 16.70% |
-| por  | 54% | 16.59% |
-| eus  | 50% | 18.59% |
-| ava  | 49% | 15.73% |
-| ron  | 45% | 14.66% |
-| zho  | 45% | 4.28% |
+| fin  | 100% | 95.49% |
+| ara  | 100% | 90.89% |
+| kir  | 89% | 45.85% |
+| srd  | 85% | 91.65% |
+| uzb  | 83% | 92.06% |
+| swe  | 83% | 86.49% |
+| rus  | 83% | 82.47% |
+| nob  | 81% | 85.59% |
+| nno  | 81% | 81.19% |
+| kaa  | 79% | 86.20% |
+| tha  | 79% | 75.70% |
+| spa  | 74% | 27.06% |
+| oci  | 70% | 83.84% |
+| uig  | 70% | 78.61% |
+| kaz  | 70% | 77.89% |
+| heb  | 70% | 69.12% |
+| sme  | 58% | 14.81% |
+| por  | 50% | 12.41% |
+| eus  | 47% | 13.22% |
+| ava  | 45% | 12.57% |
+| zho  | 45% | 3.90% |
+| ron  | 41% | 9.09% |
 
 \*CBE: completion by entries<br>
 \**CBC: completion by characters (i.e., ratio of characters to English ~source)
