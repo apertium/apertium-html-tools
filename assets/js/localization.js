@@ -17,6 +17,7 @@ var localizedLanguageCodes /*: {[string]: string} */ = {}, localizedLanguageName
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
     populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
 
+var grecaptcha;
 var newSrc;
 var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
     'fallback': {
@@ -121,6 +122,7 @@ $(document).ready(function () {
         var locale2 = iso639Codes[locale];
         newSrc = getRecaptchaSrc(locale2);
         $('#suggestRecaptcha').empty();
+        grecaptcha.reset();
         $.getScript(newSrc);
     });
 
