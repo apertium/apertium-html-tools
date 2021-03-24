@@ -29,6 +29,11 @@ declare var config: {
     SHOW_NAVBAR: boolean,
     SUBTITLE: ?string,
     SUBTITLE_COLOR: ?string,
+    SUGGESTIONS: {
+        context_size: number,
+        enabled: bool,
+        recaptcha_site_key: ?string
+    },
     TAGGERS: ?{[string]: string},
     TRANSLATION_CHAINING: boolean,
 };
