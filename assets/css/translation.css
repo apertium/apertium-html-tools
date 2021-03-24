@@ -77,11 +77,17 @@ html[dir='rtl'] .form-group.d-sm-none .translateBtn { /* sass-lint:disable-line 
 }
 
 /* Action buttons use blue color instead of the primary orange, overwrite */
-#generate, #analyze, #request, .translateBtn {
+#generate, #analyze, #request, #suggestBtn, .translateBtn {
     /* sass-lint:disable-block no-important */
     background-color: #446e9b !important;
     border-color: #446e9b;
     color: #fff !important;
+}
+
+#suggestBtn:focus,
+#suggestBtn:hover, #suggestBtn.focus
+#suggestBtn:active, #suggestBtn.active {
+    background-color: #385a7f !important; /* sass-lint:disable-line no-important */
 }
 
 .translateBtn:focus,

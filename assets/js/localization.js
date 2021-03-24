@@ -5,23 +5,29 @@ var locale/*: string */;
 var languages = {'af': 'Afrikaans',  'id': 'Bahasa Indonesia',  'cy': 'Cymraeg',  'de': 'Deutsch',  'en': 'English',  'ga': 'Gaeilge',  'gv': 'Gaelg',  'gd': 'Gàidhlig',  'rn': 'Ikirundi',  'sw': 'Kiswahili',  'lg': 'Luganda',  'mt': 'Malti',  'nl': 'Nederlands',  'sq': 'Shqip',  'vi': 'Tiếng Việt',  'tr': 'Türkçe',  'az': 'azərbaycan',  'br': 'brezhoneg',  'ca': 'català',  'da': 'dansk',  'se': 'davvisámegiella',  'et': 'eesti',  'es': 'español',  'eo': 'esperanto',  'eu': 'euskara',  'fr': 'français',  'fo': 'føroyskt',  'ia': 'interlingua',  'xh': 'isiXhosa',  'zu': 'isiZulu',  'it': 'italiano',  'mfe': 'kreol morisien',  'lv': 'latviešu',  'lt': 'lietuvių',  'hu': 'magyar',  'nb': 'norsk bokmål',  'nn': 'nynorsk',  'uz': 'oʻzbekcha',  'pl': 'polski',  'pt': 'português',  'ro': 'română',  'rm': 'rumantsch',  'sk': 'slovenčina',  'sl': 'slovenščina',  'fi': 'suomi',  'sv': 'svenska',  'is': 'íslenska',  'cs': 'čeština',  'el': 'Ελληνικά',  'tg': 'Тоҷикӣ',  'ba': 'башҡортса',  'be': 'беларуская',  'bg': 'български',  'os': 'ирон',  'kum': 'къумукъча',  'ky': 'кыргызча',  'mk': 'македонски',  'ru': 'русский',  'tt': 'татарча',  'uk': 'українська',  'kk': 'қазақша',  'hy': 'հայերեն',  'he': 'עברית',  'ur': 'اردو',  'ar': 'العربية',  'fa': 'فارسی',  'ne': 'नेपाली',  'mr': 'मराठी',  'hi': 'हिंदी',  'as': 'অসমীয়া',  'bn': 'বাংলা',  'pa': 'ਪੰਜਾਬੀ',  'te': 'తెలుగు',  'ml': 'മലയാളം',  'si': 'සිංහල',  'th': 'ไทย',  'lo': 'ລາວ',  'zh': '中文',  'ko': '한국어',  'mrj': 'Мары йӹлмӹ',  'gl': 'galego',  'myv': 'Эрзянь кель',  'oc': 'occitan',  'cv': 'чӑвашла',  'arg': 'aragonés',  'ast': 'asturianu',  'msa': 'bahasa malay',  'hbs': 'srpskohrvatski',  'srp': 'српски',  'hrv': 'hrvatski',  'bos': 'bosanski',  'nog': 'ногъайша',  'sah': 'сахалыы',  'uig': 'ئۇيغۇرچە',  'tyv': 'тыва дылда'};
 // eslint-disable-next-line
 var iso639Codes = {'abk': 'ab', 'aar': 'aa', 'afr': 'af', 'aka': 'ak', 'sqi': 'sq', 'amh': 'am', 'ara': 'ar', 'arg': 'an', 'hye': 'hy', 'asm': 'as', 'ava': 'av', 'ave': 'ae', 'aym': 'ay', 'aze': 'az', 'bam': 'bm', 'bak': 'ba', 'eus': 'eu', 'bel': 'be', 'ben': 'bn', 'bih': 'bh', 'bis': 'bi', 'bos': 'bs', 'bre': 'br', 'bul': 'bg', 'mya': 'my', 'cat': 'ca', 'cha': 'ch', 'che': 'ce', 'nya': 'ny', 'zho': 'zh', 'chv': 'cv', 'cor': 'kw', 'cos': 'co', 'cre': 'cr', 'hrv': 'hr', 'ces': 'cs', 'dan': 'da', 'div': 'dv', 'nld': 'nl', 'dzo': 'dz', 'eng': 'en', 'epo': 'eo', 'est': 'et', 'ewe': 'ee', 'fao': 'fo', 'fij': 'fj', 'fin': 'fi', 'fra': 'fr', 'ful': 'ff', 'glg': 'gl', 'kat': 'ka', 'deu': 'de', 'ell': 'el', 'grn': 'gn', 'guj': 'gu', 'hat': 'ht', 'hau': 'ha', 'heb': 'he', 'her': 'hz', 'hin': 'hi', 'hmo': 'ho', 'hun': 'hu', 'ina': 'ia', 'ind': 'id', 'ile': 'ie', 'gle': 'ga', 'ibo': 'ig', 'ipk': 'ik', 'ido': 'io', 'isl': 'is', 'ita': 'it', 'iku': 'iu', 'jpn': 'ja', 'jav': 'jv', 'kal': 'kl', 'kan': 'kn', 'kau': 'kr', 'kas': 'ks', 'kaz': 'kk', 'khm': 'km', 'kik': 'ki', 'kin': 'rw', 'kir': 'ky', 'kom': 'kv', 'kon': 'kg', 'kor': 'ko', 'kur': 'ku', 'kua': 'kj', 'lat': 'la', 'ltz': 'lb', 'lug': 'lg', 'lim': 'li', 'lin': 'ln', 'lao': 'lo', 'lit': 'lt', 'lub': 'lu', 'lav': 'lv', 'glv': 'gv', 'mkd': 'mk', 'mlg': 'mg', 'msa': 'ms', 'mal': 'ml', 'mlt': 'mt', 'mri': 'mi', 'mar': 'mr', 'mah': 'mh', 'mon': 'mn', 'nau': 'na', 'nav': 'nv', 'nob': 'nb', 'nde': 'nd', 'nep': 'ne', 'ndo': 'ng', 'nno': 'nn', 'nor': 'no', 'iii': 'ii', 'nbl': 'nr', 'oci': 'oc', 'oji': 'oj', 'chu': 'cu', 'orm': 'om', 'ori': 'or', 'oss': 'os', 'pan': 'pa', 'pli': 'pi', 'fas': 'fa', 'pol': 'pl', 'pus': 'ps', 'por': 'pt', 'que': 'qu', 'roh': 'rm', 'run': 'rn', 'ron': 'ro', 'rus': 'ru', 'san': 'sa', 'srd': 'sc', 'snd': 'sd', 'sme': 'se', 'smo': 'sm', 'sag': 'sg', 'srp': 'sr', 'gla': 'gd', 'sna': 'sn', 'sin': 'si', 'slk': 'sk', 'slv': 'sl', 'som': 'so', 'sot': 'st', 'azb': 'az', 'spa': 'es', 'sun': 'su', 'swa': 'sw', 'ssw': 'ss', 'swe': 'sv', 'tam': 'ta', 'tel': 'te', 'tgk': 'tg', 'tha': 'th', 'tir': 'ti', 'bod': 'bo', 'tuk': 'tk', 'tgl': 'tl', 'tsn': 'tn', 'ton': 'to', 'tur': 'tr', 'tso': 'ts', 'tat': 'tt', 'twi': 'tw', 'tah': 'ty', 'uig': 'ug', 'ukr': 'uk', 'urd': 'ur', 'uzb': 'uz', 'ven': 've', 'vie': 'vi', 'vol': 'vo', 'wln': 'wa', 'cym': 'cy', 'wol': 'wo', 'fry': 'fy', 'xho': 'xh', 'yid': 'yi', 'yor': 'yo', 'zha': 'za', 'zul': 'zu',  'hbs': 'sh',  'pes': 'fa'};
+var localizeRecaptchaLanguages = ['ar', 'af', 'am', 'hy', 'az', 'eu', 'bn', 'bg', 'ca', 'zh-HK', 'zh-CN', 'zh-TW', 'hr', 'cs', 'da', 'nl', 'en-GB', 'en', 'et', 'fil', 'fi', 'fr', 'fr-CA', 'gl', 'ka', 'de', 'de-AT', 'de-CH', 'el', 'gu', 'iw', 'hi', 'hu', 'is', 'id', 'it', 'ja', 'kn', 'ko', 'lo', 'lv', 'lt', 'ms', 'ml', 'mr', 'mn', 'no', 'fa', 'pl', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sr', 'si', 'sk', 'sl', 'es', 'es-419', 'sw', 'sv', 'ta', 'te', 'th', 'tr', 'uk', 'ur', 'vi', 'zu'];
+var localizeReacaptchaAlternativeLanguages = {'zh': 'zh-TW', 'hrv': 'hr', 'srp': 'sr', 'msa': 'ms', 'cy': 'en', 'ga': 'en', 'gv': 'en', 'gd': 'en', 'rn': 'en', 'lg': 'en', 'mt': 'en', 'sq': 'fr', 'br': 'fr', 'se': 'no', 'eo': 'en', 'fo': 'da', 'ia': 'en', 'xh': 'af', 'mfe': 'fr', 'nb': 'no', 'nn': 'no', 'uz': 'ru', 'rm': 'en', 'tg': 'ru', 'ba': 'ru', 'be': 'ru', 'os': 'ru', 'kum': 'ru', 'ky': 'ru', 'mk': 'en', 'tt': 'ru', 'kk': 'ru', 'he': 'en', 'ne': 'hi', 'as': 'hi', 'pa': 'ur', 'mrj': 'ru', 'myv': 'ru', 'oc': 'es', 'cv': 'ru', 'arg': 'es', 'ast': 'es', 'hbs': 'en', 'bos': 'en', 'nog': 'ru', 'sah': 'ru', 'uig': 'zh-TW', 'tyv': 'ru'};
 var rtlLanguages = ['heb', 'ara', 'pes', 'urd', 'uig'];
 var languagesInverse /*: {[string]: string} */ = {}, iso639CodesInverse /*: {[string]: string} */ = {};
 var localizedLanguageCodes /*: {[string]: string} */ = {}, localizedLanguageNames /*: {[string]: string} */ = {};
 
-/* exported setLocale */
+/* exported setLocale, getRecaptchaSrc */
 
 /* global config, getPairs, getGenerators, getAnalyzers, persistChoices, getURLParam, cache, ajaxSend, ajaxComplete, sendEvent,
     srcLangs, dstLangs, generators, analyzers, readCache, modeEnabled, populateTranslationList, populateGeneratorList,
     populateAnalyzerList, analyzerData, generatorData, curSrcLang, curDstLang, restoreChoices, refreshLangList, onlyUnique */
 
+var newSrc;
 var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
     'fallback': {
         'Not_Available': 'Translation not yet available!',
         'detected': 'detected',
         'File_Too_Large': 'File is too large!',
         'Format_Not_Supported': 'Format not supported!',
-        'Download_File': 'Download {{fileName}}'
+        'Download_File': 'Download {{fileName}}',
+        'Suggest_Sentence': 'How would you suggest we translate {{targetWordCode}}?',
+        'Suggest_Title': 'Improve Apertium\'s translation',
+        'Suggest_Placeholder': 'New word'
     }
 };
 
@@ -38,10 +44,30 @@ function getDynamicLocalization(stringKey /*: string */) /*: string */ {
 
 var localizedHTML = false;
 
+var recaptchaScriptSrc = 'https://www.google.com/recaptcha/api.js?onload=recaptchaRenderCallback&render=explicit&hl=';
+
 /* exported getLangByCode */
 
 if(!config.LANGNAMES) {
     config.LANGNAMES = {};
+}
+
+function getRecaptchaSrc(locale2 /*: string */) {
+    newSrc = recaptchaScriptSrc + 'en';
+    var backoff = true;
+
+    for(var i = 0; i < localizeRecaptchaLanguages.length; i++) {
+        if(locale2 === localizeRecaptchaLanguages[i]) {
+            newSrc = recaptchaScriptSrc + locale2;
+            backoff = false;
+            break;
+        }
+    }
+
+    if(backoff) {
+        newSrc = recaptchaScriptSrc + localizeReacaptchaAlternativeLanguages[locale2];
+    }
+    return newSrc;
 }
 
 $(document).ready(function () {
@@ -90,6 +116,11 @@ $(document).ready(function () {
         localizeEverything(false);
         persistChoices('localization');
         $('.localeSelect').val(locale);
+
+        var locale2 = iso639Codes[locale];
+        newSrc = getRecaptchaSrc(locale2);
+        $('#suggestRecaptcha').empty();
+        $.getScript(newSrc);
     });
 
     function localizeEverything(stringsFresh /*: boolean */) {
@@ -422,7 +453,7 @@ function setLocale(newLocale /*: string */) {
     return newLocale;
 }
 
-/*:: export {getLangByCode, getDynamicLocalization, iso639Codes, iso639CodesInverse, locale, localizeInterface, setLocale,
+/*:: export {getLangByCode, getDynamicLocalization, getRecaptchaSrc, iso639Codes, iso639CodesInverse, locale, localizeInterface, setLocale,
     langDirection, languages} */
 
 /*:: import {curDstLang, curSrcLang, dstLangs, getPairs, populateTranslationList, refreshLangList, srcLangs} from "./translator.js" */
