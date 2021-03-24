@@ -925,6 +925,8 @@ function translateText(ignoreIfEmpty) {
                 );
                 $('#suggestionTargetWord').html($(this).text().replace(/(\*|@|#)/g, ''));
 
+                $('#suggestBtn').html('<span data-text="Suggest_Button">' + getDynamicLocalization('Suggest_Button') + '</span>');
+
                 $('#wordSuggestModal').modal();
                 $(this).removeAttr('id');
             });

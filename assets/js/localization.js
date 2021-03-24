@@ -27,7 +27,8 @@ var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
         'Download_File': 'Download {{fileName}}',
         'Suggest_Sentence': 'How would you suggest we translate {{targetWordCode}}?',
         'Suggest_Title': 'Improve Apertium\'s translation',
-        'Suggest_Placeholder': 'New word'
+        'Suggest_Placeholder': 'New word',
+        'Suggest_Button': 'Suggest'
     }
 };
 
