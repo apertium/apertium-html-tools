@@ -342,7 +342,7 @@ if(modeEnabled('translation')) {
             var recaptchaResponse = grecaptcha.getResponse();
 
             if(toWord.length === 0) {
-                $('#suggestedWordInput').tooltip('destroy');
+                $('#suggestedWordInput').tooltip('dispose');
                 $('#suggestedWordInput').tooltip({
                     'title': 'Suggestion cannot be empty.',
                     'trigger': 'manual',
@@ -350,7 +350,7 @@ if(modeEnabled('translation')) {
                 });
                 $('#suggestedWordInput').tooltip('show');
                 setTimeout(function () {
-                    $('#suggestedWordInput').tooltip('destroy');
+                    $('#suggestedWordInput').tooltip('dispose');
                 }, SUGGESTION_DESTROY_TIMEOUT);
 
                 return;
