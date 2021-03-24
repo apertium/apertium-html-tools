@@ -30,7 +30,8 @@ var PUNCTUATION_KEY_CODES = [46, 33, 58, 63, 47, 45, 190, 171, 49]; // eslint-di
 
 /* global config, modeEnabled, synchronizeTextareaHeights, persistChoices, getLangByCode, sendEvent, onlyUnique, restoreChoices
     getDynamicLocalization, locale, ajaxSend, ajaxComplete, localizeInterface, filterLangList, cache, readCache, iso639Codes,
-    callApy, apyRequestTimeout, isURL, getRecaptchaSrc, removeSoftHyphens, parentLang, isVariant, langDirection, languages, iso639CodesInverse */
+    callApy, apyRequestTimeout, isURL, getRecaptchaSrc, removeSoftHyphens, parentLang, isVariant, langDirection, languages,
+    iso639CodesInverse */
 /* global ENTER_KEY_CODE, HTTP_BAD_REQUEST_CODE, HTTP_OK_CODE, SPACE_KEY_CODE, XHR_DONE, XHR_LOADING */
 
 if(modeEnabled('translation')) {
