@@ -67,64 +67,7 @@
                 }
             </style>
         </noscript>
-    <style>
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 140px;
-            background-color: #555;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px;
-            position: absolute;
-            z-index: 1;
-            bottom: 150%;
-            left: 50%;
-            margin-left: -75px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .tooltip .tooltiptext::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #555 transparent transparent transparent;
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-    </style>
-
-    <script>
-        function myFunction() {
-            /* Get the text field */
-            var copyText = document.getElementById("translatedText");
-
-            /* Select the text field */
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); /* For mobile devices */
-
-            /* Copy the text inside the text field */
-            document.execCommand("copy");
-        }
-    </script>
-    <script>
-        function ClearFields() {
-
-            document.getElementById("originalText").value = "";
-            document.getElementById("translatedText").value = "";
-        }
-    </script>
+    
         <link rel="manifest" href="./manifest.json">
     </head>
     <body>
@@ -260,7 +203,7 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div class="col-12 col-md-6 d-flex d-sm-block flex-wrap otherTranslationOptions">
-                                                <button type="button" class="btn btn-secondary mt-3"
+                                                <button type="button" id = "clear" class="btn btn-secondary mt-3"
                                                     onclick="ClearFields();"><i class="fa fa-trash"></i> &nbsp; Clear</button>
                                                 <button id="translateDoc" class="btn btn-secondary mt-3">
                                                     <i class="fa fa-file-text"></i>
@@ -272,7 +215,7 @@
                                                 </button>
                                             </div>
                                             <div class="col-12 col-md-6 form-check d-flex flex-column align-items-end justify-content-end w-auto mt-2" id="translateOptions">
-                                                <button onclick="myFunction()" class="btn btn-secondary mb-2 ">
+                                                <button onclick="myFunction()" id = "copy" class="btn btn-secondary mb-2 ">
                                                     <i class="fa fa-clipboard"></i> &nbsp; Copy Text
                                                 </button>
                                                 <label>
