@@ -7,17 +7,8 @@
     display: none;
 }
 
-#clear:hover {
     
-    background-color: #474949 !important;
-    
-}
-#copy:hover {
-    
-    background-color: #474949 !important;
-    
-}
-@media screen and (max-width: 281px) and (min-width: 280px) {
+@media (hover:none) {
 
     #clear {
         display: block;
@@ -27,88 +18,4 @@
     #copy {
         display: block;
     }
-}
-
-
-@media screen and (max-width: 321px) and (min-width: 320px) {
-    #clear {
-        display: block;
-    }
-
-
-    #copy {
-        display: block;
-    }
-
-}
-
-@media screen and (max-width: 361px) and (min-width: 360px) {
-
-    #clear {
-        display: block;
-    }
-
-
-    #copy {
-        display: block;
-    }
-}
-
-@media screen and (max-width: 376px) and (min-width: 375px) {
-    #clear {
-        display: block;
-    }
-
-
-    #copy {
-        display: block;
-    }
-}
-
-@media screen and (max-width: 412px) and (min-width: 411px) {
-
-    #clear {
-        display: block;
-    }
-
-
-    #copy {
-        display: block;
-    }
-}
-
-@media screen and (max-width: 414px) and (min-width: 413px) {
-    #clear {
-        display: block;
-    }
-
-
-    #copy {
-        display: block;
-    }
-
-}
-
-@media screen and (max-width: 541px) and (min-width: 540px) {
-    #clear {
-        display: block;
-    }
-
-
-    #copy {
-        display: block;
-    }
-
-}
-
-@media screen and (max-width: 769px) and (min-width: 768px) {
-    #clear {
-        display: block;
-    }
-
-
-    #copy {
-        display: block;
-    }
-
 }
