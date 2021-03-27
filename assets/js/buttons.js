@@ -1,20 +1,10 @@
-
-function myFunction() {
-    /* Get the text field */
+function copyButton() {
     var copyText = document.getElementById("translatedText");
-
-    /* Select the text field */
     copyText.select();
-    copyText.setSelectionRange(0, 99999); /* For mobile devices */
-
-    /* Copy the text inside the text field */
+    copyText.setSelectionRange(0, 99999);
     document.execCommand("copy");
 }
-
-
-
-function ClearFields() {
-
+function clearButton() {
     document.getElementById("originalText").value = "";
     document.getElementById("translatedText").value = "";
 }
