@@ -8,8 +8,13 @@
             "de",
             "deu"
         ],
-        "completion": "100% 114.70%",
-        "missing": []
+        "completion": " 93% 112.21%",
+        "missing": [
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title"
+        ]
     },
     "title": "Apertium | Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "tagline": "Eine freie/quelloffene Plattform für maschinelle Übersetzungen",

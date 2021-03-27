@@ -7,7 +7,7 @@
         "locale": [
             "swe"
         ],
-        "completion": " 83%  86.49%",
+        "completion": " 77%  84.61%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -15,6 +15,10 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title",
             "Supported_Formats",
             "Translate_Webpage",
             "Translation_Help"

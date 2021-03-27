@@ -8,7 +8,7 @@
             "nb",
             "nob"
         ],
-        "completion": " 81%  85.59%",
+        "completion": " 75%  83.73%",
         "missing": [
             "Drop_Document",
             "Install_Apertium",
@@ -17,6 +17,10 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title",
             "Translate_Webpage",
             "Translation_Help",
             "description"

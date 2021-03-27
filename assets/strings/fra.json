@@ -11,8 +11,13 @@
             "fr",
             "fra"
         ],
-        "completion": "100% 110.57%",
-        "missing": []
+        "completion": " 93% 108.17%",
+        "missing": [
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title"
+        ]
     },
     "title": "Apertium | Une plateforme libre/open source de traduction automatique",
     "tagline": "Une plateforme libre/open source de traduction automatique",

@@ -10,7 +10,7 @@
             "es",
             "spa"
         ],
-        "completion": " 74%  27.06%",
+        "completion": " 68%  26.48%",
         "missing": [
             "Contact_Para",
             "Documentation_Para",
@@ -21,6 +21,10 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title",
             "Supported_Formats",
             "Translate_Webpage",
             "Translation_Help",

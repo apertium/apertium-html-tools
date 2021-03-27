@@ -9,8 +9,13 @@
             "fi",
             "fin"
         ],
-        "completion": "100%  95.49%",
-        "missing": []
+        "completion": " 93%  93.41%",
+        "missing": [
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title"
+        ]
     },
     "title": "Apertium – Vapaa konekäännösalusta",
     "tagline": "Vapaa avoimen lähdekoodin konekäännösalusta",
