@@ -4,6 +4,8 @@
 #copy {
     display: none;
 } 
+
+
 @media (hover:none) {
     #clear {
         display: block;

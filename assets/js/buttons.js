@@ -1,10 +1,10 @@
-function copyButton() {
-    var copyText = document.getElementById("translatedText");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
+$('#copy').click(function () {
+    $('#translatedText').select();
     document.execCommand("copy");
-}
-function clearButton() {
-    document.getElementById("originalText").value = "";
-    document.getElementById("translatedText").value = "";
-}
+    alert("Text copied! Now paste in the below textarea to check.");
+});
+
+$( "#clear" ).click(function() {
+    $('#translatedText').val('');
+    $('#originalText').val('');
+  });
