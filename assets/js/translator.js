@@ -220,6 +220,10 @@ if(modeEnabled('translation')) {
                 refreshLangList(true);
                 muteLanguages();
 
+                var temp = $('#originalText').val();
+                $('#originalText').val($('#translatedText').val());
+                $('#translatedText').val(temp);
+
                 if($('.active > #detectedText')) {
                     $('.srcLang').removeClass('active');
                     $('#srcLang' + (recentSrcLangs.indexOf(curSrcLang) + 1)).addClass('active');
