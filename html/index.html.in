@@ -203,7 +203,7 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div class="col-12 col-md-6 d-flex d-sm-block flex-wrap otherTranslationOptions">
-                                                <button type="button" id = "clear" class="btn btn-secondary mt-3"><i class="fa fa-trash"></i> &nbsp; Clear</button>
+                                                <button type="button" id = "clearText" class="btn btn-secondary mt-3"><i class="fa fa-trash"></i> &nbsp; Clear</button>
                                                 <button id="translateDoc" class="btn btn-secondary mt-3">
                                                     <i class="fa fa-file-text"></i>
                                                     <span data-text="Translate_Document">Translate a document</span>
@@ -214,7 +214,7 @@
                                                 </button>
                                             </div>
                                             <div class="col-12 col-md-6 form-check d-flex flex-column align-items-end justify-content-end w-auto mt-2" id="translateOptions">
-                                                <button id = "copy" class="btn btn-secondary mb-2 ">
+                                                <button id = "copyText" class="btn btn-secondary mb-2 ">
                                                     <i class="fa fa-clipboard"></i> &nbsp; Copy Text
                                                 </button>
                                                 <label>
