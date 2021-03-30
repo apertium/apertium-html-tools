@@ -217,7 +217,7 @@
                                                 </button>
                                             </div>
                                             <div class="col-12 col-md-6 form-check d-flex flex-column align-items-end justify-content-end w-auto mt-2" id="translateOptions">
-                                                <button id="copyText" class="btn btn-secondary mb-2 ">
+                                                <button id="copyText" class="btn btn-secondary mb-2">
                                                     <i class="fa fa-clipboard"></i>
                                                     <span data-text="Copy_Button">Copy</span>
                                                 </button>
