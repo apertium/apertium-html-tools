@@ -208,10 +208,10 @@ html[dir='rtl'] #translateWebpage {
 }
 #copy {
     display: none;
-} 
+}
 
 
-@media (hover:none) {
+@media (hover: none) {
     #clear {
         display: block;
     }
