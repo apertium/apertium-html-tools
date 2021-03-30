@@ -210,7 +210,6 @@ html[dir='rtl'] #translateWebpage {
     display: none;
 }
 
-
 @media (hover: none) {
     #clear {
         display: block;

@@ -52,13 +52,13 @@ if(modeEnabled('translation')) {
                 synchronizeTextareaHeights();
             });
 
-            $('button#clearText').click(function () {
+            $('#clearText').click(function () {
                 $('#translatedText').val('');
                 $('#originalText').val('');
                 synchronizeTextareaHeights();
             });
 
-            $('button#copyText').click(function () {
+            $('#copyText').click(function () {
                 $('#translatedText').select();
                 document.execCommand('copy');
                 synchronizeTextareaHeights();
@@ -1348,7 +1348,6 @@ function setDefaultSrcLang() {
     handleNewCurrentLang(curSrcLang, recentSrcLangs, 'srcLang');
     autoSelectDstLang();
 }
-
 
 /*:: export {curDstLang, curSrcLang, dstLangs, getPairs, handleNewCurrentLang, pairs, populateTranslationList, recentDstLangs,
     refreshLangList, recentSrcLangs, setCurDstLang, setCurSrcLang, setRecentDstLangs, setRecentSrcLangs, showTranslateWebpageInterface,
