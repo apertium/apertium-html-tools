@@ -203,18 +203,18 @@ html[dir='rtl'] #translateWebpage {
     width: 100%;
 }
 
-#clear {
+#clearText {
     display: none;
 }
-#copy {
+#copyText {
     display: none;
 }
 
 @media (hover: none) {
-    #clear {
+    #clearText {
         display: block;
     }
-    #copy {
+    #copyText {
         display: block;
     }
 }
