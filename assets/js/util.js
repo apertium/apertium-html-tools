@@ -209,7 +209,7 @@ function synchronizeTextareaHeights() {
 
     $('#originalText').css({
         'overflow-y': 'hidden',
-        'height': 'auto'
+        'height': 'auto',
     });
     var originalTextScrollHeight = $('#originalText')[0].scrollHeight;
     $('#originalText').css('height', originalTextScrollHeight + 'px');
@@ -220,7 +220,7 @@ function callApy(options /*: {} */, endpoint /*: string */, useAjax /*: ?boolean
     var requestOptions /*: any */ = Object.assign({
         url: config.APY_URL + endpoint,
         beforeSend: ajaxSend,
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
     }, options);
 
     var requestUrl /*: string */ = window.location.protocol + window.location.hostname +

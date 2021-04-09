@@ -53,7 +53,7 @@ function request() {
             ajaxComplete();
             $('#time').text(new Date().getTime() - startTime + ' ms');
             currentSandboxRequest = null;
-        }
+        },
     });
 }
 
