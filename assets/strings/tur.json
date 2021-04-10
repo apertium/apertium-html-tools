@@ -9,8 +9,13 @@
             "tr",
             "tur"
         ],
-        "completion": "100% 104.15%",
-        "missing": []
+        "completion": " 93% 101.89%",
+        "missing": [
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title"
+        ]
     },
     "title": "Apertium | Özgür ve açık kaynak kodlu bir makine çevirisi platformu",
     "tagline": "Özgür ve açık kaynak kodlu bir makine çevirisi platformu",

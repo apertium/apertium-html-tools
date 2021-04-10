@@ -9,8 +9,13 @@
             "tt",
             "tat"
         ],
-        "completion": "100% 105.36%",
-        "missing": []
+        "completion": " 93% 103.07%",
+        "missing": [
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title"
+        ]
     },
     "title": "Apertium | Ирекле/ачык чыганак кодлы бер автоматик тәрҗемә платформасы",
     "tagline": "Ирекле/ачык чыганак кодлы бер автоматик тәрҗемә платформасы",

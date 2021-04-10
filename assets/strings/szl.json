@@ -7,8 +7,13 @@
         "locale": [
             "szl"
         ],
-        "completion": "100% 102.11%",
-        "missing": []
+        "completion": " 93%  99.89%",
+        "missing": [
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title"
+        ]
     },
     "title": "Apertium | Darmowŏ platforma przekładu maszinowego ze ôtwartym zdrzōdłym",
     "tagline": "Darmowŏ platforma przekładu maszinowego ze ôtwartym zdrzōdłym",

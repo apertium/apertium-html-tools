@@ -8,7 +8,7 @@
             "ro",
             "ron"
         ],
-        "completion": " 41%   9.09%",
+        "completion": " 38%   8.89%",
         "missing": [
             "About",
             "About_Apertium",
@@ -35,6 +35,10 @@
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Not_Found_Error",
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title",
             "Supported_Formats",
             "Translate_Document",
             "Translate_Webpage",

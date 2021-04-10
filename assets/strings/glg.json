@@ -9,8 +9,13 @@
             "gl",
             "glg"
         ],
-        "completion": "100% 109.11%",
-        "missing": []
+        "completion": " 93% 106.74%",
+        "missing": [
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title"
+        ]
     },
     "title": "Apertium | Unha plataforma libre e de código aberto para a tradución automática",
     "tagline": "Unha plataforma libre e de código aberto para a tradución automática",

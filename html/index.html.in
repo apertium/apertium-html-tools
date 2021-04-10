@@ -197,8 +197,7 @@
                                                 </button>
                                             </div>
                                             <div class="col-12 col-md-6">
-                                                <textarea class="form-control bg-light" id="translatedText" rows="15" spellcheck="false" aria-label="Translated Text"
-                                                    readonly></textarea>
+                                                <div class="form-control bg-light" id="translatedText" rows="15" spellcheck="false" aria-label="Translated Text" readonly></div>
                                             </div>
                                         </div>
                                         <div class="row mt-2">
@@ -594,6 +593,30 @@
                                 <img alt="Apertium" data-src="./img/Apertium.png" class="center-block mw-100" id="infoModalApertiumLogo">
                             </a>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="wordSuggestModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" data-text="Suggest_Title">Improve Apertium's translation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                      <p id="translatedTextClone"></p>
+                      <hr>
+                      <p id="suggestSentenceContainer"></p>
+
+                      <form class="form-search" id="suggestedInput">
+                        <input type="text" class="form-control" id="suggestedWordInput">
+                        <div id="suggestRecaptcha"></div>
+                        <button type="submit" class="btn btn-primary btn-block" id="suggestBtn">
+                          <span data-text="Suggest_Button"></span>
+                        </button>
+                      </form>
                     </div>
                 </div>
             </div>

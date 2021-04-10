@@ -8,8 +8,13 @@
             "mr",
             "mar"
         ],
-        "completion": "100% 101.48%",
-        "missing": []
+        "completion": " 93%  99.28%",
+        "missing": [
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title"
+        ]
     },
     "title": "अपर्टियम | मुक्त/ओपन-सोर्स संगणकीय भाषांतराच्या साधनांचा समूह",
     "tagline": "मुक्त/ओपन-सोर्स संगणकीय भाषांतराच्या साधनांचा समूह",

@@ -9,7 +9,7 @@
             "zh",
             "zho"
         ],
-        "completion": " 45%   3.90%",
+        "completion": " 42%   3.82%",
         "missing": [
             "APy_Request",
             "APy_Sandbox",
@@ -32,6 +32,10 @@
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Not_Found_Error",
+            "Suggest_Button",
+            "Suggest_Placeholder",
+            "Suggest_Sentence",
+            "Suggest_Title",
             "Supported_Formats",
             "Translate_Document",
             "Translate_Webpage",

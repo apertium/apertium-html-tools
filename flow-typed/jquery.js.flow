@@ -1324,6 +1324,9 @@ declare class JQuery {
    */
   html(): string;
 
+  modal(): JQuery;
+  modal(data: string): JQuery;
+
   /**
    * Get the value of a property for the first element in the set of matched elements.
    *
@@ -1377,6 +1380,8 @@ declare class JQuery {
    * @param propertyName The name of the property to remove.
    */
   removeProp(propertyName: string): JQuery;
+
+  tooltip(data: Object | string): JQuery;
 
   /**
    * Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the switch argument.
