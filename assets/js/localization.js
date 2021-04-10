@@ -29,7 +29,7 @@ var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
         'Suggest_Sentence': 'How would you suggest we translate {{targetWordCode}}?',
         'Suggest_Title': 'Improve Apertium\'s translation',
         'Suggest_Placeholder': 'New word',
-        'Suggest_Button': 'Suggest'
+        'Suggest_Button': 'Suggest',
     },
 };
 

@@ -42,7 +42,7 @@ if(modeEnabled('translation')) {
 
         recaptchaRenderCallback = function () { // eslint-disable-line no-unused-vars
             grecaptcha.render('suggestRecaptcha', {
-                'sitekey': config.SUGGESTIONS.recaptcha_site_key
+                'sitekey': config.SUGGESTIONS.recaptcha_site_key,
             });
         };
 
@@ -350,7 +350,7 @@ if(modeEnabled('translation')) {
                 $('#suggestedWordInput').tooltip({
                     'title': 'Suggestion cannot be empty.',
                     'trigger': 'manual',
-                    'placement': 'bottom'
+                    'placement': 'bottom',
                 });
                 $('#suggestedWordInput').tooltip('show');
                 setTimeout(function () {
@@ -369,7 +369,7 @@ if(modeEnabled('translation')) {
                     'word': fromWord,
                     'newWord': toWord,
                     'context': getContext(fromWord),
-                    'g-recaptcha-response': recaptchaResponse
+                    'g-recaptcha-response': recaptchaResponse,
                 },
                 success: function (_data, _textStatus, _jqXHR) {
                     $('#suggestedWordInput').tooltip('destroy');
@@ -383,7 +383,7 @@ if(modeEnabled('translation')) {
                     $('#suggestedWordInput').tooltip({
                         'title': (data1.explanation ? data1.explanation : 'An error occurred'),
                         'trigger': 'manual',
-                        'placement': 'bottom'
+                        'placement': 'bottom',
                     });
                     $('#suggestedWordInput').tooltip('show');
                     setTimeout(function () {
@@ -394,7 +394,7 @@ if(modeEnabled('translation')) {
                 complete: function (_jqXHR, _textStatus) {
                     ajaxComplete;
                     grecaptcha.reset();
-                }
+                },
             });
         });
 
