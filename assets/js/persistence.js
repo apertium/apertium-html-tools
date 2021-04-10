@@ -14,7 +14,7 @@ var URL_PARAM_Q_LIMIT = 1300,
         '#webpageTranslation': 'qP',
         '#analyzation': 'qA',
         '#generation': 'qG',
-        '#sandbox': 'qS'
+        '#sandbox': 'qS',
     };
 
 var store = new Store(config.HTML_URL);
@@ -57,31 +57,31 @@ function persistChoices(mode /*: string */, updatePermalink /*: ?boolean */) {
                 'webpageInput': $('#webpage').val(),
                 'instantTranslation': $('#instantTranslation').prop('checked'),
                 'markUnknown': $('#markUnknown').prop('checked'),
-                'chainedTranslation': $('#chainedTranslation').prop('checked')
+                'chainedTranslation': $('#chainedTranslation').prop('checked'),
             };
         }
         else if(mode === 'analyzer') {
             objects = {
                 'primaryAnalyzerChoice': $('#primaryAnalyzerMode').val(),
                 'secondaryAnalyzerChoice': $('#secondaryAnalyzerMode').val(),
-                'analyzerInput': $('#morphAnalyzerInput').val()
+                'analyzerInput': $('#morphAnalyzerInput').val(),
             };
         }
         else if(mode === 'generator') {
             objects = {
                 'primaryGeneratorChoice': $('#primaryGeneratorMode').val(),
                 'secondaryGeneratorChoice': $('#secondaryGeneratorMode').val(),
-                'generatorInput': $('#morphGeneratorInput').val()
+                'generatorInput': $('#morphGeneratorInput').val(),
             };
         }
         else if(mode === 'localization') {
             objects = {
-                'locale': $('.localeSelect').val()
+                'locale': $('.localeSelect').val(),
             };
         }
         else if(mode === 'sandbox') {
             objects = {
-                'sandboxInput': $('#sandboxInput').val()
+                'sandboxInput': $('#sandboxInput').val(),
             };
         }
 

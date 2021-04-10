@@ -74,7 +74,7 @@ function getGenerators() /*: JQueryPromise<any> */ {
                 complete: function (_xOptions, _errorThrown) {
                     ajaxComplete();
                     deferred.resolve();
-                }
+                },
             });
         }
     }
@@ -167,14 +167,14 @@ function generate() {
     currentGeneratorRequest = callApy({
         data: {
             'lang': generatorMode,
-            'q': input
+            'q': input,
         },
         success: handleGenerateSuccessResponse,
         error: handleGenerateErrorResponse,
         complete: function () {
             ajaxComplete();
             currentGeneratorRequest = null;
-        }
+        },
     }, '/generate');
 }
 

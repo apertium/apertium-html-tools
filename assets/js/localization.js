@@ -201,7 +201,7 @@ function getLocale() {
                 complete: function (_xOptions, _errorThrown) {
                     ajaxComplete();
                     deferred.resolve();
-                }
+                },
             });
         }
         else {
@@ -241,7 +241,7 @@ function getLocales() {
                 error: function (jqXHR, textStatus, error) {
                     console.error('Failed to fetch available locales: ' + error);
                     deferred.resolve();
-                }
+                },
             });
         }
     }
@@ -321,7 +321,7 @@ function localizeLanguageNames(localizedNamesFromJSON) {
                 },
                 error: function (_xOptions, _error) {
                     localizedLanguageNames = {};
-                }
+                },
             });
         }
     }
@@ -370,7 +370,7 @@ function localizeStrings(stringsFresh /*: boolean */) {
                 },
                 error: function (jqXHR, textStatus, errorThrow) {
                     console.error('Failed to fetch localized strings for ' + locale + ': ' + errorThrow);
-                }
+                },
             });
         }
     }
@@ -419,7 +419,7 @@ function localizeInterface() {
         '#originalText': curSrcLang,
         '#translatedText': curDstLang,
         '#morphAnalyzerInput': $('#primaryAnalyzerMode').val(),
-        '#morphGeneratorInput': $('#primaryGeneratorMode').val()
+        '#morphGeneratorInput': $('#primaryGeneratorMode').val(),
     };
 
     $.each(elements, function (selector, lang /*: string */) {
