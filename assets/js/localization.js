@@ -30,7 +30,7 @@ var dynamicLocalizations /*: {[lang: string]: {[string]: string}} */ = {
         'Suggest_Title': 'Improve Apertium\'s translation',
         'Suggest_Placeholder': 'New word',
         'Suggest_Button': 'Suggest'
-    }
+    },
 };
 
 function getDynamicLocalization(stringKey /*: string */) /*: string */ {
