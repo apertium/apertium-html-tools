@@ -117,6 +117,12 @@ html[dir='rtl'] textarea {
     top: 3px;
 }
 
+.copyButton {
+    background-color: rgba(0, 0, 0, 0);
+    padding: 0 3px;
+    top: 3px;
+}
+
 .clearButton:hover,
 .clearButton:focus {
     background-color: #eee;
@@ -128,6 +134,14 @@ html[dir='ltr'] .clearButton {
 }
 
 html[dir='rtl'] .clearButton {
+    left: 18px;
+}
+
+html[dir='ltr'] .copyButton{
+    right: 18px;
+}
+
+html[dir='rtl'] .copyButton{
     left: 18px;
 }
 
@@ -201,20 +215,4 @@ html[dir='rtl'] #translateWebpage {
     border-radius: 4px;
     height: 700px;
     width: 100%;
-}
-
-#clearText {
-    display: none;
-}
-#copyText {
-    display: none;
-}
-
-@media (hover: none) {
-    #clearText {
-        display: block;
-    }
-    #copyText {
-        display: block;
-    }
 }

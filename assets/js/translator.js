@@ -52,16 +52,9 @@ if(modeEnabled('translation')) {
                 synchronizeTextareaHeights();
             });
 
-            $('#clearText').click(function () {
-                $('#translatedText').val('');
-                $('#originalText').val('');
-                synchronizeTextareaHeights();
-            });
-
             $('#copyText').click(function () {
                 $('#translatedText').select();
                 document.execCommand('copy');
-                synchronizeTextareaHeights();
             });
 
             $(window).resize(synchronizeTextareaHeights);

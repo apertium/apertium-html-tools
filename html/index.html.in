@@ -199,14 +199,13 @@
                                             <div class="col-12 col-md-6">
                                                 <textarea class="form-control bg-light" id="translatedText" rows="15" spellcheck="false" aria-label="Translated Text"
                                                     readonly></textarea>
+                                                <button id="copyText" class="btn copyButton position-absolute" aria-label="Copy Text">
+                                                    <i class="fa fa-clipboard"></i>
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="row mt-2">
                                             <div class="col-12 col-md-6 d-flex d-sm-block flex-wrap otherTranslationOptions">
-                                                <button type="button" id="clearText" class="btn btn-secondary mt-3">
-                                                    <i class="fa fa-trash"></i>
-                                                    <span data-text="Clear_Button">Clear</span>
-                                                </button>
                                                 <button id="translateDoc" class="btn btn-secondary mt-3">
                                                     <i class="fa fa-file-text"></i>
                                                     <span data-text="Translate_Document">Translate a document</span>
@@ -217,10 +216,6 @@
                                                 </button>
                                             </div>
                                             <div class="col-12 col-md-6 form-check d-flex flex-column align-items-end justify-content-end w-auto mt-2" id="translateOptions">
-                                                <button id="copyText" class="btn btn-secondary mb-2">
-                                                    <i class="fa fa-clipboard"></i>
-                                                    <span data-text="Copy_Button">Copy</span>
-                                                </button>
                                                 <label>
                                                     <input type="checkbox" id="markUnknown" checked>
                                                     <span data-text="Mark_Unknown_Words">Mark unknown words</span>
