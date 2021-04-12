@@ -137,11 +137,11 @@ html[dir='rtl'] .clearButton {
     left: 18px;
 }
 
-html[dir='ltr'] .copyButton{
+html[dir='ltr'] .copyButton {
     right: 18px;
 }
 
-html[dir='rtl'] .copyButton{
+html[dir='rtl'] .copyButton {
     left: 18px;
 }
 
