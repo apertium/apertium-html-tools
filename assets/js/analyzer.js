@@ -74,7 +74,7 @@ function getAnalyzers() /*: JQueryPromise<any> */ {
                 complete: function () {
                     ajaxComplete();
                     deferred.resolve();
-                }
+                },
             });
         }
     }
@@ -167,14 +167,14 @@ function analyze() {
     currentAnalyzerRequest = callApy({
         data: {
             'lang': analyzerMode,
-            'q': input
+            'q': input,
         },
         success: handleAnalyzeSuccessResponse,
         error: handleAnalyzeErrorResponse,
         complete: function () {
             ajaxComplete();
             currentAnalyzerRequest = null;
-        }
+        },
     }, '/analyze');
 }
 
