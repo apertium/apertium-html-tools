@@ -242,6 +242,19 @@ server:
 	exo-open "http://localhost:8082" || open "http://localhost:8082"
 	( cd build && python3 -m http.server 8082 )
 
+### Tests ###
+# may have to run this first:
+# $ pipenv install --dev
+# $ yarn install
+check:
+	yarn run eslint --config assets/js/.eslintrc.json assets/js/*.js
+	yarn run flow-coverage-report --config flow-coverage.json
+	yarn run flow check
+	yarn run sass-lint --config assets/css/.sass-lint.yml --verbose --no-exit --max-warnings 0
+	yarn run htmlhint --config .htmlhintrc.json *.html
+	find assets/strings -type f -name '*.json' -exec yarn run json --validate -f {} \;
+	pipenv run flake8 --config tools/.flake8.ini *.py **/**.py **/**/*.py
+	cd assets/strings && make && git diff --exit-code .
 
 ### Clean ###
 clean:
