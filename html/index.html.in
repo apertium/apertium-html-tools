@@ -199,6 +199,9 @@
                                             <div class="col-12 col-md-6">
                                                 <textarea class="form-control bg-light" id="translatedText" rows="15" spellcheck="false" aria-label="Translated Text"
                                                     readonly></textarea>
+                                                <button id="copyText" class="btn copyButton position-absolute" aria-label="Copy Text">
+                                                    <i class="fa fa-clipboard"></i>
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="row mt-2">

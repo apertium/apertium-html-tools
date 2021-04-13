@@ -52,6 +52,11 @@ if(modeEnabled('translation')) {
                 synchronizeTextareaHeights();
             });
 
+            $('#copyText').click(function () {
+                $('#translatedText').select();
+                document.execCommand('copy');
+            });
+
             $(window).resize(synchronizeTextareaHeights);
 
             $('#originalText').blur(function () {
