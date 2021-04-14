@@ -11,7 +11,7 @@
             "ru",
             "rus"
         ],
-        "completion": " 84%  83.01%",
+        "completion": " 84%  82.99%",
         "missing": [
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -63,7 +63,7 @@
     "Suggest_Title": "Предложить улучшенный перевод Apertium",
     "Suggest_Button": "Предложить перевод",
     "Suggest_Sentence": "Как лучше перевести {{targetWordCode}}?",
-    "Suggest_Placeholder": "Новое слово",
+    "Suggest_Placeholder": "Ваше предложение",
     "About_Apertium": "Об Apertium",
     "What_Is_Apertium": "<p>Apertium — это <b>открытая платформа машинного перевода</b>. Изначально она была создана для связанных языковых пар, но теперь поддерживает даже такие необычные пары, как английский—каталанский. Платформа предоставляет</p> <ol> <li>независимый от языка машинный переводчик;</li> <li>инструменты для сбора лингвистических данных для машинного перевода;</li> <li>лингвистические данные для большого количества языковых пар.</li> </ol> <p>Apertium приветствует новых разработчиков: если Вы можете улучшить движок машинного перевода или инструменты или собрать лингвистические данные для нас, то <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>свяжитесь с нами</a>.</p>",
     "Documentation_Para": "Документация расположена в нашей <a href='http://wiki.apertium.org/'>вики</a> на <a href='http://wiki.apertium.org/wiki/Documentation' target='_blank' rel='noopener'>подстранице Документация</a>. Мы публикуем разнообразные бумаги с конференций и статьи из журналов, список которых доступен на странице <a href='http://wiki.apertium.org/wiki/Publications' target='_blank' rel='noopener'>Публикации</a>.",
