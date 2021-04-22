@@ -6,7 +6,9 @@ var SPACE_KEY_CODE = 32, ENTER_KEY_CODE = 13,
     HTTP_OK_CODE = 200, HTTP_BAD_REQUEST_CODE = 400,
     XHR_LOADING = 3, XHR_DONE = 4;
 
-var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768;
+var TEXTAREA_AUTO_RESIZE_MINIMUM_WIDTH = 768,
+    APY_REQUEST_URL_THRESHOLD_LENGTH = 2000 // maintain 48 characters buffer for generated parameters
+    ;
 
 function ajaxSend() {
     $('#loading-indicator').show();
@@ -259,6 +261,24 @@ function synchronizeTextareaHeights() {
     }
 }
 
+function callApy(options /*: {} */, endpoint /*: string */, useAjax /*: ?boolean */) {
+    var requestOptions /*: any */ = Object.assign({
+        url: config.APY_URL + endpoint,
+        beforeSend: ajaxSend,
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+    }, options);
+
+    var requestUrl /*: string */ = window.location.protocol + window.location.hostname +
+        window.location.pathname + '?' + $.param(requestOptions.data);
+
+    requestOptions.type = requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH ? 'POST' : 'GET';
+
+    if(useAjax || requestUrl.length > APY_REQUEST_URL_THRESHOLD_LENGTH) {
+        return $.ajax(requestOptions);
+    }
+
+    return $.jsonp(requestOptions);
+}
 
 function unique(array) {
     return $.grep(array, function(el, index) {

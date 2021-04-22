@@ -611,13 +611,7 @@ function translateText() {
             request.q = $('#originalText').val(); // eslint-disable-line id-length
             var markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             request.markUnknown = 'yes'; // Remove marks on client instead, so we can spell afterwards.
-            textTranslateRequest = $.jsonp({
-                url: config.APY_URL + endpoint,
-                beforeSend: ajaxSend,
-                complete: function () {
-                    ajaxComplete();
-                    textTranslateRequest = undefined;
-                },
+            textTranslateRequest = callApy({
                 data: request,
                 success: function (data) {
                     if(data.responseStatus === HTTP_OK_CODE) {
@@ -630,8 +624,12 @@ function translateText() {
                         translationNotAvailable();
                     }
                 },
-                error: translationNotAvailable
-            });
+                error: translationNotAvailable,
+                complete: function () {
+                    ajaxComplete();
+                    textTranslateRequest = undefined;
+                },
+            }, endpoint);
         }
         else {
             translationNotAvailable();
@@ -1182,7 +1180,7 @@ function onTranslatedSelection(ev) {
     placePopover(selNode, selOffset, popover);
 }
 
-/*:: import {synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode} from "./util.js" */
+/*:: import {callApy, synchronizeTextareaHeights, modeEnabled, ajaxSend, ajaxComplete, filterLangList, onlyUnique, getLangByCode} from "./util.js" */
 /*:: import {readCache, cache, persistChoices, restoreChoices} from "./persistence.js" */
 /*:: import localizeInterface from "./localization.js" */
 /*:: import {config} from "./config.js" */
