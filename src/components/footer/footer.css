@@ -1,0 +1,21 @@
+html,
+body,
+#react-mount {
+  height: 100%; /* The html and body elements cannot have any padding or margin. */
+}
+
+@media print {
+  #footer {
+    display: none;
+  }
+}
+
+.version:hover,
+.version:active,
+.version:focus {
+  text-decoration: none;
+}
+
+.footer-link {
+  font-size: 1rem;
+}

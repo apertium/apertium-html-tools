@@ -1,0 +1,98 @@
+.language-dropdown-button > button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.language-button:disabled {
+  color: #808080;
+  background-color: #474949;
+  border-color: #474949;
+  opacity: 1;
+}
+
+.clear-text-button,
+.copy-text-button {
+  background-color: rgba(0, 0, 0, 0);
+  padding: 0 3px;
+  top: 3px;
+}
+
+.clear-text-button:hover,
+.clear-text-button:focus,
+.copy-text-button:hover,
+.copy-text-button:focus {
+  background-color: #eee;
+  color: #000;
+}
+
+html[dir='ltr'] .clear-text-button,
+html[dir='ltr'] .copy-text-button {
+  right: 18px;
+}
+
+html[dir='rtl'] .clear-text-button,
+html[dir='rtl'] .copy-text-button {
+  left: 18px;
+}
+
+.language-name-col {
+  float: left;
+  padding: 0 15px;
+  position: relative;
+}
+
+.language-name {
+  overflow-x: hidden;
+  position: relative;
+  text-overflow: ellipsis;
+}
+
+.language-name:not(.text-muted) {
+  text-decoration: none;
+}
+
+html[dir='ltr'] .language-name {
+  padding-left: 0.5em;
+}
+
+html[dir='rtl'] .language-name {
+  padding-right: 0.5em;
+  text-align: right;
+}
+
+html[dir='rtl'] .language-button:first-child {
+  border-radius: 0 0.2rem 0.2rem 0 !important;
+}
+
+html[dir='rtl'] .language-dropdown-button > button {
+  border-radius: 0.2rem 0 0 0.2rem;
+}
+
+.language-name:hover:not(.text-muted) {
+  background-color: #446e9b;
+  color: #fff;
+  cursor: pointer;
+}
+
+.variant-language-name {
+  font-size: 0.8em;
+}
+
+html[dir='ltr'] .variant-language-name {
+  padding-left: 2.5em;
+}
+
+html[dir='rtl'] .variant-language-name {
+  padding-right: 2.5em;
+}
+
+html[dir='ltr'] .translation-modes > *:not(*:last-child),
+html[dir='rtl'] .translation-modes > *:not(*:first-child) {
+  margin-right: 0.5rem;
+}
+
+.translated-webpage {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 700px;
+}

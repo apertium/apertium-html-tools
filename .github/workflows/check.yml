@@ -1,0 +1,49 @@
+name: Check
+on:
+  - push
+  - pull_request
+jobs:
+  lint:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.7.0'
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+
+      - name: Typecheck
+        run: yarn tsc
+      - name: Lint scripts
+        run: yarn eslint
+      - name: Lint styles
+        run: yarn stylelint
+      - name: Prettier
+        run: yarn prettier
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.7.0'
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+
+      - name: Collect test coverage
+        run: yarn coverage
+      - name: Upload coverage
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./coverage/lcov.info
+
+      - name: Check strings
+        run: make -C src/strings test

@@ -1,0 +1,6 @@
+/dist/
+/coverage/
+/node_modules/
+/src/strings/
+/src/bootstrap.css
+/meta.json
