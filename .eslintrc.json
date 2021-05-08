@@ -1,0 +1,44 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint", "react-hooks", "jsx-a11y", "jest"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:jest/recommended",
+    "plugin:jsx-a11y/strict"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "eqeqeq": ["error", "smart"],
+    "complexity": ["error", 40],
+    "no-magic-numbers": ["error", { "ignore": [-1, 0, 1, 2, 3, 4, 10, 100, 200, 1000] }],
+    "sort-imports": [
+      "error",
+      {
+        "allowSeparatedGroups": true
+      }
+    ],
+    "spaced-comment": "error",
+    "react/jsx-sort-props": "error",
+    "react/self-closing-comp": "error",
+    "jsx-a11y/no-autofocus": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.test.ts", "*.test.tsx"],
+      "rules": {
+        "no-magic-numbers": "off"
+      }
+    }
+  ]
+}

@@ -1,6 +1,5 @@
-Dockerfile
-README.md
 .dockerignore
+tsconfig.tsbuildinfo
+coverage/
+dist/
 node_modules/
-venv/
-.git/

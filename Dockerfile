@@ -1,26 +1,15 @@
-FROM debian:jessie-slim
+FROM node:14-buster-slim
 LABEL maintainer sushain@skc.name
-ENV LANG C.UTF-8
 WORKDIR /root
 
-# Install packaged dependencies
+RUN apt-get -qq update && \
+    apt-get -qq install --no-install-recommends git
 
-RUN apt-get -qq update && apt-get -qq install \
-    curl \
-    git \
-    inotify-tools \
-    make \
-    python3 \
-    python3-pip \
-    socat
+COPY package.json .
+COPY yarn.lock .
+RUN yarn install --dev
 
-# Install some (optional) dependencies
-COPY requirements-prod.txt .
-RUN pip3 install -U -r requirements-prod.txt
+COPY . .
 
-# Setup Html-tools
-
-CMD (nohup socat TCP4-LISTEN:$APY_PORT,fork TCP4:apy:$APY_PORT &) && \
-    (while ! curl --output /dev/null --silent --fail http://apy:$APY_PORT/listPairs; do sleep 1 && echo -n .; done;) && \
-    cd apertium-html-tools && make -j32 -B && \
-    while true; do inotifywait . -r -e MODIFY && make -j32; done;
+ENTRYPOINT ["yarn"]
+CMD ["build", "--prod"]

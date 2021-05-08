@@ -1,0 +1,50 @@
+html[dir='rtl'] body {
+  text-align: right !important;
+}
+
+html[dir='rtl'] .float-right {
+  float: left !important;
+}
+
+html[dir='rtl'] .float-left {
+  float: right !important;
+}
+
+html[dir='rtl'] textarea {
+  text-align: right;
+}
+
+html[dir='rtl'] .ml-auto {
+  margin-left: unset !important;
+  margin-right: auto !important;
+}
+
+html[dir='rtl'] .mr-1 {
+  margin-right: unset !important;
+  margin-left: 0.25rem !important;
+}
+
+html[dir='rtl'] .mr-2 {
+  margin-right: unset !important;
+  margin-left: 0.5rem !important;
+}
+
+html[dir='rtl'] .mr-3 {
+  margin-right: unset !important;
+  margin-left: 1rem !important;
+}
+
+html[dir='rtl'] .ml-1 {
+  margin-left: unset !important;
+  margin-right: 0.25rem !important;
+}
+
+html[dir='rtl'] .ml-2 {
+  margin-left: unset !important;
+  margin-right: 0.5rem !important;
+}
+
+html[dir='rtl'] .ml-3 {
+  margin-left: unset !important;
+  margin-right: 1rem !important;
+}

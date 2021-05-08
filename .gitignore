@@ -1,21 +1,6 @@
-# Python
-__pycache__/
-venv/
-
-# Node
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-node_modules/
-
-# Build
-build/
-config.conf
-assets/js/config.js
-
-# System
-.DS_Store
-.Spotlight-V100
-.Trashes
-Thumbs.db
-ehthumbs.db
+/node_modules/
+/yarn-error.log
+/meta.json
+/tsconfig.tsbuildinfo
+/coverage/
+/dist/
