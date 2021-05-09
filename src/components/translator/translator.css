@@ -86,8 +86,8 @@ html[dir='rtl'] .variant-language-name {
   padding-right: 2.5em;
 }
 
-html[dir='ltr'] .translation-modes > *:not(*:last-child),
-html[dir='rtl'] .translation-modes > *:not(*:first-child) {
+html[dir='ltr'] .translation-modes > :not(:last-child),
+html[dir='rtl'] .translation-modes > :not(:first-child) {
   margin-right: 0.5rem;
 }
 
