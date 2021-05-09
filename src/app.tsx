@@ -60,7 +60,7 @@ const loadBrowserLocale = (setLocale: React.Dispatch<React.SetStateAction<string
 const App: React.FunctionComponent = () => {
   const history = useHistory();
   const location = useLocation();
-  const { defaultLocale, defaultMode, enabledModes, matamoConfig } = React.useContext(ConfigContext);
+  const { defaultLocale, defaultMode, enabledModes, matomoConfig } = React.useContext(ConfigContext);
 
   // Locale selection priority:
   // 1. `lang` parameter from URL
@@ -138,15 +138,15 @@ const App: React.FunctionComponent = () => {
   const wrapRef = React.createRef<HTMLDivElement>();
   const pushRef = React.createRef<HTMLDivElement>();
 
-  const matamoInstance = React.useMemo(
-    () => createInstance(matamoConfig || { disabled: true, urlBase: '-', siteId: 1 }),
-    [matamoConfig],
+  const matomoInstance = React.useMemo(
+    () => createInstance(matomoConfig || { disabled: true, urlBase: '-', siteId: 1 }),
+    [matomoConfig],
   );
 
-  React.useEffect(() => matamoInstance.trackPageView(), [matamoInstance]);
+  React.useEffect(() => matomoInstance.trackPageView(), [matomoInstance]);
 
   return (
-    <MatomoProvider value={matamoInstance}>
+    <MatomoProvider value={matomoInstance}>
       <StringsContext.Provider value={strings}>
         <LocaleContext.Provider value={locale}>
           <WithInstallationAlert>

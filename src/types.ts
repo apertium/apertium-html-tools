@@ -12,7 +12,7 @@ export type Config = {
   htmlUrl: string;
   apyURL: string;
   stringReplacements: Record<string, string>;
-  matamoConfig?: Parameters<typeof createInstance>[0];
+  matomoConfig?: Parameters<typeof createInstance>[0];
 
   allowedLangs?: Set<string>;
   allowedVariants?: Set<string>;
