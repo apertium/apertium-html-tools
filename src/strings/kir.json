@@ -9,8 +9,9 @@
             "ky",
             "kir"
         ],
-        "completion": " 87%  45.67%",
+        "completion": " 86%  45.45%",
         "missing": [
+            "Apertium_Documentation",
             "Contact_Para",
             "Downloads_Para",
             "Install_Apertium_Para",

@@ -8,8 +8,9 @@
             "mr",
             "mar"
         ],
-        "completion": " 99% 101.10%",
+        "completion": " 97% 100.60%",
         "missing": [
+            "Apertium_Documentation",
             "Norm_Preferences"
         ]
     },

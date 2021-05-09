@@ -9,8 +9,9 @@
             "fi",
             "fin"
         ],
-        "completion": " 99%  95.13%",
+        "completion": " 97%  94.66%",
         "missing": [
+            "Apertium_Documentation",
             "Norm_Preferences"
         ]
     },

@@ -5,8 +5,9 @@
         "locale": [
             "tha"
         ],
-        "completion": " 78%  75.41%",
+        "completion": " 76%  75.04%",
         "missing": [
+            "Apertium_Documentation",
             "Drop_Document",
             "Install_Apertium",
             "Install_Apertium_Para",

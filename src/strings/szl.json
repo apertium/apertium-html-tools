@@ -7,8 +7,9 @@
         "locale": [
             "szl"
         ],
-        "completion": " 99% 101.72%",
+        "completion": " 97% 101.22%",
         "missing": [
+            "Apertium_Documentation",
             "Norm_Preferences"
         ]
     },

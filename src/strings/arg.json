@@ -7,8 +7,9 @@
         "locale": [
             "arg"
         ],
-        "completion": " 99% 111.45%",
+        "completion": " 97% 110.90%",
         "missing": [
+            "Apertium_Documentation",
             "Norm_Preferences"
         ]
     },

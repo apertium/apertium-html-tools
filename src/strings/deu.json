@@ -8,8 +8,9 @@
             "de",
             "deu"
         ],
-        "completion": " 99% 114.26%",
+        "completion": " 97% 113.70%",
         "missing": [
+            "Apertium_Documentation",
             "Norm_Preferences"
         ]
     },

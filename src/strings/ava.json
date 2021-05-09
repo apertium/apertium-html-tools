@@ -8,10 +8,11 @@
             "av",
             "ava"
         ],
-        "completion": " 44%  12.52%",
+        "completion": " 43%  12.46%",
         "missing": [
             "About",
             "About_Apertium",
+            "Apertium_Documentation",
             "Apertium_Downloads",
             "Cancel",
             "Contact",

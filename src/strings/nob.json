@@ -8,8 +8,9 @@
             "nb",
             "nob"
         ],
-        "completion": " 82%  85.45%",
+        "completion": " 80%  85.03%",
         "missing": [
+            "Apertium_Documentation",
             "Drop_Document",
             "Install_Apertium",
             "Install_Apertium_Para",

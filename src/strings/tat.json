@@ -9,8 +9,9 @@
             "tt",
             "tat"
         ],
-        "completion": " 99% 104.96%",
+        "completion": " 97% 104.45%",
         "missing": [
+            "Apertium_Documentation",
             "Norm_Preferences"
         ]
     },

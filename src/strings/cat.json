@@ -9,8 +9,9 @@
             "ca",
             "cat"
         ],
-        "completion": " 99% 112.12%",
+        "completion": " 97% 111.57%",
         "missing": [
+            "Apertium_Documentation",
             "Norm_Preferences"
         ]
     },

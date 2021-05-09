@@ -11,8 +11,9 @@
             "ru",
             "rus"
         ],
-        "completion": " 82%  82.16%",
+        "completion": " 80%  81.76%",
         "missing": [
+            "Apertium_Documentation",
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",

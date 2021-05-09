@@ -14,6 +14,7 @@
     "title": "Apertium | A free/open-source machine translation platform",
     "tagline": "A free/open-source machine translation platform",
     "description": "Apertium is a rule-based machine translation platform. It is free software and released under the terms of the GNU General Public License.",
+    "Apertium_Documentation": "Apertium Documentation",
     "Translation": "Translation",
     "Translation_Help": "Enter text or URL to translate.",
     "Translate": "Translate",

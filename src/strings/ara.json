@@ -8,8 +8,9 @@
             "ar",
             "ara"
         ],
-        "completion": " 99%  90.54%",
+        "completion": " 97%  90.10%",
         "missing": [
+            "Apertium_Documentation",
             "Norm_Preferences"
         ]
     },

@@ -5,8 +5,9 @@
         "locale": [
             "srd"
         ],
-        "completion": " 84%  91.30%",
+        "completion": " 82%  90.86%",
         "missing": [
+            "Apertium_Documentation",
             "Install_Apertium",
             "Install_Apertium_Para",
             "Morphological_Analysis_Help",

@@ -11,8 +11,9 @@
             "fr",
             "fra"
         ],
-        "completion": " 99% 110.15%",
+        "completion": " 97% 109.61%",
         "missing": [
+            "Apertium_Documentation",
             "Norm_Preferences"
         ]
     },

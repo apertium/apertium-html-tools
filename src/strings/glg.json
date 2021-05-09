@@ -9,8 +9,9 @@
             "gl",
             "glg"
         ],
-        "completion": " 99% 108.70%",
+        "completion": " 97% 108.16%",
         "missing": [
+            "Apertium_Documentation",
             "Norm_Preferences"
         ]
     },

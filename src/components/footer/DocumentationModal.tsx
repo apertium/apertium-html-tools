@@ -9,7 +9,7 @@ const DocumentationModal = (props: ModalProps): React.ReactElement => {
   return (
     <Modal {...props}>
       <Modal.Header closeButton>
-        <Modal.Title>Apertium Documentation</Modal.Title> {/* TODO: BUG */}
+        <Modal.Title>{t('Apertium_Documentation')}</Modal.Title>
       </Modal.Header>
       <Modal.Body dangerouslySetInnerHTML={{ __html: t('Documentation_Para') }} />
     </Modal>

@@ -8,8 +8,9 @@
             "ug",
             "uig"
         ],
-        "completion": " 68%  78.31%",
+        "completion": " 67%  77.93%",
         "missing": [
+            "Apertium_Documentation",
             "Cancel",
             "Drop_Document",
             "File_Too_Large",

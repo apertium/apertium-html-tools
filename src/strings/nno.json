@@ -8,8 +8,9 @@
             "nn",
             "nno"
         ],
-        "completion": " 82%  81.04%",
+        "completion": " 80%  80.65%",
         "missing": [
+            "Apertium_Documentation",
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",

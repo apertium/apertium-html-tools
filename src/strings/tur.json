@@ -9,8 +9,9 @@
             "tr",
             "tur"
         ],
-        "completion": " 99% 103.76%",
+        "completion": " 97% 103.25%",
         "missing": [
+            "Apertium_Documentation",
             "Norm_Preferences"
         ]
     },

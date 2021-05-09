@@ -8,11 +8,12 @@
             "ro",
             "ron"
         ],
-        "completion": " 40%   9.05%",
+        "completion": " 39%   9.01%",
         "missing": [
             "About",
             "About_Apertium",
             "About_Title",
+            "Apertium_Documentation",
             "Apertium_Downloads",
             "Cancel",
             "Contact",

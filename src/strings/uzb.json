@@ -8,8 +8,9 @@
             "uz",
             "uzb"
         ],
-        "completion": " 82%  91.71%",
+        "completion": " 80%  91.26%",
         "missing": [
+            "Apertium_Documentation",
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",

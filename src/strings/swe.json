@@ -7,8 +7,9 @@
         "locale": [
             "swe"
         ],
-        "completion": " 82%  86.16%",
+        "completion": " 80%  85.74%",
         "missing": [
+            "Apertium_Documentation",
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",

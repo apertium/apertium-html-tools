@@ -7,8 +7,9 @@
         "locale": [
             "kaa"
         ],
-        "completion": " 78%  85.87%",
+        "completion": " 76%  85.45%",
         "missing": [
+            "Apertium_Documentation",
             "Drop_Document",
             "Install_Apertium",
             "Install_Apertium_Para",
