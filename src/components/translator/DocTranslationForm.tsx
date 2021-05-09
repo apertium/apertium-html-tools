@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { LinkContainer } from 'react-router-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Row from 'react-bootstrap/Row';
@@ -35,10 +36,10 @@ const allowedMimeTypes = [
 const DocTranslationForm = ({
   srcLang,
   tgtLang,
-  onCancel,
+  cancelUrl,
   setLoading,
 }: {
-  onCancel: () => void;
+  cancelUrl: string;
   srcLang: string;
   tgtLang: string;
   setLoading: (loading: boolean) => void;
@@ -189,15 +190,16 @@ const DocTranslationForm = ({
                 {error && <span className="text-danger lead">{t(error)}</span>}
               </div>
               <p dangerouslySetInnerHTML={{ __html: t('Supported_Formats') }} />
-              <Button
-                className="position-absolute"
-                onClick={onCancel}
-                size="sm"
-                style={{ bottom: '-6px', right: '20px' }}
-                variant="secondary"
-              >
-                <FontAwesomeIcon icon={faArrowLeft} /> {t('Cancel')}
-              </Button>
+              <LinkContainer to={cancelUrl}>
+                <Button
+                  className="position-absolute"
+                  size="sm"
+                  style={{ bottom: '-6px', right: '20px' }}
+                  variant="secondary"
+                >
+                  <FontAwesomeIcon icon={faArrowLeft} /> {t('Cancel')}
+                </Button>
+              </LinkContainer>
             </Card.Body>
           </Card>
         </Col>

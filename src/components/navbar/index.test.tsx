@@ -28,7 +28,7 @@ it('renders navigation options', () => {
   renderNavbar();
 
   const navbar = screen.getByRole('navigation');
-  const buttons = getAllByRole(navbar, 'button', { name: (n) => n !== 'Toggle navigation' });
+  const buttons = getAllByRole(navbar, 'link', { name: (n) => n !== 'Toggle navigation' });
 
   expect(buttons).toHaveLength(4);
 });

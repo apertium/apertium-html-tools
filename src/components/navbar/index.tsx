@@ -1,9 +1,9 @@
 import './navbar.css';
 
 import * as React from 'react';
-import { generatePath, useHistory, useLocation } from 'react-router-dom';
 import BootstrapNavbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
+import { LinkContainer } from 'react-router-bootstrap';
 import Nav from 'react-bootstrap/Nav';
 
 import { ConfigContext } from '../../context';
@@ -48,60 +48,64 @@ const TagLine = (): React.ReactElement => {
   );
 };
 
-const NavbarNav = (): React.ReactElement => {
+const NavbarNav: React.ComponentType = () => {
   const { t } = useLocalization();
-  const history = useHistory();
-  const { pathname } = useLocation();
   const { enabledModes, defaultMode } = React.useContext(ConfigContext);
 
+  if (enabledModes.size === 1) {
+    return null;
+  }
+
   return (
-    <Nav as="ul" className="mt-1 ml-auto">
-      {enabledModes.size > 1 && (
-        <>
-          {enabledModes.has(Mode.Translation) && (
-            <Nav.Item as="li" className="p-1">
-              <Nav.Link
-                active={
-                  [TextTranslationPath, WebpageTranslationPath, DocTranslationPath].includes(pathname) ||
-                  (pathname === '/' && defaultMode === Mode.Translation)
-                }
-                onClick={() => history.push(generatePath(TextTranslationPath))}
-              >
-                {t('Translation')}
-              </Nav.Link>
-            </Nav.Item>
-          )}
-          {enabledModes.has(Mode.Analysis) && (
-            <Nav.Item as="li" className="p-1">
-              <Nav.Link
-                active={pathname === '/analysis' || (pathname === '/' && defaultMode === Mode.Analysis)}
-                onClick={() => history.push(generatePath('/analysis'))}
-              >
-                {t('Morphological_Analysis')}
-              </Nav.Link>
-            </Nav.Item>
-          )}
-          {enabledModes.has(Mode.Generation) && (
-            <Nav.Item as="li" className="p-1">
-              <Nav.Link
-                active={pathname === '/generation' || (pathname === '/' && defaultMode === Mode.Generation)}
-                onClick={() => history.push(generatePath('/generation'))}
-              >
-                {t('Morphological_Generation')}
-              </Nav.Link>
-            </Nav.Item>
-          )}
-          {enabledModes.has(Mode.Sandbox) && (
-            <Nav.Item as="li" className="p-1">
-              <Nav.Link
-                active={pathname === '/sandbox' || (pathname === '/' && defaultMode === Mode.Sandbox)}
-                onClick={() => history.push(generatePath('/sandbox'))}
-              >
-                {t('APy_Sandbox')}
-              </Nav.Link>
-            </Nav.Item>
-          )}
-        </>
+    <Nav activeKey={null} as="ul" className="mt-1 ml-auto">
+      {enabledModes.has(Mode.Translation) && (
+        <Nav.Item as="li" className="p-1">
+          <LinkContainer
+            isActive={(_, { pathname }) =>
+              [TextTranslationPath, WebpageTranslationPath, DocTranslationPath].includes(pathname) ||
+              (pathname === '/' && defaultMode === Mode.Translation)
+            }
+            to={TextTranslationPath}
+          >
+            <Nav.Link>{t('Translation')}</Nav.Link>
+          </LinkContainer>
+        </Nav.Item>
+      )}
+      {enabledModes.has(Mode.Analysis) && (
+        <Nav.Item as="li" className="p-1">
+          <LinkContainer
+            isActive={(_, { pathname }) =>
+              pathname === '/analysis' || (pathname === '/' && defaultMode === Mode.Analysis)
+            }
+            to={'/analysis'}
+          >
+            <Nav.Link>{t('Morphological_Analysis')}</Nav.Link>
+          </LinkContainer>
+        </Nav.Item>
+      )}
+      {enabledModes.has(Mode.Generation) && (
+        <Nav.Item as="li" className="p-1">
+          <LinkContainer
+            isActive={(_, { pathname }) =>
+              pathname === '/generation' || (pathname === '/' && defaultMode === Mode.Generation)
+            }
+            to={'/generation'}
+          >
+            <Nav.Link>{t('Morphological_Generation')}</Nav.Link>
+          </LinkContainer>
+        </Nav.Item>
+      )}
+      {enabledModes.has(Mode.Sandbox) && (
+        <Nav.Item as="li" className="p-1">
+          <LinkContainer
+            isActive={(_, { pathname }) =>
+              pathname === '/sandbox' || (pathname === '/' && defaultMode === Mode.Sandbox)
+            }
+            to={'/sandbox'}
+          >
+            <Nav.Link>{t('APy_Sandbox')}</Nav.Link>
+          </LinkContainer>
+        </Nav.Item>
       )}
     </Nav>
   );

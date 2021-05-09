@@ -2,12 +2,13 @@ import './translator.css';
 
 import * as React from 'react';
 import { faFile, faLink } from '@fortawesome/free-solid-svg-icons';
-import { generatePath, useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Form from 'react-bootstrap/Form';
+import { LinkContainer } from 'react-router-bootstrap';
 import Row from 'react-bootstrap/Row';
+import { useHistory } from 'react-router-dom';
 
 import {
   ChainedPairs,
@@ -77,11 +78,11 @@ const defaultSrcLang = (pairs: Pairs): string => {
 const urlFromMode = (mode: Mode): string => {
   switch (mode) {
     case Mode.Text:
-      return generatePath(TextTranslationPath);
+      return TextTranslationPath;
     case Mode.Document:
-      return generatePath(DocTranslationPath);
+      return DocTranslationPath;
     case Mode.Webpage:
-      return generatePath(WebpageTranslationPath);
+      return WebpageTranslationPath;
   }
 };
 
@@ -330,20 +331,16 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
                     />
                     <Row className="mt-2 mb-3">
                       <Col className="d-flex d-sm-block flex-wrap translation-modes" md="6" xs="12">
-                        <Button
-                          className="mb-2"
-                          onClick={() => history.push(urlFromMode(Mode.Document))}
-                          variant="secondary"
-                        >
-                          <FontAwesomeIcon icon={faFile} /> {t('Translate_Document')}
-                        </Button>
-                        <Button
-                          className="mb-2"
-                          onClick={() => history.push(urlFromMode(Mode.Webpage))}
-                          variant="secondary"
-                        >
-                          <FontAwesomeIcon icon={faLink} /> {t('Translate_Webpage')}
-                        </Button>
+                        <LinkContainer to={urlFromMode(Mode.Document)}>
+                          <Button className="mb-2" variant="secondary">
+                            <FontAwesomeIcon icon={faFile} /> {t('Translate_Document')}
+                          </Button>
+                        </LinkContainer>
+                        <LinkContainer to={urlFromMode(Mode.Webpage)}>
+                          <Button className="mb-2" variant="secondary">
+                            <FontAwesomeIcon icon={faLink} /> {t('Translate_Webpage')}
+                          </Button>
+                        </LinkContainer>
                       </Col>
                       <Col
                         className="form-check d-flex flex-column align-items-end justify-content-start w-auto"
@@ -370,7 +367,7 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
                 )}
                 {mode === Mode.Document && (
                   <DocTranslationForm
-                    onCancel={() => history.push(urlFromMode(Mode.Text))}
+                    cancelUrl={urlFromMode(Mode.Text)}
                     setLoading={setLoading}
                     srcLang={srcLang}
                     tgtLang={tgtLang}
@@ -378,7 +375,7 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
                 )}
                 {mode === Mode.Webpage && (
                   <WebpageTranslationForm
-                    onCancel={() => history.push(urlFromMode(Mode.Text))}
+                    cancelUrl={urlFromMode(Mode.Text)}
                     setLoading={setLoading}
                     srcLang={srcLang}
                     tgtLang={tgtLang}

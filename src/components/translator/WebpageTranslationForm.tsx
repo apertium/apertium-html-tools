@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { LinkContainer } from 'react-router-bootstrap';
 import Row from 'react-bootstrap/Row';
 import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
@@ -19,12 +20,12 @@ import { useLocalization } from '../../util/localization';
 const urlUrlParam = 'qW';
 
 const WebpageTranslationForm = ({
-  onCancel,
+  cancelUrl,
   srcLang,
   tgtLang,
   setLoading,
 }: {
-  onCancel: () => void;
+  cancelUrl: string;
   srcLang: string;
   tgtLang: string;
   setLoading: (loading: boolean) => void;
@@ -172,9 +173,11 @@ const WebpageTranslationForm = ({
     <Row>
       <Col sm="12">
         <div className="d-inline-flex mb-2 w-100">
-          <Button onClick={onCancel} variant="secondary">
-            <FontAwesomeIcon icon={faArrowLeft} /> {t('Cancel')}
-          </Button>
+          <LinkContainer to={cancelUrl}>
+            <Button variant="secondary">
+              <FontAwesomeIcon icon={faArrowLeft} /> {t('Cancel')}
+            </Button>
+          </LinkContainer>
           <InputGroup className="ml-3">
             <InputGroup.Prepend>
               <InputGroup.Text>
