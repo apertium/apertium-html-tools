@@ -1,6 +1,6 @@
 import { RenderResult, act, renderHook } from '@testing-library/react-hooks';
 
-import useLocalStorage from './useLocalStorage';
+import useLocalStorage from '../useLocalStorage';
 
 const localStorageKey = () => Math.random().toString(36);
 

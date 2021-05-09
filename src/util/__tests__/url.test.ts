@@ -1,4 +1,4 @@
-import { buildNewSearch, getUrlParam } from './url';
+import { buildNewSearch, getUrlParam } from '../url';
 
 describe('getUrlParam', () => {
   afterEach(() => jest.restoreAllMocks());

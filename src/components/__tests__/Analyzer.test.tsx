@@ -5,7 +5,7 @@ import { Router } from 'react-router-dom';
 import mockAxios from 'jest-mock-axios';
 import userEvent from '@testing-library/user-event';
 
-import Analyzer from './Analyzer';
+import Analyzer from '../Analyzer';
 
 const input = 'kick';
 

@@ -5,7 +5,7 @@ import { Router } from 'react-router-dom';
 import mockAxios from 'jest-mock-axios';
 import userEvent from '@testing-library/user-event';
 
-import Generator from './Generator';
+import Generator from '../Generator';
 
 const input = 'foobar';
 

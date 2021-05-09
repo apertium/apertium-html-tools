@@ -5,7 +5,7 @@ import { createMemoryHistory } from 'history';
 import mockAxios from 'jest-mock-axios';
 import userEvent from '@testing-library/user-event';
 
-import Sandbox from './Sandbox';
+import Sandbox from '../Sandbox';
 
 const input = '/analyse?lang=eng&q=kicked';
 

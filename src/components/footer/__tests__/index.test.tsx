@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { getAllByRole, render, screen } from '@testing-library/react';
 
-import Footer from '.';
+import Footer from '..';
 
 describe('Footer', () => {
   it('renders with navigation buttons', () => {

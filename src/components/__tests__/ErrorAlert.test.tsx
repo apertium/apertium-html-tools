@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import ErrorAlert from './ErrorAlert';
+import ErrorAlert from '../ErrorAlert';
 
 it('shows generic errors', () => {
   render(<ErrorAlert error={new Error('Network Error')} />);

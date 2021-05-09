@@ -2,8 +2,8 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { LocaleContext } from '../context';
-import LocaleSelector from './LocaleSelector';
+import { LocaleContext } from '../../context';
+import LocaleSelector from '../LocaleSelector';
 
 it('selects currently active locale', () => {
   render(

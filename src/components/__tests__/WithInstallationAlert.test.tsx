@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import WithInstallationAlert from './WithInstallationAlert';
+import WithInstallationAlert from '../WithInstallationAlert';
 
 it('is closed by default', () => {
   render(<WithInstallationAlert />);

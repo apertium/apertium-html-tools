@@ -4,10 +4,10 @@ import { getAllByRole, render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
-import Config from '../../../config';
-import { ConfigContext } from '../../context';
-import { Config as ConfigType } from '../../types';
-import Navbar from '.';
+import Config from '../../../../config';
+import { ConfigContext } from '../../../context';
+import { Config as ConfigType } from '../../../types';
+import Navbar from '..';
 
 const renderNavbar = (options?: MemoryHistoryBuildOptions, config: Partial<ConfigType> = {}): MemoryHistory => {
   const history = createMemoryHistory(options);

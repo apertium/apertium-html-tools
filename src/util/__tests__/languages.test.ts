@@ -1,4 +1,4 @@
-import { isVariant, langDirection, parentLang, toAlpha2Code, toAlpha3Code } from './languages';
+import { isVariant, langDirection, parentLang, toAlpha2Code, toAlpha3Code } from '../languages';
 
 describe('toAlpha2Code', () => {
   it.each([

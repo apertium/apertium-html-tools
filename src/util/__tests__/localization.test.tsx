@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { renderHook } from '@testing-library/react-hooks';
 
-import { LocaleContext, StringsContext } from '../context';
-import { Strings, useLocalization, validLocale } from './localization';
+import { LocaleContext, StringsContext } from '../../context';
+import { Strings, useLocalization, validLocale } from '../localization';
 
 describe('validLocale', () => {
   it.each([

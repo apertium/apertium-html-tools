@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import TranslationOptions, { Props } from './TranslationOptions';
+import TranslationOptions, { Props } from '../TranslationOptions';
 
 const renderTranslationOptions = (props_: Partial<Props>) => {
   const props = {
