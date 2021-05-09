@@ -1,3 +1,5 @@
+import type { createInstance } from '@datapunt/matomo-tracker-react';
+
 export enum Mode {
   Translation = 'translation',
   Analysis = 'analysis',
@@ -10,6 +12,7 @@ export type Config = {
   htmlUrl: string;
   apyURL: string;
   stringReplacements: Record<string, string>;
+  matamoConfig?: Parameters<typeof createInstance>[0];
 
   allowedLangs?: Set<string>;
   allowedVariants?: Set<string>;

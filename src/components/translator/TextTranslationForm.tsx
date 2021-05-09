@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { DetectCompleteEvent, DetectEvent, PairPrefValues, TranslateEvent, baseUrlParams } from '.';
 import { MaxURLLength, buildNewSearch, getUrlParam } from '../../util/url';
@@ -45,6 +46,7 @@ const TextTranslationForm = ({
 }): React.ReactElement => {
   const { t } = useLocalization();
   const history = useHistory();
+  const { trackEvent } = useMatomo();
   const apyFetch = React.useContext(APyContext);
 
   const srcTextareaRef = React.useRef<HTMLTextAreaElement>(null);
@@ -96,6 +98,7 @@ const TextTranslationForm = ({
       translationRef.current?.cancel();
       translationRef.current = null;
 
+      trackEvent({ category: 'translator', action: 'translate', name: `${srcLang}-${tgtLang}`, value: srcText.length });
       const [ref, request] = apyFetch('translate', {
         q: srcText,
         langpair: `${srcLang}|${tgtLang}`,
@@ -127,7 +130,7 @@ const TextTranslationForm = ({
 
       return () => translationRef.current?.cancel();
     },
-    [apyFetch, markUnknown, prefs, setLoading, srcLang, srcText, tgtLang],
+    [apyFetch, markUnknown, prefs, setLoading, srcLang, srcText, tgtLang, trackEvent],
   );
 
   const translationTimer = React.useRef<number | null>(null);

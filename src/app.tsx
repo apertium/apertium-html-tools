@@ -3,6 +3,7 @@ import './app.css';
 import './rtl.css';
 
 import * as React from 'react';
+import { MatomoProvider, createInstance } from '@datapunt/matomo-tracker-react';
 import { Route, useHistory, useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import axios from 'axios';
@@ -58,8 +59,8 @@ const loadBrowserLocale = (setLocale: React.Dispatch<React.SetStateAction<string
 
 const App: React.FunctionComponent = () => {
   const history = useHistory();
-  const { pathname } = useLocation();
-  const { defaultLocale, defaultMode, enabledModes } = React.useContext(ConfigContext);
+  const location = useLocation();
+  const { defaultLocale, defaultMode, enabledModes, matamoConfig } = React.useContext(ConfigContext);
 
   // Locale selection priority:
   // 1. `lang` parameter from URL
@@ -126,62 +127,71 @@ const App: React.FunctionComponent = () => {
   React.useEffect(() => {
     const body = document.getElementsByTagName('body')[0];
     const handleDragEnter = () => {
-      if (pathname !== DocTranslationPath) {
+      if (location.pathname !== DocTranslationPath) {
         history.push(DocTranslationPath);
       }
     };
     body.addEventListener('dragenter', handleDragEnter);
     return () => body.removeEventListener('dragenter', handleDragEnter);
-  }, [history, pathname]);
+  }, [history, location.pathname]);
 
   const wrapRef = React.createRef<HTMLDivElement>();
   const pushRef = React.createRef<HTMLDivElement>();
 
+  const matamoInstance = React.useMemo(
+    () => createInstance(matamoConfig || { disabled: true, urlBase: '-', siteId: 1 }),
+    [matamoConfig],
+  );
+
+  React.useEffect(() => matamoInstance.trackPageView(), [matamoInstance]);
+
   return (
-    <StringsContext.Provider value={strings}>
-      <LocaleContext.Provider value={locale}>
-        <WithInstallationAlert>
-          <div
-            ref={wrapRef}
-            style={{
-              height: 'auto !important',
-              margin: '0 auto -60px',
-              minHeight: '99.5%',
-            }}
-          >
-            <Navbar setLocale={setLocale} />
-            <Container>
-              {Object.values(Mode).map(
-                (mode) =>
-                  enabledModes.has(mode) && (
-                    <Route
-                      component={Interfaces[mode]}
-                      exact
-                      key={mode}
-                      path={mode === defaultMode ? ['/', `/${mode}`] : `/${mode}`}
-                    />
-                  ),
-              )}
-              {enabledModes.has(Mode.Translation) && (
-                <>
-                  <Route exact path={DocTranslationPath}>
-                    <Translator mode={TranslatorMode.Document} />
-                  </Route>
-                  <Route exact path={WebpageTranslationPath}>
-                    <Translator mode={TranslatorMode.Webpage} />
-                  </Route>
-                </>
-              )}
-              <div className="d-block d-sm-none float-left my-2">
-                <LocaleSelector setLocale={setLocale} />
-              </div>
-            </Container>
-            <div ref={pushRef} style={{ height: '60px' }} />
-          </div>
-          <Footer pushRef={pushRef} wrapRef={wrapRef} />
-        </WithInstallationAlert>
-      </LocaleContext.Provider>
-    </StringsContext.Provider>
+    <MatomoProvider value={matamoInstance}>
+      <StringsContext.Provider value={strings}>
+        <LocaleContext.Provider value={locale}>
+          <WithInstallationAlert>
+            <div
+              ref={wrapRef}
+              style={{
+                height: 'auto !important',
+                margin: '0 auto -60px',
+                minHeight: '99.5%',
+              }}
+            >
+              <Navbar setLocale={setLocale} />
+              <Container>
+                {Object.values(Mode).map(
+                  (mode) =>
+                    enabledModes.has(mode) && (
+                      <Route
+                        component={Interfaces[mode]}
+                        exact
+                        key={mode}
+                        path={mode === defaultMode ? ['/', `/${mode}`] : `/${mode}`}
+                      />
+                    ),
+                )}
+                {enabledModes.has(Mode.Translation) && (
+                  <>
+                    <Route exact path={DocTranslationPath}>
+                      <Translator mode={TranslatorMode.Document} />
+                    </Route>
+                    <Route exact path={WebpageTranslationPath}>
+                      <Translator mode={TranslatorMode.Webpage} />
+                    </Route>
+                  </>
+                )}
+                <div className="d-block d-sm-none float-left my-2">
+                  <LocaleSelector setLocale={setLocale} />
+                </div>
+              </Container>
+              <div ref={pushRef} style={{ height: '60px' }} />
+            </div>
+            <Footer pushRef={pushRef} wrapRef={wrapRef} />
+          </WithInstallationAlert>
+        </LocaleContext.Provider>
+      </StringsContext.Provider>
+    </MatomoProvider>
   );
 };
 

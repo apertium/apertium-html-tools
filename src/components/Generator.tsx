@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { MaxURLLength, buildNewSearch, getUrlParam } from '../util/url';
 import { langDirection, toAlpha3Code } from '../util/languages';
@@ -30,6 +31,7 @@ const GeneratorForm = ({
 }): React.ReactElement => {
   const { t, tLang } = useLocalization();
   const history = useHistory();
+  const { trackEvent } = useMatomo();
   const apyFetch = React.useContext(APyContext);
 
   const [lang, setLang] = useLocalStorage('generatorLang', Object.keys(Generators)[0], {
@@ -61,6 +63,7 @@ const GeneratorForm = ({
     void (async () => {
       try {
         setLoading(true);
+        trackEvent({ category: 'generator', action: 'generate', name: lang, value: text.length });
         const [ref, request] = apyFetch('generate', { lang, q: text });
         generationRef.current = ref;
 

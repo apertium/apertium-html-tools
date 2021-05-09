@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { MaxURLLength, buildNewSearch, getUrlParam } from '../util/url';
 import { langDirection, toAlpha3Code } from '../util/languages';
@@ -114,6 +115,7 @@ const AnalysisForm = ({
 }): React.ReactElement => {
   const history = useHistory();
   const { t, tLang } = useLocalization();
+  const { trackEvent } = useMatomo();
   const apyFetch = React.useContext(APyContext);
 
   const [lang, setLang] = useLocalStorage('analyzerLang', Object.keys(Analyzers)[0], {
@@ -145,6 +147,7 @@ const AnalysisForm = ({
     void (async () => {
       try {
         setLoading(true);
+        trackEvent({ category: 'analyzer', action: 'analyze', name: lang, value: text.length });
         const [ref, request] = apyFetch('analyze', { lang, q: text });
         analysisRef.current = ref;
 

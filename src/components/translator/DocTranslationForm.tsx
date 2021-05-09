@@ -10,6 +10,7 @@ import Modal from 'react-bootstrap/Modal';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Row from 'react-bootstrap/Row';
 import { useHistory } from 'react-router-dom';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { TranslateEvent, baseUrlParams } from '.';
 import { ConfigContext } from '../../context';
@@ -46,6 +47,7 @@ const DocTranslationForm = ({
 }): React.ReactElement => {
   const { t } = useLocalization();
   const history = useHistory();
+  const { trackEvent } = useMatomo();
   const { apyURL } = React.useContext(ConfigContext);
 
   React.useEffect(() => {
@@ -87,6 +89,13 @@ const DocTranslationForm = ({
       setLoading(true);
       setProgress(0);
 
+      trackEvent({
+        category: 'translator',
+        action: 'translateDoc',
+        name: `${srcLang}-${tgtLang}`,
+        value: file.size,
+      });
+
       void (async () => {
         try {
           const response = (
@@ -120,7 +129,7 @@ const DocTranslationForm = ({
 
       return () => translationRef.current?.cancel();
     },
-    [apyURL, setLoading, srcLang, tgtLang],
+    [apyURL, setLoading, srcLang, tgtLang, trackEvent],
   );
 
   React.useEffect(() => {

@@ -10,6 +10,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import Row from 'react-bootstrap/Row';
 import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { MaxURLLength, buildNewSearch, getUrlParam } from '../../util/url';
 import { TranslateEvent, baseUrlParams } from '.';
@@ -32,6 +33,7 @@ const WebpageTranslationForm = ({
 }): React.ReactElement => {
   const { t } = useLocalization();
   const history = useHistory();
+  const { trackEvent } = useMatomo();
   const apyFetch = React.useContext(APyContext);
 
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
@@ -77,6 +79,7 @@ const WebpageTranslationForm = ({
       translationRef.current?.cancel();
       translationRef.current = null;
 
+      trackEvent({ category: 'translator', action: 'translateWebpage', name: `${srcLang}-${tgtLang}` });
       const [ref, request] = apyFetch('translatePage', {
         url,
         langpair: `${srcLang}|${tgtLang}`,
@@ -106,7 +109,7 @@ const WebpageTranslationForm = ({
 
       return () => translationRef.current?.cancel();
     },
-    [apyFetch, setLoading, srcLang, tgtLang],
+    [apyFetch, setLoading, srcLang, tgtLang, trackEvent],
   );
 
   React.useEffect(() => {
