@@ -112,11 +112,7 @@ const Sandbox = (): React.ReactElement => {
     <>
       <SandboxForm setError={setError} setLoading={setLoading} setResult={setResult} />
       <hr />
-      <div
-        className={classNames({
-          blurred: loading,
-        })}
-      >
+      <main className={classNames({ blurred: loading })}>
         {result && (
           <>
             <code className="float-right">
@@ -127,7 +123,7 @@ const Sandbox = (): React.ReactElement => {
           </>
         )}
         {error && <ErrorAlert error={error} />}
-      </div>
+      </main>
     </>
   );
 };

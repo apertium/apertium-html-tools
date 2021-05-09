@@ -143,12 +143,7 @@ const Generator = (): React.ReactElement => {
     <>
       <GeneratorForm setError={setError} setGeneration={setGeneration} setLoading={setLoading} />
       <hr />
-      <div
-        className={classNames({
-          blurred: loading,
-        })}
-        role="region"
-      >
+      <main className={classNames({ blurred: loading })}>
         {generation.map(([analysis, stem], i) => (
           <div key={i}>
             <strong>{stem.trim()}</strong>
@@ -159,7 +154,7 @@ const Generator = (): React.ReactElement => {
           </div>
         ))}
         {error && <ErrorAlert error={error} />}
-      </div>
+      </main>
     </>
   );
 };

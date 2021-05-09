@@ -226,14 +226,10 @@ const Analyzer = (): React.ReactElement => {
   return (
     <>
       <AnalysisForm setAnalysis={setAnalysis} setError={setError} setLoading={setLoading} />
-      <div
-        className={classNames({
-          blurred: loading,
-        })}
-      >
+      <main className={classNames({ blurred: loading })}>
         {analysis.length ? <AnalysisResult analysis={analysis} /> : null}
         {error && <ErrorAlert error={error} />}
-      </div>
+      </main>
     </>
   );
 };

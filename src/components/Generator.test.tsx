@@ -167,7 +167,7 @@ describe('generation', () => {
       ),
     );
 
-    const output = screen.getByRole('region');
+    const output = screen.getByRole('main');
     expect(output.textContent).toBe('kicked  ↬  kicked/kick<vblex><pp>/kick<vblex><past>');
   });
 
@@ -179,7 +179,7 @@ describe('generation', () => {
     mockAxios.mockResponse({ data: [['kicked/kick<vblex><pp>/kick<vblex><past>', 'kicked']] });
     await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
 
-    const output = screen.getByRole('region');
+    const output = screen.getByRole('main');
     expect(output.textContent).toBe('kicked  ↬  kicked/kick<vblex><pp>/kick<vblex><past>');
   });
 

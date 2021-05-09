@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import mockAxios from 'jest-mock-axios';
@@ -32,11 +32,54 @@ it('allows typing an input', () => {
   expect(textbox.value).toBe(input);
 });
 
+it('persists input in browser storage', () => {
+  renderSandbox();
+  type(input);
+  cleanup();
+
+  renderSandbox();
+
+  const textbox = screen.getByRole('textbox');
+  expect((textbox as HTMLSelectElement).value).toBe(input);
+});
+
 describe('requests', () => {
   it('no-ops an empty input', () => {
     renderSandbox();
     submit();
     expect(mockAxios.post).not.toBeCalled();
+  });
+
+  it('requests on button click', async () => {
+    renderSandbox();
+    type(input);
+    submit();
+
+    mockAxios.mockResponse({
+      data: [
+        ['kicked/kick<vblex><pp>/kick<vblex><past>', 'kicked'],
+        ["'/'<apos>/'s<gen>", "'"],
+      ],
+    });
+    await waitFor(() =>
+      expect(mockAxios.post).toHaveBeenCalledWith(expect.stringContaining(input), '', expect.anything()),
+    );
+
+    const output = screen.getByRole('main');
+    expect(output.textContent).toContain('ms');
+    expect(output.textContent).toContain('"kicked/kick<vblex><pp>/kick<vblex><past>",');
+  });
+
+  it('requests on enter', async () => {
+    renderSandbox();
+
+    type(`${input}{enter}`);
+
+    mockAxios.mockResponse({ data: 'the-response' });
+    await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
+
+    const output = screen.getByRole('main');
+    expect(output.textContent).toContain('the-response');
   });
 
   it('shows errors', async () => {
