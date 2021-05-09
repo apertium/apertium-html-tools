@@ -1,8 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { HashRouter } from 'react-router-dom';
 
-import App from './app';
+import App from './App';
 
 // `BrowserRouter` uses the `history` library underneath which persists
 // `window.location.search` inside the hash rather than as proper query
@@ -13,9 +12,4 @@ if (search.length) {
   window.history.pushState({}, '', `${window.location.pathname}${window.location.hash}${search}`);
 }
 
-ReactDOM.render(
-  <HashRouter hashType="noslash">
-    <App />
-  </HashRouter>,
-  document.getElementById('react-mount'),
-);
+ReactDOM.render(<App />, document.getElementById('react-mount'));
