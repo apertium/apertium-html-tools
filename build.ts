@@ -187,7 +187,7 @@ const Plugin = {
 // TODO: Switch `yarn serve` to use `esbuild.serve` which prevents stale
 // responses and minimizes FS writes.
 void esbuild.build({
-  entryPoints: ['src/app.tsx'],
+  entryPoints: ['src/index.tsx'],
   bundle: true,
   metafile: true,
   loader: { '.embed.png': 'dataurl', '.png': 'file', '.gif': 'file', '.jpg': 'file' },

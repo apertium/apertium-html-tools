@@ -3,8 +3,7 @@ import './app.css';
 import './rtl.css';
 
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { HashRouter, Route, useHistory, useLocation } from 'react-router-dom';
+import { Route, useHistory, useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import axios from 'axios';
 
@@ -57,7 +56,7 @@ const loadBrowserLocale = (setLocale: React.Dispatch<React.SetStateAction<string
   })();
 };
 
-const App = () => {
+const App: React.FunctionComponent = () => {
   const history = useHistory();
   const { pathname } = useLocation();
   const { defaultLocale, defaultMode, enabledModes } = React.useContext(ConfigContext);
@@ -186,9 +185,4 @@ const App = () => {
   );
 };
 
-ReactDOM.render(
-  <HashRouter>
-    <App />
-  </HashRouter>,
-  document.getElementById('react-mount'),
-);
+export default App;
