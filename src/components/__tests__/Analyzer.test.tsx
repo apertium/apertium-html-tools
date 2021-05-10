@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MemoryHistory, MemoryHistoryBuildOptions, createMemoryHistory } from 'history';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, getAllByRole, render, screen, waitFor } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import mockAxios from 'jest-mock-axios';
 import userEvent from '@testing-library/user-event';
@@ -138,6 +138,55 @@ describe('analysis', () => {
 
     const error = screen.getByRole('alert');
     expect(error.textContent).toContain('That mode is not installed');
+  });
+
+  it('analyzes on button click', async () => {
+    renderAnalyzer();
+    type('The quick brown fox jumps over the lazy dog.');
+
+    submit();
+
+    mockAxios.mockResponse({
+      data: [
+        ['The/the<det><def><sp>', 'The '],
+        ['quick/quick<adv>/quick<adj><sint>', 'quick '],
+        ['brown/brown<n><sg>/brown<adj><sint>', 'brown '],
+        ['fox/fox<n><sg>', 'fox '],
+        ['jumps over/jump<vblex><pres><p3><sg># over', 'jumps over '],
+        ['the/the<det><def><sp>', 'the '],
+        ['lazy/lazy<adj><sint>', 'lazy '],
+        ['dog/dog<n><sg>', 'dog'],
+        ['../..<sent>', '..'],
+      ],
+    });
+    await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
+
+    const table = screen.getByRole('table');
+
+    const rows = getAllByRole(table, 'row');
+    expect(rows).toHaveLength(9);
+
+    const firstRow = rows[0];
+    const cells = getAllByRole(firstRow, 'cell');
+    expect(cells).toHaveLength(2);
+
+    expect(cells[0].textContent).toBe('The  ↬');
+    expect(cells[1].textContent).toBe('the  ↤  det ⋅ def ⋅ sp');
+  });
+
+  it('analyzes on enter', async () => {
+    renderAnalyzer();
+    type(`${input}{enter}`);
+
+    mockAxios.mockResponse({
+      data: [['kick/kick<n><sg>/kick<vblex><inf>/kick<vblex><pres>/kick<vblex><imp>', 'kick']],
+    });
+    await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
+
+    const table = screen.getByRole('table');
+
+    const rows = getAllByRole(table, 'row');
+    expect(rows).toHaveLength(1);
   });
 
   it('cancels pending requests', async () => {
