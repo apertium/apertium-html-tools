@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { MemoryHistory, MemoryHistoryBuildOptions, createMemoryHistory } from 'history';
-import { getAllByRole, render, screen } from '@testing-library/react';
+import { getAllByRole, queryAllByRole, render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
 import Config from '../../../../config';
 import { ConfigContext } from '../../../context';
-import { Config as ConfigType } from '../../../types';
+import { Config as ConfigType, Mode } from '../../../types';
 import Navbar from '..';
 
 const renderNavbar = (options?: MemoryHistoryBuildOptions, config: Partial<ConfigType> = {}): MemoryHistory => {
@@ -24,13 +24,24 @@ const renderNavbar = (options?: MemoryHistoryBuildOptions, config: Partial<Confi
   return history;
 };
 
-it('renders navigation options', () => {
-  renderNavbar();
+describe('navigation options', () => {
+  it('includes links per mode', () => {
+    renderNavbar();
 
-  const navbar = screen.getByRole('navigation');
-  const buttons = getAllByRole(navbar, 'link', { name: (n) => n !== 'Toggle navigation' });
+    const navbar = screen.getByRole('navigation');
+    const buttons = getAllByRole(navbar, 'link', { name: (n) => n !== 'Toggle navigation' });
 
-  expect(buttons).toHaveLength(4);
+    expect(buttons).toHaveLength(4);
+  });
+
+  it('hides button when only one mode is enabled', () => {
+    renderNavbar(undefined, { enabledModes: new Set([Mode.Translation]) });
+
+    const navbar = screen.getByRole('navigation');
+    const buttons = queryAllByRole(navbar, 'link');
+
+    expect(buttons).toHaveLength(0);
+  });
 });
 
 it('defaults to translation', () => {
