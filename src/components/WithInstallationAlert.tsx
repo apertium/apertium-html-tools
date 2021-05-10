@@ -7,7 +7,7 @@ import { useLocalization } from '../util/localization';
 
 const requestBufferLength = 5,
   individualDurationThreshold = 4000,
-  cumulativeDurationTreshold = 3000,
+  cumulativeDurationThreshold = 3000,
   notificationDuration = 10000;
 
 const InstallationAlert = ({ show, onClose }: { show: boolean; onClose: () => void }): React.ReactElement => {
@@ -67,9 +67,7 @@ const WithInstallationAlert = ({ children }: { children?: React.ReactNode }): Re
 
   const requestTimings = React.useRef<Array<number>>([]);
 
-  const wrappedApyFetch = React.useCallback((path: string, params?: Record<string, string>): ReturnType<
-    typeof apyFetch
-  > => {
+  const wrappedApyFetch: typeof apyFetch = React.useCallback((path, params) => {
     const start = Date.now();
 
     const handleRequestComplete = () => {
@@ -89,7 +87,7 @@ const WithInstallationAlert = ({ children }: { children?: React.ReactNode }): Re
 
       const averageDuration = cumulativeAPyDuration / timings.length;
 
-      if (duration > individualDurationThreshold || averageDuration > cumulativeDurationTreshold) {
+      if (duration > individualDurationThreshold || averageDuration > cumulativeDurationThreshold) {
         setShow(true);
       }
     };

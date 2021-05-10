@@ -13,6 +13,7 @@ export default {
     '\\.(css)$': 'identity-obj-proxy',
     '\\.(gif|png|jpg)$': '<rootDir>/src/__mocks__/file.ts',
   },
+  timers: 'modern',
 
   setupFiles: ['./src/testSetup.ts'],
   setupFilesAfterEnv: ['./src/testEnvSetup.ts'],
