@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import TranslationOptions, { Props } from '../TranslationOptions';
 
-const renderTranslationOptions = (props_: Partial<Props>) => {
+const renderTranslationOptions = (props_: Partial<Props> = {}) => {
   const props = {
     markUnknown: false,
     setMarkUnknown: jest.fn(),
@@ -51,12 +51,12 @@ describe('instant translation', () => {
   });
 
   it.each([false, true])('toggles from %s', (instantTranslation) => {
-    const props = renderTranslationOptions({ instantTranslation });
+    const { setInstantTranslation } = renderTranslationOptions({ instantTranslation });
 
     const checkbox = screen.getByRole('checkbox', { name });
     userEvent.click(checkbox);
 
-    expect(props.setInstantTranslation).toHaveBeenCalledWith(!instantTranslation);
+    expect(setInstantTranslation).toHaveBeenCalledWith(!instantTranslation);
   });
 });
 
@@ -69,11 +69,42 @@ describe('translation chaining', () => {
   });
 
   it.each([false, true])('toggles from %s', (translationChaining) => {
-    const props = renderTranslationOptions({ translationChaining });
+    const { setTranslationChaining } = renderTranslationOptions({ translationChaining });
 
     const checkbox = screen.getByRole('checkbox', { name });
     userEvent.click(checkbox);
 
-    expect(props.setTranslationChaining).toHaveBeenCalledWith(!translationChaining);
+    expect(setTranslationChaining).toHaveBeenCalledWith(!translationChaining);
+  });
+});
+
+describe('pair prefs', () => {
+  const withPrefsOptions = { srcLang: 'eng', tgtLang: 'cat' };
+
+  it('renders nothing when prefs are unavailable', () => {
+    renderTranslationOptions();
+    expect(screen.queryByRole('button')).toBeNull();
+  });
+
+  it('renders closed dropdown when prefs are available', () => {
+    renderTranslationOptions(withPrefsOptions);
+    expect(screen.getByRole('button').textContent).toBe(' Norm_Preferences-Default');
+  });
+
+  it('renders prefs when dropdown clicked', async () => {
+    renderTranslationOptions(withPrefsOptions);
+    userEvent.click(screen.getByRole('button'));
+
+    expect(await screen.findByRole('checkbox', { name: 'foo_pref' })).toBeDefined();
+  });
+
+  it('updates prefs when checkbox clicked', async () => {
+    const { setPairPrefs } = renderTranslationOptions(withPrefsOptions);
+    userEvent.click(screen.getByRole('button'));
+
+    const checkbox = await screen.findByRole('checkbox', { name: 'foo_pref' });
+    userEvent.click(checkbox);
+
+    expect(setPairPrefs).toBeCalledWith({ foo: true });
   });
 });

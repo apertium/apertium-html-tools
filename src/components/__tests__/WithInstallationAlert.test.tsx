@@ -24,7 +24,7 @@ afterEach(() => jest.setSystemTime(jest.getRealSystemTime()));
 
 it('is closed by default', () => {
   render(<WithInstallationAlert />);
-  expect(screen.queryAllByRole('alert')).toHaveLength(0);
+  expect(screen.queryByRole('alert')).toBeNull();
 });
 
 it('renders children', () => {
@@ -44,7 +44,7 @@ describe('request interactions', () => {
     jest.setSystemTime(Date.now() + 100);
     act(() => mockAxios.mockResponse());
 
-    expect(screen.queryAllByRole('alert')).toHaveLength(0);
+    expect(screen.queryByRole('alert')).toBeNull();
   });
 
   it('opens due to a single slow request', async () => {
@@ -65,7 +65,7 @@ describe('request interactions', () => {
     jest.setSystemTime(Date.now() + 3100);
     act(() => void Array.from({ length: 5 }, () => mockAxios.mockResponse()));
 
-    expect(screen.queryAllByRole('alert')).toHaveLength(0);
+    expect(screen.queryByRole('alert')).toBeNull();
 
     act(() => mockAxios.mockResponse());
 
@@ -89,7 +89,7 @@ describe('open behavior', () => {
 
     userEvent.click(screen.getByRole('button'));
 
-    await waitFor(() => expect(() => screen.queryAllByRole('alert')).toHaveLength(0));
+    await waitFor(() => expect(screen.queryByRole('alert')).toBeNull());
   });
 
   it('closes after timeout', async () => {
@@ -97,7 +97,7 @@ describe('open behavior', () => {
 
     act(() => void jest.advanceTimersByTime(110000));
 
-    await waitFor(() => expect(() => screen.queryAllByRole('alert')).toHaveLength(0));
+    await waitFor(() => expect(screen.queryByRole('alert')).toBeNull());
   });
 
   it('stays open on hover', async () => {
@@ -112,6 +112,6 @@ describe('open behavior', () => {
 
     act(() => void jest.advanceTimersByTime(110000));
 
-    await waitFor(() => expect(() => screen.queryAllByRole('alert')).toHaveLength(0));
+    await waitFor(() => expect(screen.queryByRole('alert')).toBeNull());
   });
 });

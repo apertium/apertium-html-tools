@@ -47,6 +47,7 @@ const InstallationAlert = ({ show, onClose }: { show: boolean; onClose: () => vo
 
   return (
     <Alert
+      aria-hidden={!show}
       className="m-2 p-2 d-md-none d-lg-block"
       dismissible
       onClose={onClose}
