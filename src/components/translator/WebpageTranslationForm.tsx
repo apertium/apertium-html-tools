@@ -20,17 +20,14 @@ import { useLocalization } from '../../util/localization';
 
 const urlUrlParam = 'qW';
 
-const WebpageTranslationForm = ({
-  cancelUrl,
-  srcLang,
-  tgtLang,
-  setLoading,
-}: {
+export type Props = {
   cancelUrl: string;
   srcLang: string;
   tgtLang: string;
   setLoading: (loading: boolean) => void;
-}): React.ReactElement => {
+};
+
+const WebpageTranslationForm = ({ cancelUrl, srcLang, tgtLang, setLoading }: Props): React.ReactElement => {
   const { t } = useLocalization();
   const history = useHistory();
   const { trackEvent } = useMatomo();

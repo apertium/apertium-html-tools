@@ -29,6 +29,15 @@ const autoResizeMinimumWidth = 768;
 
 const isKeyUpEvent = (event: React.SyntheticEvent): event is React.KeyboardEvent => event.type === 'keyup';
 
+export type Props = {
+  srcLang: string;
+  tgtLang: string;
+  instantTranslation: boolean;
+  markUnknown: boolean;
+  pairPrefs: PairPrefValues;
+  setLoading: (loading: boolean) => void;
+};
+
 const TextTranslationForm = ({
   srcLang,
   tgtLang,
@@ -36,14 +45,7 @@ const TextTranslationForm = ({
   instantTranslation,
   pairPrefs,
   setLoading,
-}: {
-  srcLang: string;
-  tgtLang: string;
-  instantTranslation: boolean;
-  markUnknown: boolean;
-  pairPrefs: PairPrefValues;
-  setLoading: (loading: boolean) => void;
-}): React.ReactElement => {
+}: Props): React.ReactElement => {
   const { t } = useLocalization();
   const history = useHistory();
   const { trackEvent } = useMatomo();
