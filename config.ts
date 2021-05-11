@@ -13,6 +13,6 @@ export default {
   subtitleColor: 'rgb(220, 41, 38)',
 
   stringReplacements: {
-    '{{maintainer}}': "<a href='http://wiki.apertium.org/wiki/Apertium' target='_blank' rel='noopener'>Apertium</a>",
+    '{{maintainer}}': "<a href='https://wiki.apertium.org/wiki/Apertium' target='_blank' rel='noopener'>Apertium</a>",
   },
 } as Config;

@@ -41,7 +41,7 @@ describe('useLocalization', () => {
         // replacements
         [
           'Maintainer',
-          `<a href='http://wiki.apertium.org/wiki/Apertium' target='_blank' rel='noopener'>Apertium</a>-Default`,
+          `<a href='https://wiki.apertium.org/wiki/Apertium' target='_blank' rel='noopener'>Apertium</a>-Default`,
         ],
       ])('maps %s to %s', (id, value) => expect(t(id)).toBe(value));
     });
