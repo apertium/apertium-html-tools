@@ -98,6 +98,17 @@ describe('pair prefs', () => {
     expect(await screen.findByRole('checkbox', { name: 'foo_pref' })).toBeDefined();
   });
 
+  it('closes dropdown when clicked', () => {
+    renderTranslationOptions(withPrefsOptions);
+
+    const button = screen.getByRole('button');
+    userEvent.click(button);
+    expect(button.getAttribute('aria-expanded')).toBe('true');
+
+    userEvent.click(button);
+    expect(button.getAttribute('aria-expanded')).toBe('false');
+  });
+
   it('updates prefs when checkbox clicked', async () => {
     const { setPairPrefs } = renderTranslationOptions(withPrefsOptions);
     userEvent.click(screen.getByRole('button'));

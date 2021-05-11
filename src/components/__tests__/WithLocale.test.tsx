@@ -29,13 +29,13 @@ describe('default locale selection', () => {
     expect(screen.getByRole('main').textContent).toEqual('heb');
   });
 
-  it('prioritizes lang parameter over url path', () => {
+  it('prefers lang parameter over url path', () => {
     setLocation('/index.heb.html?lang=spa');
     renderWithLocale();
     expect(screen.getByRole('main').textContent).toEqual('spa');
   });
 
-  it('prioritizes url path over browser storage', () => {
+  it('prefers url path over browser storage', () => {
     setLocation('/index.heb.html');
     renderWithLocale();
 
