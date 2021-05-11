@@ -136,7 +136,7 @@ describe('generation', () => {
     await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
 
     const error = screen.getByRole('alert');
-    expect(error.textContent).toContain('That mode is not installed');
+    expect(error.textContent).toMatchInlineSnapshot(`" That mode is not installed"`);
   });
 
   it('cancels pending requests', async () => {
@@ -168,7 +168,7 @@ describe('generation', () => {
     );
 
     const output = screen.getByRole('main');
-    expect(output.textContent).toBe('kicked  ↬  kicked/kick<vblex><pp>/kick<vblex><past>');
+    expect(output.textContent).toMatchInlineSnapshot(`"kicked  ↬  kicked/kick<vblex><pp>/kick<vblex><past>"`);
   });
 
   it('generates on enter', async () => {
@@ -180,7 +180,7 @@ describe('generation', () => {
     await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
 
     const output = screen.getByRole('main');
-    expect(output.textContent).toBe('kicked  ↬  kicked/kick<vblex><pp>/kick<vblex><past>');
+    expect(output.textContent).toMatchInlineSnapshot(`"kicked  ↬  kicked/kick<vblex><pp>/kick<vblex><past>"`);
   });
 
   it('does not generate on shift+enter', () => {

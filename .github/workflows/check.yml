@@ -38,7 +38,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Collect test coverage
-        run: yarn coverage
+        run: yarn coverage --ci
       - name: Upload coverage
         uses: coverallsapp/github-action@master
         with:

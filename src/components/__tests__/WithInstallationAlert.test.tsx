@@ -33,7 +33,7 @@ it('renders children', () => {
       <main>hello</main>
     </WithInstallationAlert>,
   );
-  expect(screen.getByRole('main').textContent).toContain('hello');
+  expect(screen.getByRole('main').textContent).toBe('hello');
 });
 
 describe('request interactions', () => {

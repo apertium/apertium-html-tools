@@ -95,6 +95,6 @@ describe('requests', () => {
     await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
 
     const error = screen.getByRole('alert');
-    expect(error.textContent).toContain('That mode is not installed');
+    expect(error.textContent).toMatchInlineSnapshot(`" That mode is not installed"`);
   });
 });

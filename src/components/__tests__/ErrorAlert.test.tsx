@@ -7,5 +7,5 @@ it('shows generic errors', () => {
   render(<ErrorAlert error={new Error('Network Error')} />);
 
   const error = screen.getByRole('alert');
-  expect(error.textContent).toContain('Network Error');
+  expect(error.textContent).toMatchInlineSnapshot(`" Error: Network Error"`);
 });

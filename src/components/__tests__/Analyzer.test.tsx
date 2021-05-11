@@ -137,7 +137,7 @@ describe('analysis', () => {
     await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
 
     const error = screen.getByRole('alert');
-    expect(error.textContent).toContain('That mode is not installed');
+    expect(error.textContent).toMatchInlineSnapshot(`" That mode is not installed"`);
   });
 
   it('analyzes on button click', async () => {
@@ -170,8 +170,8 @@ describe('analysis', () => {
     const cells = getAllByRole(firstRow, 'cell');
     expect(cells).toHaveLength(2);
 
-    expect(cells[0].textContent).toBe('The  ↬');
-    expect(cells[1].textContent).toBe('the  ↤  det ⋅ def ⋅ sp');
+    expect(cells[0].textContent).toMatchInlineSnapshot(`"The  ↬"`);
+    expect(cells[1].textContent).toMatchInlineSnapshot(`"the  ↤  det ⋅ def ⋅ sp"`);
   });
 
   it('analyzes on enter', async () => {
