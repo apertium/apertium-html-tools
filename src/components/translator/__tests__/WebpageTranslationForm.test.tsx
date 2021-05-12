@@ -1,12 +1,15 @@
 import * as React from 'react';
-import { MemoryHistoryBuildOptions, createMemoryHistory } from 'history';
+import { MemoryHistory, MemoryHistoryBuildOptions, createMemoryHistory } from 'history';
 import { cleanup, render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
 import WebpageTranslationForm, { Props } from '../WebpageTranslationForm';
 
-const renderWebpageTranslationForm = (props_: Partial<Props> = {}, historyOptions?: MemoryHistoryBuildOptions) => {
+const renderWebpageTranslationForm = (
+  props_: Partial<Props> = {},
+  historyOptions?: MemoryHistoryBuildOptions,
+): [Props, MemoryHistory] => {
   const history = createMemoryHistory(historyOptions);
 
   const props = {
@@ -23,7 +26,7 @@ const renderWebpageTranslationForm = (props_: Partial<Props> = {}, historyOption
     </Router>,
   );
 
-  return props;
+  return [props, history];
 };
 
 const getInputTextbox = (): HTMLTextAreaElement => screen.getByRole('textbox') as HTMLTextAreaElement;
@@ -57,4 +60,13 @@ describe('inital source url', () => {
     renderWebpageTranslationForm();
     expect(getInputTextbox().value).toBe('');
   });
+});
+
+it('discards long source url for URL state', () => {
+  const [, history] = renderWebpageTranslationForm();
+
+  const input = 'foobar'.repeat(500);
+  userEvent.paste(getInputTextbox(), input);
+
+  expect(history.location.search).toBe(`?dir=eng-spa`);
 });

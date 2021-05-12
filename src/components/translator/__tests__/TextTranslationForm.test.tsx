@@ -1,12 +1,15 @@
 import * as React from 'react';
-import { MemoryHistoryBuildOptions, createMemoryHistory } from 'history';
+import { MemoryHistory, MemoryHistoryBuildOptions, createMemoryHistory } from 'history';
 import { cleanup, render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
 import TextTranslationForm, { Props } from '../TextTranslationForm';
 
-const renderTextTranslationForm = (props_: Partial<Props> = {}, historyOptions?: MemoryHistoryBuildOptions) => {
+const renderTextTranslationForm = (
+  props_: Partial<Props> = {},
+  historyOptions?: MemoryHistoryBuildOptions,
+): [Props, MemoryHistory] => {
   const history = createMemoryHistory(historyOptions);
 
   const props = {
@@ -25,7 +28,7 @@ const renderTextTranslationForm = (props_: Partial<Props> = {}, historyOptions?:
     </Router>,
   );
 
-  return props;
+  return [props, history];
 };
 
 const input = 'hello';
@@ -60,4 +63,42 @@ describe('inital source text', () => {
     renderTextTranslationForm();
     expect(getInputTextbox().value).toBe('');
   });
+});
+
+it('discards long source text for URL state', () => {
+  const [, history] = renderTextTranslationForm();
+
+  const input = 'foobar'.repeat(500);
+  userEvent.paste(getInputTextbox(), input);
+
+  expect(history.location.search).toBe(`?dir=eng-spa`);
+});
+
+it('clears text on button click', () => {
+  renderTextTranslationForm();
+  const textbox = getInputTextbox();
+
+  const button = screen.getAllByRole('button').find(({ classList }) => classList.contains('clear-text-button'));
+  expect(button).toBeDefined();
+
+  userEvent.type(textbox, input);
+  userEvent.click(button as HTMLButtonElement);
+
+  expect(textbox.value).toBe('');
+  expect(document.activeElement).toBe(textbox);
+});
+
+it('copies text on button click', () => {
+  const execCommand = jest.fn();
+  document.execCommand = execCommand;
+
+  renderTextTranslationForm();
+
+  const button = screen.getAllByRole('button').find(({ classList }) => classList.contains('copy-text-button'));
+  expect(button).toBeDefined();
+
+  userEvent.type(getInputTextbox(), input);
+  userEvent.click(button as HTMLButtonElement);
+
+  expect(execCommand).toBeCalledWith('copy');
 });

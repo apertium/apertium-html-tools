@@ -34,17 +34,14 @@ const allowedMimeTypes = [
   'application/x-tex',
 ];
 
-const DocTranslationForm = ({
-  srcLang,
-  tgtLang,
-  cancelUrl,
-  setLoading,
-}: {
+export type Props = {
   cancelUrl: string;
   srcLang: string;
   tgtLang: string;
   setLoading: (loading: boolean) => void;
-}): React.ReactElement => {
+};
+
+const DocTranslationForm = ({ srcLang, tgtLang, cancelUrl, setLoading }: Props): React.ReactElement => {
   const { t } = useLocalization();
   const history = useHistory();
   const { trackEvent } = useMatomo();
