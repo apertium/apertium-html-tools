@@ -12,7 +12,7 @@ describe('toAlpha2Code', () => {
 
 describe('toAlpha3Code', () => {
   it.each([
-    ['xxx', null],
+    ['xxx', 'xxx'],
     ['tel', 'tel'],
     ['eng', 'eng'],
     ['en_US', 'eng_US'],
