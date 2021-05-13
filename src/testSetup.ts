@@ -10,7 +10,7 @@ defaultStrings['Maintainer'] = '{{maintainer}}-Default';
 (window as any).PRELOADED_STRINGS = { eng: defaultStrings };
 
 // eslint-disable-next-line
-(window as any).PAIRS = [];
+(window as any).PAIRS = [{ sourceLanguage: 'eng', targetLanguage: 'cat' }];
 
 // eslint-disable-next-line
 (window as any).PAIR_PREFS = {
