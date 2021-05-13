@@ -80,17 +80,18 @@ const TextTranslationForm = ({
 
   const translate = React.useCallback(
     (force = false) => {
+      const translationProps: Record<string, unknown> = { srcLang, tgtLang, markUnknown, prefs };
+      const { current } = previousTranslationProps;
+      previousTranslationProps.current = translationProps;
+
       if (srcText.trim().length === 0) {
         setTgtText('');
         return;
       }
 
-      const translationProps: Record<string, unknown> = { srcLang, tgtLang, markUnknown, prefs };
-
       // If none of these props have changed, skip translating until our instant
       // translation timer fires or the user manually clicks the translate
       // buttton.
-      const { current } = previousTranslationProps;
       if (current != null && !force) {
         if (Object.keys(current).every((key: string) => translationProps[key] === current[key])) {
           return;
@@ -108,7 +109,6 @@ const TextTranslationForm = ({
         prefs,
       });
       translationRef.current = ref;
-      previousTranslationProps.current = translationProps;
       setLoading(true);
 
       void (async () => {

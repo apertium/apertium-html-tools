@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { MemoryHistory, MemoryHistoryBuildOptions, createMemoryHistory } from 'history';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { Router } from 'react-router-dom';
+import mockAxios from 'jest-mock-axios';
 import userEvent from '@testing-library/user-event';
 
 import TextTranslationForm, { Props } from '../TextTranslationForm';
+import { TranslateEvent } from '..';
 
 const renderTextTranslationForm = (
   props_: Partial<Props> = {},
@@ -32,15 +34,22 @@ const renderTextTranslationForm = (
 };
 
 const input = 'hello';
+const output = 'hola';
 
 const getInputTextbox = (): HTMLTextAreaElement =>
   screen.getByRole('textbox', { name: 'Input_Text-Default' }) as HTMLTextAreaElement;
+
+const getOutputTextbox = (): HTMLTextAreaElement =>
+  screen.getAllByRole('textbox').find((e) => (e as HTMLTextAreaElement).readOnly) as HTMLTextAreaElement;
+
+const type = (input: string) => userEvent.type(getInputTextbox(), input);
+const translate = () => window.dispatchEvent(new Event(TranslateEvent));
 
 describe('inital source text', () => {
   it('restores from browser state', () => {
     renderTextTranslationForm();
 
-    userEvent.type(getInputTextbox(), input);
+    type(input);
 
     cleanup();
 
@@ -51,7 +60,7 @@ describe('inital source text', () => {
   it('prefers URL over browser storage', () => {
     renderTextTranslationForm();
 
-    userEvent.type(getInputTextbox(), input);
+    type(input);
 
     cleanup();
 
@@ -97,8 +106,109 @@ it('copies text on button click', () => {
   const button = screen.getAllByRole('button').find(({ classList }) => classList.contains('copy-text-button'));
   expect(button).toBeDefined();
 
-  userEvent.type(getInputTextbox(), input);
+  type(input);
   userEvent.click(button as HTMLButtonElement);
 
   expect(execCommand).toBeCalledWith('copy');
+});
+
+describe('translation', () => {
+  const response = {
+    data: { responseData: { translatedText: output } },
+  };
+
+  it('does not translate empty souce text', () => {
+    renderTextTranslationForm();
+    expect(mockAxios.post).toHaveBeenCalledTimes(0);
+  });
+
+  it('translates if source text present on render', async () => {
+    renderTextTranslationForm({}, { initialEntries: ['?q=hello'] });
+
+    mockAxios.mockResponse(response);
+    await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
+
+    expect(getOutputTextbox().value).toBe(output);
+  });
+
+  it('translates on event', async () => {
+    renderTextTranslationForm();
+
+    type(input);
+    translate();
+
+    mockAxios.mockResponse(response);
+    await waitFor(() =>
+      expect(mockAxios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/translate'),
+        encodeURI('langpair=eng|spa&markUnknown=no&prefs=&q=hello'),
+        expect.anything(),
+      ),
+    );
+
+    expect(getOutputTextbox().value).toBe(output);
+  });
+
+  it('cancels pending requests', async () => {
+    renderTextTranslationForm();
+
+    type(input);
+
+    translate();
+    translate();
+
+    await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(2));
+    expect(mockAxios.queue()).toHaveLength(1);
+  });
+
+  it('shows errors as not available', async () => {
+    renderTextTranslationForm();
+
+    type(input);
+    translate();
+
+    mockAxios.mockError({
+      response: {
+        data: {
+          status: 'error',
+          code: 400,
+          message: 'Bad Request',
+          explanation: 'That pair is invalid, use e.g. eng|spa',
+        },
+      },
+    });
+    await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
+
+    expect(getOutputTextbox().value).toBe('Not_Available-Default');
+  });
+
+  it('sends mark unknown parameter', async () => {
+    renderTextTranslationForm({ markUnknown: true });
+
+    type(input);
+    translate();
+
+    await waitFor(() =>
+      expect(mockAxios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/translate'),
+        expect.stringContaining('markUnknown=yes'),
+        expect.anything(),
+      ),
+    );
+  });
+
+  it('sends preferences', async () => {
+    renderTextTranslationForm({ pairPrefs: { foo: true, bar: true, qux: false } });
+
+    type(input);
+    translate();
+
+    await waitFor(() =>
+      expect(mockAxios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/translate'),
+        expect.stringContaining(`prefs=${encodeURIComponent('foo,bar')}`),
+        expect.anything(),
+      ),
+    );
+  });
 });
