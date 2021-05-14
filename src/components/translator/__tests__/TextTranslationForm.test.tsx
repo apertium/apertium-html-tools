@@ -5,8 +5,8 @@ import { Router } from 'react-router-dom';
 import mockAxios from 'jest-mock-axios';
 import userEvent from '@testing-library/user-event';
 
+import { DetectCompleteEvent, DetectEvent, TranslateEvent } from '..';
 import TextTranslationForm, { Props } from '../TextTranslationForm';
-import { TranslateEvent } from '..';
 
 const renderTextTranslationForm = (
   props_: Partial<Props> = {},
@@ -43,7 +43,6 @@ const getOutputTextbox = (): HTMLTextAreaElement =>
   screen.getAllByRole('textbox').find((e) => (e as HTMLTextAreaElement).readOnly) as HTMLTextAreaElement;
 
 const type = (input: string) => userEvent.type(getInputTextbox(), input);
-const translate = () => window.dispatchEvent(new Event(TranslateEvent));
 
 describe('inital source text', () => {
   it('restores from browser state', () => {
@@ -112,12 +111,22 @@ it('copies text on button click', () => {
   expect(execCommand).toBeCalledWith('copy');
 });
 
+it('switches to webpage translation when url typed', () => {
+  const [, history] = renderTextTranslationForm();
+
+  type('https://example.com');
+
+  expect(history.location.pathname).toBe('/webpageTranslation');
+});
+
 describe('translation', () => {
+  const translate = () => window.dispatchEvent(new Event(TranslateEvent));
+
   const response = {
     data: { responseData: { translatedText: output } },
   };
 
-  it('does not translate empty souce text', () => {
+  it('does not translate empty source text', () => {
     renderTextTranslationForm();
     expect(mockAxios.post).toHaveBeenCalledTimes(0);
   });
@@ -129,6 +138,38 @@ describe('translation', () => {
     await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
 
     expect(getOutputTextbox().value).toBe(output);
+  });
+
+  it('translates on language change', async () => {
+    const history = createMemoryHistory();
+
+    const props = {
+      markUnknown: false,
+      instantTranslation: false,
+      srcLang: 'eng',
+      tgtLang: 'spa',
+      pairPrefs: {},
+      setLoading: jest.fn(),
+    };
+
+    const Container = () => {
+      const [srcLang, setSrcLang] = React.useState('eng');
+      return (
+        <>
+          <button onClick={() => setSrcLang('cat')}>ChangeSrcLang</button>
+          <Router history={history}>
+            <TextTranslationForm {...props} srcLang={srcLang} />
+          </Router>
+        </>
+      );
+    };
+
+    render(<Container />);
+    type(input);
+
+    userEvent.click(screen.getByRole('button', { name: 'ChangeSrcLang' }));
+
+    await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
   });
 
   it('translates on event', async () => {
@@ -210,5 +251,73 @@ describe('translation', () => {
         expect.anything(),
       ),
     );
+  });
+
+  it('instant translates after timeout', () => {
+    renderTextTranslationForm({ instantTranslation: true });
+
+    type(input);
+    expect(mockAxios.queue()).toHaveLength(0);
+
+    jest.advanceTimersByTime(3500);
+    expect(mockAxios.queue()).toHaveLength(1);
+  });
+});
+
+describe('detection', () => {
+  const detect = () => window.dispatchEvent(new Event(DetectEvent));
+
+  it('detects on event', async () => {
+    renderTextTranslationForm();
+
+    const listener = jest.fn();
+    window.addEventListener(DetectCompleteEvent, listener, false);
+
+    type(input);
+    detect();
+
+    const data = { spa: 0.5, eng: 0.75 };
+    mockAxios.mockResponse({ data });
+    await waitFor(() =>
+      expect(mockAxios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/identifyLang'),
+        expect.stringContaining(`q=${input}`),
+        expect.anything(),
+      ),
+    );
+
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect((listener.mock.calls[0] as [CustomEvent<Record<string, number>>])[0].detail).toBe(data);
+  });
+
+  it('handles errors', async () => {
+    renderTextTranslationForm();
+
+    const listener = jest.fn();
+    window.addEventListener(DetectCompleteEvent, listener, false);
+
+    type(input);
+    detect();
+
+    mockAxios.mockError({
+      response: {
+        data: { status: 'error', code: 400, message: 'Bad Request', explanation: 'Missing argument q' },
+      },
+    });
+    await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
+
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect((listener.mock.calls[0] as [CustomEvent<Record<string, number>>])[0].detail).toBeNull();
+  });
+
+  it('cancels pending requests', async () => {
+    renderTextTranslationForm();
+
+    type(input);
+    detect();
+    detect();
+
+    await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(2));
+    expect(mockAxios.queue()).toHaveLength(1);
   });
 });

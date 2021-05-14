@@ -145,7 +145,7 @@ const WebpageTranslationForm = ({ cancelUrl, srcLang, tgtLang, setLoading }: Pro
         link.target = '';
       });
 
-      if (iframeDoc.querySelector('body')?.innerText.trim().length === 0) {
+      if (iframeDoc.querySelector('body')?.innerText?.trim().length === 0) {
         console.warn('Translated webpage has empty body');
         setError(true);
       }
@@ -195,11 +195,16 @@ const WebpageTranslationForm = ({ cancelUrl, srcLang, tgtLang, setLoading }: Pro
             />
           </InputGroup>
         </div>
-        {error ? <div className="translated-webpage text-danger w-100 pl-2 pt-2 mb-2">{t('Not_Available')}</div> : null}
+        {error ? (
+          <div className="translated-webpage text-danger w-100 pl-2 pt-2 mb-2" role="alert">
+            {t('Not_Available')}
+          </div>
+        ) : null}
         {
           <iframe
             className={classNames('translated-webpage w-100 mb-2', { 'd-none': translation == null || error })}
             ref={iframeRef}
+            role="main"
             title="translated-webpage"
           />
         }
