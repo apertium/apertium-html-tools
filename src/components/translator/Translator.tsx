@@ -291,7 +291,7 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
     <Form
       aria-label={t('Translate')}
       onSubmit={(event) => {
-        window.dispatchEvent(new Event(TranslateEvent));
+        onTranslate();
         event.preventDefault();
       }}
     >

@@ -188,12 +188,17 @@ const DocTranslationForm = ({ srcLang, tgtLang, cancelUrl, setLoading }: Props):
               <input
                 accept={allowedMimeTypes.filter((t) => t.length > 0).join(',')}
                 autoFocus
+                data-testid="file-input"
                 ref={inputRef}
                 type="file"
               />
               <div className="my-2 d-flex flex-column justify-content-center" style={{ minHeight: '3rem' }}>
                 {progress != null && <ProgressBar animated max={100} min={0} now={50} striped />}
-                {error && <span className="text-danger lead">{t(error)}</span>}
+                {error && (
+                  <span className="text-danger lead" role="alert">
+                    {t(error)}
+                  </span>
+                )}
               </div>
               <p dangerouslySetInnerHTML={{ __html: t('Supported_Formats') }} />
               <LinkContainer to={cancelUrl}>
