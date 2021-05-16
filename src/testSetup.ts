@@ -10,11 +10,15 @@ defaultStrings['Maintainer'] = '{{maintainer}}-Default';
 (window as any).PRELOADED_STRINGS = { eng: defaultStrings };
 
 // eslint-disable-next-line
-(window as any).PAIRS = [{ sourceLanguage: 'eng', targetLanguage: 'cat' }];
+(window as any).PAIRS = [
+  { sourceLanguage: 'eng', targetLanguage: 'cat' },
+  { sourceLanguage: 'pan_Arab', targetLanguage: 'hin' },
+  { sourceLanguage: 'hin', targetLanguage: 'pan_Guru' },
+];
 
 // eslint-disable-next-line
 (window as any).PAIR_PREFS = {
-  ['eng-cat']: { foo: { eng: 'foo_pref' } },
+  ['eng-cat']: { foo: { eng: 'foo_pref' }, bar: { cat: 'bar_pref' } },
 };
 
 // eslint-disable-next-line
