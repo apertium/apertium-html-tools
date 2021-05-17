@@ -26,3 +26,8 @@ defaultStrings['Maintainer'] = '{{maintainer}}-Default';
 
 // eslint-disable-next-line
 (window as any).GENERATORS = { eng: 'eng-gener', spa: 'spa-gener' };
+
+process.on('unhandledRejection', (err) => {
+  // eslint-disable-next-line jest/no-jasmine-globals
+  fail(err);
+});
