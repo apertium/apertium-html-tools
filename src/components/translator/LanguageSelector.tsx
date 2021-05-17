@@ -140,7 +140,7 @@ const MobileLanguageSelector = ({
   );
 
   return (
-    <Form.Group className="d-flex d-md-none flex-column">
+    <Form.Group className="d-flex flex-column">
       <div className="d-flex flex-wrap">
         <Form.Control
           as="select"
@@ -316,7 +316,7 @@ const DesktopLanguageSelector = ({
   const validTgtLang = React.useCallback((lang: string) => isPair(pairs, srcLang, lang), [pairs, srcLang]);
 
   return (
-    <Form.Group className="row d-none d-md-block">
+    <Form.Group className="row">
       <Col className="d-inline-flex align-items-start justify-content-between" xs="6">
         <ButtonGroup className="d-flex flex-wrap pl-0">
           {recentSrcLangs.map((lang) => (
@@ -551,21 +551,32 @@ const LanguageSelector = (props: Props): React.ReactElement => {
     return () => window.removeEventListener(DetectCompleteEvent, langDetected);
   }, [pairs, recentSrcLangs, setDetectedLang, setRecentSrcLangs, setSrcLang]);
 
-  const sharedProps = {
-    ...props,
-    srcLangs,
-    tgtLangs,
-    swapLangs,
-    setDetectingLang,
-    detectingLang,
-    onDetectLang,
-  };
+  const mobileMediaQuery = React.useRef(window.matchMedia('(max-width: 768px)'));
+  const [showMobile, setShowMobile] = React.useState(mobileMediaQuery.current.matches);
+  React.useEffect(() => {
+    const handleMediaChange = ({ matches }: MediaQueryListEvent) => {
+      setShowMobile(matches);
+    };
+
+    const { current } = mobileMediaQuery;
+    current.addEventListener('change', handleMediaChange);
+    return () => current.removeEventListener('change', handleMediaChange);
+  }, []);
+
+  const SelectorComponent = showMobile ? MobileLanguageSelector : DesktopLanguageSelector;
 
   return (
-    <>
-      <MobileLanguageSelector {...sharedProps} />
-      <DesktopLanguageSelector {...sharedProps} />
-    </>
+    <SelectorComponent
+      {...{
+        ...props,
+        srcLangs,
+        tgtLangs,
+        swapLangs,
+        setDetectingLang,
+        detectingLang,
+        onDetectLang,
+      }}
+    />
   );
 };
 

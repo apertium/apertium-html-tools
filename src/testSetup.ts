@@ -31,3 +31,15 @@ process.on('unhandledRejection', (err) => {
   // eslint-disable-next-line jest/no-jasmine-globals
   fail(err);
 });
+
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
