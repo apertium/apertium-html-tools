@@ -14,7 +14,7 @@ import { isVariant, langDirection, parentLang, toAlpha2Code, variantSeperator } 
 import { LocaleContext } from '../../context';
 import { useLocalization } from '../../util/localization';
 
-type Props = {
+export type Props = {
   pairs: Pairs;
   onTranslate: () => void;
   loading: boolean;

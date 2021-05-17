@@ -12,6 +12,8 @@ defaultStrings['Maintainer'] = '{{maintainer}}-Default';
 // eslint-disable-next-line
 (window as any).PAIRS = [
   { sourceLanguage: 'eng', targetLanguage: 'cat' },
+  { sourceLanguage: 'cat', targetLanguage: 'eng' },
+  { sourceLanguage: 'cat', targetLanguage: 'spa' },
   { sourceLanguage: 'pan_Arab', targetLanguage: 'hin' },
   { sourceLanguage: 'hin', targetLanguage: 'pan_Guru' },
 ];
