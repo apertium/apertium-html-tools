@@ -7,7 +7,7 @@ import LanguageSelector, { Props } from '../LanguageSelector';
 
 const renderLanguageSelector = (props_: Partial<Props> = {}): Props => {
   const props = {
-    pairs: { eng: new Set(['cat', 'spa', 'hin', 'ara']), spa: new Set(['eng']) },
+    pairs: { eng: new Set(['cat', 'spa', 'hin', 'ara']), spa: new Set(['eng']), cat: new Set([]) },
     onTranslate: jest.fn(),
     loading: false,
 
@@ -239,5 +239,23 @@ describe('language detection', () => {
     window.dispatchEvent(new CustomEvent(DetectCompleteEvent, { detail: null }));
 
     expect(setDetectedLang).toHaveBeenCalledTimes(0);
+  });
+
+  it('updates source language list and sets detected language', () => {
+    const { setDetectedLang, setRecentSrcLangs, setSrcLang } = renderLanguageSelector();
+
+    window.dispatchEvent(
+      new CustomEvent(DetectCompleteEvent, {
+        detail: {
+          cat: 0.5,
+          eng: 0.75,
+          spa: 0.25,
+        },
+      }),
+    );
+
+    expect(setRecentSrcLangs).toHaveBeenCalledWith(['eng', 'cat', 'spa']);
+    expect(setSrcLang).toHaveBeenCalledWith('eng');
+    expect(setDetectedLang).toHaveBeenCalledWith('eng');
   });
 });
