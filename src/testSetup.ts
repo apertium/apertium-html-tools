@@ -40,7 +40,7 @@ process.on('unhandledRejection', (err) => {
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: jest.fn().mockImplementation((query: string) => ({
-    matches: false,
+    matches: true,
     media: query,
     onchange: null,
     addEventListener: jest.fn(),

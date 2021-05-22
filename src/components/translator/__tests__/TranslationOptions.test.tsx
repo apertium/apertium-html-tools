@@ -35,8 +35,7 @@ describe('mark unknown', () => {
   it.each([false, true])('toggles from %s', (markUnknown) => {
     const props = renderTranslationOptions({ markUnknown });
 
-    const checkbox = screen.getByRole('checkbox', { name });
-    userEvent.click(checkbox);
+    userEvent.click(screen.getByRole('checkbox', { name }));
 
     expect(props.setMarkUnknown).toHaveBeenCalledWith(!markUnknown);
   });
@@ -53,8 +52,7 @@ describe('instant translation', () => {
   it.each([false, true])('toggles from %s', (instantTranslation) => {
     const { setInstantTranslation } = renderTranslationOptions({ instantTranslation });
 
-    const checkbox = screen.getByRole('checkbox', { name });
-    userEvent.click(checkbox);
+    userEvent.click(screen.getByRole('checkbox', { name }));
 
     expect(setInstantTranslation).toHaveBeenCalledWith(!instantTranslation);
   });
@@ -71,8 +69,7 @@ describe('translation chaining', () => {
   it.each([false, true])('toggles from %s', (translationChaining) => {
     const { setTranslationChaining } = renderTranslationOptions({ translationChaining });
 
-    const checkbox = screen.getByRole('checkbox', { name });
-    userEvent.click(checkbox);
+    userEvent.click(screen.getByRole('checkbox', { name }));
 
     expect(setTranslationChaining).toHaveBeenCalledWith(!translationChaining);
   });

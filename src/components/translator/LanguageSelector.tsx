@@ -144,6 +144,7 @@ const MobileLanguageSelector = ({
       <Form.Control
         as="select"
         className="d-inline-block mb-2 mr-2"
+        data-testid="src-lang-dropdown"
         onChange={onSrcLangChange}
         size="sm"
         style={{ maxWidth: '60%' }}
@@ -165,6 +166,7 @@ const MobileLanguageSelector = ({
       <Form.Control
         as="select"
         className="d-inline-block"
+        data-testid="tgt-lang-dropdown"
         onChange={onTgtLangChange}
         size="sm"
         style={{ maxWidth: '60%' }}

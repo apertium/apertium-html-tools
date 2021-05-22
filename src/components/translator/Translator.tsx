@@ -36,34 +36,17 @@ import { useLocalization } from '../../util/localization';
 const recentLangsCount = 3;
 
 const defaultSrcLang = (pairs: Pairs): string => {
-  const validSrcLang = (code: string) => pairs[toAlpha3Code(code) || code];
-
-  const convertBCP47LangCode = (code: string): string => {
+  const browserLangs = window.navigator.languages;
+  for (const code of browserLangs) {
     // First, convert variant format.
     // Then, BCP 47 prefers shortest code, we prefer longest.
-    return toAlpha3Code(code.replace('-', '_')) || code;
-  };
+    const isoLang = toAlpha3Code(code.replace('-', '_')) || code;
+    const parentIsoLang = parentLang(isoLang);
 
-  // Chrome, Mozilla and Safari
-  const browserLangs = window.navigator.languages;
-  if (browserLangs) {
-    for (let i = 0; i < browserLangs.length; ++i) {
-      const isoLang = convertBCP47LangCode(browserLangs[i]);
-      if (validSrcLang(isoLang)) {
-        return isoLang;
-      }
-    }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { navigator }: { navigator: { userlanguage?: string; browserlanguage?: string; language?: string } } = window;
-  const ieLang = navigator.userlanguage || navigator.browserlanguage || navigator.language;
-  if (ieLang) {
-    const ieIsoLang = convertBCP47LangCode(ieLang);
-    if (validSrcLang(ieIsoLang)) {
-      return ieIsoLang;
-    } else if (validSrcLang(parentLang(ieIsoLang))) {
-      return parentLang(ieIsoLang);
+    if (pairs[isoLang]) {
+      return isoLang;
+    } else if (pairs[parentIsoLang]) {
+      return parentIsoLang;
     }
   }
 
