@@ -140,41 +140,39 @@ const MobileLanguageSelector = ({
   );
 
   return (
-    <Form.Group className="d-flex flex-column">
-      <div className="d-flex flex-wrap">
-        <Form.Control
-          as="select"
-          className="d-inline-block mb-2 mr-2"
-          onChange={onSrcLangChange}
-          size="sm"
-          style={{ maxWidth: '60%' }}
-          value={detectingLang || detectedLang ? detectKey : srcLang}
-        >
-          {srcLangOptions}
-        </Form.Control>
-        <Button
-          className="mb-2"
-          data-testid="swap-langs-button"
-          disabled={!swapLangs}
-          onClick={swapLangs}
-          size="sm"
-          type="button"
-          variant="secondary"
-        >
-          <FontAwesomeIcon icon={faExchangeAlt} />
-        </Button>
-        <Form.Control
-          as="select"
-          className="d-inline-block"
-          onChange={onTgtLangChange}
-          size="sm"
-          style={{ maxWidth: '60%' }}
-          value={tgtLang}
-        >
-          {tgtLangOptions}
-        </Form.Control>
-        <TranslateButton loading={loading} onTranslate={onTranslate} variant="primary" />
-      </div>
+    <Form.Group className="d-flex flex-wrap">
+      <Form.Control
+        as="select"
+        className="d-inline-block mb-2 mr-2"
+        onChange={onSrcLangChange}
+        size="sm"
+        style={{ maxWidth: '60%' }}
+        value={detectingLang || detectedLang ? detectKey : srcLang}
+      >
+        {srcLangOptions}
+      </Form.Control>
+      <Button
+        className="mb-2"
+        data-testid="swap-langs-button"
+        disabled={!swapLangs}
+        onClick={swapLangs}
+        size="sm"
+        type="button"
+        variant="secondary"
+      >
+        <FontAwesomeIcon icon={faExchangeAlt} />
+      </Button>
+      <Form.Control
+        as="select"
+        className="d-inline-block"
+        onChange={onTgtLangChange}
+        size="sm"
+        style={{ maxWidth: '60%' }}
+        value={tgtLang}
+      >
+        {tgtLangOptions}
+      </Form.Control>
+      <TranslateButton loading={loading} onTranslate={onTranslate} variant="primary" />
     </Form.Group>
   );
 };
@@ -212,26 +210,21 @@ const LangsDropdown = ({
       const [code, name] = langs[j];
       const valid = !validLang || validLang(code);
       langElems.push(
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-        <div
+        <button
           className={classNames('language-name', {
             'variant-language-name': isVariant(code),
             'text-muted': !valid,
           })}
+          disabled={!valid}
           key={code}
-          onClick={
-            valid
-              ? () => {
-                  setLang(code);
-                  document.body.click();
-                }
-              : undefined
-          }
-          role="button"
+          onClick={() => {
+            setLang(code);
+            document.body.click();
+          }}
           tabIndex={0}
         >
           {name}
-        </div>,
+        </button>,
       );
     }
     langCols.push(
@@ -300,17 +293,23 @@ const DesktopLanguageSelector = ({
       // Finally, pick the ideal number of columns (up to limitations from the
       // maximum overall width and the imposed maximum).
       setNumSrcCols(
-        Math.min(
-          Math.ceil(srcLangs.length / langListIdealRows),
-          Math.floor(maxSrcLangsWidth / langListMinColumnWidth),
-          langListMaxColumns,
+        Math.max(
+          1,
+          Math.min(
+            Math.ceil(srcLangs.length / langListIdealRows),
+            Math.floor(maxSrcLangsWidth / langListMinColumnWidth),
+            langListMaxColumns,
+          ),
         ),
       );
       setNumTgtCols(
-        Math.min(
-          Math.ceil(tgtLangs.length / langListIdealRows),
-          Math.floor(maxTgtLangsWidth / langListMinColumnWidth),
-          langListMaxColumns,
+        Math.max(
+          1,
+          Math.min(
+            Math.ceil(tgtLangs.length / langListIdealRows),
+            Math.floor(maxTgtLangsWidth / langListMinColumnWidth),
+            langListMaxColumns,
+          ),
         ),
       );
     };

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { act, getByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { DetectCompleteEvent, DetectEvent } from '..';
 import LanguageSelector, { Props } from '../LanguageSelector';
-import { DetectEvent } from '..';
 
 const renderLanguageSelector = (props_: Partial<Props> = {}): Props => {
   const props = {
@@ -198,11 +198,46 @@ describe('desktop', () => {
     it('sets source languages', async () => {
       const { setSrcLang } = renderLanguageSelector();
 
-      const srcsLangsDropdown = screen.getByTestId('src-lang-dropdown');
-      userEvent.click(getByRole(srcsLangsDropdown, 'button'));
-      await waitFor(() => userEvent.click(getByRole(srcsLangsDropdown, 'button', { name: 'català' })));
+      const srcsLangDropdown = screen.getByTestId('src-lang-dropdown');
+      userEvent.click(getByRole(srcsLangDropdown, 'button'));
+      await waitFor(() => userEvent.click(getByRole(srcsLangDropdown, 'button', { name: 'català' })));
 
       expect(setSrcLang).toHaveBeenCalledWith('cat');
     });
+
+    it('disables invalid target languages', async () => {
+      renderLanguageSelector();
+
+      const tgtLangDropdown = screen.getByTestId('tgt-lang-dropdown');
+      userEvent.click(getByRole(tgtLangDropdown, 'button'));
+
+      screen.debug(tgtLangDropdown);
+
+      await waitFor(() =>
+        expect(
+          (getByRole(tgtLangDropdown, 'button', { name: 'English-Default' }) as HTMLButtonElement).disabled,
+        ).toBeTruthy(),
+      );
+    });
+
+    it('sets target languages', async () => {
+      const { setTgtLang } = renderLanguageSelector();
+
+      const tgtLangDropdown = screen.getByTestId('tgt-lang-dropdown');
+      userEvent.click(getByRole(tgtLangDropdown, 'button'));
+      await waitFor(() => userEvent.click(getByRole(tgtLangDropdown, 'button', { name: 'català' })));
+
+      expect(setTgtLang).toHaveBeenCalledWith('cat');
+    });
+  });
+});
+
+describe('language detection', () => {
+  it('ignores detection failure', () => {
+    const { setDetectedLang } = renderLanguageSelector();
+
+    window.dispatchEvent(new CustomEvent(DetectCompleteEvent, { detail: null }));
+
+    expect(setDetectedLang).toHaveBeenCalledTimes(0);
   });
 });

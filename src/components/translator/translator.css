@@ -42,13 +42,15 @@ html[dir='rtl'] .copy-text-button {
 }
 
 .language-name {
+  display: block;
+  padding: 0;
   overflow-x: hidden;
   position: relative;
   text-overflow: ellipsis;
-}
-
-.language-name:not(.text-muted) {
-  text-decoration: none;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: unset;
 }
 
 html[dir='ltr'] .language-name {
