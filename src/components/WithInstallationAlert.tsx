@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Alert from 'react-bootstrap/Alert';
 
-import { APyContext } from '../context';
+import { APyContext, ConfigContext } from '../context';
 import { apyFetch } from '../util';
 import { useLocalization } from '../util/localization';
 
@@ -64,38 +64,43 @@ const InstallationAlert = ({ show, onClose }: { show: boolean; onClose: () => vo
 };
 
 const WithInstallationAlert = ({ children }: { children?: React.ReactNode }): React.ReactElement => {
+  const { apyURL } = React.useContext(ConfigContext);
+
   const [show, setShow] = React.useState(false);
 
   const requestTimings = React.useRef<Array<number>>([]);
 
-  const wrappedApyFetch: typeof apyFetch = React.useCallback((path, params) => {
-    const start = Date.now();
+  const wrappedApyFetch: typeof apyFetch = React.useCallback(
+    (path, params) => {
+      const start = Date.now();
 
-    const handleRequestComplete = () => {
-      const duration = Date.now() - start;
-      const timings = requestTimings.current;
+      const handleRequestComplete = () => {
+        const duration = Date.now() - start;
+        const timings = requestTimings.current;
 
-      let cumulativeAPyDuration = 0;
+        let cumulativeAPyDuration = 0;
 
-      if (timings.length === requestBufferLength) {
-        cumulativeAPyDuration = timings.reduce((totalDuration, duration) => totalDuration + duration);
+        if (timings.length === requestBufferLength) {
+          cumulativeAPyDuration = timings.reduce((totalDuration, duration) => totalDuration + duration);
 
-        timings.shift();
-        timings.push(duration);
-      } else {
-        timings.push(duration);
-      }
+          timings.shift();
+          timings.push(duration);
+        } else {
+          timings.push(duration);
+        }
 
-      const averageDuration = cumulativeAPyDuration / timings.length;
+        const averageDuration = cumulativeAPyDuration / timings.length;
 
-      if (duration > individualDurationThreshold || averageDuration > cumulativeDurationThreshold) {
-        setShow(true);
-      }
-    };
+        if (duration > individualDurationThreshold || averageDuration > cumulativeDurationThreshold) {
+          setShow(true);
+        }
+      };
 
-    const [cancel, request] = apyFetch(path, params);
-    return [cancel, request.finally(handleRequestComplete)];
-  }, []);
+      const [cancel, request] = apyFetch(`${apyURL}/${path}`, params);
+      return [cancel, request.finally(handleRequestComplete)];
+    },
+    [apyURL],
+  );
 
   return (
     <>

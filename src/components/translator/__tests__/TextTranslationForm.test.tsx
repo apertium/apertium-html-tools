@@ -181,7 +181,7 @@ describe('translation', () => {
     mockAxios.mockResponse(response);
     await waitFor(() =>
       expect(mockAxios.post).toHaveBeenCalledWith(
-        expect.stringContaining('/translate'),
+        expect.stringContaining('translate'),
         encodeURI('langpair=eng|spa&markUnknown=no&prefs=&q=hello'),
         expect.anything(),
       ),
@@ -231,7 +231,7 @@ describe('translation', () => {
 
     await waitFor(() =>
       expect(mockAxios.post).toHaveBeenCalledWith(
-        expect.stringContaining('/translate'),
+        expect.stringContaining('translate'),
         expect.stringContaining('markUnknown=yes'),
         expect.anything(),
       ),
@@ -246,7 +246,7 @@ describe('translation', () => {
 
     await waitFor(() =>
       expect(mockAxios.post).toHaveBeenCalledWith(
-        expect.stringContaining('/translate'),
+        expect.stringContaining('translate'),
         expect.stringContaining(`prefs=${encodeURIComponent('foo,bar')}`),
         expect.anything(),
       ),
@@ -280,7 +280,7 @@ describe('detection', () => {
     mockAxios.mockResponse({ data });
     await waitFor(() =>
       expect(mockAxios.post).toHaveBeenCalledWith(
-        expect.stringContaining('/identifyLang'),
+        expect.stringContaining('identifyLang'),
         expect.stringContaining(`q=${input}`),
         expect.anything(),
       ),

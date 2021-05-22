@@ -52,7 +52,7 @@ describe('default locale selection', () => {
 
       mockAxios.mockResponse({ data: ['es'] });
       await waitFor(() =>
-        expect(mockAxios.post).toHaveBeenCalledWith(expect.stringContaining('/getLocale'), '', expect.anything()),
+        expect(mockAxios.post).toHaveBeenCalledWith(expect.stringContaining('getLocale'), '', expect.anything()),
       );
 
       expect(screen.getByRole('main').textContent).toEqual('spa');

@@ -7,11 +7,11 @@ import { toAlpha3Code } from '../util/languages';
 import useLocalStorage from '../util/useLocalStorage';
 import { validLocale } from '../util/localization';
 
-const loadBrowserLocale = (setLocale: React.Dispatch<React.SetStateAction<string>>) => {
+const loadBrowserLocale = (apyURL: string, setLocale: React.Dispatch<React.SetStateAction<string>>) => {
   void (async () => {
     let locales: Array<string>;
     try {
-      locales = (await apyFetch('getLocale')[1]).data as Array<string>;
+      locales = (await apyFetch(`${apyURL}/getLocale`)[1]).data as Array<string>;
     } catch (error) {
       console.warn('Failed to fetch browser locale, falling back to default', error);
       return;
@@ -35,7 +35,7 @@ const WithLocale = ({
 }: {
   children: (props: { setLocale: React.Dispatch<React.SetStateAction<string>> }) => React.ReactNode;
 }): React.ReactElement => {
-  const { defaultLocale } = React.useContext(ConfigContext);
+  const { apyURL, defaultLocale } = React.useContext(ConfigContext);
 
   // Locale selection priority:
   // 1. `lang` parameter from URL
@@ -57,9 +57,9 @@ const WithLocale = ({
   );
   React.useEffect(() => {
     if (shouldLoadBrowserLocale) {
-      loadBrowserLocale(setLocale);
+      loadBrowserLocale(apyURL, setLocale);
     }
-  }, [shouldLoadBrowserLocale, setLocale]);
+  }, [shouldLoadBrowserLocale, setLocale, apyURL]);
 
   React.useEffect(() => {
     // We use the real `window.history` here since we intend to modify the real

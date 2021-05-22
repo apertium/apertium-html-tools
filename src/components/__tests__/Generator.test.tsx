@@ -161,7 +161,7 @@ describe('generation', () => {
     mockAxios.mockResponse({ data: [['kicked/kick<vblex><pp>/kick<vblex><past>', 'kicked']] });
     await waitFor(() =>
       expect(mockAxios.post).toHaveBeenCalledWith(
-        expect.stringContaining('/generate'),
+        expect.stringContaining('generate'),
         'lang=eng&q=%5Ekick%3Cvblex%3E%3Cpp%3E%24',
         expect.anything(),
       ),

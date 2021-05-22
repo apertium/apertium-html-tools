@@ -143,7 +143,7 @@ describe('translation', () => {
     });
     await waitFor(() =>
       expect(mockAxios.post).toHaveBeenCalledWith(
-        expect.stringContaining('/translatePage'),
+        expect.stringContaining('translatePage'),
         expect.stringContaining(
           `langpair=${encodeURIComponent(`eng|spa`)}&markUnknown=no&url=${encodeURIComponent(input)}`,
         ),
