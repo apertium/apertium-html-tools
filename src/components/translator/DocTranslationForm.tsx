@@ -223,6 +223,7 @@ const DocTranslationForm = ({ srcLang, tgtLang, cancelUrl, setLoading }: Props):
         </Col>
       </Row>
       <div
+        data-testid="document-drop-target"
         ref={dropMaskRef}
         style={{
           position: 'fixed',

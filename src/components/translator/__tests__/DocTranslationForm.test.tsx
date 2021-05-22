@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MemoryHistory, MemoryHistoryBuildOptions, createMemoryHistory } from 'history';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import mockAxios from 'jest-mock-axios';
 import userEvent from '@testing-library/user-event';
@@ -34,14 +34,56 @@ const renderDocTranslationForm = (
 const getInput = () => screen.getByTestId('file-input') as HTMLInputElement;
 const translate = () => window.dispatchEvent(new Event(TranslateEvent));
 
+const file = new File(['hello'], 'hello.txt', { type: 'text/plain' });
+
 it('stores pair in URL', () => {
   const [, history] = renderDocTranslationForm();
   expect(history.location.search).toBe(`?dir=eng-spa`);
 });
 
-describe('translation', () => {
-  const file = new File(['hello'], 'hello.txt', { type: 'text/plain' });
+describe('drag and drop', () => {
+  const getBody = () => document.getElementsByTagName('body')[0];
 
+  it('translates a dropped file', () => {
+    renderDocTranslationForm();
+
+    const body = getBody();
+
+    fireEvent(body, new Event('dragenter'));
+
+    const dropEvent = new Event('drop') as Event & { dataTransfer: { files: Array<File> } };
+    dropEvent.dataTransfer = { files: [file] };
+    fireEvent(screen.getByTestId('document-drop-target'), dropEvent);
+
+    fireEvent(body, new Event('dragover'));
+
+    expect(screen.queryByRole('dialog')?.style.opacity).toBe('');
+    expect(mockAxios.queue()).toHaveLength(1);
+  });
+
+  it('opens drop dialog', () => {
+    renderDocTranslationForm();
+
+    const body = getBody();
+
+    fireEvent(body, new Event('dragenter'));
+    expect(screen.getByRole('dialog').textContent).toMatchInlineSnapshot(`" Drop_Document-Default"`);
+  });
+
+  it('closes drop dialog', () => {
+    renderDocTranslationForm();
+
+    const body = getBody();
+
+    fireEvent(body, new Event('dragenter'));
+    expect(screen.getByRole('dialog')).toBeDefined();
+
+    fireEvent(body, new Event('dragleave'));
+    expect(screen.queryByRole('dialog')?.style.opacity).toBe('');
+  });
+});
+
+describe('translation', () => {
   it('handles translation errors', async () => {
     renderDocTranslationForm();
 
@@ -58,6 +100,14 @@ describe('translation', () => {
     await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
 
     expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(`"Not_Available-Default"`);
+  });
+
+  it('rejects when no files', () => {
+    renderDocTranslationForm();
+
+    translate();
+
+    expect(mockAxios.queue()).toHaveLength(0);
   });
 
   it('rejects large files', () => {
