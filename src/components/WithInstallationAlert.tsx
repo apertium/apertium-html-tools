@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { AxiosPromise, CancelTokenSource } from 'axios';
 import Alert from 'react-bootstrap/Alert';
 
 import { APyContext, ConfigContext } from '../context';
@@ -70,8 +71,8 @@ const WithInstallationAlert = ({ children }: { children?: React.ReactNode }): Re
 
   const requestTimings = React.useRef<Array<number>>([]);
 
-  const wrappedApyFetch: typeof apyFetch = React.useCallback(
-    (path, params) => {
+  const wrappedApyFetch = React.useCallback(
+    <T extends unknown>(path: string, params?: Record<string, string>): [CancelTokenSource, AxiosPromise<T>] => {
       const start = Date.now();
 
       const handleRequestComplete = () => {
@@ -96,7 +97,7 @@ const WithInstallationAlert = ({ children }: { children?: React.ReactNode }): Re
         }
       };
 
-      const [cancel, request] = apyFetch(`${apyURL}/${path}`, params);
+      const [cancel, request] = apyFetch<T>(`${apyURL}/${path}`, params);
       return [cancel, request.finally(handleRequestComplete)];
     },
     [apyURL],
