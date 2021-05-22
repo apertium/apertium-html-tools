@@ -152,7 +152,15 @@ const MobileLanguageSelector = ({
         >
           {srcLangOptions}
         </Form.Control>
-        <Button className="mb-2" disabled={!swapLangs} onClick={swapLangs} size="sm" type="button" variant="secondary">
+        <Button
+          className="mb-2"
+          data-testid="swap-langs-button"
+          disabled={!swapLangs}
+          onClick={swapLangs}
+          size="sm"
+          type="button"
+          variant="secondary"
+        >
           <FontAwesomeIcon icon={faExchangeAlt} />
         </Button>
         <Form.Control
@@ -356,6 +364,7 @@ const DesktopLanguageSelector = ({
           </Button>
           <DropdownButton
             className="language-dropdown-button"
+            data-testid="src-lang-dropdown"
             ref={srcLangsDropdownTriggerRef}
             size="sm"
             title=""
@@ -364,7 +373,14 @@ const DesktopLanguageSelector = ({
             <LangsDropdown langs={srcLangs} numCols={numSrcCols} setLang={setSrcLang} />
           </DropdownButton>
         </ButtonGroup>
-        <Button disabled={!swapLangs} onClick={swapLangs} size="sm" type="button" variant="secondary">
+        <Button
+          data-testid="swap-langs-button"
+          disabled={!swapLangs}
+          onClick={swapLangs}
+          size="sm"
+          type="button"
+          variant="secondary"
+        >
           <FontAwesomeIcon icon={faExchangeAlt} />
         </Button>
       </Col>
@@ -390,6 +406,7 @@ const DesktopLanguageSelector = ({
           <DropdownButton
             alignRight
             className="language-dropdown-button"
+            data-testid="tgt-lang-dropdown"
             ref={tgtLangsDropdownTriggerRef}
             size="sm"
             title=""
