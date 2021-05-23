@@ -9,7 +9,7 @@ import App from './App';
 // pre-v5 URL scheme. For backwards compatibility, we convert forwards here.
 const { search } = window.location;
 if (search.length) {
-  window.history.pushState({}, '', `${window.location.pathname}${window.location.hash}${search}`);
+  window.history.pushState({}, '', `${window.location.pathname}${window.location.hash || '#'}${search}`);
 }
 
 ReactDOM.render(<App />, document.getElementById('react-mount'));
