@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MemoryHistory, MemoryHistoryBuildOptions, createMemoryHistory } from 'history';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import mockAxios from 'jest-mock-axios';
 import userEvent from '@testing-library/user-event';
@@ -168,5 +168,20 @@ describe('translation', () => {
 
     await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(2));
     expect(mockAxios.queue()).toHaveLength(1);
+  });
+
+  it('cancels requests on unmount', async () => {
+    renderDocTranslationForm();
+
+    act(() => {
+      userEvent.upload(getInput(), file);
+      translate();
+    });
+
+    expect(mockAxios.queue()).toHaveLength(1);
+
+    cleanup();
+
+    await waitFor(() => expect(mockAxios.queue()).toHaveLength(0));
   });
 });

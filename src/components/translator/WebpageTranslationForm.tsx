@@ -103,11 +103,11 @@ const WebpageTranslationForm = ({ cancelUrl, srcLang, tgtLang, setLoading }: Pro
           }
         }
       })();
-
-      return () => translationRef.current?.cancel();
     },
     [apyFetch, setLoading, srcLang, tgtLang, trackEvent],
   );
+
+  React.useEffect(() => () => translationRef.current?.cancel(), []);
 
   React.useEffect(() => {
     const iframe = iframeRef.current;

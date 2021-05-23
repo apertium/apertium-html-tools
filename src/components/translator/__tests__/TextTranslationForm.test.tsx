@@ -202,6 +202,19 @@ describe('translation', () => {
     expect(mockAxios.queue()).toHaveLength(1);
   });
 
+  it('cancels requests on unmount', async () => {
+    renderTextTranslationForm();
+
+    type(input);
+    translate();
+
+    expect(mockAxios.queue()).toHaveLength(1);
+
+    cleanup();
+
+    await waitFor(() => expect(mockAxios.queue()).toHaveLength(0));
+  });
+
   it('shows errors as not available', async () => {
     renderTextTranslationForm();
 
@@ -251,6 +264,16 @@ describe('translation', () => {
         expect.anything(),
       ),
     );
+  });
+
+  it('does not instant translate after timeout', () => {
+    renderTextTranslationForm();
+
+    type(input);
+    expect(mockAxios.queue()).toHaveLength(0);
+
+    jest.advanceTimersByTime(3500);
+    expect(mockAxios.queue()).toHaveLength(0);
   });
 
   it('instant translates after timeout', () => {

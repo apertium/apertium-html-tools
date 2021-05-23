@@ -206,4 +206,17 @@ describe('translation', () => {
     await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(2));
     expect(mockAxios.queue()).toHaveLength(1);
   });
+
+  it('cancels requests on unmount', async () => {
+    renderWebpageTranslationForm();
+
+    type(input);
+    translate();
+
+    expect(mockAxios.queue()).toHaveLength(1);
+
+    cleanup();
+
+    await waitFor(() => expect(mockAxios.queue()).toHaveLength(0));
+  });
 });

@@ -129,11 +129,11 @@ const TextTranslationForm = ({
           }
         }
       })();
-
-      return () => translationRef.current?.cancel();
     },
     [apyFetch, markUnknown, prefs, setLoading, srcLang, srcText, tgtLang, trackEvent],
   );
+
+  React.useEffect(() => () => translationRef.current?.cancel(), []);
 
   const translationTimer = React.useRef<number | null>(null);
   const lastPunct = React.useRef(false);

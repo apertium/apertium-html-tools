@@ -123,11 +123,11 @@ const DocTranslationForm = ({ srcLang, tgtLang, cancelUrl, setLoading }: Props):
           }
         }
       })();
-
-      return () => translationRef.current?.cancel();
     },
     [apyURL, setLoading, srcLang, tgtLang, trackEvent],
   );
+
+  React.useEffect(() => () => translationRef.current?.cancel(), []);
 
   React.useEffect(() => {
     const translateInput = () => {
