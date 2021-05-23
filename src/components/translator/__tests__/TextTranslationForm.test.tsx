@@ -266,24 +266,50 @@ describe('translation', () => {
     );
   });
 
-  it('does not instant translate after timeout', () => {
-    renderTextTranslationForm();
+  describe('instant translation', () => {
+    it('does not translate when disabled', () => {
+      renderTextTranslationForm();
 
-    type(input);
-    expect(mockAxios.queue()).toHaveLength(0);
+      type(input);
+      expect(mockAxios.queue()).toHaveLength(0);
 
-    jest.advanceTimersByTime(3500);
-    expect(mockAxios.queue()).toHaveLength(0);
-  });
+      jest.advanceTimersByTime(3500);
+      expect(mockAxios.queue()).toHaveLength(0);
+    });
 
-  it('instant translates after timeout', () => {
-    renderTextTranslationForm({ instantTranslation: true });
+    it('translates after timeout', () => {
+      renderTextTranslationForm({ instantTranslation: true });
 
-    type(input);
-    expect(mockAxios.queue()).toHaveLength(0);
+      type(input);
+      expect(mockAxios.queue()).toHaveLength(0);
 
-    jest.advanceTimersByTime(3500);
-    expect(mockAxios.queue()).toHaveLength(1);
+      jest.advanceTimersByTime(3500);
+      expect(mockAxios.queue()).toHaveLength(1);
+    });
+
+    it('translates faster after punctuation', () => {
+      renderTextTranslationForm({ instantTranslation: true });
+
+      type(input);
+      expect(mockAxios.queue()).toHaveLength(0);
+
+      type('!');
+
+      jest.advanceTimersByTime(1500);
+      expect(mockAxios.queue()).toHaveLength(1);
+    });
+
+    it('translates faster after punctuation and whitespace', () => {
+      renderTextTranslationForm({ instantTranslation: true });
+
+      type(input);
+      expect(mockAxios.queue()).toHaveLength(0);
+
+      type('!{enter}');
+
+      jest.advanceTimersByTime(1500);
+      expect(mockAxios.queue()).toHaveLength(1);
+    });
   });
 });
 
@@ -342,5 +368,18 @@ describe('detection', () => {
 
     await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(2));
     expect(mockAxios.queue()).toHaveLength(1);
+  });
+
+  it('cancels on unmount', async () => {
+    renderTextTranslationForm();
+
+    type(input);
+    detect();
+
+    expect(mockAxios.queue()).toHaveLength(1);
+
+    cleanup();
+
+    await waitFor(() => expect(mockAxios.queue()).toHaveLength(0));
   });
 });

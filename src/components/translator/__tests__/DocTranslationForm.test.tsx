@@ -6,6 +6,7 @@ import mockAxios from 'jest-mock-axios';
 import userEvent from '@testing-library/user-event';
 
 import DocTranslationForm, { Props } from '../DocTranslationForm';
+import type { AxiosRequestConfig } from 'axios';
 import { TranslateEvent } from '..';
 
 const renderDocTranslationForm = (
@@ -59,6 +60,20 @@ describe('drag and drop', () => {
 
     expect(screen.queryByRole('dialog')?.style.opacity).toBe('');
     expect(mockAxios.queue()).toHaveLength(1);
+  });
+
+  it('skips translation of an irrelvant drop', () => {
+    renderDocTranslationForm();
+
+    const body = getBody();
+
+    fireEvent(body, new Event('dragenter'));
+
+    const dropEvent = new Event('drop') as Event & { dataTransfer: { files: Array<File> } };
+    dropEvent.dataTransfer = { files: [] };
+    fireEvent(screen.getByTestId('document-drop-target'), dropEvent);
+
+    expect(mockAxios.queue()).toHaveLength(0);
   });
 
   it('opens drop dialog', () => {
@@ -125,6 +140,23 @@ describe('translation', () => {
     );
 
     expect((screen.getByRole('link', { name: file.name }) as HTMLAnchorElement).href).toBe(blobURL);
+  });
+
+  it('shows upload progress', () => {
+    renderDocTranslationForm();
+
+    act(() => {
+      userEvent.upload(getInput(), file);
+      translate();
+    });
+
+    const { onUploadProgress } = mockAxios.post.mock.calls[0][2] as AxiosRequestConfig;
+    if (onUploadProgress === undefined) {
+      throw 'missing onUploadProgress';
+    }
+    act(() => onUploadProgress({ loaded: 50, total: 100 }));
+
+    expect(screen.getByRole('progressbar').getAttribute('aria-valuenow')).toBe('50');
   });
 
   it('rejects when no files', () => {

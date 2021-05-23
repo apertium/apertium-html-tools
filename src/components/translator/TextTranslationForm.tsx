@@ -133,8 +133,6 @@ const TextTranslationForm = ({
     [apyFetch, markUnknown, prefs, setLoading, srcLang, srcText, tgtLang, trackEvent],
   );
 
-  React.useEffect(() => () => translationRef.current?.cancel(), []);
-
   const translationTimer = React.useRef<number | null>(null);
   const lastPunct = React.useRef(false);
 
@@ -200,9 +198,15 @@ const TextTranslationForm = ({
         }
       }
     })();
-
-    return () => detectRef.current?.cancel();
   }, [apyFetch, srcText]);
+
+  React.useEffect(
+    () => () => {
+      detectRef.current?.cancel();
+      translationRef.current?.cancel();
+    },
+    [],
+  );
 
   React.useEffect(() => {
     window.addEventListener(DetectEvent, detectLang, false);
