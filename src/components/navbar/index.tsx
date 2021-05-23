@@ -57,7 +57,7 @@ const NavbarNav: React.ComponentType = () => {
   }
 
   return (
-    <Nav activeKey={null} as="ul" className="mt-1 ml-auto">
+    <Nav activeKey={undefined} as="ul" className="mt-1 ml-auto">
       {enabledModes.has(Mode.Translation) && (
         <Nav.Item as="li" className="p-1">
           <LinkContainer

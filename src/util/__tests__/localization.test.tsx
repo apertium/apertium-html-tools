@@ -17,7 +17,7 @@ describe('useLocalization', () => {
     const wrapper = ({ children }: { children: React.ReactElement[] }) => (
       <StringsContext.Provider
         value={{
-          spa: ({ '@langNames': { sco: 'escocés' }, Translation: 'Traducción' } as unknown) as Strings,
+          spa: { '@langNames': { sco: 'escocés' }, Translation: 'Traducción' } as unknown as Strings,
         }}
       >
         <LocaleContext.Provider value="spa">{children}</LocaleContext.Provider>

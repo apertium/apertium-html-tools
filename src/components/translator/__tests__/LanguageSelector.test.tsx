@@ -76,8 +76,7 @@ it('switches between mobile and desktop', () => {
   expect(handler).toBeDefined();
 
   act(
-    () =>
-      void ((handler as unknown) as (ev: MediaQueryListEvent) => unknown)({ matches: false } as MediaQueryListEvent),
+    () => void (handler as unknown as (ev: MediaQueryListEvent) => unknown)({ matches: false } as MediaQueryListEvent),
   );
 
   expect(screen.queryAllByRole('combobox')).toHaveLength(0);

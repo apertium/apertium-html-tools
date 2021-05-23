@@ -71,12 +71,14 @@ const Plugin = {
       apyGet('list', { q: 'generators' }),
     ]);
 
-    const pairs = (pairsResponse.data as {
-      responseData: Array<{
-        sourceLanguage: string;
-        targetLanguage: string;
-      }>;
-    }).responseData.filter(
+    const pairs = (
+      pairsResponse.data as {
+        responseData: Array<{
+          sourceLanguage: string;
+          targetLanguage: string;
+        }>;
+      }
+    ).responseData.filter(
       ({ sourceLanguage, targetLanguage }) => allowedLang(sourceLanguage) && allowedLang(targetLanguage),
     );
     const analyzers = Object.fromEntries(
@@ -108,7 +110,9 @@ const Plugin = {
     const outdir = initialOptions.outdir as string;
 
     const localeStrings = (await Promise.all(
-      (await fs.readdir('src/strings'))
+      (
+        await fs.readdir('src/strings')
+      )
         .filter((f) => f.endsWith('.json') && f !== 'locales.json')
         .map(async (f) => {
           const locale = path.parse(f).name;
@@ -153,34 +157,29 @@ const Plugin = {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    onEnd(
-      async (): Promise<undefined> => {
-        const indexHtml = await fs.readFile('src/index.html', 'utf-8');
+    onEnd(async (): Promise<undefined> => {
+      const indexHtml = await fs.readFile('src/index.html', 'utf-8');
 
-        await Promise.all([
-          fs.copyFile('src/favicon.ico', path.join(outdir, 'favicon.ico')),
+      await Promise.all([
+        fs.copyFile('src/favicon.ico', path.join(outdir, 'favicon.ico')),
+        fs.writeFile(
+          path.join(outdir, 'index.html'),
+          indexHtml
+            .replace('{{PRELOADED_STRINGS}}', JSON.stringify({ [defaultLocale]: defaultStrings }))
+            .replace('{{CACHE_BREAK}}', Date.now().toString()),
+        ),
+        ...localeStrings.map(([locale, strings]) =>
           fs.writeFile(
-            path.join(outdir, 'index.html'),
+            path.join(outdir, `index.${locale}.html`),
             indexHtml
-              .replace('{{PRELOADED_STRINGS}}', JSON.stringify({ [defaultLocale]: defaultStrings }))
-              .replace('{{CACHE_BREAK}}', Date.now().toString()),
+              .replace('{{PRELOADED_STRINGS}}', JSON.stringify({ [defaultLocale]: defaultStrings, [locale]: strings }))
+              .replace(/{{CACHE_BREAK}}/g, Date.now().toString()),
           ),
-          ...localeStrings.map(([locale, strings]) =>
-            fs.writeFile(
-              path.join(outdir, `index.${locale}.html`),
-              indexHtml
-                .replace(
-                  '{{PRELOADED_STRINGS}}',
-                  JSON.stringify({ [defaultLocale]: defaultStrings, [locale]: strings }),
-                )
-                .replace(/{{CACHE_BREAK}}/g, Date.now().toString()),
-            ),
-          ),
-        ]);
+        ),
+      ]);
 
-        return;
-      },
-    );
+      return;
+    });
   },
 };
 
