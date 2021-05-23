@@ -108,10 +108,9 @@ describe('pair prefs', () => {
 
   it('updates prefs when checkbox clicked', async () => {
     const { setPairPrefs } = renderTranslationOptions(withPrefsOptions);
-    userEvent.click(screen.getByRole('button'));
 
-    const checkbox = await screen.findByRole('checkbox', { name: 'foo_pref' });
-    userEvent.click(checkbox);
+    userEvent.click(screen.getByRole('button'));
+    userEvent.click(await screen.findByRole('checkbox', { name: 'foo_pref' }));
 
     expect(setPairPrefs).toBeCalledWith({ foo: true });
   });

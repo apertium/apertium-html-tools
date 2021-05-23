@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MemoryHistoryBuildOptions, createMemoryHistory } from 'history';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, getByRole, queryAllByRole, render, screen, waitFor } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
@@ -16,6 +16,28 @@ const renderTranslator = (historyOptions?: MemoryHistoryBuildOptions, mode?: Mod
   );
   return history;
 };
+
+const matchMobileMedia = (matches: boolean) => {
+  const listeners = {
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  };
+
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: jest.fn().mockImplementation((query: string) => ({
+      ...listeners,
+      matches,
+      media: query,
+      onchange: null,
+    })),
+  });
+
+  return listeners;
+};
+
+beforeEach(() => matchMobileMedia(true));
 
 describe('initial modes', () => {
   test('default', () => {
@@ -90,6 +112,33 @@ describe('default pair', () => {
   });
 });
 
+describe('setting source language', () => {
+  it('sets language on select', () => {
+    renderTranslator();
+
+    const dropdown = screen.getByTestId('src-lang-dropdown') as HTMLSelectElement;
+    userEvent.selectOptions(dropdown, 'català');
+
+    expect(dropdown.value).toBe('cat');
+  });
+
+  it('changes recent languages', async () => {
+    matchMobileMedia(false);
+
+    renderTranslator();
+
+    const initialSrcLangs = queryAllByRole(screen.getByTestId('src-lang-buttons'), 'button').map((b) => b.textContent);
+
+    const srcLangDropdown = screen.getByTestId('src-lang-dropdown');
+    userEvent.click(getByRole(srcLangDropdown, 'button'));
+    await waitFor(() => userEvent.click(getByRole(srcLangDropdown, 'button', { name: 'pan_Guru' })));
+
+    const afterSrcLangs = queryAllByRole(screen.getByTestId('src-lang-buttons'), 'button').map((b) => b.textContent);
+
+    expect(initialSrcLangs).not.toEqual(afterSrcLangs);
+  });
+});
+
 it('dispatches translate event on submit', () => {
   renderTranslator();
 
@@ -99,4 +148,24 @@ it('dispatches translate event on submit', () => {
   (screen.getByRole('form', { name: 'Translate-Default' }) as HTMLFormElement).submit();
 
   expect(listener).toHaveBeenCalledTimes(1);
+});
+
+it('sets preferences', async () => {
+  renderTranslator();
+
+  userEvent.click(screen.getByRole('button', { name: 'Norm_Preferences-Default' }));
+
+  const checkbox = (await screen.findByRole('checkbox', { name: 'foo_pref' })) as HTMLInputElement;
+  userEvent.click(checkbox);
+
+  expect(checkbox.checked).toBeTruthy();
+});
+
+it('sets target language', () => {
+  renderTranslator();
+
+  const dropdown = screen.getByTestId('tgt-lang-dropdown') as HTMLSelectElement;
+  userEvent.selectOptions(dropdown, 'español');
+
+  expect(dropdown.value).toBe('spa');
 });

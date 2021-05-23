@@ -327,7 +327,7 @@ const DesktopLanguageSelector = ({
   return (
     <Form.Group className="row">
       <Col className="d-inline-flex align-items-start justify-content-between" xs="6">
-        <ButtonGroup className="d-flex flex-wrap pl-0">
+        <ButtonGroup className="d-flex flex-wrap pl-0" data-testid="src-lang-buttons">
           {recentSrcLangs.map((lang) => (
             <Button
               active={lang === srcLang && !detectingLang && !detectedLang}
@@ -386,7 +386,7 @@ const DesktopLanguageSelector = ({
         </Button>
       </Col>
       <Col className="d-inline-flex align-items-start justify-content-between" xs="6">
-        <ButtonGroup className="d-flex flex-wrap pl-0">
+        <ButtonGroup className="d-flex flex-wrap pl-0" data-testid="tgt-lang-buttons">
           {recentTgtLangs.map((lang) => (
             <Button
               active={lang === tgtLang}
