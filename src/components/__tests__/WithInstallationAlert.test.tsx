@@ -7,7 +7,7 @@ import { APyContext } from '../../context';
 import WithInstallationAlert from '../WithInstallationAlert';
 
 const renderWithInstallationAlert = (length = 1) => {
-  const TestElem = () => {
+  const TestComponent = () => {
     const apyFetch = React.useContext(APyContext);
     Array.from({ length }, () => apyFetch(''));
     return null;
@@ -15,7 +15,7 @@ const renderWithInstallationAlert = (length = 1) => {
 
   render(
     <WithInstallationAlert>
-      <TestElem />
+      <TestComponent />
     </WithInstallationAlert>,
   );
 };

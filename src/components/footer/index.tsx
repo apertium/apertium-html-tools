@@ -78,8 +78,8 @@ const Footer = ({
   const footerRef = React.createRef<HTMLDivElement>();
   React.useLayoutEffect(() => {
     const refreshSizes = () => {
-      const footerHeight = footerRef.current?.offsetHeight;
-      if (footerHeight && pushRef.current && wrapRef.current) {
+      if (pushRef.current && wrapRef.current && footerRef.current) {
+        const footerHeight = footerRef.current.offsetHeight;
         pushRef.current.style.height = `${footerHeight}px`;
         wrapRef.current.style.marginBottom = `-${footerHeight}px`;
       }

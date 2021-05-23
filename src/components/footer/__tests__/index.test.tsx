@@ -5,9 +5,17 @@ import userEvent from '@testing-library/user-event';
 import Footer from '..';
 
 const renderFooter = () => {
-  const wrapRef = React.createRef<HTMLElement>();
-  const pushRef = React.createRef<HTMLElement>();
-  render(<Footer pushRef={pushRef} wrapRef={wrapRef} />);
+  const wrapRef = React.createRef<HTMLDivElement>();
+  const pushRef = React.createRef<HTMLDivElement>();
+
+  render(
+    <>
+      <div ref={wrapRef}>
+        <div ref={pushRef} />
+      </div>
+      <Footer pushRef={pushRef} wrapRef={wrapRef} />
+    </>,
+  );
 };
 
 describe('Footer', () => {

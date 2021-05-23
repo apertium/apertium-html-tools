@@ -78,7 +78,7 @@ describe('drag and drop', () => {
     fireEvent(body, new Event('dragenter'));
     expect(screen.getByRole('dialog')).toBeDefined();
 
-    fireEvent(body, new Event('dragleave'));
+    fireEvent(screen.getByTestId('document-drop-target'), new Event('dragleave'));
     expect(screen.queryByRole('dialog')?.style.opacity).toBe('');
   });
 });
@@ -100,6 +100,31 @@ describe('translation', () => {
     await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
 
     expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(`"Not_Available-Default"`);
+  });
+
+  it('provides link to translated file', async () => {
+    const blobURL = 'blob:http://localhost:8000/ccbe52d0-d3be-4376-a6b8-cc84b76b3338';
+    const createObjectURL = jest.fn();
+    createObjectURL.mockReturnValue(blobURL);
+    Object.defineProperty(window.URL, 'createObjectURL', { value: createObjectURL });
+
+    renderDocTranslationForm();
+
+    act(() => {
+      userEvent.upload(getInput(), file);
+      translate();
+    });
+
+    mockAxios.mockResponse({ data: new Blob(['hola']) });
+    await waitFor(() =>
+      expect(mockAxios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/translateDoc'),
+        expect.anything(),
+        expect.anything(),
+      ),
+    );
+
+    expect((screen.getByRole('link', { name: file.name }) as HTMLAnchorElement).href).toBe(blobURL);
   });
 
   it('rejects when no files', () => {
