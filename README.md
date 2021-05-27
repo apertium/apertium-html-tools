@@ -63,11 +63,11 @@ To analyze the bundle size, run a prod build and upload the resulting
 We use [GitHub Actions][15] to run tests, linting, typechecking, etc. on each
 commit.
 
-[1]: http://wiki.apertium.org/wiki/Apertium-html-tools
-[2]: http://apertium.org
-[3]: http://wiki.apertium.org/wiki/Apertium-apy
-[4]: http://wiki.apertium.org/wiki/ScaleMT
-[5]: http://wiki.apertium.org/wiki/Apertium-html-tools
+[1]: https://wiki.apertium.org/wiki/Apertium-html-tools
+[2]: https://apertium.org
+[3]: https://wiki.apertium.org/wiki/Apertium-apy
+[4]: https://wiki.apertium.org/wiki/ScaleMT
+[5]: https://wiki.apertium.org/wiki/Apertium-html-tools
 [6]: https://www.typescriptlang.org/
 [7]: https://nodejs.org/en/download/
 [8]: https://classic.yarnpkg.com/en/docs/install

@@ -65,7 +65,7 @@ const SandboxForm = ({
     <Form onSubmit={(event) => event.preventDefault()}>
       <legend>
         <span>{t('APy_Sandbox_Help')}</span>
-        <a className="float-right" href="http://wiki.apertium.org/wiki/Apertium-apy" rel="noreferrer" target="_blank">
+        <a className="float-right" href="https://wiki.apertium.org/wiki/Apertium-apy" rel="noreferrer" target="_blank">
           <abbr title="Apertium API in Python">APy</abbr> <FontAwesomeIcon icon={faQuestionCircle} />
         </a>
       </legend>
