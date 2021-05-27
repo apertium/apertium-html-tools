@@ -1,7 +1,7 @@
 Localization
 ============
 
-This directory contains the JSON files powering Html-tools' localization as well as some helpful utilities. `locales.json` contains a reference to each JSON strings file as well as each language's endonym. Localization instructions are available on the [Apertium Wiki](http://wiki.apertium.org/wiki/Apertium-html-tools).
+This directory contains the JSON files powering Html-tools' localization as well as some helpful utilities. `locales.json` contains a reference to each JSON strings file as well as each language's endonym. Localization instructions are available on the [Apertium Wiki](https://wiki.apertium.org/wiki/Apertium-html-tools).
 
 After editing localizations, please run `make` and commit its changes.
 
