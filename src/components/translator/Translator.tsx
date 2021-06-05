@@ -40,7 +40,7 @@ const defaultSrcLang = (pairs: Pairs): string => {
   for (const code of browserLangs) {
     // First, convert variant format.
     // Then, BCP 47 prefers shortest code, we prefer longest.
-    const isoLang = toAlpha3Code(code.replace('-', '_')) || code;
+    const isoLang = toAlpha3Code(code.replace('-', '_'));
     const parentIsoLang = parentLang(isoLang);
 
     if (pairs[isoLang]) {

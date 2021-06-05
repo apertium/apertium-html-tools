@@ -62,20 +62,16 @@ describe('initial modes', () => {
 });
 
 describe('default source language', () => {
-  it('selects matching navigator language', () => {
-    jest.spyOn(window.navigator, 'languages', 'get').mockReturnValue(['hi-IN']);
+  it.each([
+    ['es', 'spa'],
+    ['hi-IN', 'hin'],
+    ['zzz', 'eng'],
+  ])('converts navigator %s to %s', (navigatorLang, srcLang) => {
+    jest.spyOn(window.navigator, 'languages', 'get').mockReturnValue([navigatorLang]);
 
     renderTranslator();
 
-    expect((screen.getByTestId('src-lang-dropdown') as HTMLSelectElement).value).toBe('hin');
-  });
-
-  it('falls back to first language', () => {
-    jest.spyOn(window.navigator, 'languages', 'get').mockReturnValue(['zzz']);
-
-    renderTranslator();
-
-    expect((screen.getByTestId('src-lang-dropdown') as HTMLSelectElement).value).toBe('eng');
+    expect((screen.getByTestId('src-lang-dropdown') as HTMLSelectElement).value).toBe(srcLang);
   });
 });
 
