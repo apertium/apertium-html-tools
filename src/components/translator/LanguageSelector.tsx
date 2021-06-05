@@ -117,20 +117,20 @@ const MobileLanguageSelector = ({
           {detectedLang ? `${tLang(detectedLang)} - ${t('detected')}` : t('Detect_Language')}
         </option>
         {srcLangs.map(([code, name]) => (
-          <option key={code} value={code}>
+          <option disabled={pairs[srcLang].size === 0} key={code} value={code}>
             {name}
           </option>
         ))}
       </>
     ),
-    [detectLangEnabled, detectedLang, srcLangs, t, tLang],
+    [detectLangEnabled, detectedLang, pairs, srcLang, srcLangs, t, tLang],
   );
 
   const tgtLangOptions = React.useMemo(
     () => (
       <>
         {tgtLangs.map(([code, name]) => (
-          <option disabled={!pairs[srcLang].has(code)} key={code} value={code}>
+          <option disabled={!isPair(pairs, srcLang, code)} key={code} value={code}>
             {name}
           </option>
         ))}
@@ -188,7 +188,7 @@ const LangsDropdown = ({
   langs: NamedLangs;
   numCols: number;
   setLang: (code: string) => void;
-  validLang?: (code: string) => boolean;
+  validLang: (code: string) => boolean;
 }): React.ReactElement => {
   const langsPerCol = React.useMemo(() => {
     let langsPerCol = Math.ceil(langs.length / numCols);
@@ -323,6 +323,7 @@ const DesktopLanguageSelector = ({
   }, [locale, tgtLangs.length, srcLangs.length, tgtLangsDropdownTriggerRef, srcLangsDropdownTriggerRef]);
 
   const validTgtLang = React.useCallback((lang: string) => isPair(pairs, srcLang, lang), [pairs, srcLang]);
+  const validSrcLang = React.useCallback((lang: string) => pairs[lang].size > 0, [pairs]);
 
   return (
     <Form.Group className="row">
@@ -371,7 +372,7 @@ const DesktopLanguageSelector = ({
             title=""
             variant="secondary"
           >
-            <LangsDropdown langs={srcLangs} numCols={numSrcCols} setLang={setSrcLang} />
+            <LangsDropdown langs={srcLangs} numCols={numSrcCols} setLang={setSrcLang} validLang={validSrcLang} />
           </DropdownButton>
         </ButtonGroup>
         <Button
@@ -476,7 +477,7 @@ const LanguageSelector = (props: Props): React.ReactElement => {
       new Set(
         Array.from(TgtLangs).filter((lang) => {
           const parent = parentLang(lang);
-          const possibleTgtLangs = Array.from(pairs[srcLang]) || [];
+          const possibleTgtLangs = Array.from(pairs[srcLang]);
 
           return (
             isPair(pairs, srcLang, lang) ||

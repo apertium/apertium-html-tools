@@ -15,6 +15,7 @@ defaultStrings['Maintainer'] = '{{maintainer}}-Default';
   { sourceLanguage: 'eng', targetLanguage: 'spa' },
   { sourceLanguage: 'cat', targetLanguage: 'eng' },
   { sourceLanguage: 'cat', targetLanguage: 'spa' },
+  { sourceLanguage: 'spa', targetLanguage: 'eng' },
   { sourceLanguage: 'cat_foo', targetLanguage: 'spa' },
   { sourceLanguage: 'pan_Guru', targetLanguage: 'hin' },
   { sourceLanguage: 'pan_Arab', targetLanguage: 'hin' },

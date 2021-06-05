@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MemoryHistoryBuildOptions, createMemoryHistory } from 'history';
-import { cleanup, getByRole, queryAllByRole, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, getAllByRole, getByRole, queryAllByRole, render, screen, waitFor } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
@@ -116,6 +116,17 @@ describe('setting source language', () => {
     userEvent.selectOptions(dropdown, 'català');
 
     expect(dropdown.value).toBe('cat');
+  });
+
+  it('sets language with no target languages', () => {
+    renderTranslator();
+
+    userEvent.selectOptions(screen.getByTestId('src-lang-dropdown'), 'pan');
+
+    const dropdown = screen.getByTestId('tgt-lang-dropdown') as HTMLSelectElement;
+    (getAllByRole(dropdown, 'option') as Array<HTMLOptionElement>).forEach((option) =>
+      expect(option.disabled).toBeTruthy(),
+    );
   });
 
   it('changes recent languages', async () => {

@@ -2,12 +2,12 @@ import * as React from 'react';
 import { act, getByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { DetectCompleteEvent, DetectEvent } from '..';
+import { DetectCompleteEvent, DetectEvent, DirectPairs } from '..';
 import LanguageSelector, { Props } from '../LanguageSelector';
 
 const renderLanguageSelector = (props_: Partial<Props> = {}): Props => {
   const props = {
-    pairs: { eng: new Set(['cat', 'spa', 'hin', 'ara']), spa: new Set(['eng']), cat: new Set([]) },
+    pairs: { ...DirectPairs, eng: new Set(['cat', 'spa', 'hin', 'ara']), spa: new Set(['eng']), cat: new Set([]) },
     onTranslate: jest.fn(),
     loading: false,
 
@@ -120,9 +120,9 @@ describe('mobile', () => {
     const combobox = screen
       .getAllByRole('combobox')
       .find((e) => (e as HTMLSelectElement).value === srcLang) as HTMLSelectElement;
-    userEvent.selectOptions(combobox, 'català');
+    userEvent.selectOptions(combobox, 'español');
 
-    expect(setSrcLang).toHaveBeenCalledWith('cat');
+    expect(setSrcLang).toHaveBeenCalledWith('spa');
   });
 
   it('sets target language', () => {
@@ -168,9 +168,9 @@ describe('desktop', () => {
     const { setSrcLang } = renderLanguageSelector();
 
     const srcLangs = screen.getAllByRole('group')[0];
-    userEvent.click(getByRole(srcLangs, 'button', { name: 'català' }));
+    userEvent.click(getByRole(srcLangs, 'button', { name: 'español' }));
 
-    expect(setSrcLang).toHaveBeenCalledWith('cat');
+    expect(setSrcLang).toHaveBeenCalledWith('spa');
   });
 
   it('sets target language', () => {
@@ -199,9 +199,9 @@ describe('desktop', () => {
 
       const srcsLangDropdown = screen.getByTestId('src-lang-dropdown');
       userEvent.click(getByRole(srcsLangDropdown, 'button'));
-      await waitFor(() => userEvent.click(getByRole(srcsLangDropdown, 'button', { name: 'català' })));
+      await waitFor(() => userEvent.click(getByRole(srcsLangDropdown, 'button', { name: 'español' })));
 
-      expect(setSrcLang).toHaveBeenCalledWith('cat');
+      expect(setSrcLang).toHaveBeenCalledWith('spa');
     });
 
     it('disables invalid target languages', async () => {

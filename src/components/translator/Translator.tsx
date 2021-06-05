@@ -91,7 +91,7 @@ const WithSrcLang = ({
 }): React.ReactElement => {
   const [srcLang, realSetSrcLang] = useLocalStorage<string>('srcLang', () => defaultSrcLang(pairs), {
     overrideValue: urlSrcLang,
-    validateValue: (l) => l in pairs,
+    validateValue: (l) => l in pairs && pairs[l].size > 0,
   });
 
   const [recentSrcLangs, setRecentSrcLangs] = useLocalStorage<Array<string>>(
@@ -171,7 +171,7 @@ const WithTgtLang = ({
     () => pairs[srcLang].values().next().value as string,
     {
       overrideValue: urlTgtLang,
-      validateValue: (l) => pairs[srcLang].has(l),
+      validateValue: (l) => isPair(pairs, srcLang, l),
     },
   );
 
@@ -221,8 +221,9 @@ const WithTgtLang = ({
         }
       }
 
-      // Otherwise, pick the first possible target language.
-      setTgtLang((pairs[srcLang] || new Set()).values().next().value);
+      // Otherwise, pick the first possible target language, falling back to the
+      // first language that exists.
+      setTgtLang(pairs[srcLang].values().next().value || TgtLangs.values().next().value);
     }
   }, [pairs, recentTgtLangs, setTgtLang, srcLang, tgtLang]);
 

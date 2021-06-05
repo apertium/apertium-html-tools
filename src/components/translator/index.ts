@@ -11,6 +11,10 @@ const rawPairs = (window as any).PAIRS as Array<{
 export const DirectPairs: Pairs = rawPairs.reduce((pairs, { sourceLanguage, targetLanguage }) => {
   pairs[sourceLanguage] = pairs[sourceLanguage] || new Set();
   pairs[sourceLanguage].add(targetLanguage);
+
+  const parent = parentLang(sourceLanguage);
+  pairs[parent] = pairs[parent] || new Set();
+
   return pairs;
 }, {} as Record<string, Set<string>>);
 
@@ -39,12 +43,6 @@ Object.keys(DirectPairs).forEach((srcLang) => {
 export const ChainedPairs: Pairs = chainedPairs;
 
 export const SrcLangs = new Set(Object.keys(DirectPairs));
-SrcLangs.forEach((lang) => {
-  const parent = parentLang(lang);
-  if (!SrcLangs.has(parent)) {
-    SrcLangs.add(parent);
-  }
-});
 
 export const TgtLangs = new Set(
   ([] as Array<string>).concat(...Object.values(DirectPairs).map((ls) => Array.from(ls))),
