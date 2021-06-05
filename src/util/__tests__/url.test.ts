@@ -5,6 +5,7 @@ describe('getUrlParam', () => {
 
   it.each([
     ['dir', 'eng-spa', '?dir=eng-spa'],
+    ['dir', 'eng-spa', '?dir=eng-spa&dir=cat-spa'],
     ['lang', null, '?dir=eng-spa'],
     ['dir', null, ''],
   ])('extracts %s to %s in "%s"', (param, value, search) => {
