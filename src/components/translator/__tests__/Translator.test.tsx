@@ -64,7 +64,7 @@ describe('initial modes', () => {
 describe('default source language', () => {
   it.each([
     ['es', 'spa'],
-    ['hi-IN', 'hin'],
+    ['es-MX', 'spa'],
     ['zzz', 'eng'],
   ])('converts navigator %s to %s', (navigatorLang, srcLang) => {
     jest.spyOn(window.navigator, 'languages', 'get').mockReturnValue([navigatorLang]);

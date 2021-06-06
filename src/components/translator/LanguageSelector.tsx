@@ -9,8 +9,9 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import classNames from 'classnames';
 
-import { DetectCompleteEvent, DetectEvent, Pairs, SrcLangs, TgtLangs, isPair } from '.';
-import { isVariant, langDirection, parentLang, toAlpha2Code, variantSeperator } from '../../util/languages';
+import { DetectCompleteEvent, DetectEvent, NamedLangs, Pairs, SrcLangs, TgtLangs, isPair } from '.';
+import WithSortedLanguages, { ChildProps } from './WithSortedLanguages';
+import { isVariant, langDirection } from '../../util/languages';
 import { LocaleContext } from '../../context';
 import { useLocalization } from '../../util/localization';
 
@@ -41,8 +42,6 @@ type SharedProps = Props & {
   setDetectingLang: (detecting: boolean) => void;
   onDetectLang: () => void;
 };
-
-type NamedLangs = Array<[string, string]>;
 
 const langListIdealRows = 12,
   langListMaxWidths = 850,
@@ -424,8 +423,6 @@ const DesktopLanguageSelector = ({
 };
 
 const LanguageSelector = (props: Props): React.ReactElement => {
-  const { tLang } = useLocalization();
-
   const { pairs, srcLang, setSrcLang, recentSrcLangs, setRecentSrcLangs, tgtLang, setTgtLang, setDetectedLang } = props;
 
   const swapLangs = React.useMemo(
@@ -437,98 +434,6 @@ const LanguageSelector = (props: Props): React.ReactElement => {
           }
         : undefined,
     [pairs, setSrcLang, setTgtLang, srcLang, tgtLang],
-  );
-
-  const locale = React.useContext(LocaleContext);
-
-  // Check if `String.prototype.localeCompare` supports our locale.
-  let sortLocale: string | undefined = toAlpha2Code(locale);
-  try {
-    'a'.localeCompare('b', sortLocale);
-  } catch (e) {
-    sortLocale = undefined;
-  }
-
-  const compareLangCodes = React.useCallback(
-    (a: string, b: string): number => {
-      const [aParent, aVariant] = a.split(variantSeperator, 2),
-        [bParent, bVariant] = b.split(variantSeperator, 2);
-      const directCompare = () => tLang(aParent).localeCompare(tLang(bParent), sortLocale);
-      if (aVariant && bVariant && aParent === bParent) {
-        return directCompare();
-      } else if (aVariant && aParent === b) {
-        return 1;
-      } else if (bVariant && bParent === a) {
-        return -1;
-      } else {
-        return directCompare();
-      }
-    },
-    [sortLocale, tLang],
-  );
-
-  const srcLangs: NamedLangs = React.useMemo(
-    () => [...SrcLangs].sort(compareLangCodes).map((code) => [code, tLang(code)]),
-    [compareLangCodes, tLang],
-  );
-
-  const possibleTgtFamilies: Set<string> = React.useMemo(
-    () =>
-      new Set(
-        Array.from(TgtLangs).filter((lang) => {
-          const parent = parentLang(lang);
-          const possibleTgtLangs = Array.from(pairs[srcLang]);
-
-          return (
-            isPair(pairs, srcLang, lang) ||
-            possibleTgtLangs.includes(parent) ||
-            possibleTgtLangs.some((possibleLang) => parentLang(possibleLang) === parent)
-          );
-        }),
-      ),
-    [pairs, srcLang],
-  );
-
-  const tgtLangs: NamedLangs = React.useMemo(
-    () =>
-      [...TgtLangs]
-        .sort((a, b) => {
-          const aParent = parentLang(a),
-            bParent = parentLang(b);
-
-          const aFamilyPossible = possibleTgtFamilies.has(aParent),
-            bFamilyPossible = possibleTgtFamilies.has(bParent);
-
-          if (aFamilyPossible === bFamilyPossible) {
-            if (aParent === bParent) {
-              const aVariant = isVariant(a),
-                bVariant = isVariant(b);
-              if (aVariant && bVariant) {
-                const aPossible = isPair(pairs, srcLang, a),
-                  bPossible = isPair(pairs, srcLang, b);
-                if (aPossible === bPossible) {
-                  return compareLangCodes(a, b);
-                } else if (aPossible) {
-                  return -1;
-                } else {
-                  return 1;
-                }
-              } else if (aVariant) {
-                return 1;
-              } else {
-                return -1;
-              }
-            } else {
-              return compareLangCodes(a, b);
-            }
-          } else if (aFamilyPossible) {
-            return -1;
-          } else {
-            return 1;
-          }
-        })
-        .map((code) => [code, tLang(code)]),
-    [compareLangCodes, pairs, possibleTgtFamilies, srcLang, tLang],
   );
 
   const [detectingLang, setDetectingLang] = React.useState(false);
@@ -585,17 +490,20 @@ const LanguageSelector = (props: Props): React.ReactElement => {
   const SelectorComponent = showMobile ? MobileLanguageSelector : DesktopLanguageSelector;
 
   return (
-    <SelectorComponent
-      {...{
-        ...props,
-        srcLangs,
-        tgtLangs,
-        swapLangs,
-        setDetectingLang,
-        detectingLang,
-        onDetectLang,
-      }}
-    />
+    <WithSortedLanguages pairs={pairs} srcLang={srcLang} srcLangs={SrcLangs} tgtLangs={TgtLangs}>
+      {(sortedLanguageProps: ChildProps) => (
+        <SelectorComponent
+          {...{
+            ...props,
+            ...sortedLanguageProps,
+            swapLangs,
+            setDetectingLang,
+            detectingLang,
+            onDetectLang,
+          }}
+        />
+      )}
+    </WithSortedLanguages>
   );
 };
 

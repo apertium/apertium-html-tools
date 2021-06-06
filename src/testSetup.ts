@@ -19,8 +19,6 @@ defaultStrings['Maintainer'] = '{{maintainer}}-Default';
   { sourceLanguage: 'cat_foo', targetLanguage: 'spa' },
   { sourceLanguage: 'pan_Guru', targetLanguage: 'hin' },
   { sourceLanguage: 'pan_Arab', targetLanguage: 'hin' },
-  { sourceLanguage: 'hin', targetLanguage: 'pan_Guru' },
-  { sourceLanguage: 'hin', targetLanguage: 'pan_Arab' },
 ];
 
 // eslint-disable-next-line

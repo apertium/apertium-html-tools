@@ -2,6 +2,7 @@ import Translator from './Translator';
 import { parentLang } from '../../util/languages';
 
 export type Pairs = Readonly<Record<string, Set<string>>>;
+export type NamedLangs = Array<[string, string]>;
 
 // eslint-disable-next-line
 const rawPairs = (window as any).PAIRS as Array<{
