@@ -6,12 +6,12 @@
   transition: all 1s ease;
 }
 
-#react-mount .btn-primary {
+.btn-primary {
   background-color: #446e9b;
   border-color: #446e9b;
   color: #fff;
 }
 
-#react-mount .btn-primary:hover {
+.btn-primary:hover {
   background-color: #385a7f;
 }
