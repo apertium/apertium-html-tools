@@ -23,14 +23,30 @@ const selectLocale = (name: string) => {
   userEvent.selectOptions(selector, getByRole(selector, 'option', { name }));
 };
 
-it('switches to doc translation on hover', () => {
-  renderApp();
+describe('document drag', () => {
+  it('switches to doc translation on first hover', () => {
+    renderApp();
 
-  const body = document.getElementsByTagName('body')[0];
+    const body = document.getElementsByTagName('body')[0];
+    fireEvent(body, new Event('dragenter'));
 
-  fireEvent(body, new Event('dragenter'));
+    expect(window.location.hash).toMatch(/^#docTranslation/);
+  });
 
-  expect(window.location.hash).toMatch(/^#docTranslation/);
+  it('ignores second hover', () => {
+    renderApp();
+
+    const initialLength = window.history.length;
+
+    const body = document.getElementsByTagName('body')[0];
+    fireEvent(body, new Event('dragenter'));
+
+    const postInitialDragLength = window.history.length;
+    expect(postInitialDragLength).toBeGreaterThan(initialLength);
+
+    fireEvent(body, new Event('dragenter'));
+    expect(window.history.length).toEqual(postInitialDragLength);
+  });
 });
 
 describe('document level attributes', () => {
@@ -69,6 +85,24 @@ describe('changing locale', () => {
     await waitFor(() => expect(mockAxios).toHaveBeenCalledWith(expect.objectContaining({ url: 'strings/spa.json' })));
 
     await waitFor(() => expect(document.title).toBe(title));
+  });
+
+  it('falls back to defaults on error', async () => {
+    renderApp();
+
+    const defaultTitle = document.title;
+
+    selectLocale('español');
+
+    const title = 'title-Spanish';
+    mockAxios.mockResponse({ data: { title } });
+    await waitFor(() => expect(mockAxios).toHaveBeenCalled());
+    await waitFor(() => expect(document.title).toBe(title));
+
+    selectLocale('arpetan');
+    mockAxios.mockError();
+
+    await waitFor(() => expect(document.title).toBe(defaultTitle));
   });
 
   it('caches results', async () => {
