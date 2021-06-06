@@ -21,10 +21,10 @@ export default {
   collectCoverageFrom: ['src/**/*.ts', 'src/**/*.tsx'],
   coverageThreshold: {
     global: {
-      branches: 80,
-      functions: 90,
-      lines: 90,
-      statements: 90,
+      branches: 90,
+      functions: 95,
+      lines: 95,
+      statements: 95,
     },
   },
 } as Config.InitialOptions;
