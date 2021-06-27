@@ -166,7 +166,7 @@ const Plugin = {
           path.join(outdir, 'index.html'),
           indexHtml
             .replace('{{PRELOADED_STRINGS}}', JSON.stringify({ [defaultLocale]: defaultStrings }))
-            .replace('{{CACHE_BREAK}}', Date.now().toString()),
+            .replace(/{{CACHE_BREAK}}/g, Date.now().toString()),
         ),
         ...localeStrings.map(([locale, strings]) =>
           fs.writeFile(
