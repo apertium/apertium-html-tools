@@ -189,6 +189,7 @@ void esbuild.build({
   entryPoints: ['src/index.tsx'],
   bundle: true,
   metafile: true,
+  target: 'es2019',
   loader: { '.embed.png': 'dataurl', '.png': 'file', '.gif': 'file', '.jpg': 'file' },
   outdir: 'dist',
   plugins: [Plugin],
