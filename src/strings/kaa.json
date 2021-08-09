@@ -1,51 +1,49 @@
 {
     "@metadata": {
         "authors": [
-            "abdik"
+            "abdik",
+            "zigfruid"
         ],
-        "last-updated": "2014-04-28",
+        "last-updated": "2021-08-09",
         "locale": [
             "kaa"
         ],
-        "completion": " 76%  85.45%",
-        "missing": [
-            "Apertium_Documentation",
-            "Drop_Document",
-            "Install_Apertium",
-            "Install_Apertium_Para",
-            "Mark_Unknown_Words",
-            "Morphological_Analysis_Help",
-            "Morphological_Generation_Help",
-            "Multi_Step_Translation",
-            "Norm_Preferences",
-            "Supported_Formats",
-            "Translate_Webpage",
-            "Translation_Help",
-            "description"
-        ]
+        "completion": "100%  100.00%",
+        "missing": []
     },
     "title": "Apertium | Biypul/ashıq mashinalı awdarmalaw platforması",
     "tagline": "Biypul/ashıq mashinalı awdarmalaw platforması",
     "Translation": "Awdarma",
     "Translate": "Awdarıw",
+    "description": "Apertium-bul qaǵıydalarǵa tiykarlanǵan mashinalardı awdarmalaw platformasi. Bul biypul programmalıq támiynat hám GNU General Public License litsenziyası shártleri tiykarında shıǵarılǵan",
+    "Translation_Help": "Awdarmalaw ushın tekst yamasa URL kiritiń",
     "Detect_Language": "Tildi anıqlaw",
     "detected": "anıqlandı",
     "Instant_Translation": "Jıldam awdarma",
+    "Multi_Step_Translation": " <a href='https://kaa.wikipedia.org/wiki/Pivot_language' target='_blank' rel='noopener'> kóp basqıshlı awdarma (eksperimental) ",
+    "Apertium_Documentation": "Apertium hújjetleri",
     "Translate_Document": "Dokument awdarması",
+    "Drop_Document": "Hújjetti tastap jiberiw",
     "Not_Available": "Awdarma házirshe tayın emes",
     "File_Too_Large": "Fayl kólemi júdá úlken!",
     "Cancel": "Biykar etiw",
+    "Translate_Webpage": "web-betti awdarmalaw",
     "Format_Not_Supported": "Format tuwra kelmeydi!",
     "Morphological_Analysis": "Morfologiyalıq analiz",
     "Analyze": "Tańlaw",
     "Morphological_Generation": "Morfologiyalıq sintez",
     "Generate": "Sintezlew",
+    "Supported_Formats":"Qollap -quwatlanatuǵın formatlar :.txt, .rtf, .odp, .ods, .odt(LibreOffice/OpenOffice),.xlsx,.pptx,.docx (Microsoft Office 2003 hám odan jańa versiyaları ). <br/> <i > Word 97. doc faylları hám pdf faylları qollap-quwatlanbaydı",
+    "Mark_Unknown_Words":"Tanıs emes sózlerdi belgilew",
+    "Morphological_Analysis_Help":"Morfologiyalıq analiz ushın tekstti kiritiń",
     "Spell_Checker": "Orfografiya teksergish",
     "APy_Sandbox": "APy qumyashik",
     "APy_Sandbox_Help": "APyge soraw qoyıw",
     "APy_Request": "APyden soraw",
     "Request": "Soraw",
     "Language": "Til",
+    "Norm_Preferences":"Usıl parametrleri",
+    "Morphological_Generation_Help":"Tekstke kerekli morfologiyalıq sırtqı kórinislerdi kiritiń",
     "Input_Text": "Kiris tekst",
     "Notice_Mistake": "Qáte taptıńızba?",
     "Help_Improve": "Apertiumdi jaqsılawǵa kómeklesiń!",
@@ -61,7 +59,9 @@
     "About_Apertium": "Apertium haqqında",
     "What_Is_Apertium": "<p>Apertium - bul <b>biypul/ashıq mashinalı awdarmalaw platforması</b> bolıp, áwelde bir-birine baylanıslı bolǵan til toparlarlarına qaratılǵan, lekin keyin onsha uqsas bolmaǵan tiller toparların da (Anglichan - Katalan tilleri sıyaqlı) óz ishine alıwǵa keńeytilgen. Platforma</p> <ol> <li>tilden g'a'rezsiz mashinalı awdarıw mashınası</li>   <li>berilgen tiller jubına mashinalı awdarmalaw sisteması ushın kerekli bolg'an lingvistikalıq datanı basqarıwg'a arnalg'an qurallar ha'm</li>    <li>sanı o'sip atırg'an tiller jupları ushın lingvistikalıq data.</li> </ol>     <p>Apertium jan'a bag'darlamashılardı quwana qabıllaydı: egerde sistemanı yaki qurallardı, yaki lingvistikalıq datanı keńeytemen dep oylasańız, qısınbay biz benen <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>baylanıssańız boladı</a>.</p>",
     "Documentation_Para": "Dokumentatsiyalar bizlerdiń <a href='https://wiki.apertium.org/'>Wiki</a>diń <a href='https://wiki.apertium.org/wiki/Documentation' target='_blank' rel='noopener'>Dokumentatsiya</a> betinde tabıladı. Bizler hár qıylı conferentsiya hám jurnal maqalaların baspadan shıǵarǵanbız hám olardıń dizimi Wikidegi <a href='https://wiki.apertium.org/wiki/Publications' target='_blank' rel='noopener'>Publikatsiyalar</a> betinde tabıladı.",
+    "Install_Apertium": "Apertiumdi ornatıw",
     "Apertium_Downloads": "Apertium Júklewler",
+    "Install_Apertium_Para":"Apertium juplıqtı ornatıw",
     "Downloads_Para": "<b>Apertium toolbox</b> hám  <b>tiller jubı data</b>larınıń házirgi versiyaları <a href='https://github.com/apertium' target='_blank' rel='noopener'>GitHub betinde</a> jaylasqan. Apertiumdi en' iri platformalardı ornatıw qollanbaları <a href='https://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Wikidiń ornatıw betinde</a> jaylasqan.",
     "Contact_Para": "<h4>IRC kanalı</h4> <p>Bizler menen baylanısıwdıń eń tez jolı - bul bizlerdiń irc.oftc.net tegi <a href='https://wiki.apertium.org/wiki/IRC' target='_blank' rel='noopener'><abbr title='Internet Relay Chat'>#apertium IRC</abbr> kanalına</a> qosılıw. Ol jerde Apertium paydalanıwshıları ha'm bag'darlamashıları ko'risedi. Sizge IRC klient te keregi joq; siz <a href='https://webchat.oftc.net/?channels=apertium'>OFTC webchat</a> ti paydalansan'ız jetkilikli. </p> <h4>Mail ler dizimi</h4> <p>Tag'ı da, <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank' rel='noopener'> apertium-stuff mail ler dizimine</a> jazılsan'ız boladı ha'm ol jerde siz ken'irek usınıslardı yaki problemalardı jazıp qaldırsańız, yaki jalpı Apertium diskussiyaların bayqap otırsańız boladı. </p> <h4>Baylanısıw</h4> <p>Egerde qáte tapsańız, bizler islewimizdi qáleytuǵın proekt bolsa yáki járdem bergińiz kelse biz benen biymálel <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank' rel='noopener'>apertium-contact mail ler dizimi</a> arqalı baylanısıń.</p>"
 }
