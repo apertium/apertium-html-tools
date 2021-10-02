@@ -159,7 +159,7 @@ const AnalysisForm = ({
       } catch (error) {
         if (!axios.isCancel(error)) {
           setAnalysis([]);
-          setError(error);
+          setError(error as Error);
           setLoading(false);
         }
       }

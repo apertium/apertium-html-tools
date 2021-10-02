@@ -54,7 +54,7 @@ const SandboxForm = ({
       } catch (error) {
         if (!axios.isCancel(error)) {
           setResult(null);
-          setError(error);
+          setError(error as Error);
           setLoading(false);
         }
       }

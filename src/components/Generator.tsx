@@ -75,7 +75,7 @@ const GeneratorForm = ({
       } catch (error) {
         if (!axios.isCancel(error)) {
           setGeneration([]);
-          setError(error);
+          setError(error as Error);
           setLoading(false);
         }
       }
