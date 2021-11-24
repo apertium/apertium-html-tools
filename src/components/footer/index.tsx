@@ -101,7 +101,7 @@ const Footer = ({
             <div className="mb-4 d-flex flex-column">
               <div className="card d-inline-block bg-light p-2">
                 <span>{t('Notice_Mistake')}</span>{' '}
-                <Button className="p-0" onClick={() => setOpenTab(Tab.About)} tabIndex={0} variant="link">
+                <Button className="p-0" onClick={() => {window.location = "https://github.com/apertium"}} tabIndex={0} variant="link">
                   {t('Help_Improve')}
                 </Button>
               </div>
