@@ -609,7 +609,6 @@ function translateText() {
                 request = {'langpair': curSrcLang + '|' + curDstLang};
             }
             request.q = $('#originalText').val(); // eslint-disable-line id-length
-            var markUnknown = $('#markUnknown').prop('checked') ? 'yes' : 'no';
             request.markUnknown = 'yes'; // Remove marks on client instead, so we can spell afterwards.
             textTranslateRequest = callApy({
                 data: request,
@@ -617,7 +616,8 @@ function translateText() {
                     if(data.responseStatus === HTTP_OK_CODE) {
                         insertWithSpelling(data.responseData.translatedText,
                                            $('#translatedText'),
-                                           curSrcLang);
+                                           curSrcLang,
+                                           $('#markUnknown').prop('checked'));
                         $('#translatedText').removeClass('notAvailable text-danger');
                     }
                     else {

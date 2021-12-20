@@ -6,7 +6,7 @@ var unknownMarkRE = /([#*])([^.,;:\t\n\r\* ]+)/g;
 /* Insert text into div, but wrapping a class .unknownWord around each
  * word that starts with '*', or .ungeneratedWord around those that
  * start with '#'; then run the spell checker on .unknownWord's. */
-function insertWithSpelling(text, div, language) {
+function insertWithSpelling(text, div, language, includeMark) {
     div.html("");
     unknownMarkRE.lastIndex = 0;
     var match,
@@ -14,7 +14,8 @@ function insertWithSpelling(text, div, language) {
     while((match = unknownMarkRE.exec(text))) {
         var preText = text.substring(last, match.index),
             unkClass = (match[1] === '*') ? 'unknownWord' : 'ungeneratedWord',
-            unkText = match[2];
+            unkMark = includeMark ? match[1] : '',
+            unkText = unkMark + match[2];
         div.append($('<span />').text(preText));
         var unk = $('<span />').text(unkText).addClass(unkClass);
         unk.data('index', match.index); // used by pickSpellingSuggestion
