@@ -18,7 +18,7 @@ const InstallationAlert = ({ show, onClose }: { show: boolean; onClose: () => vo
 
   const scheduleClose = React.useCallback(() => {
     if (!openTimeoutRef.current) {
-      openTimeoutRef.current = window.setTimeout(() => onClose(), notificationDuration);
+      openTimeoutRef.current = window.setTimeout(onClose, notificationDuration);
     }
   }, [onClose]);
 
@@ -30,6 +30,12 @@ const InstallationAlert = ({ show, onClose }: { show: boolean; onClose: () => vo
       window.clearTimeout(current);
       openTimeoutRef.current = null;
     }
+
+    return () => {
+      if (openTimeoutRef.current) {
+        window.clearTimeout(openTimeoutRef.current);
+      }
+    };
   }, [onClose, scheduleClose, show]);
 
   const onMouseOver = React.useCallback(() => {
