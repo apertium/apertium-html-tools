@@ -39,12 +39,12 @@
     "@types/react-dom": "^17.0.3",
     "@types/react-router-bootstrap": "^0.24.5",
     "@types/react-router-dom": "^5.1.7",
-    "@typescript-eslint/eslint-plugin": "^4.21.0",
-    "@typescript-eslint/parser": "^4.21.0",
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/parser": "^5.9.0",
     "esbuild": "^0.12.0",
     "esbuild-jest": "^0.4.0",
-    "eslint": "^7.23.0",
-    "eslint-plugin-jest": "^24.3.5",
+    "eslint": "^8.6.0",
+    "eslint-plugin-jest": "^25.3.4",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
@@ -55,7 +55,7 @@
     "stylelint": "^14.2.0",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^24.0.0",
-    "ts-node": "^9.1.1",
+    "ts-node": "^10.4.0",
     "typescript": "^4.2.4"
   }
 }
