@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 
 import DocTranslationForm, { Props } from '../DocTranslationForm';
 import type { AxiosRequestConfig } from 'axios';
-import { TranslateEvent } from '../index';
+import { TranslateEvent } from '..';
 
 const renderDocTranslationForm = (
   props_: Partial<Props> = {},

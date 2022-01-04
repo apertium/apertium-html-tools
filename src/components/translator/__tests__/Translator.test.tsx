@@ -4,7 +4,7 @@ import { cleanup, getAllByRole, getByRole, queryAllByRole, render, screen, waitF
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
-import { Mode, TranslateEvent } from '../index';
+import { Mode, TranslateEvent } from '..';
 import Translator from '../Translator';
 
 const renderTranslator = (historyOptions?: MemoryHistoryBuildOptions, mode?: Mode) => {
