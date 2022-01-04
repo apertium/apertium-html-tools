@@ -29,7 +29,7 @@
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
-    "@datapunt/matomo-tracker-react": "^0.4.0",
+    "@datapunt/matomo-tracker-react": "^0.5.1",
     "@testing-library/dom": "^8.11.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
