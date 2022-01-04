@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NamedLangs, Pairs, isPair } from '.';
+import { NamedLangs, Pairs, isPair } from './index';
 
 import { isVariant, parentLang, toAlpha2Code, variantSeperator } from '../../util/languages';
 import { LocaleContext } from '../../context';

@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import classNames from 'classnames';
 
-import { DetectCompleteEvent, DetectEvent, NamedLangs, Pairs, SrcLangs, TgtLangs, isPair } from '.';
+import { DetectCompleteEvent, DetectEvent, NamedLangs, Pairs, SrcLangs, TgtLangs, isPair } from './index';
 import WithSortedLanguages, { ChildProps } from './WithSortedLanguages';
 import { isVariant, langDirection } from '../../util/languages';
 import { LocaleContext } from '../../context';

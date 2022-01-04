@@ -1,6 +1,6 @@
 jest.dontMock('axios');
 
-import type { apyFetch as apyFetchT } from '..';
+import type { apyFetch as apyFetchT } from '../index';
 import axios from 'axios';
 
 describe('apyFetch', () => {

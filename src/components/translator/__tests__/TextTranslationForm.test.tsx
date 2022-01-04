@@ -5,7 +5,7 @@ import { Router } from 'react-router-dom';
 import mockAxios from 'jest-mock-axios';
 import userEvent from '@testing-library/user-event';
 
-import { DetectCompleteEvent, DetectEvent, TranslateEvent } from '..';
+import { DetectCompleteEvent, DetectEvent, TranslateEvent } from '../index';
 import TextTranslationForm, { Props } from '../TextTranslationForm';
 
 const renderTextTranslationForm = (

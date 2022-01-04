@@ -2,7 +2,7 @@ import * as React from 'react';
 import { act, getByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { DetectCompleteEvent, DetectEvent, DirectPairs } from '..';
+import { DetectCompleteEvent, DetectEvent, DirectPairs } from '../index';
 import LanguageSelector, { Props } from '../LanguageSelector';
 
 const renderLanguageSelector = (props_: Partial<Props> = {}): Props => {

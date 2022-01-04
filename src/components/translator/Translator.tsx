@@ -21,7 +21,7 @@ import {
   TranslateEvent,
   isPair,
   pairUrlParam,
-} from '.';
+} from './index';
 import DocTranslationForm, { Path as DocTranslationPath } from './DocTranslationForm';
 import TextTranslationForm, { Path as TextTranslationPath } from './TextTranslationForm';
 import WebpageTranslationForm, { Path as WebpageTranslationPath } from './WebpageTranslationForm';

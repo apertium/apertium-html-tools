@@ -6,7 +6,7 @@ import mockAxios from 'jest-mock-axios';
 import userEvent from '@testing-library/user-event';
 
 import WebpageTranslationForm, { Props } from '../WebpageTranslationForm';
-import { TranslateEvent } from '..';
+import { TranslateEvent } from '../index';
 
 const renderWebpageTranslationForm = (
   props_: Partial<Props> = {},

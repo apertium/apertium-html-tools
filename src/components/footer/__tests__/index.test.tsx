@@ -2,7 +2,7 @@ import * as React from 'react';
 import { getAllByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Footer from '..';
+import Footer from '../index';
 
 const renderFooter = () => {
   const wrapRef = React.createRef<HTMLDivElement>();

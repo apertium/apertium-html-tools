@@ -12,7 +12,7 @@ import Row from 'react-bootstrap/Row';
 import { useHistory } from 'react-router-dom';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
-import { TranslateEvent, baseUrlParams } from '.';
+import { TranslateEvent, baseUrlParams } from './index';
 import { ConfigContext } from '../../context';
 import { buildNewSearch } from '../../util/url';
 import { useLocalization } from '../../util/localization';

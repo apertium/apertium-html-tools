@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 import { Config as ConfigType, Mode } from '../../../types';
 import Config from '../../../../config';
 import { ConfigContext } from '../../../context';
-import Navbar from '..';
+import Navbar from '../index';
 
 const renderNavbar = (options?: MemoryHistoryBuildOptions, config: Partial<ConfigType> = {}): MemoryHistory => {
   const history = createMemoryHistory(options);
