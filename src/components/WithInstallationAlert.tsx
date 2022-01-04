@@ -72,7 +72,7 @@ const WithInstallationAlert = ({ children }: { children?: React.ReactNode }): Re
   const requestTimings = React.useRef<Array<number>>([]);
 
   const wrappedApyFetch = React.useCallback(
-    <T extends unknown>(path: string, params?: Record<string, string>): [CancelTokenSource, AxiosPromise<T>] => {
+    <T,>(path: string, params?: Record<string, string>): [CancelTokenSource, AxiosPromise<T>] => {
       const start = Date.now();
 
       const handleRequestComplete = () => {
