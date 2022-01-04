@@ -1,12 +1,14 @@
 {
-"@metadata": {
-        "authors": ["Prasanta-Hembram"],
+    "@metadata": {
+        "authors": [
+            "Prasanta-Hembram"
+        ],
         "last-updated": "2021-12-24",
         "locale": [
-			"hi",
+            "hi",
             "hin"
         ],
-        "completion": "100% 100.00%",
+        "completion": "100% 102.92%",
         "missing": []
     },
     "title": "Apertium | एक मुक्त/खुला - स्रोत स्रोत मशीनी अनुवाद प्लेटफाँर्म ।",
