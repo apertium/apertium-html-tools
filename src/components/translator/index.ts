@@ -1,4 +1,3 @@
-import Translator from './Translator';
 import { parentLang } from '../../util/languages';
 
 export type Pairs = Readonly<Record<string, Set<string>>>;
@@ -70,8 +69,6 @@ export const getPairPrefs = (locale: string, srcLang: string, tgtLang: string): 
   });
   return localizedPrefs;
 };
-
-export default Translator;
 
 export enum Mode {
   Text,

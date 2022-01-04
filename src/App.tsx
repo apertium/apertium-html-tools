@@ -13,7 +13,6 @@ import { PRELOADED_STRINGS, Strings, tt } from './util/localization';
 import { langDirection, toAlpha2Code } from './util/languages';
 import { Mode } from './types';
 
-import Translator, { Mode as TranslatorMode } from './components/translator';
 import Analyzer from './components/Analyzer';
 import { Path as DocTranslationPath } from './components/translator/DocTranslationForm';
 import Footer from './components/footer';
@@ -21,6 +20,8 @@ import Generator from './components/Generator';
 import LocaleSelector from './components/LocaleSelector';
 import Navbar from './components/navbar';
 import Sandbox from './components/Sandbox';
+import Translator from './components/translator/Translator';
+import { Mode as TranslatorMode } from './components/translator';
 import { Path as WebpageTranslationPath } from './components/translator/WebpageTranslationForm';
 import WithInstallationAlert from './components/WithInstallationAlert';
 import WithLocale from './components/WithLocale';
