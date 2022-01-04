@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { MaxURLLength, buildNewSearch, getUrlParam } from '../../util/url';
-import { TranslateEvent, baseUrlParams } from './index';
+import { TranslateEvent, baseUrlParams } from '.';
 import { APyContext } from '../../context';
 import useLocalStorage from '../../util/useLocalStorage';
 import { useLocalization } from '../../util/localization';

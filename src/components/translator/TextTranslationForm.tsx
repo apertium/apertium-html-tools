@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
-import { DetectCompleteEvent, DetectEvent, PairPrefValues, TranslateEvent, baseUrlParams } from './index';
+import { DetectCompleteEvent, DetectEvent, PairPrefValues, TranslateEvent, baseUrlParams } from '.';
 import { MaxURLLength, buildNewSearch, getUrlParam } from '../../util/url';
 import { APyContext } from '../../context';
 import { buildUrl as buildWebpageTranslationUrl } from './WebpageTranslationForm';

@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 import { ConfigContext, LocaleContext } from '../../context';
-import { PairPrefValues, getPairPrefs } from './index';
+import { PairPrefValues, getPairPrefs } from '.';
 import { useLocalization } from '../../util/localization';
 
 export type Props = {
