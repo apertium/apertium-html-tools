@@ -37,7 +37,8 @@
     {
       "files": ["*.test.ts", "*.test.tsx"],
       "rules": {
-        "no-magic-numbers": "off"
+        "no-magic-numbers": "off",
+        "@typescript-eslint/no-unnecessary-type-assertion": "off"
       }
     }
   ]

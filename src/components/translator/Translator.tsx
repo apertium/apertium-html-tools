@@ -223,7 +223,7 @@ const WithTgtLang = ({
 
       // Otherwise, pick the first possible target language, falling back to the
       // first language that exists.
-      setTgtLang(pairs[srcLang].values().next().value || TgtLangs.values().next().value);
+      setTgtLang((pairs[srcLang].values().next().value || TgtLangs.values().next().value) as string);
     }
   }, [pairs, recentTgtLangs, setTgtLang, srcLang, tgtLang]);
 

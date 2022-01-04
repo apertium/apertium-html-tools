@@ -1,10 +1,7 @@
 import * as queryString from 'query-string';
 import axios, { AxiosPromise, CancelTokenSource } from 'axios';
 
-export const apyFetch = <T extends unknown>(
-  path: string,
-  params?: Record<string, string>,
-): [CancelTokenSource, AxiosPromise<T>] => {
+export const apyFetch = <T>(path: string, params?: Record<string, string>): [CancelTokenSource, AxiosPromise<T>] => {
   const source = axios.CancelToken.source();
 
   return [
