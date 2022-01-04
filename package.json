@@ -15,6 +15,7 @@
     "coverage": "jest --silent --coverage"
   },
   "dependencies": {
+    "@datapunt/matomo-tracker-react": "^0.5.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
@@ -29,7 +30,6 @@
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
-    "@datapunt/matomo-tracker-react": "^0.5.1",
     "@testing-library/dom": "^8.11.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
