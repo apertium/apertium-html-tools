@@ -9,7 +9,9 @@ After editing localizations, please run `make` and commit its changes.
 | code | CBE* | CBC** |
 |------|------|-------|
 | cat  | 100% | 111.87% |
+| sat  | 100% | 108.75% |
 | kaa  | 100% | 103.90% |
+| hin  | 100% | 103.83% |
 | eng  | 100% | 100.00% |
 | deu  | 97% | 113.72% |
 | arg  | 97% | 110.91% |
