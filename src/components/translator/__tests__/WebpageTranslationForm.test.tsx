@@ -19,6 +19,7 @@ const renderWebpageTranslationForm = (
     tgtLang: 'spa',
     cancelUrl: '',
     setLoading: jest.fn(),
+    pairPrefs: {},
     ...props_,
   };
 
@@ -145,7 +146,7 @@ describe('translation', () => {
       expect(mockAxios.post).toHaveBeenCalledWith(
         expect.stringContaining('translatePage'),
         expect.stringContaining(
-          `langpair=${encodeURIComponent(`eng|spa`)}&markUnknown=no&url=${encodeURIComponent(input)}`,
+          `langpair=${encodeURIComponent(`eng|spa`)}&markUnknown=no&prefs=&url=${encodeURIComponent(input)}`,
         ),
         expect.anything(),
       ),

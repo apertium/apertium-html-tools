@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { MaxURLLength, buildNewSearch, getUrlParam } from '../../util/url';
-import { TranslateEvent, baseUrlParams } from '.';
+import { PairPrefValues, TranslateEvent, baseUrlParams } from '.';
 import { APyContext } from '../../context';
 import useLocalStorage from '../../util/useLocalStorage';
 import { useLocalization } from '../../util/localization';
@@ -24,10 +24,11 @@ export type Props = {
   cancelUrl: string;
   srcLang: string;
   tgtLang: string;
+  pairPrefs: PairPrefValues;
   setLoading: (loading: boolean) => void;
 };
 
-const WebpageTranslationForm = ({ cancelUrl, srcLang, tgtLang, setLoading }: Props): React.ReactElement => {
+const WebpageTranslationForm = ({ cancelUrl, srcLang, tgtLang, pairPrefs, setLoading }: Props): React.ReactElement => {
   const { t } = useLocalization();
   const history = useHistory();
   const { trackEvent } = useMatomo();
@@ -51,6 +52,11 @@ const WebpageTranslationForm = ({ cancelUrl, srcLang, tgtLang, setLoading }: Pro
   const translationRef = React.useRef<CancelTokenSource | null>(null);
 
   const [translation, setTranslation] = React.useState<{ html: string; url: string } | null>(null);
+
+  const prefs = Object.entries(pairPrefs)
+    .filter(([, selected]) => selected)
+    .map(([id]) => id)
+    .join(',');
 
   const translate = React.useCallback(
     (url: string) => {
@@ -81,6 +87,7 @@ const WebpageTranslationForm = ({ cancelUrl, srcLang, tgtLang, setLoading }: Pro
         url,
         langpair: `${srcLang}|${tgtLang}`,
         markUnknown: 'no',
+        prefs,
       });
       translationRef.current = ref;
       setLoading(true);
@@ -104,7 +111,7 @@ const WebpageTranslationForm = ({ cancelUrl, srcLang, tgtLang, setLoading }: Pro
         }
       })();
     },
-    [apyFetch, setLoading, srcLang, tgtLang, trackEvent],
+    [apyFetch, prefs, setLoading, srcLang, tgtLang, trackEvent],
   );
 
   React.useEffect(() => () => translationRef.current?.cancel(), []);

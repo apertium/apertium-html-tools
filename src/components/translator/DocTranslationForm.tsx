@@ -12,7 +12,7 @@ import Row from 'react-bootstrap/Row';
 import { useHistory } from 'react-router-dom';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
-import { TranslateEvent, baseUrlParams } from '.';
+import { PairPrefValues, TranslateEvent, baseUrlParams } from '.';
 import { ConfigContext } from '../../context';
 import { buildNewSearch } from '../../util/url';
 import { useLocalization } from '../../util/localization';
@@ -38,10 +38,11 @@ export type Props = {
   cancelUrl: string;
   srcLang: string;
   tgtLang: string;
+  pairPrefs: PairPrefValues;
   setLoading: (loading: boolean) => void;
 };
 
-const DocTranslationForm = ({ srcLang, tgtLang, cancelUrl, setLoading }: Props): React.ReactElement => {
+const DocTranslationForm = ({ srcLang, tgtLang, pairPrefs, cancelUrl, setLoading }: Props): React.ReactElement => {
   const { t } = useLocalization();
   const history = useHistory();
   const { trackEvent } = useMatomo();
@@ -59,6 +60,11 @@ const DocTranslationForm = ({ srcLang, tgtLang, cancelUrl, setLoading }: Props):
 
   const [progress, setProgress] = React.useState<number | null>(null);
   const [translation, setTranslation] = React.useState<{ href: string; name: string } | null>(null);
+
+  const prefs = Object.entries(pairPrefs)
+    .filter(([, selected]) => selected)
+    .map(([id]) => id)
+    .join(',');
 
   const translate = React.useCallback(
     (file: File) => {
@@ -79,6 +85,7 @@ const DocTranslationForm = ({ srcLang, tgtLang, cancelUrl, setLoading }: Props):
       const translateData = new FormData();
       translateData.append('langpair', `${srcLang}|${tgtLang}`);
       translateData.append('markUnknown', 'no');
+      translateData.append('prefs', prefs);
       translateData.append('file', file);
 
       const source = axios.CancelToken.source();
@@ -124,7 +131,7 @@ const DocTranslationForm = ({ srcLang, tgtLang, cancelUrl, setLoading }: Props):
         }
       })();
     },
-    [apyURL, setLoading, srcLang, tgtLang, trackEvent],
+    [apyURL, prefs, setLoading, srcLang, tgtLang, trackEvent],
   );
 
   React.useEffect(() => () => translationRef.current?.cancel(), []);

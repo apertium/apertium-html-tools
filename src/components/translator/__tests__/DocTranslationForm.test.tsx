@@ -20,6 +20,7 @@ const renderDocTranslationForm = (
     tgtLang: 'spa',
     cancelUrl: '',
     setLoading: jest.fn(),
+    pairPrefs: {},
     ...props_,
   };
 
