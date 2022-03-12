@@ -162,6 +162,21 @@ describe('translation', () => {
     `);
   });
 
+  it('sends preferences', async () => {
+    renderWebpageTranslationForm({ pairPrefs: { foo: true, bar: true, qux: false } });
+
+    type(input);
+    translate();
+
+    await waitFor(() =>
+      expect(mockAxios.post).toHaveBeenCalledWith(
+        expect.stringContaining('translatePage'),
+        expect.stringContaining(`prefs=${encodeURIComponent('foo,bar')}`),
+        expect.anything(),
+      ),
+    );
+  });
+
   it('intercepts translated page links', async () => {
     const [, history] = renderWebpageTranslationForm();
 
