@@ -352,6 +352,7 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
                 {mode === Mode.Document && (
                   <DocTranslationForm
                     cancelUrl={urlFromMode(Mode.Text)}
+                    pairPrefs={pairPrefs}
                     setLoading={setLoading}
                     srcLang={srcLang}
                     tgtLang={tgtLang}
@@ -360,6 +361,7 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
                 {mode === Mode.Webpage && (
                   <WebpageTranslationForm
                     cancelUrl={urlFromMode(Mode.Text)}
+                    pairPrefs={pairPrefs}
                     setLoading={setLoading}
                     srcLang={srcLang}
                     tgtLang={tgtLang}

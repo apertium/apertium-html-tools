@@ -20,6 +20,7 @@ const renderDocTranslationForm = (
     tgtLang: 'spa',
     cancelUrl: '',
     setLoading: jest.fn(),
+    pairPrefs: {},
     ...props_,
   };
 
@@ -140,6 +141,22 @@ describe('translation', () => {
     );
 
     expect((screen.getByRole('link', { name: file.name }) as HTMLAnchorElement).href).toBe(blobURL);
+  });
+
+  it('sends preferences', async () => {
+    renderDocTranslationForm({ pairPrefs: { foo: true, bar: true, qux: false } });
+
+    act(() => {
+      userEvent.upload(getInput(), new File(['hello world'], 'hello.txt', { type: 'text/plain' }));
+      translate();
+    });
+
+    await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(1));
+
+    const [postCall] = mockAxios.post.mock.calls;
+    expect(postCall[0]).toContain('/translateDoc');
+    expect(postCall[1]).toBeInstanceOf(FormData);
+    expect((postCall[1] as FormData).get('prefs')).toEqual('foo,bar');
   });
 
   it('shows upload progress', () => {

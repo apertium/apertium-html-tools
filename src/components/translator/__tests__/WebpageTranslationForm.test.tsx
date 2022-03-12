@@ -19,6 +19,7 @@ const renderWebpageTranslationForm = (
     tgtLang: 'spa',
     cancelUrl: '',
     setLoading: jest.fn(),
+    pairPrefs: {},
     ...props_,
   };
 
@@ -145,7 +146,7 @@ describe('translation', () => {
       expect(mockAxios.post).toHaveBeenCalledWith(
         expect.stringContaining('translatePage'),
         expect.stringContaining(
-          `langpair=${encodeURIComponent(`eng|spa`)}&markUnknown=no&url=${encodeURIComponent(input)}`,
+          `langpair=${encodeURIComponent(`eng|spa`)}&markUnknown=no&prefs=&url=${encodeURIComponent(input)}`,
         ),
         expect.anything(),
       ),
@@ -159,6 +160,21 @@ describe('translation', () => {
       "Ámbito de ejemplo
                     Este ámbito es para uso en ejemplos ilustrativos en documentos."
     `);
+  });
+
+  it('sends preferences', async () => {
+    renderWebpageTranslationForm({ pairPrefs: { foo: true, bar: true, qux: false } });
+
+    type(input);
+    translate();
+
+    await waitFor(() =>
+      expect(mockAxios.post).toHaveBeenCalledWith(
+        expect.stringContaining('translatePage'),
+        expect.stringContaining(`prefs=${encodeURIComponent('foo,bar')}`),
+        expect.anything(),
+      ),
+    );
   });
 
   it('intercepts translated page links', async () => {
