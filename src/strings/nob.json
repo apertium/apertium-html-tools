@@ -3,14 +3,13 @@
         "authors": [
             "unhammer"
         ],
-        "last-updated": "2014-08-04",
+        "last-updated": "2022-04-09",
         "locale": [
             "nb",
             "nob"
         ],
-        "completion": " 97%  96.01%",
+        "completion": " 99%  96.48%",
         "missing": [
-            "Drop_Document",
             "Install_Apertium_Para"
         ]
     },
@@ -27,6 +26,7 @@
     "Mark_Unknown_Words": "Marker ukjente ord",
     "Multi_Step_Translation": "<a href='https://en.wikipedia.org/wiki/Pivot_language' target='_blank' rel='noopener'>Flerstegsoversettelse</a> (eksperimentelt)",
     "Translate_Document": "Oversett et dokument",
+    "Drop_Document": "Slipp et dokument her",
     "Not_Available": "Oversettelse ikke tilgjengelig!",
     "File_Too_Large": "Filen er for stor!",
     "Cancel": "Avbryt",
@@ -64,5 +64,6 @@
     "Apertium_Downloads": "Nedlastinger",
     "Downloads_Para": "Du finner de siste utgavene av <b>Apertium-verktøyene</b>, i tillegg til <b>språkdata</b>, på <a href='https://github.com/apertium' target='_blank' rel='noopener'>GitHub-siden</a>. Du finner installasjonsveiledning for Apertium på alle vanlige plattformer på siden <a href='https://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>Installation</a> på wikien.",
     "Contact_Para": "<h4>IRC-kanal</h4> <p>Den raskeste måten å få kontakt med oss er ved å gå inn i <a href='https://wiki.apertium.org/wiki/IRC' target='_blank' rel='noopener'><abbr title='Internet Relay Chat'>IRC</abbr>-kanalen vår, #apertium</a> på irc.oftc.net, hvor brukere og utviklere av Apertium møtes. Du trenger ikke å laste ned et IRC-program; det er nok å åpne <a href='https://webchat.oftc.net/?channels=apertium'>OFTCs webchat</a>. </p> <h4>E-postlister</h4> <p>Du bør også abonnere på <a href='https://lists.sourceforge.net/lists/listinfo/apertium-stuff' target='_blank' rel='noopener'>e-postlisten apertium-stuff</a>, hvor du kan legge inn mer utbroderte forslag eller problem, og følge med på ymse diskusjoner rundt Apertium. </p> <h4>Kontakt</h4> <p>Ta gjerne kontakt med oss via <a href='mailto:apertium-contact@lists.sourceforge.net' target='_blank' rel='noopener'>e-postlisten apertium-contact</a> hvis du finner en feil eller har et prosjekt du vil at vi skal ta fatt i, eller har lyst til å hjelpe til.</p>",
-    "Install_Apertium": "Installer Apertium"
+    "Install_Apertium": "Installer Apertium",
+    "Install_Apertium_Para": "Går det tregt? Maskinene våre er kanskje overlesset. Lær hvordan du kan <a href='https://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>installere Apertium på din maskin</a>."
 }
