@@ -8,10 +8,8 @@
             "nb",
             "nob"
         ],
-        "completion": " 99%  96.48%",
-        "missing": [
-            "Install_Apertium_Para"
-        ]
+        "completion": "100% 100.82%",
+        "missing": []
     },
     "title": "Apertium | En fri/åpen kildekode maskinoversettelsesplattform",
     "tagline": "En fri/åpen kildekode maskinoversettelsesplattform",

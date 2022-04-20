@@ -8,7 +8,7 @@
             "de",
             "deu"
         ],
-        "completion": " 97% 113.70%",
+        "completion": " 97% 113.72%",
         "missing": [
             "Apertium_Documentation",
             "Norm_Preferences"
@@ -17,6 +17,7 @@
     "title": "Apertium | Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "tagline": "Eine freie/quelloffene Plattform für maschinelle Übersetzungen",
     "description": "Apertium ist eine Plattform für regelbasierte maschinelle Übersetzungen. Es ist freie Software und wurde unter den Bedingungen der GNU General Public License veröffentlicht.",
+    "Apertium_Documentation": "%%UNAVAILABLE%% Apertium Documentation",
     "Translation": "Übersetzung",
     "Translation_Help": "Geben Sie den zu übersetzenden Text bzw. die zu übersetzende URL ein.",
     "Translate": "Übersetzen",
@@ -56,6 +57,7 @@
     "About": "Über",
     "Download": "Herunterladen",
     "Contact": "Kontakt",
+    "Norm_Preferences": "%%UNAVAILABLE%% Style preferences",
     "Documentation": "Dokumentation",
     "About_Apertium": "Über Apertium",
     "What_Is_Apertium": "<p>Apertium ist eine <b>freie/quelloffene Plattform für maschinelle Übersetzungen</b>, zielte ursprünglich auf Paare verwandter Sprachen ab, wurde aber erweitert, um mit divergenteren Sprachpaaren arbeiten zu können (wie z.B. Englisch-Katalanisch). Die Plattform bietet</p> <ol> <li>eine Sprachunabhängige Engine für maschinelle Übersetzungen</li> <li>Werkzeuge um die linguistischen Daten zu verwalten, die für den Bau eines Systems für maschinelle Übersetzungen für ein gegebenes Sprachpaar nötig sind und</li> <li>linguistische Daten für eine wachsende Anzahl von Sprachpaaren.</li> </ol> <p>Apertium begrüßt neue Entwickler: Wenn Sie glauben, dass Sie die Engine verbessern oder linguistische Daten für uns entwickeln können, zögern Sie nicht <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>uns zu kontaktieren</a>.</p>",

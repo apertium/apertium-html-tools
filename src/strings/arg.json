@@ -7,7 +7,7 @@
         "locale": [
             "arg"
         ],
-        "completion": " 97% 110.90%",
+        "completion": " 97% 110.91%",
         "missing": [
             "Apertium_Documentation",
             "Norm_Preferences"
@@ -16,6 +16,7 @@
     "title": "Apertium | Una plataforma libre de traducción automatica",
     "tagline": "Plataforma de traducción automatica libre/de codigo fuent ubierto",
     "description": "Apertium ye una plataforma de traducción automatica basada en reglas. Ye software libre y se publica baixo os termins d'a GNU General Public License",
+    "Apertium_Documentation": "%%UNAVAILABLE%% Apertium Documentation",
     "Translation": "Traducción",
     "Translation_Help": "Escribir lo texto u la URL a traducir.",
     "Translate": "Traducir",
@@ -55,6 +56,7 @@
     "About": "Quanto a",
     "Download": "Baixar",
     "Contact": "Contactar",
+    "Norm_Preferences": "%%UNAVAILABLE%% Style preferences",
     "Documentation": "Documentación",
     "About_Apertium": "Quanto a Apertium",
     "What_Is_Apertium": "<p>Apertium ye una <b>plataforma libre/de codigo fuent ubierto pa la traducción automatica</b>, concebida en primeras pa fer traducción entre parellas de luengas cercanas, pero que s'ha extendiu dimpuesas pa poder treballar con parellas de luengas mas diverchents (como, per eixemplo, anglés-catalán). La plataforma proporciona</p> <ol> <li>un motor de traducción independient d'a luenga</li> <li>ferramientas pa chestionar los datos lingüisticos necesarios pa construyir un sistema de traducción automatica pa una determinada parella de luengas</li> <li>datos lingüisticos pa un numero de parellas de luengas mas gran per cada día.</li> </ol> <p>Apertium da la bienvenida a nuevos desembolicadors: si piensa que puede amillorar lo motor u las ferramientas, u desembolicar datos lingüisticos con nusatros, no dubde en <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>contactar con nusatros</a>.</p>",

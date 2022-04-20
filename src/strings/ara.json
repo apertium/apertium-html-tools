@@ -8,7 +8,7 @@
             "ar",
             "ara"
         ],
-        "completion": " 97%  90.10%",
+        "completion": " 97%  90.09%",
         "missing": [
             "Apertium_Documentation",
             "Norm_Preferences"
@@ -17,6 +17,7 @@
     "title": " أبرتيُم | منصة ترجمة إلكترونية حرة ومفتوحة المصدر",
     "tagline": "منصََّة ترجمة إلكترونيَّة حُرَّة ومفتوحة المصدر",
     "description": "أبرتيُم هي منصة ترجمة إلكترونية تعنمد على القوانين اللغوية المُعدَّة مًسبقًا. أبرتيُم برمجية حُرَّة مُتاحة تحت رخصة غنو العامة..",
+    "Apertium_Documentation": "%%UNAVAILABLE%% Apertium Documentation",
     "Translation": "ترجمة",
     "Translation_Help": "أدخل نصًّا أو رابطًا للترجمة.",
     "Translate": "ترجِم",
@@ -56,6 +57,7 @@
     "About": "عن",
     "Download": "تحميل",
     "Contact": "تواصُل",
+    "Norm_Preferences": "%%UNAVAILABLE%% Style preferences",
     "Documentation": "التوثيق",
     "About_Apertium": "حول أبرتُم",
     "What_Is_Apertium": "<p>أبرتيُم هي  <b>منصة ترجمة إلكترونية حرة ومفتوحة المصدر/b> بدأت كمنصة ترجمة إلكترونية للغات المتقاربة وتطورت لاحقا لتشمل لغات متباعدة أكثر (كالإنجليزية-الكتلانية). المنصة توفر</p> <ol> <li>محرك ترجمة إلكترونية مستقل</li> <li>أدوات لإدارة البيانات اللغوية الضرورية لإنشاء منصة ترجمة إلكترونية بين لغتين، و</li> <li>البيانات اللغوية لعدد متزايد من الأقران اللغوية.</li> </ol> <p>أبرتيُم ترحب بالمطورين الجُدد: إن كنت ترى أن بإمكانك تطوير المحرك أو الأدوات، أو إنشاء وتطوير البيانات اللغوية للمنصة، فلا تتردد ب<a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>تواصلوا معنا</a>.</p>",

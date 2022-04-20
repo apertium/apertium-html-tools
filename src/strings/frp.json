@@ -8,7 +8,7 @@
         "locale": [
             "frp"
         ],
-        "completion": " 97% 107.05%",
+        "completion": " 97% 107.22%",
         "missing": [
             "Apertium_Documentation",
             "Norm_Preferences"
@@ -17,6 +17,7 @@
     "title": "Apertium | Una plataforma libra/a codo-sôrsa uvèrt de traduccion ôtomatica",
     "tagline": "Una plataforma libra/a codo-sôrsa uvèrt de traduccion ôtomatica",
     "description": "Apertium est una plataforma de traduccion ôtomatica fondâye sur des règlles. O est una programerie libra distribuâye d'aprés los tèrmenos de la licence GNU GPL.",
+    "Apertium_Documentation": "%%UNAVAILABLE%% Apertium Documentation",
     "Translation": "Traduccion",
     "Translation_Help": "Enfatar un tèxto ou un URL por lo traduire.",
     "Translate": "Traduire",
@@ -56,6 +57,7 @@
     "About": "A propôs",
     "Download": "Tèlèchargiér",
     "Contact": "Contacto",
+    "Norm_Preferences": "%%UNAVAILABLE%% Style preferences",
     "Documentation": "Documentacion",
     "About_Apertium": "A propôs d'Apertium",
     "What_Is_Apertium": "<p>Apertium est <b>una plataforma de traduccion ôtomatica libra/a codo-sôrsa uvèrt</b>, conçua a l'origina por des cobles de lengoues vesenes, pués s'est ètèrsa a des cobles de lengoues més luentênes coment la cobla anglês-catalan. La plataforma balye : </p> <ol> <li>un motor de traduccion ôtomatica que dèpend pas d'una cèrtêna lengoua</li> <li>des outils lengouisticos por maneyér les donâs nècèssères a la rèalisacion d'un sistèmo de traduccion ôtomatica por una cobla de lengoues donâye</li> <li>des donâs lengouistiques por un nombro crèssent de cobles de lengoues.</li> </ol> <p>Apertium aprèciye l'arrevâ de novéls dèvelopors : se vos trovâd que vous pouede mèlyorar lo motor, los outils ou les donâs lengouistiques, fôt pas margalyér a <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>nos contactar</a>.</p>",

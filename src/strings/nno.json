@@ -8,10 +8,8 @@
             "nn",
             "nno"
         ],
-        "completion": " 99%  95.37%",
-        "missing": [
-            "Install_Apertium_Para"
-        ]
+        "completion": "100%  99.69%",
+        "missing": []
     },
     "title": "Apertium | Ei fri/open kjeldekode maskinomsetjingsplattform",
     "tagline": "Ei fri/open kjeldekode maskinomsetjingsplattform",
