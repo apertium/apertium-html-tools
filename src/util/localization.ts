@@ -17,10 +17,19 @@ const t = (locale: string, strings: Record<string, Strings>): ((id: string) => s
 
 export const tt = (id: string, locale: string, strings: Record<string, Strings>): string => {
   const localeStrings = strings[locale];
-  let translated = (localeStrings ? localeStrings[id] : undefined) || defaultStrings[id] || id;
+
+  let translated = defaultStrings[id] || id;
+  if (localeStrings) {
+    const localeString = localeStrings[id];
+    if (localeString && !localeString.startsWith('%%UNAVAILABLE%%')) {
+      translated = localeString;
+    }
+  }
+
   Object.entries(Config.stringReplacements).forEach(([placeholder, replacement]) => {
     translated = translated.replace(placeholder, replacement);
   });
+
   return translated;
 };
 

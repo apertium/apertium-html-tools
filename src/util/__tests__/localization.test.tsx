@@ -17,7 +17,11 @@ describe('useLocalization', () => {
     const wrapper = ({ children }: { children: React.ReactElement[] }) => (
       <StringsContext.Provider
         value={{
-          spa: { '@langNames': { sco: 'escocés' }, Translation: 'Traducción' } as unknown as Strings,
+          spa: {
+            '@langNames': { sco: 'escocés' },
+            Translation: 'Traducción',
+            Detect_Language: '%%UNAVAILABLE%% Detect language',
+          } as unknown as Strings,
         }}
       >
         <LocaleContext.Provider value="spa">{children}</LocaleContext.Provider>
@@ -36,6 +40,7 @@ describe('useLocalization', () => {
       it.each([
         ['Input_Text', 'Input_Text-Default'], // default
         ['Translation', 'Traducción'], // present
+        ['Detect_Language', 'Detect_Language-Default'], // unavailable
         ['SomethingMissing', 'SomethingMissing'], // missing
 
         // replacements
