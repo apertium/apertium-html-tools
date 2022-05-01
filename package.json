@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "@datapunt/matomo-tracker-react": "^0.5.1",
-    "@fortawesome/fontawesome-svg-core": "^1.2.35",
-    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "axios": "^0.24.0",
     "bootstrap": "^4.6.0",
