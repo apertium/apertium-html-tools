@@ -7,6 +7,7 @@ import axios, { AxiosResponse } from 'axios';
 
 import { languages, parentLang, toAlpha2Code, toAlpha3Code, variantSeperator } from './src/util/languages';
 import Config from './config';
+import { Mode } from './src/types';
 import locales from './src/strings/locales.json';
 
 const prod = process.argv.includes('--prod');
@@ -81,6 +82,13 @@ const Plugin = {
     ).responseData.filter(
       ({ sourceLanguage, targetLanguage }) => allowedLang(sourceLanguage) && allowedLang(targetLanguage),
     );
+    if (pairs.length === 0 && Config.enabledModes.has(Mode.Translation)) {
+      throw new Error(
+        `Mode '${Mode.Translation}' is incompatible with an empty list of pairs. ` +
+          `Does the configured APy instance provide any pairs?`,
+      );
+    }
+
     const analyzers = Object.fromEntries(
       Object.entries(analyzersResponse.data as Record<string, string>).filter(([code]) => allowedLang(code)),
     );
