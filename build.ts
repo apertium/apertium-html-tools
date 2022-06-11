@@ -66,11 +66,20 @@ const Plugin = {
 
     let defaultStrings: unknown;
 
-    const [pairsResponse, analyzersResponse, generatorsResponse] = await Promise.all([
-      apyGet('list', {}),
-      apyGet('list', { q: 'analyzers' }),
-      apyGet('list', { q: 'generators' }),
-    ]);
+    let pairsResponse, analyzersResponse, generatorsResponse;
+    try {
+      [pairsResponse, analyzersResponse, generatorsResponse] = await Promise.all([
+        apyGet('list', {}),
+        apyGet('list', { q: 'analyzers' }),
+        apyGet('list', { q: 'generators' }),
+      ]);
+    } catch (error) {
+      let message = new String(error).toString();
+      if (axios.isAxiosError(error)) {
+        message = error.message;
+      }
+      throw new Error(`Failed to fetch data from APy (${Config.apyURL}): ${message}`);
+    }
 
     const pairs = (
       pairsResponse.data as {
