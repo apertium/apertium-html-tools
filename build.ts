@@ -7,6 +7,7 @@ import axios, { AxiosResponse } from 'axios';
 
 import { languages, parentLang, toAlpha2Code, toAlpha3Code, variantSeperator } from './src/util/languages';
 import Config from './config';
+import { Mode } from './src/types';
 import locales from './src/strings/locales.json';
 
 const prod = process.argv.includes('--prod');
@@ -65,11 +66,20 @@ const Plugin = {
 
     let defaultStrings: unknown;
 
-    const [pairsResponse, analyzersResponse, generatorsResponse] = await Promise.all([
-      apyGet('list', {}),
-      apyGet('list', { q: 'analyzers' }),
-      apyGet('list', { q: 'generators' }),
-    ]);
+    let pairsResponse, analyzersResponse, generatorsResponse;
+    try {
+      [pairsResponse, analyzersResponse, generatorsResponse] = await Promise.all([
+        apyGet('list', {}),
+        apyGet('list', { q: 'analyzers' }),
+        apyGet('list', { q: 'generators' }),
+      ]);
+    } catch (error) {
+      let message = new String(error).toString();
+      if (axios.isAxiosError(error)) {
+        message = error.message;
+      }
+      throw new Error(`Failed to fetch data from APy (${Config.apyURL}): ${message}`);
+    }
 
     const pairs = (
       pairsResponse.data as {
@@ -81,6 +91,13 @@ const Plugin = {
     ).responseData.filter(
       ({ sourceLanguage, targetLanguage }) => allowedLang(sourceLanguage) && allowedLang(targetLanguage),
     );
+    if (pairs.length === 0 && Config.enabledModes.has(Mode.Translation)) {
+      throw new Error(
+        `Mode '${Mode.Translation}' is incompatible with an empty list of pairs. ` +
+          `Does the configured APy instance provide any pairs?`,
+      );
+    }
+
     const analyzers = Object.fromEntries(
       Object.entries(analyzersResponse.data as Record<string, string>).filter(([code]) => allowedLang(code)),
     );
