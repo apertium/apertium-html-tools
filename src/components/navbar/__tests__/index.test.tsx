@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MemoryHistory, MemoryHistoryBuildOptions, createMemoryHistory } from 'history';
-import { getAllByRole, queryAllByRole, render, screen } from '@testing-library/react';
+import { getAllByRole, getByText, queryAllByRole, render, screen, within } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
@@ -24,30 +24,53 @@ const renderNavbar = (options?: MemoryHistoryBuildOptions, config: Partial<Confi
   return history;
 };
 
+const withinMobileNavbar = () => within(screen.getByTestId('navbar-mobile'));
+
 describe('navigation options', () => {
   it('includes links per mode', () => {
     renderNavbar();
 
-    const navbar = screen.getByRole('navigation');
-    const buttons = getAllByRole(navbar, 'link', { name: (n) => n !== 'Toggle navigation' });
+    const navbar = screen.getByTestId('navbar-mobile');
+    const links = getAllByRole(navbar, 'link', { name: (n) => n !== 'Toggle navigation' });
 
-    expect(buttons).toHaveLength(4);
+    expect(links).toHaveLength(4);
   });
 
-  it('hides button when only one mode is enabled', () => {
-    renderNavbar(undefined, { enabledModes: new Set([Mode.Translation]) });
+  it('includes button', () => {
+    renderNavbar();
 
-    const navbar = screen.getByRole('navigation');
-    const buttons = queryAllByRole(navbar, 'link');
+    const navbar = screen.getByTestId('navbar-mobile');
+    const buttons = queryAllByRole(navbar, 'button');
 
     expect(buttons).toHaveLength(0);
+  });
+
+  describe('with only one mode enabled', () => {
+    it('hides links', () => {
+      renderNavbar(undefined, { enabledModes: new Set([Mode.Translation]) });
+
+      const navbar = screen.getByRole('navigation');
+      const links = queryAllByRole(navbar, 'link');
+
+      expect(links).toHaveLength(0);
+    });
+
+    it('hides button', () => {
+      renderNavbar(undefined, { enabledModes: new Set([Mode.Translation]) });
+
+      const navbar = screen.getByRole('navigation');
+      const buttons = queryAllByRole(navbar, 'button');
+
+      expect(buttons).toHaveLength(0);
+    });
   });
 });
 
 it('defaults to translation', () => {
   renderNavbar();
 
-  expect(screen.getByText('Translation-Default').className).toContain('active');
+  const navbar = screen.getByTestId('navbar-mobile');
+  expect(getByText(navbar, 'Translation-Default').className).toContain('active');
 });
 
 describe('subtitle', () => {
@@ -73,12 +96,12 @@ describe('subtitle', () => {
 describe('translation navigation', () => {
   it.each(['/translation', '/webpageTranslation', '/docTranslation'])('shows active link for %s', (pathname) => {
     renderNavbar({ initialEntries: [pathname] });
-    expect(screen.getByText('Translation-Default').className).toContain('active');
+    expect(withinMobileNavbar().getByText('Translation-Default').className).toContain('active');
   });
 
   it('navigates on button click', () => {
     const history = renderNavbar();
-    userEvent.click(screen.getByText('Translation-Default'));
+    userEvent.click(withinMobileNavbar().getByText('Translation-Default'));
     expect(history.location.pathname).toEqual('/translation');
   });
 });
@@ -86,12 +109,12 @@ describe('translation navigation', () => {
 describe('analysis navigation', () => {
   it('shows an active link', () => {
     renderNavbar({ initialEntries: ['/analysis'] });
-    expect(screen.getByText('Morphological_Analysis-Default').className).toContain('active');
+    expect(withinMobileNavbar().getByText('Morphological_Analysis-Default').className).toContain('active');
   });
 
   it('navigates on button click', () => {
     const history = renderNavbar();
-    userEvent.click(screen.getByText('Morphological_Analysis-Default'));
+    userEvent.click(withinMobileNavbar().getByText('Morphological_Analysis-Default'));
     expect(history.location.pathname).toEqual('/analysis');
   });
 });
@@ -99,12 +122,12 @@ describe('analysis navigation', () => {
 describe('generation navigation', () => {
   it('shows an active link', () => {
     renderNavbar({ initialEntries: ['/generation'] });
-    expect(screen.getByText('Morphological_Generation-Default').className).toContain('active');
+    expect(withinMobileNavbar().getByText('Morphological_Generation-Default').className).toContain('active');
   });
 
   it('navigates on button click', () => {
     const history = renderNavbar();
-    userEvent.click(screen.getByText('Morphological_Generation-Default'));
+    userEvent.click(withinMobileNavbar().getByText('Morphological_Generation-Default'));
     expect(history.location.pathname).toEqual('/generation');
   });
 });
@@ -112,12 +135,12 @@ describe('generation navigation', () => {
 describe('sandbox navigation', () => {
   it('shows an active link', () => {
     renderNavbar({ initialEntries: ['/sandbox'] });
-    expect(screen.getByText('APy_Sandbox-Default').className).toContain('active');
+    expect(withinMobileNavbar().getByText('APy_Sandbox-Default').className).toContain('active');
   });
 
   it('navigates on button click', () => {
     const history = renderNavbar();
-    userEvent.click(screen.getByText('APy_Sandbox-Default'));
+    userEvent.click(withinMobileNavbar().getByText('APy_Sandbox-Default'));
     expect(history.location.pathname).toEqual('/sandbox');
   });
 });

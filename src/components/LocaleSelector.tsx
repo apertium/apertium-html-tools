@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
@@ -12,8 +13,10 @@ const height = '1.5rem';
 const LocaleSelector = ({
   setLocale,
   inverse,
+  className = '',
 }: {
   inverse?: boolean;
+  className?: string;
   setLocale: React.Dispatch<React.SetStateAction<string>>;
 }): React.ReactElement => {
   const locale = React.useContext(LocaleContext);
@@ -28,7 +31,7 @@ const LocaleSelector = ({
   );
 
   return (
-    <div className="mt-2" style={{ height }}>
+    <div className={classNames('mt-2', className)} style={{ height }}>
       <FontAwesomeIcon className="float-right ml-2" icon={faGlobe} inverse={inverse} style={{ fontSize: height }} />
       {/* eslint-disable-next-line jsx-a11y/no-onchange */}
       <select className="float-right h-100" onChange={onChange} style={{ fontSize: '0.9rem' }} value={locale}>

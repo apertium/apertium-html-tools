@@ -1,10 +1,10 @@
 import './navbar.css';
 
 import * as React from 'react';
+import Nav, { NavProps } from 'react-bootstrap/Nav';
 import BootstrapNavbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import { LinkContainer } from 'react-router-bootstrap';
-import Nav from 'react-bootstrap/Nav';
 
 import { ConfigContext } from '../../context';
 import { Path as DocTranslationPath } from '../translator/DocTranslationForm';
@@ -36,11 +36,11 @@ const TagLine = (): React.ReactElement => {
 
   return (
     <p
+      className="mb-0"
       style={{
         color: '#fff',
         fontSize: '18px',
         fontWeight: 'bold',
-        margin: '0 0 10px',
       }}
     >
       {t('tagline')}
@@ -48,7 +48,7 @@ const TagLine = (): React.ReactElement => {
   );
 };
 
-const NavbarNav: React.ComponentType = () => {
+const NavbarNav: React.ComponentType = (props: NavProps) => {
   const { t } = useLocalization();
   const { enabledModes, defaultMode } = React.useContext(ConfigContext);
 
@@ -57,9 +57,9 @@ const NavbarNav: React.ComponentType = () => {
   }
 
   return (
-    <Nav activeKey={undefined} as="ul" className="mt-1 ml-auto">
+    <Nav {...props} activeKey={undefined} as="ul" className="ml-auto">
       {enabledModes.has(Mode.Translation) && (
-        <Nav.Item as="li" className="p-1">
+        <Nav.Item as="li">
           <LinkContainer
             isActive={(_, { pathname }) =>
               [TextTranslationPath, WebpageTranslationPath, DocTranslationPath].includes(pathname) ||
@@ -72,7 +72,7 @@ const NavbarNav: React.ComponentType = () => {
         </Nav.Item>
       )}
       {enabledModes.has(Mode.Analysis) && (
-        <Nav.Item as="li" className="p-1">
+        <Nav.Item as="li">
           <LinkContainer
             isActive={(_, { pathname }) =>
               pathname === '/analysis' || (pathname === '/' && defaultMode === Mode.Analysis)
@@ -84,7 +84,7 @@ const NavbarNav: React.ComponentType = () => {
         </Nav.Item>
       )}
       {enabledModes.has(Mode.Generation) && (
-        <Nav.Item as="li" className="p-1">
+        <Nav.Item as="li">
           <LinkContainer
             isActive={(_, { pathname }) =>
               pathname === '/generation' || (pathname === '/' && defaultMode === Mode.Generation)
@@ -96,7 +96,7 @@ const NavbarNav: React.ComponentType = () => {
         </Nav.Item>
       )}
       {enabledModes.has(Mode.Sandbox) && (
-        <Nav.Item as="li" className="p-1">
+        <Nav.Item as="li">
           <LinkContainer
             isActive={(_, { pathname }) =>
               pathname === '/sandbox' || (pathname === '/' && defaultMode === Mode.Sandbox)
@@ -112,35 +112,37 @@ const NavbarNav: React.ComponentType = () => {
 };
 
 const Navbar = ({ setLocale }: { setLocale: React.Dispatch<React.SetStateAction<string>> }): React.ReactElement => {
-  const { subtitle, subtitleColor } = React.useContext(ConfigContext);
+  const { subtitle, subtitleColor, enabledModes } = React.useContext(ConfigContext);
 
   return (
-    <BootstrapNavbar bg="dark" className="navbar navbar-default mb-4 pt-0" expand="md" variant="dark">
+    <BootstrapNavbar bg="dark" className="navbar navbar-default mb-4 pt-1" expand="md" variant="dark">
       <Container className="position-relative" style={{ lineHeight: '1.5em' }}>
-        <div>
+        <div className="d-flex justify-content-between w-100">
           <div>
-            <Logo />
-            {subtitle && (
-              <span className="apertium-sublogo" style={subtitleColor ? { color: subtitleColor } : {}}>
-                {subtitle}
-              </span>
-            )}
-            <span className="apertium-logo">Apertium</span>
+            <div>
+              <Logo />
+              {subtitle && (
+                <span className="apertium-sublogo" style={subtitleColor ? { color: subtitleColor } : {}}>
+                  {subtitle}
+                </span>
+              )}
+              <span className="apertium-logo">Apertium</span>
+            </div>
+            <div className="d-flex justify-content-between align-items-center">
+              <TagLine />
+              {enabledModes.size > 1 && <BootstrapNavbar.Toggle className="ml-3" />}
+            </div>
+            <div className="d-block d-md-none">
+              <BootstrapNavbar.Collapse>
+                <NavbarNav data-testid="navbar-mobile" />
+              </BootstrapNavbar.Collapse>
+            </div>
           </div>
-          <TagLine />
+          <div className="d-none d-md-flex flex-column justify-content-between align-self-stretch">
+            <LocaleSelector className="float-right" inverse setLocale={setLocale} />
+            <NavbarNav data-testid="navbar-desktop" />
+          </div>
         </div>
-        <div
-          className="float-right d-none d-md-block align-self-start"
-          style={{
-            width: '35%',
-          }}
-        >
-          <LocaleSelector inverse setLocale={setLocale} />
-        </div>
-        <BootstrapNavbar.Toggle />
-        <BootstrapNavbar.Collapse>
-          <NavbarNav />
-        </BootstrapNavbar.Collapse>
       </Container>
     </BootstrapNavbar>
   );
