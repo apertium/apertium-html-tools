@@ -66,7 +66,14 @@ const TranslationOptions = ({
           }
           variant="secondary"
         >
-          <Col style={{ maxHeight: '12rem', overflowY: 'scroll', maxWidth: '400px', width: 'max-content' }}>
+          <Col
+            style={{
+              maxHeight: '12rem',
+              overflowY: 'scroll',
+              maxWidth: 'calc(min(100vw - 30px, 400px))',
+              width: 'max-content',
+            }}
+          >
             {Object.entries(prefs).map(([id, description]) => (
               <Row key={id}>
                 <Form.Check
