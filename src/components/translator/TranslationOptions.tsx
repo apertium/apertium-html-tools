@@ -1,7 +1,9 @@
 import * as React from 'react';
+import Col from 'react-bootstrap/Col';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 import { ConfigContext, LocaleContext } from '../../context';
@@ -64,19 +66,23 @@ const TranslationOptions = ({
           }
           variant="secondary"
         >
-          {Object.entries(prefs).map(([id, description]) => (
-            <Form.Check
-              checked={!!pairPrefs[id]}
-              className="mx-3"
-              custom
-              id={`pref-${id}`}
-              inline
-              key={id}
-              label={description}
-              onChange={({ currentTarget }) => setPairPrefs({ ...pairPrefs, [id]: currentTarget.checked })}
-              style={{ whiteSpace: 'nowrap' }}
-            />
-          ))}
+          <Col style={{ maxHeight: '12rem', overflowY: 'scroll', maxWidth: '400px', width: 'max-content' }}>
+            {Object.entries(prefs).map(([id, description]) => (
+              <Row key={id}>
+                <Form.Check
+                  checked={!!pairPrefs[id]}
+                  className="mx-3"
+                  custom
+                  id={`pref-${id}`}
+                  inline
+                  key={id}
+                  label={description}
+                  onChange={({ currentTarget }) => setPairPrefs({ ...pairPrefs, [id]: currentTarget.checked })}
+                  style={{ wordBreak: 'break-word' }}
+                />
+              </Row>
+            ))}
+          </Col>
         </DropdownButton>
       )}
       <Form.Check
