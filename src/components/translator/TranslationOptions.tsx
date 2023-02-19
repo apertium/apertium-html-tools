@@ -69,8 +69,8 @@ const TranslationOptions = ({
           <Col
             style={{
               maxHeight: '12rem',
-              overflowY: 'scroll',
               maxWidth: 'calc(min(100vw - 30px, 400px))',
+              overflowY: 'scroll',
               width: 'max-content',
             }}
           >
