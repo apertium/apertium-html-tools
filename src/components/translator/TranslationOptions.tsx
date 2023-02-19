@@ -82,7 +82,6 @@ const TranslationOptions = ({
                   custom
                   id={`pref-${id}`}
                   inline
-                  key={id}
                   label={description}
                   onChange={({ currentTarget }) => setPairPrefs({ ...pairPrefs, [id]: currentTarget.checked })}
                   style={{ wordBreak: 'break-word' }}
