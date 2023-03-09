@@ -32,7 +32,7 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
               <a href="https://developers.google.com/open-source/soc/" rel="noreferrer" target="_blank">
                 <img
                   alt="Google Summer of Code"
-                  src="https://summerofcode.withgoogle.com/static/img/summer-of-code-logo.svg"
+                  src="src\components\footer\img\logo.jpg"
                   style={{ height: '2.5em' }}
                 />
               </a>
