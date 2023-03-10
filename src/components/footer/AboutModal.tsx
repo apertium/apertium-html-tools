@@ -32,11 +32,11 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
               <a href="https://developers.google.com/open-source/soc/" rel="noreferrer" target="_blank">
                 <img
                   alt="Google Summer of Code"
-                  src="https://summerofcode.withgoogle.com/static/img/summer-of-code-logo.svg"
+                  src="https://summerofcode.withgoogle.com/assets/media/logo.svg"
                   style={{ height: '2.5em' }}
                 />
               </a>
-              <a href="https://developers.google.com/open-source/gci/" rel="noreferrer" target="_blank">
+              <a href="https://opensource.google/static/images/documentation/reference/growing/GCI-logo.png" rel="noreferrer" target="_blank">
                 <img
                   alt="Google Code-In"
                   src="https://developers.google.com/open-source/gci/images/logo-icon.png"
