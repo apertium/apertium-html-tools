@@ -32,7 +32,7 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
               <a href="https://developers.google.com/open-source/soc/" rel="noreferrer" target="_blank">
                 <img
                   alt="Google Summer of Code"
-                  src="src\components\footer\img\logo.jpg"
+                  src=" https://summerofcode.withgoogle.com/assets/media/logo.svg"
                   style={{ height: '2.5em' }}
                 />
               </a>
@@ -53,7 +53,7 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
           </Col>
           <Col className="text-center" md="3">
             <a href="https://www.github.com/apertium" rel="noreferrer" target="_blank">
-              <img alt="GitHub" src={githubLogo} style={{ height: '1.5em' }} />
+              <img alt="GitHub"  src={githubLogo} style={{ height: '1.5em' }} />
             </a>
           </Col>
         </div>
