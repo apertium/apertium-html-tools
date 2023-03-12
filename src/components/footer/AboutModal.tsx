@@ -13,6 +13,8 @@ import gplLogo from './img/gplv3-88x31.png';
 import maeLogo from './img/logo_mae_ro_75pc.jpg';
 import mineturLogo from './img/logomitc120.jpg';
 import prompsitLogo from './img/prompsit150x52.png';
+import gciLogo from './img/GCI_logo.png';
+import gsocLogo from './img/GSOC_logo.svg';
 
 const AboutModal = (props: ModalProps): React.ReactElement => {
   const { t } = useLocalization();
@@ -32,14 +34,14 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
               <a href="https://developers.google.com/open-source/soc/" rel="noreferrer" target="_blank">
                 <img
                   alt="Google Summer of Code"
-                  src="https://summerofcode.withgoogle.com/assets/media/logo.svg"
+                  src={gsocLogo}
                   style={{ height: '2.5em' }}
                 />
               </a>
-              <a href="https://opensource.google/static/images/documentation/reference/growing/GCI-logo.png" rel="noreferrer" target="_blank">
+              <a href="https://developers.google.com/open-source/gci/" rel="noreferrer" target="_blank">
                 <img
                   alt="Google Code-In"
-                  src="https://developers.google.com/open-source/gci/images/logo-icon.png"
+                  src={gciLogo}
                   style={{ height: '2.5em', paddingLeft: '0.5em' }}
                 />
               </a>
