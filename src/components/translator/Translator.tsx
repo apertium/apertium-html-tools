@@ -107,7 +107,8 @@ const WithSrcLang = ({
       return Array.from(langs);
     },
     {
-      validateValue: (ls) => ls.length === recentLangsCount && ls.every((l) => l in pairs) && ls.includes(srcLang),
+      validateValue: (ls) =>
+        new Set(ls).size === recentLangsCount && ls.every((l) => l in pairs) && ls.includes(srcLang),
     },
   );
 
@@ -195,7 +196,7 @@ const WithTgtLang = ({
     },
     {
       validateValue: (ls) =>
-        ls.length === recentLangsCount && ls.some((l) => isPair(pairs, srcLang, l)) && ls.includes(tgtLang),
+        new Set(ls).size === recentLangsCount && ls.some((l) => isPair(pairs, srcLang, l)) && ls.includes(tgtLang),
     },
   );
 
