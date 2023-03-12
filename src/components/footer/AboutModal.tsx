@@ -14,7 +14,7 @@ import maeLogo from './img/logo_mae_ro_75pc.jpg';
 import mineturLogo from './img/logomitc120.jpg';
 import prompsitLogo from './img/prompsit150x52.png';
 import gciLogo from './img/GCI_logo.png';
-import gsocLogo from './img/GSOC_logo.png';
+import gsocLogo from './img/GSOC_logo.svg';
 
 const AboutModal = (props: ModalProps): React.ReactElement => {
   const { t } = useLocalization();
