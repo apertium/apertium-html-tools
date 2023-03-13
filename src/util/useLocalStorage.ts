@@ -34,6 +34,8 @@ export default <T>(
         const parsedItem = JSON.parse(item) as T;
         if (validateValueFinal(parsedItem)) {
           return parsedItem;
+        } else {
+          console.warn(`Initial value (${item}) for LocalStorage[${key}] failed validation`);
         }
       }
     } catch (error) {
