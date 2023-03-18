@@ -16,7 +16,6 @@ import maeLogo from './img/logo_mae_ro_75pc.jpg';
 import mineturLogo from './img/logomitc120.jpg';
 import prompsitLogo from './img/prompsit150x52.png';
 
-
 const AboutModal = (props: ModalProps): React.ReactElement => {
   const { t } = useLocalization();
 
@@ -33,18 +32,10 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
           <Col md="6">
             <div className="mx-auto">
               <a href="https://developers.google.com/open-source/soc/" rel="noreferrer" target="_blank">
-                <img
-                  alt="Google Summer of Code"
-                  src={gsocLogo}
-                  style={{ height: '2.5em' }}
-                />
+                <img alt="Google Summer of Code" src={gsocLogo} style={{ height: '2.5em' }} />
               </a>
               <a href="https://developers.google.com/open-source/gci/" rel="noreferrer" target="_blank">
-                <img
-                  alt="Google Code-In"
-                  src={gciLogo}
-                  style={{ height: '2.5em', paddingLeft: '0.5em' }}
-                />
+                <img alt="Google Code-In" src={gciLogo} style={{ height: '2.5em', paddingLeft: '0.5em' }} />
               </a>
             </div>
           </Col>
