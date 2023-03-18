@@ -13,9 +13,13 @@ import gplLogo from './img/gplv3-88x31.png';
 import maeLogo from './img/logo_mae_ro_75pc.jpg';
 import mineturLogo from './img/logomitc120.jpg';
 import prompsitLogo from './img/prompsit150x52.png';
+import { useLocation } from "react-router-dom";
 
 const AboutModal = (props: ModalProps): React.ReactElement => {
   const { t } = useLocalization();
+  const location = useLocation();
+  const { pathname } = location;
+  const splitLocation = pathname.split("/");
 
   return (
     <Modal {...props} size="lg">
@@ -25,6 +29,7 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
       <Modal.Body>
         <div dangerouslySetInnerHTML={{ __html: t('What_Is_Apertium') }} />
         <div dangerouslySetInnerHTML={{ __html: t('Maintainer') }} style={{ paddingBottom: '2em' }} />
+        <div dangerouslySetInnerHTML={{ __html: t('More_Languages') }} style={{ paddingBottom: '2em', display: (splitLocation[0]==="beta.apertium.org")?"none":"" }}/>
 
         <div className="row lead">
           <Col md="6">

@@ -14,5 +14,6 @@ export default {
 
   stringReplacements: {
     '{{maintainer}}': "<a href='https://wiki.apertium.org/wiki/Apertium' target='_blank' rel='noopener'>Apertium</a>",
+    '{{more_languages}}': "<a href='https://beta.apertium.org' rel='noreferrer'  target='_blank'>beta.apertium.org</a>"
   },
 } as Config;

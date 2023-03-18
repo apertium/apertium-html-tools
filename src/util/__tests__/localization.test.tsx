@@ -48,6 +48,10 @@ describe('useLocalization', () => {
           'Maintainer',
           `<a href='https://wiki.apertium.org/wiki/Apertium' target='_blank' rel='noopener'>Apertium</a>-Default`,
         ],
+        [
+          'More_Languages',
+          `<a dangerouslySetInnerHTML={{ __html: 'beta.apertium.org' }} href='https://beta.apertium.org' rel='noreferrer'  target='_blank'/>`
+        ]
       ])('maps %s to %s', (id, value) => expect(t(id)).toBe(value));
     });
 
