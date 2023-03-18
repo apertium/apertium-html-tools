@@ -8,13 +8,14 @@ import alicanteLogo from './img/logouapp.gif';
 import bytemarkLogo from './img/logo_bytemark.gif';
 import catalunyaLogo from './img/stsi.gif';
 import ccLogo from './img/cc-by-sa-3.0-88x31.png';
+import gciLogo from './img/GCI_logo.png';
 import githubLogo from './img/github.png';
 import gplLogo from './img/gplv3-88x31.png';
+import gsocLogo from './img/GSOC_logo.svg';
 import maeLogo from './img/logo_mae_ro_75pc.jpg';
 import mineturLogo from './img/logomitc120.jpg';
 import prompsitLogo from './img/prompsit150x52.png';
-import gciLogo from './img/GCI_logo.png';
-import gsocLogo from './img/GSOC_logo.svg';
+
 
 const AboutModal = (props: ModalProps): React.ReactElement => {
   const { t } = useLocalization();
