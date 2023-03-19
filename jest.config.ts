@@ -1,7 +1,6 @@
 import type { Config } from '@jest/types';
 
 export default {
-  testTimeout: 10000,
   transform: {
     '^.+\\.tsx?$': [
       'esbuild-jest',
