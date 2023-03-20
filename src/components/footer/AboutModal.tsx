@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Modal, { ModalProps } from 'react-bootstrap/Modal';
 import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 import { useLocalization } from '../../util/localization';
 
@@ -25,14 +26,14 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
         <Modal.Title>{t('About_Apertium')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div dangerouslySetInnerHTML={{ __html: t('What_Is_Apertium') }} />
-        <div dangerouslySetInnerHTML={{ __html: t('Maintainer') }} style={{ paddingBottom: '2em' }} />
+        <p dangerouslySetInnerHTML={{ __html: t('What_Is_Apertium') }} />
+        <p dangerouslySetInnerHTML={{ __html: t('Maintainer') }} />
 
-        <div className="row lead">
+        <Row className="lead">
           <Col md="6">
             <div className="mx-auto">
               <a href="https://developers.google.com/open-source/soc/" rel="noreferrer" target="_blank">
-                <img alt="Google Summer of Code" src={gsocLogo} style={{ height: '2.5em' }} />
+                <img alt="Google Summer of Code" src={gsocLogo} style={{ height: '1.75em' }} />
               </a>
               <a href="https://developers.google.com/open-source/gci/" rel="noreferrer" target="_blank">
                 <img alt="Google Code-In" src={gciLogo} style={{ height: '2.5em', paddingLeft: '0.5em' }} />
@@ -42,7 +43,7 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
 
           <Col className="text-center" md="3">
             <a href="http://www.bytemark.co.uk/" rel="noreferrer" target="_blank">
-              <img alt="Bytemark" className="w-100" src={bytemarkLogo} style={{ marginTop: '0.5em' }} />
+              <img alt="Bytemark" className="w-100" src={bytemarkLogo} />
             </a>
           </Col>
           <Col className="text-center" md="3">
@@ -50,9 +51,9 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
               <img alt="GitHub" src={githubLogo} style={{ height: '1.5em' }} />
             </a>
           </Col>
-        </div>
+        </Row>
 
-        <div className="row lead">
+        <Row className="lead">
           <Col className="text-center" md="6">
             <a href="http://www.minetur.gob.es/" rel="noreferrer" target="_blank">
               <img alt="Ministry of Industry, Energy and Tourism" src={mineturLogo} />
@@ -63,9 +64,9 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
               <img alt="Universidad de Alicante" src={alicanteLogo} />
             </a>
           </Col>
-        </div>
+        </Row>
 
-        <div className="row">
+        <Row>
           <Col className="text-center" md="4">
             <a href="http://www.prompsit.com/" rel="noreferrer" target="_blank">
               <img alt="Prompsit Language Engineering S.L." src={prompsitLogo} />
@@ -78,23 +79,24 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
           </Col>
           <Col className="text-center" md="4">
             <a href="http://www.mae.ro/" rel="noreferrer" target="_blank">
-              <img alt="ROMÂNIA  Ministerul Afacerilor Externe" src={maeLogo} />
+              <img alt="ROMÂNIA  Ministerul Afacerilor Externe" src={maeLogo} style={{ height: '5em' }} />
             </a>
           </Col>
-        </div>
-        <div className="row">
-          <div className="d-inline-block my-o" style={{ marginLeft: '0.5em', marginRight: '0.5em' }}>
+        </Row>
+
+        <Row>
+          <div className="d-inline-block mx-2">
             <a href="http://creativecommons.org/licenses/by-sa/3.0/">
               <img alt="Creative Commons licence" src={ccLogo} />
             </a>
           </div>
 
-          <div className="d-inline-block my-0" style={{ marginLeft: '0.5em', marginRight: '0.5em' }}>
+          <div className="d-inline-block mx-2">
             <a href="https://www.gnu.org/licenses/gpl.html">
               <img alt="GNU GPL License" src={gplLogo} />
             </a>
           </div>
-        </div>
+        </Row>
       </Modal.Body>
     </Modal>
   );
