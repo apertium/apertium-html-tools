@@ -207,7 +207,7 @@ void esbuild.build({
   bundle: true,
   metafile: true,
   target: 'es2019',
-  loader: { '.embed.png': 'dataurl', '.png': 'file', '.gif': 'file', '.jpg': 'file' },
+  loader: { '.embed.png': 'dataurl', '.png': 'file', '.gif': 'file', '.jpg': 'file', '.svg': 'file' },
   outdir: 'dist',
   plugins: [Plugin],
 

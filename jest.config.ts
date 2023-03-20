@@ -11,7 +11,7 @@ export default {
   },
   moduleNameMapper: {
     '\\.(css)$': 'identity-obj-proxy',
-    '\\.(gif|png|jpg)$': '<rootDir>/src/__mocks__/file.ts',
+    '\\.(gif|png|jpg|svg)$': '<rootDir>/src/__mocks__/file.ts',
   },
   timers: 'modern',
 

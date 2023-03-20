@@ -8,8 +8,10 @@ import alicanteLogo from './img/logouapp.gif';
 import bytemarkLogo from './img/logo_bytemark.gif';
 import catalunyaLogo from './img/stsi.gif';
 import ccLogo from './img/cc-by-sa-3.0-88x31.png';
+import gciLogo from './img/GCI_logo.png';
 import githubLogo from './img/github.png';
 import gplLogo from './img/gplv3-88x31.png';
+import gsocLogo from './img/GSOC_logo.svg';
 import maeLogo from './img/logo_mae_ro_75pc.jpg';
 import mineturLogo from './img/logomitc120.jpg';
 import prompsitLogo from './img/prompsit150x52.png';
@@ -30,18 +32,10 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
           <Col md="6">
             <div className="mx-auto">
               <a href="https://developers.google.com/open-source/soc/" rel="noreferrer" target="_blank">
-                <img
-                  alt="Google Summer of Code"
-                  src="https://summerofcode.withgoogle.com/static/img/summer-of-code-logo.svg"
-                  style={{ height: '2.5em' }}
-                />
+                <img alt="Google Summer of Code" src={gsocLogo} style={{ height: '2.5em' }} />
               </a>
               <a href="https://developers.google.com/open-source/gci/" rel="noreferrer" target="_blank">
-                <img
-                  alt="Google Code-In"
-                  src="https://developers.google.com/open-source/gci/images/logo-icon.png"
-                  style={{ height: '2.5em', paddingLeft: '0.5em' }}
-                />
+                <img alt="Google Code-In" src={gciLogo} style={{ height: '2.5em', paddingLeft: '0.5em' }} />
               </a>
             </div>
           </Col>
