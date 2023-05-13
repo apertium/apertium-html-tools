@@ -12,7 +12,11 @@ After editing localizations, please run `make` and commit its changes.
 | sat  | 100% | 108.75% |
 | kaa  | 100% | 103.90% |
 | hin  | 100% | 103.83% |
+| skr  | 100% | 101.22% |
+| dan  | 100% | 100.96% |
+| nob  | 100% | 100.82% |
 | eng  | 100% | 100.00% |
+| nno  | 100% | 99.69% |
 | deu  | 97% | 113.72% |
 | arg  | 97% | 110.91% |
 | fra  | 97% | 109.78% |
@@ -28,9 +32,7 @@ After editing localizations, please run `make` and commit its changes.
 | srd  | 82% | 90.82% |
 | uzb  | 80% | 91.22% |
 | swe  | 80% | 85.70% |
-| nob  | 80% | 84.99% |
 | rus  | 80% | 81.71% |
-| nno  | 80% | 80.60% |
 | tha  | 76% | 75.08% |
 | spa  | 71% | 26.86% |
 | oci  | 67% | 83.23% |
