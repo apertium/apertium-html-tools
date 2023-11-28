@@ -52,7 +52,7 @@
     "jest": "^26.6.3",
     "jest-mock-axios": "^4.4.0",
     "prettier": "^2.5.1",
-    "stylelint": "^14.2.0",
+    "stylelint": "^15.10.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",
     "ts-node": "^10.4.0",
