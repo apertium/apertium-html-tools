@@ -4,7 +4,7 @@
   "author": "Sushain Cherivirala <sushain@skc.name>",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "build": "ts-node build.ts",
+    "build": "BUILD_VERSION=$BUILD_VERSION ts-node build.ts",
     "serve": "python3 -m http.server --directory dist",
     "tsc": "tsc --noEmit",
     "eslint": "eslint . --ext .ts,.tsx --max-warnings 0",

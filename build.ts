@@ -62,7 +62,7 @@ const allowedLang = (code: string): boolean => {
 const Plugin = {
   name: 'apertium-html-tools',
   setup: async ({ initialOptions, onEnd }: esbuild.PluginBuild) => {
-    const version = child_process.execSync('git describe --tags --always').toString().trim();
+    const version = process.env.BUILD_VERSION || 'v' + require('./package.json').version;
 
     let defaultStrings: unknown;
 
