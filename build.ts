@@ -63,7 +63,7 @@ const Plugin = {
   name: 'apertium-html-tools',
   setup: async ({ initialOptions, onEnd }: esbuild.PluginBuild) => {
     const version = `v${(packageJson as { version: string }).version}`;
-    
+
     let defaultStrings: unknown;
 
     let pairsResponse, analyzersResponse, generatorsResponse;
