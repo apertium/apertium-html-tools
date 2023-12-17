@@ -1,4 +1,4 @@
-import * as child_process from 'child_process';
+import * as packageJson from './package.json';
 import * as path from 'path';
 import { promises as fs } from 'fs';
 
@@ -62,7 +62,7 @@ const allowedLang = (code: string): boolean => {
 const Plugin = {
   name: 'apertium-html-tools',
   setup: async ({ initialOptions, onEnd }: esbuild.PluginBuild) => {
-    const version = child_process.execSync('git describe --tags --always').toString().trim();
+    const version = `v${(packageJson as { version: string }).version}`;
 
     let defaultStrings: unknown;
 
