@@ -11,11 +11,10 @@ import { useHistory } from 'react-router-dom';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { DetectCompleteEvent, DetectEvent, PairPrefValues, TranslateEvent, baseUrlParams } from '.';
-import { MaxURLLength, buildNewSearch, getUrlParam } from '../../util/url';
+import { MaxURLLength, buildNewSearch } from '../../util/url';
 import { APyContext } from '../../context';
 import { buildUrl as buildWebpageTranslationUrl } from './WebpageTranslationForm';
 import { langDirection } from '../../util/languages';
-import useLocalStorage from '../../util/useLocalStorage';
 import { useLocalization } from '../../util/localization';
 
 const textUrlParam = 'q';
@@ -36,6 +35,10 @@ export type Props = {
   markUnknown: boolean;
   pairPrefs: PairPrefValues;
   setLoading: (loading: boolean) => void;
+  srcText: string;
+  tgtText: string;
+  setSrcText: (text: string) => void;
+  setTgtText: (text: string) => void;
 };
 
 const TextTranslationForm = ({
@@ -45,6 +48,10 @@ const TextTranslationForm = ({
   instantTranslation,
   pairPrefs,
   setLoading,
+  srcText,
+  tgtText,
+  setSrcText,
+  setTgtText,
 }: Props): React.ReactElement => {
   const { t } = useLocalization();
   const history = useHistory();
@@ -53,11 +60,6 @@ const TextTranslationForm = ({
 
   const srcTextareaRef = React.useRef<HTMLTextAreaElement>(null);
   const tgtTextareaRef = React.useRef<HTMLTextAreaElement>(null);
-
-  const [srcText, setSrcText] = useLocalStorage('srcText', '', {
-    overrideValue: getUrlParam(history.location.search, textUrlParam),
-  });
-  const [tgtText, setTgtText] = React.useState('');
 
   React.useEffect(() => {
     const baseParams = baseUrlParams({ srcLang, tgtLang });
@@ -130,7 +132,7 @@ const TextTranslationForm = ({
         }
       })();
     },
-    [apyFetch, markUnknown, prefs, setLoading, srcLang, srcText, tgtLang, trackEvent],
+    [apyFetch, markUnknown, prefs, setLoading, setTgtText, srcLang, srcText, tgtLang, trackEvent],
   );
 
   const translationTimer = React.useRef<number | null>(null);

@@ -28,6 +28,7 @@ export type Props = {
   tgtLang: string;
   setTgtLang: (code: string) => void;
   recentTgtLangs: Array<string>;
+  swapLangText: () => void;
 
   detectLangEnabled: boolean;
   detectedLang: string | null;
@@ -423,7 +424,17 @@ const DesktopLanguageSelector = ({
 };
 
 const LanguageSelector = (props: Props): React.ReactElement => {
-  const { pairs, srcLang, setSrcLang, recentSrcLangs, setRecentSrcLangs, tgtLang, setTgtLang, setDetectedLang } = props;
+  const {
+    pairs,
+    srcLang,
+    setSrcLang,
+    recentSrcLangs,
+    setRecentSrcLangs,
+    tgtLang,
+    setTgtLang,
+    setDetectedLang,
+    swapLangText,
+  } = props;
 
   const swapLangs = React.useMemo(
     () =>
@@ -431,9 +442,10 @@ const LanguageSelector = (props: Props): React.ReactElement => {
         ? () => {
             setSrcLang(tgtLang);
             setTgtLang(srcLang);
+            swapLangText();
           }
         : undefined,
-    [pairs, setSrcLang, setTgtLang, srcLang, tgtLang],
+    [pairs, setSrcLang, setTgtLang, srcLang, tgtLang, swapLangText],
   );
 
   const [detectingLang, setDetectingLang] = React.useState(false);

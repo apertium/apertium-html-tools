@@ -7,6 +7,10 @@ import userEvent from '@testing-library/user-event';
 
 import { DetectCompleteEvent, DetectEvent, TranslateEvent } from '..';
 import TextTranslationForm, { Props } from '../TextTranslationForm';
+import { getUrlParam } from '../../../util/url';
+import useLocalStorage from '../../../util/useLocalStorage';
+
+const textUrlParam = 'q';
 
 const renderTextTranslationForm = (
   props_: Partial<Props> = {},
@@ -20,13 +24,34 @@ const renderTextTranslationForm = (
     srcLang: 'eng',
     tgtLang: 'spa',
     pairPrefs: {},
+    srcText: '',
+    tgtText: '',
+    setSrcText: jest.fn(),
+    setTgtText: jest.fn(),
     setLoading: jest.fn(),
     ...props_,
   };
 
+  const Wrapper = () => {
+    const [srcText, setSrcText] = useLocalStorage('srcText', '', {
+      overrideValue: getUrlParam(history.location.search, textUrlParam),
+    });
+    const [tgtText, setTgtText] = React.useState('');
+
+    return (
+      <TextTranslationForm
+        {...props}
+        setSrcText={setSrcText}
+        setTgtText={setTgtText}
+        srcText={srcText}
+        tgtText={tgtText}
+      />
+    );
+  };
+
   render(
     <Router history={history}>
-      <TextTranslationForm {...props} />
+      <Wrapper />
     </Router>,
   );
 
@@ -149,16 +174,31 @@ describe('translation', () => {
       srcLang: 'eng',
       tgtLang: 'spa',
       pairPrefs: {},
+      srcText: '',
+      tgtText: '',
+      setSrcText: jest.fn(),
+      setTgtText: jest.fn(),
       setLoading: jest.fn(),
     };
 
     const Container = () => {
       const [srcLang, setSrcLang] = React.useState('eng');
+      const [srcText, setSrcText] = useLocalStorage('srcText', '', {
+        overrideValue: getUrlParam(history.location.search, textUrlParam),
+      });
+      const [tgtText, setTgtText] = React.useState('');
       return (
         <>
           <button onClick={() => setSrcLang('cat')}>ChangeSrcLang</button>
           <Router history={history}>
-            <TextTranslationForm {...props} srcLang={srcLang} />
+            <TextTranslationForm
+              {...props}
+              setSrcText={setSrcText}
+              setTgtText={setTgtText}
+              srcLang={srcLang}
+              srcText={srcText}
+              tgtText={tgtText}
+            />
           </Router>
         </>
       );

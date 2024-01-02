@@ -243,11 +243,16 @@ const WithTgtLang = ({
 const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement => {
   const mode: Mode = initialMode || Mode.Text;
 
+  const textUrlParam = 'q';
   const { t } = useLocalization();
   const history = useHistory();
   const config = React.useContext(ConfigContext);
 
   const [loading, setLoading] = React.useState(false);
+  const [srcText, setSrcText] = useLocalStorage('srcText', '', {
+    overrideValue: getUrlParam(history.location.search, textUrlParam),
+  });
+  const [tgtText, setTgtText] = React.useState('');
 
   const [markUnknown, setMarkUnknown] = useLocalStorage('markUnknown', false);
   const [instantTranslation, setInstantTranslation] = useLocalStorage('instantTranslation', true);
@@ -271,6 +276,11 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
   }
 
   const onTranslate = React.useCallback(() => window.dispatchEvent(new Event(TranslateEvent)), []);
+
+  const swapLangText = () => {
+    setSrcText(tgtText);
+    setTgtText(srcText);
+  };
 
   return (
     <Form
@@ -307,12 +317,24 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
                     tgtLang,
                     detectedLang,
                     loading,
+                    swapLangText,
                   }}
                 />
                 {(mode === Mode.Text || !mode) && (
                   <>
                     <TextTranslationForm
-                      {...{ instantTranslation, markUnknown, setLoading, srcLang, tgtLang, pairPrefs }}
+                      {...{
+                        instantTranslation,
+                        markUnknown,
+                        setLoading,
+                        srcLang,
+                        tgtLang,
+                        pairPrefs,
+                        srcText,
+                        tgtText,
+                        setSrcText,
+                        setTgtText,
+                      }}
                     />
                     <Row className="mt-2 mb-3">
                       <Col className="d-flex d-sm-block flex-wrap translation-modes" md="6" xs="12">

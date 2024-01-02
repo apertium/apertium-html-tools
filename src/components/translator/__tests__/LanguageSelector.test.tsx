@@ -23,6 +23,7 @@ const renderLanguageSelector = (props_: Partial<Props> = {}): Props => {
     detectLangEnabled: true,
     detectedLang: null,
     setDetectedLang: jest.fn(),
+    swapLangText: jest.fn(),
     ...props_,
   };
 
@@ -90,7 +91,7 @@ describe('swapping', () => {
   });
 
   it('allow swapping when swapped pair valid', () => {
-    const { srcLang, tgtLang, setSrcLang, setTgtLang } = renderLanguageSelector({
+    const { srcLang, tgtLang, setSrcLang, setTgtLang, swapLangText } = renderLanguageSelector({
       tgtLang: 'spa',
     });
 
@@ -98,6 +99,7 @@ describe('swapping', () => {
 
     expect(setSrcLang).toHaveBeenCalledWith(tgtLang);
     expect(setTgtLang).toHaveBeenCalledWith(srcLang);
+    expect(swapLangText).toHaveBeenCalled();
   });
 });
 
