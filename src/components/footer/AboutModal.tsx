@@ -3,6 +3,7 @@ import Modal, { ModalProps } from 'react-bootstrap/Modal';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
+import { ConfigContext } from '../../context';
 import { useLocalization } from '../../util/localization';
 
 import alicanteLogo from './img/logouapp.gif';
@@ -18,6 +19,7 @@ import mineturLogo from './img/logomitc120.jpg';
 import prompsitLogo from './img/prompsit150x52.png';
 
 const AboutModal = (props: ModalProps): React.ReactElement => {
+  const config = React.useContext(ConfigContext);
   const { t } = useLocalization();
 
   return (
@@ -28,6 +30,7 @@ const AboutModal = (props: ModalProps): React.ReactElement => {
       <Modal.Body>
         <p dangerouslySetInnerHTML={{ __html: t('What_Is_Apertium') }} />
         <p dangerouslySetInnerHTML={{ __html: t('Maintainer') }} />
+        {config.showMoreLanguagesLink && <p dangerouslySetInnerHTML={{ __html: t('More_Languages') }} />}
 
         <Row className="lead">
           <Col md="6">

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { getAllByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import Config from '../../../../config';
 import Footer from '..';
 
 const renderFooter = () => {
@@ -37,7 +38,19 @@ describe('Footer', () => {
   });
 
   describe('navigation buttons', () => {
-    it('opens about dialog', () => {
+    it('opens about dialog and display show more languages link when showMoreLanguagesLink is true', () => {
+      Config.showMoreLanguagesLink = true;
+      renderFooter();
+
+      userEvent.click(screen.getByRole('button', { name: 'About-Default' }));
+
+      expect(screen.getByRole('dialog').textContent).toMatchInlineSnapshot(
+        `"About_Apertium-Default×CloseWhat_Is_Apertium-DefaultApertium-DefaultMore_Languages-Default"`,
+      );
+    });
+
+    it('opens about dialog and does not display show more languages link when showMoreLanguagesLink is false', () => {
+      Config.showMoreLanguagesLink = false;
       renderFooter();
 
       userEvent.click(screen.getByRole('button', { name: 'About-Default' }));
