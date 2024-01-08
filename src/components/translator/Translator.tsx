@@ -34,6 +34,7 @@ import useLocalStorage from '../../util/useLocalStorage';
 import { useLocalization } from '../../util/localization';
 
 const recentLangsCount = 3;
+const textUrlParam = 'q';
 
 const defaultSrcLang = (pairs: Pairs): string => {
   const browserLangs = window.navigator.languages;
@@ -243,7 +244,6 @@ const WithTgtLang = ({
 const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement => {
   const mode: Mode = initialMode || Mode.Text;
 
-  const textUrlParam = 'q';
   const { t } = useLocalization();
   const history = useHistory();
   const config = React.useContext(ConfigContext);
@@ -277,9 +277,12 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
 
   const onTranslate = React.useCallback(() => window.dispatchEvent(new Event(TranslateEvent)), []);
 
-  const swapLangText = () => {
+  const swapLangs = React.useCallback(() => {
     setSrcText(tgtText);
-    setTgtText(srcText);
+  }, [setSrcText, tgtText]);
+
+  const swapLangText = () => {
+    swapLangs();
   };
 
   return (
