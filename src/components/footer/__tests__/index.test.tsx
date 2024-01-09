@@ -3,19 +3,24 @@ import { getAllByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Config from '../../../../config';
+import { ConfigContext } from '../../../context';
+import { Config as ConfigType } from '../../../types';
+
 import Footer from '..';
 
-const renderFooter = () => {
+const renderFooter = (config: Partial<ConfigType> = {}) => {
   const wrapRef = React.createRef<HTMLDivElement>();
   const pushRef = React.createRef<HTMLDivElement>();
 
   render(
-    <>
-      <div ref={wrapRef}>
-        <div ref={pushRef} />
-      </div>
-      <Footer pushRef={pushRef} wrapRef={wrapRef} />
-    </>,
+    <ConfigContext.Provider value={{ ...Config, ...config }}>
+      <>
+        <div ref={wrapRef}>
+          <div ref={pushRef} />
+        </div>
+        <Footer pushRef={pushRef} wrapRef={wrapRef} />
+      </>
+    </ConfigContext.Provider>,
   );
 };
 
@@ -38,9 +43,8 @@ describe('Footer', () => {
   });
 
   describe('navigation buttons', () => {
-    it('opens about dialog and display show more languages link when showMoreLanguagesLink is true', () => {
-      Config.showMoreLanguagesLink = true;
-      renderFooter();
+    it('opens about dialog and display show more languages link when showMoreLanguagesLink is set to true', () => {
+      renderFooter({ showMoreLanguagesLink: true });
 
       userEvent.click(screen.getByRole('button', { name: 'About-Default' }));
 
@@ -49,9 +53,8 @@ describe('Footer', () => {
       );
     });
 
-    it('opens about dialog and does not display show more languages link when showMoreLanguagesLink is false', () => {
-      Config.showMoreLanguagesLink = false;
-      renderFooter();
+    it('opens about dialog and does not display show more languages link when showMoreLanguagesLink is set to false', () => {
+      renderFooter({ showMoreLanguagesLink: false });
 
       userEvent.click(screen.getByRole('button', { name: 'About-Default' }));
 
