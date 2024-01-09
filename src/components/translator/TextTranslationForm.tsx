@@ -16,8 +16,8 @@ import { APyContext } from '../../context';
 import { buildUrl as buildWebpageTranslationUrl } from './WebpageTranslationForm';
 import { langDirection } from '../../util/languages';
 import { useLocalization } from '../../util/localization';
+import { textUrlParam } from './Translator';
 
-const textUrlParam = 'q';
 
 const instantTranslationPunctuationDelay = 1000,
   instantTranslationDelay = 3000;

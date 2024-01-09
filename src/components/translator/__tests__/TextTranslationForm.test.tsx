@@ -8,9 +8,9 @@ import userEvent from '@testing-library/user-event';
 import { DetectCompleteEvent, DetectEvent, TranslateEvent } from '..';
 import TextTranslationForm, { Props } from '../TextTranslationForm';
 import { getUrlParam } from '../../../util/url';
+import { textUrlParam } from '../Translator';
 import useLocalStorage from '../../../util/useLocalStorage';
 
-const textUrlParam = 'q';
 
 const renderTextTranslationForm = (
   props_: Partial<Props> = {},
