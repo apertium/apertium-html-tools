@@ -11,7 +11,6 @@ import { getUrlParam } from '../../../util/url';
 import { textUrlParam } from '../Translator';
 import useLocalStorage from '../../../util/useLocalStorage';
 
-
 const renderTextTranslationForm = (
   props_: Partial<Props> = {},
   historyOptions?: MemoryHistoryBuildOptions,

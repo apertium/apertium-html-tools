@@ -402,5 +402,5 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
   );
 };
 
-export { textUrlParam }; 
+export { textUrlParam };
 export default Translator;

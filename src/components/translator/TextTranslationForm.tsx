@@ -15,9 +15,8 @@ import { MaxURLLength, buildNewSearch } from '../../util/url';
 import { APyContext } from '../../context';
 import { buildUrl as buildWebpageTranslationUrl } from './WebpageTranslationForm';
 import { langDirection } from '../../util/languages';
-import { useLocalization } from '../../util/localization';
 import { textUrlParam } from './Translator';
-
+import { useLocalization } from '../../util/localization';
 
 const instantTranslationPunctuationDelay = 1000,
   instantTranslationDelay = 3000;
