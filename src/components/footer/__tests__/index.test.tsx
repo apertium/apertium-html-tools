@@ -2,19 +2,25 @@ import * as React from 'react';
 import { getAllByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import Config from '../../../../config';
+import { ConfigContext } from '../../../context';
+import { Config as ConfigType } from '../../../types';
+
 import Footer from '..';
 
-const renderFooter = () => {
+const renderFooter = (config: Partial<ConfigType> = {}) => {
   const wrapRef = React.createRef<HTMLDivElement>();
   const pushRef = React.createRef<HTMLDivElement>();
 
   render(
-    <>
-      <div ref={wrapRef}>
-        <div ref={pushRef} />
-      </div>
-      <Footer pushRef={pushRef} wrapRef={wrapRef} />
-    </>,
+    <ConfigContext.Provider value={{ ...Config, ...config }}>
+      <>
+        <div ref={wrapRef}>
+          <div ref={pushRef} />
+        </div>
+        <Footer pushRef={pushRef} wrapRef={wrapRef} />
+      </>
+    </ConfigContext.Provider>,
   );
 };
 
@@ -37,8 +43,18 @@ describe('Footer', () => {
   });
 
   describe('navigation buttons', () => {
-    it('opens about dialog', () => {
-      renderFooter();
+    it('opens about dialog and display show more languages link when showMoreLanguagesLink is set to true', () => {
+      renderFooter({ showMoreLanguagesLink: true });
+
+      userEvent.click(screen.getByRole('button', { name: 'About-Default' }));
+
+      expect(screen.getByRole('dialog').textContent).toMatchInlineSnapshot(
+        `"About_Apertium-Default×CloseWhat_Is_Apertium-DefaultApertium-DefaultMore_Languages-Default"`,
+      );
+    });
+
+    it('opens about dialog and does not display show more languages link when showMoreLanguagesLink is set to false', () => {
+      renderFooter({ showMoreLanguagesLink: false });
 
       userEvent.click(screen.getByRole('button', { name: 'About-Default' }));
 

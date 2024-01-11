@@ -48,6 +48,7 @@
     "Help_Improve": "Help us improve Apertium!",
     "Contact_Us": "Feel free to contact us if you find a mistake, there's a project you would like to see us work on, or you would like to help out.",
     "Maintainer": "This website is maintained by {{maintainer}}.",
+    "More_Languages": "Looking for more languages? Try {{more_languages}}.",
     "About_Title": "About this website",
     "Enable_JS_Warning": "This site only works with JavaScript enabled, if you cannot <a href='http://www.enable-javascript.com/' target='_blank' rel='noopener'>enable Javascript</a>, then try the <a href='http://traductor.prompsit.com' target='_blank' rel='noopener'>translators at Prompsit</a>.",
     "Not_Found_Error": "<b>404 Error:</b> Sorry, that page doesn't exist anymore!",
