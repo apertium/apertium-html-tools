@@ -151,11 +151,15 @@ type WithTgtLangsProps = {
   setRecentTgtLangs: (langs: Array<string>) => void;
   pairPrefs: PairPrefValues;
   setPairPrefs: (prefs: PairPrefValues) => void;
+  swapLangs?: () => void;
 };
 
 const WithTgtLang = ({
   pairs,
   srcLang,
+  tgtText,
+  setSrcText,
+  setSrcLang,
   urlTgtLang,
   selectedPrefs,
   setSelectedPrefs,
@@ -163,6 +167,9 @@ const WithTgtLang = ({
 }: {
   pairs: Pairs;
   srcLang: string;
+  tgtText: string;
+  setSrcText: (text: string) => void;
+  setSrcLang: (lang: string) => void;
   urlTgtLang: string | null;
   selectedPrefs: Record<string, PairPrefValues>;
   setSelectedPrefs: (prefs: Record<string, PairPrefValues>) => void;
@@ -237,8 +244,18 @@ const WithTgtLang = ({
     },
     [pair, selectedPrefs, setSelectedPrefs],
   );
-
-  return children({ tgtLang, setTgtLang, recentTgtLangs, setRecentTgtLangs, pairPrefs, setPairPrefs });
+  const swapLangs = React.useMemo(
+    () =>
+      isPair(pairs, tgtLang, srcLang)
+        ? () => {
+            setSrcLang(tgtLang);
+            setTgtLang(srcLang);
+            setSrcText(tgtText);
+          }
+        : undefined,
+    [pairs, setSrcLang, setTgtLang, setSrcText, srcLang, tgtLang, tgtText],
+  );
+  return children({ tgtLang, setTgtLang, recentTgtLangs, setRecentTgtLangs, pairPrefs, setPairPrefs, swapLangs });
 };
 
 const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement => {
@@ -277,14 +294,6 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
 
   const onTranslate = React.useCallback(() => window.dispatchEvent(new Event(TranslateEvent)), []);
 
-  const swapLangs = React.useCallback(() => {
-    setSrcText(tgtText);
-  }, [setSrcText, tgtText]);
-
-  const swapLangText = () => {
-    swapLangs();
-  };
-
   return (
     <Form
       aria-label={t('Translate')}
@@ -302,8 +311,10 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
           detectedLang,
           setDetectedLang,
         }: WithSrcLangsProps) => (
-          <WithTgtLang {...{ pairs, srcLang, urlTgtLang, selectedPrefs, setSelectedPrefs }}>
-            {({ tgtLang, setTgtLang, recentTgtLangs, pairPrefs, setPairPrefs }: WithTgtLangsProps) => (
+          <WithTgtLang
+            {...{ pairs, srcLang, tgtText, setSrcText, setSrcLang, urlTgtLang, selectedPrefs, setSelectedPrefs }}
+          >
+            {({ tgtLang, setTgtLang, recentTgtLangs, pairPrefs, setPairPrefs, swapLangs }: WithTgtLangsProps) => (
               <>
                 <LanguageSelector
                   detectLangEnabled={mode === Mode.Text}
@@ -320,7 +331,7 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
                     tgtLang,
                     detectedLang,
                     loading,
-                    swapLangText,
+                    swapLangs,
                   }}
                 />
                 {(mode === Mode.Text || !mode) && (
