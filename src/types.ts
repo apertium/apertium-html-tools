@@ -23,4 +23,5 @@ export type Config = {
 
   subtitle?: string;
   subtitleColor?: string;
+  showMoreLanguagesLink: boolean;
 };
