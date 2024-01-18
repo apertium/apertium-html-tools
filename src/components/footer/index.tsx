@@ -111,18 +111,17 @@ const Footer = ({
             <div className="mb-4 d-flex flex-column">
               <div className="card d-inline-block bg-light p-2">
                 <span>{t('Notice_Mistake')}</span>{' '}
-                <Button className="p-0" onClick={() => setOpenTab(Tab.About)} tabIndex={0} variant="link">
-                  {t('Help_Improve')}
-                </Button>
+                <a
+                  className="p-0"
+                  href="https://github.com/apertium/apertium-html-tools"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {t('Help_Improve')}{' '}
+                </a>
               </div>
-              <a
-                className="text-muted d-lg-block version align-self-end font-weigth-bold"
-                href="https://github.com/apertium/apertium-html-tools"
-                rel="noreferrer"
-                target="_blank"
-              >
-                <small>{version}</small>
-              </a>
+
+              <small className="text-muted d-none d-lg-block version align-self-end">{version}</small>
             </div>
           </div>
         </div>
