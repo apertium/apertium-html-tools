@@ -171,7 +171,7 @@ describe('translation', () => {
     if (onUploadProgress === undefined) {
       throw 'missing onUploadProgress';
     }
-    act(() => onUploadProgress({ loaded: 50, total: 100 }));
+    act(() => onUploadProgress({ loaded: 50, total: 100 } as ProgressEvent));
 
     expect(screen.getByRole('progressbar').getAttribute('aria-valuenow')).toBe('50');
   });
