@@ -95,7 +95,7 @@ const Footer = ({
     <>
       <div className="d-flex flex-column container" ref={footerRef}>
         <div className="d-flex flex-column container">
-          <div className="d-none d-md-flex flex-wrap flex-row justify-content-between position-relative row">
+          <div className="d-md-flex flex-wrap flex-row justify-content-between position-relative row">
             <FooterNav setOpenTab={setOpenTab} />
 
             <div className="mb-4 d-flex flex-column">
