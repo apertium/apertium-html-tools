@@ -1,7 +1,7 @@
 import './footer.css';
 
 import * as React from 'react';
-import { faBook, faDownload, faEnvelope, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faDownload, faEnvelope, faQuestionCircle, faCode } from '@fortawesome/free-solid-svg-icons';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ModalProps } from 'react-bootstrap/Modal';
@@ -106,20 +106,14 @@ const Footer = ({
                 </Button>
               </div>
               <a
-                className="text-muted d-none d-lg-block version align-self-end"
+                className="text-muted d-lg-block version align-self-end font-weigth-bold"
                 href="https://github.com/apertium/apertium-html-tools"
                 rel="noreferrer"
                 target="_blank"
               >
-                <small>{version}</small>
+                <FontAwesomeIcon icon={faCode} /> {t('github ') + version}
               </a>
             </div>
-          </div>
-          <div className="align-self-end card card-body d-block bg-light d-md-none my-2 p-2">
-            <span>{t('Notice_Mistake')}</span>{' '}
-            <Button className="p-0" onClick={() => setOpenTab(Tab.About)} tabIndex={0} variant="link">
-              {t('Help_Improve')}
-            </Button>
           </div>
         </div>
       </div>
