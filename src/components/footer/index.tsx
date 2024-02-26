@@ -38,7 +38,7 @@ const FooterNav_ = ({
   const { t } = useLocalization();
 
   return (
-    <Nav as="ul" className="p-0" role="navigation" style={{ cursor: 'pointer' }} variant="pills">
+    <Nav as="ul" className="p-2 flex-column flex-md-row" role="navigation" style={{ cursor: 'pointer' }} variant="pills">
       <Nav.Item as="li">
         <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.About)}>
           <FontAwesomeIcon icon={faQuestionCircle} /> {t('About')}
@@ -95,7 +95,7 @@ const Footer = ({
     <>
       <div className="d-flex flex-column container" ref={footerRef}>
         <div className="d-flex flex-column container">
-          <div className="d-md-flex flex-wrap flex-row justify-content-between position-relative row">
+          <div className="d-md-flex flex-wrap flex-column flex-md-row justify-content-between position-relative row">
             <FooterNav setOpenTab={setOpenTab} />
 
             <div className="mb-4 d-flex flex-column">
