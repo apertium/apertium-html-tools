@@ -1,7 +1,7 @@
 import './footer.css';
 
 import * as React from 'react';
-import { faBook, faDownload, faEnvelope, faQuestionCircle, faCode } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faDownload, faEnvelope, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ModalProps } from 'react-bootstrap/Modal';
@@ -121,7 +121,7 @@ const Footer = ({
                 rel="noreferrer"
                 target="_blank"
               >
-                <FontAwesomeIcon icon={faCode} /> {t('github ') + version}
+                <small>{version}</small>
               </a>
             </div>
           </div>
