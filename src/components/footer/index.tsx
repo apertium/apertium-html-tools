@@ -38,27 +38,37 @@ const FooterNav_ = ({
   const { t } = useLocalization();
 
   return (
-    <Nav as="ul" className="p-2 flex-column flex-md-row" role="navigation" style={{ cursor: 'pointer' }} variant="pills">
-      <Nav.Item as="li">
-        <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.About)}>
-          <FontAwesomeIcon icon={faQuestionCircle} /> {t('About')}
-        </Nav.Link>
-      </Nav.Item>
-      <Nav.Item as="li">
-        <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.Download)}>
-          <FontAwesomeIcon icon={faDownload} /> {t('Download')}
-        </Nav.Link>
-      </Nav.Item>
-      <Nav.Item as="li">
-        <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.Documentation)}>
-          <FontAwesomeIcon icon={faBook} /> {t('Documentation')}
-        </Nav.Link>
-      </Nav.Item>
-      <Nav.Item as="li">
-        <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.Contact)}>
-          <FontAwesomeIcon icon={faEnvelope} /> {t('Contact')}
-        </Nav.Link>
-      </Nav.Item>
+    <Nav
+      as="ul"
+      className="p-2 flex-column flex-md-row"
+      role="navigation"
+      style={{ cursor: 'pointer' }}
+      variant="pills"
+    >
+      <div className="d-flex justify-content-between">
+        <Nav.Item as="li">
+          <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.About)}>
+            <FontAwesomeIcon icon={faQuestionCircle} /> {t('About')}
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item as="li">
+          <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.Download)}>
+            <FontAwesomeIcon icon={faDownload} /> {t('Download')}
+          </Nav.Link>
+        </Nav.Item>
+      </div>
+      <div className="d-flex justify-content-between">
+        <Nav.Item as="li">
+          <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.Documentation)}>
+            <FontAwesomeIcon icon={faBook} /> {t('Documentation')}
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item as="li">
+          <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.Contact)}>
+            <FontAwesomeIcon icon={faEnvelope} /> {t('Contact')}
+          </Nav.Link>
+        </Nav.Item>
+      </div>
     </Nav>
   );
 };
