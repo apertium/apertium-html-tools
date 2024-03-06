@@ -118,6 +118,7 @@
                                   <select class="langSelect" id="dstLangSelect" style="display: inline-block !important">
                                       <option> </option>
                                   </select>
+                                  <button type="button" class="btn btn-primary btn-xs pull-right enhanceBtn"   data-text="Enhance"   style="margin-left:1em">Enhance</button>
                                   <button type="button" class="btn btn-primary btn-xs pull-right translateBtn" data-text="Translate">Translate</button>
                               </div>
                           </div>
@@ -180,6 +181,7 @@
                                           </ul>
                                       </div>
                                   </div>
+                                  <button type="button" id="enhance" class="btn btn-primary btn-sm pull-right enhanceBtn" data-text="Enhance" style="margin-left:1em">Enhance</button>
                                   <button type="button" id="translate" class="btn btn-primary btn-sm pull-right translateBtn" data-text="Translate">Translate</button>
                               </div>
                             </div>

@@ -88,6 +88,11 @@ if(modeEnabled('translation')) {
             persistChoices('translator', true);
         });
 
+        $('button#enhance').click(function () {
+            enhance();
+            persistChoices('translator', true);
+        });
+
         $('input#chainedTranslation').change(function () {
             updatePairList();
             populateTranslationList();
@@ -588,6 +593,45 @@ function translate() {
     }
     else {
         translateDoc();
+    }
+}
+
+/**
+   For now only for textarea, not web page or docs.
+   */
+function enhance() {
+    if($('div#translateText').is(':visible')) {
+        sendEvent('translator', 'enhance', curSrcLang + '-' + curDstLang, $('#originalText').val().length);
+        if(textTranslateRequest) {
+            textTranslateRequest.abort();
+        }
+        const request = {
+            'lang': curDstLang,
+            'q': $('#translatedText').text(),
+        };
+        const endpoint = '/enhance';
+        const options = {
+            data: request,
+            success: function (data) {
+                if(data.responseStatus === HTTP_OK_CODE) {
+                    insertWithSpelling(data.responseData.translatedText,
+                                       $('#translatedText'),
+                                       curSrcLang,
+                                       $('#markUnknown').prop('checked'));
+                    $('#translatedText').removeClass('notAvailable text-danger');
+                }
+                else {
+                    translationNotAvailable();
+                }
+            },
+            error: translationNotAvailable,
+            complete: function () {
+                ajaxComplete();
+                textTranslateRequest = undefined;
+            },
+        };
+        console.log("enhance", options);
+        textTranslateRequest = callApy(options, endpoint);
     }
 }
 
