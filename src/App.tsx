@@ -52,7 +52,7 @@ const App = ({ setLocale }: { setLocale: React.Dispatch<React.SetStateAction<str
       let localeStrings: Strings;
       try {
         localeStrings = (await axios({ url: `strings/${locale}.json`, validateStatus: (status) => status === 200 }))
-          .data as Strings;
+          .data as unknown as Strings;
       } catch (error) {
         console.warn(`Failed to fetch strings, falling back to default ${defaultLocale}`, error);
         return;
