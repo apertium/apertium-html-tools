@@ -2,7 +2,6 @@ import './footer.css';
 
 import * as React from 'react';
 import { faBook, faDownload, faEnvelope, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ModalProps } from 'react-bootstrap/Modal';
 import Nav from 'react-bootstrap/Nav';
