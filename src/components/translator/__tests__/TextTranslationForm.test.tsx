@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 
 import { DetectCompleteEvent, DetectEvent, TranslateEvent } from '..';
 import TextTranslationForm, { Props } from '../TextTranslationForm';
-
+import { TextProvider } from '../../../util/initialTextValues';
 const renderTextTranslationForm = (
   props_: Partial<Props> = {},
   historyOptions?: MemoryHistoryBuildOptions,
@@ -26,7 +26,9 @@ const renderTextTranslationForm = (
 
   render(
     <Router history={history}>
-      <TextTranslationForm {...props} />
+      <TextProvider>
+        <TextTranslationForm {...props} />
+      </TextProvider>
     </Router>,
   );
 
@@ -158,7 +160,9 @@ describe('translation', () => {
         <>
           <button onClick={() => setSrcLang('cat')}>ChangeSrcLang</button>
           <Router history={history}>
-            <TextTranslationForm {...props} srcLang={srcLang} />
+            <TextProvider>
+              <TextTranslationForm {...props} srcLang={srcLang} />
+            </TextProvider>
           </Router>
         </>
       );

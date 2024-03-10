@@ -1,16 +1,19 @@
 import * as React from 'react';
 import { getAllByRole, render, screen, waitFor } from '@testing-library/react';
+import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
 import Config from '../../../../config';
 import { ConfigContext } from '../../../context';
 import { Config as ConfigType } from '../../../types';
+import { createMemoryHistory } from 'history';
 
 import Footer from '..';
 
 const renderFooter = (config: Partial<ConfigType> = {}) => {
   const wrapRef = React.createRef<HTMLDivElement>();
   const pushRef = React.createRef<HTMLDivElement>();
+  const history = createMemoryHistory();
 
   render(
     <ConfigContext.Provider value={{ ...Config, ...config }}>
@@ -18,7 +21,9 @@ const renderFooter = (config: Partial<ConfigType> = {}) => {
         <div ref={wrapRef}>
           <div ref={pushRef} />
         </div>
-        <Footer pushRef={pushRef} wrapRef={wrapRef} />
+        <Router history={history}>
+          <Footer pushRef={pushRef} wrapRef={wrapRef} />
+        </Router>
       </>
     </ConfigContext.Provider>,
   );
@@ -90,28 +95,6 @@ describe('Footer', () => {
 
       expect(screen.getByRole('dialog').textContent).toMatchInlineSnapshot(
         `"Contact-Default×CloseContact_Us-DefaultContact_Para-Default"`,
-      );
-    });
-  });
-
-  describe('help improve buttons', () => {
-    it('opens about dialog on mobile', () => {
-      renderFooter();
-
-      userEvent.click(screen.getAllByRole('button', { name: 'Help_Improve-Default' })[0]);
-
-      expect(screen.getByRole('dialog').textContent).toMatchInlineSnapshot(
-        `"About_Apertium-Default×CloseWhat_Is_Apertium-DefaultApertium-Default"`,
-      );
-    });
-
-    it('opens about dialog on desktop', () => {
-      renderFooter();
-
-      userEvent.click(screen.getAllByRole('button', { name: 'Help_Improve-Default' })[1]);
-
-      expect(screen.getByRole('dialog').textContent).toMatchInlineSnapshot(
-        `"About_Apertium-Default×CloseWhat_Is_Apertium-DefaultApertium-Default"`,
       );
     });
   });

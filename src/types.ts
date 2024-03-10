@@ -25,3 +25,10 @@ export type Config = {
   subtitleColor?: string;
   showMoreLanguagesLink: boolean;
 };
+
+export type TextType = {
+  srcText: string;
+  setSrcText: React.Dispatch<React.SetStateAction<string>>;
+  tgtText: string;
+  setTgtText: React.Dispatch<React.SetStateAction<string>>;
+};
