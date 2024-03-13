@@ -108,7 +108,7 @@ describe('Footer', () => {
     it('opens about dialog on desktop', () => {
       renderFooter();
 
-      userEvent.click(screen.getAllByRole('button', { name: 'Help_Improve-Default' })[1]);
+      userEvent.click(screen.getAllByRole('button', { name: 'Help_Improve-Default' })[0]);
 
       expect(screen.getByRole('dialog').textContent).toMatchInlineSnapshot(
         `"About_Apertium-Default×CloseWhat_Is_Apertium-DefaultApertium-Default"`,

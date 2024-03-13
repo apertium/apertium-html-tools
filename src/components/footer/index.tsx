@@ -38,27 +38,37 @@ const FooterNav_ = ({
   const { t } = useLocalization();
 
   return (
-    <Nav as="ul" className="p-0" role="navigation" style={{ cursor: 'pointer' }} variant="pills">
-      <Nav.Item as="li">
-        <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.About)}>
-          <FontAwesomeIcon icon={faQuestionCircle} /> {t('About')}
-        </Nav.Link>
-      </Nav.Item>
-      <Nav.Item as="li">
-        <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.Download)}>
-          <FontAwesomeIcon icon={faDownload} /> {t('Download')}
-        </Nav.Link>
-      </Nav.Item>
-      <Nav.Item as="li">
-        <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.Documentation)}>
-          <FontAwesomeIcon icon={faBook} /> {t('Documentation')}
-        </Nav.Link>
-      </Nav.Item>
-      <Nav.Item as="li">
-        <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.Contact)}>
-          <FontAwesomeIcon icon={faEnvelope} /> {t('Contact')}
-        </Nav.Link>
-      </Nav.Item>
+    <Nav
+      as="ul"
+      className="p-2 flex-column flex-md-row"
+      role="navigation"
+      style={{ cursor: 'pointer' }}
+      variant="pills"
+    >
+      <div className="d-flex justify-content-between">
+        <Nav.Item as="li">
+          <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.About)}>
+            <FontAwesomeIcon icon={faQuestionCircle} /> {t('About')}
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item as="li">
+          <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.Download)}>
+            <FontAwesomeIcon icon={faDownload} /> {t('Download')}
+          </Nav.Link>
+        </Nav.Item>
+      </div>
+      <div className="d-flex justify-content-between">
+        <Nav.Item as="li">
+          <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.Documentation)}>
+            <FontAwesomeIcon icon={faBook} /> {t('Documentation')}
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item as="li">
+          <Nav.Link className="footer-link" onClick={() => setOpenTab(Tab.Contact)}>
+            <FontAwesomeIcon icon={faEnvelope} /> {t('Contact')}
+          </Nav.Link>
+        </Nav.Item>
+      </div>
     </Nav>
   );
 };
@@ -95,7 +105,7 @@ const Footer = ({
     <>
       <div className="d-flex flex-column container" ref={footerRef}>
         <div className="d-flex flex-column container">
-          <div className="d-none d-md-flex flex-wrap flex-row justify-content-between position-relative row">
+          <div className="d-md-flex flex-wrap flex-column flex-md-row justify-content-between position-relative row">
             <FooterNav setOpenTab={setOpenTab} />
 
             <div className="mb-4 d-flex flex-column">
@@ -106,7 +116,7 @@ const Footer = ({
                 </Button>
               </div>
               <a
-                className="text-muted d-none d-lg-block version align-self-end"
+                className="text-muted d-lg-block version align-self-end font-weigth-bold"
                 href="https://github.com/apertium/apertium-html-tools"
                 rel="noreferrer"
                 target="_blank"
@@ -114,12 +124,6 @@ const Footer = ({
                 <small>{version}</small>
               </a>
             </div>
-          </div>
-          <div className="align-self-end card card-body d-block bg-light d-md-none my-2 p-2">
-            <span>{t('Notice_Mistake')}</span>{' '}
-            <Button className="p-0" onClick={() => setOpenTab(Tab.About)} tabIndex={0} variant="link">
-              {t('Help_Improve')}
-            </Button>
           </div>
         </div>
       </div>
