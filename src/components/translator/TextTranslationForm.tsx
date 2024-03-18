@@ -239,7 +239,7 @@ const TextTranslationForm = ({
           aria-label={t('Input_Text')}
           as="textarea"
           autoFocus
-          className="mb-2 pr-4"
+          className="mb-2 pr-4-5"
           dir={langDirection(srcLang)}
           onChange={({ target: { value } }) => setSrcText(value)}
           onKeyUp={handleSrcTextChange}
@@ -263,7 +263,7 @@ const TextTranslationForm = ({
       <Col md="6" xs="12">
         <Form.Control
           as="textarea"
-          className={classNames('bg-light mb-2 pr-4', { 'text-danger': error })}
+          className={classNames('bg-light mb-2 pr-4-5', { 'text-danger': error })}
           dir={langDirection(tgtLang)}
           readOnly
           ref={tgtTextareaRef}
