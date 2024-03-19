@@ -98,3 +98,11 @@ html[dir='rtl'] .translation-modes > :not(:first-child) {
   border-radius: 4px;
   height: 700px;
 }
+
+html[dir='ltr'] .translation-text-input {
+  padding-right: 2.25rem;
+}
+
+html[dir='rtl'] .translation-text-input {
+  padding-left: 2.25rem;
+}
