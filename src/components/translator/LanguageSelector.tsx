@@ -211,23 +211,28 @@ const LangsDropdown = ({
       const [code, name] = langs[j];
       const valid = !validLang || validLang(code);
       langElems.push(
-        <button
-          className={classNames('language-name', {
-            'variant-language-name': isVariant(code),
-            'text-muted': !valid,
-          })}
-          disabled={!valid}
-          key={code}
-          onClick={() => {
-            setLang(code);
-            document.body.click();
-          }}
-          tabIndex={0}
-        >
-          {name}
-        </button>,
+        <div>
+          <button
+            className={classNames('language-name', {
+              'variant-language-name': isVariant(code),
+              'text-muted': !valid,
+            })}
+            disabled={!valid}
+            key={code}
+            onClick={() => {
+              setLang(code);
+              document.body.click();
+            }}
+            tabIndex={0}
+          >
+            {name}
+          </button>
+
+          <div style={{ height: '0.5px', backgroundColor: 'gray', opacity: '30%' }} />
+        </div>,
       );
     }
+
     langCols.push(
       <div className="language-name-col" key={i} style={{ width: `${100.0 / numCols}%` }}>
         {langElems}
