@@ -10,12 +10,12 @@ import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
+import { APyContext, TextContext } from '../../context';
 import { DetectCompleteEvent, DetectEvent, PairPrefValues, TranslateEvent, baseUrlParams } from '.';
-import { MaxURLLength, buildNewSearch, getUrlParam } from '../../util/url';
-import { APyContext } from '../../context';
+import { MaxURLLength, buildNewSearch } from '../../util/url';
+
 import { buildUrl as buildWebpageTranslationUrl } from './WebpageTranslationForm';
 import { langDirection } from '../../util/languages';
-import useLocalStorage from '../../util/useLocalStorage';
 import { useLocalization } from '../../util/localization';
 
 const textUrlParam = 'q';
@@ -54,10 +54,7 @@ const TextTranslationForm = ({
   const srcTextareaRef = React.useRef<HTMLTextAreaElement>(null);
   const tgtTextareaRef = React.useRef<HTMLTextAreaElement>(null);
 
-  const [srcText, setSrcText] = useLocalStorage('srcText', '', {
-    overrideValue: getUrlParam(history.location.search, textUrlParam),
-  });
-  const [tgtText, setTgtText] = React.useState('');
+  const { srcText, setSrcText, tgtText, setTgtText } = React.useContext(TextContext);
 
   React.useEffect(() => {
     const baseParams = baseUrlParams({ srcLang, tgtLang });
@@ -130,7 +127,7 @@ const TextTranslationForm = ({
         }
       })();
     },
-    [apyFetch, markUnknown, prefs, setLoading, srcLang, srcText, tgtLang, trackEvent],
+    [apyFetch, markUnknown, prefs, setLoading, srcLang, srcText, setTgtText, tgtLang, trackEvent],
   );
 
   const translationTimer = React.useRef<number | null>(null);
