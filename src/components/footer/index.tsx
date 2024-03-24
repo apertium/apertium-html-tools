@@ -122,12 +122,6 @@ const Footer = ({
               <small className="text-muted d-none d-lg-block version align-self-end">{version}</small>
             </div>
           </div>
-          <div className="align-self-end card card-body d-block bg-light d-md-none my-2 p-2">
-            <span>{t('Notice_Mistake')}</span>{' '}
-            <Button className="p-0" onClick={() => setOpenTab(Tab.About)} tabIndex={0} variant="link">
-              {t('Help_Improve')}
-            </Button>
-          </div>
         </div>
       </div>
 
