@@ -5,6 +5,7 @@ export enum Mode {
   Analysis = 'analysis',
   Generation = 'generation',
   Sandbox = 'sandbox',
+  SpellChecker = 'spellchecker'
 }
 
 export type Config = {
