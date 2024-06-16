@@ -14,6 +14,7 @@ import { langDirection, toAlpha2Code } from './util/languages';
 import { Mode } from './types';
 
 import Analyzer from './components/Analyzer';
+import SpellChecker from './components/SpellChecker';
 import { Path as DocTranslationPath } from './components/translator/DocTranslationForm';
 import Footer from './components/footer';
 import Generator from './components/Generator';
@@ -31,6 +32,7 @@ const Interfaces = {
   [Mode.Analysis]: Analyzer,
   [Mode.Generation]: Generator,
   [Mode.Sandbox]: Sandbox,
+  [Mode.SpellChecker]: SpellChecker,
 } as Record<Mode, React.ComponentType<unknown>>;
 
 const App = ({ setLocale }: { setLocale: React.Dispatch<React.SetStateAction<string>> }): React.ReactElement => {
@@ -126,6 +128,12 @@ const App = ({ setLocale }: { setLocale: React.Dispatch<React.SetStateAction<str
                     <Translator mode={TranslatorMode.Webpage} />
                   </Route>
                 </>
+              )}
+              {enabledModes.has(Mode.SpellChecker) && (
+         
+                  <Route exact path={DocTranslationPath}>
+                    // write your spellchecker here
+                  </Route>
               )}
               <div className="d-block d-sm-none float-left my-2">
                 <LocaleSelector setLocale={setLocale} />
