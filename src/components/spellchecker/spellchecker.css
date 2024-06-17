@@ -1,0 +1,32 @@
+.content-editable {
+    border: 1px solid #ccc;
+    padding: 10px;
+    min-height: 150px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  .misspelled {
+    color: red;
+    text-decoration: underline wavy red;
+    cursor: pointer;
+  }
+  
+  .suggestions {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+  
+  .suggestions div {
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  .suggestions div:hover {
+    background-color: #f0f0f0;
+  }
+  
