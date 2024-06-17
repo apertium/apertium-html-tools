@@ -14,7 +14,7 @@ import { langDirection, toAlpha2Code } from './util/languages';
 import { Mode } from './types';
 
 import Analyzer from './components/Analyzer';
-import SpellChecker from './components/SpellChecker';
+import SpellChecker from './components/spellchecker/SpellChecker';
 import { Path as DocTranslationPath } from './components/translator/DocTranslationForm';
 import Footer from './components/footer';
 import Generator from './components/Generator';
