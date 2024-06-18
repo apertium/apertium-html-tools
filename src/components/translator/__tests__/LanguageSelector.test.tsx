@@ -23,6 +23,7 @@ const renderLanguageSelector = (props_: Partial<Props> = {}): Props => {
     detectLangEnabled: true,
     detectedLang: null,
     setDetectedLang: jest.fn(),
+    swapLangs: jest.fn(),
     ...props_,
   };
 
@@ -84,20 +85,19 @@ it('switches between mobile and desktop', () => {
 
 describe('swapping', () => {
   it('does not allow swapping when swapped pair invalid', () => {
-    renderLanguageSelector();
+    renderLanguageSelector({ swapLangs: undefined });
 
     expect((screen.getByTestId('swap-langs-button') as HTMLButtonElement).disabled).toBeTruthy();
   });
 
   it('allow swapping when swapped pair valid', () => {
-    const { srcLang, tgtLang, setSrcLang, setTgtLang } = renderLanguageSelector({
+    const { swapLangs } = renderLanguageSelector({
       tgtLang: 'spa',
     });
 
     userEvent.click(screen.getByTestId('swap-langs-button'));
 
-    expect(setSrcLang).toHaveBeenCalledWith(tgtLang);
-    expect(setTgtLang).toHaveBeenCalledWith(srcLang);
+    expect(swapLangs).toHaveBeenCalled();
   });
 });
 
