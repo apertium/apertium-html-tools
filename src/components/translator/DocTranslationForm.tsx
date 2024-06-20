@@ -215,7 +215,7 @@ const DocTranslationForm = ({ srcLang, tgtLang, pairPrefs, cancelUrl, setLoading
                   style={{ bottom: '-6px', right: '20px' }}
                   variant="secondary"
                 >
-                  <FontAwesomeIcon icon={faArrowLeft} /> {t('Cancel')}
+                  <FontAwesomeIcon icon={faArrowLeft} /> {t('Go Back')}
                 </Button>
               </LinkContainer>
             </Card.Body>
