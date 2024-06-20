@@ -43,7 +43,6 @@ html[dir='rtl'] .copy-text-button {
 
 .language-name {
   display: block;
-  padding: 0;
   overflow-x: hidden;
   position: relative;
   text-overflow: ellipsis;
@@ -51,6 +50,18 @@ html[dir='rtl'] .copy-text-button {
   background: none;
   width: 100%;
   text-align: unset;
+}
+
+.language-name:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0.5px;
+  width: 100%;
+  background-color: black;
+  opacity: 30%;
+  display: block;
 }
 
 html[dir='ltr'] .language-name {
