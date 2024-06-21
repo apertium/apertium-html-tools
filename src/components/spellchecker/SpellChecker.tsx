@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -25,27 +25,11 @@ const SpellChecker = (): React.ReactElement => {
   const history = useHistory();
   const { t, tLang } = useLocalization();
   const { trackEvent } = useMatomo();
-  const [suggestions, setSuggestions] = React.useState<Suggestion[]>([
-    {
-      token: 'Thiss',
-      known: false,
-      sugg: [
-        ['This', 0.9],
-        ['Thus', 0.1],
-      ],
-    },
-    {
-      token: 'exampel',
-      known: false,
-      sugg: [
-        ['example', 0.95],
-        ['exemplar', 0.05],
-      ],
-    },
-  ]);
-  const [selectedWord, setSelectedWord] = React.useState<string | null>(null);
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<Error | null>(null);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [selectedWord, setSelectedWord] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [suggestionPosition, setSuggestionPosition] = useState<{ top: number, left: number } | null>(null);
 
   const [lang, setLang] = useLocalStorage('spellerLang', Object.keys(Spellers)[0], {
     overrideValue: toAlpha3Code(getUrlParam(history.location.search, langUrlParam)),
@@ -56,7 +40,7 @@ const SpellChecker = (): React.ReactElement => {
     overrideValue: getUrlParam(history.location.search, textUrlParam),
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     let search = buildNewSearch({ [langUrlParam]: lang, [textUrlParam]: text });
     if (search.length > MaxURLLength) {
       search = buildNewSearch({ [langUrlParam]: lang });
@@ -64,56 +48,90 @@ const SpellChecker = (): React.ReactElement => {
     history.replace({ search });
   }, [history, lang, text]);
 
-  const spellcheckRef = React.useRef<HTMLDivElement | null>(null);
+  const spellcheckRef = useRef<HTMLDivElement | null>(null);
+
+  const handleSubmit = () => {
+    if (text.trim().length === 0) {
+      return;
+    }
+
+    // Simulating the API call
+    setLoading(true);
+    setTimeout(() => {
+      setSuggestions(checkSpelling(text));
+      setError(null);
+      setLoading(false);
+    }, 1000);
+  };
 
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
     setText(e.currentTarget.innerText);
   };
 
-  const handleWordClick = (word: string) => {
-    console.log("Word clicked:", word);
+  const handleWordClick = (word: string, event: React.MouseEvent) => {
     setSelectedWord(word);
+    const rect = event.currentTarget.getBoundingClientRect();
+    setSuggestionPosition({
+      top: rect.bottom + window.scrollY + 3, // Adjust for scrolling
+      left: rect.left + window.scrollX -2,
+    });
   };
 
   const applySuggestion = (suggestion: string) => {
     if (!selectedWord) return;
-
     const updatedText = text.replace(new RegExp(`\\b${selectedWord}\\b`, 'g'), suggestion);
-    setText(updatedText); // Schedule state update
-
-    console.log(text)
+    setText(updatedText);
     setSelectedWord(null);
-    renderHighlightedText()
+
+    // Remove the applied suggestion from the suggestions list
+    setSuggestions((prevSuggestions) =>
+      prevSuggestions.filter((s) => s.token !== selectedWord)
+    );
+  };
+
+  const checkSpelling = (inputText: string): Suggestion[] => {
+    // Simulated response from the spell checker
+    return [
+      {
+        token: 'Thiss',
+        known: false,
+        sugg: [
+          ['This', 0.9],
+          ['Thus', 0.1],
+          ['Thus', 0.1],
+          ['Thus', 0.1],
+          ['Thus', 0.1],
+          ['Thus', 0.1],
+          ['Thus', 0.1],
+          ['Thus', 0.1],
+          ['Thus', 0.1],
+        ],
+      },
+      {
+        token: 'exampel',
+        known: false,
+        sugg: [
+          ['example', 0.95],
+          ['exemplar', 0.05],
+        ],
+      },
+    ];
   };
 
   const renderHighlightedText = () => {
-    if (text.trim().length === 0) {
-      return;
-    }
-    console.log(text)
-    console.log("yo i got called!!!")
-
-    const contentElement = spellcheckRef.current;
-    if (contentElement instanceof HTMLElement) {
-
-      const parts = text.split(/(\s+)/).map((word, index) => {
-        const suggestion = suggestions.find((s) => s.token === word && !s.known);
-        if (suggestion) {
-          return `<span key=${index} class="misspelled">${word}</span>`;
-        } else {
-          return `<span key=${index} class="correct">${word}</span>`;
-        }
-      }).join('');
-
-      contentElement.innerHTML = parts;
-
-      const misspelledElements = contentElement.querySelectorAll('.misspelled');
-      misspelledElements.forEach((element, index) => {
-        const word = element.textContent || '';
-        element.addEventListener('click', () => handleWordClick(word));
-      });
-    }
-  };
+    const parts = text.split(/(\s+)/).map((word, index) => {
+      const suggestion = suggestions.find((s) => s.token === word && !s.known);
+      if (suggestion) {
+        return (
+          <span key={index} className="misspelled" onClick={(e) => handleWordClick(word, e)}>
+            {word}
+          </span>
+        );
+      }
+      return word;
+    });
+    return <>{parts}</>;
+  }
 
   return (
     <Form aria-label="Spell Checker" onSubmit={(event) => event.preventDefault()}>
@@ -142,18 +160,20 @@ const SpellChecker = (): React.ReactElement => {
             contentEditable
             ref={spellcheckRef}
             onInput={handleInput}
-          />
+          >
+            {renderHighlightedText()}
+          </div>
         </Col>
       </Form.Group>
       <Form.Group className="row">
         <Col className="offset-md-2 col-md-10 offset-lg-1" md="10">
-          <Button onClick={renderHighlightedText} type="submit" variant="primary">
+          <Button onClick={handleSubmit} type="submit" variant="primary">
             {t('Check')}
           </Button>
         </Col>
       </Form.Group>
-      {selectedWord && (
-        <div className="suggestions">
+      {selectedWord && suggestionPosition && (
+        <div className="suggestions" style={{ top: suggestionPosition.top, left: suggestionPosition.left }}>
           {suggestions
             .find((s) => s.token === selectedWord)
             ?.sugg.map(([sugg, _], index) => (
