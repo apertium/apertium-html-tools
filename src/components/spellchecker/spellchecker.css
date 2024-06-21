@@ -7,20 +7,37 @@
   }
   
   .misspelled {
-    color: red;
+    position: relative;
+    display: inline-block;
     text-decoration: underline wavy red;
     cursor: pointer;
   }
   
-  .suggestions {
-    position: absolute;
+   .suggestions {
     background: white;
     border: 1px solid #ccc;
-    z-index: 1000;
     max-height: 150px;
     overflow-y: auto;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 50%;
+    margin-left: -60px;
   }
-  
+   .suggestions::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+  }
+
   .suggestions div {
     padding: 5px;
     cursor: pointer;

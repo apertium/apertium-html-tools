@@ -25,8 +25,24 @@ const SpellChecker = (): React.ReactElement => {
   const history = useHistory();
   const { t, tLang } = useLocalization();
   const { trackEvent } = useMatomo();
-  // const apyFetch = React.useContext(APyContext); // Commenting out for now
-  const [suggestions, setSuggestions] = React.useState<Suggestion[]>([]);
+  const [suggestions, setSuggestions] = React.useState<Suggestion[]>([
+    {
+      token: 'Thiss',
+      known: false,
+      sugg: [
+        ['This', 0.9],
+        ['Thus', 0.1],
+      ],
+    },
+    {
+      token: 'exampel',
+      known: false,
+      sugg: [
+        ['example', 0.95],
+        ['exemplar', 0.05],
+      ],
+    },
+  ]);
   const [selectedWord, setSelectedWord] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<Error | null>(null);
@@ -50,75 +66,53 @@ const SpellChecker = (): React.ReactElement => {
 
   const spellcheckRef = React.useRef<HTMLDivElement | null>(null);
 
-  const handleSubmit = () => {
-    if (text.trim().length === 0) {
-      return;
-    }
-
-    // Simulating the API call
-    setLoading(true);
-    setTimeout(() => {
-      setSuggestions(checkSpelling(text));
-      setError(null);
-      setLoading(false);
-    }, 1000);
-  };
-
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
     setText(e.currentTarget.innerText);
   };
 
   const handleWordClick = (word: string) => {
+    console.log("Word clicked:", word);
     setSelectedWord(word);
   };
 
   const applySuggestion = (suggestion: string) => {
     if (!selectedWord) return;
+
     const updatedText = text.replace(new RegExp(`\\b${selectedWord}\\b`, 'g'), suggestion);
-    setText(updatedText);
+    setText(updatedText); // Schedule state update
+
+    console.log(text)
     setSelectedWord(null);
-
-    // Remove the applied suggestion from the suggestions list
-    setSuggestions((prevSuggestions) =>
-      prevSuggestions.filter((s) => s.token !== selectedWord)
-    );
-  };
-
-  const checkSpelling = (inputText: string): Suggestion[] => {
-    // Simulated response from the spell checker
-    return [
-      {
-        token: 'Thiss',
-        known: false,
-        sugg: [
-          ['This', 0.9],
-          ['Thus', 0.1],
-        ],
-      },
-      {
-        token: 'exampel',
-        known: false,
-        sugg: [
-          ['example', 0.95],
-          ['exemplar', 0.05],
-        ],
-      },
-    ];
+    renderHighlightedText()
   };
 
   const renderHighlightedText = () => {
-    const parts = text.split(/(\s+)/).map((word, index) => {
-      const suggestion = suggestions.find((s) => s.token === word && !s.known);
-      if (suggestion) {
-        return (
-          <span key={index} className="misspelled" onClick={() => handleWordClick(word)}>
-            {word}
-          </span>
-        );
-      }
-      return word;
-    });
-    return <>{parts}</>;
+    if (text.trim().length === 0) {
+      return;
+    }
+    console.log(text)
+    console.log("yo i got called!!!")
+
+    const contentElement = spellcheckRef.current;
+    if (contentElement instanceof HTMLElement) {
+
+      const parts = text.split(/(\s+)/).map((word, index) => {
+        const suggestion = suggestions.find((s) => s.token === word && !s.known);
+        if (suggestion) {
+          return `<span key=${index} class="misspelled">${word}</span>`;
+        } else {
+          return `<span key=${index} class="correct">${word}</span>`;
+        }
+      }).join('');
+
+      contentElement.innerHTML = parts;
+
+      const misspelledElements = contentElement.querySelectorAll('.misspelled');
+      misspelledElements.forEach((element, index) => {
+        const word = element.textContent || '';
+        element.addEventListener('click', () => handleWordClick(word));
+      });
+    }
   };
 
   return (
@@ -148,14 +142,12 @@ const SpellChecker = (): React.ReactElement => {
             contentEditable
             ref={spellcheckRef}
             onInput={handleInput}
-          >
-            {renderHighlightedText()}
-          </div>
+          />
         </Col>
       </Form.Group>
       <Form.Group className="row">
         <Col className="offset-md-2 col-md-10 offset-lg-1" md="10">
-          <Button onClick={handleSubmit} type="submit" variant="primary">
+          <Button onClick={renderHighlightedText} type="submit" variant="primary">
             {t('Check')}
           </Button>
         </Col>

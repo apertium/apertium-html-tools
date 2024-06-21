@@ -4,6 +4,7 @@
   "author": "Sushain Cherivirala <sushain@skc.name>",
   "license": "GPL-3.0-or-later",
   "scripts": {
+    "start": "yarn build && yarn serve",
     "build": "ts-node build.ts",
     "serve": "python3 -m http.server --directory dist",
     "tsc": "tsc --noEmit",

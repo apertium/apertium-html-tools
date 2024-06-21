@@ -130,10 +130,9 @@ const App = ({ setLocale }: { setLocale: React.Dispatch<React.SetStateAction<str
                 </>
               )}
               {enabledModes.has(Mode.SpellChecker) && (
-         
-                  <Route exact path={DocTranslationPath}>
-                    // write your spellchecker here
-                  </Route>
+                <Route exact path={DocTranslationPath}>
+                  // write your spellchecker here
+                </Route>
               )}
               <div className="d-block d-sm-none float-left my-2">
                 <LocaleSelector setLocale={setLocale} />
