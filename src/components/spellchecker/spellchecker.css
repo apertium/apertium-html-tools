@@ -8,7 +8,6 @@
 
 .misspelled {
   text-decoration: underline wavy red;
-  cursor: pointer;
 }
 
 .suggestions {
@@ -20,11 +19,10 @@
   max-height: 150px;
   overflow-y: auto;
   white-space: nowrap;
-  width: auto; /* Adjusted width */
+  width: auto; 
   padding: 5px;
   border-radius: 6px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1); /* Optional: for a slight shadow */
-;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
 }
 
 .suggestions div {
