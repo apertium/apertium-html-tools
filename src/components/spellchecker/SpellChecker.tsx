@@ -16,6 +16,7 @@ interface Suggestion {
   sugg: Array<[string, number]>;
 }
 
+// eslint-disable-next-line
 const Spellers: Readonly<Record<string, string>> = (window as any).SPELLERS;
 
 const langUrlParam = 'lang';
@@ -44,7 +45,6 @@ const SpellChecker = (): React.ReactElement => {
     },
   ]);
   const [selectedWord, setSelectedWord] = React.useState<string | null>(null);
-  const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<Error | null>(null);
   const [suggestionPosition, setSuggestionPosition] = React.useState<{ top: number; left: number } | null>(null);
 
@@ -113,7 +113,7 @@ const SpellChecker = (): React.ReactElement => {
       contentElement.innerHTML = parts;
 
       const misspelledElements = contentElement.querySelectorAll('.misspelled');
-      misspelledElements.forEach((element, index) => {
+      misspelledElements.forEach((element) => {
         const word = element.textContent || '';
         const eventHandler = (e: Event) => handleWordClick(word, e as MouseEvent | TouchEvent);
         element.addEventListener('click', eventHandler);
@@ -127,8 +127,6 @@ const SpellChecker = (): React.ReactElement => {
 
     const updatedText = text.replace(new RegExp(`\\b${selectedWord}\\b`, 'g'), suggestion);
     setText(updatedText); 
-
-    console.log(text);
     setSelectedWord(null);
     renderHighlightedText(updatedText);
   };
@@ -184,3 +182,34 @@ const SpellChecker = (): React.ReactElement => {
 };
 
 export default SpellChecker;
+
+
+
+
+const handleSubmit = () => {
+  if (text.trim().length === 0) {
+    return;
+  }
+
+  spellcheckResult.current?.cancel();
+  spellcheckResult.current = null;
+
+  void (async () => {
+    try {
+      trackEvent({ category: 'spellchecker', action: 'spellcheck', name: lang, value: text.length });
+      const [ref, request] = apyFetch('speller', { lang, q: text });
+      spellcheckResult.current = ref;
+      setSuggestions((await request).data as Array<Suggestion>);
+      setError(null);
+      spellcheckResult.current = null;
+
+      renderHighlightedText(text);
+
+    } catch (error) {
+      if (!axios.isCancel(error)) {
+        setSuggestions([]);
+        setError(error as Error);
+      }
+    }
+  })();
+};

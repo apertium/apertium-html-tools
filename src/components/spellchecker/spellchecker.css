@@ -8,6 +8,7 @@
 
 .misspelled {
   text-decoration: underline wavy red;
+  cursor: pointer;
 }
 
 .suggestions {
