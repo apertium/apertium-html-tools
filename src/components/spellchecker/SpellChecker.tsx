@@ -1,14 +1,18 @@
 import * as React from 'react';
+import axios, { CancelTokenSource } from 'axios';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import { useHistory } from 'react-router-dom';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 import { MaxURLLength, buildNewSearch, getUrlParam } from '../../util/url';
+import { APyContext } from '../../context';
+import classNames from 'classnames';
 import { toAlpha3Code } from '../../util/languages';
 import useLocalStorage from '../../util/useLocalStorage';
 import { useLocalization } from '../../util/localization';
 import './spellchecker.css';
+import ErrorAlert from '../ErrorAlert';
 
 interface Suggestion {
   token: string;
@@ -21,32 +25,23 @@ const Spellers: Readonly<Record<string, string>> = (window as any).SPELLERS;
 
 const langUrlParam = 'lang';
 const textUrlParam = 'q';
-
-const SpellChecker = (): React.ReactElement => {
+const SpellCheckForm = ({
+  setLoading,
+  setError,
+}: {
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setError: React.Dispatch<React.SetStateAction<Error | null>>;
+}): React.ReactElement => {
   const history = useHistory();
   const { t, tLang } = useLocalization();
   const { trackEvent } = useMatomo();
-  const [suggestions, setSuggestions] = React.useState<Suggestion[]>([
-    {
-      token: 'Thiss',
-      known: false,
-      sugg: [
-        ['This', 0.9],
-        ['Thus', 0.1],
-      ],
-    },
-    {
-      token: 'exampel',
-      known: false,
-      sugg: [
-        ['example', 0.95],
-        ['exemplar', 0.05],
-      ],
-    },
-  ]);
+  const apyFetch = React.useContext(APyContext);
+  const [suggestions, setSuggestions] = React.useState<Suggestion[]>([]);
   const [selectedWord, setSelectedWord] = React.useState<string | null>(null);
-  const [error, setError] = React.useState<Error | null>(null);
   const [suggestionPosition, setSuggestionPosition] = React.useState<{ top: number; left: number } | null>(null);
+
+  const spellcheckRef = React.useRef<HTMLDivElement | null>(null);
+  const spellcheckResult = React.useRef<CancelTokenSource | null>(null);
 
   const [lang, setLang] = useLocalStorage('spellerLang', Object.keys(Spellers)[0], {
     overrideValue: toAlpha3Code(getUrlParam(history.location.search, langUrlParam)),
@@ -66,13 +61,40 @@ const SpellChecker = (): React.ReactElement => {
   }, [history, lang, text]);
 
   React.useEffect(() => {
-    renderHighlightedText(text); 
+    renderHighlightedText(text);
   }, []);
-
-  const spellcheckRef = React.useRef<HTMLDivElement | null>(null);
 
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
     setText(e.currentTarget.innerText);
+  };
+
+  const handleSubmit = () => {
+    if (text.trim().length === 0) {
+      return;
+    }
+
+    spellcheckResult.current?.cancel();
+    spellcheckResult.current = null;
+
+    void (async () => {
+      try {
+        trackEvent({ category: 'spellchecker', action: 'spellcheck', name: lang, value: text.length });
+        const [ref, request] = apyFetch('speller', { lang, q: text });
+        spellcheckResult.current = ref;
+        setSuggestions((await request).data as Array<Suggestion>);
+        setError(null);
+        spellcheckResult.current = null;
+
+        renderHighlightedText(text);
+        setLoading(false);
+      } catch (error) {
+        if (!axios.isCancel(error)) {
+          setSuggestions([]);
+          setError(error as Error);
+          setLoading(false);
+        }
+      }
+    })();
   };
 
   const handleWordClick = React.useCallback((word: string, event: MouseEvent | TouchEvent) => {
@@ -81,7 +103,7 @@ const SpellChecker = (): React.ReactElement => {
 
     if ('touches' in event) {
       // Get the first touch point
-      const touch = event.touches[0]; 
+      const touch = event.touches[0];
       setSuggestionPosition({
         top: rect.bottom + window.scrollY + 3,
         left: touch.clientX + window.scrollX - 2,
@@ -94,39 +116,45 @@ const SpellChecker = (): React.ReactElement => {
     }
   }, []);
 
-  const renderHighlightedText = React.useCallback((text: string) => {
-    if (text.trim().length === 0) {
-      return;
-    }
+  const renderHighlightedText = React.useCallback(
+    (text: string) => {
+      if (text.trim().length === 0) {
+        return;
+      }
 
-    const contentElement = spellcheckRef.current;
-    if (contentElement instanceof HTMLElement) {
-      const parts = text.split(/(\s+)/).map((word, index) => {
-        const suggestion = suggestions.find((s) => s.token === word && !s.known);
-        if (suggestion) {
-          return `<span key=${index} class="misspelled">${word}</span>`;
-        } else {
-          return `<span key=${index} class="correct">${word}</span>`;
-        }
-      }).join('');
+      const contentElement = spellcheckRef.current;
+      if (contentElement instanceof HTMLElement) {
+        const parts = text
+          .split(/(\s+)/)
+          .map((word, index) => {
+            const suggestion = suggestions.find((s) => s.token === word && !s.known);
+            if (suggestion) {
+              return `<span key=${index} class="misspelled">${word}</span>`;
+            } else {
+              return `<span key=${index} class="correct">${word}</span>`;
+            }
+          })
+          .join('');
 
-      contentElement.innerHTML = parts;
+        contentElement.innerHTML = parts;
 
-      const misspelledElements = contentElement.querySelectorAll('.misspelled');
-      misspelledElements.forEach((element) => {
-        const word = element.textContent || '';
-        const eventHandler = (e: Event) => handleWordClick(word, e as MouseEvent | TouchEvent);
-        element.addEventListener('click', eventHandler);
-        element.addEventListener('touchstart', eventHandler);
-      });
-    }
-  }, [text, suggestions, handleWordClick]);
+        const misspelledElements = contentElement.querySelectorAll('.misspelled');
+        misspelledElements.forEach((element) => {
+          const word = element.textContent || '';
+          const eventHandler = (e: Event) => handleWordClick(word, e as MouseEvent | TouchEvent);
+          element.addEventListener('click', eventHandler);
+          element.addEventListener('touchstart', eventHandler);
+        });
+      }
+    },
+    [suggestions, handleWordClick],
+  );
 
   const applySuggestion = (suggestion: string) => {
     if (!selectedWord) return;
 
     const updatedText = text.replace(new RegExp(`\\b${selectedWord}\\b`, 'g'), suggestion);
-    setText(updatedText); 
+    setText(updatedText);
     setSelectedWord(null);
     renderHighlightedText(updatedText);
   };
@@ -154,23 +182,33 @@ const SpellChecker = (): React.ReactElement => {
           <div
             className="content-editable"
             contentEditable
-            ref={spellcheckRef}
             onInput={handleInput}
+            onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
+              if (event.code === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                handleSubmit();
+              }
+            }}
+            placeholder={t('Spell_Checking_Help')}
+            ref={spellcheckRef}
           />
         </Col>
       </Form.Group>
       <Form.Group className="row">
         <Col className="offset-md-2 col-md-10 offset-lg-1" md="10">
-          <Button onClick={() => renderHighlightedText(text)} type="submit" variant="primary">
+          <Button onClick={handleSubmit} type="submit" variant="primary">
             {t('Check')}
           </Button>
         </Col>
       </Form.Group>
       {selectedWord && suggestionPosition && (
-        <div className="suggestions" style={{ position: 'absolute', top: suggestionPosition.top, left: suggestionPosition.left }}>
+        <div
+          className="suggestions"
+          style={{ position: 'absolute', top: suggestionPosition.top, left: suggestionPosition.left }}
+        >
           {suggestions
             .find((s) => s.token === selectedWord)
-            ?.sugg.map(([sugg, _], index) => (
+            ?.sugg.map(([sugg], index) => (
               <div key={index} onClick={() => applySuggestion(sugg)}>
                 {sugg}
               </div>
@@ -181,35 +219,19 @@ const SpellChecker = (): React.ReactElement => {
   );
 };
 
+const SpellChecker = (): React.ReactElement => {
+  const [error, setError] = React.useState<Error | null>(null);
+  const [loading, setLoading] = React.useState(false);
+
+  return (
+    <>
+      <SpellCheckForm setError={setError} setLoading={setLoading} />
+      <main className={classNames({ blurred: loading })}>{error && <ErrorAlert error={error} />}</main>
+    </>
+  );
+};
+
+
 export default SpellChecker;
 
 
-
-
-const handleSubmit = () => {
-  if (text.trim().length === 0) {
-    return;
-  }
-
-  spellcheckResult.current?.cancel();
-  spellcheckResult.current = null;
-
-  void (async () => {
-    try {
-      trackEvent({ category: 'spellchecker', action: 'spellcheck', name: lang, value: text.length });
-      const [ref, request] = apyFetch('speller', { lang, q: text });
-      spellcheckResult.current = ref;
-      setSuggestions((await request).data as Array<Suggestion>);
-      setError(null);
-      spellcheckResult.current = null;
-
-      renderHighlightedText(text);
-
-    } catch (error) {
-      if (!axios.isCancel(error)) {
-        setSuggestions([]);
-        setError(error as Error);
-      }
-    }
-  })();
-};
