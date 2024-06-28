@@ -16,8 +16,6 @@ import ErrorAlert from '../ErrorAlert';
 import useLocalStorage from '../../util/useLocalStorage';
 import { useLocalization } from '../../util/localization';
 
-// import XRegExp from 'xregexp';
-
 interface Suggestion {
   token: string;
   known: boolean;
@@ -157,13 +155,13 @@ const SpellCheckForm = ({
   const applySuggestion = (suggestion: string) => {
     if (!selectedWord) return;
 
-    // const regex = XRegExp(`(^|\\s)${XRegExp.escape(selectedWord)}(?=\\s|$)`, 'g');
-    // const updatedText = XRegExp.replace(text, regex, `$1${suggestion}`);
+    const escapedSelectedWord = selectedWord.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+    const regex = new RegExp(`(^|\\s)${escapedSelectedWord}(?=\\s|$)`, 'gu');
+    const updatedText = text.replace(regex, (p1) => `${p1}${suggestion}`);
 
-    // setText(updatedText);
-
-    // setSelectedWord(null);
-    // renderHighlightedText(updatedText);
+    setText(updatedText);
+    setSelectedWord(null);
+    renderHighlightedText(updatedText);
   };
 
   return (
