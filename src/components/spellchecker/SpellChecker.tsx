@@ -41,7 +41,7 @@ const SpellCheckForm = ({
   const [suggestions, setSuggestions] = React.useState<Suggestion[]>([]);
   const [selectedWord, setSelectedWord] = React.useState<string | null>(null);
   const [suggestionPosition, setSuggestionPosition] = React.useState<{ top: number; left: number } | null>(null);
-
+  const initialRender = React.useRef<boolean>(true);
   const spellcheckRef = React.useRef<HTMLDivElement | null>(null);
   const spellcheckResult = React.useRef<CancelTokenSource | null>(null);
 
@@ -61,10 +61,6 @@ const SpellCheckForm = ({
     }
     history.replace({ search });
   }, [history, lang, text]);
-
-  React.useEffect(() => {
-    renderHighlightedText(text);
-  });
 
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
     setText(e.currentTarget.innerText);
@@ -117,6 +113,11 @@ const SpellCheckForm = ({
       });
     }
   }, []);
+
+  if (initialRender.current && spellcheckRef.current) {
+    spellcheckRef.current.textContent = text;
+    initialRender.current = false;
+  }
 
   const renderHighlightedText = React.useCallback(
     (text: string) => {
