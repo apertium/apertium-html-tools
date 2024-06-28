@@ -156,12 +156,13 @@ const SpellCheckForm = ({
   const applySuggestion = (suggestion: string) => {
     if (!selectedWord) return;
 
-    const escapedSelectedWord = selectedWord.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
-    const regex = new RegExp(`(^|\\s)${escapedSelectedWord}(?=\\s|$)`, 'gu');
-    const updatedText = text.replace(regex, (p1) => `${p1}${suggestion}`);
+    const escapedSelectedWord: string = selectedWord.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+    const regex = new RegExp(`(^|\\s)${escapedSelectedWord}(?=\\s|$|[.,!?;:])`, 'gu');
+    const updatedText = text.replace(regex, (match, p1: string) => `${p1}${suggestion}`);
 
     setText(updatedText);
     setSelectedWord(null);
+    console.log(updatedText);
     renderHighlightedText(updatedText);
   };
 
