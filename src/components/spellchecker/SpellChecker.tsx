@@ -1,18 +1,22 @@
+import './spellchecker.css';
 import * as React from 'react';
 import axios, { CancelTokenSource } from 'axios';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
-import { MaxURLLength, buildNewSearch, getUrlParam } from '../../util/url';
+
 import { APyContext } from '../../context';
-import classNames from 'classnames';
 import { toAlpha3Code } from '../../util/languages';
+
+import { MaxURLLength, buildNewSearch, getUrlParam } from '../../util/url';
+import ErrorAlert from '../ErrorAlert';
 import useLocalStorage from '../../util/useLocalStorage';
 import { useLocalization } from '../../util/localization';
-import './spellchecker.css';
-import ErrorAlert from '../ErrorAlert';
+
+// import XRegExp from 'xregexp';
 
 interface Suggestion {
   token: string;
@@ -62,7 +66,7 @@ const SpellCheckForm = ({
 
   React.useEffect(() => {
     renderHighlightedText(text);
-  }, []);
+  });
 
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
     setText(e.currentTarget.innerText);
@@ -153,10 +157,13 @@ const SpellCheckForm = ({
   const applySuggestion = (suggestion: string) => {
     if (!selectedWord) return;
 
-    const updatedText = text.replace(new RegExp(`\\b${selectedWord}\\b`, 'g'), suggestion);
-    setText(updatedText);
-    setSelectedWord(null);
-    renderHighlightedText(updatedText);
+    // const regex = XRegExp(`(^|\\s)${XRegExp.escape(selectedWord)}(?=\\s|$)`, 'g');
+    // const updatedText = XRegExp.replace(text, regex, `$1${suggestion}`);
+
+    // setText(updatedText);
+
+    // setSelectedWord(null);
+    // renderHighlightedText(updatedText);
   };
 
   return (
@@ -191,6 +198,8 @@ const SpellCheckForm = ({
             }}
             placeholder={t('Spell_Checking_Help')}
             ref={spellcheckRef}
+            role="textbox"
+            tabIndex={0}
           />
         </Col>
       </Form.Group>
@@ -209,7 +218,16 @@ const SpellCheckForm = ({
           {suggestions
             .find((s) => s.token === selectedWord)
             ?.sugg.map(([sugg], index) => (
-              <div key={index} onClick={() => applySuggestion(sugg)}>
+              <div
+                key={index}
+                onClick={() => applySuggestion(sugg)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    applySuggestion(sugg);
+                  }
+                }}
+                role="presentation"
+              >
                 {sugg}
               </div>
             ))}
@@ -231,7 +249,4 @@ const SpellChecker = (): React.ReactElement => {
   );
 };
 
-
 export default SpellChecker;
-
-
