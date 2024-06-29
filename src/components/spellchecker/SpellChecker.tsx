@@ -41,6 +41,7 @@ const SpellCheckForm = ({
   const [suggestions, setSuggestions] = React.useState<Suggestion[]>([]);
   const [selectedWord, setSelectedWord] = React.useState<string | null>(null);
   const [suggestionPosition, setSuggestionPosition] = React.useState<{ top: number; left: number } | null>(null);
+
   const initialRender = React.useRef<boolean>(true);
   const spellcheckRef = React.useRef<HTMLDivElement | null>(null);
   const spellcheckResult = React.useRef<CancelTokenSource | null>(null);
@@ -114,6 +115,69 @@ const SpellCheckForm = ({
     }
   }, []);
 
+  function saveCaretPosition(editableDiv: HTMLElement): { start: number; end: number } | null {
+    if (window.getSelection) {
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount > 0) {
+        const range = sel.getRangeAt(0);
+        const preCaretRange = range.cloneRange();
+        preCaretRange.selectNodeContents(editableDiv);
+        preCaretRange.setEnd(range.startContainer, range.startOffset);
+        const start = preCaretRange.toString().length;
+        const end = start + range.toString().length;
+        return { start, end };
+      }
+    }
+    return null;
+  }
+
+  function restoreCaretPosition(editableDiv: HTMLElement, savedSel: { start: number; end: number } | null) {
+    if (savedSel) {
+      const charIndex = { count: 0 };
+      const range = document.createRange();
+      range.setStart(editableDiv, 0);
+      range.collapse(true);
+
+      const nodeStack: (ChildNode | HTMLElement)[] = [editableDiv];
+      let node: ChildNode | null = null;
+      let foundStart = false;
+      let stop = false;
+
+      while (!stop && (node = nodeStack.pop() || null)) {
+        if (node.nodeType === 3) {
+          // Text node
+          const textContent = node.textContent || '';
+          const nextCharIndex = charIndex.count + textContent.length;
+
+          if (!foundStart && savedSel.start >= charIndex.count && savedSel.start <= nextCharIndex) {
+            range.setStart(node, savedSel.start - charIndex.count);
+            foundStart = true;
+          }
+
+          if (foundStart && savedSel.end >= charIndex.count && savedSel.end <= nextCharIndex) {
+            range.setEnd(node, savedSel.end - charIndex.count);
+            stop = true;
+          }
+
+          charIndex.count = nextCharIndex;
+        } else {
+          const elementNode = node as HTMLElement;
+          let i = elementNode.childNodes.length;
+
+          while (i--) {
+            nodeStack.push(elementNode.childNodes[i]);
+          }
+        }
+      }
+
+      const sel = window.getSelection();
+      if (sel) {
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    }
+  }
+
   if (initialRender.current && spellcheckRef.current) {
     spellcheckRef.current.textContent = text;
     initialRender.current = false;
@@ -127,6 +191,7 @@ const SpellCheckForm = ({
 
       const contentElement = spellcheckRef.current;
       if (contentElement instanceof HTMLElement) {
+        const savedSelection = saveCaretPosition(contentElement);
         const parts = text
           .split(/(\s+)/)
           .map((word, index) => {
@@ -140,7 +205,6 @@ const SpellCheckForm = ({
           .join('');
 
         contentElement.innerHTML = parts;
-
         const misspelledElements = contentElement.querySelectorAll('.misspelled');
         misspelledElements.forEach((element) => {
           const word = element.textContent || '';
@@ -148,6 +212,7 @@ const SpellCheckForm = ({
           element.addEventListener('click', eventHandler);
           element.addEventListener('touchstart', eventHandler);
         });
+        restoreCaretPosition(contentElement, savedSelection);
       }
     },
     [suggestions, handleWordClick],
@@ -194,6 +259,9 @@ const SpellCheckForm = ({
               if (event.code === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
                 handleSubmit();
+              } 
+              else if (event.code === 'Tab' || event.code === ' ') {
+                event.preventDefault();
               }
             }}
             placeholder={t('Spell_Checking_Help')}
