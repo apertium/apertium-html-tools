@@ -66,12 +66,13 @@ const Plugin = {
 
     let defaultStrings: unknown;
 
-    let pairsResponse, analyzersResponse, generatorsResponse;
+    let pairsResponse, analyzersResponse, generatorsResponse, spellerResponse;
     try {
-      [pairsResponse, analyzersResponse, generatorsResponse] = await Promise.all([
+      [pairsResponse, analyzersResponse, generatorsResponse, spellerResponse] = await Promise.all([
         apyGet('list', {}),
         apyGet('list', { q: 'analyzers' }),
         apyGet('list', { q: 'generators' }),
+        apyGet('list', { q: 'spellers' }),
       ]);
     } catch (error) {
       let message = new String(error).toString();
@@ -104,6 +105,9 @@ const Plugin = {
     const generators = Object.fromEntries(
       Object.entries(generatorsResponse.data as Record<string, string>).filter(([code]) => allowedLang(code)),
     );
+    const spellers = Object.fromEntries(
+      Object.entries(spellerResponse.data as Record<string, string>).filter(([code]) => allowedLang(code)),
+    );
 
     let pairPrefs = {};
     try {
@@ -116,6 +120,7 @@ const Plugin = {
       ...pairs.flatMap(({ sourceLanguage, targetLanguage }) => [sourceLanguage, targetLanguage]),
       ...Object.keys(analyzers),
       ...Object.keys(generators),
+      ...Object.keys(spellers),
       ...Object.keys(languages),
       ...Object.keys(locales),
     ].filter(Boolean);
@@ -170,6 +175,7 @@ const Plugin = {
       'window.PAIR_PREFS': JSON.stringify(pairPrefs),
       'window.ANALYZERS': JSON.stringify(analyzers),
       'window.GENERATORS': JSON.stringify(generators),
+      'window.SPELLERS': JSON.stringify(spellers),
       ...initialOptions.define,
     };
 
