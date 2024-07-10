@@ -57,7 +57,7 @@ const AnalysisResult = ({
             const matches = unit.match(unitRegex);
 
             if (matches && matches.length > 2) {
-				      matches.filter((m) => m.length > 0).forEach((match, n) => {
+	            matches.filter((m) => m.length > 0).forEach((match, n) => {
                 const width = 30 * n;
                 morphemes.push(
                   <div key={`joined-${i}-${n}`} style={{ marginLeft: `${width}px` }}>
