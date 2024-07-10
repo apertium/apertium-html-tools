@@ -328,7 +328,7 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
                         </LinkContainer>
                       </Col>
                       <Col
-                        className="form-check d-flex flex-column align-items-end justify-content-start w-auto"
+                        className="form-check d-flex flex-column align-items-end justify-content-start"
                         md="6"
                         xs="12"
                       >
