@@ -19,7 +19,7 @@ import { useLocalization } from '../../util/localization';
 interface Suggestion {
   token: string;
   known: boolean;
-  sugg: Array<[string, number]>;
+  sugg: Array<string>;
 }
 
 // eslint-disable-next-line
@@ -64,7 +64,8 @@ const SpellCheckForm = ({
   }, [history, lang, text]);
 
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
-    setText(e.currentTarget.innerText);
+    const plainText = e.currentTarget.innerText;
+    setText(plainText.replace(/<\/?[^>]+(>|$)/g, '')); // Strip away any HTML tags
   };
 
   const handleSubmit = () => {
@@ -78,13 +79,13 @@ const SpellCheckForm = ({
     void (async () => {
       try {
         trackEvent({ category: 'spellchecker', action: 'spellcheck', name: lang, value: text.length });
-        const [ref, request] = apyFetch('speller', { lang, q: text });
+        const [ref, request] = apyFetch('speller/voikko', { lang, q: text });
         spellcheckResult.current = ref;
-        setSuggestions((await request).data as Array<Suggestion>);
+        const data = (await request).data as Array<Suggestion>;
+        setSuggestions(data);
+        renderHighlightedText(text, data);
         setError(null);
         spellcheckResult.current = null;
-
-        renderHighlightedText(text);
         setLoading(false);
       } catch (error) {
         if (!axios.isCancel(error)) {
@@ -183,40 +184,38 @@ const SpellCheckForm = ({
     initialRender.current = false;
   }
 
-  const renderHighlightedText = React.useCallback(
-    (text: string) => {
-      if (text.trim().length === 0) {
-        return;
-      }
+  const renderHighlightedText = (text: string, suggestions: Suggestion[]) => {
+    if (text.trim().length === 0) {
+      return;
+    }
 
-      const contentElement = spellcheckRef.current;
-      if (contentElement instanceof HTMLElement) {
-        const savedSelection = saveCaretPosition(contentElement);
-        const parts = text
-          .split(/(\s+)/)
-          .map((word, index) => {
-            const suggestion = suggestions.find((s) => s.token === word && !s.known);
-            if (suggestion) {
-              return `<span key=${index} class="misspelled">${word}</span>`;
-            } else {
-              return `<span key=${index} class="correct">${word}</span>`;
-            }
-          })
-          .join('');
+    const contentElement = spellcheckRef.current;
+    if (contentElement instanceof HTMLElement) {
+      const savedSelection = saveCaretPosition(contentElement);
 
-        contentElement.innerHTML = parts;
-        const misspelledElements = contentElement.querySelectorAll('.misspelled');
-        misspelledElements.forEach((element) => {
-          const word = element.textContent || '';
-          const eventHandler = (e: Event) => handleWordClick(word, e as MouseEvent | TouchEvent);
-          element.addEventListener('click', eventHandler);
-          element.addEventListener('touchstart', eventHandler);
-        });
-        restoreCaretPosition(contentElement, savedSelection);
-      }
-    },
-    [suggestions, handleWordClick],
-  );
+      const parts = text
+        .split(/(\s+)/)
+        .map((word, index) => {
+          const suggestion = suggestions.find((s) => s.token === word && !s.known);
+          if (suggestion) {
+            return `<span key=${index} class="misspelled">${word}</span>`;
+          } else {
+            return `<span key=${index} class="correct">${word}</span>`;
+          }
+        })
+        .join('');
+
+      contentElement.innerHTML = parts;
+      const misspelledElements = contentElement.querySelectorAll('.misspelled');
+      misspelledElements.forEach((element) => {
+        const word = element.textContent || '';
+        const eventHandler = (e: Event) => handleWordClick(word, e as MouseEvent | TouchEvent);
+        element.addEventListener('click', eventHandler);
+        element.addEventListener('touchstart', eventHandler);
+      });
+      restoreCaretPosition(contentElement, savedSelection);
+    }
+  };
 
   const applySuggestion = (suggestion: string) => {
     if (!selectedWord) return;
@@ -227,8 +226,8 @@ const SpellCheckForm = ({
 
     setText(updatedText);
     setSelectedWord(null);
-    console.log(updatedText);
-    renderHighlightedText(updatedText);
+    setSuggestionPosition(null);
+    renderHighlightedText(updatedText, suggestions);
   };
 
   return (
@@ -252,6 +251,7 @@ const SpellCheckForm = ({
         <Form.Label className="col-md-2 col-lg-1 col-form-label text-md-right">{t('Input_Text')}</Form.Label>
         <Col md="10">
           <div
+            aria-label="Enter text for spell checking"
             className="content-editable"
             contentEditable
             onInput={handleInput}
@@ -259,12 +259,8 @@ const SpellCheckForm = ({
               if (event.code === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
                 handleSubmit();
-              } 
-              else if (event.code === 'Tab' || event.code === ' ') {
-                event.preventDefault();
               }
             }}
-            placeholder={t('Spell_Checking_Help')}
             ref={spellcheckRef}
             role="textbox"
             tabIndex={0}
@@ -285,18 +281,19 @@ const SpellCheckForm = ({
         >
           {suggestions
             .find((s) => s.token === selectedWord)
-            ?.sugg.map(([sugg], index) => (
+            ?.sugg.map((suggestion, index) => (
               <div
+                className="suggestion"
                 key={index}
-                onClick={() => applySuggestion(sugg)}
+                onClick={() => applySuggestion(suggestion)}
                 onKeyDown={(event) => {
                   if (event.key === 'Enter') {
-                    applySuggestion(sugg);
+                    applySuggestion(suggestion);
                   }
                 }}
                 role="presentation"
               >
-                {sugg}
+                {suggestion}
               </div>
             ))}
         </div>
