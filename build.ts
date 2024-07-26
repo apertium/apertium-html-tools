@@ -72,7 +72,7 @@ const Plugin = {
         apyGet('list', {}),
         apyGet('list', { q: 'analyzers' }),
         apyGet('list', { q: 'generators' }),
-        apyGet('list', { q: 'spellers' }),
+        apyGet('list', { q: 'voikko_modes' }),
       ]);
     } catch (error) {
       let message = new String(error).toString();
