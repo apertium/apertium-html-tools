@@ -79,7 +79,7 @@ const SpellCheckForm = ({
     void (async () => {
       try {
         trackEvent({ category: 'spellchecker', action: 'spellcheck', name: lang, value: text.length });
-        const [ref, request] = apyFetch('speller/voikko', { lang, q: text });
+        const [ref, request] = apyFetch('spellCheck', { lang, q: text });
         spellcheckResult.current = ref;
         const data = (await request).data as Array<Suggestion>;
         setSuggestions(data);

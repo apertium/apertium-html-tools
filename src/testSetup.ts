@@ -33,7 +33,7 @@ defaultStrings['Maintainer'] = '{{maintainer}}-Default';
 (window as any).GENERATORS = { eng: 'eng-gener', spa: 'spa-gener' };
 
 // eslint-disable-next-line
-(window as any).SPELLERS = { hin: 'hin-spell', kaz: 'kaz-spell' };
+(window as any).SPELLERS = { kaz: 'kaz-spell', hin: 'hin-spell' };
 
 process.on('unhandledRejection', (err) => {
   // eslint-disable-next-line jest/no-jasmine-globals
