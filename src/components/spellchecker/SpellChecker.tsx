@@ -85,11 +85,15 @@ const SpellCheckForm = ({
         setSuggestions(data);
         renderHighlightedText(text, data);
         setError(null);
+        setSelectedWord(null);
+        setSuggestionPosition(null);
         spellcheckResult.current = null;
         setLoading(false);
       } catch (error) {
         if (!axios.isCancel(error)) {
           setSuggestions([]);
+          setSelectedWord(null);
+          setSuggestionPosition(null);
           setError(error as Error);
           setLoading(false);
         }
@@ -274,19 +278,19 @@ const SpellCheckForm = ({
           </Button>
         </Col>
       </Form.Group>
-      {selectedWord && suggestionPosition && (
+      {selectedWord && suggestionPosition && suggestions.some((s) => s.token === selectedWord && s.sugg.length > 0) && (
         <div
           className="suggestions"
           style={{ position: 'absolute', top: suggestionPosition.top, left: suggestionPosition.left }}
         >
           {suggestions
             .find((s) => s.token === selectedWord)
-            ?.sugg.map((suggestion, index) => (
+            ?.sugg?.map((suggestion, index) => (
               <div
                 className="suggestion"
                 key={index}
                 onClick={() => applySuggestion(suggestion)}
-                onKeyDown={(event) => {
+                onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
                   if (event.key === 'Enter') {
                     applySuggestion(suggestion);
                   }
