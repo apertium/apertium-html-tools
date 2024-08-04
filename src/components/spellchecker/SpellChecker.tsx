@@ -27,6 +27,9 @@ const Spellers: Readonly<Record<string, string>> = (window as any).SPELLERS;
 
 const langUrlParam = 'lang';
 const textUrlParam = 'q';
+
+const isKeyUpEvent = (event: React.SyntheticEvent): event is React.KeyboardEvent => event.type === 'keyup';
+
 const SpellCheckForm = ({
   setLoading,
   setError,
@@ -45,6 +48,10 @@ const SpellCheckForm = ({
   const initialRender = React.useRef<boolean>(true);
   const spellcheckRef = React.useRef<HTMLDivElement | null>(null);
   const spellcheckResult = React.useRef<CancelTokenSource | null>(null);
+  const spellCheckTimer = React.useRef<number | null>(null);
+
+  const instantSpellCheck = true;
+  const instantSpellCheckDelay = 3000;
 
   const [lang, setLang] = useLocalStorage('spellerLang', Object.keys(Spellers)[0], {
     overrideValue: toAlpha3Code(getUrlParam(history.location.search, langUrlParam)),
@@ -99,6 +106,23 @@ const SpellCheckForm = ({
         }
       }
     })();
+  };
+
+  const handleInstantSpellCheck = (
+    event: React.KeyboardEvent<HTMLDivElement> | React.ClipboardEvent<HTMLDivElement>,
+  ) => {
+    if (isKeyUpEvent(event) && (event.code === 'Space' || event.code === 'Enter')) {
+      return;
+    }
+
+    if (spellCheckTimer.current && instantSpellCheck) {
+      clearTimeout(spellCheckTimer.current);
+    }
+    spellCheckTimer.current = window.setTimeout(() => {
+      if (spellCheckTimer) {
+        handleSubmit();
+      }
+    }, instantSpellCheckDelay);
   };
 
   const handleWordClick = React.useCallback((word: string, event: MouseEvent | TouchEvent) => {
@@ -265,6 +289,7 @@ const SpellCheckForm = ({
                 handleSubmit();
               }
             }}
+            onKeyUp={handleInstantSpellCheck}
             ref={spellcheckRef}
             role="textbox"
             tabIndex={0}
