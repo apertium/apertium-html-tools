@@ -9,6 +9,8 @@ APY_URL = https://www.apertium.org/apy
 ALLOWED_LANGS =
 ALLOWED_VARIANTS = BR, aran, valencia
 
+ENHANCE_LANGS = nob, nno
+
 # Available modes are currently 'translation', 'analyzation', 'generation', 'sandbox'
 ENABLED_MODES = translation
 DEFAULT_MODE = translation

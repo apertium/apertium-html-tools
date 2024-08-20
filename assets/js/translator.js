@@ -71,6 +71,7 @@ if(modeEnabled('translation')) {
             localizeInterface();
             translateText();
             autoSelectDstLang();
+            hideshowEnhance();
         });
 
         $('.dstLang').click(function () {
@@ -81,6 +82,7 @@ if(modeEnabled('translation')) {
             muteLanguages();
             localizeInterface();
             translateText();
+            hideshowEnhance();
         });
 
         $('button#translate').click(function () {
@@ -201,6 +203,7 @@ if(modeEnabled('translation')) {
 
             refreshLangList(true);
             muteLanguages();
+            hideshowEnhance();
 
             if($('.active > #detectedText')) {
                 $('.srcLang').removeClass('active');
@@ -415,6 +418,11 @@ function handleNewCurrentLang(lang, recentLangs, langType, resetDetect, noTransl
     if(!noTranslate) {
         translate();
     }
+}
+
+function hideshowEnhance() {
+    const btn = $('button#enhance');
+    config.ENHANCE_LANGS.find(l => l===curDstLang) ? btn.show() : btn.hide();
 }
 
 function refreshLangList(resetDetect) {

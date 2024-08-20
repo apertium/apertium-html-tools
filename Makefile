@@ -236,7 +236,7 @@ reload-firefox:
 		xdotool windowfocus "$${curwin}"
 
 watch:
-	git ls-files | entr -rc sh -c 'make -j32 && (sleep 1; make reload-firefox)& (cd build/; python -m SimpleHTTPServer 8000)'
+	git ls-files | entr -rc sh -c 'make -j32 && (sleep 1; make reload-firefox)& (cd build/; python3 -m http.server 8082)'
 
 
 ### Clean ###
