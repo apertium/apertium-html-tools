@@ -19,7 +19,7 @@ jobs:
       - name: Build
         run: yarn build --prod
       - name: Upload build
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist/
