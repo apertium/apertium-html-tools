@@ -14,6 +14,8 @@ var UPLOAD_FILE_SIZE_LIMIT = 32E6,
     TRANSLATION_LIST_ROWS = 8,
     TRANSLATION_LIST_COLUMNS = 4;
 
+var ERROR_FEEDBACK_ENABLED = false;
+
 /* exported getPairs */
 
 if(modeEnabled('translation')) {
@@ -160,9 +162,11 @@ if(modeEnabled('translation')) {
             translateText();
         });
 
-        $('#translatedText')
-            .bind('mousedown', onTranslatedPreSelection)
-            .bind('mouseup', onTranslatedSelection);
+        if(ERROR_FEEDBACK_ENABLED) {
+            $('#translatedText')
+                .bind('mousedown', onTranslatedPreSelection)
+                .bind('mouseup', onTranslatedSelection);
+        }
 
         $('.clearButton').click(function () {
             $('#originalText').val('');
@@ -911,9 +915,11 @@ function translateWebpage() {
                             console.log("Intercepted Drupal Redirect to " + this.href);
                             window.parent.translateLink(this.href);
                         };
-                        $('#translatedWebpage').contents().find('body')
-                            .bind('mousedown', onTranslatedPreSelection)
-                            .bind('mouseup', onTranslatedSelection);
+                        if(ERROR_FEEDBACK_ENABLED) {
+                            $('#translatedWebpage').contents().find('body')
+                                .bind('mousedown', onTranslatedPreSelection)
+                                .bind('mouseup', onTranslatedSelection);
+                        }
                     });
                 }
                 else {
