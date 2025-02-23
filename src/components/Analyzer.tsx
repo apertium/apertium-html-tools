@@ -53,34 +53,24 @@ const AnalysisResult = ({
           const splitUnit = unit.split('/');
 
           const morphemes: Array<React.ReactElement> = [];
-          const joinedMorphemes: Record<string, Array<string>> = {};
           splitUnit.slice(1).forEach((unit, i) => {
             const matches = unit.match(unitRegex);
 
             if (matches && matches.length > 2) {
-              matches.slice(1, matches.length - 1).forEach((match) => {
-                if (joinedMorphemes[match]) {
-                  joinedMorphemes[match].push(unit);
-                } else {
-                  joinedMorphemes[match] = [unit];
-                }
-              });
+              matches
+                .filter((m) => m.length > 0)
+                .forEach((match, n) => {
+                  const subreadingIndent = 30;
+                  const width = subreadingIndent * n;
+                  morphemes.push(
+                    <div key={`joined-${i}-${n}`} style={{ marginLeft: `${width}px` }}>
+                      {formatUnit(match)}
+                    </div>,
+                  );
+                });
             } else {
               morphemes.push(<div key={`split-${i}`}>{formatUnit(unit)}</div>);
             }
-          });
-          Object.entries(joinedMorphemes).forEach(([joinedMorpheme, units], i) => {
-            morphemes.push(<div key={`joined-${i}`}>{formatUnit(joinedMorpheme)}</div>);
-            units.forEach((unit, j) => {
-              const unitMatch = unit.match(unitRegex);
-              if (unitMatch) {
-                morphemes.push(
-                  <div key={`joined-unitt-${j}`} style={{ marginLeft: '30px' }}>
-                    {formatUnit(unitMatch[0])}
-                  </div>,
-                );
-              }
-            });
           });
 
           return (
