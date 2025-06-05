@@ -28,6 +28,7 @@ export type Props = {
   tgtLang: string;
   setTgtLang: (code: string) => void;
   recentTgtLangs: Array<string>;
+  swapLangs?: () => void;
 
   detectLangEnabled: boolean;
   detectedLang: string | null;
@@ -37,7 +38,6 @@ export type Props = {
 type SharedProps = Props & {
   srcLangs: NamedLangs;
   tgtLangs: NamedLangs;
-  swapLangs?: () => void;
   detectingLang: boolean;
   setDetectingLang: (detecting: boolean) => void;
   onDetectLang: () => void;
@@ -423,18 +423,7 @@ const DesktopLanguageSelector = ({
 };
 
 const LanguageSelector = (props: Props): React.ReactElement => {
-  const { pairs, srcLang, setSrcLang, recentSrcLangs, setRecentSrcLangs, tgtLang, setTgtLang, setDetectedLang } = props;
-
-  const swapLangs = React.useMemo(
-    () =>
-      isPair(pairs, tgtLang, srcLang)
-        ? () => {
-            setSrcLang(tgtLang);
-            setTgtLang(srcLang);
-          }
-        : undefined,
-    [pairs, setSrcLang, setTgtLang, srcLang, tgtLang],
-  );
+  const { pairs, srcLang, setSrcLang, recentSrcLangs, setRecentSrcLangs, setDetectedLang, swapLangs } = props;
 
   const [detectingLang, setDetectingLang] = React.useState(false);
 
