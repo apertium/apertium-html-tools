@@ -228,6 +228,7 @@ const LangsDropdown = ({
         </button>,
       );
     }
+
     langCols.push(
       <div className="language-name-col" key={i} style={{ width: `${100.0 / numCols}%` }}>
         {langElems}
