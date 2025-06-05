@@ -2,15 +2,17 @@ import './footer.css';
 
 import * as React from 'react';
 import { faBook, faDownload, faEnvelope, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ModalProps } from 'react-bootstrap/Modal';
 import Nav from 'react-bootstrap/Nav';
+import { useHistory } from 'react-router-dom';
 
 import AboutModal from './AboutModal';
 import ContactModal from './ContactModal';
 import DocumentationModal from './DocumentationModal';
 import DownloadModal from './DownloadModal';
+import { TextContext } from '../../context';
+import { getUrlParam } from '../../util/url';
 import { useLocalization } from '../../util/localization';
 
 // eslint-disable-next-line
@@ -73,7 +75,7 @@ const FooterNav_ = ({
   );
 };
 const FooterNav = React.memo(FooterNav_);
-
+const textUrlParam = 'dir';
 const Footer = ({
   wrapRef,
   pushRef,
@@ -82,6 +84,9 @@ const Footer = ({
   pushRef: React.RefObject<HTMLElement>;
 }): React.ReactElement => {
   const { t } = useLocalization();
+  const history = useHistory();
+  const languagePair = getUrlParam(history.location.search, textUrlParam);
+  const { srcText, tgtText } = React.useContext(TextContext);
 
   const [openTab, setOpenTab] = React.useState<Tab | undefined>(undefined);
 
@@ -111,18 +116,19 @@ const Footer = ({
             <div className="mb-4 d-flex flex-column">
               <div className="card d-inline-block bg-light p-2">
                 <span>{t('Notice_Mistake')}</span>{' '}
-                <Button className="p-0" onClick={() => setOpenTab(Tab.About)} tabIndex={0} variant="link">
-                  {t('Help_Improve')}
-                </Button>
+                <a
+                  className="p-0"
+                  href={`https://github.com/apertium/apertium-${
+                    languagePair ?? 'default'
+                  }/issues/new?title=Suggested+translation+improvement&body=SOURCE: ${srcText}%0A%0AGOT: ${tgtText}%0A%0AEXPECTED: %20%5BYOUR%20TRANSLATION%20SUGGESTION%20GOES%20HERE%5D`}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {t('Help_Improve')}{' '}
+                </a>
               </div>
-              <a
-                className="text-muted d-lg-block version align-self-end font-weigth-bold"
-                href="https://github.com/apertium/apertium-html-tools"
-                rel="noreferrer"
-                target="_blank"
-              >
-                <small>{version}</small>
-              </a>
+
+              <small className="text-muted d-none d-lg-block version align-self-end">{version}</small>
             </div>
           </div>
         </div>

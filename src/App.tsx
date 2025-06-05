@@ -12,6 +12,7 @@ import { ConfigContext, LocaleContext, StringsContext } from './context';
 import { PRELOADED_STRINGS, Strings, tt } from './util/localization';
 import { langDirection, toAlpha2Code } from './util/languages';
 import { Mode } from './types';
+import { TextProvider } from './util/initialTextValues';
 
 import Analyzer from './components/Analyzer';
 import { Path as DocTranslationPath } from './components/translator/DocTranslationForm';
@@ -23,6 +24,7 @@ import Sandbox from './components/Sandbox';
 import Translator from './components/translator/Translator';
 import { Mode as TranslatorMode } from './components/translator';
 import { Path as WebpageTranslationPath } from './components/translator/WebpageTranslationForm';
+
 import WithInstallationAlert from './components/WithInstallationAlert';
 import WithLocale from './components/WithLocale';
 
@@ -96,44 +98,46 @@ const App = ({ setLocale }: { setLocale: React.Dispatch<React.SetStateAction<str
     <MatomoProvider value={matomoInstance}>
       <StringsContext.Provider value={strings}>
         <WithInstallationAlert>
-          <div
-            ref={wrapRef}
-            style={{
-              height: 'auto !important',
-              margin: '0 auto -60px',
-              minHeight: '99.5%',
-            }}
-          >
-            <Navbar setLocale={setLocale} />
-            <Container>
-              {Object.values(Mode).map(
-                (mode) =>
-                  enabledModes.has(mode) && (
-                    <Route
-                      component={Interfaces[mode]}
-                      exact
-                      key={mode}
-                      path={mode === defaultMode ? ['/', `/${mode}`] : `/${mode}`}
-                    />
-                  ),
-              )}
-              {enabledModes.has(Mode.Translation) && (
-                <>
-                  <Route exact path={DocTranslationPath}>
-                    <Translator mode={TranslatorMode.Document} />
-                  </Route>
-                  <Route exact path={WebpageTranslationPath}>
-                    <Translator mode={TranslatorMode.Webpage} />
-                  </Route>
-                </>
-              )}
-              <div className="d-block d-sm-none float-left my-2">
-                <LocaleSelector setLocale={setLocale} />
-              </div>
-            </Container>
-            <div ref={pushRef} style={{ height: '60px' }} />
-          </div>
-          <Footer pushRef={pushRef} wrapRef={wrapRef} />
+          <TextProvider>
+            <div
+              ref={wrapRef}
+              style={{
+                height: 'auto !important',
+                margin: '0 auto -60px',
+                minHeight: '99.5%',
+              }}
+            >
+              <Navbar setLocale={setLocale} />
+              <Container>
+                {Object.values(Mode).map(
+                  (mode) =>
+                    enabledModes.has(mode) && (
+                      <Route
+                        component={Interfaces[mode]}
+                        exact
+                        key={mode}
+                        path={mode === defaultMode ? ['/', `/${mode}`] : `/${mode}`}
+                      />
+                    ),
+                )}
+                {enabledModes.has(Mode.Translation) && (
+                  <>
+                    <Route exact path={DocTranslationPath}>
+                      <Translator mode={TranslatorMode.Document} />
+                    </Route>
+                    <Route exact path={WebpageTranslationPath}>
+                      <Translator mode={TranslatorMode.Webpage} />
+                    </Route>
+                  </>
+                )}
+                <div className="d-block d-sm-none float-left my-2">
+                  <LocaleSelector setLocale={setLocale} />
+                </div>
+              </Container>
+              <div ref={pushRef} style={{ height: '60px' }} />
+            </div>
+            <Footer pushRef={pushRef} wrapRef={wrapRef} />
+          </TextProvider>
         </WithInstallationAlert>
       </StringsContext.Provider>
     </MatomoProvider>
