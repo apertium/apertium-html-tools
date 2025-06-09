@@ -9,16 +9,16 @@
             "fi",
             "fin"
         ],
-        "completion": " 97%  94.65%",
+        "completion": " 95%  93.59%",
         "missing": [
             "Apertium_Documentation",
+            "More_Languages",
             "Norm_Preferences"
         ]
     },
     "title": "Apertium – Vapaa konekäännösalusta",
     "tagline": "Vapaa avoimen lähdekoodin konekäännösalusta",
     "description": "Apertium on sääntöpohjainen konekäännösalusta. Se on vapaata lähdekoodia ja julkaistu GNU:N GPL-lisenssillä.",
-    "Apertium_Documentation": "%%UNAVAILABLE%% Apertium Documentation",
     "Translation": "Käännös",
     "Translation_Help": "Kirjoita tekstiä tai verkko-osoite käännettäväksi.",
     "Translate": "Käännä",
@@ -58,7 +58,6 @@
     "About": "Tietoja",
     "Download": "Lataa",
     "Contact": "Yhteystiedot",
-    "Norm_Preferences": "%%UNAVAILABLE%% Style preferences",
     "Documentation": "Ohjeet",
     "About_Apertium": "Tietoja Apertiumista",
     "What_Is_Apertium": "<p>Apertium on <b>vapaa avoimen lähdekoodin konekäännösalusta</b>. Alunperin Apertium tehtiin lähisukukielien käännökseen, mutta sitä on myöhemmin laajennettu etäisemmille kielipareille (esim. englanti-katalaani). Alusta sisältää:</p> <ol> <li>kieliriippumattoman konekäännösenginen</li> <li>työkaluja sellaisen lingvistisen datan hallintaan jota tarvitaan konekäännöksessä, ja</li> <li>lingvististä dataa kasvavalle joukolle kieliä</li> </ol> <p>Apertium kannustaa uusien kehittäjien osanottoa, jos voit auttaa enginen tai työkalujen kehityksessä tai kerryttää lingvististä dataa, voit <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>lähettää viestin meille</a>.</p>",
