@@ -11,16 +11,16 @@
             "fr",
             "fra"
         ],
-        "completion": " 97% 109.78%",
+        "completion": " 95% 108.54%",
         "missing": [
             "Apertium_Documentation",
+            "More_Languages",
             "Norm_Preferences"
         ]
     },
     "title": "Apertium | Une plateforme libre/open source de traduction automatique",
     "tagline": "Une plateforme libre/open source de traduction automatique",
     "description": "Apertium est une plateforme de traduction automatique basée sur des règles. C'est un logiciel libre distribué selon les termes de la licence GNU GPL.",
-    "Apertium_Documentation": "%%UNAVAILABLE%% Apertium Documentation",
     "Translation": "Traduction",
     "Translation_Help": "Entrez un texte ou un URL pour le traduire.",
     "Translate": "Traduire",
@@ -60,7 +60,6 @@
     "About": "À propos",
     "Download": "Télécharger",
     "Contact": "Contact",
-    "Norm_Preferences": "%%UNAVAILABLE%% Style preferences",
     "Documentation": "Documentation",
     "About_Apertium": "À propos d'Apertium",
     "What_Is_Apertium": "<p>Apertium est <b>une plateforme de traduction automatique libre/open source</b>, conçue à l'origine pour des paires de langues proches, puis s'est étendue à des paires de langues plus éloignées comme la paire anglais-catalan. La plateforme fournit : </p> <ol> <li>un moteur de traduction automatique qui ne dépend pas d'une quelconque langue</li> <li>des outils linguistiques pour gérer les données nécessaires à la réalisation d'un système de traduction automatique pour une paire de langues donnée</li><li>des données linguistiques pour un nombre croissant de paires de langues.</li> </ol> <p>Apertium apprécie l'arrivée de nouveaux développeurs : si vous estimez que vous pouvez améliorez le moteur, les outils ou les données linguistiques, n'hésitez pas à <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>prendre contact avec nous</a>.</p>",
