@@ -107,6 +107,18 @@ const NavbarNav: React.ComponentType = (props: NavProps) => {
           </LinkContainer>
         </Nav.Item>
       )}
+      {enabledModes.has(Mode.SpellChecker) && (
+        <Nav.Item as="li">
+          <LinkContainer
+            isActive={(_, { pathname }) =>
+              pathname === '/spellchecker' || (pathname === '/' && defaultMode === Mode.SpellChecker)
+            }
+            to={'/spellchecker'}
+          >
+            <Nav.Link>{t('Spell_Check')}</Nav.Link>
+          </LinkContainer>
+        </Nav.Item>
+      )}
     </Nav>
   );
 };

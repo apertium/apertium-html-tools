@@ -1,0 +1,36 @@
+.content-editable {
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-height: 150px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.misspelled {
+  text-decoration: underline wavy red;
+  cursor: pointer;
+}
+
+.suggestions {
+  text-align: center;
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  max-height: 150px;
+  overflow-y: auto;
+  white-space: nowrap;
+  width: auto;
+  padding: 5px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+}
+
+.suggestions div {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.suggestions div:hover {
+  background-color: #f0f0f0;
+}

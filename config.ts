@@ -6,7 +6,7 @@ export default {
   apyURL: 'https://beta.apertium.org/apy',
 
   defaultMode: Mode.Translation,
-  enabledModes: new Set([Mode.Translation, Mode.Analysis, Mode.Generation, Mode.Sandbox]),
+  enabledModes: new Set([Mode.Translation, Mode.Analysis, Mode.Generation, Mode.Sandbox, Mode.SpellChecker]),
   translationChaining: true,
 
   subtitle: 'Beta',
