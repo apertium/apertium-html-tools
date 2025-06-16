@@ -7,16 +7,16 @@
         "locale": [
             "szl"
         ],
-        "completion": " 97% 101.22%",
+        "completion": " 95% 100.09%",
         "missing": [
             "Apertium_Documentation",
+            "More_Languages",
             "Norm_Preferences"
         ]
     },
     "title": "Apertium | Darmowŏ platforma przekładu maszinowego ze ôtwartym zdrzōdłym",
     "tagline": "Darmowŏ platforma przekładu maszinowego ze ôtwartym zdrzōdłym",
     "description": "Apertium to je platforma maszinowego przekładu, co bazuje na prawidłach. To je darmowy software ôpublikowany podle warōnkōw Gyneralnyj Licyncyje Publicznyj GNU.",
-    "Apertium_Documentation": "%%UNAVAILABLE%% Apertium Documentation",
     "Translation": "Przekłŏd",
     "Translation_Help": "Wkludź tekst abo adresã URL do przekładu.",
     "Translate": "Przełōż",
@@ -56,7 +56,6 @@
     "About": "Informacyje",
     "Download": "Ściōng",
     "Contact": "Kōntakt",
-    "Norm_Preferences": "%%UNAVAILABLE%% Style preferences",
     "Documentation": "Dokumyntacyjŏ",
     "About_Apertium": "Ô Apertium",
     "What_Is_Apertium": "<p>Apertium to je <b>darmowŏ platforma przekładu maszinowego ze ôtwartym zdrzōdłym</b>, nojprzōd przigotowanŏ dlŏ bliskich sobie pŏr, ale rozszyrzōnŏ, żeby wiedzieć sie rady ze barzij rozmajtymi pŏrami (bez przikłŏd angelsko-katalōńskŏ). Platforma dŏwŏ</p> <ol> <li>niyzależny ôd gŏdki motōr przekładu maszinowego</li> <li>nŏczynie do regyrowaniŏ danymi lingwistycznymi potrzebnymi do budowy systymu maszinowego przekładu dlŏ danyj pŏry i</li> <li>dane lingwistyczne corŏz srogszyj liczby pŏr gŏdek.</li> </ol> <p>Apertium rŏd widzi nowych deweloperōw: jak myślisz, iże możesz ulepszyć motōr abo nŏczynie, abo zbudować dane lingwistyczne dlō nŏs, zarŏz <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>sie z nami skōntaktuj</a>.</p>",

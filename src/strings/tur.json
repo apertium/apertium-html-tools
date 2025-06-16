@@ -9,16 +9,16 @@
             "tr",
             "tur"
         ],
-        "completion": " 97% 103.25%",
+        "completion": " 95% 102.09%",
         "missing": [
             "Apertium_Documentation",
+            "More_Languages",
             "Norm_Preferences"
         ]
     },
     "title": "Apertium | Özgür ve açık kaynak kodlu bir makine çevirisi platformu",
     "tagline": "Özgür ve açık kaynak kodlu bir makine çevirisi platformu",
     "description": "Apertium kural tabanlı bir makine çevirisi platformudur. Apertium özgür yazılımdır, ve dağıtımı GNU Genel Kamu Lisansı ile yapılır.",
-    "Apertium_Documentation": "%%UNAVAILABLE%% Apertium Documentation",
     "Translation": "Çeviri",
     "Translation_Help": "Cevrilecek bir metin veya web bağlantısı giriniz.",
     "Translate": "Çevir",
@@ -58,7 +58,6 @@
     "About": "Hakkımızda",
     "Download": "İndir",
     "Contact": "İletişim",
-    "Norm_Preferences": "%%UNAVAILABLE%% Style preferences",
     "Documentation": "Belgeler",
     "About_Apertium": "Apertium hakkında",
     "What_Is_Apertium": "<p>Apertium <b>Özgür ve açık kaynak kodlu bir makine çevirisi platformudur</b>. Başlangıçta yakından ilişkili dillerin çevirisi hedeflenmiş olsa da, kapsamı daha farklı dilleri de kapsayacak şekilde genişletilmiştir (örneğin İngilizce-Katalanca). Platform aşağıdakileri sağlar</p> <ol> <li>dilden bağamsız bir makine çevirisi motoru</li> <li>çevirisi yapılacak dil ikilileri için gerekli dil verilerini yönetecek araçlar</li> <li>artan sayıda dil ikilisi için dil verisi</li> </ol> <p>Apertium yeni geliştiricilere açıktır: motoru ve araçları geliştirebileceğinizi ya da bizim için dil verisi derleyebileceğinizi düşünüyorsanız, bizimle <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>iletişim kurun kurun</a>.</p>",

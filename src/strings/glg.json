@@ -9,16 +9,16 @@
             "gl",
             "glg"
         ],
-        "completion": " 97% 108.17%",
+        "completion": " 95% 106.96%",
         "missing": [
             "Apertium_Documentation",
+            "More_Languages",
             "Norm_Preferences"
         ]
     },
     "title": "Apertium | Unha plataforma libre e de código aberto para a tradución automática",
     "tagline": "Unha plataforma libre e de código aberto para a tradución automática",
     "description": "Apertium é unha plataforma de tradución automática baseada en regras. É un programa libre que se publica baixo os termos da licenza GPL (GNU General Public License).",
-    "Apertium_Documentation": "%%UNAVAILABLE%% Apertium Documentation",
     "Translation": "Tradución",
     "Translation_Help": "Escriba o texto ou o URL a traducir.",
     "Translate": "Traducir",
@@ -58,7 +58,6 @@
     "About": "Sobre",
     "Download": "Descargar",
     "Contact": "Contacto",
-    "Norm_Preferences": "%%UNAVAILABLE%% Style preferences",
     "Documentation": "Documentación",
     "About_Apertium": "Sobre Apertium",
     "What_Is_Apertium": "<p>Apertium é <b>unha plataforma libre e de código aberto para a tradución automática</b>, inicialmente concibida para a tradución entre parellas de idiomas relacionados pero estendeuse para tratar con parellas de idiomas máis diferentes (tales como Inglés-Catalán). A plataforma fornece</p> <ol> <li>un motor de tradución independente do idioma</li> <li>ferramentas para xestionar os datos lingüísticos necesarios para construír un sistema de tradución automático para unha determinada parella de idiomas</li> <li>datos lingüísticos para unha cantidade de parellas de idiomas cada vez máis grande.</li> </ol> <p>Apertium dálle a benvida a novos desenvolvedores: se pensa que pode mellorar o motor ou as ferramentas, ou desenvolver datos lingüísticos para nós, non dúbide <a data-toggle='modal' data-target='#contactModal' data-text='Help_Improve' data-keyboard='true' data-dismiss='modal' style='cursor: pointer'>contactar connosco</a>.</p>",

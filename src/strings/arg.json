@@ -8,8 +8,10 @@
             "an",
             "arg"
         ],
-        "completion": " 100% 110.91%",
-        "missing": []
+        "completion": " 99% 110.66%",
+        "missing": [
+            "More_Languages"
+        ]
     },
     "title": "Apertium | Una plataforma libre de traducción automatica",
     "tagline": "Plataforma de traducción automatica libre/de codigo fuent ubierto",
