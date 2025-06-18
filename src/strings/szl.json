@@ -7,11 +7,14 @@
         "locale": [
             "szl"
         ],
-        "completion": " 95% 100.09%",
+        "completion": " 90%  99.28%",
         "missing": [
             "Apertium_Documentation",
+            "Dictionary",
             "More_Languages",
-            "Norm_Preferences"
+            "Norm_Preferences",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | Darmowŏ platforma przekładu maszinowego ze ôtwartym zdrzōdłym",

@@ -8,11 +8,14 @@
             "ar",
             "ara"
         ],
-        "completion": " 95%  89.08%",
+        "completion": " 90%  88.36%",
         "missing": [
             "Apertium_Documentation",
+            "Dictionary",
             "More_Languages",
-            "Norm_Preferences"
+            "Norm_Preferences",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": " أبرتيُم | منصة ترجمة إلكترونية حرة ومفتوحة المصدر",

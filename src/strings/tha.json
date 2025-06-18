@@ -5,9 +5,10 @@
         "locale": [
             "tha"
         ],
-        "completion": " 75%  74.23%",
+        "completion": " 71%  73.63%",
         "missing": [
             "Apertium_Documentation",
+            "Dictionary",
             "Drop_Document",
             "Install_Apertium",
             "Install_Apertium_Para",
@@ -17,9 +18,11 @@
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Norm_Preferences",
+            "Search",
             "Supported_Formats",
             "Translate_Webpage",
             "Translation_Help",
+            "Type_A_Word",
             "description"
         ]
     },

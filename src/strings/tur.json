@@ -9,11 +9,14 @@
             "tr",
             "tur"
         ],
-        "completion": " 95% 102.09%",
+        "completion": " 90% 101.27%",
         "missing": [
             "Apertium_Documentation",
+            "Dictionary",
             "More_Languages",
-            "Norm_Preferences"
+            "Norm_Preferences",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | Özgür ve açık kaynak kodlu bir makine çevirisi platformu",

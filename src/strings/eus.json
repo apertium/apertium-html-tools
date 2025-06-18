@@ -5,7 +5,7 @@
         "locale": [
             "eus"
         ],
-        "completion": " 44%  12.97%",
+        "completion": " 42%  12.87%",
         "missing": [
             "About",
             "About_Apertium",
@@ -14,6 +14,7 @@
             "Cancel",
             "Contact",
             "Contact_Para",
+            "Dictionary",
             "Documentation",
             "Documentation_Para",
             "Download",
@@ -32,10 +33,12 @@
             "Multi_Step_Translation",
             "Norm_Preferences",
             "Not_Found_Error",
+            "Search",
             "Supported_Formats",
             "Translate_Document",
             "Translate_Webpage",
             "Translation_Help",
+            "Type_A_Word",
             "What_Is_Apertium",
             "description"
         ]

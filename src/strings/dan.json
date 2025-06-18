@@ -8,9 +8,12 @@
             "da",
             "dan"
         ],
-        "completion": " 99%  99.82%",
+        "completion": " 94%  99.02%",
         "missing": [
-            "More_Languages"
+            "Dictionary",
+            "More_Languages",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | En fri/open source maskinoversættelsesplatform",

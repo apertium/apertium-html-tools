@@ -8,11 +8,14 @@
         "locale": [
             "frp"
         ],
-        "completion": " 95% 106.01%",
+        "completion": " 90% 105.16%",
         "missing": [
             "Apertium_Documentation",
+            "Dictionary",
             "More_Languages",
-            "Norm_Preferences"
+            "Norm_Preferences",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | Una plataforma libra/a codo-sôrsa uvèrt de traduccion ôtomatica",

@@ -9,11 +9,14 @@
             "gl",
             "glg"
         ],
-        "completion": " 95% 106.96%",
+        "completion": " 90% 106.09%",
         "missing": [
             "Apertium_Documentation",
+            "Dictionary",
             "More_Languages",
-            "Norm_Preferences"
+            "Norm_Preferences",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | Unha plataforma libre e de código aberto para a tradución automática",

@@ -8,9 +8,12 @@
             "nn",
             "nno"
         ],
-        "completion": " 99%  98.57%",
+        "completion": " 94%  97.77%",
         "missing": [
-            "More_Languages"
+            "Dictionary",
+            "More_Languages",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | Ei fri/open kjeldekode maskinomsetjingsplattform",

@@ -8,9 +8,12 @@
             "hi",
             "hin"
         ],
-        "completion": " 99% 102.66%",
+        "completion": " 94% 101.83%",
         "missing": [
-            "More_Languages"
+            "Dictionary",
+            "More_Languages",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | एक मुक्त/खुला - स्रोत मशीनी अनुवाद प्लेटफाँर्म ।",

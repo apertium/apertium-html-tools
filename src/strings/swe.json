@@ -7,9 +7,10 @@
         "locale": [
             "swe"
         ],
-        "completion": " 79%  84.74%",
+        "completion": " 75%  84.05%",
         "missing": [
             "Apertium_Documentation",
+            "Dictionary",
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",
@@ -18,9 +19,11 @@
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Norm_Preferences",
+            "Search",
             "Supported_Formats",
             "Translate_Webpage",
-            "Translation_Help"
+            "Translation_Help",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | En fri maskinöversättningsplattform i öppen källkod",

@@ -14,6 +14,7 @@ import { langDirection, toAlpha2Code } from './util/languages';
 import { Mode } from './types';
 
 import Analyzer from './components/Analyzer';
+import Dictionary from './components/Dictionary'; // dict
 import { Path as DocTranslationPath } from './components/translator/DocTranslationForm';
 import Footer from './components/footer';
 import Generator from './components/Generator';
@@ -31,6 +32,7 @@ const Interfaces = {
   [Mode.Analysis]: Analyzer,
   [Mode.Generation]: Generator,
   [Mode.Sandbox]: Sandbox,
+  [Mode.Dictionary]: Dictionary, // dict
 } as Record<Mode, React.ComponentType<unknown>>;
 
 const App = ({ setLocale }: { setLocale: React.Dispatch<React.SetStateAction<string>> }): React.ReactElement => {

@@ -5,9 +5,10 @@
         "locale": [
             "srd"
         ],
-        "completion": " 80%  89.80%",
+        "completion": " 76%  89.08%",
         "missing": [
             "Apertium_Documentation",
+            "Dictionary",
             "Install_Apertium",
             "Install_Apertium_Para",
             "More_Languages",
@@ -15,9 +16,11 @@
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Norm_Preferences",
+            "Search",
             "Supported_Formats",
             "Translate_Webpage",
-            "Translation_Help"
+            "Translation_Help",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | Una prataforma lìbera a còdighe abertu pro sa tradutzione automàtica",

@@ -9,16 +9,19 @@
             "ky",
             "kir"
         ],
-        "completion": " 84%  45.06%",
+        "completion": " 80%  44.69%",
         "missing": [
             "Apertium_Documentation",
             "Contact_Para",
+            "Dictionary",
             "Downloads_Para",
             "Install_Apertium_Para",
             "More_Languages",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Norm_Preferences",
+            "Search",
+            "Type_A_Word",
             "What_Is_Apertium"
         ]
     },

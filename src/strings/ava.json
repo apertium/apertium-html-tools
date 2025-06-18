@@ -8,7 +8,7 @@
             "av",
             "ava"
         ],
-        "completion": " 42%  12.33%",
+        "completion": " 40%  12.23%",
         "missing": [
             "About",
             "About_Apertium",
@@ -17,6 +17,7 @@
             "Cancel",
             "Contact",
             "Contact_Para",
+            "Dictionary",
             "Documentation",
             "Documentation_Para",
             "Download",
@@ -36,10 +37,12 @@
             "Norm_Preferences",
             "Not_Available",
             "Not_Found_Error",
+            "Search",
             "Supported_Formats",
             "Translate_Document",
             "Translate_Webpage",
             "Translation_Help",
+            "Type_A_Word",
             "What_Is_Apertium",
             "description"
         ]

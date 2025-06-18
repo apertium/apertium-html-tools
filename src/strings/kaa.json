@@ -8,9 +8,12 @@
         "locale": [
             "kaa"
         ],
-        "completion": " 99% 102.73%",
+        "completion": " 94% 101.90%",
         "missing": [
-            "More_Languages"
+            "Dictionary",
+            "More_Languages",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | Biypul/ashıq mashinalı awdarmalaw platforması",

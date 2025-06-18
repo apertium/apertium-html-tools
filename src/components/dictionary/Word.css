@@ -1,0 +1,36 @@
+.word-card {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.word-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.word-link {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.word-pos {
+  font-size: 1rem;
+  color: #555;
+}
+
+.word-definitions {
+  padding-left: 1.25rem;
+  margin: 0;
+}
+
+.word-pos {
+  font-size: 1rem;
+  color: #555;
+}

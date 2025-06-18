@@ -107,6 +107,18 @@ const NavbarNav: React.ComponentType = (props: NavProps) => {
           </LinkContainer>
         </Nav.Item>
       )}
+      {enabledModes.has(Mode.Dictionary) && (
+        <Nav.Item as="li">
+          <LinkContainer
+            isActive={(_, { pathname }) =>
+              pathname === '/dictionary' || (pathname === '/' && defaultMode === Mode.Dictionary)
+            }
+            to={'/dictionary'}
+          >
+            <Nav.Link>{t('Dictionary')}</Nav.Link>
+          </LinkContainer>
+        </Nav.Item>
+      )}
     </Nav>
   );
 };

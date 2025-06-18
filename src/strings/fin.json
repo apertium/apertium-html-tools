@@ -9,11 +9,14 @@
             "fi",
             "fin"
         ],
-        "completion": " 95%  93.59%",
+        "completion": " 90%  92.84%",
         "missing": [
             "Apertium_Documentation",
+            "Dictionary",
             "More_Languages",
-            "Norm_Preferences"
+            "Norm_Preferences",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium – Vapaa konekäännösalusta",

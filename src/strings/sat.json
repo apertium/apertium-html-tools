@@ -7,9 +7,12 @@
         "locale": [
             "sat"
         ],
-        "completion": " 99% 107.53%",
+        "completion": " 94% 106.66%",
         "missing": [
-            "More_Languages"
+            "Dictionary",
+            "More_Languages",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | ᱢᱤᱫᱴᱟᱹᱝ ᱯᱷᱨᱤ/ᱠᱷᱩᱞᱟᱹᱼᱥᱨᱚᱛ ᱢᱮᱥᱤᱱ ᱛᱚᱨᱡᱚᱢᱟ ᱢᱚᱸᱧᱪ",

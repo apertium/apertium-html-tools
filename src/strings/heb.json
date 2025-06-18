@@ -8,10 +8,11 @@
             "he",
             "heb"
         ],
-        "completion": " 66%  67.69%",
+        "completion": " 63%  67.15%",
         "missing": [
             "Apertium_Documentation",
             "Cancel",
+            "Dictionary",
             "Drop_Document",
             "File_Too_Large",
             "Format_Not_Supported",
@@ -24,10 +25,12 @@
             "Multi_Step_Translation",
             "Norm_Preferences",
             "Not_Found_Error",
+            "Search",
             "Supported_Formats",
             "Translate_Document",
             "Translate_Webpage",
             "Translation_Help",
+            "Type_A_Word",
             "description"
         ]
     },

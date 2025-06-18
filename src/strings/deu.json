@@ -8,11 +8,14 @@
             "de",
             "deu"
         ],
-        "completion": " 95% 112.44%",
+        "completion": " 90% 111.53%",
         "missing": [
             "Apertium_Documentation",
+            "Dictionary",
             "More_Languages",
-            "Norm_Preferences"
+            "Norm_Preferences",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | Eine freie/quelloffene Plattform für maschinelle Übersetzungen",

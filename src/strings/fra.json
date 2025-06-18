@@ -11,11 +11,14 @@
             "fr",
             "fra"
         ],
-        "completion": " 95% 108.54%",
+        "completion": " 90% 107.67%",
         "missing": [
             "Apertium_Documentation",
+            "Dictionary",
             "More_Languages",
-            "Norm_Preferences"
+            "Norm_Preferences",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | Une plateforme libre/open source de traduction automatique",

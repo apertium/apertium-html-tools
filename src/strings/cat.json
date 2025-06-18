@@ -10,9 +10,12 @@
             "ca",
             "cat"
         ],
-        "completion": " 99% 110.61%",
+        "completion": " 94% 109.72%",
         "missing": [
-            "More_Languages"
+            "Dictionary",
+            "More_Languages",
+            "Search",
+            "Type_A_Word"
         ]
     },
     "title": "Apertium | Una plataforma lliure per a la traducció automàtica",

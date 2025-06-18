@@ -32,6 +32,9 @@ export type Props = {
   detectLangEnabled: boolean;
   detectedLang: string | null;
   setDetectedLang: (lang: string | null) => void;
+
+  actionLabel?: string;
+  layout?: 'default' | 'dictionary';
 };
 
 type SharedProps = Props & {
@@ -41,6 +44,7 @@ type SharedProps = Props & {
   detectingLang: boolean;
   setDetectingLang: (detecting: boolean) => void;
   onDetectLang: () => void;
+  layout?: 'default' | 'dictionary';
 };
 
 const langListIdealRows = 12,
@@ -51,9 +55,11 @@ const langListMinColumnWidth = langListMaxWidths / langListMaxColumns;
 
 const detectKey = 'detect';
 
-const TranslateButton = (props: { loading: boolean; onTranslate: () => void } & ButtonProps): React.ReactElement => {
+const TranslateButton = (
+  props: { loading: boolean; onTranslate: () => void; actionLabel?: string } & ButtonProps,
+): React.ReactElement => {
   const { t } = useLocalization();
-  const { loading, onTranslate, ...buttonProps } = props;
+  const { loading, onTranslate, actionLabel, ...buttonProps } = props;
 
   return (
     <Button
@@ -66,12 +72,8 @@ const TranslateButton = (props: { loading: boolean; onTranslate: () => void } & 
       type="button"
       {...buttonProps}
     >
-      {loading ? (
-        <>
-          <FontAwesomeIcon className="mr-1" icon={faSpinner} spin />{' '}
-        </>
-      ) : null}
-      {t('Translate')}
+      {loading && <FontAwesomeIcon className="mr-1" icon={faSpinner} spin />}
+      {actionLabel || t('Translate')}
     </Button>
   );
 };
@@ -91,6 +93,8 @@ const MobileLanguageSelector = ({
   detectLangEnabled,
   detectedLang,
   detectingLang,
+  actionLabel,
+  layout,
 }: SharedProps): React.ReactElement => {
   const { t, tLang } = useLocalization();
 
@@ -104,6 +108,7 @@ const MobileLanguageSelector = ({
     },
     [onDetectLang, setSrcLang],
   );
+
   const onTgtLangChange = React.useCallback<React.ChangeEventHandler<HTMLSelectElement>>(
     ({ target: { value } }) => setTgtLang(value),
     [setTgtLang],
@@ -139,41 +144,48 @@ const MobileLanguageSelector = ({
   );
 
   return (
-    <Form.Group className="d-flex flex-wrap">
-      <Form.Control
-        as="select"
-        className="d-inline-block mb-2 mr-2"
-        data-testid="src-lang-dropdown"
-        onChange={onSrcLangChange}
-        size="sm"
-        style={{ maxWidth: '60%' }}
-        value={detectingLang || detectedLang ? detectKey : srcLang}
-      >
-        {srcLangOptions}
-      </Form.Control>
-      <Button
-        className="mb-2"
-        data-testid="swap-langs-button"
-        disabled={!swapLangs}
-        onClick={swapLangs}
-        size="sm"
-        type="button"
-        variant="secondary"
-      >
-        <FontAwesomeIcon icon={faExchangeAlt} />
-      </Button>
-      <Form.Control
-        as="select"
-        className="d-inline-block"
-        data-testid="tgt-lang-dropdown"
-        onChange={onTgtLangChange}
-        size="sm"
-        style={{ maxWidth: '60%' }}
-        value={tgtLang}
-      >
-        {tgtLangOptions}
-      </Form.Control>
-      <TranslateButton loading={loading} onTranslate={onTranslate} variant="primary" />
+    <Form.Group className="d-flex flex-column">
+      <div className="d-flex flex-wrap mb-2">
+        <Form.Control
+          as="select"
+          className="d-inline-block mr-2 mb-2"
+          data-testid="src-lang-dropdown"
+          onChange={onSrcLangChange}
+          size="sm"
+          style={{ maxWidth: '60%' }}
+          value={detectingLang || detectedLang ? detectKey : srcLang}
+        >
+          {srcLangOptions}
+        </Form.Control>
+
+        <Button
+          className="mb-2"
+          data-testid="swap-langs-button"
+          disabled={!swapLangs}
+          onClick={swapLangs}
+          size="sm"
+          type="button"
+          variant="secondary"
+        >
+          <FontAwesomeIcon icon={faExchangeAlt} />
+        </Button>
+
+        <Form.Control
+          as="select"
+          className="d-inline-block"
+          data-testid="tgt-lang-dropdown"
+          onChange={onTgtLangChange}
+          size="sm"
+          style={{ maxWidth: '60%' }}
+          value={tgtLang}
+        >
+          {tgtLangOptions}
+        </Form.Control>
+      </div>
+
+      {layout !== 'dictionary' && (
+        <TranslateButton loading={loading} onTranslate={onTranslate} actionLabel={actionLabel} variant="primary" />
+      )}
     </Form.Group>
   );
 };
@@ -260,6 +272,8 @@ const DesktopLanguageSelector = ({
   setDetectingLang,
   detectingLang,
   onDetectLang,
+  actionLabel,
+  layout,
 }: SharedProps): React.ReactElement => {
   const locale = React.useContext(LocaleContext);
   const { t, tLang } = useLocalization();
@@ -274,11 +288,11 @@ const DesktopLanguageSelector = ({
     const refreshSizes = () => {
       let maxSrcLangsWidth, maxTgtLangsWidth;
 
-      // Figure out how much space is actually available for the columns.
       const srcLangsDropdownOffset = srcLangsDropdownTriggerRef.current?.getBoundingClientRect().x || 0;
       const tgtLangsDropdownOffset = tgtLangsDropdownTriggerRef.current?.getBoundingClientRect().x || 0;
       const srcLangsDropdownWidth = srcLangsDropdownTriggerRef.current?.offsetWidth || 0;
       const tgtLangsDropdownWidth = tgtLangsDropdownTriggerRef.current?.offsetWidth || 0;
+
       if (langDirection(locale) === 'ltr') {
         maxSrcLangsWidth = window.innerWidth - srcLangsDropdownOffset - langListsBuffer;
         maxTgtLangsWidth = tgtLangsDropdownOffset + tgtLangsDropdownWidth - langListsBuffer;
@@ -287,12 +301,9 @@ const DesktopLanguageSelector = ({
         maxTgtLangsWidth = window.innerWidth - tgtLangsDropdownOffset - langListsBuffer;
       }
 
-      // Then, prevent all the columns from getting too wide.
       maxSrcLangsWidth = Math.min(langListMaxWidths, maxSrcLangsWidth);
       maxTgtLangsWidth = Math.min(langListMaxWidths, maxTgtLangsWidth);
 
-      // Finally, pick the ideal number of columns (up to limitations from the
-      // maximum overall width and the imposed maximum).
       setNumSrcCols(
         Math.max(
           1,
@@ -319,106 +330,112 @@ const DesktopLanguageSelector = ({
     refreshSizes();
 
     return () => window.removeEventListener('resize', refreshSizes);
-  }, [locale, tgtLangs.length, srcLangs.length, tgtLangsDropdownTriggerRef, srcLangsDropdownTriggerRef]);
+  }, [locale, tgtLangs.length, srcLangs.length]);
 
   const validTgtLang = React.useCallback((lang: string) => isPair(pairs, srcLang, lang), [pairs, srcLang]);
   const validSrcLang = React.useCallback((lang: string) => pairs[lang].size > 0, [pairs]);
 
   return (
-    <Form.Group className="row">
-      <Col className="d-inline-flex align-items-start justify-content-between" xs="6">
-        <ButtonGroup className="d-flex flex-wrap pl-0" data-testid="src-lang-buttons">
-          {recentSrcLangs.map((lang) => (
+    <>
+      <Form.Group className="row">
+        <Col className="d-inline-flex align-items-start justify-content-between" xs="6">
+          <ButtonGroup className="d-flex flex-wrap pl-0" data-testid="src-lang-buttons">
+            {recentSrcLangs.map((lang) => (
+              <Button
+                active={lang === srcLang && !detectingLang && !detectedLang}
+                className="language-button"
+                key={lang}
+                onClick={({ currentTarget }) => {
+                  setDetectingLang(false);
+                  setSrcLang(lang);
+                  currentTarget.blur();
+                }}
+                size="sm"
+                type="button"
+                variant="secondary"
+              >
+                {tLang(lang)}
+              </Button>
+            ))}
             <Button
-              active={lang === srcLang && !detectingLang && !detectedLang}
+              active={detectingLang || detectedLang !== null}
               className="language-button"
-              key={lang}
-              onClick={({ currentTarget }) => {
-                setDetectingLang(false);
-                setSrcLang(lang);
-                currentTarget.blur();
-              }}
+              disabled={!detectLangEnabled}
+              onClick={onDetectLang}
               size="sm"
               type="button"
+              value={detectKey}
               variant="secondary"
             >
-              {tLang(lang)}
+              {detectedLang ? (
+                `${tLang(detectedLang)} - ${t('detected')}`
+              ) : (
+                <>
+                  {detectingLang && <FontAwesomeIcon className="mr-1" icon={faSpinner} spin />} {t('Detect_Language')}
+                </>
+              )}
             </Button>
-          ))}
+            <DropdownButton
+              className="language-dropdown-button"
+              data-testid="src-lang-dropdown"
+              ref={srcLangsDropdownTriggerRef}
+              size="sm"
+              title=""
+              variant="secondary"
+            >
+              <LangsDropdown langs={srcLangs} numCols={numSrcCols} setLang={setSrcLang} validLang={validSrcLang} />
+            </DropdownButton>
+          </ButtonGroup>
           <Button
-            active={detectingLang || detectedLang !== null}
-            className="language-button"
-            disabled={!detectLangEnabled}
-            onClick={onDetectLang}
+            data-testid="swap-langs-button"
+            disabled={!swapLangs}
+            onClick={swapLangs}
             size="sm"
             type="button"
-            value={detectKey}
             variant="secondary"
           >
-            {detectedLang ? (
-              `${tLang(detectedLang)} - ${t('detected')}`
-            ) : (
-              <>
-                {detectingLang && <FontAwesomeIcon className="mr-1" icon={faSpinner} spin />} {t('Detect_Language')}
-              </>
-            )}
+            <FontAwesomeIcon icon={faExchangeAlt} />
           </Button>
-          <DropdownButton
-            className="language-dropdown-button"
-            data-testid="src-lang-dropdown"
-            ref={srcLangsDropdownTriggerRef}
-            size="sm"
-            title=""
-            variant="secondary"
-          >
-            <LangsDropdown langs={srcLangs} numCols={numSrcCols} setLang={setSrcLang} validLang={validSrcLang} />
-          </DropdownButton>
-        </ButtonGroup>
-        <Button
-          data-testid="swap-langs-button"
-          disabled={!swapLangs}
-          onClick={swapLangs}
-          size="sm"
-          type="button"
-          variant="secondary"
-        >
-          <FontAwesomeIcon icon={faExchangeAlt} />
-        </Button>
-      </Col>
-      <Col className="d-inline-flex align-items-start justify-content-between" xs="6">
-        <ButtonGroup className="d-flex flex-wrap pl-0" data-testid="tgt-lang-buttons">
-          {recentTgtLangs.map((lang) => (
-            <Button
-              active={lang === tgtLang}
-              className="language-button"
-              disabled={!isPair(pairs, srcLang, lang)}
-              key={lang}
-              onClick={({ currentTarget }) => {
-                setTgtLang(lang);
-                currentTarget.blur();
-              }}
+        </Col>
+
+        <Col className="d-inline-flex align-items-start justify-content-between" xs="6">
+          <ButtonGroup className="d-flex flex-wrap pl-0" data-testid="tgt-lang-buttons">
+            {recentTgtLangs.map((lang) => (
+              <Button
+                active={lang === tgtLang}
+                className="language-button"
+                disabled={!isPair(pairs, srcLang, lang)}
+                key={lang}
+                onClick={({ currentTarget }) => {
+                  setTgtLang(lang);
+                  currentTarget.blur();
+                }}
+                size="sm"
+                type="button"
+                variant="secondary"
+              >
+                {tLang(lang)}
+              </Button>
+            ))}
+            <DropdownButton
+              alignRight
+              className="language-dropdown-button"
+              data-testid="tgt-lang-dropdown"
+              ref={tgtLangsDropdownTriggerRef}
               size="sm"
-              type="button"
+              title=""
               variant="secondary"
             >
-              {tLang(lang)}
-            </Button>
-          ))}
-          <DropdownButton
-            alignRight
-            className="language-dropdown-button"
-            data-testid="tgt-lang-dropdown"
-            ref={tgtLangsDropdownTriggerRef}
-            size="sm"
-            title=""
-            variant="secondary"
-          >
-            <LangsDropdown langs={tgtLangs} numCols={numTgtCols} setLang={setTgtLang} validLang={validTgtLang} />
-          </DropdownButton>
-        </ButtonGroup>
-        <TranslateButton loading={loading} onTranslate={onTranslate} variant="primary" />
-      </Col>
-    </Form.Group>
+              <LangsDropdown langs={tgtLangs} numCols={numTgtCols} setLang={setTgtLang} validLang={validTgtLang} />
+            </DropdownButton>
+          </ButtonGroup>
+
+          {layout !== 'dictionary' && (
+            <TranslateButton loading={loading} onTranslate={onTranslate} actionLabel={actionLabel} variant="primary" />
+          )}
+        </Col>
+      </Form.Group>
+    </>
   );
 };
 
@@ -493,14 +510,12 @@ const LanguageSelector = (props: Props): React.ReactElement => {
     <WithSortedLanguages pairs={pairs} srcLang={srcLang} srcLangs={SrcLangs} tgtLangs={TgtLangs}>
       {(sortedLanguageProps: ChildProps) => (
         <SelectorComponent
-          {...{
-            ...props,
-            ...sortedLanguageProps,
-            swapLangs,
-            setDetectingLang,
-            detectingLang,
-            onDetectLang,
-          }}
+          {...props}
+          {...sortedLanguageProps}
+          swapLangs={swapLangs}
+          setDetectingLang={setDetectingLang}
+          detectingLang={detectingLang}
+          onDetectLang={onDetectLang}
         />
       )}
     </WithSortedLanguages>

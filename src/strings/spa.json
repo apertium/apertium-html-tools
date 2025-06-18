@@ -10,10 +10,11 @@
             "es",
             "spa"
         ],
-        "completion": " 70%  26.56%",
+        "completion": " 66%  26.34%",
         "missing": [
             "Apertium_Documentation",
             "Contact_Para",
+            "Dictionary",
             "Documentation_Para",
             "Downloads_Para",
             "Drop_Document",
@@ -24,9 +25,11 @@
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
             "Norm_Preferences",
+            "Search",
             "Supported_Formats",
             "Translate_Webpage",
             "Translation_Help",
+            "Type_A_Word",
             "What_Is_Apertium",
             "description"
         ]
