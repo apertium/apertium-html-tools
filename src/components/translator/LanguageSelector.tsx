@@ -117,9 +117,11 @@ const MobileLanguageSelector = ({
   const srcLangOptions = React.useMemo(
     () => (
       <>
-        <option disabled={!detectLangEnabled} key={detectKey} value={detectKey}>
-          {detectedLang ? `${tLang(detectedLang)} - ${t('detected')}` : t('Detect_Language')}
-        </option>
+        {detectLangEnabled && (
+          <option disabled={!detectLangEnabled} key={detectKey} value={detectKey}>
+            {detectedLang ? `${tLang(detectedLang)} - ${t('detected')}` : t('Detect_Language')}
+          </option>
+        )}
         {srcLangs.map(([code, name]) => (
           <option disabled={pairs[srcLang].size === 0} key={code} value={code}>
             {name}
@@ -357,24 +359,26 @@ const DesktopLanguageSelector = ({
                 {tLang(lang)}
               </Button>
             ))}
-            <Button
-              active={detectingLang || detectedLang !== null}
-              className="language-button"
-              disabled={!detectLangEnabled}
-              onClick={onDetectLang}
-              size="sm"
-              type="button"
-              value={detectKey}
-              variant="secondary"
-            >
-              {detectedLang ? (
-                `${tLang(detectedLang)} - ${t('detected')}`
-              ) : (
-                <>
-                  {detectingLang && <FontAwesomeIcon className="mr-1" icon={faSpinner} spin />} {t('Detect_Language')}
-                </>
-              )}
-            </Button>
+            {detectLangEnabled && (
+              <Button
+                active={detectingLang || detectedLang !== null}
+                className="language-button"
+                disabled={!detectLangEnabled}
+                onClick={onDetectLang}
+                size="sm"
+                type="button"
+                value={detectKey}
+                variant="secondary"
+              >
+                {detectedLang ? (
+                  `${tLang(detectedLang)} - ${t('detected')}`
+                ) : (
+                  <>
+                    {detectingLang && <FontAwesomeIcon className="mr-1" icon={faSpinner} spin />} {t('Detect_Language')}
+                  </>
+                )}
+              </Button>
+            )}
             <DropdownButton
               className="language-dropdown-button"
               data-testid="src-lang-dropdown"

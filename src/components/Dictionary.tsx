@@ -240,7 +240,6 @@ const Dictionary: React.FC = () => {
                 <LanguageSelector
                   layout="dictionary"
                   actionLabel={t('Search')}
-                  detectLangEnabled
                   loading={loading}
                   pairs={pairs}
                   srcLang={srcLang}
