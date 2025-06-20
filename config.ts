@@ -3,14 +3,15 @@ import { Config, Mode } from './src/types';
 export default {
   defaultLocale: 'eng',
   htmlUrl: 'https://beta.apertium.org/',
-  apyURL: 'https://beta.apertium.org/apy',
+  //apyURL: 'https://beta.apertium.org/apy',
+  apyURL: 'http://localhost:2737',
 
-  defaultMode: Mode.Translation,
-  enabledModes: new Set([Mode.Translation, Mode.Analysis, Mode.Generation, Mode.Sandbox]),
+  defaultMode: Mode.Dictionary,
+  enabledModes: new Set([Mode.Translation, Mode.Dictionary]),
   translationChaining: true,
 
-  subtitle: 'Beta',
-  subtitleColor: 'rgb(220, 41, 38)',
+  subtitle: 'Urum',
+  subtitleColor: 'rgb(38, 214, 220)',
 
   stringReplacements: {
     '{{maintainer}}': "<a href='https://wiki.apertium.org/wiki/Apertium' target='_blank' rel='noopener'>Apertium</a>",
