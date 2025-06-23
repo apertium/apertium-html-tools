@@ -201,29 +201,45 @@ const Dictionary: React.FC = () => {
             const [loading, setLoading] = React.useState(false);
             const searchRef = React.useRef<CancelTokenSource | null>(null);
             const [results, setResults] = React.useState<{ head: string; defs: string[] }[]>([]);
+            const [reverseResults, setReverseResults] = React.useState<{ head: string; defs: string[] }[]>([]);
 
             const handleSearch = React.useCallback(() => {
               if (!searchWord.trim()) return;
               searchRef.current?.cancel();
-              const [ref, req] = apyFetch('billookup', {
+
+              setLoading(true);
+              setResults([]);
+              setReverseResults([]);
+
+              const [refFwd, reqFwd] = apyFetch('billookup', {
                 q: `${searchWord}<*>`,
                 langpair: `${srcLang}|${tgtLang}`,
               });
-              searchRef.current = ref;
-              setLoading(true);
-              setResults([]);
+              const [refRev, reqRev] = apyFetch('billookup', {
+                q: `${searchWord}<*>`,
+                langpair: `${tgtLang}|${srcLang}`,
+              });
+              searchRef.current = refFwd;
 
-              req
-                .then((resp) => {
-                  const sr = resp.data.responseData?.lookupResults || [];
-                  const entries = sr.flatMap((o: Record<string, string[]>) =>
-                    Object.entries(o).map(([head, defs]) => ({ head, defs })),
+              Promise.all([reqFwd, reqRev])
+                .then(([respFwd, respRev]) => {
+                  const parse = (resp: any) =>
+                    (resp.data.responseData?.lookupResults || []).flatMap((o: Record<string, string[]>) =>
+                      Object.entries(o).map(([head, defs]) => ({ head, defs })),
+                    );
+
+                  setResults(parse(respFwd));
+
+                  const revParse = parse(respRev).flatMap(({ head, defs }) =>
+                    defs.map((def) => ({
+                      head: def.replace(/^\s*\d+\.\s*/, ''),
+                      defs: [head],
+                    })),
                   );
-                  setResults(entries);
+                  setReverseResults(revParse);
                 })
-                .catch(() => {
-                  // ignore
-                })
+
+                .catch(() => {})
                 .finally(() => {
                   setLoading(false);
                   searchRef.current = null;
@@ -270,9 +286,21 @@ const Dictionary: React.FC = () => {
                 </div>
 
                 <div className="mt-3">
-                  {results.map(({ head, defs }, idx) => (
-                    <Word key={idx} head={head} definitions={defs} />
-                  ))}
+                  {results.length > 0 && (
+                    <>
+                      {results.map(({ head, defs }, idx) => (
+                        <Word key={`fwd-${idx}`} head={head} definitions={defs} />
+                      ))}
+                    </>
+                  )}
+
+                  {reverseResults.length > 0 && (
+                    <>
+                      {reverseResults.map(({ head, defs }, idx) => (
+                        <Word key={`rev-${idx}`} head={head} definitions={defs} />
+                      ))}
+                    </>
+                  )}
                 </div>
               </Form>
             );
