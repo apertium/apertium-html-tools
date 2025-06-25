@@ -16,8 +16,6 @@ const Word: React.FC<WordProps> = ({ head, definitions }) => {
 
   const word = head.replace(/<[^>]+>/g, '');
 
-  const pos = tags.length > 0 ? tags[0] : null;
-
   const cleanDefs = definitions.map((def) => def.replace(/<[^>]+>/g, '')).filter((def) => !/^\(.*\)$/.test(def));
 
   return (
@@ -26,7 +24,7 @@ const Word: React.FC<WordProps> = ({ head, definitions }) => {
         <a href="#" className="word-link">
           {word}
         </a>
-        {pos && <span className="word-pos">({pos})</span>}
+        {tags.length > 0 && <span className="word-tags">({tags.join('.')})</span>}
       </div>
       <ol className="word-definitions">
         {cleanDefs.map((def, i) => (
