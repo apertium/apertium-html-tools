@@ -5,7 +5,7 @@
         "locale": [
             "tha"
         ],
-        "completion": " 71%  73.63%",
+        "completion": " 70%  73.36%",
         "missing": [
             "Apertium_Documentation",
             "Dictionary",
@@ -17,6 +17,7 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "No_results_found",
             "Norm_Preferences",
             "Search",
             "Supported_Formats",

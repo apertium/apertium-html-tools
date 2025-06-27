@@ -199,12 +199,14 @@ const Dictionary: React.FC = () => {
           {({ tgtLang, setTgtLang, recentTgtLangs }) => {
             const [searchWord, setSearchWord] = React.useState('');
             const [loading, setLoading] = React.useState(false);
+            const [searched, setSearched] = React.useState(false);
             const searchRef = React.useRef<CancelTokenSource | null>(null);
             const [results, setResults] = React.useState<{ head: string; defs: string[] }[]>([]);
             const [reverseResults, setReverseResults] = React.useState<{ head: string; defs: string[] }[]>([]);
 
             const handleSearch = React.useCallback(() => {
               if (!searchWord.trim()) return;
+              setSearched(true);
               searchRef.current?.cancel();
 
               setLoading(true);
@@ -238,7 +240,6 @@ const Dictionary: React.FC = () => {
                   );
                   setReverseResults(revParse);
                 })
-
                 .catch(() => {})
                 .finally(() => {
                   setLoading(false);
@@ -313,6 +314,10 @@ const Dictionary: React.FC = () => {
                         <Word key={`rev-${idx}`} head={head} definitions={defs} />
                       ))}
                     </>
+                  )}
+
+                  {searched && !loading && results.length === 0 && reverseResults.length === 0 && (
+                    <div className="text-center text-muted mt-3">{t('No_results_found')}</div>
                   )}
                 </div>
               </Form>

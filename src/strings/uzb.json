@@ -8,7 +8,7 @@
             "uz",
             "uzb"
         ],
-        "completion": " 75%  89.47%",
+        "completion": " 73%  89.14%",
         "missing": [
             "Apertium_Documentation",
             "Dictionary",
@@ -19,6 +19,7 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "No_results_found",
             "Norm_Preferences",
             "Search",
             "Supported_Formats",

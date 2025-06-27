@@ -9,7 +9,7 @@
             "ky",
             "kir"
         ],
-        "completion": " 80%  44.69%",
+        "completion": " 78%  44.53%",
         "missing": [
             "Apertium_Documentation",
             "Contact_Para",
@@ -19,6 +19,7 @@
             "More_Languages",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "No_results_found",
             "Norm_Preferences",
             "Search",
             "Type_A_Word",

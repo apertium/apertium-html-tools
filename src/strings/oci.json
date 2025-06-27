@@ -8,7 +8,7 @@
             "oc",
             "oci"
         ],
-        "completion": " 63%  81.63%",
+        "completion": " 62%  81.33%",
         "missing": [
             "Apertium_Documentation",
             "Cancel",
@@ -23,6 +23,7 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "No_results_found",
             "Norm_Preferences",
             "Not_Found_Error",
             "Search",

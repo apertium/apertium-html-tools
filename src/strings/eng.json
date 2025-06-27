@@ -67,5 +67,6 @@
     "Install_Apertium_Para": "Are you experiencing slow responses? Our servers might be overloaded. Learn how to <a href='https://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>install Apertium locally</a>.",
     "Dictionary": "Dictionary",
     "Type_A_Word": "Type a word to search",
-    "Search": "Search"
+    "Search": "Search",
+    "No_results_found": "No results found!"
 }

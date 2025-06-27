@@ -8,7 +8,7 @@
             "uk",
             "ukr"
         ],
-        "completion": "100% 101.14%",
+        "completion": "100% 101.28%",
         "missing": []
     },
     "title": "Апертіум | Безкоштовна/відкрита платформа машинного перекладу",
@@ -67,5 +67,6 @@
     "Install_Apertium_Para": "Відчуваєте повільну роботу? Наші сервери можуть бути перевантажені. Дізнайтеся, як <a href='https://wiki.apertium.org/wiki/Installation' target='_blank' rel='noopener'>встановити Apertium локально</a>.",
     "Dictionary": "Словник",
     "Type_A_Word": "Введіть слово",
-    "Search": "Пошук"
+    "Search": "Пошук",
+    "No_results_found": "Результатів не знайдено!"
 }

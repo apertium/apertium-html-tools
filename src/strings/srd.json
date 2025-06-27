@@ -5,7 +5,7 @@
         "locale": [
             "srd"
         ],
-        "completion": " 76%  89.08%",
+        "completion": " 75%  88.75%",
         "missing": [
             "Apertium_Documentation",
             "Dictionary",
@@ -15,6 +15,7 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "No_results_found",
             "Norm_Preferences",
             "Search",
             "Supported_Formats",
