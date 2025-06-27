@@ -66,6 +66,25 @@ export const useLocalization = (): { t: (id: string) => string; tLang: (code: st
   return React.useMemo(() => ({ t: t(locale, strings), tLang: tLang(locale, strings) }), [strings, locale]);
 };
 
+// for pos localization
+export const useLocalizationPOS = (): {
+  locale: string;
+  t: (id: string) => string;
+  tLang: (code: string) => string;
+} => {
+  const strings = React.useContext(StringsContext);
+  const locale = React.useContext(LocaleContext);
+
+  return React.useMemo(
+    () => ({
+      locale,
+      t: t(locale, strings),
+      tLang: tLang(locale, strings),
+    }),
+    [strings, locale]
+  );
+};
+
 export const validLocale = (code: string): boolean => {
   const alpha3Code = toAlpha3Code(code);
   return alpha3Code != null && alpha3Code in locales;

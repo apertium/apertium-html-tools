@@ -1,5 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import './Word.css';
+import { useLocalizationPOS } from '../../util/localization';
+import { getPosTag } from '../../util/posLocalization';
 
 export interface WordProps {
   head: string;
@@ -7,6 +9,8 @@ export interface WordProps {
 }
 
 const Word: React.FC<WordProps> = ({ head, definitions }) => {
+  const { locale } = useLocalizationPOS();
+
   const tagRe = /<([^>]+)>/g;
   const tags: string[] = [];
   let m: RegExpExecArray | null;
@@ -15,8 +19,8 @@ const Word: React.FC<WordProps> = ({ head, definitions }) => {
   }
 
   const word = head.replace(/<[^>]+>/g, '');
-
   const cleanDefs = definitions.map((def) => def.replace(/<[^>]+>/g, '')).filter((def) => !/^\(.*\)$/.test(def));
+  const displayTag = tags.length > 0 ? getPosTag(locale, tags.join('.')) : null;
 
   return (
     <div className="word-card">
@@ -24,7 +28,7 @@ const Word: React.FC<WordProps> = ({ head, definitions }) => {
         <a href="#" className="word-link">
           {word}
         </a>
-        {tags.length > 0 && <span className="word-tags">({tags.join('.')})</span>}
+        {displayTag && <span className="word-tags">({displayTag})</span>}
       </div>
       <ol className="word-definitions">
         {cleanDefs.map((def, i) => (

@@ -1,0 +1,13 @@
+{
+    "n": "noun",
+    "v": "verb",
+    "vblex": "verb",
+    "v.tv": "transitive verb",
+    "v.iv": "intransitive verb",
+    "n.m.nn": "inanimate masculine noun",
+    "n.m.aa": "animate masculine noun",
+    "n.f.nn": "inanimate feminine noun",
+    "n.f.aa": "animate feminine noun",
+    "n.nt.nn": "inanimate neutral noun",
+    "n.nt.aa": "animate neutral noun"
+}
