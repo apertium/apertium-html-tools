@@ -291,6 +291,19 @@ const Dictionary: React.FC = () => {
                       {results.map(({ head, defs }, idx) => (
                         <Word key={`fwd-${idx}`} head={head} definitions={defs} />
                       ))}
+                      {/* {results.map(({ head, defs }, idx) => (
+                        <Word
+                          key={`fwd-${idx}`}
+                          head={head}
+                          definitions={defs}
+                          onDefinitionClick={(clickedDef) => {
+                            setSearchWord(clickedDef);
+                            setSrcLang(tgtLang);
+                            setTgtLang(srcLang);
+                            setTimeout(() => handleSearch(), 0);
+                          }}
+                        />
+                      ))} */}
                     </>
                   )}
 

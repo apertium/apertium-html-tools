@@ -6,9 +6,10 @@ import { getPosTag } from '../../util/posLocalization';
 export interface WordProps {
   head: string;
   definitions: string[];
+  onDefinitionClick?: (definition: string, index: number) => void;
 }
 
-const Word: React.FC<WordProps> = ({ head, definitions }) => {
+const Word: React.FC<WordProps> = ({ head, definitions, onDefinitionClick }) => {
   const { locale } = useLocalizationPOS();
 
   const tagRe = /<([^>]+)>/g;
@@ -20,19 +21,20 @@ const Word: React.FC<WordProps> = ({ head, definitions }) => {
 
   const word = head.replace(/<[^>]+>/g, '');
   const cleanDefs = definitions.map((def) => def.replace(/<[^>]+>/g, '')).filter((def) => !/^\(.*\)$/.test(def));
+
   const displayTag = tags.length > 0 ? getPosTag(locale, tags.join('.')) : null;
 
   return (
     <div className="word-card">
       <div className="word-header">
-        <a href="#" className="word-link">
-          {word}
-        </a>
-        {displayTag && <span className="word-tags">({displayTag})</span>}
+        <span className="word-text">{word}</span>
+        {displayTag && <span className="word-pos">{displayTag}</span>}
       </div>
       <ol className="word-definitions">
         {cleanDefs.map((def, i) => (
-          <li key={i}>{def}</li>
+          <li key={i} className="definition-item" onClick={() => onDefinitionClick?.(def, i)}>
+            {def}
+          </li>
         ))}
       </ol>
     </div>

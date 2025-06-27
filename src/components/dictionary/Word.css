@@ -13,16 +13,16 @@
   margin-bottom: 0.5rem;
 }
 
-.word-link {
+.word-text {
   font-size: 1.5rem;
   font-weight: bold;
-  text-decoration: none;
   color: #007bff;
 }
 
 .word-pos {
   font-size: 1rem;
-  color: #555;
+  font-style: italic;
+  color: silver;
 }
 
 .word-definitions {
@@ -30,7 +30,12 @@
   margin: 0;
 }
 
-.word-pos {
-  font-size: 1rem;
-  color: #555;
+.definition-item {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.definition-item:hover {
+  text-decoration: underline;
+  color: #0056b3;
 }
