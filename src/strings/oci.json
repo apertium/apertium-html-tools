@@ -8,12 +8,13 @@
             "oc",
             "oci"
         ],
-        "completion": " 62%  81.33%",
+        "completion": " 60%  81.05%",
         "missing": [
             "Apertium_Documentation",
             "Cancel",
             "Dictionary",
             "Drop_Document",
+            "Expand_Paradigms",
             "File_Too_Large",
             "Format_Not_Supported",
             "Install_Apertium",

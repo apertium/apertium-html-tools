@@ -11,7 +11,7 @@
             "ru",
             "rus"
         ],
-        "completion": " 80%  80.89%",
+        "completion": " 80%  80.96%",
         "missing": [
             "Apertium_Documentation",
             "Install_Apertium",
@@ -72,5 +72,6 @@
     "Dictionary": "Словарь",
     "Type_A_Word": "Введите слово",
     "Search": "Поиск",
-    "No_results_found": "Результатов не найдено!"
+    "No_results_found": "Результатов не найдено!",
+    "Expand_Paradigms": "Модель спряжения"
 }

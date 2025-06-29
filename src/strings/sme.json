@@ -9,7 +9,7 @@
             "se",
             "sme"
         ],
-        "completion": " 51%  14.36%",
+        "completion": " 50%  14.31%",
         "missing": [
             "About_Apertium",
             "Apertium_Documentation",
@@ -20,6 +20,7 @@
             "Downloads_Para",
             "Drop_Document",
             "Enable_JS_Warning",
+            "Expand_Paradigms",
             "File_Too_Large",
             "Format_Not_Supported",
             "Install_Apertium",

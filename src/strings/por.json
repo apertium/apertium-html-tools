@@ -9,7 +9,7 @@
             "pt",
             "por"
         ],
-        "completion": " 45%  12.03%",
+        "completion": " 44%  11.99%",
         "missing": [
             "About_Apertium",
             "Apertium_Documentation",
@@ -24,6 +24,7 @@
             "Downloads_Para",
             "Drop_Document",
             "Enable_JS_Warning",
+            "Expand_Paradigms",
             "File_Too_Large",
             "Format_Not_Supported",
             "Install_Apertium",

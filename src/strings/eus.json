@@ -5,7 +5,7 @@
         "locale": [
             "eus"
         ],
-        "completion": " 41%  12.82%",
+        "completion": " 40%  12.77%",
         "missing": [
             "About",
             "About_Apertium",
@@ -21,6 +21,7 @@
             "Downloads_Para",
             "Drop_Document",
             "Enable_JS_Warning",
+            "Expand_Paradigms",
             "File_Too_Large",
             "Format_Not_Supported",
             "Install_Apertium",

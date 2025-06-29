@@ -5,11 +5,12 @@
         "locale": [
             "tha"
         ],
-        "completion": " 70%  73.36%",
+        "completion": " 69%  73.11%",
         "missing": [
             "Apertium_Documentation",
             "Dictionary",
             "Drop_Document",
+            "Expand_Paradigms",
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",

@@ -9,12 +9,13 @@
             "kk",
             "kaz"
         ],
-        "completion": " 62%  75.41%",
+        "completion": " 60%  75.15%",
         "missing": [
             "Apertium_Documentation",
             "Cancel",
             "Dictionary",
             "Drop_Document",
+            "Expand_Paradigms",
             "File_Too_Large",
             "Format_Not_Supported",
             "Install_Apertium",

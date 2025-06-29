@@ -9,7 +9,7 @@
             "zh",
             "zho"
         ],
-        "completion": " 39%   3.79%",
+        "completion": " 39%   3.77%",
         "missing": [
             "APy_Request",
             "APy_Sandbox",
@@ -23,6 +23,7 @@
             "Downloads_Para",
             "Drop_Document",
             "Enable_JS_Warning",
+            "Expand_Paradigms",
             "File_Too_Large",
             "Format_Not_Supported",
             "Input_Text",

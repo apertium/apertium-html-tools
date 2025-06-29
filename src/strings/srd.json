@@ -5,10 +5,11 @@
         "locale": [
             "srd"
         ],
-        "completion": " 75%  88.75%",
+        "completion": " 74%  88.44%",
         "missing": [
             "Apertium_Documentation",
             "Dictionary",
+            "Expand_Paradigms",
             "Install_Apertium",
             "Install_Apertium_Para",
             "More_Languages",

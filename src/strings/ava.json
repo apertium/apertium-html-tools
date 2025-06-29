@@ -8,7 +8,7 @@
             "av",
             "ava"
         ],
-        "completion": " 39%  12.19%",
+        "completion": " 39%  12.14%",
         "missing": [
             "About",
             "About_Apertium",
@@ -24,6 +24,7 @@
             "Downloads_Para",
             "Drop_Document",
             "Enable_JS_Warning",
+            "Expand_Paradigms",
             "File_Too_Large",
             "Format_Not_Supported",
             "Install_Apertium",

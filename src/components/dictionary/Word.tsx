@@ -2,15 +2,18 @@ import React from 'react';
 import './Word.css';
 import { useLocalizationPOS } from '../../util/localization';
 import { getPosTag } from '../../util/posLocalization';
+import { useLocalization } from '../../util/localization';
 
 export interface WordProps {
   head: string;
   definitions: string[];
   onDefinitionClick?: (definition: string, index: number) => void;
+  onExpandClick?: () => void;
 }
 
-const Word: React.FC<WordProps> = ({ head, definitions, onDefinitionClick }) => {
+const Word: React.FC<WordProps> = ({ head, definitions, onDefinitionClick, onExpandClick }) => {
   const { locale } = useLocalizationPOS();
+  const { t } = useLocalization();
 
   const tagRe = /<([^>]+)>/g;
   const tags: string[] = [];
@@ -37,6 +40,9 @@ const Word: React.FC<WordProps> = ({ head, definitions, onDefinitionClick }) => 
           </li>
         ))}
       </ol>
+      <button className="expand-button" onClick={onExpandClick}>
+        {t('Expand_Paradigms')}
+      </button>
     </div>
   );
 };

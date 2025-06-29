@@ -8,7 +8,7 @@
             "ro",
             "ron"
         ],
-        "completion": " 36%   8.81%",
+        "completion": " 35%   8.78%",
         "missing": [
             "About",
             "About_Apertium",
@@ -26,6 +26,7 @@
             "Downloads_Para",
             "Drop_Document",
             "Enable_JS_Warning",
+            "Expand_Paradigms",
             "File_Too_Large",
             "Format_Not_Supported",
             "Install_Apertium",
