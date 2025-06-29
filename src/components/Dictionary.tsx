@@ -204,6 +204,21 @@ const Dictionary: React.FC = () => {
             const [results, setResults] = React.useState<{ head: string; defs: string[] }[]>([]);
             const [reverseResults, setReverseResults] = React.useState<{ head: string; defs: string[] }[]>([]);
 
+            React.useEffect(() => {
+              const url = new URL(window.location.href);
+              const trimmed = searchWord.trim();
+
+              if (trimmed) {
+                url.searchParams.set('q', trimmed);
+              } else {
+                url.searchParams.delete('q');
+              }
+              url.searchParams.set('langpair', `${srcLang}-${tgtLang}`);
+              url.hash = '';
+
+              window.history.replaceState(null, '', url.toString());
+            }, [searchWord, srcLang, tgtLang]);
+
             const handleSearch = React.useCallback(
               (wordOverride?: string, srcOverride: string = srcLang, tgtOverride: string = tgtLang) => {
                 const word = (typeof wordOverride === 'string' ? wordOverride : searchWord).trim();
