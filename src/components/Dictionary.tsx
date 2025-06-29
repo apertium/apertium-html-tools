@@ -204,48 +204,51 @@ const Dictionary: React.FC = () => {
             const [results, setResults] = React.useState<{ head: string; defs: string[] }[]>([]);
             const [reverseResults, setReverseResults] = React.useState<{ head: string; defs: string[] }[]>([]);
 
-            const handleSearch = React.useCallback(() => {
-              if (!searchWord.trim()) return;
-              setSearched(true);
-              searchRef.current?.cancel();
+            const handleSearch = React.useCallback(
+              (wordOverride?: string, srcOverride: string = srcLang, tgtOverride: string = tgtLang) => {
+                const word = (typeof wordOverride === 'string' ? wordOverride : searchWord).trim();
+                if (!word) return;
+                setSearched(true);
+                searchRef.current?.cancel();
+                setLoading(true);
+                setResults([]);
+                setReverseResults([]);
 
-              setLoading(true);
-              setResults([]);
-              setReverseResults([]);
-
-              const [refFwd, reqFwd] = apyFetch('billookup', {
-                q: `${searchWord}<*>`,
-                langpair: `${srcLang}|${tgtLang}`,
-              });
-              const [refRev, reqRev] = apyFetch('billookup', {
-                q: `${searchWord}<*>`,
-                langpair: `${tgtLang}|${srcLang}`,
-              });
-              searchRef.current = refFwd;
-
-              Promise.all([reqFwd, reqRev])
-                .then(([respFwd, respRev]) => {
-                  const parse = (resp: any) =>
-                    (resp.data.responseData?.lookupResults || []).flatMap((o: Record<string, string[]>) =>
-                      Object.entries(o).map(([head, defs]) => ({ head, defs })),
-                    );
-
-                  setResults(parse(respFwd));
-
-                  const revParse = parse(respRev).flatMap(({ head, defs }) =>
-                    defs.map((def) => ({
-                      head: def.replace(/^\s*\d+\.\s*/, ''),
-                      defs: [head],
-                    })),
-                  );
-                  setReverseResults(revParse);
-                })
-                .catch(() => {})
-                .finally(() => {
-                  setLoading(false);
-                  searchRef.current = null;
+                const [refFwd, reqFwd] = apyFetch('billookup', {
+                  q: `${word}<*>`,
+                  langpair: `${srcOverride}|${tgtOverride}`,
                 });
-            }, [apyFetch, searchWord, srcLang, tgtLang]);
+                const [refRev, reqRev] = apyFetch('billookup', {
+                  q: `${word}<*>`,
+                  langpair: `${tgtOverride}|${srcOverride}`,
+                });
+                searchRef.current = refFwd;
+
+                Promise.all([reqFwd, reqRev])
+                  .then(([respFwd, respRev]) => {
+                    const parse = (resp: any) =>
+                      (resp.data.responseData?.lookupResults || []).flatMap((o: Record<string, string[]>) =>
+                        Object.entries(o).map(([head, defs]) => ({ head, defs })),
+                      );
+
+                    setResults(parse(respFwd));
+
+                    const revParse = parse(respRev).flatMap(({ head, defs }) =>
+                      defs.map((def) => ({
+                        head: def.replace(/^\s*\d+\.\s*/, ''),
+                        defs: [head],
+                      })),
+                    );
+                    setReverseResults(revParse);
+                  })
+                  .catch(() => {})
+                  .finally(() => {
+                    setLoading(false);
+                    searchRef.current = null;
+                  });
+              },
+              [apyFetch, searchWord, srcLang, tgtLang],
+            );
 
             return (
               <Form
@@ -266,7 +269,7 @@ const Dictionary: React.FC = () => {
                   tgtLang={tgtLang}
                   setTgtLang={setTgtLang}
                   recentTgtLangs={recentTgtLangs}
-                  onTranslate={handleSearch}
+                  onTranslate={() => handleSearch()}
                   detectedLang={detectedLang}
                   setDetectedLang={setDetectedLang}
                 />
@@ -281,7 +284,7 @@ const Dictionary: React.FC = () => {
                 </Form.Group>
 
                 <div className="d-flex justify-content-start mt-2">
-                  <Button onClick={handleSearch} type="button" variant="primary" size="sm">
+                  <Button onClick={() => handleSearch()} type="button" variant="primary" size="sm">
                     {t('Search')}
                   </Button>
                 </div>
@@ -290,21 +293,20 @@ const Dictionary: React.FC = () => {
                   {results.length > 0 && (
                     <>
                       {results.map(({ head, defs }, idx) => (
-                        <Word key={`fwd-${idx}`} head={head} definitions={defs} />
-                      ))}
-                      {/* {results.map(({ head, defs }, idx) => (
                         <Word
                           key={`fwd-${idx}`}
                           head={head}
                           definitions={defs}
                           onDefinitionClick={(clickedDef) => {
+                            const prevSrc = srcLang;
+                            const prevTgt = tgtLang;
                             setSearchWord(clickedDef);
-                            setSrcLang(tgtLang);
-                            setTgtLang(srcLang);
-                            setTimeout(() => handleSearch(), 0);
+                            setSrcLang(prevTgt);
+                            setTgtLang(prevSrc);
+                            handleSearch(clickedDef, prevTgt, prevSrc);
                           }}
                         />
-                      ))} */}
+                      ))}
                     </>
                   )}
 
