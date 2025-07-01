@@ -34,6 +34,7 @@ import useLocalStorage from '../../util/useLocalStorage';
 import { useLocalization } from '../../util/localization';
 
 const recentLangsCount = 3;
+const textUrlParam = 'q';
 
 const defaultSrcLang = (pairs: Pairs): string => {
   const browserLangs = window.navigator.languages;
@@ -150,11 +151,15 @@ type WithTgtLangsProps = {
   setRecentTgtLangs: (langs: Array<string>) => void;
   pairPrefs: PairPrefValues;
   setPairPrefs: (prefs: PairPrefValues) => void;
+  swapLangs?: () => void;
 };
 
 const WithTgtLang = ({
   pairs,
   srcLang,
+  tgtText,
+  setSrcText,
+  setSrcLang,
   urlTgtLang,
   selectedPrefs,
   setSelectedPrefs,
@@ -162,6 +167,9 @@ const WithTgtLang = ({
 }: {
   pairs: Pairs;
   srcLang: string;
+  tgtText: string;
+  setSrcText: (text: string) => void;
+  setSrcLang: (lang: string) => void;
   urlTgtLang: string | null;
   selectedPrefs: Record<string, PairPrefValues>;
   setSelectedPrefs: (prefs: Record<string, PairPrefValues>) => void;
@@ -236,8 +244,18 @@ const WithTgtLang = ({
     },
     [pair, selectedPrefs, setSelectedPrefs],
   );
-
-  return children({ tgtLang, setTgtLang, recentTgtLangs, setRecentTgtLangs, pairPrefs, setPairPrefs });
+  const swapLangs = React.useMemo(
+    () =>
+      isPair(pairs, tgtLang, srcLang)
+        ? () => {
+            setSrcLang(tgtLang);
+            setTgtLang(srcLang);
+            setSrcText(tgtText);
+          }
+        : undefined,
+    [pairs, setSrcLang, setTgtLang, setSrcText, srcLang, tgtLang, tgtText],
+  );
+  return children({ tgtLang, setTgtLang, recentTgtLangs, setRecentTgtLangs, pairPrefs, setPairPrefs, swapLangs });
 };
 
 const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement => {
@@ -248,6 +266,10 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
   const config = React.useContext(ConfigContext);
 
   const [loading, setLoading] = React.useState(false);
+  const [srcText, setSrcText] = useLocalStorage('srcText', '', {
+    overrideValue: getUrlParam(history.location.search, textUrlParam),
+  });
+  const [tgtText, setTgtText] = React.useState('');
 
   const [markUnknown, setMarkUnknown] = useLocalStorage('markUnknown', false);
   const [instantTranslation, setInstantTranslation] = useLocalStorage('instantTranslation', true);
@@ -289,8 +311,10 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
           detectedLang,
           setDetectedLang,
         }: WithSrcLangsProps) => (
-          <WithTgtLang {...{ pairs, srcLang, urlTgtLang, selectedPrefs, setSelectedPrefs }}>
-            {({ tgtLang, setTgtLang, recentTgtLangs, pairPrefs, setPairPrefs }: WithTgtLangsProps) => (
+          <WithTgtLang
+            {...{ pairs, srcLang, tgtText, setSrcText, setSrcLang, urlTgtLang, selectedPrefs, setSelectedPrefs }}
+          >
+            {({ tgtLang, setTgtLang, recentTgtLangs, pairPrefs, setPairPrefs, swapLangs }: WithTgtLangsProps) => (
               <>
                 <LanguageSelector
                   detectLangEnabled={mode === Mode.Text}
@@ -307,12 +331,24 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
                     tgtLang,
                     detectedLang,
                     loading,
+                    swapLangs,
                   }}
                 />
                 {(mode === Mode.Text || !mode) && (
                   <>
                     <TextTranslationForm
-                      {...{ instantTranslation, markUnknown, setLoading, srcLang, tgtLang, pairPrefs }}
+                      {...{
+                        instantTranslation,
+                        markUnknown,
+                        setLoading,
+                        srcLang,
+                        tgtLang,
+                        pairPrefs,
+                        srcText,
+                        tgtText,
+                        setSrcText,
+                        setTgtText,
+                      }}
                     />
                     <Row className="mt-2 mb-3">
                       <Col className="d-flex d-sm-block flex-wrap translation-modes" md="6" xs="12">
@@ -377,4 +413,5 @@ const Translator = ({ mode: initialMode }: { mode?: Mode }): React.ReactElement 
   );
 };
 
+export { textUrlParam };
 export default Translator;
