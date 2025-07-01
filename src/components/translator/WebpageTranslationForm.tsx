@@ -182,7 +182,7 @@ const WebpageTranslationForm = ({ cancelUrl, srcLang, tgtLang, pairPrefs, setLoa
         <div className="d-inline-flex mb-2 w-100">
           <LinkContainer to={cancelUrl}>
             <Button variant="secondary">
-              <FontAwesomeIcon icon={faArrowLeft} /> {t('Cancel')}
+              <FontAwesomeIcon icon={faArrowLeft} /> {t('Go Back')}
             </Button>
           </LinkContainer>
           <InputGroup className="ml-3">
