@@ -4,14 +4,14 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { CancelTokenSource } from 'axios';
 
-import { isPair, Pairs } from './translator';
-import LanguageSelector from './translator/LanguageSelector';
-import { toAlpha3Code } from '../util/languages';
-import useLocalStorage from '../util/useLocalStorage';
-import { getUrlParam } from '../util/url';
-import { APyContext } from '../context';
-import Word from './dictionary/Word';
-import { useLocalization } from '../util/localization';
+import { isPair, Pairs } from '../translator';
+import LanguageSelector from '../translator/LanguageSelector';
+import { toAlpha3Code } from '../../util/languages';
+import useLocalStorage from '../../util/useLocalStorage';
+import { getUrlParam } from '../../util/url';
+import { APyContext } from '../../context';
+import Word from './Word';
+import { useLocalization } from '../../util/localization';
 
 const recentLangsCount = 3;
 
@@ -42,9 +42,8 @@ const WithSrcLang = ({
   if (urlSrcLang) opts.overrideValue = urlSrcLang;
 
   const [srcLang, rawSetSrcLang] = useLocalStorage<string>('dictSrcLang', () => defaultSrcLang(pairs), opts);
-
   const [recentSrcLangs, rawSetRecentSrcLangs] = useLocalStorage<string[]>('dictRecentSrcLangs', () => [srcLang], {
-    validateValue: (ls: string[]) => Array.isArray(ls) && ls.every((l) => l in pairs),
+    validateValue: (ls) => Array.isArray(ls) && ls.every((l) => l in pairs),
   });
 
   const setSrcLang = React.useCallback(
@@ -106,9 +105,8 @@ const WithTgtLang = ({
     },
     opts,
   );
-
   const [recentTgtLangs, rawSetRecentTgtLangs] = useLocalStorage<string[]>('dictRecentTgtLangs', () => [tgtLang], {
-    validateValue: (ls: string[]) => Array.isArray(ls) && ls.every((l) => isPair(pairs, srcLang, l)),
+    validateValue: (ls) => Array.isArray(ls) && ls.every((l) => isPair(pairs, srcLang, l)),
   });
 
   const setTgtLang = React.useCallback(
@@ -149,7 +147,6 @@ const Dictionary: React.FC = () => {
     const [ref, request] = apyFetch('list', { q: 'billookup' });
     fetchRef.current = ref;
     setLoadingPairs(true);
-
     request
       .then((resp) => {
         const arr: Array<{ sourceLanguage: string; targetLanguage: string }> = resp.data.responseData || [];
@@ -161,13 +158,12 @@ const Dictionary: React.FC = () => {
         setPairs(dict);
       })
       .catch((err) => {
-        console.error('Error loading dictionary language pairs:', err);
+        console.error('Error loading pairs:', err);
       })
       .finally(() => {
         setLoadingPairs(false);
         fetchRef.current = null;
       });
-
     return () => {
       fetchRef.current?.cancel();
     };
@@ -207,23 +203,18 @@ const Dictionary: React.FC = () => {
             React.useEffect(() => {
               const url = new URL(window.location.href);
               const trimmed = searchWord.trim();
-
-              if (trimmed) {
-                url.searchParams.set('q', trimmed);
-              } else {
-                url.searchParams.delete('q');
-              }
+              if (trimmed) url.searchParams.set('q', trimmed);
+              else url.searchParams.delete('q');
               url.searchParams.set('langpair', `${srcLang}-${tgtLang}`);
               url.hash = '';
-
               window.history.replaceState(null, '', url.toString());
             }, [searchWord, srcLang, tgtLang]);
 
             const handleSearch = React.useCallback(
               (wordOverride?: string, srcOverride: string = srcLang, tgtOverride: string = tgtLang) => {
-                const word = (typeof wordOverride === 'string' ? wordOverride : searchWord).trim();
+                const word = typeof wordOverride === 'string' ? wordOverride.trim() : searchWord.trim();
                 if (!word) return;
-                setSearched(true);
+
                 searchRef.current?.cancel();
                 setLoading(true);
                 setResults([]);
@@ -245,14 +236,10 @@ const Dictionary: React.FC = () => {
                       (resp.data.responseData?.lookupResults || []).flatMap((o: Record<string, string[]>) =>
                         Object.entries(o).map(([head, defs]) => ({ head, defs })),
                       );
-
                     setResults(parse(respFwd));
 
                     const revParse = parse(respRev).flatMap(({ head, defs }) =>
-                      defs.map((def) => ({
-                        head: def.replace(/^\s*\d+\.\s*/, ''),
-                        defs: [head],
-                      })),
+                      defs.map((def) => ({ head: def.replace(/^\s*\d+\.\s*/, ''), defs: [head] })),
                     );
                     setReverseResults(revParse);
                   })
@@ -305,33 +292,26 @@ const Dictionary: React.FC = () => {
                 </div>
 
                 <div className="mt-3">
-                  {results.length > 0 && (
-                    <>
-                      {results.map(({ head, defs }, idx) => (
-                        <Word
-                          key={`fwd-${idx}`}
-                          head={head}
-                          definitions={defs}
-                          onDefinitionClick={(clickedDef) => {
-                            const prevSrc = srcLang;
-                            const prevTgt = tgtLang;
-                            setSearchWord(clickedDef);
-                            setSrcLang(prevTgt);
-                            setTgtLang(prevSrc);
-                            handleSearch(clickedDef, prevTgt, prevSrc);
-                          }}
-                        />
-                      ))}
-                    </>
-                  )}
+                  {results.map(({ head, defs }, idx) => (
+                    <Word
+                      key={`fwd-${idx}`}
+                      head={head}
+                      definitions={defs}
+                      lang={srcLang}
+                      onDefinitionClick={(def, i) => {
+                        const prevSrc = srcLang;
+                        const prevTgt = tgtLang;
+                        setSearchWord(def);
+                        setSrcLang(prevTgt);
+                        setTgtLang(prevSrc);
+                        handleSearch(def, prevTgt, prevSrc);
+                      }}
+                    />
+                  ))}
 
-                  {reverseResults.length > 0 && (
-                    <>
-                      {reverseResults.map(({ head, defs }, idx) => (
-                        <Word key={`rev-${idx}`} head={head} definitions={defs} />
-                      ))}
-                    </>
-                  )}
+                  {reverseResults.map(({ head, defs }, idx) => (
+                    <Word key={`rev-${idx}`} head={head} definitions={defs} lang={srcLang} />
+                  ))}
 
                   {searched && !loading && results.length === 0 && reverseResults.length === 0 && (
                     <div className="text-center text-muted mt-3">{t('No_results_found')}</div>

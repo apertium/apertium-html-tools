@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Word.css';
 import { useLocalizationPOS } from '../../util/localization';
 import { getPosTag } from '../../util/posLocalization';
 import { useLocalization } from '../../util/localization';
+import Paradigm from './Paradigm';
 
 export interface WordProps {
   head: string;
   definitions: string[];
+  lang: string;
   onDefinitionClick?: (definition: string, index: number) => void;
-  onExpandClick?: () => void;
 }
 
-const Word: React.FC<WordProps> = ({ head, definitions, onDefinitionClick, onExpandClick }) => {
+const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick }) => {
   const { locale } = useLocalizationPOS();
   const { t } = useLocalization();
+  const [expanded, setExpanded] = useState(false);
 
   const tagRe = /<([^>]+)>/g;
   const tags: string[] = [];
@@ -40,9 +42,14 @@ const Word: React.FC<WordProps> = ({ head, definitions, onDefinitionClick, onExp
           </li>
         ))}
       </ol>
-      <button className="expand-button" onClick={onExpandClick}>
+      <button type="button" className="expand-button" onClick={() => setExpanded(!expanded)}>
         {t('Expand_Paradigms')}
       </button>
+      {expanded && (
+        <div className="word-paradigm">
+          <Paradigm head={head} lang={lang} />
+        </div>
+      )}
     </div>
   );
 };
