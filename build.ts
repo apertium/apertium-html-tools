@@ -1,6 +1,7 @@
 import * as packageJson from './package.json';
 import * as path from 'path';
 import { promises as fs } from 'fs';
+import { execSync } from 'child_process';
 
 import * as esbuild from 'esbuild';
 import axios, { AxiosResponse } from 'axios';
@@ -199,6 +200,8 @@ const Plugin = {
     });
   },
 };
+
+execSync('ts-node scripts/gen-lang-registry.ts', { stdio: 'inherit' });
 
 // TODO: Switch `yarn serve` to use `esbuild.serve` which prevents stale
 // responses and minimizes FS writes.
