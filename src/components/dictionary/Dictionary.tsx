@@ -215,6 +215,7 @@ const Dictionary: React.FC = () => {
                 const word = typeof wordOverride === 'string' ? wordOverride.trim() : searchWord.trim();
                 if (!word) return;
 
+                +setSearched(true);
                 searchRef.current?.cancel();
                 setLoading(true);
                 setResults([]);
