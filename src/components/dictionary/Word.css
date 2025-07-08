@@ -54,3 +54,15 @@
 .expand-button:hover {
   background-color: #e0e0e0;
 }
+
+.word-paradigm {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #fafafa;
+  border-radius: 0.25rem;
+}
+
+.word-paradigm .paradigm-container {
+  margin: 0;
+  padding: 0;
+}
