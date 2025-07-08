@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios, { CancelTokenSource } from 'axios';
-import Table from 'react-bootstrap/Table';
 import Spinner from 'react-bootstrap/Spinner';
 import { APyContext } from '../../context';
 import { useLocalization } from '../../util/localization';
 import { languageRegistry } from './index';
+import './Paradigm.css';
 
 interface ParadigmProps {
   head: string;
@@ -112,7 +112,7 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang }) => {
               ))}
             </ul>
           ) : (
-            <Table bordered size="sm">
+            <table>
               <thead>
                 <tr>
                   <th />
@@ -131,7 +131,7 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang }) => {
                   </tr>
                 ))}
               </tbody>
-            </Table>
+            </table>
           )}
 
           {block.info && <div className="text-info">{block.info}</div>}

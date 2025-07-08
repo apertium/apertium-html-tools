@@ -1,0 +1,43 @@
+#content {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 10%;
+}
+
+th {
+  font-weight: normal;
+  background: #f2f2f2;
+  border: 1px #aaa solid;
+  text-align: left;
+  padding: 8px;
+}
+
+td {
+  font-weight: bold;
+  border: 1px #aaa solid;
+  padding: 8px;
+  text-align: left;
+}
+
+table {
+  font-family: arial, sans-serif;
+  width: 100%;
+  table-layout: fixed;
+  margin: 1em 1em 1em 0;
+  background: #f9f9f9;
+  border: 1px #aaa solid;
+  border-collapse: collapse;
+}
+
+tr:nth-child(even) {
+  background-color: white;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.table-container div.table:not(:last-child) {
+  margin-right: 1em;
+}
