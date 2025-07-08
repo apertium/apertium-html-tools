@@ -8,9 +8,10 @@
             "uz",
             "uzb"
         ],
-        "completion": " 72%  88.83%",
+        "completion": " 71%  88.49%",
         "missing": [
             "Apertium_Documentation",
+            "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "Install_Apertium",

@@ -8,9 +8,10 @@
         "locale": [
             "frp"
         ],
-        "completion": " 87% 104.40%",
+        "completion": " 86% 104.00%",
         "missing": [
             "Apertium_Documentation",
+            "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",

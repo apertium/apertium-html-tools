@@ -7,8 +7,9 @@
         "locale": [
             "skr"
         ],
-        "completion": " 90%  98.57%",
+        "completion": " 89%  98.19%",
         "missing": [
+            "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",

@@ -9,9 +9,10 @@
             "tt",
             "tat"
         ],
-        "completion": " 87% 101.71%",
+        "completion": " 86% 101.32%",
         "missing": [
             "Apertium_Documentation",
+            "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",

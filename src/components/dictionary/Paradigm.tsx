@@ -9,6 +9,7 @@ import './Paradigm.css';
 interface ParadigmProps {
   head: string;
   lang: string;
+  onLoaded?: () => void;
 }
 
 interface Block {
@@ -22,7 +23,7 @@ interface Block {
   subcats?: Block[];
 }
 
-const Paradigm: React.FC<ParadigmProps> = ({ head, lang }) => {
+const Paradigm: React.FC<ParadigmProps> = ({ head, lang, onLoaded }) => {
   const apyFetch = useContext(APyContext);
   const { t } = useLocalization();
   const [loading, setLoading] = useState(true);
@@ -81,12 +82,13 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang }) => {
     ).then(() => {
       setValues(out);
       setLoading(false);
+      onLoaded?.();
     });
 
     return () => {
       cancelers.forEach((c) => c.cancel());
     };
-  }, [head, lang, apyFetch, plugin]);
+  }, [head, lang, apyFetch, plugin, onLoaded]);
 
   if (!plugin) {
     return <div className="text-center text-muted my-4">No paradigms available for language: {lang}</div>;

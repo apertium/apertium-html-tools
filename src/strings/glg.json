@@ -9,9 +9,10 @@
             "gl",
             "glg"
         ],
-        "completion": " 87% 105.34%",
+        "completion": " 86% 104.93%",
         "missing": [
             "Apertium_Documentation",
+            "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",

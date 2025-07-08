@@ -3,6 +3,7 @@ import './Word.css';
 import { useLocalizationPOS } from '../../util/localization';
 import { getPosTag } from '../../util/posLocalization';
 import { useLocalization } from '../../util/localization';
+import Spinner from 'react-bootstrap/Spinner';
 import Paradigm from './Paradigm';
 
 export interface WordProps {
@@ -16,6 +17,7 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
   const { locale } = useLocalizationPOS();
   const { t } = useLocalization();
   const [expanded, setExpanded] = useState(false);
+  const [loadingParadigm, setLoadingParadigm] = useState(false);
 
   const tagRe = /<([^>]+)>/g;
   const tags: string[] = [];
@@ -28,6 +30,15 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
   const cleanDefs = definitions.map((def) => def.replace(/<[^>]+>/g, '')).filter((def) => !/^\(.*\)$/.test(def));
 
   const displayTag = tags.length > 0 ? getPosTag(locale, tags.join('.')) : null;
+
+  const handleToggle = () => {
+    if (!expanded) {
+      setExpanded(true);
+      setLoadingParadigm(true);
+    } else {
+      setExpanded(false);
+    }
+  };
 
   return (
     <div className="word-card">
@@ -42,12 +53,21 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
           </li>
         ))}
       </ol>
-      <button type="button" className="expand-button" onClick={() => setExpanded(!expanded)}>
-        {t('Expand_Paradigms')}
+      <button type="button" className="expand-button" onClick={handleToggle} disabled={loadingParadigm}>
+        {loadingParadigm ? (
+          <>
+            <Spinner animation="border" size="sm" role="status" className="me-2" />
+            {t('Expand_Paradigms')}
+          </>
+        ) : expanded ? (
+          t('Collapse_Paradigms')
+        ) : (
+          t('Expand_Paradigms')
+        )}
       </button>
       {expanded && (
         <div className="word-paradigm">
-          <Paradigm head={head} lang={lang} />
+          <Paradigm head={head} lang={lang} onLoaded={() => setLoadingParadigm(false)} />
         </div>
       )}
     </div>

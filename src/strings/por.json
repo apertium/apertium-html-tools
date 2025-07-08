@@ -9,12 +9,13 @@
             "pt",
             "por"
         ],
-        "completion": " 44%  11.99%",
+        "completion": " 43%  11.95%",
         "missing": [
             "About_Apertium",
             "Apertium_Documentation",
             "Apertium_Downloads",
             "Cancel",
+            "Collapse_Paradigms",
             "Contact",
             "Contact_Para",
             "Dictionary",

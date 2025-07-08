@@ -8,8 +8,9 @@
         "locale": [
             "kaa"
         ],
-        "completion": " 90% 101.17%",
+        "completion": " 89% 100.78%",
         "missing": [
+            "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",

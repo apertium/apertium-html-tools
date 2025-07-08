@@ -8,9 +8,10 @@
             "mr",
             "mar"
         ],
-        "completion": " 87%  97.96%",
+        "completion": " 86%  97.58%",
         "missing": [
             "Apertium_Documentation",
+            "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",

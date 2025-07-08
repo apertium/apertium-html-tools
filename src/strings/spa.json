@@ -10,9 +10,10 @@
             "es",
             "spa"
         ],
-        "completion": " 64%  26.15%",
+        "completion": " 63%  26.05%",
         "missing": [
             "Apertium_Documentation",
+            "Collapse_Paradigms",
             "Contact_Para",
             "Dictionary",
             "Documentation_Para",

@@ -8,9 +8,10 @@
             "ar",
             "ara"
         ],
-        "completion": " 87%  87.73%",
+        "completion": " 86%  87.38%",
         "missing": [
             "Apertium_Documentation",
+            "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",

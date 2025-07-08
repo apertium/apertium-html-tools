@@ -8,9 +8,10 @@
             "de",
             "deu"
         ],
-        "completion": " 87% 110.74%",
+        "completion": " 86% 110.30%",
         "missing": [
             "Apertium_Documentation",
+            "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",

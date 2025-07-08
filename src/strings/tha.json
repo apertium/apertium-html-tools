@@ -5,9 +5,10 @@
         "locale": [
             "tha"
         ],
-        "completion": " 69%  73.11%",
+        "completion": " 68%  72.82%",
         "missing": [
             "Apertium_Documentation",
+            "Collapse_Paradigms",
             "Dictionary",
             "Drop_Document",
             "Expand_Paradigms",

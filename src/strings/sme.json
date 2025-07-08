@@ -9,11 +9,12 @@
             "se",
             "sme"
         ],
-        "completion": " 50%  14.31%",
+        "completion": " 50%  14.26%",
         "missing": [
             "About_Apertium",
             "Apertium_Documentation",
             "Apertium_Downloads",
+            "Collapse_Paradigms",
             "Contact_Para",
             "Dictionary",
             "Documentation_Para",

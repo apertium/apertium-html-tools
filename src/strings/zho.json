@@ -9,7 +9,7 @@
             "zh",
             "zho"
         ],
-        "completion": " 39%   3.77%",
+        "completion": " 38%   3.76%",
         "missing": [
             "APy_Request",
             "APy_Sandbox",
@@ -17,6 +17,7 @@
             "Apertium_Documentation",
             "Apertium_Downloads",
             "Cancel",
+            "Collapse_Paradigms",
             "Contact_Para",
             "Dictionary",
             "Documentation_Para",

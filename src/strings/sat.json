@@ -7,8 +7,9 @@
         "locale": [
             "sat"
         ],
-        "completion": " 90% 105.90%",
+        "completion": " 89% 105.49%",
         "missing": [
+            "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",

@@ -9,9 +9,10 @@
             "tr",
             "tur"
         ],
-        "completion": " 87% 100.54%",
+        "completion": " 86% 100.15%",
         "missing": [
             "Apertium_Documentation",
+            "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",

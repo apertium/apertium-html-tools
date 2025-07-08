@@ -8,10 +8,11 @@
             "he",
             "heb"
         ],
-        "completion": " 60%  66.67%",
+        "completion": " 60%  66.41%",
         "missing": [
             "Apertium_Documentation",
             "Cancel",
+            "Collapse_Paradigms",
             "Dictionary",
             "Drop_Document",
             "Expand_Paradigms",
