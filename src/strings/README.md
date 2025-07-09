@@ -8,7 +8,7 @@ After editing localizations, please run `make` and commit its changes.
 <!--table-->
 | code | CBE* | CBC** |
 |------|------|-------|
-| ukr  | 100% | 101.10% |
+| ukr  | 100% | 100.97% |
 | eng  | 100% | 100.00% |
 | arg  | 88% | 107.90% |
 | cat  | 88% | 107.86% |
@@ -29,7 +29,7 @@ After editing localizations, please run `make` and commit its changes.
 | mar  | 84% | 96.99% |
 | fin  | 84% | 91.26% |
 | ara  | 84% | 86.86% |
-| rus  | 81% | 80.78% |
+| rus  | 81% | 80.85% |
 | kir  | 75% | 43.93% |
 | srd  | 71% | 87.57% |
 | uzb  | 70% | 87.95% |
