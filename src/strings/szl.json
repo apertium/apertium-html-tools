@@ -7,13 +7,14 @@
         "locale": [
             "szl"
         ],
-        "completion": " 86%  98.19%",
+        "completion": " 84%  97.60%",
         "missing": [
             "Apertium_Documentation",
             "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",
+            "No_pos_found",
             "No_results_found",
             "Norm_Preferences",
             "Search",

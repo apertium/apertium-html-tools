@@ -8,12 +8,13 @@
             "nb",
             "nob"
         ],
-        "completion": " 89%  97.80%",
+        "completion": " 88%  97.21%",
         "missing": [
             "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",
+            "No_pos_found",
             "No_results_found",
             "Search",
             "Type_A_Word"

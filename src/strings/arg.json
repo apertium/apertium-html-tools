@@ -8,12 +8,13 @@
             "an",
             "arg"
         ],
-        "completion": " 89% 108.55%",
+        "completion": " 88% 107.90%",
         "missing": [
             "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",
+            "No_pos_found",
             "No_results_found",
             "Search",
             "Type_A_Word"

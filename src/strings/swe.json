@@ -7,7 +7,7 @@
         "locale": [
             "swe"
         ],
-        "completion": " 71%  83.13%",
+        "completion": " 70%  82.63%",
         "missing": [
             "Apertium_Documentation",
             "Collapse_Paradigms",
@@ -20,6 +20,7 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "No_pos_found",
             "No_results_found",
             "Norm_Preferences",
             "Search",

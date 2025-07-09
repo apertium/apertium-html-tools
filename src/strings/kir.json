@@ -9,7 +9,7 @@
             "ky",
             "kir"
         ],
-        "completion": " 76%  44.20%",
+        "completion": " 75%  43.93%",
         "missing": [
             "Apertium_Documentation",
             "Collapse_Paradigms",
@@ -21,6 +21,7 @@
             "More_Languages",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "No_pos_found",
             "No_results_found",
             "Norm_Preferences",
             "Search",

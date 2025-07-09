@@ -98,6 +98,14 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, onLoaded }) => {
     return <Spinner animation="border" role="status" />;
   }
 
+  if (blocks.length === 0) {
+    return (
+      <div className="text-center text-muted my-2" data-testid="no-paradigm-found">
+        {t('No_pos_found')}
+      </div>
+    );
+  }
+
   return (
     <div className="paradigm-container">
       {blocks.map((block, i) => (

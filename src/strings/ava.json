@@ -8,7 +8,7 @@
             "av",
             "ava"
         ],
-        "completion": " 38%  12.10%",
+        "completion": " 38%  12.02%",
         "missing": [
             "About",
             "About_Apertium",
@@ -36,6 +36,7 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
+            "No_pos_found",
             "No_results_found",
             "Norm_Preferences",
             "Not_Available",

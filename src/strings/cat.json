@@ -10,12 +10,13 @@
             "ca",
             "cat"
         ],
-        "completion": " 89% 108.51%",
+        "completion": " 88% 107.86%",
         "missing": [
             "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",
+            "No_pos_found",
             "No_results_found",
             "Search",
             "Type_A_Word"

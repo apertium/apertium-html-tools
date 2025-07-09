@@ -8,13 +8,14 @@
             "ar",
             "ara"
         ],
-        "completion": " 86%  87.38%",
+        "completion": " 84%  86.86%",
         "missing": [
             "Apertium_Documentation",
             "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",
+            "No_pos_found",
             "No_results_found",
             "Norm_Preferences",
             "Search",

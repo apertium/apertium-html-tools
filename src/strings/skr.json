@@ -7,12 +7,13 @@
         "locale": [
             "skr"
         ],
-        "completion": " 89%  98.19%",
+        "completion": " 88%  97.60%",
         "missing": [
             "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",
+            "No_pos_found",
             "No_results_found",
             "Search",
             "Type_A_Word"
