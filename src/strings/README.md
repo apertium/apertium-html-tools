@@ -29,7 +29,7 @@ After editing localizations, please run `make` and commit its changes.
 | mar  | 84% | 96.99% |
 | fin  | 84% | 91.26% |
 | ara  | 84% | 86.86% |
-| rus  | 80% | 80.55% |
+| rus  | 81% | 80.78% |
 | kir  | 75% | 43.93% |
 | srd  | 71% | 87.57% |
 | uzb  | 70% | 87.95% |

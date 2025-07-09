@@ -11,10 +11,9 @@
             "ru",
             "rus"
         ],
-        "completion": " 80%  80.55%",
+        "completion": " 81%  80.78%",
         "missing": [
             "Apertium_Documentation",
-            "Collapse_Paradigms",
             "Install_Apertium",
             "Install_Apertium_Para",
             "Mark_Unknown_Words",
@@ -74,6 +73,7 @@
     "Type_A_Word": "Введите слово",
     "Search": "Поиск",
     "No_results_found": "Результатов не найдено!",
-    "Expand_Paradigms": "Скрыть",
+    "Expand_Paradigms": "Формы слова",
+    "Collapse_Paradigms": "Скрыть",
     "No_pos_found": "Часть речи не поддерживается"
 }
