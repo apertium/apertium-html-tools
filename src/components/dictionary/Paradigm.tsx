@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios, { CancelTokenSource } from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 import { APyContext } from '../../context';
-import { useLocalization } from '../../util/localization';
+import { useLocalization, useLocalizationPOS } from '../../util/localization';
 import { languageRegistry } from './index';
 import './Paradigm.css';
 
@@ -26,6 +26,7 @@ interface Block {
 const Paradigm: React.FC<ParadigmProps> = ({ head, lang, onLoaded }) => {
   const apyFetch = useContext(APyContext);
   const { t } = useLocalization();
+  const { locale } = useLocalizationPOS();
   const [loading, setLoading] = useState(true);
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [values, setValues] = useState<Record<string, string>>({});
@@ -33,8 +34,9 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, onLoaded }) => {
 
   useEffect(() => {
     if (!plugin) return;
-    const cancelers: CancelTokenSource[] = [];
-    const all = plugin.addParadigms();
+
+    const all = plugin.addParadigms({ locale, t });
+
     const lemma = head.replace(/<[^>]+>/g, '');
     const origTags = Array.from(head.matchAll(/<([^>]+)>/g), (m) => m[1]);
     const first = origTags[0] || '';
@@ -54,6 +56,8 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, onLoaded }) => {
     setBlocks(flat);
 
     const out: Record<string, string> = {};
+    const cancelers: CancelTokenSource[] = [];
+
     Promise.all(
       flat
         .flatMap((b) => b.tabdata ?? [])
@@ -88,10 +92,10 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, onLoaded }) => {
     return () => {
       cancelers.forEach((c) => c.cancel());
     };
-  }, [head, lang, apyFetch, plugin, onLoaded]);
+  }, [head, lang, locale, apyFetch, plugin, onLoaded, t]);
 
   if (!plugin) {
-    return <div className="text-center text-muted my-4">No paradigms available for language: {lang}</div>;
+    return <div className="text-center text-muted my-4">{t('No_paradigms_for_language', { lang })}</div>;
   }
 
   if (loading) {
@@ -110,13 +114,13 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, onLoaded }) => {
     <div className="paradigm-container">
       {blocks.map((block, i) => (
         <div key={i} id={block.id}>
-          <h5>{block.label()}</h5>
+          <h5>{t(block.label())}</h5>
 
           {block.tablist ? (
             <ul>
               {block.tablist.map((item, j) => (
                 <li key={j} data-tags={item.tags}>
-                  {item.label}
+                  {t(item.label)}
                   {item.pretxt && ` (${item.pretxt})`}
                 </li>
               ))}
@@ -127,14 +131,14 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, onLoaded }) => {
                 <tr>
                   <th />
                   {block.tabcols?.map((c, ci) => (
-                    <th key={ci}>{c}</th>
+                    <th key={ci}>{t(c)}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {block.tabrows?.map((r, ri) => (
                   <tr key={ri}>
-                    <th>{r}</th>
+                    <th>{t(r)}</th>
                     {block.tabdata?.[ri].map((cell, ci) => (
                       <td key={ci}>{cell.pretxt ?? values[cell.tags ?? ''] ?? ''}</td>
                     ))}
@@ -144,7 +148,7 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, onLoaded }) => {
             </table>
           )}
 
-          {block.info && <div className="text-info">{block.info}</div>}
+          {block.info && <div className="text-info">{t(block.info)}</div>}
         </div>
       ))}
     </div>

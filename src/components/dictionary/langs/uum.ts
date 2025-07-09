@@ -1,5 +1,3 @@
-import { LanguagePlugin, ParadigmBlock } from '../types'
-
 export const uumLabels: Record<string, any> = {
   'English-Linguist': {
     sg: 'Singular',
@@ -31,6 +29,11 @@ export const uumLabels: Record<string, any> = {
       'noun-poss': 'Possession',
       'noun-poss-sg': 'Singular',
       'noun-poss-pl': 'Plural',
+      affirmative: 'Affirmative',
+      negative: 'Negative',
+      infinitive: 'Infinitive',
+      participle: 'Participle',
+      converb: 'Converb',
     },
     'poss-sg': {
       p1sg: '1sg',
@@ -49,6 +52,174 @@ export const uumLabels: Record<string, any> = {
       p3pl: '3pl',
     },
   },
+
+  'English-Learner': {
+    sg: 'Singular',
+    pl: 'Plural',
+    p1sg: 'I',
+    p2sg: 'you',
+    p3sg: 'he/she',
+    p1pl: 'we',
+    p2pl: 'you all',
+    p3pl: 'they',
+    cases: {
+      nom: 'Nominative',
+      acc: 'Accusative',
+      dat: 'Dative',
+      loc: 'Locative',
+      gen: 'Genitive',
+      abl: 'Ablative',
+      ins: 'Instrumental',
+      term: 'Terminative',
+      abe: 'Abessive',
+    },
+    labels: {
+      'non-personal': 'Non-personal forms',
+      pres: 'Present',
+      past: 'Past',
+      futs: 'Future',
+      fut: 'Future indefinite',
+      fdi: 'Future definite',
+      'pres.cni': 'Conditional',
+      imp: 'Imperative',
+      'noun-cases': 'Cases',
+      'noun-poss': 'Possession',
+      'noun-poss-sg': 'Singular possessed noun',
+      'noun-poss-pl': 'Plural possessed noun',
+      affirmative: 'Affirmative',
+      negative: 'Negative',
+      infinitive: 'Infinitive',
+      participle: 'Participle',
+      converb: 'Converb',
+    },
+    'poss-sg': {
+      p1sg: 'my',
+      p2sg: 'your',
+      p3sg: 'his/her',
+      p1pl: 'our',
+      p2pl: 'your',
+      p3pl: 'their',
+    },
+    'poss-pl': {
+      p1sg: 'my (plural)',
+      p2sg: 'your (plural)',
+      p3sg: 'his/her (plural)',
+      p1pl: 'our (plural)',
+      p2pl: 'your (plural)',
+      p3pl: 'their (plural)',
+    },
+  },
+
+  'Ukrainian-Linguist': {
+    sg: 'Однина',
+    pl: 'Множина',
+    p1: '1-ша',
+    p2: '2-га',
+    p3: '3-тя',
+    cases: {
+      nom: 'Називний',
+      acc: 'Знахідний',
+      dat: 'Давальний',
+      loc: 'Місцевий',
+      gen: 'Родовий',
+      abl: 'Відмінок походження',
+      ins: 'Орудний',
+      term: 'Кінцевий',
+      abe: 'Безвідмінковий',
+    },
+    labels: {
+      'non-personal': 'Неперсональні форми',
+      pres: 'Теперішній час',
+      past: 'Минулий час',
+      futs: 'Майбутній час',
+      fut: 'Майбутній недоконаний',
+      fdi: 'Майбутній доконаний',
+      'pres.cni': 'Умовний',
+      imp: 'Наказовий',
+      'noun-cases': 'Відмінки',
+      'noun-poss': 'Присвійність',
+      'noun-poss-sg': 'Однина',
+      'noun-poss-pl': 'Множина',
+      affirmative: 'Стверджувальний',
+      negative: 'Заперечний',
+      infinitive: 'Інфінітив',
+      participle: 'Дієприкметник',
+      converb: 'Дієприслівник',
+    },
+    'poss-sg': {
+      p1sg: '1-ша',
+      p2sg: '2-га',
+      p3sg: '3-тя',
+      p1pl: '1-ша',
+      p2pl: '2-га',
+      p3pl: '3-тя',
+    },
+    'poss-pl': {
+      p1sg: '1-ша',
+      p2sg: '2-га',
+      p3sg: '3-тя',
+      p1pl: '1-ша',
+      p2pl: '2-га',
+      p3pl: '3-тя',
+    },
+  },
+
+  'Ukrainian-Learner': {
+    sg: 'Однина',
+    pl: 'Множина',
+    p1sg: 'я',
+    p2sg: 'ти',
+    p3sg: 'він/вона',
+    p1pl: 'ми',
+    p2pl: 'ви',
+    p3pl: 'вони',
+    cases: {
+      nom: 'Називний',
+      acc: 'Знахідний',
+      dat: 'Давальний',
+      loc: 'Місцевий',
+      gen: 'Родовий',
+      abl: 'Відмінок походження',
+      ins: 'Орудний',
+      term: 'Кінцевий',
+      abe: 'Безвідмінковий',
+    },
+    labels: {
+      'non-personal': 'Неперсональні форми',
+      pres: 'Теперішній час',
+      past: 'Минулий час',
+      futs: 'Майбутній час',
+      fut: 'Майбутній недоконаний',
+      fdi: 'Майбутній доконаний',
+      'pres.cni': 'Умовний',
+      imp: 'Наказовий',
+      'noun-cases': 'Відмінки',
+      'noun-poss': 'Присвійність',
+      'noun-poss-sg': 'Іменник в однині',
+      'noun-poss-pl': 'Іменник у множині',
+      affirmative: 'Стверджувальний',
+      negative: 'Заперечний',
+      infinitive: 'Інфінітив',
+      participle: 'Дієприкметник',
+      converb: 'Дієприслівник',
+    },
+    'poss-sg': {
+      p1sg: 'мій',
+      p2sg: 'твій',
+      p3sg: 'його/її',
+      p1pl: 'наш',
+      p2pl: 'ваш',
+      p3pl: 'їхній',
+    },
+    'poss-pl': {
+      p1sg: 'мої',
+      p2sg: 'твої',
+      p3sg: 'його/її',
+      p1pl: 'наші',
+      p2pl: 'ваші',
+      p3pl: 'їхні',
+    },
+  },
 }
 
 export type UumBlock = {
@@ -60,20 +231,47 @@ export type UumBlock = {
   subcats?: UumBlock[]
 }
 
-function uumFinVb(tgs: string, lab: string): UumBlock {
-  const m = uumLabels['English-Linguist']
+function getMode(locale: string): string {
+  const code = (locale || '').split('-')[0].toLowerCase()
+
+  let displayName: string | undefined
+  try {
+    const dn = new Intl.DisplayNames(['en'], { type: 'language' })
+    displayName = dn.of(code) as string
+  } catch {
+    displayName = undefined
+  }
+
+  if (displayName) {
+    const name = displayName.charAt(0).toUpperCase() + displayName.slice(1)
+    const modeKey = `${name}-Linguist`
+    if (modeKey in uumLabels) {
+      return modeKey
+    }
+  }
+  return 'English-Linguist'
+}
+
+function uumFinVb(
+  ctx: { locale: string; t: (key: string) => string },
+  tgs: string,
+  lab: string
+): UumBlock {
+  const { locale: loc, t } = ctx
+  const mode = getMode(loc)
+  const m = uumLabels[mode]
   return {
     id: tgs.replace(/\./g, '-'),
-    label: () => m.labels[lab] || lab,
-    tabcols: ['Affirmative', 'Negative'],
+    label: () => t(m.labels[lab] || lab),
+    tabcols: [m.labels.affirmative, m.labels.negative].map(k => t(k)),
     tabrows: [
-      '1st person singular',
-      '1st person plural',
-      '2nd person singular',
-      '2nd person plural',
-      '3rd person singular',
-      '3rd person plural',
-    ],
+      `${m.p1} ${m.sg}`,
+      `${m.p1} ${m.pl}`,
+      `${m.p2} ${m.sg}`,
+      `${m.p2} ${m.pl}`,
+      `${m.p3} ${m.sg}`,
+      `${m.p3} ${m.pl}`,
+    ].map(k => t(k)),
     tabdata: [
       [{ tags: `${tgs}.p1.sg` }, { tags: `neg.${tgs}.p1.sg` }],
       [{ tags: `${tgs}.p1.pl` }, { tags: `neg.${tgs}.p1.pl` }],
@@ -85,44 +283,49 @@ function uumFinVb(tgs: string, lab: string): UumBlock {
   }
 }
 
-export function add_uum(): Record<string, UumBlock[]> {
-  const labels = uumLabels['English-Linguist']
+export function add_uum(
+  ctx: { locale: string; t: (key: string) => string }
+): Record<string, UumBlock[]> {
+  const { locale: loc, t } = ctx
+  const mode = getMode(loc)
+  const labels = uumLabels[mode]
 
   return {
     vaux: [],
     verb_iv: [
       {
         id: 'non-personal',
-        label: () => labels.labels['non-personal'],
-        tabcols: ['Affirmative', 'Negative'],
-        tabrows: ['Infinitive', 'Participle', 'Converb'],
+        label: () => t(labels.labels['non-personal']),
+        tabcols: [labels.labels.affirmative, labels.labels.negative].map(k => t(k)),
+        tabrows: [
+          labels.labels.infinitive,
+          labels.labels.participle,
+          labels.labels.converb,
+        ].map(k => t(k)),
         tabdata: [
           [{ tags: 'inf' }, { tags: 'neg.inf' }],
           [{ tags: 'pp' }, { tags: 'neg.pp' }],
           [{ tags: 'tsg' }, { tags: 'neg.tsg' }],
         ],
       },
-      uumFinVb('pres', 'pres'),
-      uumFinVb('past', 'past'),
+      uumFinVb(ctx, 'pres', 'pres'),
+      uumFinVb(ctx, 'past', 'past'),
       {
         id: 'future',
-        label: () => labels.labels['futs'],
-        subcats: [
-          uumFinVb('fut', 'fut'),
-          uumFinVb('fdi', 'fdi'),
-        ],
+        label: () => t(labels.labels['futs']),
+        subcats: [uumFinVb(ctx, 'fut', 'fut'), uumFinVb(ctx, 'fdi', 'fdi')],
       },
-      uumFinVb('pres.cni', 'pres.cni'),
+      uumFinVb(ctx, 'pres.cni', 'pres.cni'),
       {
         id: 'imp',
-        label: () => labels.labels['imp'],
-        tabcols: ['Affirmative', 'Negative'],
+        label: () => t(labels.labels['imp']),
+        tabcols: [labels.labels.affirmative, labels.labels.negative].map(k => t(k)),
         tabrows: [
-          '1st person singular',
-          '1st person plural',
-          '2nd person singular',
-          '2nd person plural',
-        ],
+          `${labels.p1} ${labels.sg}`,
+          `${labels.p1} ${labels.pl}`,
+          `${labels.p2} ${labels.sg}`,
+          `${labels.p2} ${labels.pl}`,
+        ].map(k => t(k)),
         tabdata: [
           [{ tags: 'imp.p1.sg' }, { tags: 'neg.imp.p1.sg' }],
           [{ tags: 'imp.p1.pl' }, { tags: 'neg.imp.p1.pl' }],
@@ -134,36 +337,37 @@ export function add_uum(): Record<string, UumBlock[]> {
     verb_tv: [
       {
         id: 'non-personal',
-        label: () => labels.labels['non-personal'],
-        tabcols: ['Affirmative', 'Negative'],
-        tabrows: ['Infinitive', 'Participle', 'Converb'],
+        label: () => t(labels.labels['non-personal']),
+        tabcols: [labels.labels.affirmative, labels.labels.negative].map(k => t(k)),
+        tabrows: [
+          labels.labels.infinitive,
+          labels.labels.participle,
+          labels.labels.converb,
+        ].map(k => t(k)),
         tabdata: [
           [{ tags: 'inf' }, { tags: 'neg.inf' }],
           [{ tags: 'pp' }, { tags: 'neg.pp' }],
           [{ tags: 'tsg' }, { tags: 'neg.tsg' }],
         ],
       },
-      uumFinVb('pres', 'pres'),
-      uumFinVb('past', 'past'),
+      uumFinVb(ctx, 'pres', 'pres'),
+      uumFinVb(ctx, 'past', 'past'),
       {
         id: 'future',
-        label: () => labels.labels['futs'],
-        subcats: [
-          uumFinVb('fut', 'fut'),
-          uumFinVb('fdi', 'fdi'),
-        ],
+        label: () => t(labels.labels['futs']),
+        subcats: [uumFinVb(ctx, 'fut', 'fut'), uumFinVb(ctx, 'fdi', 'fdi')],
       },
-      uumFinVb('pres.cni', 'pres.cni'),
+      uumFinVb(ctx, 'pres.cni', 'pres.cni'),
       {
         id: 'imp',
-        label: () => labels.labels['imp'],
-        tabcols: ['Affirmative', 'Negative'],
+        label: () => t(labels.labels['imp']),
+        tabcols: [labels.labels.affirmative, labels.labels.negative].map(k => t(k)),
         tabrows: [
-          '1st person singular',
-          '1st person plural',
-          '2nd person singular',
-          '2nd person plural',
-        ],
+          `${labels.p1} ${labels.sg}`,
+          `${labels.p1} ${labels.pl}`,
+          `${labels.p2} ${labels.sg}`,
+          `${labels.p2} ${labels.pl}`,
+        ].map(k => t(k)),
         tabdata: [
           [{ tags: 'imp.p1.sg' }, { tags: 'neg.imp.p1.sg' }],
           [{ tags: 'imp.p1.pl' }, { tags: 'neg.imp.p1.pl' }],
@@ -175,22 +379,23 @@ export function add_uum(): Record<string, UumBlock[]> {
     noun: [
       {
         id: 'noun-cases',
-        label: () => labels.labels['noun-cases'],
-        tabcols: [labels.sg, labels.pl],
-        tabrows: Object.values(labels.cases),
+        label: () => t(labels.labels['noun-cases']),
+        tabcols: [labels.sg, labels.pl].map(k => t(k)),
+        tabrows: Object.values(labels.cases).map(k => t(k)),
         tabdata: Object.keys(labels.cases).map(c => [
-          { tags: c }, { tags: `pl.${c}` },
+          { tags: c },
+          { tags: `pl.${c}` },
         ]),
       },
       {
         id: 'noun-poss',
-        label: () => labels.labels['noun-poss'],
+        label: () => t(labels.labels['noun-poss']),
         subcats: [
           {
             id: 'noun-poss-sg',
-            label: () => labels.labels['noun-poss-sg'],
-            tabcols: Object.values(labels['poss-sg']),
-            tabrows: Object.values(labels.cases),
+            label: () => t(labels.labels['noun-poss-sg']),
+            tabcols: Object.values(labels['poss-sg']).map(k => t(k)),
+            tabrows: Object.values(labels.cases).map(k => t(k)),
             tabdata: Object.keys(labels.cases).map(c =>
               Object.keys(labels['poss-sg']).map(p => ({
                 tags: `px${p.slice(1)}.${c}`,
@@ -199,9 +404,9 @@ export function add_uum(): Record<string, UumBlock[]> {
           },
           {
             id: 'noun-poss-pl',
-            label: () => labels.labels['noun-poss-pl'],
-            tabcols: Object.values(labels['poss-pl']),
-            tabrows: Object.values(labels.cases),
+            label: () => t(labels.labels['noun-poss-pl']),
+            tabcols: Object.values(labels['poss-pl']).map(k => t(k)),
+            tabrows: Object.values(labels.cases).map(k => t(k)),
             tabdata: Object.keys(labels.cases).map(c =>
               Object.keys(labels['poss-pl']).map(p => ({
                 tags: `pl.px${p.slice(1)}.${c}`,
@@ -214,22 +419,23 @@ export function add_uum(): Record<string, UumBlock[]> {
     pnoun: [
       {
         id: 'pnoun-cases',
-        label: () => labels.labels['noun-cases'],
-        tabcols: [labels.sg, labels.pl],
-        tabrows: Object.values(labels.cases),
+        label: () => t(labels.labels['noun-cases']),
+        tabcols: [labels.sg, labels.pl].map(k => t(k)),
+        tabrows: Object.values(labels.cases).map(k => t(k)),
         tabdata: Object.keys(labels.cases).map(c => [
-          { tags: c }, { tags: `pl.${c}` },
+          { tags: c },
+          { tags: `pl.${c}` },
         ]),
       },
       {
         id: 'pnoun-poss',
-        label: () => labels.labels['noun-poss'],
+        label: () => t(labels.labels['noun-poss']),
         subcats: [
           {
             id: 'pnoun-poss-sg',
-            label: () => labels.labels['noun-poss-sg'],
-            tabcols: Object.values(labels['poss-sg']),
-            tabrows: Object.values(labels.cases),
+            label: () => t(labels.labels['noun-poss-sg']),
+            tabcols: Object.values(labels['poss-sg']).map(k => t(k)),
+            tabrows: Object.values(labels.cases).map(k => t(k)),
             tabdata: Object.keys(labels.cases).map(c =>
               Object.keys(labels['poss-sg']).map(p => ({
                 tags: `px${p.slice(1)}.${c}`,
@@ -238,9 +444,9 @@ export function add_uum(): Record<string, UumBlock[]> {
           },
           {
             id: 'pnoun-poss-pl',
-            label: () => labels.labels['noun-poss-pl'],
-            tabcols: Object.values(labels['poss-pl']),
-            tabrows: Object.values(labels.cases),
+            label: () => t(labels.labels['noun-poss-pl']),
+            tabcols: Object.values(labels['poss-pl']).map(k => t(k)),
+            tabrows: Object.values(labels.cases).map(k => t(k)),
             tabdata: Object.keys(labels.cases).map(c =>
               Object.keys(labels['poss-pl']).map(p => ({
                 tags: `pl.px${p.slice(1)}.${c}`,
