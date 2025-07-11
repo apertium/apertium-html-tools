@@ -201,6 +201,12 @@ const Dictionary: React.FC = () => {
             const [reverseResults, setReverseResults] = React.useState<{ head: string; defs: string[] }[]>([]);
 
             React.useEffect(() => {
+              setResults([]);
+              setReverseResults([]);
+              setSearched(false);
+            }, [srcLang, tgtLang]);
+
+            React.useEffect(() => {
               const url = new URL(window.location.href);
               const trimmed = searchWord.trim();
               if (trimmed) url.searchParams.set('q', trimmed);
@@ -215,7 +221,7 @@ const Dictionary: React.FC = () => {
                 const word = typeof wordOverride === 'string' ? wordOverride.trim() : searchWord.trim();
                 if (!word) return;
 
-                +setSearched(true);
+                setSearched(true);
                 searchRef.current?.cancel();
                 setLoading(true);
                 setResults([]);
