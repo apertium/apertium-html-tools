@@ -335,7 +335,7 @@ const DesktopLanguageSelector = ({
   }, [locale, tgtLangs.length, srcLangs.length]);
 
   const validTgtLang = React.useCallback((lang: string) => isPair(pairs, srcLang, lang), [pairs, srcLang]);
-  const validSrcLang = React.useCallback((lang: string) => pairs[lang].size > 0, [pairs]);
+  const validSrcLang = React.useCallback((lang: string) => !!pairs[lang] && pairs[lang].size > 0, [pairs]);
 
   return (
     <>
