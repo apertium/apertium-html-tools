@@ -4,6 +4,7 @@ import { useLocalizationPOS } from '../../util/localization';
 import { getPosTag } from '../../util/posLocalization';
 import { useLocalization } from '../../util/localization';
 import Spinner from 'react-bootstrap/Spinner';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Paradigm from './Paradigm';
 
 export interface WordProps {
@@ -17,6 +18,7 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
   const { locale } = useLocalizationPOS();
   const { t } = useLocalization();
   const [expanded, setExpanded] = useState(false);
+  const [mode, setMode] = useState<'Linguist' | 'Learner'>('Linguist');
   const [loadingParadigm, setLoadingParadigm] = useState(false);
 
   const tagRe = /<([^>]+)>/g;
@@ -46,6 +48,7 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
         <span className="word-text">{word}</span>
         {displayTag && <span className="word-pos">{displayTag}</span>}
       </div>
+
       <ol className="word-definitions">
         {cleanDefs.map((def, i) => (
           <li key={i} className="definition-item" onClick={() => onDefinitionClick?.(def, i)}>
@@ -53,21 +56,37 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
           </li>
         ))}
       </ol>
-      <button type="button" className="expand-button" onClick={handleToggle} disabled={loadingParadigm}>
-        {loadingParadigm ? (
-          <>
-            <Spinner animation="border" size="sm" role="status" className="me-2" />
-            {t('Expand_Paradigms')}
-          </>
-        ) : expanded ? (
-          t('Collapse_Paradigms')
-        ) : (
-          t('Expand_Paradigms')
+
+      <div className="expand-controls">
+        <button type="button" className="expand-button" onClick={handleToggle} disabled={loadingParadigm}>
+          {loadingParadigm ? (
+            <>
+              <Spinner animation="border" size="sm" role="status" className="me-2" />
+              {t('Expand_Paradigms')}
+            </>
+          ) : expanded ? (
+            t('Collapse_Paradigms')
+          ) : (
+            t('Expand_Paradigms')
+          )}
+        </button>
+
+        {expanded && (
+          <Dropdown onSelect={(eventKey) => setMode(eventKey as 'Linguist' | 'Learner')}>
+            <Dropdown.Toggle id="mode-dropdown" className="expand-button">
+              {t(mode)}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item eventKey="Linguist">{t('Linguist')}</Dropdown.Item>
+              <Dropdown.Item eventKey="Learner">{t('Learner')}</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         )}
-      </button>
+      </div>
+
       {expanded && (
         <div className="word-paradigm">
-          <Paradigm head={head} lang={lang} onLoaded={() => setLoadingParadigm(false)} />
+          <Paradigm head={head} lang={lang} mode={mode} onLoaded={() => setLoadingParadigm(false)} />
         </div>
       )}
     </div>

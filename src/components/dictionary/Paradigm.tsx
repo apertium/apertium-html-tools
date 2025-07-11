@@ -9,6 +9,7 @@ import './Paradigm.css';
 interface ParadigmProps {
   head: string;
   lang: string;
+  mode: 'Linguist' | 'Learner';
   onLoaded?: () => void;
 }
 
@@ -23,7 +24,7 @@ interface Block {
   subcats?: Block[];
 }
 
-const Paradigm: React.FC<ParadigmProps> = ({ head, lang, onLoaded }) => {
+const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
   const apyFetch = useContext(APyContext);
   const { t } = useLocalization();
   const { locale } = useLocalizationPOS();
@@ -35,7 +36,7 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, onLoaded }) => {
   useEffect(() => {
     if (!plugin) return;
 
-    const all = plugin.addParadigms({ locale, t });
+    const all = plugin.addParadigms({ locale, t, mode });
 
     const lemma = head.replace(/<[^>]+>/g, '');
     const origTags = Array.from(head.matchAll(/<([^>]+)>/g), (m) => m[1]);
@@ -92,7 +93,7 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, onLoaded }) => {
     return () => {
       cancelers.forEach((c) => c.cancel());
     };
-  }, [head, lang, locale, apyFetch, plugin, onLoaded, t]);
+  }, [head, lang, locale, apyFetch, plugin, onLoaded, t, mode]);
 
   if (!plugin) {
     return <div className="text-center text-muted my-4">{t('No_paradigms_for_language', { lang })}</div>;

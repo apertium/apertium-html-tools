@@ -41,7 +41,6 @@
 }
 
 .expand-button {
-  margin-top: 1rem;
   padding: 0.5rem 1rem;
   font-size: 1rem;
   background-color: #f0f0f0;
@@ -55,6 +54,13 @@
   background-color: #e0e0e0;
 }
 
+.expand-controls {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .word-paradigm {
   margin-top: 1.5rem;
   padding: 1rem;
@@ -65,4 +71,8 @@
 .word-paradigm .paradigm-container {
   margin: 0;
   padding: 0;
+}
+
+#mode-dropdown {
+  color: #000;
 }

@@ -334,55 +334,79 @@ export const uumLabels: Record<string, any> = {
 }
 
 export type UumBlock = {
-  id?: string
-  label: () => string
-  tabcols?: string[]
-  tabrows?: string[]
-  tabdata?: Array<Array<{ tags: string }>>
-  subcats?: UumBlock[]
-}
+  id?: string;
+  label: () => string;
+  tabcols?: string[];
+  tabrows?: string[];
+  tabdata?: Array<Array<{ tags: string }>>;
+  subcats?: UumBlock[];
+};
 
-function getMode(locale: string): string {
-  const code = (locale || '').split('-')[0].toLowerCase()
+function getMode(
+  locale: string,
+  modeOverride?: 'Linguist' | 'Learner'
+): string {
+  const code = locale.split('-')[0].toLowerCase();
+  let displayName: string | undefined;
 
-  let displayName: string | undefined
   try {
-    const dn = new Intl.DisplayNames(['en'], { type: 'language' })
-    displayName = dn.of(code) as string
+    const dn = new Intl.DisplayNames(['en'], { type: 'language' });
+    displayName = dn.of(code) as string;
   } catch {
-    displayName = undefined
+    displayName = undefined;
+  }
+
+  if (displayName && modeOverride) {
+    const name = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+    const key = `${name}-${modeOverride}`;
+    if (key in uumLabels) {
+      return key;
+    }
   }
 
   if (displayName) {
-    const name = displayName.charAt(0).toUpperCase() + displayName.slice(1)
-    const modeKey = `${name}-Linguist`
+    const name = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+    const modeKey = `${name}-Linguist`;
     if (modeKey in uumLabels) {
-      return modeKey
+      return modeKey;
     }
   }
-  return 'English-Linguist'
+
+  return 'English-Linguist';
 }
 
 function uumFinVb(
-  ctx: { locale: string; t: (key: string) => string },
+  ctx: { locale: string; t: (key: string) => string; mode?: 'Linguist' | 'Learner' },
   tgs: string,
   lab: string
 ): UumBlock {
-  const { locale: loc, t } = ctx
-  const mode = getMode(loc)
-  const m = uumLabels[mode]
+  const { locale: loc, t, mode } = ctx;
+  const m = uumLabels[getMode(loc, mode)];
+
+  const rowLabels =
+    'p1' in m
+      ? [
+          `${m.p1} ${m.sg}`,
+          `${m.p1} ${m.pl}`,
+          `${m.p2} ${m.sg}`,
+          `${m.p2} ${m.pl}`,
+          `${m.p3} ${m.sg}`,
+          `${m.p3} ${m.pl}`,
+        ]
+      : [
+          m.p1sg,
+          m.p1pl,
+          m.p2sg,
+          m.p2pl,
+          m.p3sg,
+          m.p3pl,
+        ];
+
   return {
     id: tgs.replace(/\./g, '-'),
     label: () => t(m.labels[lab] || lab),
-    tabcols: [m.labels.affirmative, m.labels.negative].map(k => t(k)),
-    tabrows: [
-      `${m.p1} ${m.sg}`,
-      `${m.p1} ${m.pl}`,
-      `${m.p2} ${m.sg}`,
-      `${m.p2} ${m.pl}`,
-      `${m.p3} ${m.sg}`,
-      `${m.p3} ${m.pl}`,
-    ].map(k => t(k)),
+    tabcols: [m.labels.affirmative, m.labels.negative].map((k) => t(k)),
+    tabrows: rowLabels.map((lbl) => t(lbl)),
     tabdata: [
       [{ tags: `${tgs}.p1.sg` }, { tags: `neg.${tgs}.p1.sg` }],
       [{ tags: `${tgs}.p1.pl` }, { tags: `neg.${tgs}.p1.pl` }],
@@ -391,15 +415,26 @@ function uumFinVb(
       [{ tags: `${tgs}.p3.sg` }, { tags: `neg.${tgs}.p3.sg` }],
       [{ tags: `${tgs}.p3.pl` }, { tags: `neg.${tgs}.p3.pl` }],
     ],
-  }
+  };
 }
 
 export function add_uum(
-  ctx: { locale: string; t: (key: string) => string }
+  ctx: { locale: string; t: (key: string) => string; mode?: 'Linguist' | 'Learner' }
 ): Record<string, UumBlock[]> {
-  const { locale: loc, t } = ctx
-  const mode = getMode(loc)
-  const labels = uumLabels[mode]
+  const { locale: loc, t, mode } = ctx;
+  const modeKey = getMode(loc, mode);
+  const labels = uumLabels[modeKey];
+
+  // imperative is a special case (only 1 and 2 person)
+  const mkImpRows = () =>
+    'p1' in labels
+      ? [
+          `${labels.p1} ${labels.sg}`,
+          `${labels.p1} ${labels.pl}`,
+          `${labels.p2} ${labels.sg}`,
+          `${labels.p2} ${labels.pl}`,
+        ]
+      : [labels.p1sg, labels.p1pl, labels.p2sg, labels.p2pl];
 
   return {
     vaux: [],
@@ -407,12 +442,12 @@ export function add_uum(
       {
         id: 'non-personal',
         label: () => t(labels.labels['non-personal']),
-        tabcols: [labels.labels.affirmative, labels.labels.negative].map(k => t(k)),
+        tabcols: [labels.labels.affirmative, labels.labels.negative].map((k) => t(k)),
         tabrows: [
           labels.labels.infinitive,
           labels.labels.participle,
           labels.labels.converb,
-        ].map(k => t(k)),
+        ].map((k) => t(k)),
         tabdata: [
           [{ tags: 'inf' }, { tags: 'neg.inf' }],
           [{ tags: 'pp' }, { tags: 'neg.pp' }],
@@ -430,13 +465,8 @@ export function add_uum(
       {
         id: 'imp',
         label: () => t(labels.labels['imp']),
-        tabcols: [labels.labels.affirmative, labels.labels.negative].map(k => t(k)),
-        tabrows: [
-          `${labels.p1} ${labels.sg}`,
-          `${labels.p1} ${labels.pl}`,
-          `${labels.p2} ${labels.sg}`,
-          `${labels.p2} ${labels.pl}`,
-        ].map(k => t(k)),
+        tabcols: [labels.labels.affirmative, labels.labels.negative].map((k) => t(k)),
+        tabrows: mkImpRows().map((lbl) => t(lbl)),
         tabdata: [
           [{ tags: 'imp.p1.sg' }, { tags: 'neg.imp.p1.sg' }],
           [{ tags: 'imp.p1.pl' }, { tags: 'neg.imp.p1.pl' }],
@@ -449,12 +479,12 @@ export function add_uum(
       {
         id: 'non-personal',
         label: () => t(labels.labels['non-personal']),
-        tabcols: [labels.labels.affirmative, labels.labels.negative].map(k => t(k)),
+        tabcols: [labels.labels.affirmative, labels.labels.negative].map((k) => t(k)),
         tabrows: [
           labels.labels.infinitive,
           labels.labels.participle,
           labels.labels.converb,
-        ].map(k => t(k)),
+        ].map((k) => t(k)),
         tabdata: [
           [{ tags: 'inf' }, { tags: 'neg.inf' }],
           [{ tags: 'pp' }, { tags: 'neg.pp' }],
@@ -472,13 +502,8 @@ export function add_uum(
       {
         id: 'imp',
         label: () => t(labels.labels['imp']),
-        tabcols: [labels.labels.affirmative, labels.labels.negative].map(k => t(k)),
-        tabrows: [
-          `${labels.p1} ${labels.sg}`,
-          `${labels.p1} ${labels.pl}`,
-          `${labels.p2} ${labels.sg}`,
-          `${labels.p2} ${labels.pl}`,
-        ].map(k => t(k)),
+        tabcols: [labels.labels.affirmative, labels.labels.negative].map((k) => t(k)),
+        tabrows: mkImpRows().map((lbl) => t(lbl)),
         tabdata: [
           [{ tags: 'imp.p1.sg' }, { tags: 'neg.imp.p1.sg' }],
           [{ tags: 'imp.p1.pl' }, { tags: 'neg.imp.p1.pl' }],
@@ -491,9 +516,9 @@ export function add_uum(
       {
         id: 'noun-cases',
         label: () => t(labels.labels['noun-cases']),
-        tabcols: [labels.sg, labels.pl].map(k => t(k)),
-        tabrows: Object.values(labels.cases).map(k => t(k)),
-        tabdata: Object.keys(labels.cases).map(c => [
+        tabcols: [labels.sg, labels.pl].map((k) => t(k)),
+        tabrows: Object.values(labels.cases).map((k) => t(k)),
+        tabdata: Object.keys(labels.cases).map((c) => [
           { tags: c },
           { tags: `pl.${c}` },
         ]),
@@ -505,10 +530,10 @@ export function add_uum(
           {
             id: 'noun-poss-sg',
             label: () => t(labels.labels['noun-poss-sg']),
-            tabcols: Object.values(labels['poss-sg']).map(k => t(k)),
-            tabrows: Object.values(labels.cases).map(k => t(k)),
-            tabdata: Object.keys(labels.cases).map(c =>
-              Object.keys(labels['poss-sg']).map(p => ({
+            tabcols: Object.values(labels['poss-sg']).map((k) => t(k)),
+            tabrows: Object.values(labels.cases).map((k) => t(k)),
+            tabdata: Object.keys(labels.cases).map((c) =>
+              Object.keys(labels['poss-sg']).map((p) => ({
                 tags: `px${p.slice(1)}.${c}`,
               }))
             ),
@@ -516,10 +541,10 @@ export function add_uum(
           {
             id: 'noun-poss-pl',
             label: () => t(labels.labels['noun-poss-pl']),
-            tabcols: Object.values(labels['poss-pl']).map(k => t(k)),
-            tabrows: Object.values(labels.cases).map(k => t(k)),
-            tabdata: Object.keys(labels.cases).map(c =>
-              Object.keys(labels['poss-pl']).map(p => ({
+            tabcols: Object.values(labels['poss-pl']).map((k) => t(k)),
+            tabrows: Object.values(labels.cases).map((k) => t(k)),
+            tabdata: Object.keys(labels.cases).map((c) =>
+              Object.keys(labels['poss-pl']).map((p) => ({
                 tags: `pl.px${p.slice(1)}.${c}`,
               }))
             ),
@@ -531,9 +556,9 @@ export function add_uum(
       {
         id: 'pnoun-cases',
         label: () => t(labels.labels['noun-cases']),
-        tabcols: [labels.sg, labels.pl].map(k => t(k)),
-        tabrows: Object.values(labels.cases).map(k => t(k)),
-        tabdata: Object.keys(labels.cases).map(c => [
+        tabcols: [labels.sg, labels.pl].map((k) => t(k)),
+        tabrows: Object.values(labels.cases).map((k) => t(k)),
+        tabdata: Object.keys(labels.cases).map((c) => [
           { tags: c },
           { tags: `pl.${c}` },
         ]),
@@ -545,10 +570,10 @@ export function add_uum(
           {
             id: 'pnoun-poss-sg',
             label: () => t(labels.labels['noun-poss-sg']),
-            tabcols: Object.values(labels['poss-sg']).map(k => t(k)),
-            tabrows: Object.values(labels.cases).map(k => t(k)),
-            tabdata: Object.keys(labels.cases).map(c =>
-              Object.keys(labels['poss-sg']).map(p => ({
+            tabcols: Object.values(labels['poss-sg']).map((k) => t(k)),
+            tabrows: Object.values(labels.cases).map((k) => t(k)),
+            tabdata: Object.keys(labels.cases).map((c) =>
+              Object.keys(labels['poss-sg']).map((p) => ({
                 tags: `px${p.slice(1)}.${c}`,
               }))
             ),
@@ -556,10 +581,10 @@ export function add_uum(
           {
             id: 'pnoun-poss-pl',
             label: () => t(labels.labels['noun-poss-pl']),
-            tabcols: Object.values(labels['poss-pl']).map(k => t(k)),
-            tabrows: Object.values(labels.cases).map(k => t(k)),
-            tabdata: Object.keys(labels.cases).map(c =>
-              Object.keys(labels['poss-pl']).map(p => ({
+            tabcols: Object.values(labels['poss-pl']).map((k) => t(k)),
+            tabrows: Object.values(labels.cases).map((k) => t(k)),
+            tabdata: Object.keys(labels.cases).map((c) =>
+              Object.keys(labels['poss-pl']).map((p) => ({
                 tags: `pl.px${p.slice(1)}.${c}`,
               }))
             ),
@@ -567,20 +592,20 @@ export function add_uum(
         ],
       },
     ],
-  }
+  };
 }
 
 export const uumPlugin: LanguagePlugin = {
   backendLangCode: 'uum',
   addParadigms: add_uum,
   parseTags: (origTags: string[], cellTags: string) => {
-    const parts = cellTags.split('.')
-    const first = origTags[0] || ''
-    if (first === 'np' || first.startsWith('np.')) return [...origTags, ...parts]
-    if (first.startsWith('v')) return [...origTags, ...parts]
-    if (parts.length === 3 && parts[0] === 'pl') return ['n', 'pl', parts[1], parts[2]]
-    if (parts.length === 2 && parts[0].startsWith('px')) return ['n', parts[0], parts[1]]
-    if (parts.length === 2 && parts[0] === 'pl') return ['n', 'pl', parts[1]]
-    return ['n', parts[0]]
+    const parts = cellTags.split('.');
+    const first = origTags[0] || '';
+    if (first === 'np' || first.startsWith('np.')) return [...origTags, ...parts];
+    if (first.startsWith('v')) return [...origTags, ...parts];
+    if (parts.length === 3 && parts[0] === 'pl') return ['n', 'pl', parts[1], parts[2]];
+    if (parts.length === 2 && parts[0].startsWith('px')) return ['n', parts[0], parts[1]];
+    if (parts.length === 2 && parts[0] === 'pl') return ['n', 'pl', parts[1]];
+    return ['n', parts[0]];
   },
-}
+};
