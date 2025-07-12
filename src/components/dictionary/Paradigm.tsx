@@ -9,7 +9,7 @@ import './Paradigm.css';
 interface ParadigmProps {
   head: string;
   lang: string;
-  mode: 'Linguist' | 'Learner';
+  mode: string;
   onLoaded?: () => void;
 }
 
@@ -36,39 +36,43 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
   useEffect(() => {
     if (!plugin) return;
 
-    const all = plugin.addParadigms({ locale, t, mode });
+    let isMounted = true;
+    const cancelers: CancelTokenSource[] = [];
+
+    const raw = plugin.addParadigms({ head, mode, locale, t, apyFetch });
+
+    if (!Array.isArray(raw)) {
+      setBlocks([]);
+      setLoading(false);
+      return;
+    }
+
+    const rawBlocks = raw;
+    setBlocks(rawBlocks);
 
     const lemma = head.replace(/<[^>]+>/g, '');
     const origTags = Array.from(head.matchAll(/<([^>]+)>/g), (m) => m[1]);
-    const first = origTags[0] || '';
-    let subKey: string;
-
-    if (all['verb']) {
-      subKey = 'verb';
-    } else if (first.startsWith('v')) {
-      if (origTags.includes('tv')) subKey = 'verb_tv';
-      else if (origTags.includes('iv')) subKey = 'verb_iv';
-      else subKey = 'vaux';
-    } else {
-      subKey = origTags.some((t) => t.startsWith('np.')) ? 'pnoun' : 'noun';
-    }
-
-    const rawBlocks = all[subKey] || [];
-    setBlocks(rawBlocks);
-
-    const out: Record<string, string> = {};
-    const cancelers: CancelTokenSource[] = [];
 
     const fetchCells = rawBlocks
       .flatMap((b) => b.subcats ?? [b])
       .flatMap((b) => b.tabdata ?? [])
       .flat();
 
+    if (fetchCells.length === 0) {
+      if (isMounted) {
+        setLoading(false);
+        onLoaded?.();
+      }
+      return;
+    }
+
+    const out: Record<string, string> = {};
+
     Promise.all(
       fetchCells.map(async (cell) => {
         if (!cell.tags) return;
         const seq = plugin.parseTags(origTags, cell.tags);
-        const pattern = '^' + lemma + seq.map((t) => `<${t}>`).join('') + '$';
+        const pattern = '^' + lemma + seq.map((x) => `<${x}>`).join('') + '$';
         const [ctr, req] = apyFetch('generate', {
           lang: plugin.backendLangCode,
           q: pattern,
@@ -76,35 +80,33 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
         cancelers.push(ctr);
         try {
           const data = (await req).data as Array<[string, string]>;
-          if (data.length) {
-            const result = data[0][0];
-            if (!result.startsWith('#')) {
-              out[cell.tags] = result;
-            }
+          if (data.length && !data[0][0].startsWith('#')) {
+            out[cell.tags] = data[0][0];
           }
         } catch (err) {
           if (!axios.isCancel(err)) console.error(err);
         }
       }),
     ).then(() => {
-      setValues(out);
-      setLoading(false);
-      onLoaded?.();
+      if (isMounted) {
+        setValues(out);
+        setLoading(false);
+        onLoaded?.();
+      }
     });
 
     return () => {
+      isMounted = false;
       cancelers.forEach((c) => c.cancel());
     };
-  }, [head, lang, locale, apyFetch, plugin, onLoaded, t, mode]);
+  }, [head, lang, locale, mode, t, apyFetch, plugin, onLoaded]);
 
   if (!plugin) {
     return <div className="text-center text-muted my-4">{t('No_paradigms_for_language', { lang })}</div>;
   }
-
   if (loading) {
     return <Spinner animation="border" role="status" />;
   }
-
   if (blocks.length === 0) {
     return (
       <div className="text-center text-muted my-2" data-testid="no-paradigm-found">
@@ -123,11 +125,12 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
               {block.subcats.map((sub, j) => (
                 <div key={j} id={sub.id}>
                   <h5>{t(sub.label())}</h5>
+
                   {sub.tablist ? (
                     <ul>
                       {sub.tablist.map((item, k) => (
                         <li key={k} data-tags={item.tags}>
-                          {t(item.label)}
+                          {values[item.tags] ?? t(item.label)}
                           {item.pretxt && ` (${item.pretxt})`}
                         </li>
                       ))}
@@ -146,14 +149,15 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
                         {sub.tabrows?.map((r, ri) => (
                           <tr key={ri}>
                             <th>{t(r)}</th>
-                            {sub.tabdata?.[ri].map((cell, ci) => (
-                              <td key={ci}>{cell.pretxt ?? values[cell.tags ?? ''] ?? ''}</td>
+                            {sub.tabdata![ri].map((cell, ci) => (
+                              <td key={ci}>{cell.pretxt ?? values[cell.tags!] ?? ''}</td>
                             ))}
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   )}
+
                   {sub.info && <div className="text-info">{t(sub.info)}</div>}
                 </div>
               ))}
@@ -161,11 +165,12 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
           ) : (
             <div id={block.id}>
               <h5>{t(block.label())}</h5>
+
               {block.tablist ? (
                 <ul>
                   {block.tablist.map((item, k) => (
                     <li key={k} data-tags={item.tags}>
-                      {t(item.label)}
+                      {values[item.tags] ?? t(item.label)}
                       {item.pretxt && ` (${item.pretxt})`}
                     </li>
                   ))}
@@ -184,14 +189,15 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
                     {block.tabrows?.map((r, ri) => (
                       <tr key={ri}>
                         <th>{t(r)}</th>
-                        {block.tabdata?.[ri].map((cell, ci) => (
-                          <td key={ci}>{cell.pretxt ?? values[cell.tags ?? ''] ?? ''}</td>
+                        {block.tabdata![ri].map((cell, ci) => (
+                          <td key={ci}>{cell.pretxt ?? values[cell.tags!] ?? ''}</td>
                         ))}
                       </tr>
                     ))}
                   </tbody>
                 </table>
               )}
+
               {block.info && <div className="text-info">{t(block.info)}</div>}
             </div>
           )}

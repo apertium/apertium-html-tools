@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Word.css';
 import { useLocalizationPOS } from '../../util/localization';
 import { getPosTag } from '../../util/posLocalization';
@@ -6,6 +6,7 @@ import { useLocalization } from '../../util/localization';
 import Spinner from 'react-bootstrap/Spinner';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Paradigm from './Paradigm';
+import { uumLabels } from './langs/uum';
 
 export interface WordProps {
   head: string;
@@ -18,8 +19,18 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
   const { locale } = useLocalizationPOS();
   const { t } = useLocalization();
   const [expanded, setExpanded] = useState(false);
-  const [mode, setMode] = useState<'Linguist' | 'Learner'>('Linguist');
   const [loadingParadigm, setLoadingParadigm] = useState(false);
+
+  const code = locale.split('-')[0].toLowerCase();
+  const availableModes = Object.keys(uumLabels[code] || {}) as string[];
+
+  const [mode, setMode] = useState<string>(availableModes.length > 0 ? availableModes[0] : 'Linguist');
+
+  useEffect(() => {
+    if (!availableModes.includes(mode)) {
+      setMode(availableModes[0] || 'Linguist');
+    }
+  }, [locale, availableModes]);
 
   const tagRe = /<([^>]+)>/g;
   const tags: string[] = [];
@@ -27,10 +38,8 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
   while ((m = tagRe.exec(head))) {
     tags.push(m[1]);
   }
-
   const word = head.replace(/<[^>]+>/g, '');
   const cleanDefs = definitions.map((def) => def.replace(/<[^>]+>/g, '')).filter((def) => !/^\(.*\)$/.test(def));
-
   const displayTag = tags.length > 0 ? getPosTag(locale, tags.join('.')) : null;
 
   const handleToggle = () => {
@@ -71,14 +80,21 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
           )}
         </button>
 
-        {expanded && (
-          <Dropdown onSelect={(eventKey) => setMode(eventKey as 'Linguist' | 'Learner')}>
+        {expanded && availableModes.length > 0 && (
+          <Dropdown
+            onSelect={(eventKey) => {
+              if (typeof eventKey === 'string') setMode(eventKey);
+            }}
+          >
             <Dropdown.Toggle id="mode-dropdown" className="expand-button">
-              {t(mode)}
+              {mode}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item eventKey="Linguist">{t('Linguist')}</Dropdown.Item>
-              <Dropdown.Item eventKey="Learner">{t('Learner')}</Dropdown.Item>
+              {availableModes.map((mKey) => (
+                <Dropdown.Item key={mKey} eventKey={mKey}>
+                  {mKey}
+                </Dropdown.Item>
+              ))}
             </Dropdown.Menu>
           </Dropdown>
         )}
