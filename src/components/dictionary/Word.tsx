@@ -7,6 +7,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Paradigm from './Paradigm';
 import { uumLabels } from './langs/uum';
+import { languageRegistry } from './index';
 
 export interface WordProps {
   head: string;
@@ -21,9 +22,9 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
   const [expanded, setExpanded] = useState(false);
   const [loadingParadigm, setLoadingParadigm] = useState(false);
 
+  const plugin = languageRegistry[lang];
   const code = locale.split('-')[0].toLowerCase();
   const availableModes = Object.keys(uumLabels[code] || {}) as string[];
-
   const [mode, setMode] = useState<string>(availableModes.length > 0 ? availableModes[0] : 'Linguist');
 
   useEffect(() => {
@@ -51,6 +52,8 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
     }
   };
 
+  const showExpand = Boolean(plugin && availableModes.length > 0);
+
   return (
     <div className="word-card">
       <div className="word-header">
@@ -66,41 +69,39 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
         ))}
       </ol>
 
-      <div className="expand-controls">
-        <button type="button" className="expand-button" onClick={handleToggle} disabled={loadingParadigm}>
-          {loadingParadigm ? (
-            <>
-              <Spinner animation="border" size="sm" role="status" className="me-2" />
-              {t('Expand_Paradigms')}
-            </>
-          ) : expanded ? (
-            t('Collapse_Paradigms')
-          ) : (
-            t('Expand_Paradigms')
+      {showExpand && (
+        <div className="expand-controls">
+          <button type="button" className="expand-button" onClick={handleToggle} disabled={loadingParadigm}>
+            {loadingParadigm ? (
+              <>
+                <Spinner animation="border" size="sm" role="status" className="me-2" />
+                {t('Expand_Paradigms')}
+              </>
+            ) : expanded ? (
+              t('Collapse_Paradigms')
+            ) : (
+              t('Expand_Paradigms')
+            )}
+          </button>
+
+          {expanded && (
+            <Dropdown onSelect={(eventKey) => typeof eventKey === 'string' && setMode(eventKey)}>
+              <Dropdown.Toggle id="mode-dropdown" className="expand-button">
+                {mode}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {availableModes.map((mKey) => (
+                  <Dropdown.Item key={mKey} eventKey={mKey}>
+                    {mKey}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
           )}
-        </button>
+        </div>
+      )}
 
-        {expanded && availableModes.length > 0 && (
-          <Dropdown
-            onSelect={(eventKey) => {
-              if (typeof eventKey === 'string') setMode(eventKey);
-            }}
-          >
-            <Dropdown.Toggle id="mode-dropdown" className="expand-button">
-              {mode}
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              {availableModes.map((mKey) => (
-                <Dropdown.Item key={mKey} eventKey={mKey}>
-                  {mKey}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        )}
-      </div>
-
-      {expanded && (
+      {showExpand && expanded && (
         <div className="word-paradigm">
           <Paradigm head={head} lang={lang} mode={mode} onLoaded={() => setLoadingParadigm(false)} />
         </div>
