@@ -10,7 +10,7 @@ After editing localizations, please run `make` and commit its changes.
 |------|------|-------|
 | ukr  | 100% | 100.97% |
 | eng  | 100% | 100.00% |
-| deu  | 96% | 112.39% |
+| deu  | 96% | 112.63% |
 | arg  | 88% | 107.90% |
 | cat  | 88% | 107.86% |
 | sat  | 88% | 104.85% |
