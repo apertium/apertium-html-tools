@@ -1,0 +1,13 @@
+{
+    "n": "Substantiv",
+    "v": "Verb",
+    "vblex": "Verb",
+    "v.tv": "transitives Verb",
+    "v.iv": "intransitives Verb",
+    "n.m.nn": "unbelebtes maskulines Substantiv",
+    "n.m.aa": "belebtes maskulines Substantiv",
+    "n.f.nn": "unbelebtes feminines Substantiv",
+    "n.f.aa": "belebtes feminines Substantiv",
+    "n.nt.nn": "unbelebtes neutrales Substantiv",
+    "n.nt.aa": "belebtes neutrales Substantiv"
+}
