@@ -30,7 +30,9 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
   const [loading, setLoading] = useState(true);
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [values, setValues] = useState<Record<string, string>>({});
-  const plugin = languageRegistry[lang];
+  const availableLangs = Object.keys(languageRegistry);
+  const pluginLang = availableLangs.includes(lang) ? lang : availableLangs[0];
+  const plugin = languageRegistry[pluginLang];
 
   useEffect(() => {
     if (!plugin) return;
