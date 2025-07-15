@@ -16,15 +16,6 @@ export interface UumLabels {
   'poss-pl': Record<string, string>;
 }
 
-export type UumBlock = {
-  id?: string;
-  label: () => string;
-  tabcols?: string[];
-  tabrows?: string[];
-  tabdata?: Array<Array<{ tags: string }>>;
-  subcats?: UumBlock[];
-};
-
 export const uumLabels: Record<string, Record<string, UumLabels>> = {
   eng: {
     Linguist: {
@@ -137,7 +128,6 @@ export const uumLabels: Record<string, Record<string, UumLabels>> = {
       },
     },
   },
-
   ukr: {
     'Лінгвіст': {
       sg: 'Однина',
@@ -249,7 +239,6 @@ export const uumLabels: Record<string, Record<string, UumLabels>> = {
       },
     },
   },
-
   deu: {
     'Sprachwissenschaftler': {
       sg: 'Singular',
@@ -394,7 +383,7 @@ function add_uum(
         [{ tags: `${tgs}.p3.sg` }],
         [{ tags: `${tgs}.p3.pl` }],
       ].map((row, i) => [row[0], { tags: `neg.${row[0].tags}` }]),
-    };
+    }
   }
 
   const mkImpRows = () =>
@@ -415,9 +404,7 @@ function add_uum(
         id: 'non-personal',
         label: () => t(m.labels['non-personal']),
         tabcols: [m.labels.affirmative, m.labels.negative].map(k => t(k)),
-        tabrows: [m.labels.infinitive, m.labels.participle, m.labels.converb].map(k =>
-          t(k)
-        ),
+        tabrows: [m.labels.infinitive, m.labels.participle, m.labels.converb].map(k => t(k)),
         tabdata: [
           [{ tags: 'inf' }],
           [{ tags: 'pp' }],
@@ -449,9 +436,7 @@ function add_uum(
         id: 'non-personal',
         label: () => t(m.labels['non-personal']),
         tabcols: [m.labels.affirmative, m.labels.negative].map(k => t(k)),
-        tabrows: [m.labels.infinitive, m.labels.participle, m.labels.converb].map(k =>
-          t(k)
-        ),
+        tabrows: [m.labels.infinitive, m.labels.participle, m.labels.converb].map(k => t(k)),
         tabdata: [
           [{ tags: 'inf' }],
           [{ tags: 'pp' }],
@@ -499,9 +484,7 @@ function add_uum(
             tabcols: Object.values(m['poss-sg']).map(k => t(k)),
             tabrows: Object.values(m.cases).map(k => t(k)),
             tabdata: Object.keys(m.cases).map(c =>
-              Object.keys(m['poss-sg']).map(p => ({
-                tags: `px${p.slice(1)}.${c}`,
-              }))
+              Object.keys(m['poss-sg']).map(p => ({ tags: `px${p.slice(1)}.${c}` }))
             ),
           },
           {
@@ -510,9 +493,7 @@ function add_uum(
             tabcols: Object.values(m['poss-pl']).map(k => t(k)),
             tabrows: Object.values(m.cases).map(k => t(k)),
             tabdata: Object.keys(m.cases).map(c =>
-              Object.keys(m['poss-pl']).map(p => ({
-                tags: `pl.px${p.slice(1)}.${c}`,
-              }))
+              Object.keys(m['poss-pl']).map(p => ({ tags: `pl.px${p.slice(1)}.${c}` }))
             ),
           },
         ],
@@ -540,9 +521,7 @@ function add_uum(
             tabcols: Object.values(m['poss-sg']).map(k => t(k)),
             tabrows: Object.values(m.cases).map(k => t(k)),
             tabdata: Object.keys(m.cases).map(c =>
-              Object.keys(m['poss-sg']).map(p => ({
-                tags: `px${p.slice(1)}.${c}`,
-              }))
+              Object.keys(m['poss-sg']).map(p => ({ tags: `px${p.slice(1)}.${c}` }))
             ),
           },
           {
@@ -551,15 +530,13 @@ function add_uum(
             tabcols: Object.values(m['poss-pl']).map(k => t(k)),
             tabrows: Object.values(m.cases).map(k => t(k)),
             tabdata: Object.keys(m.cases).map(c =>
-              Object.keys(m['poss-pl']).map(p => ({
-                tags: `pl.px${p.slice(1)}.${c}`,
-              }))
+              Object.keys(m['poss-pl']).map(p => ({ tags: `pl.px${p.slice(1)}.${c}` }))
             ),
           },
         ],
       },
     ],
-  };
+  }
 }
 
 export function parseTags(origTags: string[], cellTags: string): string[] {
@@ -580,12 +557,13 @@ export const uumPlugin: LanguagePlugin = {
     const labelsForMode = uumLabels[code]?.[mode] ?? uumLabels.eng.Linguist;
     const blocksMap = add_uum({ labels: labelsForMode, t });
     const origTags = Array.from(head.matchAll(/<([^>]+)>/g), (m) => m[1]);
-    let key: string;
+    let key: string | undefined;
     if (origTags.includes('iv')) key = 'verb_iv';
     else if (origTags.includes('tv')) key = 'verb_tv';
     else if (origTags.some((tag) => tag.startsWith('v'))) key = 'vaux';
     else if (origTags.some((tag) => tag.startsWith('np.'))) key = 'pnoun';
-    else key = 'noun';
+    else if (origTags[0] === 'n') key = 'noun';
+    if (!key) return [];
     return blocksMap[key] || [];
   },
   parseTags,
