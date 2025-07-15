@@ -18,9 +18,8 @@ interface Block {
   label: () => string;
   tabcols?: string[];
   tabrows?: string[];
-  tabdata?: { tags?: string; pretxt?: string; text?: string }[][];
+  tabdata?: { tags?: string; pretxt?: string }[][];
   tablist?: Array<{ label: string; tags: string; pretxt?: string }>;
-  info?: string;
   subcats?: Block[];
 }
 
@@ -37,38 +36,43 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
     if (!plugin) return;
     let isMounted = true;
     const cancelers: CancelTokenSource[] = [];
-    const raw = plugin.addParadigms({ head, mode, locale, t, apyFetch });
-    if (!Array.isArray(raw)) {
-      setBlocks([]);
-      setLoading(false);
+
+    const raw = plugin.addParadigms({ head, mode, locale, t, apyFetch }) || [];
+    setBlocks(Array.isArray(raw) ? raw : []);
+    setLoading(false);
+    if (!Array.isArray(raw) || !raw.length) {
+      onLoaded?.();
       return;
     }
-    setBlocks(raw);
+
+    const leaves = raw.flatMap((b) => b.subcats ?? [b]);
+    const dataCells = leaves.flatMap((b) => b.tabdata ?? []).flat();
+    const listCells = leaves.flatMap((b) => b.tablist ?? []);
+    const fetchCells = [...dataCells, ...listCells].filter((cell) => cell.tags);
+
+    if (!fetchCells.length) {
+      onLoaded?.();
+      return;
+    }
+
+    setLoading(true);
+    const out: Record<string, string> = {};
     const lemma = head.replace(/<[^>]+>/g, '');
     const origTags = Array.from(head.matchAll(/<([^>]+)>/g), (m) => m[1]);
-    const fetchCells = raw
-      .flatMap((b) => b.subcats ?? [b])
-      .flatMap((b) => b.tabdata ?? [])
-      .flat();
-    if (!fetchCells.length) {
-      if (isMounted) {
-        setLoading(false);
-        onLoaded?.();
-      }
-      return;
-    }
-    const out: Record<string, string> = {};
+
     Promise.all(
       fetchCells.map(async (cell) => {
-        if (!cell.tags) return;
-        const seq = plugin.parseTags(origTags, cell.tags);
+        const seq = plugin.parseTags(origTags, cell.tags!);
         const pattern = '^' + lemma + seq.map((x) => `<${x}>`).join('') + '$';
-        const [ctr, req] = apyFetch('generate', { lang: plugin.backendLangCode, q: pattern });
+        const [ctr, req] = apyFetch('generate', {
+          lang: plugin.backendLangCode,
+          q: pattern,
+        });
         cancelers.push(ctr);
         try {
           const data = (await req).data as Array<[string, string]>;
           if (data.length && !data[0][0].startsWith('#')) {
-            out[cell.tags] = data[0][0];
+            out[cell.tags!] = data[0][0];
           }
         } catch {}
       }),
@@ -79,104 +83,74 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
         onLoaded?.();
       }
     });
+
     return () => {
       isMounted = false;
       cancelers.forEach((c) => c.cancel());
     };
   }, [head, lang, locale, mode, t, apyFetch, plugin, onLoaded]);
 
-  if (!plugin) return <div className="text-center text-muted my-4">{t('No_paradigms_for_language', { lang })}</div>;
+  const RenderBlock: React.FC<{ block: Block; level: number }> = ({ block, level }) => {
+    const Heading = level === 0 ? 'h4' : level === 1 ? 'h5' : 'h6';
+
+    return (
+      <div id={block.id}>
+        <Heading>{t(block.label())}</Heading>
+        {block.subcats ? (
+          block.subcats.map((sub, i) => <RenderBlock key={sub.id ?? i} block={sub} level={level + 1} />)
+        ) : block.tablist ? (
+          <table className="paradigm-table">
+            <tbody>
+              {block.tablist.map((item, k) => (
+                <tr key={k}>
+                  <th>{t(item.label)}</th>
+                  <td data-tags={item.tags}>{values[item.tags] ?? item.pretxt ?? ''}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <table className="paradigm-table">
+            <thead>
+              <tr>
+                <th />
+                {block.tabcols?.map((c, ci) => (
+                  <th key={ci}>{t(c)}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {block.tabrows?.map((r, ri) => (
+                <tr key={ri}>
+                  <th>{t(r)}</th>
+                  {block.tabdata![ri].map((cell, ci) => (
+                    <td key={ci}>{values[cell.tags!] ?? cell.pretxt ?? ''}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    );
+  };
+
+  if (!plugin) {
+    return <div className="text-center text-muted my-4">{t('No_paradigms_for_language', { lang })}</div>;
+  }
   if (loading) return <Spinner animation="border" role="status" />;
-  if (!blocks.length)
+  if (!blocks.length) {
     return (
       <div className="text-center text-muted my-2" data-testid="no-paradigm-found">
         {t('No_pos_found')}
       </div>
     );
+  }
 
   return (
     <div className="paradigm-container">
-      {blocks.map((block, i) => (
-        <div key={i}>
-          {block.subcats ? (
-            <>
-              <h4>{t(block.label())}</h4>
-              {block.subcats.map((sub, j) => (
-                <div key={j} id={sub.id}>
-                  <h5>{t(sub.label())}</h5>
-                  {sub.tablist ? (
-                    <ul>
-                      {sub.tablist.map((item, k) => (
-                        <li key={k} data-tags={item.tags}>
-                          {values[item.tags] ?? t(item.label)}
-                          {item.pretxt && ` (${item.pretxt})`}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <table>
-                      <thead>
-                        <tr>
-                          <th />
-                          {sub.tabcols?.map((c, ci) => (
-                            <th key={ci}>{t(c)}</th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {sub.tabrows?.map((r, ri) => (
-                          <tr key={ri}>
-                            <th>{t(r)}</th>
-                            {sub.tabdata![ri].map((cell, ci) => (
-                              <td key={ci}>{cell.pretxt ?? values[cell.tags!] ?? ''}</td>
-                            ))}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  )}
-                  {sub.info && <div className="text-info">{t(sub.info)}</div>}
-                </div>
-              ))}
-            </>
-          ) : (
-            <div id={block.id}>
-              <h5>{t(block.label())}</h5>
-              {block.tablist ? (
-                <ul>
-                  {block.tablist.map((item, k) => (
-                    <li key={k} data-tags={item.tags}>
-                      {values[item.tags] ?? t(item.label)}
-                      {item.pretxt && ` (${item.pretxt})`}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <table>
-                  <thead>
-                    <tr>
-                      <th />
-                      {block.tabcols?.map((c, ci) => (
-                        <th key={ci}>{t(c)}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {block.tabrows?.map((r, ri) => (
-                      <tr key={ri}>
-                        <th>{t(r)}</th>
-                        {block.tabdata![ri].map((cell, ci) => (
-                          <td key={ci}>{cell.pretxt ?? values[cell.tags!] ?? ''}</td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-              {block.info && <div className="text-info">{t(block.info)}</div>}
-            </div>
-          )}
-        </div>
+      {blocks.map((blk, i) => (
+        <RenderBlock key={i} block={blk} level={0} />
       ))}
     </div>
   );
