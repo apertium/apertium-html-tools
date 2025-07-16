@@ -47,7 +47,9 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
       return;
     }
 
-    const leaves = raw.flatMap((b) => b.subcats ?? [b]);
+    const getLeaves = (blocks: Block[]): Block[] => blocks.flatMap((b) => (b.subcats ? getLeaves(b.subcats) : [b]));
+
+    const leaves = getLeaves(raw);
     const dataCells = leaves.flatMap((b) => b.tabdata ?? []).flat();
     const listCells = leaves.flatMap((b) => b.tablist ?? []);
     const fetchCells = [...dataCells, ...listCells].filter((cell) => cell.tags);
