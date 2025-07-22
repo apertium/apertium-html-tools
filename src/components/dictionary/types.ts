@@ -29,4 +29,5 @@ export interface LanguagePlugin {
   backendLangCode: string;
   addParadigms: (args: AddParadigmsArgs) => ParadigmBlock[];
   parseTags: (origTags: string[], cellTags: string) => string[];
+  getAvailableModes?: (locale: string) => string[];
 }

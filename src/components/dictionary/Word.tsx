@@ -26,7 +26,7 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
 
   const plugin = languageRegistry[lang];
   const code = locale.split('-')[0].toLowerCase();
-  const availableModes = Object.keys(uumLabels[code] || {}) as string[];
+  const availableModes = plugin.getAvailableModes ? plugin.getAvailableModes(locale) : [];
   const [mode, setMode] = useState<string>(availableModes[0] || '');
 
   useEffect(() => {

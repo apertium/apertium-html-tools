@@ -555,6 +555,11 @@ const defaultModes = uumLabels[defaultLangKey];
 
 export const uumPlugin: LanguagePlugin = {
   backendLangCode: 'uum',
+  getAvailableModes(locale: string): string[] {
+    const code = locale.split('-')[0].toLowerCase();
+    const modesForLang = uumLabels[code] ?? defaultModes;
+    return Object.keys(modesForLang);
+  },
   addParadigms({ head, mode, locale, t, apyFetch }: AddParadigmsArgs): ParadigmBlock[] {
     const code = locale.split('-')[0].toLowerCase();
     const modesForLang = uumLabels[code] ?? defaultModes;
@@ -574,4 +579,3 @@ export const uumPlugin: LanguagePlugin = {
   },
   parseTags,
 };
-
