@@ -105,12 +105,16 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
         ) : block.tablist ? (
           <table className="paradigm-table">
             <tbody>
-              {block.tablist.map((item, k) => (
-                <tr key={k}>
-                  <th>{t(item.label)}</th>
-                  <td data-tags={item.tags}>{values[item.tags] ?? item.pretxt ?? ''}</td>
-                </tr>
-              ))}
+              {block.tablist.map((item, k) => {
+                const val = values[item.tags];
+                const content = item.pretxt && val ? `${item.pretxt} ${val}` : val ?? item.pretxt ?? '';
+                return (
+                  <tr key={k}>
+                    <th>{t(item.label)}</th>
+                    <td data-tags={item.tags}>{content}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         ) : (
@@ -127,9 +131,11 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
               {block.tabrows?.map((r, ri) => (
                 <tr key={ri}>
                   <th>{t(r)}</th>
-                  {block.tabdata![ri].map((cell, ci) => (
-                    <td key={ci}>{values[cell.tags!] ?? cell.pretxt ?? ''}</td>
-                  ))}
+                  {block.tabdata![ri].map((cell, ci) => {
+                    const val = values[cell.tags!];
+                    const content = cell.pretxt && val ? `${cell.pretxt} ${val}` : val ?? cell.pretxt ?? '';
+                    return <td key={ci}>{content}</td>;
+                  })}
                 </tr>
               ))}
             </tbody>
