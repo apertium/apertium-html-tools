@@ -49,11 +49,7 @@ const WithSrcLang = ({
   const setSrcLang = React.useCallback(
     (lang: string) => {
       rawSetSrcLang(lang);
-      rawSetRecentSrcLangs((prev) => {
-        const combined = [lang, ...prev];
-        const unique = Array.from(new Set(combined));
-        return unique.slice(0, recentLangsCount);
-      });
+      rawSetRecentSrcLangs((prev) => Array.from(new Set([lang, ...prev])).slice(0, recentLangsCount));
     },
     [rawSetSrcLang, rawSetRecentSrcLangs],
   );
@@ -112,11 +108,7 @@ const WithTgtLang = ({
   const setTgtLang = React.useCallback(
     (lang: string) => {
       rawSetTgtLang(lang);
-      rawSetRecentTgtLangs((prev) => {
-        const combined = [lang, ...prev];
-        const unique = Array.from(new Set(combined));
-        return unique.slice(0, recentLangsCount);
-      });
+      rawSetRecentTgtLangs((prev) => Array.from(new Set([lang, ...prev])).slice(0, recentLangsCount));
     },
     [rawSetTgtLang, rawSetRecentTgtLangs],
   );
@@ -125,9 +117,7 @@ const WithTgtLang = ({
     if (!isPair(pairs, srcLang, tgtLang)) {
       const fallback = recentTgtLangs.find((l) => isPair(pairs, srcLang, l));
       const newTgt = fallback || (pairs[srcLang] ? Array.from(pairs[srcLang])[0] : '');
-      if (newTgt && newTgt !== tgtLang) {
-        setTgtLang(newTgt);
-      }
+      if (newTgt && newTgt !== tgtLang) setTgtLang(newTgt);
     }
   }, [pairs, srcLang, tgtLang, recentTgtLangs, setTgtLang]);
 
@@ -217,8 +207,8 @@ const Dictionary: React.FC = () => {
             }, [searchWord, srcLang, tgtLang]);
 
             const handleSearch = React.useCallback(
-              (wordOverride?: string, srcOverride: string = srcLang, tgtOverride: string = tgtLang) => {
-                const word = typeof wordOverride === 'string' ? wordOverride.trim() : searchWord.trim();
+              async (wordOverride?: string, srcOverride: string = srcLang, tgtOverride: string = tgtLang) => {
+                const word = (wordOverride ?? searchWord).trim();
                 if (!word) return;
 
                 setSearched(true);
@@ -227,34 +217,62 @@ const Dictionary: React.FC = () => {
                 setResults([]);
                 setReverseResults([]);
 
-                const [refFwd, reqFwd] = apyFetch('billookup', {
+                const [, reqFwd] = apyFetch('billookup', {
                   q: `${word}<*>`,
                   langpair: `${srcOverride}|${tgtOverride}`,
                 });
-                const [refRev, reqRev] = apyFetch('billookup', {
+                const [, reqRev] = apyFetch('billookup', {
                   q: `${word}<*>`,
                   langpair: `${tgtOverride}|${srcOverride}`,
                 });
-                searchRef.current = refFwd;
 
-                Promise.all([reqFwd, reqRev])
-                  .then(([respFwd, respRev]) => {
-                    const parse = (resp: any) =>
-                      (resp.data.responseData?.lookupResults || []).flatMap((o: Record<string, string[]>) =>
-                        Object.entries(o).map(([head, defs]) => ({ head, defs })),
-                      );
-                    setResults(parse(respFwd));
+                let revParsed: { head: string; defs: string[] }[] = [];
 
-                    const revParse = parse(respRev).flatMap(({ head, defs }) =>
-                      defs.map((def) => ({ head: def.replace(/^\s*\d+\.\s*/, ''), defs: [head] })),
-                    );
-                    setReverseResults(revParse);
-                  })
-                  .catch(() => {})
-                  .finally(() => {
-                    setLoading(false);
-                    searchRef.current = null;
+                const parse = (resp: any) =>
+                  (resp.data.responseData?.lookupResults || []).flatMap((o: Record<string, string[]>) =>
+                    Object.entries(o).map(([head, defs]) => ({ head, defs })),
+                  );
+
+                try {
+                  const [respFwd, respRev] = await Promise.all([reqFwd, reqRev]);
+                  const fwdParsed = parse(respFwd);
+                  setResults(fwdParsed);
+
+                  revParsed = parse(respRev).flatMap(({ head, defs }) =>
+                    defs.map((def) => ({
+                      head: def.replace(/^\s*\d+\.\s*/, ''),
+                      defs: [head],
+                    })),
+                  );
+
+                  const uniqueHeads = Array.from(new Set(revParsed.map((r) => r.head)));
+
+                  const headPromises = uniqueHeads.map((h) => {
+                    const termWithTag = h;
+                    const [, req] = apyFetch('billookup', {
+                      q: termWithTag,
+                      langpair: `${srcOverride}|${tgtOverride}`,
+                    });
+                    return req.then(parse);
                   });
+
+                  const headResponses = await Promise.all(headPromises);
+
+                  const enrichedDefsMap: Record<string, string[]> = {};
+                  headResponses.forEach((parsedArray, idx) => {
+                    const h = uniqueHeads[idx];
+                    enrichedDefsMap[h] = Array.from(
+                      new Set(parsedArray.flatMap((item) => item.defs.map((d) => d.replace(/<[^>]+>/g, '').trim()))),
+                    );
+                  });
+
+                  setReverseResults(uniqueHeads.map((h) => ({ head: h, defs: enrichedDefsMap[h] })));
+                } catch (e) {
+                  setReverseResults(revParsed);
+                } finally {
+                  setLoading(false);
+                  searchRef.current = null;
+                }
               },
               [apyFetch, searchWord, srcLang, tgtLang],
             );
@@ -305,13 +323,11 @@ const Dictionary: React.FC = () => {
                       head={head}
                       definitions={defs}
                       lang={srcLang}
-                      onDefinitionClick={(def, i) => {
-                        const prevSrc = srcLang;
-                        const prevTgt = tgtLang;
+                      onDefinitionClick={(def) => {
                         setSearchWord(def);
-                        setSrcLang(prevTgt);
-                        setTgtLang(prevSrc);
-                        handleSearch(def, prevTgt, prevSrc);
+                        setSrcLang(tgtLang);
+                        setTgtLang(srcLang);
+                        handleSearch(def, tgtLang, srcLang);
                       }}
                     />
                   ))}
