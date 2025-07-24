@@ -154,9 +154,7 @@ const Dictionary: React.FC = () => {
         setLoadingPairs(false);
         fetchRef.current = null;
       });
-    return () => {
-      fetchRef.current?.cancel();
-    };
+    return () => fetchRef.current?.cancel();
   }, [apyFetch]);
 
   if (loadingPairs) {
@@ -228,10 +226,12 @@ const Dictionary: React.FC = () => {
 
                 let revParsed: { head: string; defs: string[] }[] = [];
 
-                const parse = (resp: any) =>
-                  (resp.data.responseData?.lookupResults || []).flatMap((o: Record<string, string[]>) =>
+                const parse = (resp: any) => {
+                  const raw = resp.data.responseData?.lookupResults ?? resp.data.responseData?.searchResults ?? [];
+                  return (raw as Array<Record<string, string[]>>).flatMap((o) =>
                     Object.entries(o).map(([head, defs]) => ({ head, defs })),
                   );
+                };
 
                 try {
                   const [respFwd, respRev] = await Promise.all([reqFwd, reqRev]);
@@ -239,18 +239,14 @@ const Dictionary: React.FC = () => {
                   setResults(fwdParsed);
 
                   revParsed = parse(respRev).flatMap(({ head, defs }) =>
-                    defs.map((def) => ({
-                      head: def.replace(/^\s*\d+\.\s*/, ''),
-                      defs: [head],
-                    })),
+                    defs.map((def) => ({ head: def.replace(/^\s*\d+\.\s*/, ''), defs: [head] })),
                   );
 
                   const uniqueHeads = Array.from(new Set(revParsed.map((r) => r.head)));
 
                   const headPromises = uniqueHeads.map((h) => {
-                    const termWithTag = h;
-                    const [, req] = apyFetch('billookup', {
-                      q: termWithTag,
+                    const [, req] = apyFetch('bilsearch', {
+                      q: h,
                       langpair: `${srcOverride}|${tgtOverride}`,
                     });
                     return req.then(parse);
