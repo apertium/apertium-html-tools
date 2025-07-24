@@ -24,9 +24,9 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
   const [expanded, setExpanded] = useState(false);
   const [loadingParadigm, setLoadingParadigm] = useState(false);
 
-  const plugin = languageRegistry[lang];
+  const plugin = languageRegistry[lang] || null;
   const code = locale.split('-')[0].toLowerCase();
-  const availableModes = plugin.getAvailableModes ? plugin.getAvailableModes(locale) : [];
+  const availableModes = plugin?.getAvailableModes ? plugin.getAvailableModes(locale) : [];
   const [mode, setMode] = useState<string>(availableModes[0] || '');
 
   useEffect(() => {
