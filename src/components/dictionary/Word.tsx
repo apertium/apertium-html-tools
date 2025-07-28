@@ -6,7 +6,6 @@ import { useLocalization } from '../../util/localization';
 import Spinner from 'react-bootstrap/Spinner';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Paradigm from './Paradigm';
-import { uumLabels } from './langs/uum';
 import { languageRegistry } from './index';
 import { APyContext } from '../../context';
 
