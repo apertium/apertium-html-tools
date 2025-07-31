@@ -8,7 +8,7 @@
             "de",
             "deu"
         ],
-        "completion": " 96% 112.63%",
+        "completion": " 96% 112.76%",
         "missing": [
             "Apertium_Documentation",
             "More_Languages",
@@ -71,5 +71,6 @@
     "Search": "Suche",
     "No_results_found": "Keine Ergebnisse gefunden!",
     "Expand_Paradigms": "Paradigmen erweitern",
-    "Collapse_Paradigms": "Paradigmen einklappen"
+    "Collapse_Paradigms": "Paradigmen einklappen",
+    "Similar_To": "ähnlich wie"
 }

@@ -8,7 +8,7 @@
             "ug",
             "uig"
         ],
-        "completion": " 59%  75.09%",
+        "completion": " 59%  75.38%",
         "missing": [
             "Apertium_Documentation",
             "Cancel",
@@ -25,11 +25,11 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
-            "No_pos_found",
             "No_results_found",
             "Norm_Preferences",
             "Not_Found_Error",
             "Search",
+            "Similar_To",
             "Supported_Formats",
             "Translate_Document",
             "Translate_Webpage",

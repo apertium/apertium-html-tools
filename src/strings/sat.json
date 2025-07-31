@@ -7,15 +7,15 @@
         "locale": [
             "sat"
         ],
-        "completion": " 88% 104.85%",
+        "completion": " 88% 105.26%",
         "missing": [
             "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",
-            "No_pos_found",
             "No_results_found",
             "Search",
+            "Similar_To",
             "Type_A_Word"
         ]
     },

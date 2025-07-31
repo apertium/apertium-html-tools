@@ -5,7 +5,7 @@
         "locale": [
             "tha"
         ],
-        "completion": " 67%  72.39%",
+        "completion": " 67%  72.67%",
         "missing": [
             "Apertium_Documentation",
             "Collapse_Paradigms",
@@ -19,10 +19,10 @@
             "Morphological_Analysis_Help",
             "Morphological_Generation_Help",
             "Multi_Step_Translation",
-            "No_pos_found",
             "No_results_found",
             "Norm_Preferences",
             "Search",
+            "Similar_To",
             "Supported_Formats",
             "Translate_Webpage",
             "Translation_Help",

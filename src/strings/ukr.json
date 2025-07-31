@@ -8,7 +8,7 @@
             "uk",
             "ukr"
         ],
-        "completion": "100% 100.97%",
+        "completion": "100% 100.91%",
         "missing": []
     },
     "title": "Апертіум | Безкоштовна/відкрита платформа машинного перекладу",
@@ -70,5 +70,6 @@
     "Search": "Пошук",
     "No_results_found": "Результатів не знайдено!",
     "Expand_Paradigms": "Словозміна",
-    "Collapse_Paradigms": "Приховати"
+    "Collapse_Paradigms": "Приховати",
+    "Similar_To": "схоже на"
 }

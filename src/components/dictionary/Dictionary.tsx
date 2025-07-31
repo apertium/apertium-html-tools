@@ -174,9 +174,9 @@ const Dictionary: React.FC = () => {
             const [loading, setLoading] = React.useState(false);
             const [searched, setSearched] = React.useState(false);
             const searchRef = React.useRef<CancelTokenSource | null>(null);
-            const [results, setResults] = React.useState<{ head: string; defs: string[] }[]>([]);
-            const [reverseResults, setReverseResults] = React.useState<{ head: string; defs: string[] }[]>([]);
-            const [embeddingResults, setEmbeddingResults] = React.useState<{ head: string; defs: string[] }[]>([]);
+            const [results, setResults] = React.useState<Entry[]>([]);
+            const [reverseResults, setReverseResults] = React.useState<Entry[]>([]);
+            const [embeddingResults, setEmbeddingResults] = React.useState<Entry[]>([]);
 
             React.useEffect(() => {
               setResults([]);
@@ -216,9 +216,9 @@ const Dictionary: React.FC = () => {
                   langpair: `${tgtOverride}|${srcOverride}`,
                 });
 
-                let revParsed: { head: string; defs: string[] }[] = [];
+                let revParsed: Entry[] = [];
 
-                const parse = (resp: any) => {
+                const parse = (resp: any): Entry[] => {
                   const raw = resp.data.responseData?.lookupResults ?? resp.data.responseData?.searchResults ?? [];
                   return (raw as Array<Record<string, string[]>>).flatMap((o) =>
                     Object.entries(o).map(([head, defs]) => ({ head, defs })),
@@ -249,26 +249,49 @@ const Dictionary: React.FC = () => {
 
                   const exactItem = fwdParsed.find((item) => item.head.replace(/<[^>]+>/g, '') === word);
                   const translations = exactItem?.defs.map((d) => d.replace(/<[^>]+>/g, '').trim()) || [];
-                  const embArrays = await Promise.all(
-                    translations.map((term) =>
-                      apyFetch('embeddings', { q: term, langpair: `${tgtOverride}|${srcOverride}` })[1].then(
-                        (res) =>
-                          res.data.responseData?.embeddingResults.flatMap((obj: any) => Object.values(obj).flat()) ||
-                          [],
-                      ),
+
+                  const translationToSims: Record<string, string[]> = {};
+                  await Promise.all(
+                    translations.map(async (term) => {
+                      const [, embReq] = apyFetch('embeddings', {
+                        q: term,
+                        langpair: `${tgtOverride}|${srcOverride}`,
+                      });
+                      const embRes = await embReq;
+                      const sims: string[] =
+                        embRes.data.responseData?.embeddingResults.flatMap((obj: any) => Object.values(obj).flat()) ||
+                        [];
+                      translationToSims[term] = Array.from(new Set(sims.filter((s: string) => !s.startsWith('*'))));
+                    }),
+                  );
+
+                  const uniqueSims = Array.from(new Set(Object.values(translationToSims).flat()));
+                  const bilsearchResponses = await Promise.all(
+                    uniqueSims.map(
+                      (sim) => apyFetch('bilsearch', { q: sim, langpair: `${tgtOverride}|${srcOverride}` })[1],
                     ),
                   );
-                  const sims = Array.from(new Set(embArrays.flat())).filter((sim) => !sim.startsWith('*'));
-                  const embResponses = await Promise.all(
-                    sims.map((sim) => apyFetch('bilsearch', { q: sim, langpair: `${tgtOverride}|${srcOverride}` })[1]),
-                  );
-                  let embEntries: Entry[] = [];
-                  embResponses.forEach((resp) => {
+
+                  const simToParsed: Record<string, Entry[]> = {};
+                  bilsearchResponses.forEach((resp, i) => {
+                    const sim = uniqueSims[i];
                     const raw = resp.data.responseData?.searchResults ?? [];
-                    (raw as Array<Record<string, string[]>>).forEach((o) => {
-                      Object.entries(o).forEach(([hd, defs]) => {
+                    simToParsed[sim] = (raw as Array<Record<string, string[]>>).flatMap((o) =>
+                      Object.entries(o).map(([hd, defs]) => ({ head: hd, defs })),
+                    );
+                  });
+
+                  const embEntries: Entry[] = [];
+                  Object.entries(translationToSims).forEach(([translation, sims]) => {
+                    sims.forEach((sim) => {
+                      const parsed = simToParsed[sim] || [];
+                      parsed.forEach(({ head: bilHead, defs }) => {
                         defs.forEach((def) => {
-                          embEntries.push({ head: def, defs: [hd] });
+                          embEntries.push({
+                            head: def,
+                            defs: [bilHead],
+                            similarTo: translation,
+                          } as Entry);
                         });
                       });
                     });
@@ -288,7 +311,7 @@ const Dictionary: React.FC = () => {
               const all: Entry[] = [
                 ...results.map((r) => ({ head: r.head, defs: r.defs })),
                 ...reverseResults.map((r) => ({ head: r.head, defs: r.defs })),
-                ...embeddingResults.map((e) => ({ head: e.head, defs: e.defs })),
+                ...embeddingResults.map((e) => ({ head: e.head, defs: e.defs, similarTo: (e as any).similarTo })),
               ];
               const map: Record<string, Entry[]> = {};
               all.forEach((e) => {
@@ -297,7 +320,8 @@ const Dictionary: React.FC = () => {
                 map[surface].push({
                   head: e.head,
                   defs: e.defs.map((d) => d.replace(/<[^>]+>/g, '')),
-                });
+                  ...(e.similarTo ? { similarTo: e.similarTo } : {}),
+                } as Entry);
               });
               return map;
             }, [results, reverseResults, embeddingResults]);

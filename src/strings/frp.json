@@ -8,17 +8,17 @@
         "locale": [
             "frp"
         ],
-        "completion": " 84% 103.37%",
+        "completion": " 84% 103.77%",
         "missing": [
             "Apertium_Documentation",
             "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",
-            "No_pos_found",
             "No_results_found",
             "Norm_Preferences",
             "Search",
+            "Similar_To",
             "Type_A_Word"
         ]
     },

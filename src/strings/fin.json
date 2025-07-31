@@ -9,17 +9,17 @@
             "fi",
             "fin"
         ],
-        "completion": " 84%  91.26%",
+        "completion": " 84%  91.61%",
         "missing": [
             "Apertium_Documentation",
             "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",
-            "No_pos_found",
             "No_results_found",
             "Norm_Preferences",
             "Search",
+            "Similar_To",
             "Type_A_Word"
         ]
     },

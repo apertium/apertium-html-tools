@@ -11,7 +11,7 @@
             "ru",
             "rus"
         ],
-        "completion": " 81%  80.85%",
+        "completion": " 81%  80.75%",
         "missing": [
             "Apertium_Documentation",
             "Install_Apertium",
@@ -74,5 +74,6 @@
     "Search": "Поиск",
     "No_results_found": "Результатов не найдено!",
     "Expand_Paradigms": "Словоизменение",
-    "Collapse_Paradigms": "Скрыть"
+    "Collapse_Paradigms": "Скрыть",
+    "Similar_To": "похоже на"
 }

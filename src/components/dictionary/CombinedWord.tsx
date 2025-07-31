@@ -1,3 +1,4 @@
+// CombinedWord.tsx
 import React, { useState, useEffect, useContext } from 'react';
 import './Word.css';
 import './CombinedWord.css';
@@ -12,6 +13,7 @@ import { languageRegistry } from './index';
 export interface Entry {
   head: string;
   defs: string[];
+  similarTo?: string;
 }
 
 const toRoman = (n: number): string => {
@@ -39,14 +41,7 @@ interface EntryBlockProps {
   onDefinitionClick: (def: string) => void;
 }
 
-const EntryBlock: React.FC<EntryBlockProps> = ({
-  surface,
-  entry: { head, defs },
-  lang,
-  index,
-  total,
-  onDefinitionClick,
-}) => {
+const EntryBlock: React.FC<EntryBlockProps> = ({ surface, entry, lang, index, total, onDefinitionClick }) => {
   const apyFetch = useContext(APyContext);
   const { t } = useLocalization();
   const { locale } = useLocalizationPOS();
@@ -54,7 +49,9 @@ const EntryBlock: React.FC<EntryBlockProps> = ({
   const plugin = languageRegistry[lang] || null;
   const availableModes = plugin?.getAvailableModes ? plugin.getAvailableModes(locale) : [];
 
-  const rawBlocks = plugin ? plugin.addParadigms({ head, mode: availableModes[0] || '', locale, t, apyFetch }) : [];
+  const rawBlocks = plugin
+    ? plugin.addParadigms({ head: entry.head, mode: availableModes[0] || '', locale, t, apyFetch })
+    : [];
   const hasParadigms = Array.isArray(rawBlocks) && rawBlocks.length > 0;
 
   const [expanded, setExpanded] = useState(false);
@@ -67,6 +64,18 @@ const EntryBlock: React.FC<EntryBlockProps> = ({
     }
   }, [availableModes, mode, locale]);
 
+  const tags: string[] = [];
+  let m: RegExpExecArray | null;
+  const re = /<([^>]+)>/g;
+  while ((m = re.exec(entry.head))) tags.push(m[1]);
+  const displayTag = tags.length ? getPosTag(locale, tags.join('.')) : null;
+
+  const showRoman = total > 1;
+  const roman = showRoman ? toRoman(index + 1) : '';
+
+  const cleanSurface = surface;
+  const cleanDefs = entry.defs.map((d) => d.replace(/<[^>]+>/g, ''));
+
   const handleToggle = () => {
     if (!expanded) {
       setExpanded(true);
@@ -76,29 +85,18 @@ const EntryBlock: React.FC<EntryBlockProps> = ({
     }
   };
 
-  const tags: string[] = [];
-  let m: RegExpExecArray | null;
-  const re = /<([^>]+)>/g;
-  while ((m = re.exec(head))) tags.push(m[1]);
-  const displayTag = tags.length ? getPosTag(locale, tags.join('.')) : null;
-
-  const showRoman = total > 1;
-  const roman = showRoman ? toRoman(index + 1) : '';
-
   return (
     <div className="pos-block">
-      {displayTag && (
-        <div className="word-header">
-          <span className="word-text">
-            {surface}
-            {showRoman && <span className="roman-numeral">{roman}</span>}
-            <span className="pos-tag">({displayTag})</span>
-          </span>
-        </div>
-      )}
+      <div className="word-header">
+        <span className="word-text">
+          {cleanSurface}
+          {showRoman && <span className="roman-numeral">{roman}</span>}
+          {displayTag && <span className="pos-tag">({displayTag})</span>}
+        </span>
+      </div>
       <ol className="word-definitions">
-        {defs.map((rawDef, i) => {
-          const def = rawDef.replace(/<[^>]+>/g, '');
+        {cleanDefs.map((rawDef, i) => {
+          const def = rawDef;
           return (
             <li key={i} className="definition-item" onClick={() => onDefinitionClick(def)}>
               {def}
@@ -106,6 +104,13 @@ const EntryBlock: React.FC<EntryBlockProps> = ({
           );
         })}
       </ol>
+      {entry.similarTo && (
+        <div className="similar-to-text">
+          <small>
+            {t('Similar_To')} {entry.similarTo}
+          </small>
+        </div>
+      )}
       {hasParadigms && (
         <div className="expand-controls">
           <button type="button" className="expand-button" onClick={handleToggle} disabled={loadingParadigm}>
@@ -138,7 +143,7 @@ const EntryBlock: React.FC<EntryBlockProps> = ({
       )}
       {hasParadigms && expanded && (
         <div className="word-paradigm">
-          <Paradigm head={head} lang={lang} mode={mode} onLoaded={() => setLoadingParadigm(false)} />
+          <Paradigm head={entry.head} lang={lang} mode={mode} onLoaded={() => setLoadingParadigm(false)} />
         </div>
       )}
     </div>

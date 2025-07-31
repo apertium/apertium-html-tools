@@ -11,17 +11,17 @@
             "fr",
             "fra"
         ],
-        "completion": " 84% 105.84%",
+        "completion": " 84% 106.25%",
         "missing": [
             "Apertium_Documentation",
             "Collapse_Paradigms",
             "Dictionary",
             "Expand_Paradigms",
             "More_Languages",
-            "No_pos_found",
             "No_results_found",
             "Norm_Preferences",
             "Search",
+            "Similar_To",
             "Type_A_Word"
         ]
     },
