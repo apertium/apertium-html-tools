@@ -1,0 +1,18 @@
+.roman-numeral {
+  margin-left: 0.5rem;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.pos-tag {
+  margin-left: 0.5rem;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.entry-divider {
+  border: none;
+  border-top: 1px solid #dee2e6;
+  margin: 1rem 0;
+}

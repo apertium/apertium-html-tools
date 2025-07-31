@@ -10,7 +10,7 @@ import { toAlpha3Code } from '../../util/languages';
 import useLocalStorage from '../../util/useLocalStorage';
 import { getUrlParam } from '../../util/url';
 import { APyContext } from '../../context';
-import Word from './Word';
+import CombinedWord, { Entry } from './CombinedWord';
 import { useLocalization } from '../../util/localization';
 
 const recentLangsCount = 3;
@@ -147,9 +147,7 @@ const Dictionary: React.FC = () => {
         });
         setPairs(dict);
       })
-      .catch((err) => {
-        console.error('Error loading pairs:', err);
-      })
+      .catch((err) => console.error('Error loading pairs:', err))
       .finally(() => {
         setLoadingPairs(false);
         fetchRef.current = null;
@@ -185,6 +183,7 @@ const Dictionary: React.FC = () => {
             const [loading, setLoading] = React.useState(false);
             const [searched, setSearched] = React.useState(false);
             const searchRef = React.useRef<CancelTokenSource | null>(null);
+
             const [results, setResults] = React.useState<{ head: string; defs: string[] }[]>([]);
             const [reverseResults, setReverseResults] = React.useState<{ head: string; defs: string[] }[]>([]);
 
@@ -235,8 +234,7 @@ const Dictionary: React.FC = () => {
 
                 try {
                   const [respFwd, respRev] = await Promise.all([reqFwd, reqRev]);
-                  const fwdParsed = parse(respFwd);
-                  setResults(fwdParsed);
+                  setResults(parse(respFwd));
 
                   revParsed = parse(respRev).flatMap(({ head, defs }) =>
                     defs.map((def) => ({ head: def.replace(/^\s*\d+\.\s*/, ''), defs: [head] })),
@@ -244,26 +242,26 @@ const Dictionary: React.FC = () => {
 
                   const uniqueHeads = Array.from(new Set(revParsed.map((r) => r.head)));
 
-                  const headPromises = uniqueHeads.map((h) => {
-                    const [, req] = apyFetch('bilsearch', {
-                      q: h,
-                      langpair: `${srcOverride}|${tgtOverride}`,
-                    });
-                    return req.then(parse);
-                  });
+                  const headResponses = await Promise.all(
+                    uniqueHeads.map((h) => {
+                      const [, req] = apyFetch('bilsearch', {
+                        q: h,
+                        langpair: `${srcOverride}|${tgtOverride}`,
+                      });
+                      return req.then(parse);
+                    }),
+                  );
 
-                  const headResponses = await Promise.all(headPromises);
-
-                  const enrichedDefsMap: Record<string, string[]> = {};
-                  headResponses.forEach((parsedArray, idx) => {
-                    const h = uniqueHeads[idx];
-                    enrichedDefsMap[h] = Array.from(
-                      new Set(parsedArray.flatMap((item) => item.defs.map((d) => d.replace(/<[^>]+>/g, '').trim()))),
+                  const enriched: Record<string, string[]> = {};
+                  headResponses.forEach((arr, i) => {
+                    const h = uniqueHeads[i];
+                    enriched[h] = Array.from(
+                      new Set(arr.flatMap((item) => item.defs.map((d) => d.replace(/<[^>]+>/g, '').trim()))),
                     );
                   });
 
-                  setReverseResults(uniqueHeads.map((h) => ({ head: h, defs: enrichedDefsMap[h] })));
-                } catch (e) {
+                  setReverseResults(uniqueHeads.map((h) => ({ head: h, defs: enriched[h] })));
+                } catch {
                   setReverseResults(revParsed);
                 } finally {
                   setLoading(false);
@@ -272,6 +270,23 @@ const Dictionary: React.FC = () => {
               },
               [apyFetch, searchWord, srcLang, tgtLang],
             );
+
+            const grouped: Record<string, Entry[]> = React.useMemo(() => {
+              const all: Entry[] = [
+                ...results.map((r) => ({ head: r.head, defs: r.defs })),
+                ...reverseResults.map((r) => ({ head: r.head, defs: r.defs })),
+              ];
+              const map: Record<string, Entry[]> = {};
+              all.forEach((e) => {
+                const surface = e.head.replace(/<[^>]+>/g, '');
+                if (!map[surface]) map[surface] = [];
+                map[surface].push({
+                  head: e.head,
+                  defs: e.defs.map((d) => d.replace(/<[^>]+>/g, '')),
+                });
+              });
+              return map;
+            }, [results, reverseResults]);
 
             return (
               <Form
@@ -307,32 +322,34 @@ const Dictionary: React.FC = () => {
                 </Form.Group>
 
                 <div className="d-flex justify-content-start mt-2">
-                  <Button onClick={() => handleSearch()} type="button" variant="primary" size="sm">
+                  <Button onClick={() => handleSearch()} variant="primary" size="sm">
                     {t('Search')}
                   </Button>
                 </div>
 
                 <div className="mt-3">
-                  {results.map(({ head, defs }, idx) => (
-                    <Word
-                      key={`fwd-${idx}`}
-                      head={head}
-                      definitions={defs}
-                      lang={srcLang}
-                      onDefinitionClick={(def) => {
-                        setSearchWord(def);
-                        setSrcLang(tgtLang);
-                        setTgtLang(srcLang);
-                        handleSearch(def, tgtLang, srcLang);
-                      }}
-                    />
-                  ))}
+                  {[...Object.entries(grouped)]
+                    .sort(([a], [b]) => {
+                      if (a === searchWord && b !== searchWord) return -1;
+                      if (b === searchWord && a !== searchWord) return 1;
+                      return 0;
+                    })
+                    .map(([surface, entries]) => (
+                      <CombinedWord
+                        key={surface}
+                        surface={surface}
+                        entries={entries}
+                        lang={srcLang}
+                        onDefinitionClick={(def) => {
+                          setSearchWord(def);
+                          setSrcLang(tgtLang);
+                          setTgtLang(srcLang);
+                          handleSearch(def, tgtLang, srcLang);
+                        }}
+                      />
+                    ))}
 
-                  {reverseResults.map(({ head, defs }, idx) => (
-                    <Word key={`rev-${idx}`} head={head} definitions={defs} lang={srcLang} />
-                  ))}
-
-                  {searched && !loading && results.length === 0 && reverseResults.length === 0 && (
+                  {searched && !loading && Object.keys(grouped).length === 0 && (
                     <div className="text-center text-muted mt-3">{t('No_results_found')}</div>
                   )}
                 </div>
