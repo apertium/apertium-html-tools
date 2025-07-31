@@ -3,7 +3,6 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { CancelTokenSource } from 'axios';
-
 import { isPair, Pairs } from '../translator';
 import LanguageSelector from '../translator/LanguageSelector';
 import { toAlpha3Code } from '../../util/languages';
@@ -40,12 +39,10 @@ const WithSrcLang = ({
 }) => {
   const opts: any = { validateValue: (l: string) => l in pairs };
   if (urlSrcLang) opts.overrideValue = urlSrcLang;
-
   const [srcLang, rawSetSrcLang] = useLocalStorage<string>('dictSrcLang', () => defaultSrcLang(pairs), opts);
   const [recentSrcLangs, rawSetRecentSrcLangs] = useLocalStorage<string[]>('dictRecentSrcLangs', () => [srcLang], {
     validateValue: (ls) => Array.isArray(ls) && ls.every((l) => l in pairs),
   });
-
   const setSrcLang = React.useCallback(
     (lang: string) => {
       rawSetSrcLang(lang);
@@ -53,7 +50,6 @@ const WithSrcLang = ({
     },
     [rawSetSrcLang, rawSetRecentSrcLangs],
   );
-
   const [detectedLang, setDetected] = React.useState<string | null>(null);
   const setDetectedLang = React.useCallback(
     (lang: string | null) => {
@@ -62,7 +58,6 @@ const WithSrcLang = ({
     },
     [setSrcLang],
   );
-
   return children({
     srcLang,
     setSrcLang,
@@ -92,7 +87,6 @@ const WithTgtLang = ({
 }) => {
   const opts: any = { validateValue: (l: string) => isPair(pairs, srcLang, l) };
   if (urlTgtLang) opts.overrideValue = urlTgtLang;
-
   const [tgtLang, rawSetTgtLang] = useLocalStorage<string>(
     'dictTgtLang',
     () => {
@@ -104,7 +98,6 @@ const WithTgtLang = ({
   const [recentTgtLangs, rawSetRecentTgtLangs] = useLocalStorage<string[]>('dictRecentTgtLangs', () => [tgtLang], {
     validateValue: (ls) => Array.isArray(ls) && ls.every((l) => isPair(pairs, srcLang, l)),
   });
-
   const setTgtLang = React.useCallback(
     (lang: string) => {
       rawSetTgtLang(lang);
@@ -112,7 +105,6 @@ const WithTgtLang = ({
     },
     [rawSetTgtLang, rawSetRecentTgtLangs],
   );
-
   React.useEffect(() => {
     if (!isPair(pairs, srcLang, tgtLang)) {
       const fallback = recentTgtLangs.find((l) => isPair(pairs, srcLang, l));
@@ -120,7 +112,6 @@ const WithTgtLang = ({
       if (newTgt && newTgt !== tgtLang) setTgtLang(newTgt);
     }
   }, [pairs, srcLang, tgtLang, recentTgtLangs, setTgtLang]);
-
   return children({ tgtLang, setTgtLang, recentTgtLangs });
 };
 
@@ -183,13 +174,14 @@ const Dictionary: React.FC = () => {
             const [loading, setLoading] = React.useState(false);
             const [searched, setSearched] = React.useState(false);
             const searchRef = React.useRef<CancelTokenSource | null>(null);
-
             const [results, setResults] = React.useState<{ head: string; defs: string[] }[]>([]);
             const [reverseResults, setReverseResults] = React.useState<{ head: string; defs: string[] }[]>([]);
+            const [embeddingResults, setEmbeddingResults] = React.useState<{ head: string; defs: string[] }[]>([]);
 
             React.useEffect(() => {
               setResults([]);
               setReverseResults([]);
+              setEmbeddingResults([]);
               setSearched(false);
             }, [srcLang, tgtLang]);
 
@@ -213,6 +205,7 @@ const Dictionary: React.FC = () => {
                 setLoading(true);
                 setResults([]);
                 setReverseResults([]);
+                setEmbeddingResults([]);
 
                 const [, reqFwd] = apyFetch('billookup', {
                   q: `${word}<*>`,
@@ -234,33 +227,53 @@ const Dictionary: React.FC = () => {
 
                 try {
                   const [respFwd, respRev] = await Promise.all([reqFwd, reqRev]);
-                  setResults(parse(respFwd));
+                  const fwdParsed = parse(respFwd);
+                  setResults(fwdParsed);
 
                   revParsed = parse(respRev).flatMap(({ head, defs }) =>
-                    defs.map((def) => ({ head: def.replace(/^\s*\d+\.\s*/, ''), defs: [head] })),
+                    defs.map((d) => ({ head: d.replace(/^\s*\d+\.\s*/, ''), defs: [head] })),
                   );
-
                   const uniqueHeads = Array.from(new Set(revParsed.map((r) => r.head)));
-
                   const headResponses = await Promise.all(
-                    uniqueHeads.map((h) => {
-                      const [, req] = apyFetch('bilsearch', {
-                        q: h,
-                        langpair: `${srcOverride}|${tgtOverride}`,
-                      });
-                      return req.then(parse);
-                    }),
+                    uniqueHeads.map((h) =>
+                      apyFetch('bilsearch', { q: h, langpair: `${srcOverride}|${tgtOverride}` })[1].then(parse),
+                    ),
                   );
-
                   const enriched: Record<string, string[]> = {};
                   headResponses.forEach((arr, i) => {
-                    const h = uniqueHeads[i];
-                    enriched[h] = Array.from(
+                    enriched[uniqueHeads[i]] = Array.from(
                       new Set(arr.flatMap((item) => item.defs.map((d) => d.replace(/<[^>]+>/g, '').trim()))),
                     );
                   });
-
                   setReverseResults(uniqueHeads.map((h) => ({ head: h, defs: enriched[h] })));
+
+                  const exactItem = fwdParsed.find((item) => item.head.replace(/<[^>]+>/g, '') === word);
+                  const translations = exactItem?.defs.map((d) => d.replace(/<[^>]+>/g, '').trim()) || [];
+                  const embArrays = await Promise.all(
+                    translations.map((term) =>
+                      apyFetch('embeddings', { q: term, langpair: `${tgtOverride}|${srcOverride}` })[1].then(
+                        (res) =>
+                          res.data.responseData?.embeddingResults.flatMap((obj: any) => Object.values(obj).flat()) ||
+                          [],
+                      ),
+                    ),
+                  );
+                  const sims = Array.from(new Set(embArrays.flat())).filter((sim) => !sim.startsWith('*'));
+                  const embResponses = await Promise.all(
+                    sims.map((sim) => apyFetch('bilsearch', { q: sim, langpair: `${tgtOverride}|${srcOverride}` })[1]),
+                  );
+                  let embEntries: Entry[] = [];
+                  embResponses.forEach((resp) => {
+                    const raw = resp.data.responseData?.searchResults ?? [];
+                    (raw as Array<Record<string, string[]>>).forEach((o) => {
+                      Object.entries(o).forEach(([hd, defs]) => {
+                        defs.forEach((def) => {
+                          embEntries.push({ head: def, defs: [hd] });
+                        });
+                      });
+                    });
+                  });
+                  setEmbeddingResults(embEntries);
                 } catch {
                   setReverseResults(revParsed);
                 } finally {
@@ -275,6 +288,7 @@ const Dictionary: React.FC = () => {
               const all: Entry[] = [
                 ...results.map((r) => ({ head: r.head, defs: r.defs })),
                 ...reverseResults.map((r) => ({ head: r.head, defs: r.defs })),
+                ...embeddingResults.map((e) => ({ head: e.head, defs: e.defs })),
               ];
               const map: Record<string, Entry[]> = {};
               all.forEach((e) => {
@@ -286,7 +300,7 @@ const Dictionary: React.FC = () => {
                 });
               });
               return map;
-            }, [results, reverseResults]);
+            }, [results, reverseResults, embeddingResults]);
 
             return (
               <Form
@@ -311,7 +325,6 @@ const Dictionary: React.FC = () => {
                   detectedLang={detectedLang}
                   setDetectedLang={setDetectedLang}
                 />
-
                 <Form.Group className="mt-3" controlId="searchWord">
                   <Form.Control
                     type="text"
@@ -320,15 +333,13 @@ const Dictionary: React.FC = () => {
                     onChange={(e) => setSearchWord(e.target.value)}
                   />
                 </Form.Group>
-
                 <div className="d-flex justify-content-start mt-2">
                   <Button onClick={() => handleSearch()} variant="primary" size="sm">
                     {t('Search')}
                   </Button>
                 </div>
-
                 <div className="mt-3">
-                  {[...Object.entries(grouped)]
+                  {Object.entries(grouped)
                     .sort(([a], [b]) => {
                       if (a === searchWord && b !== searchWord) return -1;
                       if (b === searchWord && a !== searchWord) return 1;
@@ -348,7 +359,6 @@ const Dictionary: React.FC = () => {
                         }}
                       />
                     ))}
-
                   {searched && !loading && Object.keys(grouped).length === 0 && (
                     <div className="text-center text-muted mt-3">{t('No_results_found')}</div>
                   )}
