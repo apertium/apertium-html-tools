@@ -50,10 +50,10 @@ const WithSrcLang = ({
     },
     [rawSetSrcLang, rawSetRecentSrcLangs],
   );
-  const [detectedLang, setDetected] = React.useState<string | null>(null);
-  const setDetectedLang = React.useCallback(
+  const [detectedLang, setDetectedLang] = React.useState<string | null>(null);
+  const setDetectedLangCb = React.useCallback(
     (lang: string | null) => {
-      setDetected(lang);
+      setDetectedLang(lang);
       if (lang) setSrcLang(lang);
     },
     [setSrcLang],
@@ -64,7 +64,7 @@ const WithSrcLang = ({
     recentSrcLangs,
     setRecentSrcLangs: rawSetRecentSrcLangs,
     detectedLang,
-    setDetectedLang,
+    setDetectedLang: setDetectedLangCb,
   });
 };
 
@@ -122,6 +122,64 @@ const Dictionary: React.FC = () => {
   const [pairs, setPairs] = React.useState<Pairs>({});
   const [loadingPairs, setLoadingPairs] = React.useState(true);
   const fetchRef = React.useRef<CancelTokenSource | null>(null);
+  const embeddingModesPromiseRef = React.useRef<Promise<Set<string>> | null>(null);
+
+  const loadEmbeddingModes = React.useCallback(async (): Promise<Set<string>> => {
+    if (!embeddingModesPromiseRef.current) {
+      embeddingModesPromiseRef.current = (async () => {
+        try {
+          const [, listReq] = apyFetch('list', { q: 'embeddings' });
+          const listRes = await listReq;
+          const respData = listRes.data.responseData;
+          const modes: string[] = [];
+          if (Array.isArray(respData)) {
+            respData.forEach((item) => {
+              if (typeof item === 'string' && item.includes('|')) {
+                modes.push(item);
+              } else if (item && typeof item === 'object') {
+                const s = (item as any).sourceLanguage;
+                const t = (item as any).targetLanguage;
+                if (typeof s === 'string' && typeof t === 'string') {
+                  modes.push(`${s}|${t}`);
+                }
+              }
+            });
+          } else if (respData && typeof respData === 'object') {
+            const maybe = (respData as any).embeddingModes ?? (respData as any).availableEmbeddings;
+            if (Array.isArray(maybe)) {
+              maybe.forEach((item) => {
+                if (typeof item === 'string' && item.includes('|')) {
+                  modes.push(item);
+                } else if (item && typeof item === 'object') {
+                  const s = (item as any).sourceLanguage;
+                  const t = (item as any).targetLanguage;
+                  if (typeof s === 'string' && typeof t === 'string') {
+                    modes.push(`${s}|${t}`);
+                  }
+                }
+              });
+            }
+          }
+          return new Set(modes);
+        } catch {
+          return new Set<string>();
+        }
+      })();
+    }
+    return embeddingModesPromiseRef.current!;
+  }, [apyFetch]);
+
+  const chooseEmbeddingMode = React.useCallback(
+    async (src: string, tgt: string): Promise<string | null> => {
+      const modesSet = await loadEmbeddingModes();
+      const forward = `${src}|${tgt}`;
+      const reverse = `${tgt}|${src}`;
+      if (modesSet.has(forward)) return forward;
+      if (modesSet.has(reverse)) return reverse;
+      return null;
+    },
+    [loadEmbeddingModes],
+  );
 
   React.useEffect(() => {
     fetchRef.current?.cancel();
@@ -197,8 +255,8 @@ const Dictionary: React.FC = () => {
 
             const handleSearch = React.useCallback(
               async (wordOverride?: string, srcOverride: string = srcLang, tgtOverride: string = tgtLang) => {
-                const word = (wordOverride ?? searchWord).trim();
-                if (!word) return;
+                const rawWord = (wordOverride ?? searchWord).trim();
+                if (!rawWord) return;
 
                 setSearched(true);
                 searchRef.current?.cancel();
@@ -208,11 +266,11 @@ const Dictionary: React.FC = () => {
                 setEmbeddingResults([]);
 
                 const [, reqFwd] = apyFetch('billookup', {
-                  q: `${word}<*>`,
+                  q: `${rawWord}<*>`,
                   langpair: `${srcOverride}|${tgtOverride}`,
                 });
                 const [, reqRev] = apyFetch('billookup', {
-                  q: `${word}<*>`,
+                  q: `${rawWord}<*>`,
                   langpair: `${tgtOverride}|${srcOverride}`,
                 });
 
@@ -230,7 +288,8 @@ const Dictionary: React.FC = () => {
                   const fwdParsed = parse(respFwd);
                   setResults(fwdParsed);
 
-                  revParsed = parse(respRev).flatMap(({ head, defs }) =>
+                  const reverseRaw = parse(respRev);
+                  revParsed = reverseRaw.flatMap(({ head, defs }) =>
                     defs.map((d) => ({ head: d.replace(/^\s*\d+\.\s*/, ''), defs: [head] })),
                   );
                   const uniqueHeads = Array.from(new Set(revParsed.map((r) => r.head)));
@@ -242,61 +301,131 @@ const Dictionary: React.FC = () => {
                   const enriched: Record<string, string[]> = {};
                   headResponses.forEach((arr, i) => {
                     enriched[uniqueHeads[i]] = Array.from(
-                      new Set(arr.flatMap((item) => item.defs.map((d) => d.replace(/<[^>]+>/g, '').trim()))),
+                      new Set(
+                        arr.flatMap((item) => item.defs.map((d) => d.replace(/<[^>]+>/g, '').trim())).filter(Boolean),
+                      ),
                     );
                   });
                   setReverseResults(uniqueHeads.map((h) => ({ head: h, defs: enriched[h] })));
 
-                  const exactItem = fwdParsed.find((item) => item.head.replace(/<[^>]+>/g, '') === word);
-                  const translations = exactItem?.defs.map((d) => d.replace(/<[^>]+>/g, '').trim()) || [];
-
-                  const translationToSims: Record<string, string[]> = {};
-                  await Promise.all(
-                    translations.map(async (term) => {
-                      const [, embReq] = apyFetch('embeddings', {
-                        q: term,
-                        langpair: `${tgtOverride}|${srcOverride}`,
-                      });
-                      const embRes = await embReq;
-                      const sims: string[] =
-                        embRes.data.responseData?.embeddingResults.flatMap((obj: any) => Object.values(obj).flat()) ||
-                        [];
-                      translationToSims[term] = Array.from(new Set(sims.filter((s: string) => !s.startsWith('*'))));
-                    }),
+                  const cleanedWord = rawWord
+                    .replace(/<[^>]+>/g, '')
+                    .trim()
+                    .toLowerCase();
+                  const exactForward = fwdParsed.find(
+                    (item) =>
+                      item.head
+                        .replace(/<[^>]+>/g, '')
+                        .trim()
+                        .toLowerCase() === cleanedWord,
+                  );
+                  const exactReverse = reverseRaw.find(
+                    (item) =>
+                      item.head
+                        .replace(/<[^>]+>/g, '')
+                        .trim()
+                        .toLowerCase() === cleanedWord,
                   );
 
-                  const uniqueSims = Array.from(new Set(Object.values(translationToSims).flat()));
-                  const bilsearchResponses = await Promise.all(
-                    uniqueSims.map(
-                      (sim) => apyFetch('bilsearch', { q: sim, langpair: `${tgtOverride}|${srcOverride}` })[1],
-                    ),
-                  );
+                  let headerTerm: string | null = null;
+                  let translations: string[] = [];
+                  const similarToDisplay: Record<string, string> = {};
 
-                  const simToParsed: Record<string, Entry[]> = {};
-                  bilsearchResponses.forEach((resp, i) => {
-                    const sim = uniqueSims[i];
-                    const raw = resp.data.responseData?.searchResults ?? [];
-                    simToParsed[sim] = (raw as Array<Record<string, string[]>>).flatMap((o) =>
-                      Object.entries(o).map(([hd, defs]) => ({ head: hd, defs })),
+                  if (exactForward) {
+                    headerTerm = exactForward.head.replace(/<[^>]+>/g, '').trim();
+                    translations = exactForward.defs.map((d) => d.replace(/<[^>]+>/g, '').trim());
+                    const firstTgt = translations[0] || headerTerm;
+                    similarToDisplay[headerTerm] = firstTgt;
+                    translations.forEach((tr) => {
+                      similarToDisplay[tr] = tr;
+                    });
+                  } else if (exactReverse) {
+                    headerTerm = exactReverse.head.replace(/<[^>]+>/g, '').trim();
+                    translations = exactReverse.defs.map((d) => d.replace(/<[^>]+>/g, '').trim());
+                    similarToDisplay[headerTerm] = headerTerm;
+                    translations.forEach((tr) => {
+                      similarToDisplay[tr] = headerTerm;
+                    });
+                  } else {
+                    setEmbeddingResults([]);
+                    setLoading(false);
+                    searchRef.current = null;
+                    return;
+                  }
+
+                  const termsForEmbedding = Array.from(
+                    new Set([headerTerm, ...translations].filter(Boolean)),
+                  ) as string[];
+
+                  const embeddingMode = await chooseEmbeddingMode(srcOverride, tgtOverride);
+                  if (!embeddingMode) {
+                    setEmbeddingResults([]);
+                  } else {
+                    const termToSims: Record<string, string[]> = {};
+                    await Promise.all(
+                      termsForEmbedding.map(async (term) => {
+                        const simsSet = new Set<string>();
+                        const [, embReq] = apyFetch('embeddings', {
+                          q: term,
+                          langpair: embeddingMode,
+                        });
+                        try {
+                          const embRes = await embReq;
+                          const sims: string[] =
+                            embRes.data.responseData?.embeddingResults?.flatMap((obj: any) =>
+                              Object.values(obj).flat(),
+                            ) || [];
+                          sims.forEach((s) => {
+                            if (!s.startsWith('*')) simsSet.add(s);
+                          });
+                        } catch {}
+                        termToSims[term] = Array.from(simsSet);
+                      }),
                     );
-                  });
 
-                  const embEntries: Entry[] = [];
-                  Object.entries(translationToSims).forEach(([translation, sims]) => {
-                    sims.forEach((sim) => {
-                      const parsed = simToParsed[sim] || [];
-                      parsed.forEach(({ head: bilHead, defs }) => {
-                        defs.forEach((def) => {
-                          embEntries.push({
-                            head: def,
-                            defs: [bilHead],
-                            similarTo: translation,
-                          } as Entry);
+                    const uniqueSims = Array.from(new Set(Object.values(termToSims).flat())).filter(Boolean);
+                    const bilsearchLangpair = embeddingMode;
+                    const isReverseEmbeddingMode = embeddingMode === `${tgtOverride}|${srcOverride}`;
+
+                    const bilsearchResponses = await Promise.all(
+                      uniqueSims.map((sim) => apyFetch('bilsearch', { q: sim, langpair: bilsearchLangpair })[1]),
+                    );
+
+                    const simToParsed: Record<string, Entry[]> = {};
+                    bilsearchResponses.forEach((resp, i) => {
+                      const sim = uniqueSims[i];
+                      const raw = resp.data.responseData?.searchResults ?? [];
+                      simToParsed[sim] = (raw as Array<Record<string, string[]>>).flatMap((o) =>
+                        Object.entries(o).map(([hd, defs]) => ({ head: hd, defs })),
+                      );
+                    });
+
+                    const embEntries: Entry[] = [];
+                    Object.entries(termToSims).forEach(([originalTerm, sims]) => {
+                      const displaySimilarTo = similarToDisplay[originalTerm] ?? originalTerm;
+                      sims.forEach((sim) => {
+                        const parsed = simToParsed[sim] || [];
+                        parsed.forEach(({ head: bilHead, defs }) => {
+                          defs.forEach((def) => {
+                            if (isReverseEmbeddingMode) {
+                              embEntries.push({
+                                head: def,
+                                defs: [bilHead],
+                                similarTo: displaySimilarTo,
+                              } as Entry);
+                            } else {
+                              embEntries.push({
+                                head: bilHead,
+                                defs: [def],
+                                similarTo: displaySimilarTo,
+                              } as Entry);
+                            }
+                          });
                         });
                       });
                     });
-                  });
-                  setEmbeddingResults(embEntries);
+                    setEmbeddingResults(embEntries);
+                  }
                 } catch {
                   setReverseResults(revParsed);
                 } finally {
@@ -304,7 +433,7 @@ const Dictionary: React.FC = () => {
                   searchRef.current = null;
                 }
               },
-              [apyFetch, searchWord, srcLang, tgtLang],
+              [apyFetch, searchWord, srcLang, tgtLang, chooseEmbeddingMode],
             );
 
             const grouped: Record<string, Entry[]> = React.useMemo(() => {
