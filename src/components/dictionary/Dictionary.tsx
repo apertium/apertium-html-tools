@@ -329,23 +329,19 @@ const Dictionary: React.FC = () => {
 
                   let headerTerm: string | null = null;
                   let translations: string[] = [];
-                  const similarToDisplay: Record<string, string> = {};
+                  let headLang: string = srcOverride;
+                  let translationLang: string = tgtOverride;
 
                   if (exactForward) {
                     headerTerm = exactForward.head.replace(/<[^>]+>/g, '').trim();
                     translations = exactForward.defs.map((d) => d.replace(/<[^>]+>/g, '').trim());
-                    const firstTgt = translations[0] || headerTerm;
-                    similarToDisplay[headerTerm] = firstTgt;
-                    translations.forEach((tr) => {
-                      similarToDisplay[tr] = tr;
-                    });
+                    headLang = srcOverride;
+                    translationLang = tgtOverride;
                   } else if (exactReverse) {
                     headerTerm = exactReverse.head.replace(/<[^>]+>/g, '').trim();
                     translations = exactReverse.defs.map((d) => d.replace(/<[^>]+>/g, '').trim());
-                    similarToDisplay[headerTerm] = headerTerm;
-                    translations.forEach((tr) => {
-                      similarToDisplay[tr] = headerTerm;
-                    });
+                    headLang = tgtOverride;
+                    translationLang = srcOverride;
                   } else {
                     setEmbeddingResults([]);
                     setLoading(false);
@@ -361,6 +357,26 @@ const Dictionary: React.FC = () => {
                   if (!embeddingMode) {
                     setEmbeddingResults([]);
                   } else {
+                    const [embedSourceLang] = embeddingMode.split('|');
+                    const termLang: Record<string, string> = {};
+                    if (headerTerm) termLang[headerTerm] = headLang;
+                    translations.forEach((tr) => {
+                      termLang[tr] = translationLang;
+                    });
+
+                    const getEquivalentInLang = (term: string, fromLang: string, toLang: string): string => {
+                      if (fromLang === toLang) return term;
+                      if (headerTerm) {
+                        if (fromLang === headLang && toLang === translationLang) {
+                          return translations[0] || term;
+                        }
+                        if (fromLang === translationLang && toLang === headLang) {
+                          return headerTerm;
+                        }
+                      }
+                      return term;
+                    };
+
                     const termToSims: Record<string, string[]> = {};
                     await Promise.all(
                       termsForEmbedding.map(async (term) => {
@@ -402,7 +418,8 @@ const Dictionary: React.FC = () => {
 
                     const embEntries: Entry[] = [];
                     Object.entries(termToSims).forEach(([originalTerm, sims]) => {
-                      const displaySimilarTo = similarToDisplay[originalTerm] ?? originalTerm;
+                      const fromLang = termLang[originalTerm] || '';
+                      const displaySimilarTo = getEquivalentInLang(originalTerm, fromLang, embedSourceLang);
                       sims.forEach((sim) => {
                         const parsed = simToParsed[sim] || [];
                         parsed.forEach(({ head: bilHead, defs }) => {
