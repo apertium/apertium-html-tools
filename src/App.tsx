@@ -25,6 +25,7 @@ import { Mode as TranslatorMode } from './components/translator';
 import { Path as WebpageTranslationPath } from './components/translator/WebpageTranslationForm';
 import WithInstallationAlert from './components/WithInstallationAlert';
 import WithLocale from './components/WithLocale';
+import FeedbackButton from './components/FeedbackButton';
 
 const Interfaces = {
   [Mode.Translation]: Translator,
@@ -135,6 +136,7 @@ const App = ({ setLocale }: { setLocale: React.Dispatch<React.SetStateAction<str
           </div>
           <Footer pushRef={pushRef} wrapRef={wrapRef} />
         </WithInstallationAlert>
+        <FeedbackButton />
       </StringsContext.Provider>
     </MatomoProvider>
   );
