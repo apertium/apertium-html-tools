@@ -1,4 +1,3 @@
-// CombinedWord.tsx
 import React, { useState, useEffect, useContext } from 'react';
 import './Word.css';
 import './CombinedWord.css';
@@ -107,7 +106,7 @@ const EntryBlock: React.FC<EntryBlockProps> = ({ surface, entry, lang, index, to
       {entry.similarTo && (
         <div className="similar-to-text">
           <small>
-            {t('Similar_To')} {entry.similarTo}
+            <em>{t('Similar_To')}</em> {entry.similarTo}
           </small>
         </div>
       )}
