@@ -20,6 +20,7 @@ import Generator from './components/Generator';
 import LocaleSelector from './components/LocaleSelector';
 import Navbar from './components/navbar';
 import Sandbox from './components/Sandbox';
+import SpellChecker from './components/spellchecker/SpellChecker';
 import Translator from './components/translator/Translator';
 import { Mode as TranslatorMode } from './components/translator';
 import { Path as WebpageTranslationPath } from './components/translator/WebpageTranslationForm';
@@ -31,6 +32,7 @@ const Interfaces = {
   [Mode.Analysis]: Analyzer,
   [Mode.Generation]: Generator,
   [Mode.Sandbox]: Sandbox,
+  [Mode.SpellChecker]: SpellChecker,
 } as Record<Mode, React.ComponentType<unknown>>;
 
 const App = ({ setLocale }: { setLocale: React.Dispatch<React.SetStateAction<string>> }): React.ReactElement => {
