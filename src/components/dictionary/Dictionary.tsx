@@ -331,59 +331,173 @@ const Dictionary: React.FC = () => {
                   let translations: string[] = [];
                   let headLang: string = srcOverride;
                   let translationLang: string = tgtOverride;
+                  let exactMatchFound = false;
 
                   if (exactForward) {
                     headerTerm = exactForward.head.replace(/<[^>]+>/g, '').trim();
                     translations = exactForward.defs.map((d) => d.replace(/<[^>]+>/g, '').trim());
                     headLang = srcOverride;
                     translationLang = tgtOverride;
+                    exactMatchFound = true;
                   } else if (exactReverse) {
                     headerTerm = exactReverse.head.replace(/<[^>]+>/g, '').trim();
                     translations = exactReverse.defs.map((d) => d.replace(/<[^>]+>/g, '').trim());
                     headLang = tgtOverride;
                     translationLang = srcOverride;
-                  } else {
-                    setEmbeddingResults([]);
-                    setLoading(false);
-                    searchRef.current = null;
-                    return;
+                    exactMatchFound = true;
                   }
 
-                  const termsForEmbedding = Array.from(
-                    new Set([headerTerm, ...translations].filter(Boolean)),
-                  ) as string[];
-
-                  const embeddingMode = await chooseEmbeddingMode(srcOverride, tgtOverride);
-                  if (!embeddingMode) {
-                    setEmbeddingResults([]);
+                  if (!exactMatchFound) {
+                    const modesSet = await loadEmbeddingModes();
+                    const forwardMode = `${srcOverride}|${tgtOverride}`;
+                    const reverseMode = `${tgtOverride}|${srcOverride}`;
+                    const availableModes: string[] = [];
+                    if (modesSet.has(forwardMode)) availableModes.push(forwardMode);
+                    if (modesSet.has(reverseMode)) availableModes.push(reverseMode);
+                    if (availableModes.length === 0) {
+                      setEmbeddingResults([]);
+                    } else {
+                      type Job = { term: string; embeddingMode: string; termLang: string };
+                      const jobs: Job[] = availableModes.map((mode) => ({
+                        term: rawWord,
+                        embeddingMode: mode,
+                        termLang: srcOverride,
+                      }));
+                      const jobResults: Array<{
+                        term: string;
+                        embeddingMode: string;
+                        sims: string[];
+                        termLang: string;
+                      }> = [];
+                      await Promise.all(
+                        jobs.map(async (job) => {
+                          const simsSet = new Set<string>();
+                          const [, embReq] = apyFetch('embeddings', {
+                            q: job.term,
+                            langpair: job.embeddingMode,
+                          });
+                          try {
+                            const embRes = await embReq;
+                            const sims: string[] =
+                              embRes.data.responseData?.embeddingResults?.flatMap((obj: any) =>
+                                Object.values(obj).flat(),
+                              ) || [];
+                            sims.forEach((s) => {
+                              if (!s.startsWith('*')) simsSet.add(s);
+                            });
+                          } catch {}
+                          jobResults.push({
+                            term: job.term,
+                            embeddingMode: job.embeddingMode,
+                            sims: Array.from(simsSet),
+                            termLang: job.termLang,
+                          });
+                        }),
+                      );
+                      const simsByMode: Record<string, string[]> = {};
+                      jobResults.forEach(({ embeddingMode, sims }) => {
+                        if (!simsByMode[embeddingMode]) simsByMode[embeddingMode] = [];
+                        sims.forEach((s) => {
+                          if (!simsByMode[embeddingMode].includes(s)) simsByMode[embeddingMode].push(s);
+                        });
+                      });
+                      const bilsearchParsed: Record<string, Record<string, Entry[]>> = {};
+                      await Promise.all(
+                        Object.entries(simsByMode).map(async ([mode, sims]) => {
+                          bilsearchParsed[mode] = {};
+                          await Promise.all(
+                            sims.map(async (sim) => {
+                              const [, bsReq] = apyFetch('bilsearch', { q: sim, langpair: mode });
+                              try {
+                                const resp = await bsReq;
+                                const raw = resp.data.responseData?.searchResults ?? [];
+                                const parsed = (raw as Array<Record<string, string[]>>).flatMap((o) =>
+                                  Object.entries(o).map(([hd, defs]) => ({ head: hd, defs })),
+                                );
+                                bilsearchParsed[mode][sim] = parsed;
+                              } catch {
+                                bilsearchParsed[mode][sim] = [];
+                              }
+                            }),
+                          );
+                        }),
+                      );
+                      const embEntries: Entry[] = [];
+                      jobResults.forEach(({ embeddingMode, sims, termLang, term }) => {
+                        const [embedSourceLang] = embeddingMode.split('|');
+                        const isReverseEmbeddingMode = embeddingMode === `${tgtOverride}|${srcOverride}`;
+                        const displaySimilarTo = term;
+                        sims.forEach((sim) => {
+                          const parsed = bilsearchParsed[embeddingMode]?.[sim] || [];
+                          parsed.forEach(({ head: bilHead, defs }) => {
+                            defs.forEach((def) => {
+                              if (isReverseEmbeddingMode) {
+                                embEntries.push({
+                                  head: def,
+                                  defs: [bilHead],
+                                  similarTo: displaySimilarTo,
+                                } as Entry);
+                              } else {
+                                embEntries.push({
+                                  head: bilHead,
+                                  defs: [def],
+                                  similarTo: displaySimilarTo,
+                                } as Entry);
+                              }
+                            });
+                          });
+                        });
+                      });
+                      setEmbeddingResults(embEntries);
+                    }
                   } else {
-                    const [embedSourceLang] = embeddingMode.split('|');
+                    const modesSet = await loadEmbeddingModes();
                     const termLang: Record<string, string> = {};
                     if (headerTerm) termLang[headerTerm] = headLang;
                     translations.forEach((tr) => {
                       termLang[tr] = translationLang;
                     });
-
-                    const getEquivalentInLang = (term: string, fromLang: string, toLang: string): string => {
-                      if (fromLang === toLang) return term;
-                      if (headerTerm) {
-                        if (fromLang === headLang && toLang === translationLang) {
-                          return translations[0] || term;
-                        }
-                        if (fromLang === translationLang && toLang === headLang) {
-                          return headerTerm;
-                        }
+                    type Job = { term: string; termLang: string; embeddingMode: string };
+                    const jobsMap = new Map<string, Job>();
+                    const forwardMode = `${srcOverride}|${tgtOverride}`;
+                    const reverseMode = `${tgtOverride}|${srcOverride}`;
+                    if (headerTerm) {
+                      if (termLang[headerTerm] === srcOverride && modesSet.has(forwardMode)) {
+                        const key = `${headerTerm}|${forwardMode}`;
+                        jobsMap.set(key, {
+                          term: headerTerm,
+                          termLang: termLang[headerTerm],
+                          embeddingMode: forwardMode,
+                        });
                       }
-                      return term;
-                    };
-
-                    const termToSims: Record<string, string[]> = {};
+                      if (termLang[headerTerm] === tgtOverride && modesSet.has(reverseMode)) {
+                        const key = `${headerTerm}|${reverseMode}`;
+                        jobsMap.set(key, {
+                          term: headerTerm,
+                          termLang: termLang[headerTerm],
+                          embeddingMode: reverseMode,
+                        });
+                      }
+                    }
+                    translations.forEach((tr) => {
+                      if (termLang[tr] === srcOverride && modesSet.has(forwardMode)) {
+                        const key = `${tr}|${forwardMode}`;
+                        jobsMap.set(key, { term: tr, termLang: termLang[tr], embeddingMode: forwardMode });
+                      }
+                      if (termLang[tr] === tgtOverride && modesSet.has(reverseMode)) {
+                        const key = `${tr}|${reverseMode}`;
+                        jobsMap.set(key, { term: tr, termLang: termLang[tr], embeddingMode: reverseMode });
+                      }
+                    });
+                    const jobs = Array.from(jobsMap.values());
+                    const jobResults: Array<{ term: string; embeddingMode: string; sims: string[]; termLang: string }> =
+                      [];
                     await Promise.all(
-                      termsForEmbedding.map(async (term) => {
+                      jobs.map(async (job) => {
                         const simsSet = new Set<string>();
                         const [, embReq] = apyFetch('embeddings', {
-                          q: term,
-                          langpair: embeddingMode,
+                          q: job.term,
+                          langpair: job.embeddingMode,
                         });
                         try {
                           const embRes = await embReq;
@@ -395,33 +509,61 @@ const Dictionary: React.FC = () => {
                             if (!s.startsWith('*')) simsSet.add(s);
                           });
                         } catch {}
-                        termToSims[term] = Array.from(simsSet);
+                        jobResults.push({
+                          term: job.term,
+                          embeddingMode: job.embeddingMode,
+                          sims: Array.from(simsSet),
+                          termLang: job.termLang,
+                        });
                       }),
                     );
-
-                    const uniqueSims = Array.from(new Set(Object.values(termToSims).flat())).filter(Boolean);
-                    const bilsearchLangpair = embeddingMode;
-                    const isReverseEmbeddingMode = embeddingMode === `${tgtOverride}|${srcOverride}`;
-
-                    const bilsearchResponses = await Promise.all(
-                      uniqueSims.map((sim) => apyFetch('bilsearch', { q: sim, langpair: bilsearchLangpair })[1]),
-                    );
-
-                    const simToParsed: Record<string, Entry[]> = {};
-                    bilsearchResponses.forEach((resp, i) => {
-                      const sim = uniqueSims[i];
-                      const raw = resp.data.responseData?.searchResults ?? [];
-                      simToParsed[sim] = (raw as Array<Record<string, string[]>>).flatMap((o) =>
-                        Object.entries(o).map(([hd, defs]) => ({ head: hd, defs })),
-                      );
+                    const simsByMode: Record<string, string[]> = {};
+                    jobResults.forEach(({ embeddingMode, sims }) => {
+                      if (!simsByMode[embeddingMode]) simsByMode[embeddingMode] = [];
+                      sims.forEach((s) => {
+                        if (!simsByMode[embeddingMode].includes(s)) simsByMode[embeddingMode].push(s);
+                      });
                     });
-
+                    const bilsearchParsed: Record<string, Record<string, Entry[]>> = {};
+                    await Promise.all(
+                      Object.entries(simsByMode).map(async ([mode, sims]) => {
+                        bilsearchParsed[mode] = {};
+                        await Promise.all(
+                          sims.map(async (sim) => {
+                            const [, bsReq] = apyFetch('bilsearch', { q: sim, langpair: mode });
+                            try {
+                              const resp = await bsReq;
+                              const raw = resp.data.responseData?.searchResults ?? [];
+                              const parsed = (raw as Array<Record<string, string[]>>).flatMap((o) =>
+                                Object.entries(o).map(([hd, defs]) => ({ head: hd, defs })),
+                              );
+                              bilsearchParsed[mode][sim] = parsed;
+                            } catch {
+                              bilsearchParsed[mode][sim] = [];
+                            }
+                          }),
+                        );
+                      }),
+                    );
                     const embEntries: Entry[] = [];
-                    Object.entries(termToSims).forEach(([originalTerm, sims]) => {
-                      const fromLang = termLang[originalTerm] || '';
-                      const displaySimilarTo = getEquivalentInLang(originalTerm, fromLang, embedSourceLang);
+                    jobResults.forEach(({ embeddingMode, sims, termLang, term }) => {
+                      const [embedSourceLang] = embeddingMode.split('|');
+                      const isReverseEmbeddingMode = embeddingMode === `${tgtOverride}|${srcOverride}`;
+                      const getEquivalentInLang = (orig: string, fromLang: string, toLang: string): string => {
+                        if (fromLang === toLang) return orig;
+                        if (headerTerm) {
+                          if (fromLang === headLang && toLang === translationLang) {
+                            return translations[0] || orig;
+                          }
+                          if (fromLang === translationLang && toLang === headLang) {
+                            return headerTerm;
+                          }
+                        }
+                        return orig;
+                      };
+                      const displaySimilarTo = getEquivalentInLang(term, termLang, embedSourceLang);
                       sims.forEach((sim) => {
-                        const parsed = simToParsed[sim] || [];
+                        const parsed = bilsearchParsed[embeddingMode]?.[sim] || [];
                         parsed.forEach(({ head: bilHead, defs }) => {
                           defs.forEach((def) => {
                             if (isReverseEmbeddingMode) {
@@ -450,7 +592,7 @@ const Dictionary: React.FC = () => {
                   searchRef.current = null;
                 }
               },
-              [apyFetch, searchWord, srcLang, tgtLang, chooseEmbeddingMode],
+              [apyFetch, searchWord, srcLang, tgtLang, chooseEmbeddingMode, loadEmbeddingModes],
             );
 
             const grouped: Record<string, Entry[]> = React.useMemo(() => {
