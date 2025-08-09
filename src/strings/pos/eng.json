@@ -9,5 +9,17 @@
     "n.f.nn": "inanimate feminine noun",
     "n.f.aa": "animate feminine noun",
     "n.nt.nn": "inanimate neutral noun",
-    "n.nt.aa": "animate neutral noun"
+    "n.nt.aa": "animate neutral noun",
+
+    "nom": "nominative",
+    "acc": "accusative",
+    "dat": "dative",
+    "gen": "genitive",
+    "loc": "locative",
+    "abl": "ablative",
+    "ins": "instrumental",
+    "term": "terminative",
+    "abe": "abessive",
+
+    "gna_impf": "imperfect verb"
 }

@@ -138,9 +138,9 @@ const Dictionary: React.FC = () => {
                 modes.push(item);
               } else if (item && typeof item === 'object') {
                 const s = (item as any).sourceLanguage;
-                const t = (item as any).targetLanguage;
-                if (typeof s === 'string' && typeof t === 'string') {
-                  modes.push(`${s}|${t}`);
+                const tLang = (item as any).targetLanguage;
+                if (typeof s === 'string' && typeof tLang === 'string') {
+                  modes.push(`${s}|${tLang}`);
                 }
               }
             });
@@ -152,9 +152,9 @@ const Dictionary: React.FC = () => {
                   modes.push(item);
                 } else if (item && typeof item === 'object') {
                   const s = (item as any).sourceLanguage;
-                  const t = (item as any).targetLanguage;
-                  if (typeof s === 'string' && typeof t === 'string') {
-                    modes.push(`${s}|${t}`);
+                  const tLang = (item as any).targetLanguage;
+                  if (typeof s === 'string' && typeof tLang === 'string') {
+                    modes.push(`${s}|${tLang}`);
                   }
                 }
               });
@@ -278,9 +278,19 @@ const Dictionary: React.FC = () => {
 
                 const parse = (resp: any): Entry[] => {
                   const raw = resp.data.responseData?.lookupResults ?? resp.data.responseData?.searchResults ?? [];
-                  return (raw as Array<Record<string, string[]>>).flatMap((o) =>
-                    Object.entries(o).map(([head, defs]) => ({ head, defs })),
-                  );
+                  return (raw as Array<Record<string, any>>).flatMap((o) => {
+                    const extraTagsArr: string[] = Array.isArray(o['extra-tags']) ? o['extra-tags'] : [];
+                    return Object.entries(o)
+                      .filter(([head]) => head !== 'extra-tags')
+                      .map(
+                        ([head, defs]) =>
+                          ({
+                            head,
+                            defs,
+                            extraTags: extraTagsArr,
+                          } as Entry),
+                      );
+                  });
                 };
 
                 try {
@@ -290,7 +300,7 @@ const Dictionary: React.FC = () => {
 
                   const reverseRaw = parse(respRev);
                   revParsed = reverseRaw.flatMap(({ head, defs }) =>
-                    defs.map((d) => ({ head: d.replace(/^\s*\d+\.\s*/, ''), defs: [head] })),
+                    defs.map((d) => ({ head: d.replace(/^\s*\d+\.\s*/, ''), defs: [head] } as Entry)),
                   );
                   const uniqueHeads = Array.from(new Set(revParsed.map((r) => r.head)));
                   const headResponses = await Promise.all(
@@ -306,7 +316,7 @@ const Dictionary: React.FC = () => {
                       ),
                     );
                   });
-                  setReverseResults(uniqueHeads.map((h) => ({ head: h, defs: enriched[h] })));
+                  setReverseResults(uniqueHeads.map((h) => ({ head: h, defs: enriched[h] } as Entry)));
 
                   const cleanedWord = rawWord
                     .replace(/<[^>]+>/g, '')
@@ -411,8 +421,17 @@ const Dictionary: React.FC = () => {
                               try {
                                 const resp = await bsReq;
                                 const raw = resp.data.responseData?.searchResults ?? [];
-                                const parsed = (raw as Array<Record<string, string[]>>).flatMap((o) =>
-                                  Object.entries(o).map(([hd, defs]) => ({ head: hd, defs })),
+                                const parsed = (raw as Array<Record<string, any>>).flatMap((o) =>
+                                  Object.entries(o)
+                                    .filter(([head]) => head !== 'extra-tags')
+                                    .map(
+                                      ([hd, defs]) =>
+                                        ({
+                                          head: hd,
+                                          defs,
+                                          extraTags: Array.isArray(o['extra-tags']) ? o['extra-tags'] : [],
+                                        } as Entry),
+                                    ),
                                 );
                                 bilsearchParsed[mode][sim] = parsed;
                               } catch {
@@ -534,8 +553,17 @@ const Dictionary: React.FC = () => {
                             try {
                               const resp = await bsReq;
                               const raw = resp.data.responseData?.searchResults ?? [];
-                              const parsed = (raw as Array<Record<string, string[]>>).flatMap((o) =>
-                                Object.entries(o).map(([hd, defs]) => ({ head: hd, defs })),
+                              const parsed = (raw as Array<Record<string, any>>).flatMap((o) =>
+                                Object.entries(o)
+                                  .filter(([head]) => head !== 'extra-tags')
+                                  .map(
+                                    ([hd, defs]) =>
+                                      ({
+                                        head: hd,
+                                        defs,
+                                        extraTags: Array.isArray(o['extra-tags']) ? o['extra-tags'] : [],
+                                      } as Entry),
+                                  ),
                               );
                               bilsearchParsed[mode][sim] = parsed;
                             } catch {
@@ -596,11 +624,7 @@ const Dictionary: React.FC = () => {
             );
 
             const grouped: Record<string, Entry[]> = React.useMemo(() => {
-              const all: Entry[] = [
-                ...results.map((r) => ({ head: r.head, defs: r.defs })),
-                ...reverseResults.map((r) => ({ head: r.head, defs: r.defs })),
-                ...embeddingResults.map((e) => ({ head: e.head, defs: e.defs, similarTo: (e as any).similarTo })),
-              ];
+              const all: Entry[] = [...results, ...reverseResults, ...embeddingResults];
               const map: Record<string, Entry[]> = {};
               all.forEach((e) => {
                 const surface = e.head.replace(/<[^>]+>/g, '');
@@ -609,6 +633,7 @@ const Dictionary: React.FC = () => {
                   head: e.head,
                   defs: e.defs.map((d) => d.replace(/<[^>]+>/g, '')),
                   ...(e.similarTo ? { similarTo: e.similarTo } : {}),
+                  ...(e.extraTags ? { extraTags: e.extraTags } : {}),
                 } as Entry);
               });
               return map;
@@ -663,6 +688,7 @@ const Dictionary: React.FC = () => {
                         surface={surface}
                         entries={entries}
                         lang={srcLang}
+                        searchWord={searchWord}
                         onDefinitionClick={(def) => {
                           setSearchWord(def);
                           setSrcLang(tgtLang);

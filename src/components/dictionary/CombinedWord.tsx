@@ -13,6 +13,7 @@ export interface Entry {
   head: string;
   defs: string[];
   similarTo?: string;
+  extraTags?: string[];
 }
 
 const toRoman = (n: number): string => {
@@ -38,9 +39,18 @@ interface EntryBlockProps {
   index: number;
   total: number;
   onDefinitionClick: (def: string) => void;
+  searchWord: string;
 }
 
-const EntryBlock: React.FC<EntryBlockProps> = ({ surface, entry, lang, index, total, onDefinitionClick }) => {
+const EntryBlock: React.FC<EntryBlockProps> = ({
+  surface,
+  entry,
+  lang,
+  index,
+  total,
+  onDefinitionClick,
+  searchWord,
+}) => {
   const apyFetch = useContext(APyContext);
   const { t } = useLocalization();
   const { locale } = useLocalizationPOS();
@@ -74,6 +84,23 @@ const EntryBlock: React.FC<EntryBlockProps> = ({ surface, entry, lang, index, to
 
   const cleanSurface = surface;
   const cleanDefs = entry.defs.map((d) => d.replace(/<[^>]+>/g, ''));
+
+  const cleanedSearch = searchWord.replace(/<[^>]+>/g, '');
+  const nonExact = cleanSurface !== cleanedSearch;
+
+  const extraTagsString = entry.extraTags && entry.extraTags.length ? entry.extraTags.join('') : '';
+  const extraTokens = Array.from(extraTagsString.matchAll(/<([^>]+)>/g)).map((mm) => mm[1]);
+
+  const findBestMorphLabel = (tokens: string[]): string | null => {
+    if (!tokens.length) return null;
+    const key = tokens.join('.');
+    const label = getPosTag(locale, key);
+    if (label && label !== key) return label;
+    return null;
+  };
+
+  const morphLabel = findBestMorphLabel(extraTokens);
+  const extraDisplay = morphLabel || extraTagsString;
 
   const handleToggle = () => {
     if (!expanded) {
@@ -140,6 +167,11 @@ const EntryBlock: React.FC<EntryBlockProps> = ({ surface, entry, lang, index, to
           )}
         </div>
       )}
+      {nonExact && extraTagsString && (
+        <div className="extra-tag-info small text-muted mt-1">
+          {extraDisplay}: {cleanedSearch}
+        </div>
+      )}
       {hasParadigms && expanded && (
         <div className="word-paradigm">
           <Paradigm head={entry.head} lang={lang} mode={mode} onLoaded={() => setLoadingParadigm(false)} />
@@ -154,9 +186,10 @@ interface CombinedWordProps {
   entries: Entry[];
   lang: string;
   onDefinitionClick: (def: string) => void;
+  searchWord: string;
 }
 
-const CombinedWord: React.FC<CombinedWordProps> = ({ surface, entries, lang, onDefinitionClick }) => (
+const CombinedWord: React.FC<CombinedWordProps> = ({ surface, entries, lang, onDefinitionClick, searchWord }) => (
   <div className="word-card">
     {entries.map((e, idx) => (
       <React.Fragment key={idx}>
@@ -167,6 +200,7 @@ const CombinedWord: React.FC<CombinedWordProps> = ({ surface, entries, lang, onD
           index={idx}
           total={entries.length}
           onDefinitionClick={onDefinitionClick}
+          searchWord={searchWord}
         />
         {idx < entries.length - 1 && <div className="entry-divider" />}
       </React.Fragment>
