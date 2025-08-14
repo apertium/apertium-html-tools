@@ -21,5 +21,14 @@
     "term": "terminative",
     "abe": "abessive",
 
-    "gna_impf": "imperfect verb"
+    "gna_impf": "imperfect verb",
+    "imp": "imperative",
+
+    "past": "past",
+
+    "p1": "first person",
+    "p2": "second person",
+
+    "sg": "singular",
+    "pl": "plural"
 }

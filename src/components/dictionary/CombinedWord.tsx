@@ -91,15 +91,32 @@ const EntryBlock: React.FC<EntryBlockProps> = ({
   const extraTagsString = entry.extraTags && entry.extraTags.length ? entry.extraTags.join('') : '';
   const extraTokens = Array.from(extraTagsString.matchAll(/<([^>]+)>/g)).map((mm) => mm[1]);
 
-  const findBestMorphLabel = (tokens: string[]): string | null => {
-    if (!tokens.length) return null;
-    const key = tokens.join('.');
-    const label = getPosTag(locale, key);
-    if (label && label !== key) return label;
-    return null;
+  const segmentMorphLabels = (tokens: string[]): string | null => {
+    let i = 0;
+    const labels: string[] = [];
+    while (i < tokens.length) {
+      let foundLabel: string | null = null;
+      let foundLen = 0;
+      for (let j = tokens.length; j > i; j--) {
+        const key = tokens.slice(i, j).join('.');
+        const lbl = getPosTag(locale, key);
+        if (lbl && lbl !== key) {
+          foundLabel = lbl;
+          foundLen = j - i;
+          break;
+        }
+      }
+      if (foundLabel) {
+        labels.push(foundLabel);
+        i += foundLen;
+      } else {
+        i += 1;
+      }
+    }
+    return labels.length ? labels.join(' ') : null;
   };
 
-  const morphLabel = findBestMorphLabel(extraTokens);
+  const morphLabel = segmentMorphLabels(extraTokens);
   const extraDisplay = morphLabel || extraTagsString;
 
   const handleToggle = () => {
@@ -131,14 +148,19 @@ const EntryBlock: React.FC<EntryBlockProps> = ({
         })}
       </ol>
       {entry.similarTo && (
-        <div className="similar-to-text">
+        <div className="extra-tag-info small text-muted mt-1">
           <small>
             <em>{t('Similar_To')}</em> {entry.similarTo}
           </small>
         </div>
       )}
+      {nonExact && extraTagsString && (
+        <div className="extra-tag-info small text-muted mt-1">
+          {extraDisplay}: {cleanedSearch}
+        </div>
+      )}
       {hasParadigms && (
-        <div className="expand-controls">
+        <div className="expand-controls mt-1">
           <button type="button" className="expand-button" onClick={handleToggle} disabled={loadingParadigm}>
             {loadingParadigm ? (
               <>
@@ -165,11 +187,6 @@ const EntryBlock: React.FC<EntryBlockProps> = ({
               </Dropdown.Menu>
             </Dropdown>
           )}
-        </div>
-      )}
-      {nonExact && extraTagsString && (
-        <div className="extra-tag-info small text-muted mt-1">
-          {extraDisplay}: {cleanedSearch}
         </div>
       )}
       {hasParadigms && expanded && (
