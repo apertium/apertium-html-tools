@@ -115,6 +115,49 @@ const WithTgtLang = ({
   return children({ tgtLang, setTgtLang, recentTgtLangs });
 };
 
+const stripTagsLower = (s: string) =>
+  s
+    .replace(/<[^>]+>/g, '')
+    .trim()
+    .toLowerCase();
+
+const dedupeEmbeddingEntries = (entries: Entry[]): Entry[] => {
+  const byKey = new Map<string, { head: string; def: string; sims: Set<string>; extraTags?: string[] }>();
+  for (const e of entries) {
+    const headKey = stripTagsLower(e.head);
+    for (const d of e.defs) {
+      const defKey = stripTagsLower(d);
+      const key = `${headKey}|${defKey}`;
+      const existing = byKey.get(key);
+      if (!existing) {
+        byKey.set(key, {
+          head: e.head,
+          def: d,
+          sims: new Set(e.similarTo ? [e.similarTo] : []),
+          extraTags: e.extraTags,
+        });
+      } else {
+        if (e.similarTo) existing.sims.add(e.similarTo);
+        if (e.extraTags) {
+          existing.extraTags = Array.from(new Set([...(existing.extraTags || []), ...e.extraTags]));
+        }
+      }
+    }
+  }
+  const out: Entry[] = [];
+  byKey.forEach(({ head, def, sims, extraTags }) => {
+    const simList = Array.from(sims);
+    const similarTo = simList.length ? simList.join(', ') : undefined;
+    out.push({
+      head,
+      defs: [def],
+      ...(similarTo ? { similarTo } : {}),
+      ...(extraTags && extraTags.length ? { extraTags } : {}),
+    });
+  });
+  return out;
+};
+
 const Dictionary: React.FC = () => {
   const { t } = useLocalization();
   const apyFetch = React.useContext(APyContext);
@@ -467,7 +510,7 @@ const Dictionary: React.FC = () => {
                           });
                         });
                       });
-                      setEmbeddingResults(embEntries);
+                      setEmbeddingResults(dedupeEmbeddingEntries(embEntries));
                     }
                   } else {
                     const modesSet = await loadEmbeddingModes();
@@ -611,7 +654,7 @@ const Dictionary: React.FC = () => {
                         });
                       });
                     });
-                    setEmbeddingResults(embEntries);
+                    setEmbeddingResults(dedupeEmbeddingEntries(embEntries));
                   }
                 } catch {
                   setReverseResults(revParsed);
