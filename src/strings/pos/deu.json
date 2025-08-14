@@ -21,5 +21,13 @@
     "term": "Terminativ",
     "abe": "Abessiv",
 
-    "gna_impf": "Imperfektverb"
+    "gna_impf": "Imperfekte Verbaladverbien",
+
+    "past": "Vergangenheit",
+
+    "p1": "erste Person",
+    "p2": "zweite Person",
+
+    "sg": "Singular",
+    "pl": "Plural"
 }
