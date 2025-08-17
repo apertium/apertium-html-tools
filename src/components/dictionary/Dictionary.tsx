@@ -160,7 +160,90 @@ const dedupeEmbeddingEntries = (entries: Entry[]): Entry[] => {
 
 const Dictionary: React.FC = () => {
   const { t } = useLocalization();
-  const apyFetch = React.useContext(APyContext);
+  const originalApyFetch = React.useContext(APyContext);
+
+  const apyFetch = React.useMemo(() => {
+    type Pending = {
+      lang: string;
+      q: string;
+      resolve: (v: any) => void;
+      reject: (e: any) => void;
+      canceled: boolean;
+      source: CancelTokenSource;
+    };
+    const queuesRef = { current: new Map<string, Pending[]>() } as { current: Map<string, Pending[]> };
+    const timerRef = { current: null as number | null };
+
+    const flush = () => {
+      queuesRef.current.forEach((list, lang) => {
+        const active = list.filter((p) => !p.canceled);
+        queuesRef.current.set(lang, []);
+        let idx = 0;
+        while (idx < active.length) {
+          const batch = active.slice(idx, idx + 10);
+          idx += 10;
+          if (!batch.length) continue;
+          const q = batch.map((b) => b.q).join(' ');
+          const [, req] = originalApyFetch('generate', { lang, q });
+          req
+            .then((resp: any) => {
+              const raw = resp?.data?.responseData ?? resp?.data ?? [];
+              const arr = Array.isArray(raw) ? raw : [];
+              const dataIsArray = Array.isArray(resp?.data);
+              const hasResponseDataArray = Array.isArray(resp?.data?.responseData);
+              batch.forEach((p, i) => {
+                if (p.canceled) return;
+                const pair = arr[i];
+                let perItem: any;
+                if (dataIsArray) {
+                  perItem = { data: pair !== undefined ? [pair] : [] };
+                } else if (hasResponseDataArray) {
+                  perItem = { data: { responseData: pair !== undefined ? [pair] : [] } };
+                } else {
+                  perItem = { data: pair !== undefined ? [pair] : [] };
+                }
+                p.resolve(perItem);
+              });
+            })
+            .catch((err: any) => {
+              batch.forEach((p) => {
+                if (!p.canceled) p.reject(err);
+              });
+            });
+        }
+      });
+    };
+
+    const scheduleFlush = () => {
+      if (timerRef.current == null) {
+        timerRef.current = window.setTimeout(() => {
+          timerRef.current = null;
+          flush();
+        }, 0);
+      }
+    };
+
+    const wrapped = (endpoint: string, params: Record<string, any>) => {
+      if (endpoint !== 'generate') return originalApyFetch(endpoint, params);
+      const { lang, q } = params || {};
+      let res: (v: any) => void = () => {};
+      let rej: (e: any) => void = () => {};
+      const promise = new Promise((resolve, reject) => {
+        res = resolve;
+        rej = reject;
+      });
+      const pending: Partial<Pending> = { lang, q, resolve: res, reject: rej, canceled: false } as any;
+      const source: CancelTokenSource = { cancel: () => ((pending as Pending).canceled = true) } as any;
+      (pending as Pending).source = source;
+      const list = queuesRef.current.get(lang) || [];
+      list.push(pending as Pending);
+      queuesRef.current.set(lang, list);
+      scheduleFlush();
+      return [source, promise] as [CancelTokenSource, Promise<any>];
+    };
+
+    return wrapped;
+  }, [originalApyFetch]);
 
   const [pairs, setPairs] = React.useState<Pairs>({});
   const [loadingPairs, setLoadingPairs] = React.useState(true);
@@ -267,155 +350,291 @@ const Dictionary: React.FC = () => {
   }
 
   return (
-    <WithSrcLang pairs={pairs} urlSrcLang={urlSrc}>
-      {({ srcLang, setSrcLang, recentSrcLangs, setRecentSrcLangs, detectedLang, setDetectedLang }) => (
-        <WithTgtLang pairs={pairs} srcLang={srcLang} urlTgtLang={urlTgt}>
-          {({ tgtLang, setTgtLang, recentTgtLangs }) => {
-            const [searchWord, setSearchWord] = React.useState('');
-            const [loading, setLoading] = React.useState(false);
-            const [searched, setSearched] = React.useState(false);
-            const searchRef = React.useRef<CancelTokenSource | null>(null);
-            const [results, setResults] = React.useState<Entry[]>([]);
-            const [reverseResults, setReverseResults] = React.useState<Entry[]>([]);
-            const [embeddingResults, setEmbeddingResults] = React.useState<Entry[]>([]);
+    <APyContext.Provider value={apyFetch}>
+      <WithSrcLang pairs={pairs} urlSrcLang={urlSrc}>
+        {({ srcLang, setSrcLang, recentSrcLangs, setRecentSrcLangs, detectedLang, setDetectedLang }) => (
+          <WithTgtLang pairs={pairs} srcLang={srcLang} urlTgtLang={urlTgt}>
+            {({ tgtLang, setTgtLang, recentTgtLangs }) => {
+              const [searchWord, setSearchWord] = React.useState('');
+              const [loading, setLoading] = React.useState(false);
+              const [searched, setSearched] = React.useState(false);
+              const searchRef = React.useRef<CancelTokenSource | null>(null);
+              const [results, setResults] = React.useState<Entry[]>([]);
+              const [reverseResults, setReverseResults] = React.useState<Entry[]>([]);
+              const [embeddingResults, setEmbeddingResults] = React.useState<Entry[]>([]);
 
-            React.useEffect(() => {
-              setResults([]);
-              setReverseResults([]);
-              setEmbeddingResults([]);
-              setSearched(false);
-            }, [srcLang, tgtLang]);
-
-            React.useEffect(() => {
-              const url = new URL(window.location.href);
-              const trimmed = searchWord.trim();
-              if (trimmed) url.searchParams.set('q', trimmed);
-              else url.searchParams.delete('q');
-              url.searchParams.set('langpair', `${srcLang}-${tgtLang}`);
-              url.hash = '';
-              window.history.replaceState(null, '', url.toString());
-            }, [searchWord, srcLang, tgtLang]);
-
-            const handleSearch = React.useCallback(
-              async (wordOverride?: string, srcOverride: string = srcLang, tgtOverride: string = tgtLang) => {
-                const rawWord = (wordOverride ?? searchWord).trim();
-                if (!rawWord) return;
-
-                setSearched(true);
-                searchRef.current?.cancel();
-                setLoading(true);
+              React.useEffect(() => {
                 setResults([]);
                 setReverseResults([]);
                 setEmbeddingResults([]);
+                setSearched(false);
+              }, [srcLang, tgtLang]);
 
-                const [, reqFwd] = apyFetch('billookup', {
-                  q: `${rawWord}<*>`,
-                  langpair: `${srcOverride}|${tgtOverride}`,
-                });
-                const [, reqRev] = apyFetch('billookup', {
-                  q: `${rawWord}<*>`,
-                  langpair: `${tgtOverride}|${srcOverride}`,
-                });
+              React.useEffect(() => {
+                const url = new URL(window.location.href);
+                const trimmed = searchWord.trim();
+                if (trimmed) url.searchParams.set('q', trimmed);
+                else url.searchParams.delete('q');
+                url.searchParams.set('langpair', `${srcLang}-${tgtLang}`);
+                url.hash = '';
+                window.history.replaceState(null, '', url.toString());
+              }, [searchWord, srcLang, tgtLang]);
 
-                let revParsed: Entry[] = [];
+              const handleSearch = React.useCallback(
+                async (wordOverride?: string, srcOverride: string = srcLang, tgtOverride: string = tgtLang) => {
+                  const rawWord = (wordOverride ?? searchWord).trim();
+                  if (!rawWord) return;
 
-                const parse = (resp: any): Entry[] => {
-                  const raw = resp.data.responseData?.lookupResults ?? resp.data.responseData?.searchResults ?? [];
-                  return (raw as Array<Record<string, any>>).flatMap((o) => {
-                    const extraTagsArr: string[] = Array.isArray(o['extra-tags']) ? o['extra-tags'] : [];
-                    return Object.entries(o)
-                      .filter(([head]) => head !== 'extra-tags')
-                      .map(
-                        ([head, defs]) =>
-                          ({
-                            head,
-                            defs,
-                            extraTags: extraTagsArr,
-                          } as Entry),
-                      );
+                  setSearched(true);
+                  searchRef.current?.cancel();
+                  setLoading(true);
+                  setResults([]);
+                  setReverseResults([]);
+                  setEmbeddingResults([]);
+
+                  const [, reqFwd] = apyFetch('billookup', {
+                    q: `${rawWord}<*>`,
+                    langpair: `${srcOverride}|${tgtOverride}`,
                   });
-                };
+                  const [, reqRev] = apyFetch('billookup', {
+                    q: `${rawWord}<*>`,
+                    langpair: `${tgtOverride}|${srcOverride}`,
+                  });
 
-                try {
-                  const [respFwd, respRev] = await Promise.all([reqFwd, reqRev]);
-                  const fwdParsed = parse(respFwd);
-                  setResults(fwdParsed);
+                  let revParsed: Entry[] = [];
 
-                  const reverseRaw = parse(respRev);
-                  revParsed = reverseRaw.flatMap(({ head, defs }) =>
-                    defs.map((d) => ({ head: d.replace(/^\s*\d+\.\s*/, ''), defs: [head] } as Entry)),
-                  );
-                  const uniqueHeads = Array.from(new Set(revParsed.map((r) => r.head)));
-                  const headResponses = await Promise.all(
-                    uniqueHeads.map((h) =>
-                      apyFetch('bilsearch', { q: h, langpair: `${srcOverride}|${tgtOverride}` })[1].then(parse),
-                    ),
-                  );
-                  const enriched: Record<string, string[]> = {};
-                  headResponses.forEach((arr, i) => {
-                    enriched[uniqueHeads[i]] = Array.from(
-                      new Set(
-                        arr.flatMap((item) => item.defs.map((d) => d.replace(/<[^>]+>/g, '').trim())).filter(Boolean),
+                  const parse = (resp: any): Entry[] => {
+                    const raw = resp.data.responseData?.lookupResults ?? resp.data.responseData?.searchResults ?? [];
+                    return (raw as Array<Record<string, any>>).flatMap((o) => {
+                      const extraTagsArr: string[] = Array.isArray(o['extra-tags']) ? o['extra-tags'] : [];
+                      return Object.entries(o)
+                        .filter(([head]) => head !== 'extra-tags')
+                        .map(
+                          ([head, defs]) =>
+                            ({
+                              head,
+                              defs,
+                              extraTags: extraTagsArr,
+                            } as Entry),
+                        );
+                    });
+                  };
+
+                  try {
+                    const [respFwd, respRev] = await Promise.all([reqFwd, reqRev]);
+                    const fwdParsed = parse(respFwd);
+                    setResults(fwdParsed);
+
+                    const reverseRaw = parse(respRev);
+                    revParsed = reverseRaw.flatMap(({ head, defs }) =>
+                      defs.map((d) => ({ head: d.replace(/^\s*\d+\.\s*/, ''), defs: [head] } as Entry)),
+                    );
+                    const uniqueHeads = Array.from(new Set(revParsed.map((r) => r.head)));
+                    const headResponses = await Promise.all(
+                      uniqueHeads.map((h) =>
+                        apyFetch('bilsearch', { q: h, langpair: `${srcOverride}|${tgtOverride}` })[1].then(parse),
                       ),
                     );
-                  });
-                  setReverseResults(uniqueHeads.map((h) => ({ head: h, defs: enriched[h] } as Entry)));
+                    const enriched: Record<string, string[]> = {};
+                    headResponses.forEach((arr, i) => {
+                      enriched[uniqueHeads[i]] = Array.from(
+                        new Set(
+                          arr.flatMap((item) => item.defs.map((d) => d.replace(/<[^>]+>/g, '').trim())).filter(Boolean),
+                        ),
+                      );
+                    });
+                    setReverseResults(uniqueHeads.map((h) => ({ head: h, defs: enriched[h] } as Entry)));
 
-                  const cleanedWord = rawWord
-                    .replace(/<[^>]+>/g, '')
-                    .trim()
-                    .toLowerCase();
-                  const exactForward = fwdParsed.find(
-                    (item) =>
-                      item.head
-                        .replace(/<[^>]+>/g, '')
-                        .trim()
-                        .toLowerCase() === cleanedWord,
-                  );
-                  const exactReverse = reverseRaw.find(
-                    (item) =>
-                      item.head
-                        .replace(/<[^>]+>/g, '')
-                        .trim()
-                        .toLowerCase() === cleanedWord,
-                  );
+                    const cleanedWord = rawWord
+                      .replace(/<[^>]+>/g, '')
+                      .trim()
+                      .toLowerCase();
+                    const exactForward = fwdParsed.find(
+                      (item) =>
+                        item.head
+                          .replace(/<[^>]+>/g, '')
+                          .trim()
+                          .toLowerCase() === cleanedWord,
+                    );
+                    const exactReverse = reverseRaw.find(
+                      (item) =>
+                        item.head
+                          .replace(/<[^>]+>/g, '')
+                          .trim()
+                          .toLowerCase() === cleanedWord,
+                    );
 
-                  let headerTerm: string | null = null;
-                  let translations: string[] = [];
-                  let headLang: string = srcOverride;
-                  let translationLang: string = tgtOverride;
-                  let exactMatchFound = false;
+                    let headerTerm: string | null = null;
+                    let translations: string[] = [];
+                    let headLang: string = srcOverride;
+                    let translationLang: string = tgtOverride;
+                    let exactMatchFound = false;
 
-                  if (exactForward) {
-                    headerTerm = exactForward.head.replace(/<[^>]+>/g, '').trim();
-                    translations = exactForward.defs.map((d) => d.replace(/<[^>]+>/g, '').trim());
-                    headLang = srcOverride;
-                    translationLang = tgtOverride;
-                    exactMatchFound = true;
-                  } else if (exactReverse) {
-                    headerTerm = exactReverse.head.replace(/<[^>]+>/g, '').trim();
-                    translations = exactReverse.defs.map((d) => d.replace(/<[^>]+>/g, '').trim());
-                    headLang = tgtOverride;
-                    translationLang = srcOverride;
-                    exactMatchFound = true;
-                  }
+                    if (exactForward) {
+                      headerTerm = exactForward.head.replace(/<[^>]+>/g, '').trim();
+                      translations = exactForward.defs.map((d) => d.replace(/<[^>]+>/g, '').trim());
+                      headLang = srcOverride;
+                      translationLang = tgtOverride;
+                      exactMatchFound = true;
+                    } else if (exactReverse) {
+                      headerTerm = exactReverse.head.replace(/<[^>]+>/g, '').trim();
+                      translations = exactReverse.defs.map((d) => d.replace(/<[^>]+>/g, '').trim());
+                      headLang = tgtOverride;
+                      translationLang = srcOverride;
+                      exactMatchFound = true;
+                    }
 
-                  if (!exactMatchFound) {
-                    const modesSet = await loadEmbeddingModes();
-                    const forwardMode = `${srcOverride}|${tgtOverride}`;
-                    const reverseMode = `${tgtOverride}|${srcOverride}`;
-                    const availableModes: string[] = [];
-                    if (modesSet.has(forwardMode)) availableModes.push(forwardMode);
-                    if (modesSet.has(reverseMode)) availableModes.push(reverseMode);
-                    if (availableModes.length === 0) {
-                      setEmbeddingResults([]);
+                    if (!exactMatchFound) {
+                      const modesSet = await loadEmbeddingModes();
+                      const forwardMode = `${srcOverride}|${tgtOverride}`;
+                      const reverseMode = `${tgtOverride}|${srcOverride}`;
+                      const availableModes: string[] = [];
+                      if (modesSet.has(forwardMode)) availableModes.push(forwardMode);
+                      if (modesSet.has(reverseMode)) availableModes.push(reverseMode);
+                      if (availableModes.length === 0) {
+                        setEmbeddingResults([]);
+                      } else {
+                        type Job = { term: string; embeddingMode: string; termLang: string };
+                        const jobs: Job[] = availableModes.map((mode) => ({
+                          term: rawWord,
+                          embeddingMode: mode,
+                          termLang: srcOverride,
+                        }));
+                        const jobResults: Array<{
+                          term: string;
+                          embeddingMode: string;
+                          sims: string[];
+                          termLang: string;
+                        }> = [];
+                        await Promise.all(
+                          jobs.map(async (job) => {
+                            const simsSet = new Set<string>();
+                            const [, embReq] = apyFetch('embeddings', {
+                              q: job.term,
+                              langpair: job.embeddingMode,
+                            });
+                            try {
+                              const embRes = await embReq;
+                              const sims: string[] =
+                                embRes.data.responseData?.embeddingResults?.flatMap((obj: any) =>
+                                  Object.values(obj).flat(),
+                                ) || [];
+                              sims.forEach((s) => {
+                                if (!s.startsWith('*')) simsSet.add(s);
+                              });
+                            } catch {}
+                            jobResults.push({
+                              term: job.term,
+                              embeddingMode: job.embeddingMode,
+                              sims: Array.from(simsSet),
+                              termLang: job.termLang,
+                            });
+                          }),
+                        );
+                        const simsByMode: Record<string, string[]> = {};
+                        jobResults.forEach(({ embeddingMode, sims }) => {
+                          if (!simsByMode[embeddingMode]) simsByMode[embeddingMode] = [];
+                          sims.forEach((s) => {
+                            if (!s.includes(s)) simsByMode[embeddingMode].push(s);
+                          });
+                        });
+                        const bilsearchParsed: Record<string, Record<string, Entry[]>> = {};
+                        await Promise.all(
+                          Object.entries(simsByMode).map(async ([mode, sims]) => {
+                            bilsearchParsed[mode] = {};
+                            await Promise.all(
+                              sims.map(async (sim) => {
+                                const [, bsReq] = apyFetch('bilsearch', { q: sim, langpair: mode });
+                                try {
+                                  const resp = await bsReq;
+                                  const raw = resp.data.responseData?.searchResults ?? [];
+                                  const parsed = (raw as Array<Record<string, any>>).flatMap((o) =>
+                                    Object.entries(o)
+                                      .filter(([head]) => head !== 'extra-tags')
+                                      .map(
+                                        ([hd, defs]) =>
+                                          ({
+                                            head: hd,
+                                            defs,
+                                            extraTags: Array.isArray(o['extra-tags']) ? o['extra-tags'] : [],
+                                          } as Entry),
+                                      ),
+                                  );
+                                  bilsearchParsed[mode][sim] = parsed;
+                                } catch {
+                                  bilsearchParsed[mode][sim] = [];
+                                }
+                              }),
+                            );
+                          }),
+                        );
+                        const embEntries: Entry[] = [];
+                        jobResults.forEach(({ embeddingMode, sims, term }) => {
+                          const isReverseEmbeddingMode = embeddingMode === `${tgtOverride}|${srcOverride}`;
+                          const displaySimilarTo = term;
+                          sims.forEach((sim) => {
+                            const parsed = bilsearchParsed[embeddingMode]?.[sim] || [];
+                            parsed.forEach(({ head: bilHead, defs }) => {
+                              defs.forEach((def) => {
+                                if (isReverseEmbeddingMode) {
+                                  embEntries.push({
+                                    head: def,
+                                    defs: [bilHead],
+                                    similarTo: displaySimilarTo,
+                                  } as Entry);
+                                } else {
+                                  embEntries.push({
+                                    head: bilHead,
+                                    defs: [def],
+                                    similarTo: displaySimilarTo,
+                                  } as Entry);
+                                }
+                              });
+                            });
+                          });
+                        });
+                        setEmbeddingResults(dedupeEmbeddingEntries(embEntries));
+                      }
                     } else {
-                      type Job = { term: string; embeddingMode: string; termLang: string };
-                      const jobs: Job[] = availableModes.map((mode) => ({
-                        term: rawWord,
-                        embeddingMode: mode,
-                        termLang: srcOverride,
-                      }));
+                      const modesSet = await loadEmbeddingModes();
+                      const termLang: Record<string, string> = {};
+                      if (headerTerm) termLang[headerTerm] = headLang;
+                      translations.forEach((tr) => {
+                        termLang[tr] = translationLang;
+                      });
+                      type Job = { term: string; termLang: string; embeddingMode: string };
+                      const jobsMap = new Map<string, Job>();
+                      const forwardMode = `${srcOverride}|${tgtOverride}`;
+                      const reverseMode = `${tgtOverride}|${srcOverride}`;
+                      if (headerTerm) {
+                        if (termLang[headerTerm] === srcOverride && modesSet.has(forwardMode)) {
+                          const key = `${headerTerm}|${forwardMode}`;
+                          jobsMap.set(key, {
+                            term: headerTerm,
+                            termLang: termLang[headerTerm],
+                            embeddingMode: forwardMode,
+                          });
+                        }
+                        if (termLang[headerTerm] === tgtOverride && modesSet.has(reverseMode)) {
+                          const key = `${headerTerm}|${reverseMode}`;
+                          jobsMap.set(key, {
+                            term: headerTerm,
+                            termLang: termLang[headerTerm],
+                            embeddingMode: reverseMode,
+                          });
+                        }
+                      }
+                      translations.forEach((tr) => {
+                        if (termLang[tr] === srcOverride && modesSet.has(forwardMode)) {
+                          const key = `${tr}|${forwardMode}`;
+                          jobsMap.set(key, { term: tr, termLang: termLang[tr], embeddingMode: forwardMode });
+                        }
+                        if (termLang[tr] === tgtOverride && modesSet.has(reverseMode)) {
+                          const key = `${tr}|${reverseMode}`;
+                          jobsMap.set(key, { term: tr, termLang: termLang[tr], embeddingMode: reverseMode });
+                        }
+                      });
+                      const jobs = Array.from(jobsMap.values());
                       const jobResults: Array<{
                         term: string;
                         embeddingMode: string;
@@ -488,7 +707,19 @@ const Dictionary: React.FC = () => {
                       jobResults.forEach(({ embeddingMode, sims, termLang, term }) => {
                         const [embedSourceLang] = embeddingMode.split('|');
                         const isReverseEmbeddingMode = embeddingMode === `${tgtOverride}|${srcOverride}`;
-                        const displaySimilarTo = term;
+                        const getEquivalentInLang = (orig: string, fromLang: string, toLang: string): string => {
+                          if (fromLang === toLang) return orig;
+                          if (headerTerm) {
+                            if (fromLang === headLang && toLang === translationLang) {
+                              return translations[0] || orig;
+                            }
+                            if (fromLang === translationLang && toLang === headLang) {
+                              return headerTerm;
+                            }
+                          }
+                          return orig;
+                        };
+                        const displaySimilarTo = getEquivalentInLang(term, termLang, embedSourceLang);
                         sims.forEach((sim) => {
                           const parsed = bilsearchParsed[embeddingMode]?.[sim] || [];
                           parsed.forEach(({ head: bilHead, defs }) => {
@@ -512,244 +743,101 @@ const Dictionary: React.FC = () => {
                       });
                       setEmbeddingResults(dedupeEmbeddingEntries(embEntries));
                     }
-                  } else {
-                    const modesSet = await loadEmbeddingModes();
-                    const termLang: Record<string, string> = {};
-                    if (headerTerm) termLang[headerTerm] = headLang;
-                    translations.forEach((tr) => {
-                      termLang[tr] = translationLang;
-                    });
-                    type Job = { term: string; termLang: string; embeddingMode: string };
-                    const jobsMap = new Map<string, Job>();
-                    const forwardMode = `${srcOverride}|${tgtOverride}`;
-                    const reverseMode = `${tgtOverride}|${srcOverride}`;
-                    if (headerTerm) {
-                      if (termLang[headerTerm] === srcOverride && modesSet.has(forwardMode)) {
-                        const key = `${headerTerm}|${forwardMode}`;
-                        jobsMap.set(key, {
-                          term: headerTerm,
-                          termLang: termLang[headerTerm],
-                          embeddingMode: forwardMode,
-                        });
-                      }
-                      if (termLang[headerTerm] === tgtOverride && modesSet.has(reverseMode)) {
-                        const key = `${headerTerm}|${reverseMode}`;
-                        jobsMap.set(key, {
-                          term: headerTerm,
-                          termLang: termLang[headerTerm],
-                          embeddingMode: reverseMode,
-                        });
-                      }
-                    }
-                    translations.forEach((tr) => {
-                      if (termLang[tr] === srcOverride && modesSet.has(forwardMode)) {
-                        const key = `${tr}|${forwardMode}`;
-                        jobsMap.set(key, { term: tr, termLang: termLang[tr], embeddingMode: forwardMode });
-                      }
-                      if (termLang[tr] === tgtOverride && modesSet.has(reverseMode)) {
-                        const key = `${tr}|${reverseMode}`;
-                        jobsMap.set(key, { term: tr, termLang: termLang[tr], embeddingMode: reverseMode });
-                      }
-                    });
-                    const jobs = Array.from(jobsMap.values());
-                    const jobResults: Array<{ term: string; embeddingMode: string; sims: string[]; termLang: string }> =
-                      [];
-                    await Promise.all(
-                      jobs.map(async (job) => {
-                        const simsSet = new Set<string>();
-                        const [, embReq] = apyFetch('embeddings', {
-                          q: job.term,
-                          langpair: job.embeddingMode,
-                        });
-                        try {
-                          const embRes = await embReq;
-                          const sims: string[] =
-                            embRes.data.responseData?.embeddingResults?.flatMap((obj: any) =>
-                              Object.values(obj).flat(),
-                            ) || [];
-                          sims.forEach((s) => {
-                            if (!s.startsWith('*')) simsSet.add(s);
-                          });
-                        } catch {}
-                        jobResults.push({
-                          term: job.term,
-                          embeddingMode: job.embeddingMode,
-                          sims: Array.from(simsSet),
-                          termLang: job.termLang,
-                        });
-                      }),
-                    );
-                    const simsByMode: Record<string, string[]> = {};
-                    jobResults.forEach(({ embeddingMode, sims }) => {
-                      if (!simsByMode[embeddingMode]) simsByMode[embeddingMode] = [];
-                      sims.forEach((s) => {
-                        if (!simsByMode[embeddingMode].includes(s)) simsByMode[embeddingMode].push(s);
-                      });
-                    });
-                    const bilsearchParsed: Record<string, Record<string, Entry[]>> = {};
-                    await Promise.all(
-                      Object.entries(simsByMode).map(async ([mode, sims]) => {
-                        bilsearchParsed[mode] = {};
-                        await Promise.all(
-                          sims.map(async (sim) => {
-                            const [, bsReq] = apyFetch('bilsearch', { q: sim, langpair: mode });
-                            try {
-                              const resp = await bsReq;
-                              const raw = resp.data.responseData?.searchResults ?? [];
-                              const parsed = (raw as Array<Record<string, any>>).flatMap((o) =>
-                                Object.entries(o)
-                                  .filter(([head]) => head !== 'extra-tags')
-                                  .map(
-                                    ([hd, defs]) =>
-                                      ({
-                                        head: hd,
-                                        defs,
-                                        extraTags: Array.isArray(o['extra-tags']) ? o['extra-tags'] : [],
-                                      } as Entry),
-                                  ),
-                              );
-                              bilsearchParsed[mode][sim] = parsed;
-                            } catch {
-                              bilsearchParsed[mode][sim] = [];
-                            }
-                          }),
-                        );
-                      }),
-                    );
-                    const embEntries: Entry[] = [];
-                    jobResults.forEach(({ embeddingMode, sims, termLang, term }) => {
-                      const [embedSourceLang] = embeddingMode.split('|');
-                      const isReverseEmbeddingMode = embeddingMode === `${tgtOverride}|${srcOverride}`;
-                      const getEquivalentInLang = (orig: string, fromLang: string, toLang: string): string => {
-                        if (fromLang === toLang) return orig;
-                        if (headerTerm) {
-                          if (fromLang === headLang && toLang === translationLang) {
-                            return translations[0] || orig;
-                          }
-                          if (fromLang === translationLang && toLang === headLang) {
-                            return headerTerm;
-                          }
-                        }
-                        return orig;
-                      };
-                      const displaySimilarTo = getEquivalentInLang(term, termLang, embedSourceLang);
-                      sims.forEach((sim) => {
-                        const parsed = bilsearchParsed[embeddingMode]?.[sim] || [];
-                        parsed.forEach(({ head: bilHead, defs }) => {
-                          defs.forEach((def) => {
-                            if (isReverseEmbeddingMode) {
-                              embEntries.push({
-                                head: def,
-                                defs: [bilHead],
-                                similarTo: displaySimilarTo,
-                              } as Entry);
-                            } else {
-                              embEntries.push({
-                                head: bilHead,
-                                defs: [def],
-                                similarTo: displaySimilarTo,
-                              } as Entry);
-                            }
-                          });
-                        });
-                      });
-                    });
-                    setEmbeddingResults(dedupeEmbeddingEntries(embEntries));
+                  } catch {
+                    setReverseResults(revParsed);
+                  } finally {
+                    setLoading(false);
+                    searchRef.current = null;
                   }
-                } catch {
-                  setReverseResults(revParsed);
-                } finally {
-                  setLoading(false);
-                  searchRef.current = null;
-                }
-              },
-              [apyFetch, searchWord, srcLang, tgtLang, chooseEmbeddingMode, loadEmbeddingModes],
-            );
+                },
+                [apyFetch, searchWord, srcLang, tgtLang, chooseEmbeddingMode, loadEmbeddingModes],
+              );
 
-            const grouped: Record<string, Entry[]> = React.useMemo(() => {
-              const all: Entry[] = [...results, ...reverseResults, ...embeddingResults];
-              const map: Record<string, Entry[]> = {};
-              all.forEach((e) => {
-                const surface = e.head.replace(/<[^>]+>/g, '');
-                if (!map[surface]) map[surface] = [];
-                map[surface].push({
-                  head: e.head,
-                  defs: e.defs.map((d) => d.replace(/<[^>]+>/g, '')),
-                  ...(e.similarTo ? { similarTo: e.similarTo } : {}),
-                  ...(e.extraTags ? { extraTags: e.extraTags } : {}),
-                } as Entry);
-              });
-              return map;
-            }, [results, reverseResults, embeddingResults]);
+              const grouped: Record<string, Entry[]> = React.useMemo(() => {
+                const all: Entry[] = [...results, ...reverseResults, ...embeddingResults];
+                const map: Record<string, Entry[]> = {};
+                all.forEach((e) => {
+                  const surface = e.head.replace(/<[^>]+>/g, '');
+                  if (!map[surface]) map[surface] = [];
+                  map[surface].push({
+                    head: e.head,
+                    defs: e.defs.map((d) => d.replace(/<[^>]+>/g, '')),
+                    ...(e.similarTo ? { similarTo: e.similarTo } : {}),
+                    ...(e.extraTags ? { extraTags: e.extraTags } : {}),
+                  } as Entry);
+                });
+                return map;
+              }, [results, reverseResults, embeddingResults]);
 
-            return (
-              <Form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSearch();
-                }}
-              >
-                <LanguageSelector
-                  layout="dictionary"
-                  actionLabel={t('Search')}
-                  loading={loading}
-                  pairs={pairs}
-                  srcLang={srcLang}
-                  setSrcLang={setSrcLang}
-                  recentSrcLangs={recentSrcLangs}
-                  setRecentSrcLangs={setRecentSrcLangs}
-                  tgtLang={tgtLang}
-                  setTgtLang={setTgtLang}
-                  recentTgtLangs={recentTgtLangs}
-                  onTranslate={() => handleSearch()}
-                  detectedLang={detectedLang}
-                  setDetectedLang={setDetectedLang}
-                />
-                <Form.Group className="mt-3" controlId="searchWord">
-                  <Form.Control
-                    type="text"
-                    placeholder={t('Type_A_Word')}
-                    value={searchWord}
-                    onChange={(e) => setSearchWord(e.target.value)}
+              return (
+                <Form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSearch();
+                  }}
+                >
+                  <LanguageSelector
+                    layout="dictionary"
+                    actionLabel={t('Search')}
+                    loading={loading}
+                    pairs={pairs}
+                    srcLang={srcLang}
+                    setSrcLang={setSrcLang}
+                    recentSrcLangs={recentSrcLangs}
+                    setRecentSrcLangs={setRecentSrcLangs}
+                    tgtLang={tgtLang}
+                    setTgtLang={setTgtLang}
+                    recentTgtLangs={recentTgtLangs}
+                    onTranslate={() => handleSearch()}
+                    detectedLang={detectedLang}
+                    setDetectedLang={setDetectedLang}
                   />
-                </Form.Group>
-                <div className="d-flex justify-content-start mt-2">
-                  <Button onClick={() => handleSearch()} variant="primary" size="sm">
-                    {t('Search')}
-                  </Button>
-                </div>
-                <div className="mt-3">
-                  {Object.entries(grouped)
-                    .sort(([a], [b]) => {
-                      if (a === searchWord && b !== searchWord) return -1;
-                      if (b === searchWord && a !== searchWord) return 1;
-                      return 0;
-                    })
-                    .map(([surface, entries]) => (
-                      <CombinedWord
-                        key={surface}
-                        surface={surface}
-                        entries={entries}
-                        lang={srcLang}
-                        searchWord={searchWord}
-                        onDefinitionClick={(def) => {
-                          setSearchWord(def);
-                          setSrcLang(tgtLang);
-                          setTgtLang(srcLang);
-                          handleSearch(def, tgtLang, srcLang);
-                        }}
-                      />
-                    ))}
-                  {searched && !loading && Object.keys(grouped).length === 0 && (
-                    <div className="text-center text-muted mt-3">{t('No_results_found')}</div>
-                  )}
-                </div>
-              </Form>
-            );
-          }}
-        </WithTgtLang>
-      )}
-    </WithSrcLang>
+                  <Form.Group className="mt-3" controlId="searchWord">
+                    <Form.Control
+                      type="text"
+                      placeholder={t('Type_A_Word')}
+                      value={searchWord}
+                      onChange={(e) => setSearchWord(e.target.value)}
+                    />
+                  </Form.Group>
+                  <div className="d-flex justify-content-start mt-2">
+                    <Button onClick={() => handleSearch()} variant="primary" size="sm">
+                      {t('Search')}
+                    </Button>
+                  </div>
+                  <div className="mt-3">
+                    {Object.entries(grouped)
+                      .sort(([a], [b]) => {
+                        if (a === searchWord && b !== searchWord) return -1;
+                        if (b === searchWord && a !== searchWord) return 1;
+                        return 0;
+                      })
+                      .map(([surface, entries]) => (
+                        <CombinedWord
+                          key={surface}
+                          surface={surface}
+                          entries={entries}
+                          lang={srcLang}
+                          searchWord={searchWord}
+                          onDefinitionClick={(def) => {
+                            setSearchWord(def);
+                            setSrcLang(tgtLang);
+                            setTgtLang(srcLang);
+                            handleSearch(def, tgtLang, srcLang);
+                          }}
+                        />
+                      ))}
+                    {searched && !loading && Object.keys(grouped).length === 0 && (
+                      <div className="text-center text-muted mt-3">{t('No_results_found')}</div>
+                    )}
+                  </div>
+                </Form>
+              );
+            }}
+          </WithTgtLang>
+        )}
+      </WithSrcLang>
+    </APyContext.Provider>
   );
 };
 
