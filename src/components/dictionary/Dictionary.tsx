@@ -535,7 +535,7 @@ const Dictionary: React.FC = () => {
                         jobResults.forEach(({ embeddingMode, sims }) => {
                           if (!simsByMode[embeddingMode]) simsByMode[embeddingMode] = [];
                           sims.forEach((s) => {
-                            if (!s.includes(s)) simsByMode[embeddingMode].push(s);
+                            if (!simsByMode[embeddingMode].includes(s)) simsByMode[embeddingMode].push(s);
                           });
                         });
                         const bilsearchParsed: Record<string, Record<string, Entry[]>> = {};
