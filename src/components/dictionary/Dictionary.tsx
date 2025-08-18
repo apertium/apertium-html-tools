@@ -355,7 +355,8 @@ const Dictionary: React.FC = () => {
         {({ srcLang, setSrcLang, recentSrcLangs, setRecentSrcLangs, detectedLang, setDetectedLang }) => (
           <WithTgtLang pairs={pairs} srcLang={srcLang} urlTgtLang={urlTgt}>
             {({ tgtLang, setTgtLang, recentTgtLangs }) => {
-              const [searchWord, setSearchWord] = React.useState('');
+              const [inputWord, setInputWord] = React.useState('');
+              const [activeWord, setActiveWord] = React.useState('');
               const [loading, setLoading] = React.useState(false);
               const [searched, setSearched] = React.useState(false);
               const searchRef = React.useRef<CancelTokenSource | null>(null);
@@ -372,19 +373,20 @@ const Dictionary: React.FC = () => {
 
               React.useEffect(() => {
                 const url = new URL(window.location.href);
-                const trimmed = searchWord.trim();
+                const trimmed = inputWord.trim();
                 if (trimmed) url.searchParams.set('q', trimmed);
                 else url.searchParams.delete('q');
                 url.searchParams.set('langpair', `${srcLang}-${tgtLang}`);
                 url.hash = '';
                 window.history.replaceState(null, '', url.toString());
-              }, [searchWord, srcLang, tgtLang]);
+              }, [inputWord, srcLang, tgtLang]);
 
               const handleSearch = React.useCallback(
                 async (wordOverride?: string, srcOverride: string = srcLang, tgtOverride: string = tgtLang) => {
-                  const rawWord = (wordOverride ?? searchWord).trim();
+                  const rawWord = (wordOverride ?? inputWord).trim();
                   if (!rawWord) return;
 
+                  setActiveWord(rawWord);
                   setSearched(true);
                   searchRef.current?.cancel();
                   setLoading(true);
@@ -750,7 +752,7 @@ const Dictionary: React.FC = () => {
                     searchRef.current = null;
                   }
                 },
-                [apyFetch, searchWord, srcLang, tgtLang, chooseEmbeddingMode, loadEmbeddingModes],
+                [apyFetch, inputWord, srcLang, tgtLang, loadEmbeddingModes],
               );
 
               const grouped: Record<string, Entry[]> = React.useMemo(() => {
@@ -796,8 +798,8 @@ const Dictionary: React.FC = () => {
                     <Form.Control
                       type="text"
                       placeholder={t('Type_A_Word')}
-                      value={searchWord}
-                      onChange={(e) => setSearchWord(e.target.value)}
+                      value={inputWord}
+                      onChange={(e) => setInputWord(e.target.value)}
                     />
                   </Form.Group>
                   <div className="d-flex justify-content-start mt-2">
@@ -808,8 +810,8 @@ const Dictionary: React.FC = () => {
                   <div className="mt-3">
                     {Object.entries(grouped)
                       .sort(([a], [b]) => {
-                        if (a === searchWord && b !== searchWord) return -1;
-                        if (b === searchWord && a !== searchWord) return 1;
+                        if (a === activeWord && b !== activeWord) return -1;
+                        if (b === activeWord && a !== activeWord) return 1;
                         return 0;
                       })
                       .map(([surface, entries]) => (
@@ -818,9 +820,10 @@ const Dictionary: React.FC = () => {
                           surface={surface}
                           entries={entries}
                           lang={srcLang}
-                          searchWord={searchWord}
+                          searchWord={activeWord}
                           onDefinitionClick={(def) => {
-                            setSearchWord(def);
+                            setInputWord(def);
+                            setActiveWord(def);
                             setSrcLang(tgtLang);
                             setTgtLang(srcLang);
                             handleSearch(def, tgtLang, srcLang);
