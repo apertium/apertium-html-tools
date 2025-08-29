@@ -123,13 +123,13 @@ const MobileLanguageSelector = ({
           </option>
         )}
         {srcLangs.map(([code, name]) => (
-          <option disabled={pairs[srcLang].size === 0} key={code} value={code}>
+          <option disabled={!pairs[code] || pairs[code].size === 0} key={code} value={code}>
             {name}
           </option>
         ))}
       </>
     ),
-    [detectLangEnabled, detectedLang, pairs, srcLang, srcLangs, t, tLang],
+    [detectLangEnabled, detectedLang, pairs, srcLangs, t, tLang],
   );
 
   const tgtLangOptions = React.useMemo(
@@ -337,12 +337,42 @@ const DesktopLanguageSelector = ({
   const validTgtLang = React.useCallback((lang: string) => isPair(pairs, srcLang, lang), [pairs, srcLang]);
   const validSrcLang = React.useCallback((lang: string) => !!pairs[lang] && pairs[lang].size > 0, [pairs]);
 
+  const MAX_QUICK = 3;
+
+  const visibleSrcLangs = React.useMemo(() => {
+    const uniq = (arr: string[]) => Array.from(new Set(arr));
+    const fromRecents = (recentSrcLangs || []).filter(validSrcLang);
+    if (fromRecents.length) {
+      const pad = srcLangs
+        .map(([c]) => c)
+        .filter(validSrcLang)
+        .filter((c) => !fromRecents.includes(c));
+      return uniq([srcLang, ...fromRecents, ...pad]).slice(0, MAX_QUICK);
+    }
+    const fallbacks = srcLangs.map(([c]) => c).filter(validSrcLang);
+    return uniq([srcLang, ...fallbacks]).slice(0, MAX_QUICK);
+  }, [recentSrcLangs, srcLangs, validSrcLang, srcLang]);
+
+  const visibleTgtLangs = React.useMemo(() => {
+    const uniq = (arr: string[]) => Array.from(new Set(arr));
+    const fromRecents = (recentTgtLangs || []).filter(validTgtLang);
+    if (fromRecents.length) {
+      const pad = tgtLangs
+        .map(([c]) => c)
+        .filter(validTgtLang)
+        .filter((c) => !fromRecents.includes(c));
+      return uniq([tgtLang, ...fromRecents, ...pad]).slice(0, MAX_QUICK);
+    }
+    const fallbacks = tgtLangs.map(([c]) => c).filter(validTgtLang);
+    return uniq([tgtLang, ...fallbacks]).slice(0, MAX_QUICK);
+  }, [recentTgtLangs, tgtLangs, validTgtLang, tgtLang]);
+
   return (
     <>
       <Form.Group className="row">
         <Col className="d-inline-flex align-items-start justify-content-between" xs="6">
           <ButtonGroup className="d-flex flex-wrap pl-0" data-testid="src-lang-buttons">
-            {recentSrcLangs.map((lang) => (
+            {visibleSrcLangs.map((lang) => (
               <Button
                 active={lang === srcLang && !detectingLang && !detectedLang}
                 className="language-button"
@@ -404,7 +434,7 @@ const DesktopLanguageSelector = ({
 
         <Col className="d-inline-flex align-items-start justify-content-between" xs="6">
           <ButtonGroup className="d-flex flex-wrap pl-0" data-testid="tgt-lang-buttons">
-            {recentTgtLangs.map((lang) => (
+            {visibleTgtLangs.map((lang) => (
               <Button
                 active={lang === tgtLang}
                 className="language-button"
