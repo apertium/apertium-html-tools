@@ -116,11 +116,14 @@ const WithTgtLang = ({
   return children({ tgtLang, setTgtLang, recentTgtLangs });
 };
 
-const stripTagsLower = (s: string) =>
+const stripTagsAndHashes = (s: string) =>
   s
     .replace(/<[^>]+>/g, '')
-    .trim()
-    .toLowerCase();
+    .replace(/#/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+
+const stripTagsLower = (s: string) => stripTagsAndHashes(s).toLowerCase();
 
 const dedupeEmbeddingEntries = (entries: Entry[]): Entry[] => {
   const byKey = new Map<string, { head: string; def: string; sims: Set<string>; extraTags?: string[] }>();
@@ -460,31 +463,14 @@ const Dictionary: React.FC = () => {
                     const enriched: Record<string, string[]> = {};
                     headResponses.forEach((arr, i) => {
                       enriched[uniqueHeads[i]] = Array.from(
-                        new Set(
-                          arr.flatMap((item) => item.defs.map((d) => d.replace(/<[^>]+>/g, '').trim())).filter(Boolean),
-                        ),
+                        new Set(arr.flatMap((item) => item.defs.map((d) => stripTagsAndHashes(d))).filter(Boolean)),
                       );
                     });
                     setReverseResults(uniqueHeads.map((h) => ({ head: h, defs: enriched[h] } as Entry)));
 
-                    const cleanedWord = rawWord
-                      .replace(/<[^>]+>/g, '')
-                      .trim()
-                      .toLowerCase();
-                    const exactForward = fwdParsed.find(
-                      (item) =>
-                        item.head
-                          .replace(/<[^>]+>/g, '')
-                          .trim()
-                          .toLowerCase() === cleanedWord,
-                    );
-                    const exactReverse = reverseRaw.find(
-                      (item) =>
-                        item.head
-                          .replace(/<[^>]+>/g, '')
-                          .trim()
-                          .toLowerCase() === cleanedWord,
-                    );
+                    const cleanedWord = stripTagsLower(rawWord);
+                    const exactForward = fwdParsed.find((item) => stripTagsLower(item.head) === cleanedWord);
+                    const exactReverse = reverseRaw.find((item) => stripTagsLower(item.head) === cleanedWord);
 
                     let headerTerm: string | null = null;
                     let translations: string[] = [];
@@ -493,14 +479,14 @@ const Dictionary: React.FC = () => {
                     let exactMatchFound = false;
 
                     if (exactForward) {
-                      headerTerm = exactForward.head.replace(/<[^>]+>/g, '').trim();
-                      translations = exactForward.defs.map((d) => d.replace(/<[^>]+>/g, '').trim());
+                      headerTerm = stripTagsAndHashes(exactForward.head);
+                      translations = exactForward.defs.map((d) => stripTagsAndHashes(d));
                       headLang = srcOverride;
                       translationLang = tgtOverride;
                       exactMatchFound = true;
                     } else if (exactReverse) {
-                      headerTerm = exactReverse.head.replace(/<[^>]+>/g, '').trim();
-                      translations = exactReverse.defs.map((d) => d.replace(/<[^>]+>/g, '').trim());
+                      headerTerm = stripTagsAndHashes(exactReverse.head);
+                      translations = exactReverse.defs.map((d) => stripTagsAndHashes(d));
                       headLang = tgtOverride;
                       translationLang = srcOverride;
                       exactMatchFound = true;
@@ -788,11 +774,11 @@ const Dictionary: React.FC = () => {
                 const all: Entry[] = [...results, ...reverseResults, ...embeddingResults];
                 const map: Record<string, Entry[]> = {};
                 all.forEach((e) => {
-                  const surface = e.head.replace(/<[^>]+>/g, '');
+                  const surface = stripTagsAndHashes(e.head);
                   if (!map[surface]) map[surface] = [];
                   map[surface].push({
                     head: e.head,
-                    defs: e.defs.map((d) => d.replace(/<[^>]+>/g, '')),
+                    defs: e.defs.map((d) => stripTagsAndHashes(d)),
                     ...(e.similarTo ? { similarTo: e.similarTo } : {}),
                     ...(e.extraTags ? { extraTags: e.extraTags } : {}),
                   } as Entry);
