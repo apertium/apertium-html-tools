@@ -538,6 +538,33 @@ const LanguageSelector = (props: Props): React.ReactElement => {
     return () => current.removeEventListener('change', handleMediaChange);
   }, []);
 
+  const initializedBestSrc = React.useRef(false);
+  React.useEffect(() => {
+    if (initializedBestSrc.current) return;
+    let best = srcLang;
+    let bestSize = (pairs[srcLang] && pairs[srcLang].size) || 0;
+    const keys = Object.keys(pairs as Record<string, Set<string>>);
+    for (let i = 0; i < keys.length; i++) {
+      const k = keys[i];
+      const size = (pairs[k] && pairs[k].size) || 0;
+      if (size > bestSize) {
+        best = k;
+        bestSize = size;
+      }
+    }
+    if (best && best !== srcLang) {
+      setSrcLang(best);
+      if (!isPair(pairs, best, tgtLang)) {
+        const it = pairs[best] && (pairs[best] as Set<string>).values();
+        const first = it ? it.next().value : undefined;
+        if (first) {
+          setTgtLang(first);
+        }
+      }
+    }
+    initializedBestSrc.current = true;
+  }, [pairs]);
+
   const SelectorComponent = showMobile ? MobileLanguageSelector : DesktopLanguageSelector;
 
   return (
