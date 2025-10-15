@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Button, { ButtonProps } from 'react-bootstrap/Button';
-import { faExchangeAlt, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import Button from 'react-bootstrap/Button';
+import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Col from 'react-bootstrap/Col';
 import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import classNames from 'classnames';
 
-import { DetectCompleteEvent, DetectEvent, NamedLangs, Pairs, SrcLangs, TgtLangs, isPair } from '../translator';
+import { NamedLangs, Pairs, SrcLangs, TgtLangs, isPair } from '../translator';
 import WithSortedLanguages, { ChildProps } from '../translator/WithSortedLanguages';
 import { isVariant, langDirection } from '../../util/languages';
 import { LocaleContext } from '../../context';
@@ -17,8 +17,6 @@ import { useLocalization } from '../../util/localization';
 
 export type Props = {
   pairs: Pairs;
-  onTranslate: () => void;
-  loading: boolean;
 
   srcLang: string;
   setSrcLang: (code: string) => void;
@@ -28,23 +26,12 @@ export type Props = {
   tgtLang: string;
   setTgtLang: (code: string) => void;
   recentTgtLangs: Array<string>;
-
-  detectLangEnabled: boolean;
-  detectedLang: string | null;
-  setDetectedLang: (lang: string | null) => void;
-
-  actionLabel?: string;
-  layout?: 'default' | 'dictionary';
 };
 
 type SharedProps = Props & {
   srcLangs: NamedLangs;
   tgtLangs: NamedLangs;
   swapLangs?: () => void;
-  detectingLang: boolean;
-  setDetectingLang: (detecting: boolean) => void;
-  onDetectLang: () => void;
-  layout?: 'default' | 'dictionary';
 };
 
 const langListIdealRows = 12,
@@ -53,60 +40,21 @@ const langListIdealRows = 12,
   langListsBuffer = 50;
 const langListMinColumnWidth = langListMaxWidths / langListMaxColumns;
 
-const detectKey = 'detect';
-
-const TranslateButton = (
-  props: { loading: boolean; onTranslate: () => void; actionLabel?: string } & ButtonProps,
-): React.ReactElement => {
-  const { t } = useLocalization();
-  const { loading, onTranslate, actionLabel, ...buttonProps } = props;
-
-  return (
-    <Button
-      className="btn-sm ml-auto"
-      onClick={({ currentTarget }) => {
-        onTranslate();
-        currentTarget.blur();
-      }}
-      size="sm"
-      type="button"
-      {...buttonProps}
-    >
-      {loading && <FontAwesomeIcon className="mr-1" icon={faSpinner} spin />}
-      {actionLabel || t('Translate')}
-    </Button>
-  );
-};
-
 const MobileLanguageSelector = ({
   pairs,
   srcLang,
   setSrcLang,
   tgtLang,
   setTgtLang,
-  onTranslate,
   srcLangs,
   tgtLangs,
   swapLangs,
-  loading,
-  onDetectLang,
-  detectLangEnabled,
-  detectedLang,
-  detectingLang,
-  actionLabel,
-  layout,
 }: SharedProps): React.ReactElement => {
-  const { t, tLang } = useLocalization();
+  const { tLang } = useLocalization();
 
   const onSrcLangChange = React.useCallback<React.ChangeEventHandler<HTMLSelectElement>>(
-    ({ target: { value } }) => {
-      if (value === detectKey) {
-        onDetectLang();
-      } else {
-        setSrcLang(value);
-      }
-    },
-    [onDetectLang, setSrcLang],
+    ({ target: { value } }) => setSrcLang(value),
+    [setSrcLang],
   );
 
   const onTgtLangChange = React.useCallback<React.ChangeEventHandler<HTMLSelectElement>>(
@@ -117,11 +65,6 @@ const MobileLanguageSelector = ({
   const srcLangOptions = React.useMemo(
     () => (
       <>
-        {detectLangEnabled && (
-          <option disabled={!detectLangEnabled} key={detectKey} value={detectKey}>
-            {detectedLang ? `${tLang(detectedLang)} - ${t('detected')}` : t('Detect_Language')}
-          </option>
-        )}
         {srcLangs.map(([code, name]) => (
           <option disabled={!pairs[code] || pairs[code].size === 0} key={code} value={code}>
             {name}
@@ -129,7 +72,7 @@ const MobileLanguageSelector = ({
         ))}
       </>
     ),
-    [detectLangEnabled, detectedLang, pairs, srcLangs, t, tLang],
+    [pairs, srcLangs],
   );
 
   const tgtLangOptions = React.useMemo(
@@ -155,7 +98,7 @@ const MobileLanguageSelector = ({
           onChange={onSrcLangChange}
           size="sm"
           style={{ maxWidth: '60%' }}
-          value={detectingLang || detectedLang ? detectKey : srcLang}
+          value={srcLang}
         >
           {srcLangOptions}
         </Form.Control>
@@ -184,10 +127,6 @@ const MobileLanguageSelector = ({
           {tgtLangOptions}
         </Form.Control>
       </div>
-
-      {layout !== 'dictionary' && (
-        <TranslateButton loading={loading} onTranslate={onTranslate} actionLabel={actionLabel} variant="primary" />
-      )}
     </Form.Group>
   );
 };
@@ -262,23 +201,14 @@ const DesktopLanguageSelector = ({
   setSrcLang,
   tgtLang,
   setTgtLang,
-  onTranslate,
   recentTgtLangs,
   recentSrcLangs,
   srcLangs,
   tgtLangs,
   swapLangs,
-  loading,
-  detectLangEnabled,
-  detectedLang,
-  setDetectingLang,
-  detectingLang,
-  onDetectLang,
-  actionLabel,
-  layout,
 }: SharedProps): React.ReactElement => {
   const locale = React.useContext(LocaleContext);
-  const { t, tLang } = useLocalization();
+  const { tLang } = useLocalization();
 
   const srcLangsDropdownTriggerRef = React.createRef<HTMLDivElement>();
   const tgtLangsDropdownTriggerRef = React.createRef<HTMLDivElement>();
@@ -374,11 +304,10 @@ const DesktopLanguageSelector = ({
           <ButtonGroup className="d-flex flex-wrap pl-0" data-testid="src-lang-buttons">
             {visibleSrcLangs.map((lang) => (
               <Button
-                active={lang === srcLang && !detectingLang && !detectedLang}
+                active={lang === srcLang}
                 className="language-button"
                 key={lang}
                 onClick={({ currentTarget }) => {
-                  setDetectingLang(false);
                   setSrcLang(lang);
                   currentTarget.blur();
                 }}
@@ -389,26 +318,6 @@ const DesktopLanguageSelector = ({
                 {tLang(lang)}
               </Button>
             ))}
-            {detectLangEnabled && (
-              <Button
-                active={detectingLang || detectedLang !== null}
-                className="language-button"
-                disabled={!detectLangEnabled}
-                onClick={onDetectLang}
-                size="sm"
-                type="button"
-                value={detectKey}
-                variant="secondary"
-              >
-                {detectedLang ? (
-                  `${tLang(detectedLang)} - ${t('detected')}`
-                ) : (
-                  <>
-                    {detectingLang && <FontAwesomeIcon className="mr-1" icon={faSpinner} spin />} {t('Detect_Language')}
-                  </>
-                )}
-              </Button>
-            )}
             <DropdownButton
               className="language-dropdown-button"
               data-testid="src-lang-dropdown"
@@ -463,10 +372,6 @@ const DesktopLanguageSelector = ({
               <LangsDropdown langs={tgtLangs} numCols={numTgtCols} setLang={setTgtLang} validLang={validTgtLang} />
             </DropdownButton>
           </ButtonGroup>
-
-          {layout !== 'dictionary' && (
-            <TranslateButton loading={loading} onTranslate={onTranslate} actionLabel={actionLabel} variant="primary" />
-          )}
         </Col>
       </Form.Group>
     </>
@@ -474,7 +379,7 @@ const DesktopLanguageSelector = ({
 };
 
 const LanguageSelector = (props: Props): React.ReactElement => {
-  const { pairs, srcLang, setSrcLang, recentSrcLangs, setRecentSrcLangs, tgtLang, setTgtLang, setDetectedLang } = props;
+  const { pairs, srcLang, setSrcLang, recentSrcLangs, setRecentSrcLangs, tgtLang, setTgtLang } = props;
 
   const swapLangs = React.useMemo(
     () =>
@@ -486,45 +391,6 @@ const LanguageSelector = (props: Props): React.ReactElement => {
         : undefined,
     [pairs, setSrcLang, setTgtLang, srcLang, tgtLang],
   );
-
-  const [detectingLang, setDetectingLang] = React.useState(false);
-
-  const onDetectLang = React.useCallback(() => {
-    setDetectingLang(true);
-    window.dispatchEvent(new Event(DetectEvent));
-  }, []);
-
-  React.useEffect(() => {
-    const langDetected = (event_: Event) => {
-      setDetectingLang(false);
-
-      const { detail } = event_ as CustomEvent<Record<string, number> | null>;
-      if (detail == null) {
-        return;
-      }
-
-      const possibleLanguages: Array<[string, number]> = Object.entries(detail).map(([lang, prob]) => [lang, prob]);
-      possibleLanguages.sort(([, a], [, b]) => b - a);
-
-      let newRecentSrcLangs: Array<string> = [];
-      possibleLanguages.forEach(([lang]) => {
-        if (newRecentSrcLangs.length < recentSrcLangs.length && lang in pairs) {
-          newRecentSrcLangs.push(lang);
-        }
-      });
-      newRecentSrcLangs = newRecentSrcLangs.concat(recentSrcLangs);
-      if (newRecentSrcLangs.length > recentSrcLangs.length) {
-        newRecentSrcLangs = newRecentSrcLangs.slice(0, recentSrcLangs.length);
-      }
-
-      setRecentSrcLangs(newRecentSrcLangs);
-      setSrcLang(newRecentSrcLangs[0]);
-      setDetectedLang(newRecentSrcLangs[0]);
-    };
-
-    window.addEventListener(DetectCompleteEvent, langDetected, false);
-    return () => window.removeEventListener(DetectCompleteEvent, langDetected);
-  }, [pairs, recentSrcLangs, setDetectedLang, setRecentSrcLangs, setSrcLang]);
 
   const mobileMediaQuery = React.useRef(window.matchMedia('(max-width: 768px)'));
   const [showMobile, setShowMobile] = React.useState(mobileMediaQuery.current.matches);
@@ -570,14 +436,7 @@ const LanguageSelector = (props: Props): React.ReactElement => {
   return (
     <WithSortedLanguages pairs={pairs} srcLang={srcLang} srcLangs={SrcLangs} tgtLangs={TgtLangs}>
       {(sortedLanguageProps: ChildProps) => (
-        <SelectorComponent
-          {...props}
-          {...sortedLanguageProps}
-          swapLangs={swapLangs}
-          setDetectingLang={setDetectingLang}
-          detectingLang={detectingLang}
-          onDetectLang={onDetectLang}
-        />
+        <SelectorComponent {...props} {...sortedLanguageProps} swapLangs={swapLangs} />
       )}
     </WithSortedLanguages>
   );
