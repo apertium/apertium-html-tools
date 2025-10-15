@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { CancelTokenSource } from 'axios';
 import { isPair, Pairs } from '../translator';
-import LanguageSelector from '../translator/LanguageSelector';
+import LanguageSelector from '../dictionary/LanguageSelector';
 import { toAlpha3Code } from '../../util/languages';
 import useLocalStorage from '../../util/useLocalStorage';
 import { getUrlParam } from '../../util/url';
