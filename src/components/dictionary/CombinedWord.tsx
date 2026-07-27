@@ -42,6 +42,15 @@ interface EntryBlockProps {
   searchWord: string;
 }
 
+const lookupTags = (head: string, parMap: Block): string => {
+  const tags = head.split(/[<>]/).filter(Boolean);
+  // take everything but the lemma, and look up tags in the paradigm map
+  const result = tags.slice(1).reduce((currentObj, currentKey) => {
+    return currentObj && currentObj[currentKey];
+  }, parMap);
+  return result;
+}
+
 const EntryBlock: React.FC<EntryBlockProps> = ({
   surface,
   entry,
@@ -59,8 +68,21 @@ const EntryBlock: React.FC<EntryBlockProps> = ({
   const availableModes = plugin?.getAvailableModes ? plugin.getAvailableModes(locale) : [];
 
   const rawBlocks = plugin
-    ? plugin.addParadigms({ head: entry.head, mode: availableModes[0] || '', locale, t, apyFetch })
-    : [];
+    ? (() => {
+      //console.log('EntryBlock props:', { surface, entry, lang, t, index, total, searchWord, availableModes });
+      const fallbackLocale = Object.keys(plugin.labels)[0] ;
+      const labelsForLocale = plugin.labels?.[locale] ?? plugin.labels?.[fallbackLocale] ;
+      const fallbackMode = Object.keys(labelsForLocale)[0];
+      const labelsForMode = labelsForLocale[availableModes[0]] ?? labelsForLocale[fallbackMode] ;
+      const parMap = plugin.paradigmMap ?? {};
+      //console.log('head:', entry['head'], 'parMap:', parMap);
+      const parType = lookupTags(entry['head'], parMap);
+      //console.log('labelsForMode:', labelsForMode ?? '');
+      return plugin.getParadigm ?
+        plugin.getParadigm( labelsForMode, t, parType )
+        : plugin.addParadigms({ head: entry.head, mode: availableModes[0] || '', locale, t, apyFetch })
+  })() : [];
+  //console.log('rawBlocks:', rawBlocks);
   const hasParadigms = Array.isArray(rawBlocks) && rawBlocks.length > 0;
 
   const [expanded, setExpanded] = useState(false);

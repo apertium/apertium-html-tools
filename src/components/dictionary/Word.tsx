@@ -52,7 +52,21 @@ const Word: React.FC<WordProps> = ({ head, definitions, lang, onDefinitionClick 
     }
   };
 
-  const rawBlocks = plugin ? plugin.addParadigms({ head, mode, locale, t, apyFetch }) : [];
+  const rawBlocks = plugin
+    ? (() => {
+      const fallbackLocale = Object.keys(plugin.labels)[0] ;
+      const labelsForLocale = plugin.labels?.[locale] ?? plugin.labels?.[fallbackLocale] ;
+      const fallbackMode = Object.keys(labelsForLocale)[0];
+      const labelsForMode = labelsForLocale[availableModes[0]] ?? labelsForLocale[fallbackMode] ;
+      const parMap = plugin.paradigmMap ?? {};
+      console.log('head:', entry['head'], 'parMap:', parMap);
+      const parType = lookupTags(entry['head'], parMap);
+      console.log('labelsForMode:', labelsForMode ?? '');
+      return plugin.getParadigm ?
+        plugin.getParadigm( labelsForMode, t, parType )
+        : plugin.addParadigms({ head: entry.head, mode: availableModes[0] || '', locale, t, apyFetch })
+  })() : [];
+  console.log('rawBlocks:', rawBlocks);
   const hasParadigms = Array.isArray(rawBlocks) && rawBlocks.length > 0;
   const showExpand = hasParadigms;
   const showDropdown = hasParadigms && availableModes.length > 1;

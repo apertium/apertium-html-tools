@@ -15,6 +15,7 @@ export interface ParadigmBlock {
   tablist?: Array<{ label: string; tags: string; pretxt?: string }>;
   info?: string;
   subcats?: ParadigmBlock[];
+  html?: string;
 }
 
 export interface AddParadigmsArgs {
@@ -30,4 +31,7 @@ export interface LanguagePlugin {
   addParadigms: (args: AddParadigmsArgs) => ParadigmBlock[];
   parseTags: (origTags: string[], cellTags: string) => string[];
   getAvailableModes?: (locale: string) => string[];
+  labels?: Record<string, Record<string, string>>;
+  paradigmMap?: Record<string, string>;
+  getParadigm?: (labels: Record<string, string>, t: (key: string, vars?: any) => string, parType: string ) => ParadigmBlock | null;
 }

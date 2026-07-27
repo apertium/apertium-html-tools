@@ -1,3 +1,5 @@
+import { ParadigmBlock } from "../types";
+
 export interface UumLabels {
   sg: string;
   pl: string;
@@ -463,9 +465,20 @@ export const uumLabels: Record<string, Record<string, UumLabels>> = {
   },
 };
 
+export const uumTags2Func: Record<string, string> = {
+  v: {
+    iv: 'verb_iv',
+    tv: 'verb_tv',
+  },
+  vaux: 'vaux',
+  n: 'noun',
+  np: 'pnoun',
+};
+
 function add_uum(
   ctx: { labels: UumLabels; t: (key: string) => string }
 ): Record<string, ParadigmBlock[]> {
+  console.log('add_uum called with ctx:', ctx);
   const { labels: m, t } = ctx;
 
   function uumFinVb(tgs: string, lab: string): ParadigmBlock {
@@ -584,6 +597,30 @@ function add_uum(
           { tags: c },
           { tags: `pl.${c}` },
         ]),
+        html: `
+          <table class="paradigm-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>${t(m.sg)}</th>
+                <th>${t(m.pl)}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${Object.keys(m.cases)
+                .map(
+                  (caseKey, index) => `
+                  <tr>
+                    <th>${t(m.cases[caseKey])}</th>
+                    <td data-to-generate="^{{HEAD}}<${caseKey}>$" data-tags="${caseKey}"></td>
+                    <td data-to-generate="^{{HEAD}}<pl><${caseKey}>$" data-tags="pl.${caseKey}"></td>
+                  </tr>
+                `
+                )
+                .join('')}
+            </tbody>
+          </table>
+        `,
       },
       {
         id: 'noun-poss',
@@ -597,6 +634,32 @@ function add_uum(
             tabdata: Object.keys(m.cases).map(c =>
               Object.keys(m['poss-sg']).map(p => ({ tags: `px${p.slice(1)}.${c}` }))
             ),
+            html: `
+              <table class="paradigm-table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    ${Object.values(m['poss-sg'])
+                      .map(col => `<th>${t(col)}</th>`)
+                      .join('')}
+                  </tr>
+                </thead>
+                <tbody>
+                  ${Object.keys(m.cases)
+                    .map(
+                      caseKey => `
+                      <tr>
+                        <th>${t(m.cases[caseKey])}</th>
+                        ${Object.keys(m['poss-sg'])
+                          .map(possKey => `<td data-tags="px${possKey.slice(1)}.${caseKey}"></td>`)
+                          .join('')}
+                      </tr>
+                    `
+                    )
+                    .join('')}
+                </tbody>
+              </table>
+            `,
           },
           {
             id: 'noun-poss-pl',
@@ -606,6 +669,32 @@ function add_uum(
             tabdata: Object.keys(m.cases).map(c =>
               Object.keys(m['poss-pl']).map(p => ({ tags: `pl.px${p.slice(1)}.${c}` }))
             ),
+            html: `
+              <table class="paradigm-table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    ${Object.values(m['poss-pl'])
+                      .map(col => `<th>${t(col)}</th>`)
+                      .join('')}
+                  </tr>
+                </thead>
+                <tbody>
+                  ${Object.keys(m.cases)
+                    .map(
+                      caseKey => `
+                      <tr>
+                        <th>${t(m.cases[caseKey])}</th>
+                        ${Object.keys(m['poss-pl'])
+                          .map(possKey => `<td data-tags="pl.px${possKey.slice(1)}.${caseKey}"></td>`)
+                          .join('')}
+                      </tr>
+                    `
+                    )
+                    .join('')}
+                </tbody>
+              </table>
+            `,
           },
         ],
       },
@@ -677,6 +766,7 @@ export const uumPlugin: LanguagePlugin = {
     const modeKeys = Object.keys(modesForLang);
     const fallbackMode = modeKeys[0];
     const labelsForMode = modesForLang[mode] ?? modesForLang[fallbackMode];
+    console.log(`Using labels for mode: ${mode}, fallback mode: ${fallbackMode}`, labelsForMode);
     const blocksMap = add_uum({ labels: labelsForMode, t });
     const origTags = Array.from(head.matchAll(/<([^>]+)>/g), (m) => m[1]);
     let key: string | undefined;
@@ -689,4 +779,11 @@ export const uumPlugin: LanguagePlugin = {
     return blocksMap[key] || [];
   },
   parseTags,
+  labels: uumLabels,
+  paradigmMap: uumTags2Func,
+  getParadigm(labels, t, parType): ParadigmBlock[] {
+    const blocksMap = add_uum({ labels, t });
+    console.log(`getParadigm called with parType: ${parType}`, blocksMap);
+    return blocksMap[parType] || [];
+  },
 };
