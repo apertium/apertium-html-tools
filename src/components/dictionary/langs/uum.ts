@@ -469,6 +469,7 @@ export const uumTags2Func: Record<string, string> = {
   v: {
     iv: 'verb_iv',
     tv: 'verb_tv',
+    '': 'verb_iv',
   },
   vaux: 'vaux',
   n: 'noun',
@@ -494,6 +495,7 @@ function add_uum(
           ]
         : [m.p1sg!, m.p1pl!, m.p2sg!, m.p2pl!, m.p3sg!, m.p3pl!];
 
+    //console.log(`uumFinVb called with tgs: ${tgs}, lab: ${lab}; rowLabels:`, rowLabels);
     return {
       id: tgs.replace(/\./g, '-'),
       label: () => t(m.labels[lab] || lab),
@@ -507,6 +509,32 @@ function add_uum(
         [{ tags: `${tgs}.p3.sg` }],
         [{ tags: `${tgs}.p3.pl` }],
       ].map((row, i) => [row[0], { tags: `neg.${row[0].tags}` }]),
+      html: `
+        <table class="paradigm-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>${t(m.labels.affirmative)}</th>
+              <th>${t(m.labels.negative)}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${Object.keys(rowLabels)
+              .map(
+                (rowLabel, index) => {
+                const tagPattern = ['<p1><sg>', '<p2><sg>', '<p3><sg>', '<p1><pl>', '<p2><pl>', '<p3><pl>'][index];
+                return `
+                  <tr>
+                    <th>${t(rowLabels[rowLabel])}</th>
+                    <td data-to-generate="^{{HEAD}}<${tgs}>${tagPattern}$"></td>
+                    <td data-to-generate="^{{HEAD}}<neg><${tgs}>${tagPattern}$"></td>
+                  </tr>
+                `;
+                })
+              .join('')}
+          </tbody>
+        </table>
+      `,
     }
   }
 
@@ -534,6 +562,30 @@ function add_uum(
           [{ tags: 'pp' }],
           [{ tags: 'tsg' }],
         ].map((row, i) => [row[0], { tags: `neg.${row[0].tags}` }]),
+        html: `
+          <table class="paradigm-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>${t(m.labels.affirmative)}</th>
+                <th>${t(m.labels.negative)}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${['inf', 'pp', 'tsg']
+                .map(
+                  (tag, index) => `
+                  <tr>
+                    <th>${t([m.labels.infinitive, m.labels.participle, m.labels.converb][index])}</th>
+                    <td data-to-generate="^{{HEAD}}<${tag}>$"></td>
+                    <td data-to-generate="^{{HEAD}}<neg><${tag}>$"></td>
+                  </tr>
+                `
+                )
+                .join('')}
+            </tbody>
+          </table>
+        `,
       },
       uumFinVb('pres', 'pres'),
       uumFinVb('past', 'past'),
@@ -542,7 +594,7 @@ function add_uum(
         label: () => t(m.labels.futs),
         subcats: [uumFinVb('fut', 'fut'), uumFinVb('fdi', 'fdi')],
       },
-      uumFinVb('pres.cni', 'pres.cni'),
+      uumFinVb('pres><cni', 'pres.cni'),
       {
         id: 'imp',
         label: () => t(m.labels.imp),
@@ -552,6 +604,30 @@ function add_uum(
           { tags: `imp.p${i < 2 ? 1 : 2}.${i % 2 === 0 ? 'sg' : 'pl'}` },
           { tags: `neg.imp.p${i < 2 ? 1 : 2}.${i % 2 === 0 ? 'sg' : 'pl'}` },
         ]),
+        html: `
+          <table class="paradigm-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>${t(m.labels.affirmative)}</th>
+                <th>${t(m.labels.negative)}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${mkImpRows()
+                .map(
+                  (lbl, index) => `
+                  <tr>
+                    <th>${t(lbl)}</th>
+                    <td data-to-generate="^{{HEAD}}<imp><p${index < 2 ? 1 : 2}><${index % 2 === 0 ? 'sg' : 'pl'}>$"></td>
+                    <td data-to-generate="^{{HEAD}}<neg><imp><p${index < 2 ? 1 : 2}><${index % 2 === 0 ? 'sg' : 'pl'}>$"></td>
+                  </tr>
+                `
+                )
+                .join('')}
+            </tbody>
+          </table>
+        `,
       },
     ],
 
@@ -562,10 +638,34 @@ function add_uum(
         tabcols: [m.labels.affirmative, m.labels.negative].map(k => t(k)),
         tabrows: [m.labels.infinitive, m.labels.participle, m.labels.converb].map(k => t(k)),
         tabdata: [
-          [{ tags: 'inf' }],
+          [{ tags: '^{{HEAD}}<inf>$' }],
           [{ tags: 'pp' }],
           [{ tags: 'tsg' }],
         ].map((row, i) => [row[0], { tags: `neg.${row[0].tags}` }]),
+        html: `
+          <table class="paradigm-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>${t(m.labels.affirmative)}</th>
+                <th>${t(m.labels.negative)}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${['inf', 'pp', 'tsg']
+                .map(
+                  (tag, index) => `
+                  <tr>
+                    <th>${t([m.labels.infinitive, m.labels.participle, m.labels.converb][index])}</th>
+                    <td data-to-generate="^{{HEAD}}<${tag}>$"></td>
+                    <td data-to-generate="^{{HEAD}}<neg><${tag}>$"></td>
+                  </tr>
+                `
+                )
+                .join('')}
+            </tbody>
+          </table>
+        `,
       },
       uumFinVb('pres', 'pres'),
       uumFinVb('past', 'past'),
@@ -574,7 +674,7 @@ function add_uum(
         label: () => t(m.labels.futs),
         subcats: [uumFinVb('fut', 'fut'), uumFinVb('fdi', 'fdi')],
       },
-      uumFinVb('pres.cni', 'pres.cni'),
+      uumFinVb('pres><cni', 'pres.cni'),
       {
         id: 'imp',
         label: () => t(m.labels.imp),
@@ -584,6 +684,30 @@ function add_uum(
           { tags: `imp.p${i < 2 ? 1 : 2}.${i % 2 === 0 ? 'sg' : 'pl'}` },
           { tags: `neg.imp.p${i < 2 ? 1 : 2}.${i % 2 === 0 ? 'sg' : 'pl'}` },
         ]),
+        html: `
+          <table class="paradigm-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>${t(m.labels.affirmative)}</th>
+                <th>${t(m.labels.negative)}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${mkImpRows()
+                .map(
+                  (lbl, index) => `
+                  <tr>
+                    <th>${t(lbl)}</th>
+                    <td data-to-generate="^{{HEAD}}<imp><p${index < 2 ? 1 : 2}><${index % 2 === 0 ? 'sg' : 'pl'}>$"></td>
+                    <td data-to-generate="^{{HEAD}}<neg><imp><p${index < 2 ? 1 : 2}><${index % 2 === 0 ? 'sg' : 'pl'}>$"></td>
+                  </tr>
+                `
+                )
+                .join('')}
+            </tbody>
+          </table>
+        `,
       },
     ],
 
@@ -651,7 +775,7 @@ function add_uum(
                       <tr>
                         <th>${t(m.cases[caseKey])}</th>
                         ${Object.keys(m['poss-sg'])
-                          .map(possKey => `<td data-tags="px${possKey.slice(1)}.${caseKey}"></td>`)
+                          .map(possKey => `<td data-to-generate="^{{HEAD}}<px${possKey.slice(1)}><${caseKey}>$"></td>`)
                           .join('')}
                       </tr>
                     `
@@ -686,7 +810,7 @@ function add_uum(
                       <tr>
                         <th>${t(m.cases[caseKey])}</th>
                         ${Object.keys(m['poss-pl'])
-                          .map(possKey => `<td data-tags="pl.px${possKey.slice(1)}.${caseKey}"></td>`)
+                          .map(possKey => `<td data-to-generate="^{{HEAD}}<pl><px${possKey.slice(1)}><${caseKey}>$"></td>`)
                           .join('')}
                       </tr>
                     `
@@ -766,7 +890,7 @@ export const uumPlugin: LanguagePlugin = {
     const modeKeys = Object.keys(modesForLang);
     const fallbackMode = modeKeys[0];
     const labelsForMode = modesForLang[mode] ?? modesForLang[fallbackMode];
-    console.log(`Using labels for mode: ${mode}, fallback mode: ${fallbackMode}`, labelsForMode);
+    //console.log(`Using labels for mode: ${mode}, fallback mode: ${fallbackMode}`, labelsForMode);
     const blocksMap = add_uum({ labels: labelsForMode, t });
     const origTags = Array.from(head.matchAll(/<([^>]+)>/g), (m) => m[1]);
     let key: string | undefined;
@@ -783,7 +907,7 @@ export const uumPlugin: LanguagePlugin = {
   paradigmMap: uumTags2Func,
   getParadigm(labels, t, parType): ParadigmBlock[] {
     const blocksMap = add_uum({ labels, t });
-    console.log(`getParadigm called with parType: ${parType}`, blocksMap);
+    //console.log(`getParadigm called with parType: ${parType}`, blocksMap);
     return blocksMap[parType] || [];
   },
 };

@@ -42,13 +42,18 @@ interface EntryBlockProps {
   searchWord: string;
 }
 
-const lookupTags = (head: string, parMap: Block): string => {
+export const lookupTags = (head: string, parMap: Block): string => {
   const tags = head.split(/[<>]/).filter(Boolean);
   // take everything but the lemma, and look up tags in the paradigm map
   const result = tags.slice(1).reduce((currentObj, currentKey) => {
-    return currentObj && currentObj[currentKey];
+    //console.log(`lookupTags: currentObj=${JSON.stringify(currentObj)}, currentKey=${currentKey}`);
+    if (!currentObj) return null; // If currentObj is null, stop processing
+    return currentObj[currentKey] !== undefined ? currentObj[currentKey] : currentObj[''];
   }, parMap);
-  return result;
+  //console.log(typeof result === 'object', typeof result === 'object' && '' in result, result[''] );
+  const toReturn = (result && typeof result === 'object' && '' in result) ? result[''] : result;
+  //console.log(`lookupTags: head=${head}, tags=${tags}, result=${JSON.stringify(result)}, toReturn=${JSON.stringify(toReturn)}`);
+  return toReturn ;
 }
 
 const EntryBlock: React.FC<EntryBlockProps> = ({
@@ -77,7 +82,7 @@ const EntryBlock: React.FC<EntryBlockProps> = ({
       const parMap = plugin.paradigmMap ?? {};
       //console.log('head:', entry['head'], 'parMap:', parMap);
       const parType = lookupTags(entry['head'], parMap);
-      //console.log('labelsForMode:', labelsForMode ?? '');
+      //console.log('labelsForMode:', labelsForMode ?? '', 'parType:', parType ?? '', 'availableModes:', availableModes, 'locale:', locale, 'fallbackLocale:', fallbackLocale, 'fallbackMode:', fallbackMode);
       return plugin.getParadigm ?
         plugin.getParadigm( labelsForMode, t, parType )
         : plugin.addParadigms({ head: entry.head, mode: availableModes[0] || '', locale, t, apyFetch })
