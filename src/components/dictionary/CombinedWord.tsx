@@ -84,7 +84,7 @@ const EntryBlock: React.FC<EntryBlockProps> = ({
       const parType = lookupTags(entry['head'], parMap);
       //console.log('labelsForMode:', labelsForMode ?? '', 'parType:', parType ?? '', 'availableModes:', availableModes, 'locale:', locale, 'fallbackLocale:', fallbackLocale, 'fallbackMode:', fallbackMode);
       return plugin.getParadigm ?
-        plugin.getParadigm( labelsForMode, t, parType )
+        plugin.getParadigm(labelsForMode, t, parType, availableModes[0] || '')
         : plugin.addParadigms({ head: entry.head, mode: availableModes[0] || '', locale, t, apyFetch })
   })() : [];
   //console.log('rawBlocks:', rawBlocks);

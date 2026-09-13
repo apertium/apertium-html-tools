@@ -46,7 +46,7 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
     const parMap = plugin.paradigmMap ?? {};
     const parType = lookupTags(head, parMap);
     
-    return plugin.getParadigm?.(labelsForMode, t, parType);
+    return plugin.getParadigm?.(labelsForMode, t, parType, mode);
   }
 
   useEffect(() => {
