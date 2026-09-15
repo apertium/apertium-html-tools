@@ -30,5 +30,25 @@
     "p2": "second person",
 
     "sg": "singular",
-    "pl": "plural"
+    "pl": "plural",
+
+    "s_1sg": "1st person singular subject",
+    "s_2sg": "2nd person singular subject",
+    "s_3sg": "3rd person singular subject",
+    "s_1pl": "1st person plural subject",
+    "s_2pl": "2nd person plural subject",
+    "s_3pl": "3rd person plural subject",
+
+    "o_1sg": "1st person singular object",
+    "o_2sg": "2nd person singular object",
+    "o_3sg": "3rd person singular object",
+    "o_1pl": "1st person plural object",
+    "o_2pl": "2nd person plural object",
+    "o_3pl": "3rd person plural object",
+    "refl": "reflexive",
+
+    "perf": "perfect",
+    "impf": "imperfect",
+    "incp": "inceptive",
+    "fut": "future"
 }

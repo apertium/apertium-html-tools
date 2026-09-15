@@ -1,21 +1,10 @@
-import { ParadigmBlock } from "../types";
+import { ParadigmBlock, LanguagePlugin, AddParadigmsArgs } from "../types";
 
 export interface HaaLabels {
   sg: string;
   pl: string;
-  p1?: string;
-  p2?: string;
-  p3?: string;
-  p1sg?: string;
-  p1pl?: string;
-  p2sg?: string;
-  p2pl?: string;
-  p3sg?: string;
-  p3pl?: string;
-  cases: Record<string, string>;
+  "person_relations": Record<string, string>;
   labels: Record<string, string>;
-  'poss-sg': Record<string, string>;
-  'poss-pl': Record<string, string>;
 }
 
 export const haaLabels: Record<string, Record<string, HaaLabels>> = {
@@ -23,22 +12,24 @@ export const haaLabels: Record<string, Record<string, HaaLabels>> = {
     Linguist: {
       sg: 'Singular',
       pl: 'Plural',
-      p1: '1st',
-      p2: '2nd',
-      p3: '3rd',
-      "subj_sg": 'Singular Subj',
-      "subj_pl": 'Plural Subj',
-      "obj_sg": 'Singular Obj',
-      "obj_pl": 'Plural Obj',
-      "p1_p1": '1st → 1st',
-      "p1_p2": '1st → 2nd',
-      "p1_p3": '1st → 3rd',
-      "p2_p1": '2nd → 1st',
-      "p2_p2": '2nd → 2nd',
-      "p2_p3": '2nd → 3rd',
-      "p3_p1": '3rd → 1st',
-      "p3_p2": '3rd → 2nd',
-      "p3_p3": '3rd → 3rd',
+      "person_relations": {
+        p1: '1st',
+        p2: '2nd',
+        p3: '3rd',
+        "subj_sg": 'Singular Subj',
+        "subj_pl": 'Plural Subj',
+        "obj_sg": 'Singular Obj',
+        "obj_pl": 'Plural Obj',
+        "p1_p1": '1st → 1st',
+        "p1_p2": '1st → 2nd',
+        "p1_p3": '1st → 3rd',
+        "p2_p1": '2nd → 1st',
+        "p2_p2": '2nd → 2nd',
+        "p2_p3": '2nd → 3rd',
+        "p3_p1": '3rd → 1st',
+        "p3_p2": '3rd → 2nd',
+        "p3_p3": '3rd → 3rd'
+      },
       labels: {
         "impf": "Imperfect",
         "perf": "Perfect",
@@ -49,24 +40,26 @@ export const haaLabels: Record<string, Record<string, HaaLabels>> = {
     Learner: {
       sg: 'Singular',
       pl: 'Plural',
-      p1sg: 'I',
-      p2sg: 'you',
-      p3sg: 'he/she/they',
-      p1pl: 'we',
-      p2pl: 'you all',
-      p3pl: 'they',
-      "p1sg_": 'I →',
-      "p2sg_": "you →",
-      "p3sg_": "he/she/they →",
-      "p1pl_": "we →",
-      "p2pl_": "you all →",
-      "p3pl_": "they →",
-      "_p1sg": "→ me",
-      "_p2sg": "→ you",
-      "_p3sg": "→ him/her/them",
-      "_p1pl": "→ us",
-      "_p2pl": "→ you all",
-      "_p3pl": "→ them",
+      "person_relations": {
+        p1sg: 'I',
+        p2sg: 'you',
+        p3sg: 'he/she/they',
+        p1pl: 'we',
+        p2pl: 'you all',
+        p3pl: 'they',
+        "p1sg_": 'I →',
+        "p2sg_": "you →",
+        "p3sg_": "he/she/they →",
+        "p1pl_": "we →",
+        "p2pl_": "you all →",
+        "p3pl_": "they →",
+        "_p1sg": "→ me",
+        "_p2sg": "→ you",
+        "_p3sg": "→ him/her/them",
+        "_p1pl": "→ us",
+        "_p2pl": "→ you all",
+        "_p3pl": "→ them",
+      },
       labels: {
         "impf": "Imperfect",
         "perf": "Perfect",
@@ -77,7 +70,7 @@ export const haaLabels: Record<string, Record<string, HaaLabels>> = {
   },
 };
 
-export const haaTags2Func: Record<string, string> = {
+export const haaTags2Func: Record<string, Record<string, string>> = {
   v: {
     iv: 'verb_iv',
     tv: 'verb_tv',
@@ -93,32 +86,61 @@ function add_haa(
   function haaTv(tgs: string, lab: string): ParadigmBlock {
     const html = (mode === 'Learner') ? `
         <table class="paradigm-table">
-          <tr><th></th><th></th><th>${t(m._p1sg)}</th><th>${t(m._p2sg)}</th><th>${t(m._p3sg)}</th><th>${t(m._p1pl)}</th><th>${t(m._p2pl)}</th><th>${t(m._p3pl)}</th></tr>
-          <tr><th>${t(m.p1sg_)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_3pl>$"></td></tr>
-          <tr><th>${t(m.p2sg_)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_3pl>$"></td></tr>
-          <tr><th>${t(m.p3sg_)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_3pl>$"></td></tr>
-          <tr><th>${t(m.p1pl_)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_3pl>$"></td></tr>
-          <tr><th>${t(m.p2pl_)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_3pl>$"></td></tr>
-          <tr><th>${t(m.p3pl_)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><refl>$"></td></tr>
+          <tr><th></th><th></th><th>${t(m.person_relations._p1sg)}</th><th>${t(m.person_relations._p2sg)}</th><th>${t(m.person_relations._p3sg)}</th><th>${t(m.person_relations._p1pl)}</th><th>${t(m.person_relations._p2pl)}</th><th>${t(m.person_relations._p3pl)}</th></tr>
+          <tr><th>${t(m.person_relations.p1sg_)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_3pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p2sg_)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_3pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p3sg_)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_3pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p1pl_)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_3pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p2pl_)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_3pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p3pl_)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><refl>$"></td></tr>
+
         </table>` : `
         <table class="paradigm-table">
-          <tr><th></th><th colspan="2">${t(m.subj_sg)}</th><th colspan="2">${t(m.subj_pl)}</th></tr>
-          <tr><th></th><th>${t(m.obj_sg)}</th><th>${t(m.obj_pl)}</th><th>${t(m.obj_sg)}</th><th>${t(m.obj_pl)}</th></tr>
-          <tr><th>${t(m.p1)}</th><td colspan="2" data-to-generate="^{{HEAD}}<${tgs}><s_1sg>$"></td><td colspan="2" data-to-generate="^{{HEAD}}<${tgs}><s_1pl>$"></td></tr>
-          <tr><th>${t(m.p1_p1)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><refl>$"></td></tr>
-          <tr><th>${t(m.p1_p2)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_2pl>$"></td></tr>
-          <tr><th>${t(m.p1_p3)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_3pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_3pl>$"></td></tr>
-          <tr><th>${t(m.p2)}</th><td colspan="2" data-to-generate="^{{HEAD}}<${tgs}><s_2sg>$"></td><td colspan="2" data-to-generate="^{{HEAD}}<${tgs}><s_2pl>$"></td></tr>
-          <tr><th>${t(m.p2_p1)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_1pl>$"></td></tr>
-          <tr><th>${t(m.p2_p2)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><refl>$"></td></tr>
-          <tr><th>${t(m.p2_p3)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_3pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_3pl>$"></td></tr>
-          <tr><th>${t(m.p3)}</th><td colspan="2" data-to-generate="^{{HEAD}}<${tgs}><s_3sg>$"></td><td colspan="2" data-to-generate="^{{HEAD}}<${tgs}><s_3pl>$"></td></tr>
-          <tr><th>${t(m.p3_p1)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_1pl>$"></td></tr>
-          <tr><th>${t(m.p3_p2)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_2pl>$"></td></tr>
-          <tr><th>${t(m.p3_p3)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_3pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><refl>$"></td></tr>
+          <tr><th></th><th colspan="2">${t(m.person_relations.subj_sg)}</th><th colspan="2">${t(m.person_relations.subj_pl)}</th></tr>
+          <tr><th></th><th>${t(m.person_relations.obj_sg)}</th><th>${t(m.person_relations.obj_pl)}</th><th>${t(m.person_relations.obj_sg)}</th><th>${t(m.person_relations.obj_pl)}</th></tr>
+          <tr><th>${t(m.person_relations.p1)}</th><td colspan="2" data-to-generate="^{{HEAD}}<${tgs}><s_1sg>$"></td><td colspan="2" data-to-generate="^{{HEAD}}<${tgs}><s_1pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p1_p1)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><refl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p1_p2)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_2pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p1_p3)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg><o_3pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl><o_3pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p2)}</th><td colspan="2" data-to-generate="^{{HEAD}}<${tgs}><s_2sg>$"></td><td colspan="2" data-to-generate="^{{HEAD}}<${tgs}><s_2pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p2_p1)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_1pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p2_p2)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><refl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p2_p3)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg><o_3pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl><o_3pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p3)}</th><td colspan="2" data-to-generate="^{{HEAD}}<${tgs}><s_3sg>$"></td><td colspan="2" data-to-generate="^{{HEAD}}<${tgs}><s_3pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p3_p1)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_1pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_1pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p3_p2)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_2pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_2pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p3_p3)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><refl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg><o_3pl>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><o_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl><refl>$"></td></tr>
         </table>`;
 
-    console.log("HTML", mode, html);
+    console.log("TV HTML", mode, html);
+
+    return {
+      id: tgs.replace(/\./g, '-'),
+      label: () => t(m.labels[lab] || lab),
+      html: html,
+    };
+  }
+
+  function haaIv(tgs: string, lab: string): ParadigmBlock {
+    const html = (mode === 'Learner') ? `
+        <table class="paradigm-table">
+          <tr><th>${t(m.person_relations.p1sg)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg>$"></td></tr>
+          <tr><th>${t(m.person_relations.p2sg)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg>$"></td></tr>
+          <tr><th>${t(m.person_relations.p3sg)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg>$"></td></tr>
+          <tr><th>${t(m.person_relations.p1pl)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p2pl)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p3pl)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl>$"></td></tr>
+
+        </table>` : `
+        <table class="paradigm-table">
+          <tr><th></th><th>${t(m.person_relations.subj_sg)}</th><th>${t(m.person_relations.subj_pl)}</th></tr>
+          <tr><th>${t(m.person_relations.p1)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_1sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_1pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p2)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_2sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_2pl>$"></td></tr>
+          <tr><th>${t(m.person_relations.p3)}</th><td data-to-generate="^{{HEAD}}<${tgs}><s_3sg>$"></td><td data-to-generate="^{{HEAD}}<${tgs}><s_3pl>$"></td></tr>
+        </table>`;
+
+
+    console.log("IV HTML", mode, html);
 
     return {
       id: tgs.replace(/\./g, '-'),
@@ -128,20 +150,20 @@ function add_haa(
   }
 
   return {
-
+  
     verb_iv: [
-      haaTv('impf', 'impf'),
-      haaTv('perf', 'perf'),
-      haaTv('incp', 'incp'),
-      haaTv('fut', 'fut'),
+      haaIv('impf', 'impf'),
+      haaIv('perf', 'perf'),
+      haaIv('incp', 'incp'),
+      haaIv('fut', 'fut')
     ],
 
     verb_tv: [
       haaTv('impf', 'impf'),
       haaTv('perf', 'perf'),
       haaTv('incp', 'incp'),
-      haaTv('fut', 'fut'),
-    ],
+      haaTv('fut', 'fut')
+    ]
   }
 }
 
