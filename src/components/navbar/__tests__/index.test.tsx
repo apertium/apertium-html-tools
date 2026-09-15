@@ -33,7 +33,7 @@ describe('navigation options', () => {
     const navbar = screen.getByTestId('navbar-mobile');
     const links = getAllByRole(navbar, 'link', { name: (n) => n !== 'Toggle navigation' });
 
-    expect(links).toHaveLength(4);
+    expect(links).toHaveLength(5);
   });
 
   it('includes button', () => {
