@@ -2,11 +2,11 @@ import { Config, Mode } from './src/types';
 
 export default {
   defaultLocale: 'eng',
-  htmlUrl: 'https://beta.apertium.org/',
-  apyURL: 'https://beta.apertium.org/apy',
+  htmlUrl: 'http://localhost:8000/',
+  apyURL: 'http://localhost:2737',
 
   defaultMode: Mode.Translation,
-  enabledModes: new Set([Mode.Translation, Mode.Analysis, Mode.Generation, Mode.Sandbox]),
+  enabledModes: new Set([Mode.Dictionary, Mode.Translation, Mode.Analysis, Mode.Generation, Mode.Sandbox]),
   translationChaining: true,
 
   subtitle: 'Beta',

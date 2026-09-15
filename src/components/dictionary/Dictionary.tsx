@@ -9,7 +9,7 @@ import { toAlpha3Code } from '../../util/languages';
 import useLocalStorage from '../../util/useLocalStorage';
 import { getUrlParam } from '../../util/url';
 import { APyContext } from '../../context';
-import CombinedWord, { Entry } from './CombinedWord';
+import Word, { Entry } from './Word';
 import { useLocalization } from '../../util/localization';
 import { useHistory } from 'react-router-dom';
 
@@ -830,7 +830,7 @@ const Dictionary: React.FC = () => {
                         return 0;
                       })
                       .map(([surface, entries]) => (
-                        <CombinedWord
+                        <Word
                           key={surface}
                           surface={surface}
                           entries={entries}

@@ -1,78 +1,18 @@
-.word-card {
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.word-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.word-text {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #007bff;
-}
-
-.word-pos {
+.roman-numeral {
+  margin-left: 0.5rem;
+  font-style: normal;
+  font-weight: 600;
   font-size: 1rem;
-  font-style: italic;
-  color: silver;
 }
 
-.word-definitions {
-  padding-left: 1.25rem;
-  margin: 0;
+.pos-tag {
+  margin-left: 0.5rem;
+  color: #6c757d;
+  font-size: 0.875rem;
 }
 
-.definition-item {
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.definition-item:hover {
-  text-decoration: underline;
-  color: #0056b3;
-}
-
-.expand-button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #f0f0f0;
+.entry-divider {
   border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.expand-button:hover {
-  background-color: #e0e0e0;
-}
-
-.expand-controls {
-  margin-top: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.word-paradigm {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background: #fafafa;
-  border-radius: 0.25rem;
-}
-
-.word-paradigm .paradigm-container {
-  margin: 0;
-  padding: 0;
-}
-
-#mode-dropdown {
-  color: #000;
+  border-top: 1px solid #dee2e6;
+  margin: 1rem 0;
 }

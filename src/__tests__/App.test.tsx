@@ -5,8 +5,8 @@ import userEvent from '@testing-library/user-event';
 
 import App from '../App';
 
-const renderApp = () => {
-  window.history.replaceState(null, '', '/index.eng.html');
+const renderApp = (url = '/index.eng.html') => {
+  window.history.replaceState(null, '', url);
 
   render(
     <>

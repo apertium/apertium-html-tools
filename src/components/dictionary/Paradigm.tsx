@@ -5,7 +5,7 @@ import { APyContext } from '../../context';
 import { useLocalization, useLocalizationPOS } from '../../util/localization';
 import { languageRegistry } from './index';
 import { AddParadigmsArgs, ParadigmBlock } from '../../types';
-import { lookupTags } from './CombinedWord';
+import { lookupTags } from './Word';
 import './Paradigm.css';
 
 interface ParadigmProps {
