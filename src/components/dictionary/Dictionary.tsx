@@ -7,7 +7,7 @@ import { isPair, Pairs } from '../translator';
 import LanguageSelector from '../dictionary/LanguageSelector';
 import { toAlpha3Code } from '../../util/languages';
 import useLocalStorage from '../../util/useLocalStorage';
-import { getUrlParam } from '../../util/url';
+import { MaxURLLength, buildNewSearch, getUrlParam } from '../../util/url';
 import { APyContext } from '../../context';
 import Word, { Entry } from './Word';
 import { useLocalization } from '../../util/localization';
@@ -17,7 +17,11 @@ const recentLangsCount = 3;
 
 const defaultSrcLang = (pairs: Pairs): string => {
   const keys = Object.keys(pairs);
-  return keys.length ? keys[0] : '';
+  // Keep the most-connected default for new users; validated saved or URL values take precedence.
+  return keys.reduce(
+    (best, lang) => (pairs[lang].size > pairs[best].size ? lang : best),
+    keys[0] || '',
+  );
 };
 
 type WithSrcLangsProps = {
@@ -360,15 +364,6 @@ const Dictionary: React.FC = () => {
     return () => fetchRef.current?.cancel();
   }, [apyFetch]);
 
-  React.useEffect(() => {
-    const handleLocationChange = () => {
-      window.location.reload();
-    };
-
-    const unlisten = history.listen(handleLocationChange);
-    return unlisten;
-  }, [history]);
-
   if (loadingPairs) {
     return (
       <div className="text-center my-4">
@@ -404,6 +399,7 @@ const Dictionary: React.FC = () => {
               const [reverseResults, setReverseResults] = React.useState<Entry[]>([]);
               const [embeddingResults, setEmbeddingResults] = React.useState<Entry[]>([]);
               const bootstrappedFromUrlRef = React.useRef(false);
+              const initialQRef = React.useRef(initialQ);
 
               React.useEffect(() => {
                 setResults([]);
@@ -413,21 +409,18 @@ const Dictionary: React.FC = () => {
               }, [srcLang, tgtLang]);
 
               React.useEffect(() => {
-                if (!bootstrappedFromUrlRef.current && initialQ) return;
-                const url = new URL(window.location.href);
+                if (!bootstrappedFromUrlRef.current && initialQRef.current) return;
                 const trimmed = inputWord.trim();
-                if (trimmed) {
-                  url.searchParams.set('q', trimmed);
-                } else if (bootstrappedFromUrlRef.current) {
-                  url.searchParams.delete('q');
+                const params: Record<string, string> = { langpair: `${srcLang}-${tgtLang}` };
+                if (trimmed || bootstrappedFromUrlRef.current) {
+                  params.q = trimmed;
                 }
-                url.searchParams.set('langpair', `${srcLang}-${tgtLang}`);
-                url.hash = '';
-                const next = url.toString();
-                if (next !== window.location.href) {
-                  window.history.replaceState(null, '', next);
+                let search = buildNewSearch(params);
+                if (search.length > MaxURLLength) {
+                  search = buildNewSearch({ langpair: `${srcLang}-${tgtLang}` });
                 }
-              }, [inputWord, srcLang, tgtLang, initialQ]);
+                history.replace({ search });
+              }, [history, inputWord, srcLang, tgtLang]);
 
               const handleSearch = React.useCallback(
                 async (wordOverride?: string, srcOverride: string = srcLang, tgtOverride: string = tgtLang) => {
@@ -788,12 +781,13 @@ const Dictionary: React.FC = () => {
 
               React.useEffect(() => {
                 if (bootstrappedFromUrlRef.current) return;
-                if (!initialQ) return;
+                const urlQ = initialQRef.current;
+                if (!urlQ) return;
                 if (!srcLang || !tgtLang) return;
                 bootstrappedFromUrlRef.current = true;
-                setActiveWord(initialQ);
-                handleSearch(initialQ, srcLang, tgtLang);
-              }, [initialQ, srcLang, tgtLang, handleSearch]);
+                setActiveWord(urlQ);
+                handleSearch(urlQ, srcLang, tgtLang);
+              }, [srcLang, tgtLang, handleSearch]);
 
               const grouped: Record<string, Entry[]> = React.useMemo(() => {
                 const all: Entry[] = [...results, ...reverseResults, ...embeddingResults];

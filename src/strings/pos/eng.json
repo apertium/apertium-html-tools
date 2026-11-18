@@ -53,5 +53,9 @@
     "perf": "perfect",
     "impf": "imperfect",
     "incp": "inceptive",
-    "fut": "future"
+    "fut": "future",
+    "ind": "Indicative",
+    "sub": "Subordinative",
+    "cnj": "Conujunct",
+    "sbj": "Subjunctive"
 }

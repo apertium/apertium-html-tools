@@ -24,6 +24,7 @@ it('renders dictionary mode from the URL', async () => {
   });
 
   expect(await screen.findByPlaceholderText('Type_A_Word-Default')).toBeDefined();
+  expect(window.location.hash).toMatch(/^#dictionary\?langpair=eng-spa$/);
 });
 
 it('selects a different language pair from the dropdown', async () => {
@@ -47,6 +48,35 @@ it('selects a different language pair from the dropdown', async () => {
   await waitFor(() => {
     expect((srcDropdown as HTMLSelectElement).value).toBe('spa');
     expect((screen.getByTestId('tgt-lang-dropdown') as HTMLSelectElement).value).toBe('eng');
+    expect(window.location.hash).toContain('langpair=spa-eng');
+    expect(window.localStorage.getItem('dictSrcLang')).toBe(JSON.stringify('spa'));
+    expect(window.localStorage.getItem('dictTgtLang')).toBe(JSON.stringify('eng'));
+  });
+});
+
+it('restores a previously selected dictionary pair', async () => {
+  window.localStorage.setItem('dictSrcLang', JSON.stringify('unm'));
+  window.localStorage.setItem('dictTgtLang', JSON.stringify('eng'));
+
+  renderApp();
+
+  await act(async () => {
+    mockAxios.mockResponse({
+      data: {
+        responseData: [
+          { sourceLanguage: 'unm', targetLanguage: 'eng' },
+          // eng has more choices, but should not override the saved Unm source.
+          { sourceLanguage: 'eng', targetLanguage: 'uum' },
+          { sourceLanguage: 'eng', targetLanguage: 'spa' },
+        ],
+      },
+    });
+  });
+
+  await waitFor(() => {
+    expect((screen.getByTestId('src-lang-dropdown') as HTMLSelectElement).value).toBe('unm');
+    expect((screen.getByTestId('tgt-lang-dropdown') as HTMLSelectElement).value).toBe('eng');
+    expect(window.location.hash).toContain('langpair=unm-eng');
   });
 });
 
@@ -75,6 +105,14 @@ it('shows no results when a word is not found', async () => {
 
   const input = await screen.findByPlaceholderText('Type_A_Word-Default');
   userEvent.type(input, 'cantar');
+  await waitFor(() => {
+    expect(window.location.hash.startsWith('#dictionary?')).toBe(true);
+    const query = new URLSearchParams(window.location.hash.split('?')[1]);
+    expect(query.get('q')).toBe('cantar');
+    expect(query.get('langpair')).toBe('eng-spa');
+    expect(window.location.hash.match(/\?/g)).toHaveLength(1);
+    expect(window.location.hash).toMatch(/^#dictionary\?langpair=eng-spa&q=cantar$/);
+  });
   userEvent.click(screen.getByRole('button', { name: 'Search-Default' }));
 
   await waitFor(() => expect(mockAxios.post).toHaveBeenCalledTimes(3));
