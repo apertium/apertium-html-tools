@@ -1,4 +1,4 @@
-import { ParadigmBlock, LanguagePlugin, AddParadigmsArgs } from "../types";
+import { ParadigmBlock, LanguagePlugin, AddParadigmsArgs, ParadigmMap } from "../types";
 
 export interface HaaLabels {
   sg: string;
@@ -70,7 +70,7 @@ export const haaLabels: Record<string, Record<string, HaaLabels>> = {
   },
 };
 
-export const haaTags2Func: Record<string, Record<string, string>> = {
+export const haaTags2Func: ParadigmMap = {
   v: {
     iv: 'verb_iv',
     tv: 'verb_tv',

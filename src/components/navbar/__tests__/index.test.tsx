@@ -144,3 +144,16 @@ describe('sandbox navigation', () => {
     expect(history.location.pathname).toEqual('/sandbox');
   });
 });
+
+describe('dictionary navigation', () => {
+  it('shows an active link', () => {
+    renderNavbar({ initialEntries: ['/dictionary'] });
+    expect(withinMobileNavbar().getByText('Dictionary-Default').className).toContain('active');
+  });
+
+  it('navigates on button click', () => {
+    const history = renderNavbar();
+    userEvent.click(withinMobileNavbar().getByText('Dictionary-Default'));
+    expect(history.location.pathname).toEqual('/dictionary');
+  });
+});

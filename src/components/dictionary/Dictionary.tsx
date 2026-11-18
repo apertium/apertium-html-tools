@@ -97,15 +97,40 @@ const WithTgtLang = ({
     opts,
   );
   const [recentTgtLangs, rawSetRecentTgtLangs] = useLocalStorage<string[]>('dictRecentTgtLangs', () => [tgtLang], {
-    validateValue: (ls) => Array.isArray(ls) && ls.every((l) => isPair(pairs, srcLang, l)),
+    // Recent targets can belong to a previously selected source language.
+    // Keep string arrays here so the effect below can prune stale pairs individually.
+    validateValue: (ls) => Array.isArray(ls) && ls.every((l) => typeof l === 'string'),
   });
   const setTgtLang = React.useCallback(
     (lang: string) => {
       rawSetTgtLang(lang);
-      rawSetRecentTgtLangs((prev) => Array.from(new Set([lang, ...prev])).slice(0, recentLangsCount));
+      rawSetRecentTgtLangs((prev) =>
+        Array.from(new Set([lang, ...prev.filter((recentLang) => isPair(pairs, srcLang, recentLang))])).slice(
+          0,
+          recentLangsCount,
+        ),
+      );
     },
-    [rawSetTgtLang, rawSetRecentTgtLangs],
+    [pairs, rawSetTgtLang, rawSetRecentTgtLangs, srcLang],
   );
+  React.useEffect(() => {
+    // Source-language changes can make some saved targets invalid
+    // retain the still-supported ones instead of rejecting the entire localStorage list.
+    // also translation and dictionary mode can have different sets of pairs,
+    // so just prune the list when switching between them
+    const validRecentTgtLangs = Array.from(
+      new Set(recentTgtLangs.filter((lang) => isPair(pairs, srcLang, lang))),
+    ).slice(0, recentLangsCount);
+    if (validRecentTgtLangs.length === 0 && isPair(pairs, srcLang, tgtLang)) {
+      validRecentTgtLangs.push(tgtLang);
+    }
+    if (
+      validRecentTgtLangs.length !== recentTgtLangs.length ||
+      validRecentTgtLangs.some((lang, index) => lang !== recentTgtLangs[index])
+    ) {
+      rawSetRecentTgtLangs(validRecentTgtLangs);
+    }
+  }, [pairs, rawSetRecentTgtLangs, recentTgtLangs, srcLang, tgtLang]);
   React.useEffect(() => {
     if (!isPair(pairs, srcLang, tgtLang)) {
       const fallback = recentTgtLangs.find((l) => isPair(pairs, srcLang, l));

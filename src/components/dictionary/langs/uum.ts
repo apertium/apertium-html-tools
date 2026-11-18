@@ -1,4 +1,4 @@
-import { ParadigmBlock } from "../types";
+import { ParadigmBlock, ParadigmMap } from "../types";
 
 export interface UumLabels {
   sg: string;
@@ -465,7 +465,7 @@ export const uumLabels: Record<string, Record<string, UumLabels>> = {
   },
 };
 
-export const uumTags2Func: Record<string, string> = {
+export const uumTags2Func: ParadigmMap = {
   v: {
     iv: 'verb_iv',
     tv: 'verb_tv',

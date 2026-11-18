@@ -7,6 +7,7 @@ import { APyContext } from '../../context';
 import { useLocalization, useLocalizationPOS } from '../../util/localization';
 import { getPosTag } from '../../util/posLocalization';
 import { languageRegistry } from './index';
+import { ParadigmMap } from './types';
 
 export interface Entry {
   head: string;
@@ -41,18 +42,23 @@ interface EntryBlockProps {
   searchWord: string;
 }
 
-export const lookupTags = (head: string, parMap: Block): string => {
+export const lookupTags = (head: string, parMap: ParadigmMap): string => {
   const tags = head.split(/[<>]/).filter(Boolean);
+  let current: string | ParadigmMap = parMap;
   // take everything but the lemma, and look up tags in the paradigm map
-  const result = tags.slice(1).reduce((currentObj, currentKey) => {
-    //console.log(`lookupTags: currentObj=${JSON.stringify(currentObj)}, currentKey=${currentKey}`);
-    if (!currentObj) return null; // If currentObj is null, stop processing
-    return currentObj[currentKey] !== undefined ? currentObj[currentKey] : currentObj[''];
-  }, parMap);
-  //console.log(typeof result === 'object', typeof result === 'object' && '' in result, result[''] );
-  const toReturn = (result && typeof result === 'object' && '' in result) ? result[''] : result;
-  //console.log(`lookupTags: head=${head}, tags=${tags}, result=${JSON.stringify(result)}, toReturn=${JSON.stringify(toReturn)}`);
-  return toReturn ;
+
+  // Follow the map until a leaf identifies the paradigm type. Tags after that
+  // point are not map keys.
+  for (const tag of tags.slice(1)) {
+    if (typeof current === 'string') break;
+    const next: string | ParadigmMap | undefined = current[tag] ?? current[''];
+    if (next === undefined) return '';
+    current = next;
+  }
+
+  if (typeof current === 'string') return current;
+  const fallback = current[''];
+  return typeof fallback === 'string' ? fallback : '';
 }
 
 const EntryBlock: React.FC<EntryBlockProps> = ({

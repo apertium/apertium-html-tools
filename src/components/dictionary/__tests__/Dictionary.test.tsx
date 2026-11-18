@@ -50,6 +50,22 @@ it('selects a different language pair from the dropdown', async () => {
   });
 });
 
+it('prunes stale recent target languages for the active source language', async () => {
+  window.localStorage.setItem('dictSrcLang', JSON.stringify('eng'));
+  window.localStorage.setItem('dictTgtLang', JSON.stringify('spa'));
+  window.localStorage.setItem('dictRecentTgtLangs', JSON.stringify(['eng', 'unm', 'uum']));
+
+  renderApp();
+
+  await act(async () => {
+    mockAxios.mockResponse({ data: { responseData: [{ sourceLanguage: 'eng', targetLanguage: 'spa' }] } });
+  });
+
+  await waitFor(() => {
+    expect(JSON.parse(window.localStorage.getItem('dictRecentTgtLangs') || '[]')).toEqual(['spa']);
+  });
+});
+
 it('shows no results when a word is not found', async () => {
   renderApp();
 

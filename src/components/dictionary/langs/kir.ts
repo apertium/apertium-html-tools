@@ -1,4 +1,4 @@
-import { ParadigmBlock } from "../types";
+import { ParadigmBlock, ParadigmMap } from "../types";
 
 export interface kirLabels {
   sg: string;
@@ -246,7 +246,7 @@ export const kirLabels: Record<string, Record<string, kirLabels>> = {
   },
 };
 
-export const kirTags2Func: Record<string, string> = {
+export const kirTags2Func: ParadigmMap = {
   v: {
     iv: 'verb_iv',
     tv: 'verb_tv',

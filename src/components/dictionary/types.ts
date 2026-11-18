@@ -26,12 +26,16 @@ export interface AddParadigmsArgs {
   apyFetch: (type: string, opts: any) => [CancelTokenSource, Promise<any>];
 }
 
+export interface ParadigmMap {
+  [tag: string]: string | ParadigmMap;
+}
+
 export interface LanguagePlugin {
   backendLangCode: string;
   addParadigms: (args: AddParadigmsArgs) => ParadigmBlock[];
   parseTags: (origTags: string[], cellTags: string) => string[];
   getAvailableModes?: (locale: string) => string[];
   labels?: Record<string, Record<string, string>>;
-  paradigmMap?: Record<string, string>;
+  paradigmMap?: ParadigmMap;
   getParadigm?: (labels: Record<string, string>, t: (key: string, vars?: any) => string, parType: string ) => ParadigmBlock | null;
 }
