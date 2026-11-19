@@ -25,7 +25,24 @@ describe('Unm Learner paradigms', () => {
       return key;
     };
 
-    expect(getParadigm(unmLabels.eng.Learner, translate, 'verb_ai', 'Learner')).toHaveLength(3);
-    expect(getParadigm(unmLabels.eng.Learner, translate, 'verb_ta', 'Learner')).toHaveLength(3);
+    expect(getParadigm(unmLabels.eng.Learner, translate, 'verb_ai', 'Learner')).toHaveLength(4);
+    expect(getParadigm(unmLabels.eng.Learner, translate, 'verb_ta', 'Learner')).toHaveLength(4);
+  });
+
+  it('only translates defined person labels in Linguist mode', () => {
+    const getParadigm = unmPlugin.getParadigm as unknown as (
+      labels: UnmLabels,
+      t: (key: string) => string,
+      parType: string,
+      mode?: string,
+    ) => ParadigmBlock[];
+    const translate = (key: string) => {
+      if (typeof key !== 'string') throw new TypeError('Expected a defined translation key');
+      return key;
+    };
+
+    expect(getParadigm(unmLabels.eng.Linguist, translate, 'verb_ai', 'Linguist')).toHaveLength(4);
+    expect(getParadigm(unmLabels.eng.Linguist, translate, 'verb_ti', 'Linguist')).toHaveLength(4);
+    expect(getParadigm(unmLabels.eng.Linguist, translate, 'verb_ta', 'Linguist')).toHaveLength(4);
   });
 });

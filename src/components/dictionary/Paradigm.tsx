@@ -112,9 +112,9 @@ const Paradigm: React.FC<ParadigmProps> = ({ head, lang, mode, onLoaded }) => {
     const doc = parser.parseFromString(block.html, 'text/html');
 
     // replace content with values from "tags" data
-    const tdElements = doc.querySelectorAll('td');
+    const tdElements = doc.querySelectorAll('td[data-to-generate]');
     tdElements.forEach((td) => {
-      const tags = td.getAttribute('data-to-generate') || '';
+      const tags = td.getAttribute('data-to-generate')!;
       const content = values[tags];
       td.textContent = (content || '');
     });
