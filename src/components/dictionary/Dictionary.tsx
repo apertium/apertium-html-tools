@@ -790,7 +790,12 @@ const Dictionary: React.FC = () => {
               }, [srcLang, tgtLang, handleSearch]);
 
               const grouped: Record<string, Entry[]> = React.useMemo(() => {
-                const all: Entry[] = [...results, ...reverseResults, ...embeddingResults];
+                const mainResults = [...results, ...reverseResults];  // combine ~main and reverse results
+                const mainHeads = new Set(mainResults.map((entry) => stripTagsLower(entry.head))); // prepare for deduplication
+                const all: Entry[] = [
+                  ...mainResults,
+                  ...embeddingResults.filter((entry) => !mainHeads.has(stripTagsLower(entry.head))),
+                ]; // add in embedding results, but only if they don't duplicate ~main or reverse results
                 const map: Record<string, Entry[]> = {};
                 all.forEach((e) => {
                   const surface = stripTagsAndHashes(e.head);
