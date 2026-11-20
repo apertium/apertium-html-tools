@@ -137,7 +137,7 @@ function add_unm(
           <tr><th>${t(m.person_relations['3pl_'])}</th><td data-to-generate="^{{HEAD}}${tgs}<inv><o_1sg><s_pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<inv><o_2sg><s_pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<dir><s_3pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<inv><o_3sg><s_pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<inv><o_11pl><s_pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<inv><o_12pl><s_pl>$"><td data-to-generate="^{{HEAD}}${tgs}<inv><o_2pl><s_pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<dir><s_3pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<inv><o_3pl>$"></td></tr>
         </table>`;
 
-    console.log("TA HTML", mode, html);
+    //console.log("TA HTML", mode, html);
 
     return {
       id: tgs.replace(/\./g, '-'),
@@ -170,7 +170,7 @@ function add_unm(
           <tr><th>${t(m.person_relations['3pl_'])}</th><td data-to-generate="^{{HEAD}}${tgs}<inv><neg><o_1sg><s_pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<inv><neg><o_2sg><s_pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<dir><neg><s_3pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<inv><neg><o_3sg><s_pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<inv><neg><o_11pl><s_pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<inv><neg><o_12pl><s_pl>$"><td data-to-generate="^{{HEAD}}${tgs}<inv><neg><o_2pl><s_pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<dir><neg><s_3pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<inv><neg><o_3pl>$"></td></tr>
         </table>`;
 
-    console.log("TA HTML", mode, html);
+    //console.log("TA HTML", mode, html);
 
     return {
       id: tgs.replace(/\./g, '-'),
@@ -197,7 +197,7 @@ function add_unm(
           <tr><th>${t(m.person_relations['3pl_'])}</th><td colspan="2" data-to-generate="^{{HEAD}}${tgs}<s_2sg><o_3pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<s_2pl><o_3pl>$"></td></tr>
         </table>`;
 
-    console.log("TA HTML", mode, html);
+    //console.log("TA HTML", mode, html);
 
     return {
       id: tgs.replace(/\./g, '-'),
@@ -220,7 +220,7 @@ function add_unm(
           <tr><th>${t(m.person_relations['3pl_'])}</th><td data-to-generate="^{{HEAD}}${tgs}<s_3pl><o_sg>$"></td><td data-to-generate="^{{HEAD}}${tgs}<s_3pl><o_pl>$"></td><td data-to-generate="^{{HEAD}}${tgs}<s_3pl>$"></td></tr>
         </table>`;
 
-    console.log("TI HTML", mode, html);
+    //console.log("TI HTML", mode, html);
 
     return {
       id: tgs.replace(/\./g, '-'),
@@ -243,7 +243,7 @@ function add_unm(
           <tr><th>${t(m.person_relations['3pl_'])}</th><td colspan="2" data-to-generate="^{{HEAD}}${tgs}<s_3pl>$"></td></tr>
         </table>`;
 
-    console.log("TI HTML", mode, html);
+    //console.log("TI HTML", mode, html);
 
     return {
       id: tgs.replace(/\./g, '-'),
@@ -266,7 +266,7 @@ function add_unm(
           <tr><th>${t(m.person_relations['3pl_'])}</th><td data-to-generate="^{{HEAD}}<cnj><s_3pl>$"></td><td data-to-generate="^{{HEAD}}<sbj><s_3pl>$"></td><td data-to-generate="^{{HEAD}}<sbj><pst><s_3pl>$"></td></tr>
         </table>`;
 
-    console.log("TI HTML", mode, html);
+    //console.log("TI HTML", mode, html);
 
     return {
       id: lab,
@@ -297,7 +297,7 @@ function add_unm(
         </table>`;
 
 
-    console.log("AI HTML", mode, html);
+    //console.log("AI HTML", mode, html);
 
     return {
       id: tgs.replace(/\./g, '-'),
